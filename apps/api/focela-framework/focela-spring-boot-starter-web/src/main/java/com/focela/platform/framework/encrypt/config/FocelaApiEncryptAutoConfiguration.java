@@ -17,7 +17,7 @@ import static com.focela.platform.framework.web.config.FocelaWebAutoConfiguratio
 @AutoConfiguration
 @Slf4j
 @EnableConfigurationProperties(ApiEncryptProperties.class)
-@ConditionalOnProperty(prefix = "yudao.api-encrypt", name = "enable", havingValue = "true")
+@ConditionalOnProperty(prefix = "focela.api-encrypt", name = "enable", havingValue = "true")
 public class FocelaApiEncryptAutoConfiguration {
 
     @Bean

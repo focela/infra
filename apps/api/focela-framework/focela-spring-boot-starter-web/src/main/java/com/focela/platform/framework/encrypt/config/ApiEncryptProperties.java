@@ -11,7 +11,7 @@ import org.springframework.validation.annotation.Validated;
  *
  * @author 芋道源码
  */
-@ConfigurationProperties(prefix = "yudao.api-encrypt")
+@ConfigurationProperties(prefix = "focela.api-encrypt")
 @Validated
 @Data
 public class ApiEncryptProperties {

@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotEmpty;
  *
  * @author 芋道源码
  */
-@ConfigurationProperties("yudao.swagger")
+@ConfigurationProperties("focela.swagger")
 @Data
 public class SwaggerProperties {
 

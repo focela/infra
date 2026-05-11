@@ -20,7 +20,7 @@ import static com.focela.platform.framework.web.config.FocelaWebAutoConfiguratio
 
 @AutoConfiguration
 @EnableConfigurationProperties(XssProperties.class)
-@ConditionalOnProperty(prefix = "yudao.xss", name = "enable", havingValue = "true", matchIfMissing = true) // 设置为 false 时，禁用
+@ConditionalOnProperty(prefix = "focela.xss", name = "enable", havingValue = "true", matchIfMissing = true) // 设置为 false 时，禁用
 public class FocelaXssAutoConfiguration implements WebMvcConfigurer {
 
     /**
@@ -41,7 +41,7 @@ public class FocelaXssAutoConfiguration implements WebMvcConfigurer {
      */
     @Bean
     @ConditionalOnMissingBean(name = "xssJacksonCustomizer")
-    @ConditionalOnProperty(value = "yudao.xss.enable", havingValue = "true")
+    @ConditionalOnProperty(value = "focela.xss.enable", havingValue = "true")
     public Jackson2ObjectMapperBuilderCustomizer xssJacksonCustomizer(XssProperties properties,
                                                                       PathMatcher pathMatcher,
                                                                       XssCleaner xssCleaner) {

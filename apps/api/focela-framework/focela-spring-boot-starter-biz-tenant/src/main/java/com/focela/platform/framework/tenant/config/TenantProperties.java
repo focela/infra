@@ -12,7 +12,7 @@ import java.util.Set;
  *
  * @author 芋道源码
  */
-@ConfigurationProperties(prefix = "yudao.tenant")
+@ConfigurationProperties(prefix = "focela.tenant")
 @Data
 public class TenantProperties {
 
