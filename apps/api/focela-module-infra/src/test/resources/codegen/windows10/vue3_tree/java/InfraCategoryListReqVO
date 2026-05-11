@@ -1,9 +1,9 @@
-package cn.iocoder.yudao.module.infra.controller.admin.demo.vo;
+package com.focela.platform.module.infra.controller.admin.demo.vo;
 
 import lombok.*;
 import java.util.*;
 import io.swagger.v3.oas.annotations.media.Schema;
-import cn.iocoder.yudao.framework.common.pojo.PageParam;
+import com.focela.platform.framework.common.pojo.PageParam;
 
 @Schema(description = "管理后台 - 分类列表 Request VO")
 @Data

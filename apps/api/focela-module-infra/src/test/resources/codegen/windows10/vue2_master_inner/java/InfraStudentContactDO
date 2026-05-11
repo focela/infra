@@ -1,11 +1,11 @@
-package cn.iocoder.yudao.module.infra.dal.dataobject.demo;
+package com.focela.platform.module.infra.dal.dataobject.demo;
 
 import lombok.*;
 import java.util.*;
 import java.time.LocalDateTime;
 import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.*;
-import cn.iocoder.yudao.framework.mybatis.core.dataobject.BaseDO;
+import com.focela.platform.framework.mybatis.core.dataobject.BaseDO;
 
 /**
  * 学生联系人 DO

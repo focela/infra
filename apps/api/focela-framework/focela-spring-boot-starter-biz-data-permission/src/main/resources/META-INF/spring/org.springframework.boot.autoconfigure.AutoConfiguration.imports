@@ -1,2 +1,2 @@
-cn.iocoder.yudao.framework.datapermission.config.YudaoDataPermissionAutoConfiguration
-cn.iocoder.yudao.framework.datapermission.config.YudaoDeptDataPermissionAutoConfiguration
+com.focela.platform.framework.datapermission.config.YudaoDataPermissionAutoConfiguration
+com.focela.platform.framework.datapermission.config.YudaoDeptDataPermissionAutoConfiguration

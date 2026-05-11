@@ -1,2 +1,2 @@
-cn.iocoder.yudao.framework.tracer.config.YudaoTracerAutoConfiguration
-cn.iocoder.yudao.framework.tracer.config.YudaoMetricsAutoConfiguration
+com.focela.platform.framework.tracer.config.YudaoTracerAutoConfiguration
+com.focela.platform.framework.tracer.config.YudaoMetricsAutoConfiguration

@@ -1,4 +1,4 @@
-package cn.iocoder.yudao.module.infra.controller.admin.demo.vo;
+package com.focela.platform.module.infra.controller.admin.demo.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
