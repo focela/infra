@@ -6,8 +6,8 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.module.system.controller.admin.oauth2.vo.client.OAuth2ClientPageReqVO;
 import com.focela.platform.module.system.controller.admin.oauth2.vo.client.OAuth2ClientSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.oauth2.OAuth2ClientDO;
-import com.focela.platform.module.system.dal.mysql.oauth2.OAuth2ClientMapper;
+import com.focela.platform.module.system.repository.entity.oauth2.OAuth2ClientEntity;
+import com.focela.platform.module.system.repository.mapper.oauth2.OAuth2ClientMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.springframework.context.annotation.Import;
@@ -50,14 +50,14 @@ public class OAuth2ClientServiceImplTest extends BaseDbUnitTest {
         // 断言
         assertNotNull(oauth2ClientId);
         // 校验记录的属性是否正确
-        OAuth2ClientDO oAuth2Client = oauth2ClientMapper.selectById(oauth2ClientId);
+        OAuth2ClientEntity oAuth2Client = oauth2ClientMapper.selectById(oauth2ClientId);
         assertPojoEquals(reqVO, oAuth2Client, "id");
     }
 
     @Test
     public void testUpdateOAuth2Client_success() {
         // mock 数据
-        OAuth2ClientDO dbOAuth2Client = randomPojo(OAuth2ClientDO.class);
+        OAuth2ClientEntity dbOAuth2Client = randomPojo(OAuth2ClientEntity.class);
         oauth2ClientMapper.insert(dbOAuth2Client);// @Sql: 先插入出一条存在的数据
         // 准备参数
         OAuth2ClientSaveReqVO reqVO = randomPojo(OAuth2ClientSaveReqVO.class, o -> {
@@ -68,7 +68,7 @@ public class OAuth2ClientServiceImplTest extends BaseDbUnitTest {
         // 调用
         oauth2ClientService.updateOAuth2Client(reqVO);
         // 校验是否更新正确
-        OAuth2ClientDO oAuth2Client = oauth2ClientMapper.selectById(reqVO.getId()); // 获取最新的
+        OAuth2ClientEntity oAuth2Client = oauth2ClientMapper.selectById(reqVO.getId()); // 获取最新的
         assertPojoEquals(reqVO, oAuth2Client);
     }
 
@@ -84,7 +84,7 @@ public class OAuth2ClientServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testDeleteOAuth2Client_success() {
         // mock 数据
-        OAuth2ClientDO dbOAuth2Client = randomPojo(OAuth2ClientDO.class);
+        OAuth2ClientEntity dbOAuth2Client = randomPojo(OAuth2ClientEntity.class);
         oauth2ClientMapper.insert(dbOAuth2Client);// @Sql: 先插入出一条存在的数据
         // 准备参数
         Long id = dbOAuth2Client.getId();
@@ -107,7 +107,7 @@ public class OAuth2ClientServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidateClientIdExists_withId() {
         // mock 数据
-        OAuth2ClientDO client = randomPojo(OAuth2ClientDO.class).setClientId("tudou");
+        OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class).setClientId("tudou");
         oauth2ClientMapper.insert(client);
         // 准备参数
         Long id = randomLongId();
@@ -120,7 +120,7 @@ public class OAuth2ClientServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidateClientIdExists_noId() {
         // mock 数据
-        OAuth2ClientDO client = randomPojo(OAuth2ClientDO.class).setClientId("tudou");
+        OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class).setClientId("tudou");
         oauth2ClientMapper.insert(client);
         // 准备参数
         String clientId = "tudou";
@@ -132,33 +132,33 @@ public class OAuth2ClientServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetOAuth2Client() {
         // mock 数据
-        OAuth2ClientDO clientDO = randomPojo(OAuth2ClientDO.class);
+        OAuth2ClientEntity clientDO = randomPojo(OAuth2ClientEntity.class);
         oauth2ClientMapper.insert(clientDO);
         // 准备参数
         Long id = clientDO.getId();
 
         // 调用，并断言
-        OAuth2ClientDO dbClientDO = oauth2ClientService.getOAuth2Client(id);
+        OAuth2ClientEntity dbClientDO = oauth2ClientService.getOAuth2Client(id);
         assertPojoEquals(clientDO, dbClientDO);
     }
 
     @Test
     public void testGetOAuth2ClientFromCache() {
         // mock 数据
-        OAuth2ClientDO clientDO = randomPojo(OAuth2ClientDO.class);
+        OAuth2ClientEntity clientDO = randomPojo(OAuth2ClientEntity.class);
         oauth2ClientMapper.insert(clientDO);
         // 准备参数
         String clientId = clientDO.getClientId();
 
         // 调用，并断言
-        OAuth2ClientDO dbClientDO = oauth2ClientService.getOAuth2ClientFromCache(clientId);
+        OAuth2ClientEntity dbClientDO = oauth2ClientService.getOAuth2ClientFromCache(clientId);
         assertPojoEquals(clientDO, dbClientDO);
     }
 
     @Test
     public void testGetOAuth2ClientPage() {
         // mock 数据
-        OAuth2ClientDO dbOAuth2Client = randomPojo(OAuth2ClientDO.class, o -> { // 等会查询到
+        OAuth2ClientEntity dbOAuth2Client = randomPojo(OAuth2ClientEntity.class, o -> { // 等会查询到
             o.setName("潜龙");
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
@@ -173,7 +173,7 @@ public class OAuth2ClientServiceImplTest extends BaseDbUnitTest {
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
 
         // 调用
-        PageResult<OAuth2ClientDO> pageResult = oauth2ClientService.getOAuth2ClientPage(reqVO);
+        PageResult<OAuth2ClientEntity> pageResult = oauth2ClientService.getOAuth2ClientPage(reqVO);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
@@ -187,10 +187,10 @@ public class OAuth2ClientServiceImplTest extends BaseDbUnitTest {
                     .thenReturn(oauth2ClientService);
 
             // mock 方法
-            OAuth2ClientDO client = randomPojo(OAuth2ClientDO.class).setClientId("default")
+            OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class).setClientId("default")
                     .setStatus(CommonStatusEnum.ENABLE.getStatus());
             oauth2ClientMapper.insert(client);
-            OAuth2ClientDO client02 = randomPojo(OAuth2ClientDO.class).setClientId("disable")
+            OAuth2ClientEntity client02 = randomPojo(OAuth2ClientEntity.class).setClientId("disable")
                     .setStatus(CommonStatusEnum.DISABLE.getStatus());
             oauth2ClientMapper.insert(client02);
 
@@ -208,7 +208,7 @@ public class OAuth2ClientServiceImplTest extends BaseDbUnitTest {
             assertServiceException(() -> oauth2ClientService.validOAuthClientFromCache("default",
                     null, null, null, "test"), OAUTH2_CLIENT_REDIRECT_URI_NOT_MATCH, "test");
             // 成功调用（1：参数完整）
-            OAuth2ClientDO result = oauth2ClientService.validOAuthClientFromCache(client.getClientId(), client.getSecret(),
+            OAuth2ClientEntity result = oauth2ClientService.validOAuthClientFromCache(client.getClientId(), client.getSecret(),
                     client.getAuthorizedGrantTypes().get(0), client.getScopes(), client.getRedirectUris().get(0));
             assertPojoEquals(client, result);
             // 成功调用（2：只有 clientId 参数）

@@ -1,6 +1,6 @@
 package com.focela.platform.module.infra.api.config;
 
-import com.focela.platform.module.infra.dal.dataobject.config.ConfigDO;
+import com.focela.platform.module.infra.repository.entity.config.ConfigEntity;
 import com.focela.platform.module.infra.service.config.ConfigService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class ConfigApiImpl implements ConfigApi {
 
     @Override
     public String getConfigValueByKey(String key) {
-        ConfigDO config = configService.getConfigByKey(key);
+        ConfigEntity config = configService.getConfigByKey(key);
         return config != null ? config.getValue() : null;
     }
 

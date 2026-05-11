@@ -2,8 +2,8 @@ package com.focela.platform.module.system.service.oauth2;
 
 import cn.hutool.core.util.IdUtil;
 import com.focela.platform.framework.common.util.date.DateUtils;
-import com.focela.platform.module.system.dal.dataobject.oauth2.OAuth2CodeDO;
-import com.focela.platform.module.system.dal.mysql.oauth2.OAuth2CodeMapper;
+import com.focela.platform.module.system.repository.entity.oauth2.OAuth2CodeEntity;
+import com.focela.platform.module.system.repository.mapper.oauth2.OAuth2CodeMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -33,9 +33,9 @@ public class OAuth2CodeServiceImpl implements OAuth2CodeService {
     private OAuth2CodeMapper oauth2CodeMapper;
 
     @Override
-    public OAuth2CodeDO createAuthorizationCode(Long userId, Integer userType, String clientId,
+    public OAuth2CodeEntity createAuthorizationCode(Long userId, Integer userType, String clientId,
                                                 List<String> scopes, String redirectUri, String state) {
-        OAuth2CodeDO codeDO = new OAuth2CodeDO().setCode(generateCode())
+        OAuth2CodeEntity codeDO = new OAuth2CodeEntity().setCode(generateCode())
                 .setUserId(userId).setUserType(userType)
                 .setClientId(clientId).setScopes(scopes)
                 .setExpiresTime(LocalDateTime.now().plusSeconds(TIMEOUT))
@@ -45,8 +45,8 @@ public class OAuth2CodeServiceImpl implements OAuth2CodeService {
     }
 
     @Override
-    public OAuth2CodeDO consumeAuthorizationCode(String code) {
-        OAuth2CodeDO codeDO = oauth2CodeMapper.selectByCode(code);
+    public OAuth2CodeEntity consumeAuthorizationCode(String code) {
+        OAuth2CodeEntity codeDO = oauth2CodeMapper.selectByCode(code);
         if (codeDO == null) {
             throw exception(OAUTH2_CODE_NOT_EXISTS);
         }

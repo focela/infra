@@ -5,8 +5,8 @@ import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.common.biz.system.logger.dto.OperateLogCreateReqDTO;
 import com.focela.platform.module.system.api.logger.dto.OperateLogPageReqDTO;
 import com.focela.platform.module.system.controller.admin.logger.vo.operatelog.OperateLogPageReqVO;
-import com.focela.platform.module.system.dal.dataobject.logger.OperateLogDO;
-import com.focela.platform.module.system.dal.mysql.logger.OperateLogMapper;
+import com.focela.platform.module.system.repository.entity.logger.OperateLogEntity;
+import com.focela.platform.module.system.repository.mapper.logger.OperateLogMapper;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,22 +27,22 @@ public class OperateLogServiceImpl implements OperateLogService {
 
     @Override
     public void createOperateLog(OperateLogCreateReqDTO createReqDTO) {
-        OperateLogDO log = BeanUtils.toBean(createReqDTO, OperateLogDO.class);
+        OperateLogEntity log = BeanUtils.toBean(createReqDTO, OperateLogEntity.class);
         operateLogMapper.insert(log);
     }
 
     @Override
-    public OperateLogDO getOperateLog(Long id) {
+    public OperateLogEntity getOperateLog(Long id) {
         return operateLogMapper.selectById(id);
     }
 
     @Override
-    public PageResult<OperateLogDO> getOperateLogPage(OperateLogPageReqVO pageReqVO) {
+    public PageResult<OperateLogEntity> getOperateLogPage(OperateLogPageReqVO pageReqVO) {
         return operateLogMapper.selectPage(pageReqVO);
     }
 
     @Override
-    public PageResult<OperateLogDO> getOperateLogPage(OperateLogPageReqDTO pageReqDTO) {
+    public PageResult<OperateLogEntity> getOperateLogPage(OperateLogPageReqDTO pageReqDTO) {
         return operateLogMapper.selectPage(pageReqDTO);
     }
 

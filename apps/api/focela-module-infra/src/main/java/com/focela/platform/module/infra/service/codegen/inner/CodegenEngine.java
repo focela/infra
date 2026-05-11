@@ -23,11 +23,11 @@ import com.focela.platform.framework.common.util.string.StrUtils;
 import com.focela.platform.framework.excel.core.annotations.DictFormat;
 import com.focela.platform.framework.excel.core.convert.DictConvert;
 import com.focela.platform.framework.excel.core.util.ExcelUtils;
-import com.focela.platform.framework.mybatis.core.dataobject.BaseDO;
+import com.focela.platform.framework.mybatis.core.entity.BaseEntity;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.module.infra.dal.dataobject.codegen.CodegenColumnDO;
-import com.focela.platform.module.infra.dal.dataobject.codegen.CodegenTableDO;
+import com.focela.platform.module.infra.repository.entity.codegen.CodegenColumnEntity;
+import com.focela.platform.module.infra.repository.entity.codegen.CodegenTableEntity;
 import com.focela.platform.module.infra.enums.codegen.CodegenFrontTypeEnum;
 import com.focela.platform.module.infra.enums.codegen.CodegenSceneEnum;
 import com.focela.platform.module.infra.enums.codegen.CodegenTemplateTypeEnum;
@@ -74,13 +74,13 @@ public class CodegenEngine {
             .put(javaTemplatePath("controller/vo/saveReqVO"), javaModuleImplVOFilePath("SaveReqVO"))
             .put(javaTemplatePath("controller/controller"), javaModuleImplControllerFilePath())
             .put(javaTemplatePath("dal/do"),
-                    javaModuleImplMainFilePath("dal/dataobject/${table.businessName}/${table.className}DO"))
+                    javaModuleImplMainFilePath("repository/entity/${table.businessName}/${table.className}DO"))
             .put(javaTemplatePath("dal/do_sub"), // 特殊：主子表专属逻辑
-                    javaModuleImplMainFilePath("dal/dataobject/${table.businessName}/${subTable.className}DO"))
+                    javaModuleImplMainFilePath("repository/entity/${table.businessName}/${subTable.className}DO"))
             .put(javaTemplatePath("dal/mapper"),
-                    javaModuleImplMainFilePath("dal/mysql/${table.businessName}/${table.className}Mapper"))
+                    javaModuleImplMainFilePath("repository/mapper/${table.businessName}/${table.className}Mapper"))
             .put(javaTemplatePath("dal/mapper_sub"), // 特殊：主子表专属逻辑
-                    javaModuleImplMainFilePath("dal/mysql/${table.businessName}/${subTable.className}Mapper"))
+                    javaModuleImplMainFilePath("repository/mapper/${table.businessName}/${subTable.className}Mapper"))
             .put(javaTemplatePath("dal/mapper.xml"), mapperXmlFilePath())
             .put(javaTemplatePath("service/serviceImpl"),
                     javaModuleImplMainFilePath("service/${table.businessName}/${table.className}ServiceImpl"))
@@ -291,7 +291,7 @@ public class CodegenEngine {
         globalBindingMap.put("PageParamClassName", PageParam.class.getName());
         globalBindingMap.put("DictFormatClassName", DictFormat.class.getName());
         // DO 类，独有字段
-        globalBindingMap.put("BaseDOClassName", BaseDO.class.getName());
+        globalBindingMap.put("BaseDOClassName", BaseEntity.class.getName());
         globalBindingMap.put("baseDOFields", CodegenBuilder.BASE_DO_FIELDS);
         globalBindingMap.put("QueryWrapperClassName", LambdaQueryWrapperX.class.getName());
         globalBindingMap.put("BaseMapperClassName", BaseMapperX.class.getName());
@@ -318,8 +318,8 @@ public class CodegenEngine {
      * @param subColumnsList subTables 的字段定义数组
      * @return 生成的代码，key 是路径，value 是对应代码
      */
-    public Map<String, String> execute(DbType dbType, CodegenTableDO table, List<CodegenColumnDO> columns,
-                                       List<CodegenTableDO> subTables, List<List<CodegenColumnDO>> subColumnsList) {
+    public Map<String, String> execute(DbType dbType, CodegenTableEntity table, List<CodegenColumnEntity> columns,
+                                       List<CodegenTableEntity> subTables, List<List<CodegenColumnEntity>> subColumnsList) {
         // 1.1 初始化 bindMap 上下文
         Map<String, Object> bindingMap = initBindingMap(dbType, table, columns, subTables, subColumnsList);
         // 1.2 获得模版
@@ -359,7 +359,7 @@ public class CodegenEngine {
         result.put(filePath, content);
     }
 
-    private void generateSubCode(CodegenTableDO table, List<CodegenTableDO> subTables,
+    private void generateSubCode(CodegenTableEntity table, List<CodegenTableEntity> subTables,
                                  Map<String, String> result, String vmPath,
                                  String filePath, Map<String, Object> bindingMap) {
         // 没有子表，所以不生成
@@ -427,14 +427,14 @@ public class CodegenEngine {
         return content;
     }
 
-    private Map<String, Object> initBindingMap(DbType dbType, CodegenTableDO table, List<CodegenColumnDO> columns,
-                                               List<CodegenTableDO> subTables, List<List<CodegenColumnDO>> subColumnsList) {
+    private Map<String, Object> initBindingMap(DbType dbType, CodegenTableEntity table, List<CodegenColumnEntity> columns,
+                                               List<CodegenTableEntity> subTables, List<List<CodegenColumnEntity>> subColumnsList) {
         // 创建 bindingMap
         Map<String, Object> bindingMap = new HashMap<>(globalBindingMap);
         bindingMap.put("dbType", dbType);
         bindingMap.put("table", table);
         bindingMap.put("columns", columns);
-        bindingMap.put("primaryColumn", CollectionUtils.findFirst(columns, CodegenColumnDO::getPrimaryKey)); // 主键字段
+        bindingMap.put("primaryColumn", CollectionUtils.findFirst(columns, CodegenColumnEntity::getPrimaryKey)); // 主键字段
         bindingMap.put("sceneEnum", CodegenSceneEnum.valueOf(table.getScene()));
         // className 相关
         // 去掉指定前缀，将 TestDictType 转换成 DictType. 因为在 create 等方法后，不需要带上 Test 前缀
@@ -453,11 +453,11 @@ public class CodegenEngine {
 
         // 特殊：树表专属逻辑
         if (CodegenTemplateTypeEnum.isTree(table.getTemplateType())) {
-            CodegenColumnDO treeParentColumn = CollUtil.findOne(columns,
+            CodegenColumnEntity treeParentColumn = CollUtil.findOne(columns,
                     column -> Objects.equals(column.getId(), table.getTreeParentColumnId()));
             bindingMap.put("treeParentColumn", treeParentColumn);
             bindingMap.put("treeParentColumn_javaField_underlineCase", toUnderlineCase(treeParentColumn.getJavaField()));
-            CodegenColumnDO treeNameColumn = CollUtil.findOne(columns,
+            CodegenColumnEntity treeNameColumn = CollUtil.findOne(columns,
                     column -> Objects.equals(column.getId(), table.getTreeNameColumnId()));
             bindingMap.put("treeNameColumn", treeNameColumn);
             bindingMap.put("treeNameColumn_javaField_underlineCase", toUnderlineCase(treeNameColumn.getJavaField()));
@@ -468,18 +468,18 @@ public class CodegenEngine {
             // 创建 bindingMap
             bindingMap.put("subTables", subTables);
             bindingMap.put("subColumnsList", subColumnsList);
-            List<CodegenColumnDO> subPrimaryColumns = new ArrayList<>();
-            List<CodegenColumnDO> subJoinColumns = new ArrayList<>();
+            List<CodegenColumnEntity> subPrimaryColumns = new ArrayList<>();
+            List<CodegenColumnEntity> subJoinColumns = new ArrayList<>();
             List<String> subJoinColumnStrikeCases = new ArrayList<>();
             List<String> subSimpleClassNames = new ArrayList<>();
             List<String> subClassNameVars = new ArrayList<>();
             List<String> simpleClassNameUnderlineCases = new ArrayList<>();
             List<String> subSimpleClassNameStrikeCases = new ArrayList<>();
             for (int i = 0; i < subTables.size(); i++) {
-                CodegenTableDO subTable = subTables.get(i);
-                List<CodegenColumnDO> subColumns = subColumnsList.get(i);
-                subPrimaryColumns.add(CollectionUtils.findFirst(subColumns, CodegenColumnDO::getPrimaryKey)); //
-                CodegenColumnDO subColumn = CollectionUtils.findFirst(subColumns, // 关联的字段
+                CodegenTableEntity subTable = subTables.get(i);
+                List<CodegenColumnEntity> subColumns = subColumnsList.get(i);
+                subPrimaryColumns.add(CollectionUtils.findFirst(subColumns, CodegenColumnEntity::getPrimaryKey)); //
+                CodegenColumnEntity subColumn = CollectionUtils.findFirst(subColumns, // 关联的字段
                         column -> Objects.equals(column.getId(), subTable.getSubJoinColumnId()));
                 subJoinColumns.add(subColumn);
                 subJoinColumnStrikeCases.add(toSymbolCase(subColumn.getJavaField(), '-')); // 将 DictType 转换成 dict-type
@@ -555,14 +555,14 @@ public class CodegenEngine {
         filePath = StrUtil.replace(filePath, "${sceneEnum.prefixClass}", sceneEnum.getPrefixClass());
         filePath = StrUtil.replace(filePath, "${sceneEnum.basePackage}", sceneEnum.getBasePackage());
         // table 包含的字段
-        CodegenTableDO table = (CodegenTableDO) bindingMap.get("table");
+        CodegenTableEntity table = (CodegenTableEntity) bindingMap.get("table");
         filePath = StrUtil.replace(filePath, "${table.moduleName}", table.getModuleName());
         filePath = StrUtil.replace(filePath, "${table.businessName}", table.getBusinessName());
         filePath = StrUtil.replace(filePath, "${table.className}", table.getClassName());
         // 特殊：主子表专属逻辑
         Integer subIndex = (Integer) bindingMap.get("subIndex");
         if (subIndex != null) {
-            CodegenTableDO subTable = ((List<CodegenTableDO>) bindingMap.get("subTables")).get(subIndex);
+            CodegenTableEntity subTable = ((List<CodegenTableEntity>) bindingMap.get("subTables")).get(subIndex);
             filePath = StrUtil.replace(filePath, "${subTable.moduleName}", subTable.getModuleName());
             filePath = StrUtil.replace(filePath, "${subTable.businessName}", subTable.getBusinessName());
             filePath = StrUtil.replace(filePath, "${subTable.className}", subTable.getClassName());

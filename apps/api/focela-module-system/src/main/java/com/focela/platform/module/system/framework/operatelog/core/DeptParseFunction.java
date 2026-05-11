@@ -2,7 +2,7 @@ package com.focela.platform.module.system.framework.operatelog.core;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.module.system.dal.dataobject.dept.DeptDO;
+import com.focela.platform.module.system.repository.entity.dept.DeptEntity;
 import com.focela.platform.module.system.service.dept.DeptService;
 import com.mzt.logapi.service.IParseFunction;
 import jakarta.annotation.Resource;
@@ -35,7 +35,7 @@ public class DeptParseFunction implements IParseFunction {
         }
 
         // 获取部门信息
-        DeptDO dept = deptService.getDept(Convert.toLong(value));
+        DeptEntity dept = deptService.getDept(Convert.toLong(value));
         if (dept == null) {
             log.warn("[apply][获取部门{{}}为空", value);
             return "";

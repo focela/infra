@@ -8,7 +8,7 @@ import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.notify.vo.message.NotifyMessageMyPageReqVO;
 import com.focela.platform.module.system.controller.admin.notify.vo.message.NotifyMessagePageReqVO;
 import com.focela.platform.module.system.controller.admin.notify.vo.message.NotifyMessageRespVO;
-import com.focela.platform.module.system.dal.dataobject.notify.NotifyMessageDO;
+import com.focela.platform.module.system.repository.entity.notify.NotifyMessageEntity;
 import com.focela.platform.module.system.service.notify.NotifyMessageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -40,7 +40,7 @@ public class NotifyMessageController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:notify-message:query')")
     public CommonResult<NotifyMessageRespVO> getNotifyMessage(@RequestParam("id") Long id) {
-        NotifyMessageDO message = notifyMessageService.getNotifyMessage(id);
+        NotifyMessageEntity message = notifyMessageService.getNotifyMessage(id);
         return success(BeanUtils.toBean(message, NotifyMessageRespVO.class));
     }
 
@@ -48,7 +48,7 @@ public class NotifyMessageController {
     @Operation(summary = "获得站内信分页")
     @PreAuthorize("@ss.hasPermission('system:notify-message:query')")
     public CommonResult<PageResult<NotifyMessageRespVO>> getNotifyMessagePage(@Valid NotifyMessagePageReqVO pageVO) {
-        PageResult<NotifyMessageDO> pageResult = notifyMessageService.getNotifyMessagePage(pageVO);
+        PageResult<NotifyMessageEntity> pageResult = notifyMessageService.getNotifyMessagePage(pageVO);
         return success(BeanUtils.toBean(pageResult, NotifyMessageRespVO.class));
     }
 
@@ -57,7 +57,7 @@ public class NotifyMessageController {
     @GetMapping("/my-page")
     @Operation(summary = "获得我的站内信分页")
     public CommonResult<PageResult<NotifyMessageRespVO>> getMyMyNotifyMessagePage(@Valid NotifyMessageMyPageReqVO pageVO) {
-        PageResult<NotifyMessageDO> pageResult = notifyMessageService.getMyMyNotifyMessagePage(pageVO,
+        PageResult<NotifyMessageEntity> pageResult = notifyMessageService.getMyMyNotifyMessagePage(pageVO,
                 getLoginUserId(), UserTypeEnum.ADMIN.getValue());
         return success(BeanUtils.toBean(pageResult, NotifyMessageRespVO.class));
     }
@@ -82,7 +82,7 @@ public class NotifyMessageController {
     @Parameter(name = "size", description = "10")
     public CommonResult<List<NotifyMessageRespVO>> getUnreadNotifyMessageList(
             @RequestParam(name = "size", defaultValue = "10") Integer size) {
-        List<NotifyMessageDO> list = notifyMessageService.getUnreadNotifyMessageList(
+        List<NotifyMessageEntity> list = notifyMessageService.getUnreadNotifyMessageList(
                 getLoginUserId(), UserTypeEnum.ADMIN.getValue(), size);
         return success(BeanUtils.toBean(list, NotifyMessageRespVO.class));
     }

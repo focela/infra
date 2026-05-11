@@ -1,7 +1,7 @@
 package com.focela.platform.module.infra.service.db;
 
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
-import com.focela.platform.module.infra.dal.dataobject.db.DataSourceConfigDO;
+import com.focela.platform.module.infra.repository.entity.db.DataSourceConfigEntity;
 import com.baomidou.mybatisplus.generator.config.po.TableField;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
@@ -32,7 +32,7 @@ public class DatabaseTableServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         Long dataSourceConfigId = randomLongId();
         // mock 方法
-        DataSourceConfigDO dataSourceConfig = new DataSourceConfigDO().setUsername("sa").setPassword("")
+        DataSourceConfigEntity dataSourceConfig = new DataSourceConfigEntity().setUsername("sa").setPassword("")
                 .setUrl("jdbc:h2:mem:testdb");
         when(dataSourceConfigService.getDataSourceConfig(eq(dataSourceConfigId)))
                 .thenReturn(dataSourceConfig);
@@ -50,7 +50,7 @@ public class DatabaseTableServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         Long dataSourceConfigId = randomLongId();
         // mock 方法
-        DataSourceConfigDO dataSourceConfig = new DataSourceConfigDO().setUsername("sa").setPassword("")
+        DataSourceConfigEntity dataSourceConfig = new DataSourceConfigEntity().setUsername("sa").setPassword("")
                 .setUrl("jdbc:h2:mem:testdb");
         when(dataSourceConfigService.getDataSourceConfig(eq(dataSourceConfigId)))
                 .thenReturn(dataSourceConfig);

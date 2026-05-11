@@ -8,7 +8,7 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.tenant.core.aop.TenantIgnore;
 import com.focela.platform.module.infra.controller.admin.file.vo.file.*;
-import com.focela.platform.module.infra.dal.dataobject.file.FileDO;
+import com.focela.platform.module.infra.repository.entity.file.FileEntity;
 import com.focela.platform.module.infra.service.file.FileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -130,7 +130,7 @@ public class FileController {
     @Operation(summary = "获得文件分页")
     @PreAuthorize("@ss.hasPermission('infra:file:query')")
     public CommonResult<PageResult<FileRespVO>> getFilePage(@Valid FilePageReqVO pageVO) {
-        PageResult<FileDO> pageResult = fileService.getFilePage(pageVO);
+        PageResult<FileEntity> pageResult = fileService.getFilePage(pageVO);
         return success(BeanUtils.toBean(pageResult, FileRespVO.class));
     }
 

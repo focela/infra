@@ -22,7 +22,7 @@ public class OperateLogCreateReqDTO {
     /**
      * 用户编号
      *
-     * 关联 MemberUserDO 的 id 属性，或者 AdminUserDO 的 id 属性
+     * 关联 MemberUserDO 的 id 属性，或者 AdminUserEntity 的 id 属性
      */
     @NotNull(message = "用户编号不能为空")
     private Long userId;

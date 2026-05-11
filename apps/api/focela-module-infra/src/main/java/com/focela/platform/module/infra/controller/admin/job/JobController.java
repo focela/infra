@@ -10,7 +10,7 @@ import com.focela.platform.framework.quartz.core.util.CronUtils;
 import com.focela.platform.module.infra.controller.admin.job.vo.job.JobPageReqVO;
 import com.focela.platform.module.infra.controller.admin.job.vo.job.JobRespVO;
 import com.focela.platform.module.infra.controller.admin.job.vo.job.JobSaveReqVO;
-import com.focela.platform.module.infra.dal.dataobject.job.JobDO;
+import com.focela.platform.module.infra.repository.entity.job.JobEntity;
 import com.focela.platform.module.infra.service.job.JobService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -113,7 +113,7 @@ public class JobController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:job:query')")
     public CommonResult<JobRespVO> getJob(@RequestParam("id") Long id) {
-        JobDO job = jobService.getJob(id);
+        JobEntity job = jobService.getJob(id);
         return success(BeanUtils.toBean(job, JobRespVO.class));
     }
 
@@ -121,7 +121,7 @@ public class JobController {
     @Operation(summary = "获得定时任务分页")
     @PreAuthorize("@ss.hasPermission('infra:job:query')")
     public CommonResult<PageResult<JobRespVO>> getJobPage(@Valid JobPageReqVO pageVO) {
-        PageResult<JobDO> pageResult = jobService.getJobPage(pageVO);
+        PageResult<JobEntity> pageResult = jobService.getJobPage(pageVO);
         return success(BeanUtils.toBean(pageResult, JobRespVO.class));
     }
 
@@ -132,7 +132,7 @@ public class JobController {
     public void exportJobExcel(@Valid JobPageReqVO exportReqVO,
                                HttpServletResponse response) throws IOException {
         exportReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<JobDO> list = jobService.getJobPage(exportReqVO).getList();
+        List<JobEntity> list = jobService.getJobPage(exportReqVO).getList();
         // 导出 Excel
         ExcelUtils.write(response, "定时任务.xls", "数据", JobRespVO.class,
                 BeanUtils.toBean(list, JobRespVO.class));
@@ -148,7 +148,7 @@ public class JobController {
     public CommonResult<List<LocalDateTime>> getJobNextTimes(
             @RequestParam("id") Long id,
             @RequestParam(value = "count", required = false, defaultValue = "5") Integer count) {
-        JobDO job = jobService.getJob(id);
+        JobEntity job = jobService.getJob(id);
         if (job == null) {
             return success(Collections.emptyList());
         }

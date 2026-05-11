@@ -15,8 +15,8 @@ import com.focela.platform.module.system.api.social.dto.SocialUserBindReqDTO;
 import com.focela.platform.module.system.api.social.dto.SocialUserRespDTO;
 import com.focela.platform.module.system.controller.admin.auth.vo.*;
 import com.focela.platform.module.system.convert.auth.AuthConvert;
-import com.focela.platform.module.system.dal.dataobject.oauth2.OAuth2AccessTokenDO;
-import com.focela.platform.module.system.dal.dataobject.user.AdminUserDO;
+import com.focela.platform.module.system.repository.entity.oauth2.OAuth2AccessTokenEntity;
+import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
 import com.focela.platform.module.system.enums.logger.LoginLogTypeEnum;
 import com.focela.platform.module.system.enums.logger.LoginResultEnum;
 import com.focela.platform.module.system.enums.oauth2.OAuth2ClientConstants;
@@ -78,10 +78,10 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     private Boolean captchaEnable;
 
     @Override
-    public AdminUserDO authenticate(String username, String password) {
+    public AdminUserEntity authenticate(String username, String password) {
         final LoginLogTypeEnum logTypeEnum = LoginLogTypeEnum.LOGIN_USERNAME;
         // 校验账号是否存在
-        AdminUserDO user = userService.getUserByUsername(username);
+        AdminUserEntity user = userService.getUserByUsername(username);
         if (user == null) {
             createLoginLog(null, username, logTypeEnum, LoginResultEnum.BAD_CREDENTIALS);
             throw exception(AUTH_LOGIN_BAD_CREDENTIALS);
@@ -105,7 +105,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         validateCaptcha(reqVO);
 
         // 使用账号密码，进行登录
-        AdminUserDO user = authenticate(reqVO.getUsername(), reqVO.getPassword());
+        AdminUserEntity user = authenticate(reqVO.getUsername(), reqVO.getPassword());
 
         // 如果 socialType 非空，说明需要绑定社交用户
         if (reqVO.getSocialType() != null) {
@@ -140,7 +140,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         smsCodeApi.useSmsCode(AuthConvert.INSTANCE.convert(reqVO, SmsSceneEnum.ADMIN_MEMBER_LOGIN.getScene(), getClientIP()));
 
         // 获得用户信息
-        AdminUserDO user = userService.getUserByMobile(reqVO.getMobile());
+        AdminUserEntity user = userService.getUserByMobile(reqVO.getMobile());
         if (user == null) {
             throw exception(USER_NOT_EXISTS);
         }
@@ -178,7 +178,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         }
 
         // 获得用户
-        AdminUserDO user = userService.getUser(socialUser.getUserId());
+        AdminUserEntity user = userService.getUser(socialUser.getUserId());
         if (user == null) {
             throw exception(USER_NOT_EXISTS);
         }
@@ -213,7 +213,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         // 插入登陆日志
         createLoginLog(userId, username, logType, LoginResultEnum.SUCCESS);
         // 创建访问令牌
-        OAuth2AccessTokenDO accessTokenDO = oauth2TokenService.createAccessToken(userId, getUserType().getValue(),
+        OAuth2AccessTokenEntity accessTokenDO = oauth2TokenService.createAccessToken(userId, getUserType().getValue(),
                 OAuth2ClientConstants.CLIENT_ID_DEFAULT, null);
         // 构建返回结果
         return BeanUtils.toBean(accessTokenDO, AuthLoginRespVO.class);
@@ -221,14 +221,14 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     @Override
     public AuthLoginRespVO refreshToken(String refreshToken) {
-        OAuth2AccessTokenDO accessTokenDO = oauth2TokenService.refreshAccessToken(refreshToken, OAuth2ClientConstants.CLIENT_ID_DEFAULT);
+        OAuth2AccessTokenEntity accessTokenDO = oauth2TokenService.refreshAccessToken(refreshToken, OAuth2ClientConstants.CLIENT_ID_DEFAULT);
         return BeanUtils.toBean(accessTokenDO, AuthLoginRespVO.class);
     }
 
     @Override
     public void logout(String token, Integer logType) {
         // 删除访问令牌
-        OAuth2AccessTokenDO accessTokenDO = oauth2TokenService.removeAccessToken(token);
+        OAuth2AccessTokenEntity accessTokenDO = oauth2TokenService.removeAccessToken(token);
         if (accessTokenDO == null) {
             return;
         }
@@ -257,7 +257,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         if (userId == null) {
             return null;
         }
-        AdminUserDO user = userService.getUser(userId);
+        AdminUserEntity user = userService.getUser(userId);
         return user != null ? user.getUsername() : null;
     }
 
@@ -289,7 +289,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void resetPassword(AuthResetPasswordReqVO reqVO) {
-        AdminUserDO userByMobile = userService.getUserByMobile(reqVO.getMobile());
+        AdminUserEntity userByMobile = userService.getUserByMobile(reqVO.getMobile());
         if (userByMobile == null) {
             throw exception(USER_MOBILE_NOT_EXISTS);
         }

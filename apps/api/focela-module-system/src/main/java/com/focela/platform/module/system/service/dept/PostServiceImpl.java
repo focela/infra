@@ -6,8 +6,8 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.dept.vo.post.PostPageReqVO;
 import com.focela.platform.module.system.controller.admin.dept.vo.post.PostSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.dept.PostDO;
-import com.focela.platform.module.system.dal.mysql.dept.PostMapper;
+import com.focela.platform.module.system.repository.entity.dept.PostEntity;
+import com.focela.platform.module.system.repository.mapper.dept.PostMapper;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -39,7 +39,7 @@ public class PostServiceImpl implements PostService {
         validatePostForCreateOrUpdate(null, createReqVO.getName(), createReqVO.getCode());
 
         // 插入岗位
-        PostDO post = BeanUtils.toBean(createReqVO, PostDO.class);
+        PostEntity post = BeanUtils.toBean(createReqVO, PostEntity.class);
         postMapper.insert(post);
         return post.getId();
     }
@@ -50,7 +50,7 @@ public class PostServiceImpl implements PostService {
         validatePostForCreateOrUpdate(updateReqVO.getId(), updateReqVO.getName(), updateReqVO.getCode());
 
         // 更新岗位
-        PostDO updateObj = BeanUtils.toBean(updateReqVO, PostDO.class);
+        PostEntity updateObj = BeanUtils.toBean(updateReqVO, PostEntity.class);
         postMapper.updateById(updateObj);
     }
 
@@ -77,7 +77,7 @@ public class PostServiceImpl implements PostService {
     }
 
     private void validatePostNameUnique(Long id, String name) {
-        PostDO post = postMapper.selectByName(name);
+        PostEntity post = postMapper.selectByName(name);
         if (post == null) {
             return;
         }
@@ -91,7 +91,7 @@ public class PostServiceImpl implements PostService {
     }
 
     private void validatePostCodeUnique(Long id, String code) {
-        PostDO post = postMapper.selectByCode(code);
+        PostEntity post = postMapper.selectByCode(code);
         if (post == null) {
             return;
         }
@@ -114,7 +114,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDO> getPostList(Collection<Long> ids) {
+    public List<PostEntity> getPostList(Collection<Long> ids) {
         if (CollUtil.isEmpty(ids)) {
             return Collections.emptyList();
         }
@@ -122,17 +122,17 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDO> getPostList(Collection<Long> ids, Collection<Integer> statuses) {
+    public List<PostEntity> getPostList(Collection<Long> ids, Collection<Integer> statuses) {
         return postMapper.selectList(ids, statuses);
     }
 
     @Override
-    public PageResult<PostDO> getPostPage(PostPageReqVO reqVO) {
+    public PageResult<PostEntity> getPostPage(PostPageReqVO reqVO) {
         return postMapper.selectPage(reqVO);
     }
 
     @Override
-    public PostDO getPost(Long id) {
+    public PostEntity getPost(Long id) {
         return postMapper.selectById(id);
     }
 
@@ -142,11 +142,11 @@ public class PostServiceImpl implements PostService {
             return;
         }
         // 获得岗位信息
-        List<PostDO> posts = postMapper.selectByIds(ids);
-        Map<Long, PostDO> postMap = convertMap(posts, PostDO::getId);
+        List<PostEntity> posts = postMapper.selectByIds(ids);
+        Map<Long, PostEntity> postMap = convertMap(posts, PostEntity::getId);
         // 校验
         ids.forEach(id -> {
-            PostDO post = postMap.get(id);
+            PostEntity post = postMap.get(id);
             if (post == null) {
                 throw exception(POST_NOT_FOUND);
             }

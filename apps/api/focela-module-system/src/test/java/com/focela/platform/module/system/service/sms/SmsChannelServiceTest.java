@@ -6,8 +6,8 @@ import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.module.system.controller.admin.sms.vo.channel.SmsChannelPageReqVO;
 import com.focela.platform.module.system.controller.admin.sms.vo.channel.SmsChannelSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.sms.SmsChannelDO;
-import com.focela.platform.module.system.dal.mysql.sms.SmsChannelMapper;
+import com.focela.platform.module.system.repository.entity.sms.SmsChannelEntity;
+import com.focela.platform.module.system.repository.mapper.sms.SmsChannelMapper;
 import com.focela.platform.module.system.framework.sms.core.client.SmsClient;
 import com.focela.platform.module.system.framework.sms.core.client.SmsClientFactory;
 import com.focela.platform.module.system.framework.sms.core.property.SmsChannelProperties;
@@ -56,14 +56,14 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
         // 断言
         assertNotNull(smsChannelId);
         // 校验记录的属性是否正确
-        SmsChannelDO smsChannel = smsChannelMapper.selectById(smsChannelId);
+        SmsChannelEntity smsChannel = smsChannelMapper.selectById(smsChannelId);
         assertPojoEquals(reqVO, smsChannel, "id");
     }
 
     @Test
     public void testUpdateSmsChannel_success() {
         // mock 数据
-        SmsChannelDO dbSmsChannel = randomPojo(SmsChannelDO.class);
+        SmsChannelEntity dbSmsChannel = randomPojo(SmsChannelEntity.class);
         smsChannelMapper.insert(dbSmsChannel);// @Sql: 先插入出一条存在的数据
         // 准备参数
         SmsChannelSaveReqVO reqVO = randomPojo(SmsChannelSaveReqVO.class, o -> {
@@ -75,7 +75,7 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
         // 调用
         smsChannelService.updateSmsChannel(reqVO);
         // 校验是否更新正确
-        SmsChannelDO smsChannel = smsChannelMapper.selectById(reqVO.getId()); // 获取最新的
+        SmsChannelEntity smsChannel = smsChannelMapper.selectById(reqVO.getId()); // 获取最新的
         assertPojoEquals(reqVO, smsChannel);
     }
 
@@ -91,7 +91,7 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
     @Test
     public void testDeleteSmsChannel_success() {
         // mock 数据
-        SmsChannelDO dbSmsChannel = randomPojo(SmsChannelDO.class);
+        SmsChannelEntity dbSmsChannel = randomPojo(SmsChannelEntity.class);
         smsChannelMapper.insert(dbSmsChannel);// @Sql: 先插入出一条存在的数据
         // 准备参数
         Long id = dbSmsChannel.getId();
@@ -114,7 +114,7 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
     @Test
     public void testDeleteSmsChannel_hasChildren() {
         // mock 数据
-        SmsChannelDO dbSmsChannel = randomPojo(SmsChannelDO.class);
+        SmsChannelEntity dbSmsChannel = randomPojo(SmsChannelEntity.class);
         smsChannelMapper.insert(dbSmsChannel);// @Sql: 先插入出一条存在的数据
         // 准备参数
         Long id = dbSmsChannel.getId();
@@ -128,7 +128,7 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetSmsChannel() {
         // mock 数据
-        SmsChannelDO dbSmsChannel = randomPojo(SmsChannelDO.class);
+        SmsChannelEntity dbSmsChannel = randomPojo(SmsChannelEntity.class);
         smsChannelMapper.insert(dbSmsChannel); // @Sql: 先插入出一条存在的数据
         // 准备参数
         Long id = dbSmsChannel.getId();
@@ -140,14 +140,14 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetSmsChannelList() {
         // mock 数据
-        SmsChannelDO dbSmsChannel01 = randomPojo(SmsChannelDO.class);
+        SmsChannelEntity dbSmsChannel01 = randomPojo(SmsChannelEntity.class);
         smsChannelMapper.insert(dbSmsChannel01);
-        SmsChannelDO dbSmsChannel02 = randomPojo(SmsChannelDO.class);
+        SmsChannelEntity dbSmsChannel02 = randomPojo(SmsChannelEntity.class);
         smsChannelMapper.insert(dbSmsChannel02);
         // 准备参数
 
         // 调用
-        List<SmsChannelDO> list = smsChannelService.getSmsChannelList();
+        List<SmsChannelEntity> list = smsChannelService.getSmsChannelList();
         // 断言
         assertEquals(2, list.size());
         assertPojoEquals(dbSmsChannel01, list.get(0));
@@ -157,7 +157,7 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetSmsChannelPage() {
        // mock 数据
-       SmsChannelDO dbSmsChannel = randomPojo(SmsChannelDO.class, o -> { // 等会查询到
+       SmsChannelEntity dbSmsChannel = randomPojo(SmsChannelEntity.class, o -> { // 等会查询到
            o.setSignature("芋道源码");
            o.setStatus(CommonStatusEnum.ENABLE.getStatus());
            o.setCreateTime(buildTime(2020, 12, 12));
@@ -176,7 +176,7 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
        reqVO.setCreateTime(buildBetweenTime(2020, 12, 1, 2020, 12, 24));
 
        // 调用
-       PageResult<SmsChannelDO> pageResult = smsChannelService.getSmsChannelPage(reqVO);
+       PageResult<SmsChannelEntity> pageResult = smsChannelService.getSmsChannelPage(reqVO);
        // 断言
        assertEquals(1, pageResult.getTotal());
        assertEquals(1, pageResult.getList().size());
@@ -186,7 +186,7 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetSmsClient_id() {
         // mock 数据
-        SmsChannelDO channel = randomPojo(SmsChannelDO.class);
+        SmsChannelEntity channel = randomPojo(SmsChannelEntity.class);
         smsChannelMapper.insert(channel);
         // 准备参数
         Long id = channel.getId();

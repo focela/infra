@@ -1,7 +1,7 @@
 package com.focela.platform.module.infra.controller.admin.demo.demo03.inner.vo;
 
-import com.focela.platform.module.infra.dal.dataobject.demo.demo03.Demo03CourseDO;
-import com.focela.platform.module.infra.dal.dataobject.demo.demo03.Demo03GradeDO;
+import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03CourseEntity;
+import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03GradeEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -34,9 +34,9 @@ public class Demo03StudentInnerSaveReqVO {
     private String description;
 
     @Schema(description = "学生课程列表")
-    private List<Demo03CourseDO> demo03Courses;
+    private List<Demo03CourseEntity> demo03Courses;
 
     @Schema(description = "学生班级")
-    private Demo03GradeDO demo03Grade;
+    private Demo03GradeEntity demo03Grade;
 
 }

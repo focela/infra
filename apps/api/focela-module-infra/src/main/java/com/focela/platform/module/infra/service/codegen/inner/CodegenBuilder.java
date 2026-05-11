@@ -3,10 +3,10 @@ package com.focela.platform.module.infra.service.codegen.inner;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.mybatis.core.dataobject.BaseDO;
+import com.focela.platform.framework.mybatis.core.entity.BaseEntity;
 import com.focela.platform.module.infra.convert.codegen.CodegenConvert;
-import com.focela.platform.module.infra.dal.dataobject.codegen.CodegenColumnDO;
-import com.focela.platform.module.infra.dal.dataobject.codegen.CodegenTableDO;
+import com.focela.platform.module.infra.repository.entity.codegen.CodegenColumnEntity;
+import com.focela.platform.module.infra.repository.entity.codegen.CodegenTableEntity;
 import com.focela.platform.module.infra.enums.codegen.CodegenColumnHtmlTypeEnum;
 import com.focela.platform.module.infra.enums.codegen.CodegenColumnListConditionEnum;
 import com.focela.platform.module.infra.enums.codegen.CodegenTemplateTypeEnum;
@@ -24,8 +24,8 @@ import static cn.hutool.core.util.RandomUtil.randomInt;
 
 /**
  * 代码生成器的 Builder，负责：
- * 1. 将数据库的表 {@link TableInfo} 定义，构建成 {@link CodegenTableDO}
- * 2. 将数据库的列 {@link TableField} 构定义，建成 {@link CodegenColumnDO}
+ * 1. 将数据库的表 {@link TableInfo} 定义，构建成 {@link CodegenTableEntity}
+ * 2. 将数据库的列 {@link TableField} 构定义，建成 {@link CodegenColumnEntity}
  */
 @Component
 public class CodegenBuilder {
@@ -64,7 +64,7 @@ public class CodegenBuilder {
      */
     public static final String TENANT_ID_FIELD = "tenantId";
     /**
-     * {@link com.focela.platform.framework.mybatis.core.dataobject.BaseDO} 的字段
+     * {@link com.focela.platform.framework.mybatis.core.entity.BaseEntity} 的字段
      */
     public static final Set<String> BASE_DO_FIELDS = new HashSet<>();
     /**
@@ -85,7 +85,7 @@ public class CodegenBuilder {
     private static final Set<String> LIST_OPERATION_RESULT_EXCLUDE_COLUMN = Sets.newHashSet();
 
     static {
-        Arrays.stream(ReflectUtil.getFields(BaseDO.class)).forEach(field -> BASE_DO_FIELDS.add(field.getName()));
+        Arrays.stream(ReflectUtil.getFields(BaseEntity.class)).forEach(field -> BASE_DO_FIELDS.add(field.getName()));
         BASE_DO_FIELDS.add(TENANT_ID_FIELD);
         // 处理 OPERATION 相关的字段
         CREATE_OPERATION_EXCLUDE_COLUMN.addAll(BASE_DO_FIELDS);
@@ -96,8 +96,8 @@ public class CodegenBuilder {
         LIST_OPERATION_RESULT_EXCLUDE_COLUMN.remove("createTime"); // 创建时间，还是需要返回的
     }
 
-    public CodegenTableDO buildTable(TableInfo tableInfo) {
-        CodegenTableDO table = CodegenConvert.INSTANCE.convert(tableInfo);
+    public CodegenTableEntity buildTable(TableInfo tableInfo) {
+        CodegenTableEntity table = CodegenConvert.INSTANCE.convert(tableInfo);
         initTableDefault(table);
         return table;
     }
@@ -107,7 +107,7 @@ public class CodegenBuilder {
      *
      * @param table 表定义
      */
-    private void initTableDefault(CodegenTableDO table) {
+    private void initTableDefault(CodegenTableEntity table) {
         // 以 system_dept 举例子。moduleName 为 system、businessName 为 dept、className 为 Dept
         // 如果希望以 System 前缀，则可以手动在【代码生成 - 修改生成配置 - 基本信息】，将实体类名称改为 SystemDept 即可
         String tableName = table.getTableName().toLowerCase();
@@ -122,10 +122,10 @@ public class CodegenBuilder {
         table.setTemplateType(CodegenTemplateTypeEnum.ONE.getType());
     }
 
-    public List<CodegenColumnDO> buildColumns(Long tableId, List<TableField> tableFields) {
-        List<CodegenColumnDO> columns = CodegenConvert.INSTANCE.convertList(tableFields);
+    public List<CodegenColumnEntity> buildColumns(Long tableId, List<TableField> tableFields) {
+        List<CodegenColumnEntity> columns = CodegenConvert.INSTANCE.convertList(tableFields);
         int index = 1;
-        for (CodegenColumnDO column : columns) {
+        for (CodegenColumnEntity column : columns) {
             column.setTableId(tableId);
             column.setOrdinalPosition(index++);
             // 特殊处理：Byte => Integer
@@ -140,7 +140,7 @@ public class CodegenBuilder {
         return columns;
     }
 
-    private void processColumnOperation(CodegenColumnDO column) {
+    private void processColumnOperation(CodegenColumnEntity column) {
         // 处理 createOperation 字段
         column.setCreateOperation(!CREATE_OPERATION_EXCLUDE_COLUMN.contains(column.getJavaField())
                 && !column.getPrimaryKey()); // 对于主键，创建时无需传递
@@ -161,7 +161,7 @@ public class CodegenBuilder {
         column.setListOperationResult(!LIST_OPERATION_RESULT_EXCLUDE_COLUMN.contains(column.getJavaField()));
     }
 
-    private void processColumnUI(CodegenColumnDO column) {
+    private void processColumnUI(CodegenColumnEntity column) {
         // 基于后缀进行匹配
         COLUMN_HTML_TYPE_MAPPINGS.entrySet().stream()
                 .filter(entry -> StrUtil.endWithIgnoreCase(column.getJavaField(), entry.getKey()))
@@ -185,7 +185,7 @@ public class CodegenBuilder {
      *
      * @param column 字段
      */
-    private void processColumnExample(CodegenColumnDO column) {
+    private void processColumnExample(CodegenColumnEntity column) {
         // id、price、count 等可能是整数的后缀
         if (StrUtil.endWithAnyIgnoreCase(column.getJavaField(), "id", "price", "count")) {
             column.setExample(String.valueOf(randomInt(1, Short.MAX_VALUE)));

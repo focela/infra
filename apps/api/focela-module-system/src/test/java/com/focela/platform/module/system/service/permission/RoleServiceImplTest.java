@@ -6,8 +6,8 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.module.system.controller.admin.permission.vo.role.RolePageReqVO;
 import com.focela.platform.module.system.controller.admin.permission.vo.role.RoleSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.permission.RoleDO;
-import com.focela.platform.module.system.dal.mysql.permission.RoleMapper;
+import com.focela.platform.module.system.repository.entity.permission.RoleEntity;
+import com.focela.platform.module.system.repository.mapper.permission.RoleMapper;
 import com.focela.platform.module.system.enums.permission.DataScopeEnum;
 import com.focela.platform.module.system.enums.permission.RoleTypeEnum;
 import jakarta.annotation.Resource;
@@ -57,7 +57,7 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
         // 调用
         Long roleId = roleService.createRole(reqVO, null);
         // 断言
-        RoleDO roleDO = roleMapper.selectById(roleId);
+        RoleEntity roleDO = roleMapper.selectById(roleId);
         assertPojoEquals(reqVO, roleDO, "id");
         assertEquals(RoleTypeEnum.CUSTOM.getType(), roleDO.getType());
         assertEquals(DataScopeEnum.ALL.getScope(), roleDO.getDataScope());
@@ -66,7 +66,7 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateRole() {
         // mock 数据
-        RoleDO roleDO = randomPojo(RoleDO.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
+        RoleEntity roleDO = randomPojo(RoleEntity.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
         roleMapper.insert(roleDO);
         // 准备参数
         Long id = roleDO.getId();
@@ -76,14 +76,14 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
         // 调用
         roleService.updateRole(reqVO);
         // 断言
-        RoleDO newRoleDO = roleMapper.selectById(id);
+        RoleEntity newRoleDO = roleMapper.selectById(id);
         assertPojoEquals(reqVO, newRoleDO);
     }
 
     @Test
     public void testUpdateRoleDataScope() {
         // mock 数据
-        RoleDO roleDO = randomPojo(RoleDO.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
+        RoleEntity roleDO = randomPojo(RoleEntity.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
         roleMapper.insert(roleDO);
         // 准备参数
         Long id = roleDO.getId();
@@ -93,7 +93,7 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
         // 调用
         roleService.updateRoleDataScope(id, dataScope, dataScopeRoleIds);
         // 断言
-        RoleDO dbRoleDO = roleMapper.selectById(id);
+        RoleEntity dbRoleDO = roleMapper.selectById(id);
         assertEquals(dataScope, dbRoleDO.getDataScope());
         assertEquals(dataScopeRoleIds, dbRoleDO.getDataScopeDeptIds());
     }
@@ -101,7 +101,7 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testDeleteRole() {
         // mock 数据
-        RoleDO roleDO = randomPojo(RoleDO.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
+        RoleEntity roleDO = randomPojo(RoleEntity.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
         roleMapper.insert(roleDO);
         // 参数准备
         Long id = roleDO.getId();
@@ -123,7 +123,7 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidateRoleDuplicate_nameDuplicate() {
         // mock 数据
-        RoleDO roleDO = randomPojo(RoleDO.class, o -> o.setName("role_name"));
+        RoleEntity roleDO = randomPojo(RoleEntity.class, o -> o.setName("role_name"));
         roleMapper.insert(roleDO);
         // 准备参数
         String name = "role_name";
@@ -136,7 +136,7 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidateRoleDuplicate_codeDuplicate() {
         // mock 数据
-        RoleDO roleDO = randomPojo(RoleDO.class, o -> o.setCode("code"));
+        RoleEntity roleDO = randomPojo(RoleEntity.class, o -> o.setCode("code"));
         roleMapper.insert(roleDO);
         // 准备参数
         String code = "code";
@@ -148,7 +148,7 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
 
     @Test
     public void testValidateUpdateRole_success() {
-        RoleDO roleDO = randomPojo(RoleDO.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
+        RoleEntity roleDO = randomPojo(RoleEntity.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
         roleMapper.insert(roleDO);
         // 准备参数
         Long id = roleDO.getId();
@@ -164,7 +164,7 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
 
     @Test
     public void testValidateUpdateRole_systemRoleCanNotBeUpdate() {
-        RoleDO roleDO = randomPojo(RoleDO.class, o -> o.setType(RoleTypeEnum.SYSTEM.getType()));
+        RoleEntity roleDO = randomPojo(RoleEntity.class, o -> o.setType(RoleTypeEnum.SYSTEM.getType()));
         roleMapper.insert(roleDO);
         // 准备参数
         Long id = roleDO.getId();
@@ -176,13 +176,13 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetRole() {
         // mock 数据
-        RoleDO roleDO = randomPojo(RoleDO.class);
+        RoleEntity roleDO = randomPojo(RoleEntity.class);
         roleMapper.insert(roleDO);
         // 参数准备
         Long id = roleDO.getId();
 
         // 调用
-        RoleDO dbRoleDO = roleService.getRole(id);
+        RoleEntity dbRoleDO = roleService.getRole(id);
         // 断言
         assertPojoEquals(roleDO, dbRoleDO);
     }
@@ -190,13 +190,13 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetRoleFromCache() {
         // mock 数据（缓存）
-        RoleDO roleDO = randomPojo(RoleDO.class);
+        RoleEntity roleDO = randomPojo(RoleEntity.class);
         roleMapper.insert(roleDO);
         // 参数准备
         Long id = roleDO.getId();
 
         // 调用
-        RoleDO dbRoleDO = roleService.getRoleFromCache(id);
+        RoleEntity dbRoleDO = roleService.getRoleFromCache(id);
         // 断言
         assertPojoEquals(roleDO, dbRoleDO);
     }
@@ -204,13 +204,13 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetRoleListByStatus() {
         // mock 数据
-        RoleDO dbRole01 = randomPojo(RoleDO.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
+        RoleEntity dbRole01 = randomPojo(RoleEntity.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
         roleMapper.insert(dbRole01);
-        RoleDO dbRole02 = randomPojo(RoleDO.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus()));
+        RoleEntity dbRole02 = randomPojo(RoleEntity.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus()));
         roleMapper.insert(dbRole02);
 
         // 调用
-        List<RoleDO> list = roleService.getRoleListByStatus(
+        List<RoleEntity> list = roleService.getRoleListByStatus(
                 singleton(CommonStatusEnum.ENABLE.getStatus()));
         // 断言
         assertEquals(1, list.size());
@@ -220,13 +220,13 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetRoleList() {
         // mock 数据
-        RoleDO dbRole01 = randomPojo(RoleDO.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
+        RoleEntity dbRole01 = randomPojo(RoleEntity.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
         roleMapper.insert(dbRole01);
-        RoleDO dbRole02 = randomPojo(RoleDO.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus()));
+        RoleEntity dbRole02 = randomPojo(RoleEntity.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus()));
         roleMapper.insert(dbRole02);
 
         // 调用
-        List<RoleDO> list = roleService.getRoleList();
+        List<RoleEntity> list = roleService.getRoleList();
         // 断言
         assertEquals(2, list.size());
         assertPojoEquals(dbRole01, list.get(0));
@@ -236,15 +236,15 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetRoleList_ids() {
         // mock 数据
-        RoleDO dbRole01 = randomPojo(RoleDO.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
+        RoleEntity dbRole01 = randomPojo(RoleEntity.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
         roleMapper.insert(dbRole01);
-        RoleDO dbRole02 = randomPojo(RoleDO.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus()));
+        RoleEntity dbRole02 = randomPojo(RoleEntity.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus()));
         roleMapper.insert(dbRole02);
         // 准备参数
         Collection<Long> ids = singleton(dbRole01.getId());
 
         // 调用
-        List<RoleDO> list = roleService.getRoleList(ids);
+        List<RoleEntity> list = roleService.getRoleList(ids);
         // 断言
         assertEquals(1, list.size());
         assertPojoEquals(dbRole01, list.get(0));
@@ -257,7 +257,7 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
                     .thenReturn(roleService);
 
             // mock 数据
-            RoleDO dbRole = randomPojo(RoleDO.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
+            RoleEntity dbRole = randomPojo(RoleEntity.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
             roleMapper.insert(dbRole);
             // 测试 id 不匹配
             roleMapper.insert(cloneIgnoreId(dbRole, o -> {}));
@@ -265,7 +265,7 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
             Collection<Long> ids = singleton(dbRole.getId());
 
             // 调用
-            List<RoleDO> list = roleService.getRoleListFromCache(ids);
+            List<RoleEntity> list = roleService.getRoleListFromCache(ids);
             // 断言
             assertEquals(1, list.size());
             assertPojoEquals(dbRole, list.get(0));
@@ -275,7 +275,7 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetRolePage() {
         // mock 数据
-        RoleDO dbRole = randomPojo(RoleDO.class, o -> { // 等会查询到
+        RoleEntity dbRole = randomPojo(RoleEntity.class, o -> { // 等会查询到
             o.setName("土豆");
             o.setCode("tudou");
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
@@ -296,7 +296,7 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
         reqVO.setCreateTime(buildBetweenTime(2022, 2, 1, 2022, 2, 12));
 
         // 调用
-        PageResult<RoleDO> pageResult = roleService.getRolePage(reqVO);
+        PageResult<RoleEntity> pageResult = roleService.getRolePage(reqVO);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
@@ -310,7 +310,7 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
                     .thenReturn(roleService);
 
             // mock 数据
-            RoleDO dbRole = randomPojo(RoleDO.class).setCode("super_admin");
+            RoleEntity dbRole = randomPojo(RoleEntity.class).setCode("super_admin");
             roleMapper.insert(dbRole);
             // 准备参数
             Long id = dbRole.getId();
@@ -327,7 +327,7 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
                     .thenReturn(roleService);
 
             // mock 数据
-            RoleDO dbRole = randomPojo(RoleDO.class).setCode("tenant_admin");
+            RoleEntity dbRole = randomPojo(RoleEntity.class).setCode("tenant_admin");
             roleMapper.insert(dbRole);
             // 准备参数
             Long id = dbRole.getId();
@@ -340,7 +340,7 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidateRoleList_success() {
         // mock 数据
-        RoleDO roleDO = randomPojo(RoleDO.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
+        RoleEntity roleDO = randomPojo(RoleEntity.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
         roleMapper.insert(roleDO);
         // 准备参数
         List<Long> ids = singletonList(roleDO.getId());
@@ -361,12 +361,12 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidateRoleList_notEnable() {
         // mock 数据
-        RoleDO RoleDO = randomPojo(RoleDO.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus()));
-        roleMapper.insert(RoleDO);
+        RoleEntity RoleEntity = randomPojo(RoleEntity.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus()));
+        roleMapper.insert(RoleEntity);
         // 准备参数
-        List<Long> ids = singletonList(RoleDO.getId());
+        List<Long> ids = singletonList(RoleEntity.getId());
 
         // 调用, 并断言异常
-        assertServiceException(() -> roleService.validateRoleList(ids), ROLE_IS_DISABLE, RoleDO.getName());
+        assertServiceException(() -> roleService.validateRoleList(ids), ROLE_IS_DISABLE, RoleEntity.getName());
     }
 }

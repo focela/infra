@@ -4,8 +4,8 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.notice.vo.NoticePageReqVO;
 import com.focela.platform.module.system.controller.admin.notice.vo.NoticeSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.notice.NoticeDO;
-import com.focela.platform.module.system.dal.mysql.notice.NoticeMapper;
+import com.focela.platform.module.system.repository.entity.notice.NoticeEntity;
+import com.focela.platform.module.system.repository.mapper.notice.NoticeMapper;
 import com.google.common.annotations.VisibleForTesting;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public Long createNotice(NoticeSaveReqVO createReqVO) {
-        NoticeDO notice = BeanUtils.toBean(createReqVO, NoticeDO.class);
+        NoticeEntity notice = BeanUtils.toBean(createReqVO, NoticeEntity.class);
         noticeMapper.insert(notice);
         return notice.getId();
     }
@@ -38,7 +38,7 @@ public class NoticeServiceImpl implements NoticeService {
         // 校验是否存在
         validateNoticeExists(updateReqVO.getId());
         // 更新通知公告
-        NoticeDO updateObj = BeanUtils.toBean(updateReqVO, NoticeDO.class);
+        NoticeEntity updateObj = BeanUtils.toBean(updateReqVO, NoticeEntity.class);
         noticeMapper.updateById(updateObj);
     }
 
@@ -56,12 +56,12 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public PageResult<NoticeDO> getNoticePage(NoticePageReqVO reqVO) {
+    public PageResult<NoticeEntity> getNoticePage(NoticePageReqVO reqVO) {
         return noticeMapper.selectPage(reqVO);
     }
 
     @Override
-    public NoticeDO getNotice(Long id) {
+    public NoticeEntity getNotice(Long id) {
         return noticeMapper.selectById(id);
     }
 
@@ -70,7 +70,7 @@ public class NoticeServiceImpl implements NoticeService {
         if (id == null) {
             return;
         }
-        NoticeDO notice = noticeMapper.selectById(id);
+        NoticeEntity notice = noticeMapper.selectById(id);
         if (notice == null) {
             throw exception(NOTICE_NOT_FOUND);
         }

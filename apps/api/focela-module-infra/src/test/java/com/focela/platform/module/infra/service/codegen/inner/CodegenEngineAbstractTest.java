@@ -8,8 +8,8 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.ZipUtil;
 import com.focela.platform.framework.common.util.json.JsonUtils;
 import com.focela.platform.framework.test.core.ut.BaseMockitoUnitTest;
-import com.focela.platform.module.infra.dal.dataobject.codegen.CodegenColumnDO;
-import com.focela.platform.module.infra.dal.dataobject.codegen.CodegenTableDO;
+import com.focela.platform.module.infra.repository.entity.codegen.CodegenColumnEntity;
+import com.focela.platform.module.infra.repository.entity.codegen.CodegenTableEntity;
 import com.focela.platform.module.infra.framework.codegen.config.CodegenProperties;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.InjectMocks;
@@ -54,14 +54,14 @@ public abstract class CodegenEngineAbstractTest extends BaseMockitoUnitTest {
         resourcesPath = absolutePath.split("/target")[0] + "/src/test/resources/codegen/";
     }
 
-    protected static CodegenTableDO getTable(String name) {
+    protected static CodegenTableEntity getTable(String name) {
         String content = ResourceUtil.readUtf8Str("codegen/table/" + name + ".json");
-        return JsonUtils.parseObject(content, "table", CodegenTableDO.class);
+        return JsonUtils.parseObject(content, "table", CodegenTableEntity.class);
     }
 
-    protected static List<CodegenColumnDO> getColumnList(String name) {
+    protected static List<CodegenColumnEntity> getColumnList(String name) {
         String content = ResourceUtil.readUtf8Str("codegen/table/" + name + ".json");
-        List<CodegenColumnDO> list = JsonUtils.parseArray(content, "columns", CodegenColumnDO.class);
+        List<CodegenColumnEntity> list = JsonUtils.parseArray(content, "columns", CodegenColumnEntity.class);
         list.forEach(column -> {
             if (column.getNullable() == null) {
                 column.setNullable(false);

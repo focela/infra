@@ -13,8 +13,8 @@ import com.focela.platform.module.infra.controller.admin.codegen.vo.table.Codege
 import com.focela.platform.module.infra.controller.admin.codegen.vo.table.CodegenTableRespVO;
 import com.focela.platform.module.infra.controller.admin.codegen.vo.table.DatabaseTableRespVO;
 import com.focela.platform.module.infra.convert.codegen.CodegenConvert;
-import com.focela.platform.module.infra.dal.dataobject.codegen.CodegenColumnDO;
-import com.focela.platform.module.infra.dal.dataobject.codegen.CodegenTableDO;
+import com.focela.platform.module.infra.repository.entity.codegen.CodegenColumnEntity;
+import com.focela.platform.module.infra.repository.entity.codegen.CodegenTableEntity;
 import com.focela.platform.module.infra.service.codegen.CodegenService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -66,7 +66,7 @@ public class CodegenController {
     @Parameter(name = "dataSourceConfigId", description = "数据源配置的编号", required = true, example = "1")
     @PreAuthorize("@ss.hasPermission('infra:codegen:query')")
     public CommonResult<List<CodegenTableRespVO>> getCodegenTableList(@RequestParam(value = "dataSourceConfigId") Long dataSourceConfigId) {
-        List<CodegenTableDO> list = codegenService.getCodegenTableList(dataSourceConfigId);
+        List<CodegenTableEntity> list = codegenService.getCodegenTableList(dataSourceConfigId);
         return success(BeanUtils.toBean(list, CodegenTableRespVO.class));
     }
 
@@ -74,7 +74,7 @@ public class CodegenController {
     @Operation(summary = "获得表定义分页")
     @PreAuthorize("@ss.hasPermission('infra:codegen:query')")
     public CommonResult<PageResult<CodegenTableRespVO>> getCodegenTablePage(@Valid CodegenTablePageReqVO pageReqVO) {
-        PageResult<CodegenTableDO> pageResult = codegenService.getCodegenTablePage(pageReqVO);
+        PageResult<CodegenTableEntity> pageResult = codegenService.getCodegenTablePage(pageReqVO);
         return success(BeanUtils.toBean(pageResult, CodegenTableRespVO.class));
     }
 
@@ -83,8 +83,8 @@ public class CodegenController {
     @Parameter(name = "tableId", description = "表编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:codegen:query')")
     public CommonResult<CodegenDetailRespVO> getCodegenDetail(@RequestParam("tableId") Long tableId) {
-        CodegenTableDO table = codegenService.getCodegenTable(tableId);
-        List<CodegenColumnDO> columns = codegenService.getCodegenColumnListByTableId(tableId);
+        CodegenTableEntity table = codegenService.getCodegenTable(tableId);
+        List<CodegenColumnEntity> columns = codegenService.getCodegenColumnListByTableId(tableId);
         // 拼装返回
         return success(CodegenConvert.INSTANCE.convert(table, columns));
     }

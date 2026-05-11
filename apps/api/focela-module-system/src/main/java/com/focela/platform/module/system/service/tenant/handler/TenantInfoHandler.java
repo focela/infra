@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.service.tenant.handler;
 
-import com.focela.platform.module.system.dal.dataobject.tenant.TenantDO;
+import com.focela.platform.module.system.repository.entity.tenant.TenantEntity;
 
 /**
  * 租户信息处理
@@ -16,6 +16,6 @@ public interface TenantInfoHandler {
      *
      * @param tenant 租户信息
      */
-    void handle(TenantDO tenant);
+    void handle(TenantEntity tenant);
 
 }

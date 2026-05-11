@@ -6,8 +6,8 @@ import com.focela.platform.framework.common.util.object.ObjectUtils;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.framework.test.core.util.AssertUtils;
 import com.focela.platform.module.infra.controller.admin.file.vo.file.FilePageReqVO;
-import com.focela.platform.module.infra.dal.dataobject.file.FileDO;
-import com.focela.platform.module.infra.dal.mysql.file.FileMapper;
+import com.focela.platform.module.infra.repository.entity.file.FileEntity;
+import com.focela.platform.module.infra.repository.mapper.file.FileMapper;
 import com.focela.platform.module.infra.framework.file.core.client.FileClient;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,7 +47,7 @@ public class FileServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetFilePage() {
         // mock 数据
-        FileDO dbFile = randomPojo(FileDO.class, o -> { // 等会查询到
+        FileEntity dbFile = randomPojo(FileEntity.class, o -> { // 等会查询到
             o.setPath("yunai");
             o.setType("image/jpg");
             o.setCreateTime(buildTime(2021, 1, 15));
@@ -70,7 +70,7 @@ public class FileServiceImplTest extends BaseDbUnitTest {
         reqVO.setCreateTime((new LocalDateTime[]{buildTime(2021, 1, 10), buildTime(2021, 1, 20)}));
 
         // 调用
-        PageResult<FileDO> pageResult = fileService.getFilePage(reqVO);
+        PageResult<FileEntity> pageResult = fileService.getFilePage(reqVO);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
@@ -103,7 +103,7 @@ public class FileServiceImplTest extends BaseDbUnitTest {
         // 断言
         assertEquals(result, url);
         // 校验数据
-        FileDO file = fileMapper.selectOne(FileDO::getUrl, url);
+        FileEntity file = fileMapper.selectOne(FileEntity::getUrl, url);
         assertEquals(10L, file.getConfigId());
         assertEquals(pathRef.get(), file.getPath());
         assertEquals(url, file.getUrl());
@@ -135,7 +135,7 @@ public class FileServiceImplTest extends BaseDbUnitTest {
         // 断言
         assertEquals(result, url);
         // 校验数据
-        FileDO file = fileMapper.selectOne(FileDO::getUrl, url);
+        FileEntity file = fileMapper.selectOne(FileEntity::getUrl, url);
         assertEquals(10L, file.getConfigId());
         assertEquals(pathRef.get(), file.getPath());
         assertEquals(url, file.getUrl());
@@ -146,7 +146,7 @@ public class FileServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testDeleteFile_success() throws Exception {
         // mock 数据
-        FileDO dbFile = randomPojo(FileDO.class, o -> o.setConfigId(10L).setPath("tudou.jpg"));
+        FileEntity dbFile = randomPojo(FileEntity.class, o -> o.setConfigId(10L).setPath("tudou.jpg"));
         fileMapper.insert(dbFile);// @Sql: 先插入出一条存在的数据
         // mock Master 文件客户端
         FileClient client = mock(FileClient.class);

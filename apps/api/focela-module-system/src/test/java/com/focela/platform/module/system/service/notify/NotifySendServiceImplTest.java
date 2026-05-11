@@ -4,7 +4,7 @@ import cn.hutool.core.map.MapUtil;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.test.core.ut.BaseMockitoUnitTest;
-import com.focela.platform.module.system.dal.dataobject.notify.NotifyTemplateDO;
+import com.focela.platform.module.system.repository.entity.notify.NotifyTemplateEntity;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -42,7 +42,7 @@ class NotifySendServiceImplTest extends BaseMockitoUnitTest {
         Map<String, Object> templateParams = MapUtil.<String, Object>builder().put("code", "1234")
                 .put("op", "login").build();
         // mock NotifyTemplateService 的方法
-        NotifyTemplateDO template = randomPojo(NotifyTemplateDO.class, o -> {
+        NotifyTemplateEntity template = randomPojo(NotifyTemplateEntity.class, o -> {
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
             o.setContent("验证码为{code}, 操作为{op}");
             o.setParams(Lists.newArrayList("code", "op"));
@@ -70,7 +70,7 @@ class NotifySendServiceImplTest extends BaseMockitoUnitTest {
         Map<String, Object> templateParams = MapUtil.<String, Object>builder().put("code", "1234")
                 .put("op", "login").build();
         // mock NotifyTemplateService 的方法
-        NotifyTemplateDO template = randomPojo(NotifyTemplateDO.class, o -> {
+        NotifyTemplateEntity template = randomPojo(NotifyTemplateEntity.class, o -> {
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
             o.setContent("验证码为{code}, 操作为{op}");
             o.setParams(Lists.newArrayList("code", "op"));
@@ -102,7 +102,7 @@ class NotifySendServiceImplTest extends BaseMockitoUnitTest {
         Map<String, Object> templateParams = MapUtil.<String, Object>builder().put("code", "1234")
                 .put("op", "login").build();
         // mock NotifyTemplateService 的方法
-        NotifyTemplateDO template = randomPojo(NotifyTemplateDO.class, o -> {
+        NotifyTemplateEntity template = randomPojo(NotifyTemplateEntity.class, o -> {
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
             o.setContent("验证码为{code}, 操作为{op}");
             o.setParams(Lists.newArrayList("code", "op"));
@@ -134,7 +134,7 @@ class NotifySendServiceImplTest extends BaseMockitoUnitTest {
         Map<String, Object> templateParams = MapUtil.<String, Object>builder().put("code", "1234")
                 .put("op", "login").build();
         // mock NotifyTemplateService 的方法
-        NotifyTemplateDO template = randomPojo(NotifyTemplateDO.class, o -> {
+        NotifyTemplateEntity template = randomPojo(NotifyTemplateEntity.class, o -> {
             o.setStatus(CommonStatusEnum.DISABLE.getStatus());
             o.setContent("验证码为{code}, 操作为{op}");
             o.setParams(Lists.newArrayList("code", "op"));
@@ -163,7 +163,7 @@ class NotifySendServiceImplTest extends BaseMockitoUnitTest {
     @Test
     public void testCheckTemplateParams_paramMiss() {
         // 准备参数
-        NotifyTemplateDO template = randomPojo(NotifyTemplateDO.class,
+        NotifyTemplateEntity template = randomPojo(NotifyTemplateEntity.class,
                 o -> o.setParams(Lists.newArrayList("code")));
         Map<String, Object> templateParams = new HashMap<>();
         // mock 方法

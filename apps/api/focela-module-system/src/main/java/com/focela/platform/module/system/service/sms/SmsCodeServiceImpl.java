@@ -6,8 +6,8 @@ import cn.hutool.core.map.MapUtil;
 import com.focela.platform.module.system.api.sms.dto.code.SmsCodeSendReqDTO;
 import com.focela.platform.module.system.api.sms.dto.code.SmsCodeUseReqDTO;
 import com.focela.platform.module.system.api.sms.dto.code.SmsCodeValidateReqDTO;
-import com.focela.platform.module.system.dal.dataobject.sms.SmsCodeDO;
-import com.focela.platform.module.system.dal.mysql.sms.SmsCodeMapper;
+import com.focela.platform.module.system.repository.entity.sms.SmsCodeEntity;
+import com.focela.platform.module.system.repository.mapper.sms.SmsCodeMapper;
 import com.focela.platform.module.system.enums.sms.SmsSceneEnum;
 import com.focela.platform.module.system.framework.sms.config.SmsCodeProperties;
 import org.springframework.stereotype.Service;
@@ -52,7 +52,7 @@ public class SmsCodeServiceImpl implements SmsCodeService {
 
     private String createSmsCode(String mobile, Integer scene, String ip) {
         // 校验是否可以发送验证码，不用筛选场景
-        SmsCodeDO lastSmsCode = smsCodeMapper.selectLastByMobile(mobile, null, null);
+        SmsCodeEntity lastSmsCode = smsCodeMapper.selectLastByMobile(mobile, null, null);
         if (lastSmsCode != null) {
             if (LocalDateTimeUtil.between(lastSmsCode.getCreateTime(), LocalDateTime.now()).toMillis()
                     < smsCodeProperties.getSendFrequency().toMillis()) { // 发送过于频繁
@@ -69,7 +69,7 @@ public class SmsCodeServiceImpl implements SmsCodeService {
         // 创建验证码记录
         String code = String.format("%0" + smsCodeProperties.getEndCode().toString().length() + "d",
                 randomInt(smsCodeProperties.getBeginCode(), smsCodeProperties.getEndCode() + 1));
-        SmsCodeDO newSmsCode = SmsCodeDO.builder().mobile(mobile).code(code).scene(scene)
+        SmsCodeEntity newSmsCode = SmsCodeEntity.builder().mobile(mobile).code(code).scene(scene)
                 .todayIndex(lastSmsCode != null && isToday(lastSmsCode.getCreateTime()) ? lastSmsCode.getTodayIndex() + 1 : 1)
                 .createIp(ip).used(false).build();
         smsCodeMapper.insert(newSmsCode);
@@ -79,9 +79,9 @@ public class SmsCodeServiceImpl implements SmsCodeService {
     @Override
     public void useSmsCode(SmsCodeUseReqDTO reqDTO) {
         // 检测验证码是否有效
-        SmsCodeDO lastSmsCode = validateSmsCode0(reqDTO.getMobile(), reqDTO.getCode(), reqDTO.getScene());
+        SmsCodeEntity lastSmsCode = validateSmsCode0(reqDTO.getMobile(), reqDTO.getCode(), reqDTO.getScene());
         // 使用验证码
-        smsCodeMapper.updateById(SmsCodeDO.builder().id(lastSmsCode.getId())
+        smsCodeMapper.updateById(SmsCodeEntity.builder().id(lastSmsCode.getId())
                 .used(true).usedTime(LocalDateTime.now()).usedIp(reqDTO.getUsedIp()).build());
     }
 
@@ -90,9 +90,9 @@ public class SmsCodeServiceImpl implements SmsCodeService {
         validateSmsCode0(reqDTO.getMobile(), reqDTO.getCode(), reqDTO.getScene());
     }
 
-    private SmsCodeDO validateSmsCode0(String mobile, String code, Integer scene) {
+    private SmsCodeEntity validateSmsCode0(String mobile, String code, Integer scene) {
         // 校验验证码
-        SmsCodeDO lastSmsCode = smsCodeMapper.selectLastByMobile(mobile, code, scene);
+        SmsCodeEntity lastSmsCode = smsCodeMapper.selectLastByMobile(mobile, code, scene);
         // 若验证码不存在，抛出异常
         if (lastSmsCode == null) {
             throw exception(SMS_CODE_NOT_FOUND);

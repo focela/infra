@@ -11,9 +11,9 @@ import com.focela.platform.framework.datapermission.core.annotation.DataPermissi
 import com.focela.platform.module.system.framework.sms.core.client.SmsClient;
 import com.focela.platform.module.system.framework.sms.core.client.dto.SmsReceiveRespDTO;
 import com.focela.platform.module.system.framework.sms.core.client.dto.SmsSendRespDTO;
-import com.focela.platform.module.system.dal.dataobject.sms.SmsChannelDO;
-import com.focela.platform.module.system.dal.dataobject.sms.SmsTemplateDO;
-import com.focela.platform.module.system.dal.dataobject.user.AdminUserDO;
+import com.focela.platform.module.system.repository.entity.sms.SmsChannelEntity;
+import com.focela.platform.module.system.repository.entity.sms.SmsTemplateEntity;
+import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
 import com.focela.platform.module.system.mq.message.sms.SmsSendMessage;
 import com.focela.platform.module.system.mq.producer.sms.SmsProducer;
 import com.focela.platform.module.system.service.member.MemberService;
@@ -58,7 +58,7 @@ public class SmsSendServiceImpl implements SmsSendService {
     public Long sendSingleSmsToAdmin(String mobile, Long userId, String templateCode, Map<String, Object> templateParams) {
         // 如果 mobile 为空，则加载用户编号对应的手机号
         if (StrUtil.isEmpty(mobile)) {
-            AdminUserDO user = adminUserService.getUser(userId);
+            AdminUserEntity user = adminUserService.getUser(userId);
             if (user != null) {
                 mobile = user.getMobile();
             }
@@ -81,9 +81,9 @@ public class SmsSendServiceImpl implements SmsSendService {
     public Long sendSingleSms(String mobile, Long userId, Integer userType,
                               String templateCode, Map<String, Object> templateParams) {
         // 校验短信模板是否合法
-        SmsTemplateDO template = validateSmsTemplate(templateCode);
+        SmsTemplateEntity template = validateSmsTemplate(templateCode);
         // 校验短信渠道是否合法
-        SmsChannelDO smsChannel = validateSmsChannel(template.getChannelId());
+        SmsChannelEntity smsChannel = validateSmsChannel(template.getChannelId());
 
         // 校验手机号码是否存在
         mobile = validateMobile(mobile);
@@ -105,9 +105,9 @@ public class SmsSendServiceImpl implements SmsSendService {
     }
 
     @VisibleForTesting
-    SmsChannelDO validateSmsChannel(Long channelId) {
+    SmsChannelEntity validateSmsChannel(Long channelId) {
         // 获得短信模板。考虑到效率，从缓存中获取
-        SmsChannelDO channelDO = smsChannelService.getSmsChannel(channelId);
+        SmsChannelEntity channelDO = smsChannelService.getSmsChannel(channelId);
         // 短信模板不存在
         if (channelDO == null) {
             throw exception(SMS_CHANNEL_NOT_EXISTS);
@@ -116,9 +116,9 @@ public class SmsSendServiceImpl implements SmsSendService {
     }
 
     @VisibleForTesting
-    SmsTemplateDO validateSmsTemplate(String templateCode) {
+    SmsTemplateEntity validateSmsTemplate(String templateCode) {
         // 获得短信模板。考虑到效率，从缓存中获取
-        SmsTemplateDO template = smsTemplateService.getSmsTemplateByCodeFromCache(templateCode);
+        SmsTemplateEntity template = smsTemplateService.getSmsTemplateByCodeFromCache(templateCode);
         // 短信模板不存在
         if (template == null) {
             throw exception(SMS_SEND_TEMPLATE_NOT_EXISTS);
@@ -136,7 +136,7 @@ public class SmsSendServiceImpl implements SmsSendService {
      * @return 处理后的参数
      */
     @VisibleForTesting
-    List<KeyValue<String, Object>> buildTemplateParams(SmsTemplateDO template, Map<String, Object> templateParams) {
+    List<KeyValue<String, Object>> buildTemplateParams(SmsTemplateEntity template, Map<String, Object> templateParams) {
         return template.getParams().stream().map(key -> {
             Object value = templateParams.get(key);
             if (value == null) {

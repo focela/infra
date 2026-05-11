@@ -6,12 +6,12 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.infra.controller.admin.demo.demo03.erp.vo.Demo03StudentErpPageReqVO;
 import com.focela.platform.module.infra.controller.admin.demo.demo03.erp.vo.Demo03StudentErpSaveReqVO;
-import com.focela.platform.module.infra.dal.dataobject.demo.demo03.Demo03CourseDO;
-import com.focela.platform.module.infra.dal.dataobject.demo.demo03.Demo03GradeDO;
-import com.focela.platform.module.infra.dal.dataobject.demo.demo03.Demo03StudentDO;
-import com.focela.platform.module.infra.dal.mysql.demo.demo03.erp.Demo03CourseErpMapper;
-import com.focela.platform.module.infra.dal.mysql.demo.demo03.erp.Demo03GradeErpMapper;
-import com.focela.platform.module.infra.dal.mysql.demo.demo03.erp.Demo03StudentErpMapper;
+import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03CourseEntity;
+import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03GradeEntity;
+import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03StudentEntity;
+import com.focela.platform.module.infra.repository.mapper.demo.demo03.erp.Demo03CourseErpMapper;
+import com.focela.platform.module.infra.repository.mapper.demo.demo03.erp.Demo03GradeErpMapper;
+import com.focela.platform.module.infra.repository.mapper.demo.demo03.erp.Demo03StudentErpMapper;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +41,7 @@ public class Demo03StudentErpServiceImpl implements Demo03StudentErpService {
     @Override
     public Long createDemo03Student(Demo03StudentErpSaveReqVO createReqVO) {
         // 插入
-        Demo03StudentDO demo03Student = BeanUtils.toBean(createReqVO, Demo03StudentDO.class);
+        Demo03StudentEntity demo03Student = BeanUtils.toBean(createReqVO, Demo03StudentEntity.class);
         demo03StudentErpMapper.insert(demo03Student);
         // 返回
         return demo03Student.getId();
@@ -52,7 +52,7 @@ public class Demo03StudentErpServiceImpl implements Demo03StudentErpService {
         // 校验存在
         validateDemo03StudentExists(updateReqVO.getId());
         // 更新
-        Demo03StudentDO updateObj = BeanUtils.toBean(updateReqVO, Demo03StudentDO.class);
+        Demo03StudentEntity updateObj = BeanUtils.toBean(updateReqVO, Demo03StudentEntity.class);
         demo03StudentErpMapper.updateById(updateObj);
     }
 
@@ -83,7 +83,7 @@ public class Demo03StudentErpServiceImpl implements Demo03StudentErpService {
     }
 
     private void validateDemo03StudentExists(List<Long> ids) {
-        List<Demo03StudentDO> list = demo03StudentErpMapper.selectByIds(ids);
+        List<Demo03StudentEntity> list = demo03StudentErpMapper.selectByIds(ids);
         if (CollUtil.isEmpty(list) || list.size() != ids.size()) {
             throw exception(DEMO03_STUDENT_NOT_EXISTS);
         }
@@ -96,30 +96,30 @@ public class Demo03StudentErpServiceImpl implements Demo03StudentErpService {
     }
 
     @Override
-    public Demo03StudentDO getDemo03Student(Long id) {
+    public Demo03StudentEntity getDemo03Student(Long id) {
         return demo03StudentErpMapper.selectById(id);
     }
 
     @Override
-    public PageResult<Demo03StudentDO> getDemo03StudentPage(Demo03StudentErpPageReqVO pageReqVO) {
+    public PageResult<Demo03StudentEntity> getDemo03StudentPage(Demo03StudentErpPageReqVO pageReqVO) {
         return demo03StudentErpMapper.selectPage(pageReqVO);
     }
 
     // ==================== 子表（学生课程） ====================
 
     @Override
-    public PageResult<Demo03CourseDO> getDemo03CoursePage(PageParam pageReqVO, Long studentId) {
+    public PageResult<Demo03CourseEntity> getDemo03CoursePage(PageParam pageReqVO, Long studentId) {
         return demo03CourseErpMapper.selectPage(pageReqVO, studentId);
     }
 
     @Override
-    public Long createDemo03Course(Demo03CourseDO demo03Course) {
+    public Long createDemo03Course(Demo03CourseEntity demo03Course) {
         demo03CourseErpMapper.insert(demo03Course);
         return demo03Course.getId();
     }
 
     @Override
-    public void updateDemo03Course(Demo03CourseDO demo03Course) {
+    public void updateDemo03Course(Demo03CourseEntity demo03Course) {
         // 校验存在
         validateDemo03CourseExists(demo03Course.getId());
         // 更新
@@ -140,7 +140,7 @@ public class Demo03StudentErpServiceImpl implements Demo03StudentErpService {
     }
 
     @Override
-    public Demo03CourseDO getDemo03Course(Long id) {
+    public Demo03CourseEntity getDemo03Course(Long id) {
         return demo03CourseErpMapper.selectById(id);
     }
 
@@ -161,12 +161,12 @@ public class Demo03StudentErpServiceImpl implements Demo03StudentErpService {
     // ==================== 子表（学生班级） ====================
 
     @Override
-    public PageResult<Demo03GradeDO> getDemo03GradePage(PageParam pageReqVO, Long studentId) {
+    public PageResult<Demo03GradeEntity> getDemo03GradePage(PageParam pageReqVO, Long studentId) {
         return demo03GradeErpMapper.selectPage(pageReqVO, studentId);
     }
 
     @Override
-    public Long createDemo03Grade(Demo03GradeDO demo03Grade) {
+    public Long createDemo03Grade(Demo03GradeEntity demo03Grade) {
         // 校验是否已经存在
         if (demo03GradeErpMapper.selectByStudentId(demo03Grade.getStudentId()) != null) {
             throw exception(DEMO03_GRADE_EXISTS);
@@ -177,7 +177,7 @@ public class Demo03StudentErpServiceImpl implements Demo03StudentErpService {
     }
 
     @Override
-    public void updateDemo03Grade(Demo03GradeDO demo03Grade) {
+    public void updateDemo03Grade(Demo03GradeEntity demo03Grade) {
         // 校验存在
         validateDemo03GradeExists(demo03Grade.getId());
         // 更新
@@ -198,7 +198,7 @@ public class Demo03StudentErpServiceImpl implements Demo03StudentErpService {
     }
 
     @Override
-    public Demo03GradeDO getDemo03Grade(Long id) {
+    public Demo03GradeEntity getDemo03Grade(Long id) {
         return demo03GradeErpMapper.selectById(id);
     }
 

@@ -5,8 +5,8 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.module.system.controller.admin.notice.vo.NoticePageReqVO;
 import com.focela.platform.module.system.controller.admin.notice.vo.NoticeSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.notice.NoticeDO;
-import com.focela.platform.module.system.dal.mysql.notice.NoticeMapper;
+import com.focela.platform.module.system.repository.entity.notice.NoticeEntity;
+import com.focela.platform.module.system.repository.mapper.notice.NoticeMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
 
@@ -32,7 +32,7 @@ class NoticeServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetNoticePage_success() {
         // 插入前置数据
-        NoticeDO dbNotice = randomPojo(NoticeDO.class, o -> {
+        NoticeEntity dbNotice = randomPojo(NoticeEntity.class, o -> {
             o.setTitle("尼古拉斯赵四来啦！");
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
@@ -47,7 +47,7 @@ class NoticeServiceImplTest extends BaseDbUnitTest {
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
 
         // 调用
-        PageResult<NoticeDO> pageResult = noticeService.getNoticePage(reqVO);
+        PageResult<NoticeEntity> pageResult = noticeService.getNoticePage(reqVO);
         // 验证查询结果经过筛选
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
@@ -57,11 +57,11 @@ class NoticeServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetNotice_success() {
         // 插入前置数据
-        NoticeDO dbNotice = randomPojo(NoticeDO.class);
+        NoticeEntity dbNotice = randomPojo(NoticeEntity.class);
         noticeMapper.insert(dbNotice);
 
         // 查询
-        NoticeDO notice = noticeService.getNotice(dbNotice.getId());
+        NoticeEntity notice = noticeService.getNotice(dbNotice.getId());
 
         // 验证插入与读取对象是否一致
         assertNotNull(notice);
@@ -78,14 +78,14 @@ class NoticeServiceImplTest extends BaseDbUnitTest {
         Long noticeId = noticeService.createNotice(reqVO);
         // 校验插入属性是否正确
         assertNotNull(noticeId);
-        NoticeDO notice = noticeMapper.selectById(noticeId);
+        NoticeEntity notice = noticeMapper.selectById(noticeId);
         assertPojoEquals(reqVO, notice, "id");
     }
 
     @Test
     public void testUpdateNotice_success() {
         // 插入前置数据
-        NoticeDO dbNoticeDO = randomPojo(NoticeDO.class);
+        NoticeEntity dbNoticeDO = randomPojo(NoticeEntity.class);
         noticeMapper.insert(dbNoticeDO);
 
         // 准备更新参数
@@ -94,14 +94,14 @@ class NoticeServiceImplTest extends BaseDbUnitTest {
         // 更新
         noticeService.updateNotice(reqVO);
         // 检验是否更新成功
-        NoticeDO notice = noticeMapper.selectById(reqVO.getId());
+        NoticeEntity notice = noticeMapper.selectById(reqVO.getId());
         assertPojoEquals(reqVO, notice);
     }
 
     @Test
     public void testDeleteNotice_success() {
         // 插入前置数据
-        NoticeDO dbNotice = randomPojo(NoticeDO.class);
+        NoticeEntity dbNotice = randomPojo(NoticeEntity.class);
         noticeMapper.insert(dbNotice);
 
         // 删除
@@ -114,7 +114,7 @@ class NoticeServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidateNoticeExists_success() {
         // 插入前置数据
-        NoticeDO dbNotice = randomPojo(NoticeDO.class);
+        NoticeEntity dbNotice = randomPojo(NoticeEntity.class);
         noticeMapper.insert(dbNotice);
 
         // 成功调用

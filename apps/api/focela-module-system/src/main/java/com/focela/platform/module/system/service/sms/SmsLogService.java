@@ -2,8 +2,8 @@ package com.focela.platform.module.system.service.sms;
 
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.system.controller.admin.sms.vo.log.SmsLogPageReqVO;
-import com.focela.platform.module.system.dal.dataobject.sms.SmsLogDO;
-import com.focela.platform.module.system.dal.dataobject.sms.SmsTemplateDO;
+import com.focela.platform.module.system.repository.entity.sms.SmsLogEntity;
+import com.focela.platform.module.system.repository.entity.sms.SmsTemplateEntity;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -29,7 +29,7 @@ public interface SmsLogService {
      * @return 发送日志编号
      */
     Long createSmsLog(String mobile, Long userId, Integer userType, Boolean isSend,
-                      SmsTemplateDO template, String templateContent, Map<String, Object> templateParams);
+                      SmsTemplateEntity template, String templateContent, Map<String, Object> templateParams);
 
     /**
      * 更新日志的发送结果
@@ -64,7 +64,7 @@ public interface SmsLogService {
      * @param id 日志编号
      * @return 短信日志
      */
-    SmsLogDO getSmsLog(Long id);
+    SmsLogEntity getSmsLog(Long id);
 
     /**
      * 获得短信日志分页
@@ -72,6 +72,6 @@ public interface SmsLogService {
      * @param pageReqVO 分页查询
      * @return 短信日志分页
      */
-    PageResult<SmsLogDO> getSmsLogPage(SmsLogPageReqVO pageReqVO);
+    PageResult<SmsLogEntity> getSmsLogPage(SmsLogPageReqVO pageReqVO);
 
 }

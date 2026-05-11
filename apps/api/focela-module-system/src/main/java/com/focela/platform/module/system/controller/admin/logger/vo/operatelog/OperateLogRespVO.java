@@ -1,7 +1,7 @@
 package com.focela.platform.module.system.controller.admin.logger.vo.operatelog;
 
 import com.focela.platform.framework.excel.core.annotations.DictFormat;
-import com.focela.platform.module.system.dal.dataobject.user.AdminUserDO;
+import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
 import com.focela.platform.module.system.enums.DictTypeConstants;
@@ -27,7 +27,7 @@ public class OperateLogRespVO implements VO {
     private String traceId;
 
     @Schema(description = "用户编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-    @Trans(type = TransType.SIMPLE, target = AdminUserDO.class, fields = "nickname", ref = "userName")
+    @Trans(type = TransType.SIMPLE, target = AdminUserEntity.class, fields = "nickname", ref = "userName")
     private Long userId;
     @Schema(description = "用户昵称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋艿")
     @ExcelProperty("操作人")

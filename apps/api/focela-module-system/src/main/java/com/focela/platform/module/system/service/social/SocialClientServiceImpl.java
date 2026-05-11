@@ -27,9 +27,9 @@ import com.focela.platform.module.system.api.social.dto.SocialWxaOrderUploadShip
 import com.focela.platform.module.system.api.social.dto.SocialWxaSubscribeMessageSendReqDTO;
 import com.focela.platform.module.system.controller.admin.socail.vo.client.SocialClientPageReqVO;
 import com.focela.platform.module.system.controller.admin.socail.vo.client.SocialClientSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.social.SocialClientDO;
-import com.focela.platform.module.system.dal.mysql.social.SocialClientMapper;
-import com.focela.platform.module.system.dal.redis.RedisKeyConstants;
+import com.focela.platform.module.system.repository.entity.social.SocialClientEntity;
+import com.focela.platform.module.system.repository.mapper.social.SocialClientMapper;
+import com.focela.platform.module.system.repository.redis.RedisKeyConstants;
 import com.focela.platform.module.system.enums.social.SocialTypeEnum;
 import com.focela.platform.module.system.framework.justauth.core.AuthRequestFactory;
 import com.binarywang.spring.starter.wxjava.miniapp.properties.WxMaProperties;
@@ -128,8 +128,8 @@ public class SocialClientServiceImpl implements SocialClientService {
     /**
      * 缓存 WxMpService 对象
      *
-     * key：使用微信公众号的 appId + secret 拼接，即 {@link SocialClientDO} 的 clientId 和 clientSecret 属性。
-     * 为什么 key 使用这种格式？因为 {@link SocialClientDO} 在管理后台可以变更，通过这个 key 存储它的单例。
+     * key：使用微信公众号的 appId + secret 拼接，即 {@link SocialClientEntity} 的 clientId 和 clientSecret 属性。
+     * 为什么 key 使用这种格式？因为 {@link SocialClientEntity} 在管理后台可以变更，通过这个 key 存储它的单例。
      *
      * 为什么要做 WxMpService 缓存？因为 WxMpService 构建成本比较大，所以尽量保证它是单例。
      */
@@ -206,7 +206,7 @@ public class SocialClientServiceImpl implements SocialClientService {
         AuthRequest request = authRequestFactory.get(SocialTypeEnum.valueOfType(socialType).getSource());
         Assert.notNull(request, String.format("社交平台(%d) 不存在", socialType));
         // 2. 查询 DB 的配置项，如果存在则进行覆盖
-        SocialClientDO client = socialClientMapper.selectBySocialTypeAndUserType(socialType, userType);
+        SocialClientEntity client = socialClientMapper.selectBySocialTypeAndUserType(socialType, userType);
         if (client != null && Objects.equals(client.getStatus(), CommonStatusEnum.ENABLE.getStatus())) {
             // 2.1 构造新的 AuthConfig 对象
             AuthConfig authConfig = (AuthConfig) ReflectUtil.getFieldValue(request, "config");
@@ -246,7 +246,7 @@ public class SocialClientServiceImpl implements SocialClientService {
     @VisibleForTesting
     WxMpService getWxMpService(Integer userType) {
         // 第一步，查询 DB 的配置项，获得对应的 WxMpService 对象
-        SocialClientDO client = socialClientMapper.selectBySocialTypeAndUserType(
+        SocialClientEntity client = socialClientMapper.selectBySocialTypeAndUserType(
                 SocialTypeEnum.WECHAT_MP.getType(), userType);
         if (client != null && Objects.equals(client.getStatus(), CommonStatusEnum.ENABLE.getStatus())) {
             return wxMpServiceCache.getUnchecked(client.getClientId() + ":" + client.getClientSecret());
@@ -441,7 +441,7 @@ public class SocialClientServiceImpl implements SocialClientService {
     @VisibleForTesting
     WxMaService getWxMaService(Integer userType) {
         // 第一步，查询 DB 的配置项，获得对应的 WxMaService 对象
-        SocialClientDO client = socialClientMapper.selectBySocialTypeAndUserType(
+        SocialClientEntity client = socialClientMapper.selectBySocialTypeAndUserType(
                 SocialTypeEnum.WECHAT_MINI_PROGRAM.getType(), userType);
         if (client != null && Objects.equals(client.getStatus(), CommonStatusEnum.ENABLE.getStatus())) {
             return wxMaServiceCache.getUnchecked(client.getClientId() + ":" + client.getClientSecret());
@@ -479,7 +479,7 @@ public class SocialClientServiceImpl implements SocialClientService {
         validateSocialClientUnique(null, createReqVO.getUserType(), createReqVO.getSocialType());
 
         // 插入
-        SocialClientDO client = BeanUtils.toBean(createReqVO, SocialClientDO.class);
+        SocialClientEntity client = BeanUtils.toBean(createReqVO, SocialClientEntity.class);
         socialClientMapper.insert(client);
         return client.getId();
     }
@@ -492,7 +492,7 @@ public class SocialClientServiceImpl implements SocialClientService {
         validateSocialClientUnique(updateReqVO.getId(), updateReqVO.getUserType(), updateReqVO.getSocialType());
 
         // 更新
-        SocialClientDO updateObj = BeanUtils.toBean(updateReqVO, SocialClientDO.class);
+        SocialClientEntity updateObj = BeanUtils.toBean(updateReqVO, SocialClientEntity.class);
         socialClientMapper.updateById(updateObj);
     }
 
@@ -524,7 +524,7 @@ public class SocialClientServiceImpl implements SocialClientService {
      * @param socialType 社交类型
      */
     private void validateSocialClientUnique(Long id, Integer userType, Integer socialType) {
-        SocialClientDO client = socialClientMapper.selectBySocialTypeAndUserType(
+        SocialClientEntity client = socialClientMapper.selectBySocialTypeAndUserType(
                 socialType, userType);
         if (client == null) {
             return;
@@ -536,12 +536,12 @@ public class SocialClientServiceImpl implements SocialClientService {
     }
 
     @Override
-    public SocialClientDO getSocialClient(Long id) {
+    public SocialClientEntity getSocialClient(Long id) {
         return socialClientMapper.selectById(id);
     }
 
     @Override
-    public PageResult<SocialClientDO> getSocialClientPage(SocialClientPageReqVO pageReqVO) {
+    public PageResult<SocialClientEntity> getSocialClientPage(SocialClientPageReqVO pageReqVO) {
         return socialClientMapper.selectPage(pageReqVO);
     }
 

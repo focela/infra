@@ -6,8 +6,8 @@ import com.focela.platform.framework.quartz.core.scheduler.SchedulerManager;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.module.infra.controller.admin.job.vo.job.JobPageReqVO;
 import com.focela.platform.module.infra.controller.admin.job.vo.job.JobSaveReqVO;
-import com.focela.platform.module.infra.dal.dataobject.job.JobDO;
-import com.focela.platform.module.infra.dal.mysql.job.JobMapper;
+import com.focela.platform.module.infra.repository.entity.job.JobEntity;
+import com.focela.platform.module.infra.repository.mapper.job.JobMapper;
 import com.focela.platform.module.infra.enums.job.JobStatusEnum;
 import com.focela.platform.module.infra.job.job.JobLogCleanJob;
 import jakarta.annotation.Resource;
@@ -79,7 +79,7 @@ public class JobServiceImplTest extends BaseDbUnitTest {
             // 断言
             assertNotNull(jobId);
             // 校验记录的属性是否正确
-            JobDO job = jobMapper.selectById(jobId);
+            JobEntity job = jobMapper.selectById(jobId);
             assertPojoEquals(reqVO, job, "id");
             assertEquals(JobStatusEnum.NORMAL.getStatus(), job.getStatus());
             // 校验调用
@@ -100,7 +100,7 @@ public class JobServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateJob_onlyNormalStatus(){
         // mock 数据
-        JobDO job = randomPojo(JobDO.class, o -> o.setStatus(JobStatusEnum.INIT.getStatus()));
+        JobEntity job = randomPojo(JobEntity.class, o -> o.setStatus(JobStatusEnum.INIT.getStatus()));
         jobMapper.insert(job);
         // 准备参数
         JobSaveReqVO updateReqVO = randomPojo(JobSaveReqVO.class, o -> {
@@ -116,7 +116,7 @@ public class JobServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateJob_success() throws SchedulerException {
         // mock 数据
-        JobDO job = randomPojo(JobDO.class, o -> o.setStatus(JobStatusEnum.NORMAL.getStatus()));
+        JobEntity job = randomPojo(JobEntity.class, o -> o.setStatus(JobStatusEnum.NORMAL.getStatus()));
         jobMapper.insert(job);
         // 准备参数
         JobSaveReqVO updateReqVO = randomPojo(JobSaveReqVO.class, o -> {
@@ -130,7 +130,7 @@ public class JobServiceImplTest extends BaseDbUnitTest {
             // 调用
             jobService.updateJob(updateReqVO);
             // 校验记录的属性是否正确
-            JobDO updateJob = jobMapper.selectById(updateReqVO.getId());
+            JobEntity updateJob = jobMapper.selectById(updateReqVO.getId());
             assertPojoEquals(updateReqVO, updateJob);
             // 校验调用
             verify(schedulerManager).updateJob(eq(job.getHandlerName()), eq(updateReqVO.getHandlerParam()),
@@ -148,7 +148,7 @@ public class JobServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateJobStatus_changeStatusEquals() {
         // mock 数据
-        JobDO job = randomPojo(JobDO.class, o -> o.setStatus(JobStatusEnum.NORMAL.getStatus()));
+        JobEntity job = randomPojo(JobEntity.class, o -> o.setStatus(JobStatusEnum.NORMAL.getStatus()));
         jobMapper.insert(job);
 
         // 调用，并断言异常
@@ -159,13 +159,13 @@ public class JobServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateJobStatus_stopSuccess() throws SchedulerException {
         // mock 数据
-        JobDO job = randomPojo(JobDO.class, o -> o.setStatus(JobStatusEnum.NORMAL.getStatus()));
+        JobEntity job = randomPojo(JobEntity.class, o -> o.setStatus(JobStatusEnum.NORMAL.getStatus()));
         jobMapper.insert(job);
 
         // 调用
         jobService.updateJobStatus(job.getId(), JobStatusEnum.STOP.getStatus());
         // 校验记录的属性是否正确
-        JobDO dbJob = jobMapper.selectById(job.getId());
+        JobEntity dbJob = jobMapper.selectById(job.getId());
         assertEquals(JobStatusEnum.STOP.getStatus(), dbJob.getStatus());
         // 校验调用
         verify(schedulerManager).pauseJob(eq(job.getHandlerName()));
@@ -174,13 +174,13 @@ public class JobServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateJobStatus_normalSuccess() throws SchedulerException {
         // mock 数据
-        JobDO job = randomPojo(JobDO.class, o -> o.setStatus(JobStatusEnum.STOP.getStatus()));
+        JobEntity job = randomPojo(JobEntity.class, o -> o.setStatus(JobStatusEnum.STOP.getStatus()));
         jobMapper.insert(job);
 
         // 调用
         jobService.updateJobStatus(job.getId(), JobStatusEnum.NORMAL.getStatus());
         // 校验记录的属性是否正确
-        JobDO dbJob = jobMapper.selectById(job.getId());
+        JobEntity dbJob = jobMapper.selectById(job.getId());
         assertEquals(JobStatusEnum.NORMAL.getStatus(), dbJob.getStatus());
         // 校验调用
         verify(schedulerManager).resumeJob(eq(job.getHandlerName()));
@@ -189,7 +189,7 @@ public class JobServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testTriggerJob_success() throws SchedulerException {
         // mock 数据
-        JobDO job = randomPojo(JobDO.class);
+        JobEntity job = randomPojo(JobEntity.class);
         jobMapper.insert(job);
 
         // 调用
@@ -202,7 +202,7 @@ public class JobServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testDeleteJob_success() throws SchedulerException {
         // mock 数据
-        JobDO job = randomPojo(JobDO.class);
+        JobEntity job = randomPojo(JobEntity.class);
         jobMapper.insert(job);
 
         // 调用
@@ -216,7 +216,7 @@ public class JobServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetJobPage() {
         // mock 数据
-        JobDO dbJob = randomPojo(JobDO.class, o -> {
+        JobEntity dbJob = randomPojo(JobEntity.class, o -> {
             o.setName("定时任务测试");
             o.setHandlerName("handlerName 单元测试");
             o.setStatus(JobStatusEnum.INIT.getStatus());
@@ -235,7 +235,7 @@ public class JobServiceImplTest extends BaseDbUnitTest {
         reqVo.setHandlerName("单元");
 
         // 调用
-        PageResult<JobDO> pageResult = jobService.getJobPage(reqVo);
+        PageResult<JobEntity> pageResult = jobService.getJobPage(reqVo);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
@@ -245,10 +245,10 @@ public class JobServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetJob() {
         // mock 数据
-        JobDO dbJob = randomPojo(JobDO.class);
+        JobEntity dbJob = randomPojo(JobEntity.class);
         jobMapper.insert(dbJob);
         // 调用
-        JobDO job = jobService.getJob(dbJob.getId());
+        JobEntity job = jobService.getJob(dbJob.getId());
         // 断言
         assertPojoEquals(dbJob, job);
     }

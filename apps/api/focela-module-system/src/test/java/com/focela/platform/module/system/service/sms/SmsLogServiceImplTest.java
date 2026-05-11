@@ -6,9 +6,9 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.collection.ArrayUtils;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.module.system.controller.admin.sms.vo.log.SmsLogPageReqVO;
-import com.focela.platform.module.system.dal.dataobject.sms.SmsLogDO;
-import com.focela.platform.module.system.dal.dataobject.sms.SmsTemplateDO;
-import com.focela.platform.module.system.dal.mysql.sms.SmsLogMapper;
+import com.focela.platform.module.system.repository.entity.sms.SmsLogEntity;
+import com.focela.platform.module.system.repository.entity.sms.SmsTemplateEntity;
+import com.focela.platform.module.system.repository.mapper.sms.SmsLogMapper;
 import com.focela.platform.module.system.enums.sms.SmsReceiveStatusEnum;
 import com.focela.platform.module.system.enums.sms.SmsSendStatusEnum;
 import com.focela.platform.module.system.enums.sms.SmsTemplateTypeEnum;
@@ -42,7 +42,7 @@ public class SmsLogServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetSmsLogPage() {
         // mock 数据
-        SmsLogDO dbSmsLog = randomSmsLogDO(o -> { // 等会查询到
+        SmsLogEntity dbSmsLog = randomSmsLogDO(o -> { // 等会查询到
             o.setChannelId(1L);
             o.setTemplateId(10L);
             o.setMobile("15601691300");
@@ -77,7 +77,7 @@ public class SmsLogServiceImplTest extends BaseDbUnitTest {
         reqVO.setReceiveTime(buildBetweenTime(2021, 11, 1, 2021, 11, 30));
 
         // 调用
-        PageResult<SmsLogDO> pageResult = smsLogService.getSmsLogPage(reqVO);
+        PageResult<SmsLogEntity> pageResult = smsLogService.getSmsLogPage(reqVO);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
@@ -91,7 +91,7 @@ public class SmsLogServiceImplTest extends BaseDbUnitTest {
         Long userId = randomLongId();
         Integer userType = randomEle(UserTypeEnum.values()).getValue();
         Boolean isSend = randomBoolean();
-        SmsTemplateDO templateDO = randomPojo(SmsTemplateDO.class,
+        SmsTemplateEntity templateDO = randomPojo(SmsTemplateEntity.class,
                 o -> o.setType(randomEle(SmsTemplateTypeEnum.values()).getType()));
         String templateContent = randomString();
         Map<String, Object> templateParams = randomTemplateParams();
@@ -101,7 +101,7 @@ public class SmsLogServiceImplTest extends BaseDbUnitTest {
         Long logId = smsLogService.createSmsLog(mobile, userId, userType, isSend,
                 templateDO, templateContent, templateParams);
         // 断言
-        SmsLogDO logDO = smsLogMapper.selectById(logId);
+        SmsLogEntity logDO = smsLogMapper.selectById(logId);
         assertEquals(isSend ? SmsSendStatusEnum.INIT.getStatus() : SmsSendStatusEnum.IGNORE.getStatus(),
                 logDO.getSendStatus());
         assertEquals(mobile, logDO.getMobile());
@@ -120,7 +120,7 @@ public class SmsLogServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateSmsSendResult() {
         // mock 数据
-        SmsLogDO dbSmsLog = randomSmsLogDO(
+        SmsLogEntity dbSmsLog = randomSmsLogDO(
                 o -> o.setSendStatus(SmsSendStatusEnum.IGNORE.getStatus()));
         smsLogMapper.insert(dbSmsLog);
         // 准备参数
@@ -148,7 +148,7 @@ public class SmsLogServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateSmsReceiveResult() {
         // mock 数据
-        SmsLogDO dbSmsLog = randomSmsLogDO(
+        SmsLogEntity dbSmsLog = randomSmsLogDO(
                 o -> o.setReceiveStatus(SmsReceiveStatusEnum.INIT.getStatus()));
         smsLogMapper.insert(dbSmsLog);
         // 准备参数
@@ -173,15 +173,15 @@ public class SmsLogServiceImplTest extends BaseDbUnitTest {
     // ========== 随机对象 ==========
 
     @SafeVarargs
-    private static SmsLogDO randomSmsLogDO(Consumer<SmsLogDO>... consumers) {
-        Consumer<SmsLogDO> consumer = (o) -> {
+    private static SmsLogEntity randomSmsLogDO(Consumer<SmsLogEntity>... consumers) {
+        Consumer<SmsLogEntity> consumer = (o) -> {
             o.setTemplateParams(randomTemplateParams());
             o.setTemplateType(randomEle(SmsTemplateTypeEnum.values()).getType()); // 保证 templateType 的范围
             o.setUserType(randomEle(UserTypeEnum.values()).getValue()); // 保证 userType 的范围
             o.setSendStatus(randomEle(SmsSendStatusEnum.values()).getStatus()); // 保证 sendStatus 的范围
             o.setReceiveStatus(randomEle(SmsReceiveStatusEnum.values()).getStatus()); // 保证 receiveStatus 的范围
         };
-        return randomPojo(SmsLogDO.class, ArrayUtils.append(consumer, consumers));
+        return randomPojo(SmsLogEntity.class, ArrayUtils.append(consumer, consumers));
     }
 
     private static Map<String, Object> randomTemplateParams() {

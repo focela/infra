@@ -3,7 +3,7 @@ package com.focela.platform.module.system.service.tenant;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.system.controller.admin.tenant.vo.packages.TenantPackagePageReqVO;
 import com.focela.platform.module.system.controller.admin.tenant.vo.packages.TenantPackageSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.tenant.TenantPackageDO;
+import com.focela.platform.module.system.repository.entity.tenant.TenantPackageEntity;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -50,7 +50,7 @@ public interface TenantPackageService {
      * @param id 编号
      * @return 租户套餐
      */
-    TenantPackageDO getTenantPackage(Long id);
+    TenantPackageEntity getTenantPackage(Long id);
 
     /**
      * 获得租户套餐分页
@@ -58,7 +58,7 @@ public interface TenantPackageService {
      * @param pageReqVO 分页查询
      * @return 租户套餐分页
      */
-    PageResult<TenantPackageDO> getTenantPackagePage(TenantPackagePageReqVO pageReqVO);
+    PageResult<TenantPackageEntity> getTenantPackagePage(TenantPackagePageReqVO pageReqVO);
 
     /**
      * 校验租户套餐
@@ -66,7 +66,7 @@ public interface TenantPackageService {
      * @param id 编号
      * @return 租户套餐
      */
-    TenantPackageDO validTenantPackage(Long id);
+    TenantPackageEntity validTenantPackage(Long id);
 
     /**
      * 获得指定状态的租户套餐列表
@@ -74,6 +74,6 @@ public interface TenantPackageService {
      * @param status 状态
      * @return 租户套餐
      */
-    List<TenantPackageDO> getTenantPackageListByStatus(Integer status);
+    List<TenantPackageEntity> getTenantPackageListByStatus(Integer status);
 
 }

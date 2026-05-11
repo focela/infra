@@ -3,7 +3,7 @@ package com.focela.platform.module.system.service.dict;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.system.controller.admin.dict.vo.type.DictTypePageReqVO;
 import com.focela.platform.module.system.controller.admin.dict.vo.type.DictTypeSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.dict.DictTypeDO;
+import com.focela.platform.module.system.repository.entity.dict.DictTypeEntity;
 
 import java.util.List;
 
@@ -49,7 +49,7 @@ public interface DictTypeService {
      * @param pageReqVO 分页请求
      * @return 字典类型分页列表
      */
-    PageResult<DictTypeDO> getDictTypePage(DictTypePageReqVO pageReqVO);
+    PageResult<DictTypeEntity> getDictTypePage(DictTypePageReqVO pageReqVO);
 
     /**
      * 获得字典类型详情
@@ -57,7 +57,7 @@ public interface DictTypeService {
      * @param id 字典类型编号
      * @return 字典类型
      */
-    DictTypeDO getDictType(Long id);
+    DictTypeEntity getDictType(Long id);
 
     /**
      * 获得字典类型详情
@@ -65,13 +65,13 @@ public interface DictTypeService {
      * @param type 字典类型
      * @return 字典类型详情
      */
-    DictTypeDO getDictType(String type);
+    DictTypeEntity getDictType(String type);
 
     /**
      * 获得全部字典类型列表
      *
      * @return 字典类型列表
      */
-    List<DictTypeDO> getDictTypeList();
+    List<DictTypeEntity> getDictTypeList();
 
 }

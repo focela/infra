@@ -4,9 +4,9 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.mail.vo.account.MailAccountPageReqVO;
 import com.focela.platform.module.system.controller.admin.mail.vo.account.MailAccountSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.mail.MailAccountDO;
-import com.focela.platform.module.system.dal.mysql.mail.MailAccountMapper;
-import com.focela.platform.module.system.dal.redis.RedisKeyConstants;
+import com.focela.platform.module.system.repository.entity.mail.MailAccountEntity;
+import com.focela.platform.module.system.repository.mapper.mail.MailAccountMapper;
+import com.focela.platform.module.system.repository.redis.RedisKeyConstants;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -39,7 +39,7 @@ public class MailAccountServiceImpl implements MailAccountService {
 
     @Override
     public Long createMailAccount(MailAccountSaveReqVO createReqVO) {
-        MailAccountDO account = BeanUtils.toBean(createReqVO, MailAccountDO.class);
+        MailAccountEntity account = BeanUtils.toBean(createReqVO, MailAccountEntity.class);
         mailAccountMapper.insert(account);
         return account.getId();
     }
@@ -51,7 +51,7 @@ public class MailAccountServiceImpl implements MailAccountService {
         validateMailAccountExists(updateReqVO.getId());
 
         // 更新
-        MailAccountDO updateObj = BeanUtils.toBean(updateReqVO, MailAccountDO.class);
+        MailAccountEntity updateObj = BeanUtils.toBean(updateReqVO, MailAccountEntity.class);
         mailAccountMapper.updateById(updateObj);
     }
 
@@ -91,23 +91,23 @@ public class MailAccountServiceImpl implements MailAccountService {
     }
 
     @Override
-    public MailAccountDO getMailAccount(Long id) {
+    public MailAccountEntity getMailAccount(Long id) {
         return mailAccountMapper.selectById(id);
     }
 
     @Override
     @Cacheable(value = RedisKeyConstants.MAIL_ACCOUNT, key = "#id", unless = "#result == null")
-    public MailAccountDO getMailAccountFromCache(Long id) {
+    public MailAccountEntity getMailAccountFromCache(Long id) {
         return getMailAccount(id);
     }
 
     @Override
-    public PageResult<MailAccountDO> getMailAccountPage(MailAccountPageReqVO pageReqVO) {
+    public PageResult<MailAccountEntity> getMailAccountPage(MailAccountPageReqVO pageReqVO) {
         return mailAccountMapper.selectPage(pageReqVO);
     }
 
     @Override
-    public List<MailAccountDO> getMailAccountList() {
+    public List<MailAccountEntity> getMailAccountList() {
         return mailAccountMapper.selectList();
     }
 

@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.focela.platform.framework.mybatis.core.util.JdbcUtils;
-import com.focela.platform.module.infra.dal.dataobject.db.DataSourceConfigDO;
+import com.focela.platform.module.infra.repository.entity.db.DataSourceConfigEntity;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.baomidou.mybatisplus.generator.config.GlobalConfig;
 import com.baomidou.mybatisplus.generator.config.StrategyConfig;
@@ -45,7 +45,7 @@ public class DatabaseTableServiceImpl implements DatabaseTableService {
 
     private List<TableInfo> getTableList0(Long dataSourceConfigId, String name) {
         // 获得数据源配置
-        DataSourceConfigDO config = dataSourceConfigService.getDataSourceConfig(dataSourceConfigId);
+        DataSourceConfigEntity config = dataSourceConfigService.getDataSourceConfig(dataSourceConfigId);
         Assert.notNull(config, "数据源({}) 不存在！", dataSourceConfigId);
 
         // 使用 MyBatis Plus Generator 解析表结构

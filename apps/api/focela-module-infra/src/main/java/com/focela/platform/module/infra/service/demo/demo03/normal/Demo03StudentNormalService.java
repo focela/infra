@@ -3,9 +3,9 @@ package com.focela.platform.module.infra.service.demo.demo03.normal;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.infra.controller.admin.demo.demo03.normal.vo.Demo03StudentNormalPageReqVO;
 import com.focela.platform.module.infra.controller.admin.demo.demo03.normal.vo.Demo03StudentNormalSaveReqVO;
-import com.focela.platform.module.infra.dal.dataobject.demo.demo03.Demo03CourseDO;
-import com.focela.platform.module.infra.dal.dataobject.demo.demo03.Demo03GradeDO;
-import com.focela.platform.module.infra.dal.dataobject.demo.demo03.Demo03StudentDO;
+import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03CourseEntity;
+import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03GradeEntity;
+import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03StudentEntity;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -52,7 +52,7 @@ public interface Demo03StudentNormalService {
      * @param id 编号
      * @return 学生
      */
-    Demo03StudentDO getDemo03Student(Long id);
+    Demo03StudentEntity getDemo03Student(Long id);
 
     /**
      * 获得学生分页
@@ -60,7 +60,7 @@ public interface Demo03StudentNormalService {
      * @param pageReqVO 分页查询
      * @return 学生分页
      */
-    PageResult<Demo03StudentDO> getDemo03StudentPage(Demo03StudentNormalPageReqVO pageReqVO);
+    PageResult<Demo03StudentEntity> getDemo03StudentPage(Demo03StudentNormalPageReqVO pageReqVO);
 
     // ==================== 子表（学生课程） ====================
 
@@ -70,7 +70,7 @@ public interface Demo03StudentNormalService {
      * @param studentId 学生编号
      * @return 学生课程列表
      */
-    List<Demo03CourseDO> getDemo03CourseListByStudentId(Long studentId);
+    List<Demo03CourseEntity> getDemo03CourseListByStudentId(Long studentId);
 
     // ==================== 子表（学生班级） ====================
 
@@ -80,6 +80,6 @@ public interface Demo03StudentNormalService {
      * @param studentId 学生编号
      * @return 学生班级
      */
-    Demo03GradeDO getDemo03GradeByStudentId(Long studentId);
+    Demo03GradeEntity getDemo03GradeByStudentId(Long studentId);
 
 }

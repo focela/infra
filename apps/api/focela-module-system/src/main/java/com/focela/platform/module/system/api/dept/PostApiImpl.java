@@ -2,7 +2,7 @@ package com.focela.platform.module.system.api.dept;
 
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.system.api.dept.dto.PostRespDTO;
-import com.focela.platform.module.system.dal.dataobject.dept.PostDO;
+import com.focela.platform.module.system.repository.entity.dept.PostEntity;
 import com.focela.platform.module.system.service.dept.PostService;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,7 @@ public class PostApiImpl implements PostApi {
 
     @Override
     public List<PostRespDTO> getPostList(Collection<Long> ids) {
-        List<PostDO> list = postService.getPostList(ids);
+        List<PostEntity> list = postService.getPostList(ids);
         return BeanUtils.toBean(list, PostRespDTO.class);
     }
 

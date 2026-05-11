@@ -8,7 +8,7 @@ import com.focela.platform.module.system.controller.admin.notify.vo.template.Not
 import com.focela.platform.module.system.controller.admin.notify.vo.template.NotifyTemplateRespVO;
 import com.focela.platform.module.system.controller.admin.notify.vo.template.NotifyTemplateSaveReqVO;
 import com.focela.platform.module.system.controller.admin.notify.vo.template.NotifyTemplateSendReqVO;
-import com.focela.platform.module.system.dal.dataobject.notify.NotifyTemplateDO;
+import com.focela.platform.module.system.repository.entity.notify.NotifyTemplateEntity;
 import com.focela.platform.module.system.service.notify.NotifySendService;
 import com.focela.platform.module.system.service.notify.NotifyTemplateService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -74,7 +74,7 @@ public class NotifyTemplateController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:notify-template:query')")
     public CommonResult<NotifyTemplateRespVO> getNotifyTemplate(@RequestParam("id") Long id) {
-        NotifyTemplateDO template = notifyTemplateService.getNotifyTemplate(id);
+        NotifyTemplateEntity template = notifyTemplateService.getNotifyTemplate(id);
         return success(BeanUtils.toBean(template, NotifyTemplateRespVO.class));
     }
 
@@ -82,7 +82,7 @@ public class NotifyTemplateController {
     @Operation(summary = "获得站内信模版分页")
     @PreAuthorize("@ss.hasPermission('system:notify-template:query')")
     public CommonResult<PageResult<NotifyTemplateRespVO>> getNotifyTemplatePage(@Valid NotifyTemplatePageReqVO pageVO) {
-        PageResult<NotifyTemplateDO> pageResult = notifyTemplateService.getNotifyTemplatePage(pageVO);
+        PageResult<NotifyTemplateEntity> pageResult = notifyTemplateService.getNotifyTemplatePage(pageVO);
         return success(BeanUtils.toBean(pageResult, NotifyTemplateRespVO.class));
     }
 

@@ -4,8 +4,8 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.module.system.api.logger.dto.LoginLogCreateReqDTO;
 import com.focela.platform.module.system.controller.admin.logger.vo.loginlog.LoginLogPageReqVO;
-import com.focela.platform.module.system.dal.dataobject.logger.LoginLogDO;
-import com.focela.platform.module.system.dal.mysql.logger.LoginLogMapper;
+import com.focela.platform.module.system.repository.entity.logger.LoginLogEntity;
+import com.focela.platform.module.system.repository.mapper.logger.LoginLogMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
 
@@ -32,7 +32,7 @@ public class LoginLogServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetLoginLogPage() {
         // mock 数据
-        LoginLogDO loginLogDO = randomPojo(LoginLogDO.class, o -> {
+        LoginLogEntity loginLogDO = randomPojo(LoginLogEntity.class, o -> {
             o.setUserIp("192.168.199.16");
             o.setUsername("wang");
             o.setResult(SUCCESS.getResult());
@@ -55,7 +55,7 @@ public class LoginLogServiceImplTest extends BaseDbUnitTest {
         reqVO.setCreateTime(buildBetweenTime(2021, 3, 5, 2021, 3, 7));
 
         // 调用
-        PageResult<LoginLogDO> pageResult = loginLogService.getLoginLogPage(reqVO);
+        PageResult<LoginLogEntity> pageResult = loginLogService.getLoginLogPage(reqVO);
         // 断言，只查到了一条符合条件的
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
@@ -69,7 +69,7 @@ public class LoginLogServiceImplTest extends BaseDbUnitTest {
         // 调用
         loginLogService.createLoginLog(reqDTO);
         // 断言
-        LoginLogDO loginLogDO = loginLogMapper.selectOne(null);
+        LoginLogEntity loginLogDO = loginLogMapper.selectOne(null);
         assertPojoEquals(reqDTO, loginLogDO);
     }
 

@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.service.oauth2;
 
-import com.focela.platform.module.system.dal.dataobject.oauth2.OAuth2ApproveDO;
+import com.focela.platform.module.system.repository.entity.oauth2.OAuth2ApproveEntity;
 
 import java.util.Collection;
 import java.util.List;
@@ -47,6 +47,6 @@ public interface OAuth2ApproveService {
      * @param clientId 客户端编号
      * @return 是否授权通过
      */
-    List<OAuth2ApproveDO> getApproveList(Long userId, Integer userType, String clientId);
+    List<OAuth2ApproveEntity> getApproveList(Long userId, Integer userType, String clientId);
 
 }

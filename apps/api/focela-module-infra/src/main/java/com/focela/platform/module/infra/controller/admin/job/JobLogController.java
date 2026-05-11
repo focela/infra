@@ -8,7 +8,7 @@ import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.excel.core.util.ExcelUtils;
 import com.focela.platform.module.infra.controller.admin.job.vo.log.JobLogPageReqVO;
 import com.focela.platform.module.infra.controller.admin.job.vo.log.JobLogRespVO;
-import com.focela.platform.module.infra.dal.dataobject.job.JobLogDO;
+import com.focela.platform.module.infra.repository.entity.job.JobLogEntity;
 import com.focela.platform.module.infra.service.job.JobLogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -43,7 +43,7 @@ public class JobLogController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:job:query')")
     public CommonResult<JobLogRespVO> getJobLog(@RequestParam("id") Long id) {
-        JobLogDO jobLog = jobLogService.getJobLog(id);
+        JobLogEntity jobLog = jobLogService.getJobLog(id);
         return success(BeanUtils.toBean(jobLog, JobLogRespVO.class));
     }
 
@@ -51,7 +51,7 @@ public class JobLogController {
     @Operation(summary = "获得定时任务日志分页")
     @PreAuthorize("@ss.hasPermission('infra:job:query')")
     public CommonResult<PageResult<JobLogRespVO>> getJobLogPage(@Valid JobLogPageReqVO pageVO) {
-        PageResult<JobLogDO> pageResult = jobLogService.getJobLogPage(pageVO);
+        PageResult<JobLogEntity> pageResult = jobLogService.getJobLogPage(pageVO);
         return success(BeanUtils.toBean(pageResult, JobLogRespVO.class));
     }
 
@@ -62,7 +62,7 @@ public class JobLogController {
     public void exportJobLogExcel(@Valid JobLogPageReqVO exportReqVO,
                                   HttpServletResponse response) throws IOException {
         exportReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<JobLogDO> list = jobLogService.getJobLogPage(exportReqVO).getList();
+        List<JobLogEntity> list = jobLogService.getJobLogPage(exportReqVO).getList();
         // 导出 Excel
         ExcelUtils.write(response, "任务日志.xls", "数据", JobLogRespVO.class,
                 BeanUtils.toBean(list, JobLogRespVO.class));

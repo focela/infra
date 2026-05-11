@@ -1,0 +1,20 @@
+package com.focela.platform.module.system.repository.mapper.notice;
+
+import com.focela.platform.framework.common.pojo.PageResult;
+import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
+import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
+import com.focela.platform.module.system.controller.admin.notice.vo.NoticePageReqVO;
+import com.focela.platform.module.system.repository.entity.notice.NoticeEntity;
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface NoticeMapper extends BaseMapperX<NoticeEntity> {
+
+    default PageResult<NoticeEntity> selectPage(NoticePageReqVO reqVO) {
+        return selectPage(reqVO, new LambdaQueryWrapperX<NoticeEntity>()
+                .likeIfPresent(NoticeEntity::getTitle, reqVO.getTitle())
+                .eqIfPresent(NoticeEntity::getStatus, reqVO.getStatus())
+                .orderByDesc(NoticeEntity::getId));
+    }
+
+}

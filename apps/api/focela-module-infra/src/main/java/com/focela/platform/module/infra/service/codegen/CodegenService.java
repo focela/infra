@@ -5,8 +5,8 @@ import com.focela.platform.module.infra.controller.admin.codegen.vo.CodegenCreat
 import com.focela.platform.module.infra.controller.admin.codegen.vo.CodegenUpdateReqVO;
 import com.focela.platform.module.infra.controller.admin.codegen.vo.table.CodegenTablePageReqVO;
 import com.focela.platform.module.infra.controller.admin.codegen.vo.table.DatabaseTableRespVO;
-import com.focela.platform.module.infra.dal.dataobject.codegen.CodegenColumnDO;
-import com.focela.platform.module.infra.dal.dataobject.codegen.CodegenTableDO;
+import com.focela.platform.module.infra.repository.entity.codegen.CodegenColumnEntity;
+import com.focela.platform.module.infra.repository.entity.codegen.CodegenTableEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -61,7 +61,7 @@ public interface CodegenService {
      * @param dataSourceConfigId 数据源配置的编号
      * @return 表定义列表
      */
-    List<CodegenTableDO> getCodegenTableList(Long dataSourceConfigId);
+    List<CodegenTableEntity> getCodegenTableList(Long dataSourceConfigId);
 
     /**
      * 获得表定义分页
@@ -69,7 +69,7 @@ public interface CodegenService {
      * @param pageReqVO 分页条件
      * @return 表定义分页
      */
-    PageResult<CodegenTableDO> getCodegenTablePage(CodegenTablePageReqVO pageReqVO);
+    PageResult<CodegenTableEntity> getCodegenTablePage(CodegenTablePageReqVO pageReqVO);
 
     /**
      * 获得表定义
@@ -77,7 +77,7 @@ public interface CodegenService {
      * @param id 表编号
      * @return 表定义
      */
-    CodegenTableDO getCodegenTable(Long id);
+    CodegenTableEntity getCodegenTable(Long id);
 
     /**
      * 获得指定表的字段定义数组
@@ -85,7 +85,7 @@ public interface CodegenService {
      * @param tableId 表编号
      * @return 字段定义数组
      */
-    List<CodegenColumnDO> getCodegenColumnListByTableId(Long tableId);
+    List<CodegenColumnEntity> getCodegenColumnListByTableId(Long tableId);
 
     /**
      * 执行指定表的代码生成

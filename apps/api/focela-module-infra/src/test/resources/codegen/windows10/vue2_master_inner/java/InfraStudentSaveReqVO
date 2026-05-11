@@ -7,8 +7,8 @@ import javax.validation.constraints.*;
 import java.util.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
-import com.focela.platform.module.infra.dal.dataobject.demo.InfraStudentContactDO;
-import com.focela.platform.module.infra.dal.dataobject.demo.InfraStudentTeacherDO;
+import com.focela.platform.module.infra.repository.entity.demo.InfraStudentContactDO;
+import com.focela.platform.module.infra.repository.entity.demo.InfraStudentTeacherDO;
 
 @Schema(description = "管理后台 - 学生新增/修改 Request VO")
 @Data

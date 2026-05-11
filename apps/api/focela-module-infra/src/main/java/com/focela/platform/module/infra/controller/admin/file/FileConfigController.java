@@ -6,7 +6,7 @@ import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.infra.controller.admin.file.vo.config.FileConfigPageReqVO;
 import com.focela.platform.module.infra.controller.admin.file.vo.config.FileConfigRespVO;
 import com.focela.platform.module.infra.controller.admin.file.vo.config.FileConfigSaveReqVO;
-import com.focela.platform.module.infra.dal.dataobject.file.FileConfigDO;
+import com.focela.platform.module.infra.repository.entity.file.FileConfigEntity;
 import com.focela.platform.module.infra.service.file.FileConfigService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -76,7 +76,7 @@ public class FileConfigController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:file-config:query')")
     public CommonResult<FileConfigRespVO> getFileConfig(@RequestParam("id") Long id) {
-        FileConfigDO config = fileConfigService.getFileConfig(id);
+        FileConfigEntity config = fileConfigService.getFileConfig(id);
         return success(BeanUtils.toBean(config, FileConfigRespVO.class));
     }
 
@@ -84,7 +84,7 @@ public class FileConfigController {
     @Operation(summary = "获得文件配置分页")
     @PreAuthorize("@ss.hasPermission('infra:file-config:query')")
     public CommonResult<PageResult<FileConfigRespVO>> getFileConfigPage(@Valid FileConfigPageReqVO pageVO) {
-        PageResult<FileConfigDO> pageResult = fileConfigService.getFileConfigPage(pageVO);
+        PageResult<FileConfigEntity> pageResult = fileConfigService.getFileConfigPage(pageVO);
         return success(BeanUtils.toBean(pageResult, FileConfigRespVO.class));
     }
 

@@ -6,8 +6,8 @@ import com.focela.platform.framework.common.exception.enums.GlobalErrorCodeConst
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.module.infra.controller.admin.logger.vo.apiaccesslog.ApiAccessLogPageReqVO;
-import com.focela.platform.module.infra.dal.dataobject.logger.ApiAccessLogDO;
-import com.focela.platform.module.infra.dal.mysql.logger.ApiAccessLogMapper;
+import com.focela.platform.module.infra.repository.entity.logger.ApiAccessLogEntity;
+import com.focela.platform.module.infra.repository.mapper.logger.ApiAccessLogMapper;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
@@ -32,7 +32,7 @@ public class ApiAccessLogServiceImplTest extends BaseDbUnitTest {
 
     @Test
     public void testGetApiAccessLogPage() {
-        ApiAccessLogDO apiAccessLogDO = randomPojo(ApiAccessLogDO.class, o -> {
+        ApiAccessLogEntity apiAccessLogDO = randomPojo(ApiAccessLogEntity.class, o -> {
             o.setUserId(2233L);
             o.setUserType(UserTypeEnum.ADMIN.getValue());
             o.setApplicationName("yudao-test");
@@ -67,7 +67,7 @@ public class ApiAccessLogServiceImplTest extends BaseDbUnitTest {
         reqVO.setResultCode(GlobalErrorCodeConstants.SUCCESS.getCode());
 
         // 调用
-        PageResult<ApiAccessLogDO> pageResult = apiAccessLogService.getApiAccessLogPage(reqVO);
+        PageResult<ApiAccessLogEntity> pageResult = apiAccessLogService.getApiAccessLogPage(reqVO);
         // 断言，只查到了一条符合条件的
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
@@ -77,9 +77,9 @@ public class ApiAccessLogServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCleanJobLog() {
         // mock 数据
-        ApiAccessLogDO log01 = randomPojo(ApiAccessLogDO.class, o -> o.setCreateTime(addTime(Duration.ofDays(-3))));
+        ApiAccessLogEntity log01 = randomPojo(ApiAccessLogEntity.class, o -> o.setCreateTime(addTime(Duration.ofDays(-3))));
         apiAccessLogMapper.insert(log01);
-        ApiAccessLogDO log02 = randomPojo(ApiAccessLogDO.class, o -> o.setCreateTime(addTime(Duration.ofDays(-1))));
+        ApiAccessLogEntity log02 = randomPojo(ApiAccessLogEntity.class, o -> o.setCreateTime(addTime(Duration.ofDays(-1))));
         apiAccessLogMapper.insert(log02);
         // 准备参数
         Integer exceedDay = 2;
@@ -89,7 +89,7 @@ public class ApiAccessLogServiceImplTest extends BaseDbUnitTest {
         Integer count = apiAccessLogService.cleanAccessLog(exceedDay, deleteLimit);
         // 断言
         assertEquals(1, count);
-        List<ApiAccessLogDO> logs = apiAccessLogMapper.selectList();
+        List<ApiAccessLogEntity> logs = apiAccessLogMapper.selectList();
         assertEquals(1, logs.size());
         // TODO @芋艿：createTime updateTime 被屏蔽，仅 win11 会复现，建议后续修复。
         assertPojoEquals(log02, logs.get(0), "createTime", "updateTime");
@@ -103,7 +103,7 @@ public class ApiAccessLogServiceImplTest extends BaseDbUnitTest {
         // 调用
         apiAccessLogService.createApiAccessLog(createDTO);
         // 断言
-        ApiAccessLogDO apiAccessLogDO = apiAccessLogMapper.selectOne(null);
+        ApiAccessLogEntity apiAccessLogDO = apiAccessLogMapper.selectOne(null);
         assertPojoEquals(createDTO, apiAccessLogDO);
     }
 

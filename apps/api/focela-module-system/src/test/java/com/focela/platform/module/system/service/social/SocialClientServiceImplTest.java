@@ -10,8 +10,8 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.module.system.controller.admin.socail.vo.client.SocialClientPageReqVO;
 import com.focela.platform.module.system.controller.admin.socail.vo.client.SocialClientSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.social.SocialClientDO;
-import com.focela.platform.module.system.dal.mysql.social.SocialClientMapper;
+import com.focela.platform.module.system.repository.entity.social.SocialClientEntity;
+import com.focela.platform.module.system.repository.mapper.social.SocialClientMapper;
 import com.focela.platform.module.system.enums.social.SocialTypeEnum;
 import com.focela.platform.module.system.framework.justauth.core.AuthRequestFactory;
 import com.binarywang.spring.starter.wxjava.miniapp.properties.WxMaProperties;
@@ -166,7 +166,7 @@ public class SocialClientServiceImplTest extends BaseDbUnitTest {
         AuthConfig authConfig = (AuthConfig) ReflectUtil.getFieldValue(authRequest, "config");
         when(authRequestFactory.get(eq("WECHAT_MP"))).thenReturn(authRequest);
         // mock 数据
-        SocialClientDO client = randomPojo(SocialClientDO.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())
+        SocialClientEntity client = randomPojo(SocialClientEntity.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())
                 .setUserType(userType).setSocialType(socialType));
         socialClientMapper.insert(client);
 
@@ -188,7 +188,7 @@ public class SocialClientServiceImplTest extends BaseDbUnitTest {
         ReflectUtil.setFieldValue(authRequest, "config", authConfig);
         when(authRequestFactory.get(eq("WECHAT_MP"))).thenReturn(authRequest);
         // mock 数据
-        SocialClientDO client = randomPojo(SocialClientDO.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus())
+        SocialClientEntity client = randomPojo(SocialClientEntity.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus())
                 .setUserType(userType).setSocialType(socialType));
         socialClientMapper.insert(client);
 
@@ -233,7 +233,7 @@ public class SocialClientServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         Integer userType = randomPojo(UserTypeEnum.class).getValue();
         // mock 数据
-        SocialClientDO client = randomPojo(SocialClientDO.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())
+        SocialClientEntity client = randomPojo(SocialClientEntity.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())
                 .setUserType(userType).setSocialType(SocialTypeEnum.WECHAT_MP.getType()));
         socialClientMapper.insert(client);
 
@@ -248,7 +248,7 @@ public class SocialClientServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         Integer userType = randomPojo(UserTypeEnum.class).getValue();
         // mock 数据
-        SocialClientDO client = randomPojo(SocialClientDO.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus())
+        SocialClientEntity client = randomPojo(SocialClientEntity.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus())
                 .setUserType(userType).setSocialType(SocialTypeEnum.WECHAT_MP.getType()));
         socialClientMapper.insert(client);
         // mock 方法
@@ -315,7 +315,7 @@ public class SocialClientServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         Integer userType = randomPojo(UserTypeEnum.class).getValue();
         // mock 数据
-        SocialClientDO client = randomPojo(SocialClientDO.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())
+        SocialClientEntity client = randomPojo(SocialClientEntity.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())
                 .setUserType(userType).setSocialType(SocialTypeEnum.WECHAT_MINI_PROGRAM.getType()));
         socialClientMapper.insert(client);
 
@@ -330,7 +330,7 @@ public class SocialClientServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         Integer userType = randomPojo(UserTypeEnum.class).getValue();
         // mock 数据
-        SocialClientDO client = randomPojo(SocialClientDO.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus())
+        SocialClientEntity client = randomPojo(SocialClientEntity.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus())
                 .setUserType(userType).setSocialType(SocialTypeEnum.WECHAT_MINI_PROGRAM.getType()));
         socialClientMapper.insert(client);
         // mock 方法
@@ -361,14 +361,14 @@ public class SocialClientServiceImplTest extends BaseDbUnitTest {
         // 断言
         assertNotNull(socialClientId);
         // 校验记录的属性是否正确
-        SocialClientDO socialClient = socialClientMapper.selectById(socialClientId);
+        SocialClientEntity socialClient = socialClientMapper.selectById(socialClientId);
         assertPojoEquals(reqVO, socialClient, "id");
     }
 
     @Test
     public void testUpdateSocialClient_success() {
         // mock 数据
-        SocialClientDO dbSocialClient = randomPojo(SocialClientDO.class);
+        SocialClientEntity dbSocialClient = randomPojo(SocialClientEntity.class);
         socialClientMapper.insert(dbSocialClient);// @Sql: 先插入出一条存在的数据
         // 准备参数
         SocialClientSaveReqVO reqVO = randomPojo(SocialClientSaveReqVO.class, o -> {
@@ -381,7 +381,7 @@ public class SocialClientServiceImplTest extends BaseDbUnitTest {
         // 调用
         socialClientService.updateSocialClient(reqVO);
         // 校验是否更新正确
-        SocialClientDO socialClient = socialClientMapper.selectById(reqVO.getId()); // 获取最新的
+        SocialClientEntity socialClient = socialClientMapper.selectById(reqVO.getId()); // 获取最新的
         assertPojoEquals(reqVO, socialClient);
     }
 
@@ -397,7 +397,7 @@ public class SocialClientServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testDeleteSocialClient_success() {
         // mock 数据
-        SocialClientDO dbSocialClient = randomPojo(SocialClientDO.class);
+        SocialClientEntity dbSocialClient = randomPojo(SocialClientEntity.class);
         socialClientMapper.insert(dbSocialClient);// @Sql: 先插入出一条存在的数据
         // 准备参数
         Long id = dbSocialClient.getId();
@@ -420,13 +420,13 @@ public class SocialClientServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetSocialClient() {
         // mock 数据
-        SocialClientDO dbSocialClient = randomPojo(SocialClientDO.class);
+        SocialClientEntity dbSocialClient = randomPojo(SocialClientEntity.class);
         socialClientMapper.insert(dbSocialClient);// @Sql: 先插入出一条存在的数据
         // 准备参数
         Long id = dbSocialClient.getId();
 
         // 调用
-        SocialClientDO socialClient = socialClientService.getSocialClient(id);
+        SocialClientEntity socialClient = socialClientService.getSocialClient(id);
         // 校验数据正确
         assertPojoEquals(dbSocialClient, socialClient);
     }
@@ -434,7 +434,7 @@ public class SocialClientServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetSocialClientPage() {
         // mock 数据
-        SocialClientDO dbSocialClient = randomPojo(SocialClientDO.class, o -> { // 等会查询到
+        SocialClientEntity dbSocialClient = randomPojo(SocialClientEntity.class, o -> { // 等会查询到
             o.setName("芋头");
             o.setSocialType(SocialTypeEnum.GITEE.getType());
             o.setUserType(UserTypeEnum.ADMIN.getValue());
@@ -461,7 +461,7 @@ public class SocialClientServiceImplTest extends BaseDbUnitTest {
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
 
         // 调用
-        PageResult<SocialClientDO> pageResult = socialClientService.getSocialClientPage(reqVO);
+        PageResult<SocialClientEntity> pageResult = socialClientService.getSocialClientPage(reqVO);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());

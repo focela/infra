@@ -6,9 +6,9 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.module.system.controller.admin.notify.vo.message.NotifyMessageMyPageReqVO;
 import com.focela.platform.module.system.controller.admin.notify.vo.message.NotifyMessagePageReqVO;
-import com.focela.platform.module.system.dal.dataobject.notify.NotifyMessageDO;
-import com.focela.platform.module.system.dal.dataobject.notify.NotifyTemplateDO;
-import com.focela.platform.module.system.dal.mysql.notify.NotifyMessageMapper;
+import com.focela.platform.module.system.repository.entity.notify.NotifyMessageEntity;
+import com.focela.platform.module.system.repository.entity.notify.NotifyTemplateEntity;
+import com.focela.platform.module.system.repository.mapper.notify.NotifyMessageMapper;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
@@ -45,7 +45,7 @@ public class NotifyMessageServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         Long userId = randomLongId();
         Integer userType = randomEle(UserTypeEnum.values()).getValue();
-        NotifyTemplateDO template = randomPojo(NotifyTemplateDO.class);
+        NotifyTemplateEntity template = randomPojo(NotifyTemplateEntity.class);
         String templateContent = randomString();
         Map<String, Object> templateParams = randomTemplateParams();
         // mock 方法
@@ -54,7 +54,7 @@ public class NotifyMessageServiceImplTest extends BaseDbUnitTest {
         Long messageId = notifyMessageService.createNotifyMessage(userId, userType,
                 template, templateContent, templateParams);
         // 断言
-        NotifyMessageDO message = notifyMessageMapper.selectById(messageId);
+        NotifyMessageEntity message = notifyMessageMapper.selectById(messageId);
         assertNotNull(message);
         assertEquals(userId, message.getUserId());
         assertEquals(userType, message.getUserType());
@@ -71,7 +71,7 @@ public class NotifyMessageServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetNotifyMessagePage() {
        // mock 数据
-       NotifyMessageDO dbNotifyMessage = randomPojo(NotifyMessageDO.class, o -> { // 等会查询到
+       NotifyMessageEntity dbNotifyMessage = randomPojo(NotifyMessageEntity.class, o -> { // 等会查询到
            o.setUserId(1L);
            o.setUserType(UserTypeEnum.ADMIN.getValue());
            o.setTemplateCode("test_01");
@@ -99,7 +99,7 @@ public class NotifyMessageServiceImplTest extends BaseDbUnitTest {
        reqVO.setCreateTime(buildBetweenTime(2022, 1, 1, 2022, 1, 10));
 
        // 调用
-       PageResult<NotifyMessageDO> pageResult = notifyMessageService.getNotifyMessagePage(reqVO);
+       PageResult<NotifyMessageEntity> pageResult = notifyMessageService.getNotifyMessagePage(reqVO);
        // 断言
        assertEquals(1, pageResult.getTotal());
        assertEquals(1, pageResult.getList().size());
@@ -109,21 +109,21 @@ public class NotifyMessageServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetNotifyMessage() {
         // mock 数据
-        NotifyMessageDO dbNotifyMessage = randomPojo(NotifyMessageDO.class,
+        NotifyMessageEntity dbNotifyMessage = randomPojo(NotifyMessageEntity.class,
                 o -> o.setTemplateParams(randomTemplateParams()));
         notifyMessageMapper.insert(dbNotifyMessage);
         // 准备参数
         Long id = dbNotifyMessage.getId();
 
         // 调用
-        NotifyMessageDO notifyMessage = notifyMessageService.getNotifyMessage(id);
+        NotifyMessageEntity notifyMessage = notifyMessageService.getNotifyMessage(id);
         assertPojoEquals(dbNotifyMessage, notifyMessage);
     }
 
     @Test
     public void testGetMyNotifyMessagePage() {
         // mock 数据
-        NotifyMessageDO dbNotifyMessage = randomPojo(NotifyMessageDO.class, o -> { // 等会查询到
+        NotifyMessageEntity dbNotifyMessage = randomPojo(NotifyMessageEntity.class, o -> { // 等会查询到
             o.setUserId(1L);
             o.setUserType(UserTypeEnum.ADMIN.getValue());
             o.setReadStatus(true);
@@ -147,7 +147,7 @@ public class NotifyMessageServiceImplTest extends BaseDbUnitTest {
         reqVO.setCreateTime(buildBetweenTime(2022, 1, 1, 2022, 1, 10));
 
         // 调用
-        PageResult<NotifyMessageDO> pageResult = notifyMessageService.getMyMyNotifyMessagePage(reqVO, userId, userType);
+        PageResult<NotifyMessageEntity> pageResult = notifyMessageService.getMyMyNotifyMessagePage(reqVO, userId, userType);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
@@ -157,7 +157,7 @@ public class NotifyMessageServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetUnreadNotifyMessageList() {
         // mock 数据
-        NotifyMessageDO dbNotifyMessage = randomPojo(NotifyMessageDO.class, o -> { // 等会查询到
+        NotifyMessageEntity dbNotifyMessage = randomPojo(NotifyMessageEntity.class, o -> { // 等会查询到
             o.setUserId(1L);
             o.setUserType(UserTypeEnum.ADMIN.getValue());
             o.setReadStatus(false);
@@ -176,7 +176,7 @@ public class NotifyMessageServiceImplTest extends BaseDbUnitTest {
         Integer size = 10;
 
         // 调用
-        List<NotifyMessageDO> list = notifyMessageService.getUnreadNotifyMessageList(userId, userType, size);
+        List<NotifyMessageEntity> list = notifyMessageService.getUnreadNotifyMessageList(userId, userType, size);
         // 断言
         assertEquals(1, list.size());
         assertPojoEquals(dbNotifyMessage, list.get(0));
@@ -185,7 +185,7 @@ public class NotifyMessageServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetUnreadNotifyMessageCount() {
         // mock 数据
-        NotifyMessageDO dbNotifyMessage = randomPojo(NotifyMessageDO.class, o -> { // 等会查询到
+        NotifyMessageEntity dbNotifyMessage = randomPojo(NotifyMessageEntity.class, o -> { // 等会查询到
             o.setUserId(1L);
             o.setUserType(UserTypeEnum.ADMIN.getValue());
             o.setReadStatus(false);
@@ -209,7 +209,7 @@ public class NotifyMessageServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateNotifyMessageRead() {
         // mock 数据
-        NotifyMessageDO dbNotifyMessage = randomPojo(NotifyMessageDO.class, o -> { // 等会查询到
+        NotifyMessageEntity dbNotifyMessage = randomPojo(NotifyMessageEntity.class, o -> { // 等会查询到
             o.setUserId(1L);
             o.setUserType(UserTypeEnum.ADMIN.getValue());
             o.setReadStatus(false);
@@ -233,7 +233,7 @@ public class NotifyMessageServiceImplTest extends BaseDbUnitTest {
         int updateCount = notifyMessageService.updateNotifyMessageRead(ids, userId, userType);
         // 断言
         assertEquals(1, updateCount);
-        NotifyMessageDO notifyMessage = notifyMessageMapper.selectById(dbNotifyMessage.getId());
+        NotifyMessageEntity notifyMessage = notifyMessageMapper.selectById(dbNotifyMessage.getId());
         assertTrue(notifyMessage.getReadStatus());
         assertNotNull(notifyMessage.getReadTime());
     }
@@ -241,7 +241,7 @@ public class NotifyMessageServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateAllNotifyMessageRead() {
         // mock 数据
-        NotifyMessageDO dbNotifyMessage = randomPojo(NotifyMessageDO.class, o -> { // 等会查询到
+        NotifyMessageEntity dbNotifyMessage = randomPojo(NotifyMessageEntity.class, o -> { // 等会查询到
             o.setUserId(1L);
             o.setUserType(UserTypeEnum.ADMIN.getValue());
             o.setReadStatus(false);
@@ -263,7 +263,7 @@ public class NotifyMessageServiceImplTest extends BaseDbUnitTest {
         int updateCount = notifyMessageService.updateAllNotifyMessageRead(userId, userType);
         // 断言
         assertEquals(1, updateCount);
-        NotifyMessageDO notifyMessage = notifyMessageMapper.selectById(dbNotifyMessage.getId());
+        NotifyMessageEntity notifyMessage = notifyMessageMapper.selectById(dbNotifyMessage.getId());
         assertTrue(notifyMessage.getReadStatus());
         assertNotNull(notifyMessage.getReadTime());
     }

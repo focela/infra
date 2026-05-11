@@ -6,9 +6,9 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.notify.vo.template.NotifyTemplatePageReqVO;
 import com.focela.platform.module.system.controller.admin.notify.vo.template.NotifyTemplateSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.notify.NotifyTemplateDO;
-import com.focela.platform.module.system.dal.mysql.notify.NotifyTemplateMapper;
-import com.focela.platform.module.system.dal.redis.RedisKeyConstants;
+import com.focela.platform.module.system.repository.entity.notify.NotifyTemplateEntity;
+import com.focela.platform.module.system.repository.mapper.notify.NotifyTemplateMapper;
+import com.focela.platform.module.system.repository.redis.RedisKeyConstants;
 import com.google.common.annotations.VisibleForTesting;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +49,7 @@ public class NotifyTemplateServiceImpl implements NotifyTemplateService {
         validateNotifyTemplateCodeDuplicate(null, createReqVO.getCode());
 
         // 插入
-        NotifyTemplateDO notifyTemplate = BeanUtils.toBean(createReqVO, NotifyTemplateDO.class);
+        NotifyTemplateEntity notifyTemplate = BeanUtils.toBean(createReqVO, NotifyTemplateEntity.class);
         notifyTemplate.setParams(parseTemplateContentParams(notifyTemplate.getContent()));
         notifyTemplateMapper.insert(notifyTemplate);
         return notifyTemplate.getId();
@@ -65,7 +65,7 @@ public class NotifyTemplateServiceImpl implements NotifyTemplateService {
         validateNotifyTemplateCodeDuplicate(updateReqVO.getId(), updateReqVO.getCode());
 
         // 更新
-        NotifyTemplateDO updateObj = BeanUtils.toBean(updateReqVO, NotifyTemplateDO.class);
+        NotifyTemplateEntity updateObj = BeanUtils.toBean(updateReqVO, NotifyTemplateEntity.class);
         updateObj.setParams(parseTemplateContentParams(updateObj.getContent()));
         notifyTemplateMapper.updateById(updateObj);
     }
@@ -99,25 +99,25 @@ public class NotifyTemplateServiceImpl implements NotifyTemplateService {
     }
 
     @Override
-    public NotifyTemplateDO getNotifyTemplate(Long id) {
+    public NotifyTemplateEntity getNotifyTemplate(Long id) {
         return notifyTemplateMapper.selectById(id);
     }
 
     @Override
     @Cacheable(cacheNames = RedisKeyConstants.NOTIFY_TEMPLATE, key = "#code",
             unless = "#result == null")
-    public NotifyTemplateDO getNotifyTemplateByCodeFromCache(String code) {
+    public NotifyTemplateEntity getNotifyTemplateByCodeFromCache(String code) {
         return notifyTemplateMapper.selectByCode(code);
     }
 
     @Override
-    public PageResult<NotifyTemplateDO> getNotifyTemplatePage(NotifyTemplatePageReqVO pageReqVO) {
+    public PageResult<NotifyTemplateEntity> getNotifyTemplatePage(NotifyTemplatePageReqVO pageReqVO) {
         return notifyTemplateMapper.selectPage(pageReqVO);
     }
 
     @VisibleForTesting
     void validateNotifyTemplateCodeDuplicate(Long id, String code) {
-        NotifyTemplateDO template = notifyTemplateMapper.selectByCode(code);
+        NotifyTemplateEntity template = notifyTemplateMapper.selectByCode(code);
         if (template == null) {
             return;
         }

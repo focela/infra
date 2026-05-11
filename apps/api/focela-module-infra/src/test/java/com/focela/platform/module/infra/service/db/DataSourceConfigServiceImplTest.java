@@ -7,8 +7,8 @@ import com.focela.platform.framework.mybatis.core.type.EncryptTypeHandler;
 import com.focela.platform.framework.mybatis.core.util.JdbcUtils;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.module.infra.controller.admin.db.vo.DataSourceConfigSaveReqVO;
-import com.focela.platform.module.infra.dal.dataobject.db.DataSourceConfigDO;
-import com.focela.platform.module.infra.dal.mysql.db.DataSourceConfigMapper;
+import com.focela.platform.module.infra.repository.entity.db.DataSourceConfigEntity;
+import com.focela.platform.module.infra.repository.mapper.db.DataSourceConfigMapper;
 import com.baomidou.dynamic.datasource.creator.DataSourceProperty;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties;
 import jakarta.annotation.Resource;
@@ -83,7 +83,7 @@ public class DataSourceConfigServiceImplTest extends BaseDbUnitTest {
             // 断言
             assertNotNull(dataSourceConfigId);
             // 校验记录的属性是否正确
-            DataSourceConfigDO dataSourceConfig = dataSourceConfigMapper.selectById(dataSourceConfigId);
+            DataSourceConfigEntity dataSourceConfig = dataSourceConfigMapper.selectById(dataSourceConfigId);
             assertPojoEquals(reqVO, dataSourceConfig, "id");
         }
     }
@@ -92,7 +92,7 @@ public class DataSourceConfigServiceImplTest extends BaseDbUnitTest {
     public void testUpdateDataSourceConfig_success() {
         try (MockedStatic<JdbcUtils> databaseUtilsMock = mockStatic(JdbcUtils.class)) {
             // mock 数据
-            DataSourceConfigDO dbDataSourceConfig = randomPojo(DataSourceConfigDO.class);
+            DataSourceConfigEntity dbDataSourceConfig = randomPojo(DataSourceConfigEntity.class);
             dataSourceConfigMapper.insert(dbDataSourceConfig);// @Sql: 先插入出一条存在的数据
             // 准备参数
             DataSourceConfigSaveReqVO reqVO = randomPojo(DataSourceConfigSaveReqVO.class, o -> {
@@ -105,7 +105,7 @@ public class DataSourceConfigServiceImplTest extends BaseDbUnitTest {
             // 调用
             dataSourceConfigService.updateDataSourceConfig(reqVO);
             // 校验是否更新正确
-            DataSourceConfigDO dataSourceConfig = dataSourceConfigMapper.selectById(reqVO.getId()); // 获取最新的
+            DataSourceConfigEntity dataSourceConfig = dataSourceConfigMapper.selectById(reqVO.getId()); // 获取最新的
             assertPojoEquals(reqVO, dataSourceConfig);
         }
     }
@@ -122,7 +122,7 @@ public class DataSourceConfigServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testDeleteDataSourceConfig_success() {
         // mock 数据
-        DataSourceConfigDO dbDataSourceConfig = randomPojo(DataSourceConfigDO.class);
+        DataSourceConfigEntity dbDataSourceConfig = randomPojo(DataSourceConfigEntity.class);
         dataSourceConfigMapper.insert(dbDataSourceConfig);// @Sql: 先插入出一条存在的数据
         // 准备参数
         Long id = dbDataSourceConfig.getId();
@@ -145,11 +145,11 @@ public class DataSourceConfigServiceImplTest extends BaseDbUnitTest {
     @Test // 测试使用 password 查询，可以查询到数据
     public void testSelectPassword() {
         // mock 数据
-        DataSourceConfigDO dbDataSourceConfig = randomPojo(DataSourceConfigDO.class);
+        DataSourceConfigEntity dbDataSourceConfig = randomPojo(DataSourceConfigEntity.class);
         dataSourceConfigMapper.insert(dbDataSourceConfig);// @Sql: 先插入出一条存在的数据
 
         // 调用
-        DataSourceConfigDO result = dataSourceConfigMapper.selectOne(DataSourceConfigDO::getPassword,
+        DataSourceConfigEntity result = dataSourceConfigMapper.selectOne(DataSourceConfigEntity::getPassword,
                 EncryptTypeHandler.encrypt(dbDataSourceConfig.getPassword()));
         assertPojoEquals(dbDataSourceConfig, result);
     }
@@ -161,7 +161,7 @@ public class DataSourceConfigServiceImplTest extends BaseDbUnitTest {
         // mock 方法
 
         // 调用
-        DataSourceConfigDO dataSourceConfig = dataSourceConfigService.getDataSourceConfig(id);
+        DataSourceConfigEntity dataSourceConfig = dataSourceConfigService.getDataSourceConfig(id);
         // 断言
         assertEquals(id, dataSourceConfig.getId());
         assertEquals("primary", dataSourceConfig.getName());
@@ -173,13 +173,13 @@ public class DataSourceConfigServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetDataSourceConfig_normal() {
         // mock 数据
-        DataSourceConfigDO dbDataSourceConfig = randomPojo(DataSourceConfigDO.class);
+        DataSourceConfigEntity dbDataSourceConfig = randomPojo(DataSourceConfigEntity.class);
         dataSourceConfigMapper.insert(dbDataSourceConfig);// @Sql: 先插入出一条存在的数据
         // 准备参数
         Long id = dbDataSourceConfig.getId();
 
         // 调用
-        DataSourceConfigDO dataSourceConfig = dataSourceConfigService.getDataSourceConfig(id);
+        DataSourceConfigEntity dataSourceConfig = dataSourceConfigService.getDataSourceConfig(id);
         // 断言
         assertPojoEquals(dbDataSourceConfig, dataSourceConfig);
     }
@@ -187,12 +187,12 @@ public class DataSourceConfigServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetDataSourceConfigList() {
         // mock 数据
-        DataSourceConfigDO dbDataSourceConfig = randomPojo(DataSourceConfigDO.class);
+        DataSourceConfigEntity dbDataSourceConfig = randomPojo(DataSourceConfigEntity.class);
         dataSourceConfigMapper.insert(dbDataSourceConfig);// @Sql: 先插入出一条存在的数据
         // 准备参数
 
         // 调用
-        List<DataSourceConfigDO> dataSourceConfigList = dataSourceConfigService.getDataSourceConfigList();
+        List<DataSourceConfigEntity> dataSourceConfigList = dataSourceConfigService.getDataSourceConfigList();
         // 断言
         assertEquals(2, dataSourceConfigList.size());
         // master

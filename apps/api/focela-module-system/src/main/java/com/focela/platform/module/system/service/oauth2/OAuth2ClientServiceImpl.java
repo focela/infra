@@ -10,9 +10,9 @@ import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.common.util.string.StrUtils;
 import com.focela.platform.module.system.controller.admin.oauth2.vo.client.OAuth2ClientPageReqVO;
 import com.focela.platform.module.system.controller.admin.oauth2.vo.client.OAuth2ClientSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.oauth2.OAuth2ClientDO;
-import com.focela.platform.module.system.dal.mysql.oauth2.OAuth2ClientMapper;
-import com.focela.platform.module.system.dal.redis.RedisKeyConstants;
+import com.focela.platform.module.system.repository.entity.oauth2.OAuth2ClientEntity;
+import com.focela.platform.module.system.repository.mapper.oauth2.OAuth2ClientMapper;
+import com.focela.platform.module.system.repository.redis.RedisKeyConstants;
 import com.google.common.annotations.VisibleForTesting;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +44,7 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
     public Long createOAuth2Client(OAuth2ClientSaveReqVO createReqVO) {
         validateClientIdExists(null, createReqVO.getClientId());
         // 插入
-        OAuth2ClientDO client = BeanUtils.toBean(createReqVO, OAuth2ClientDO.class);
+        OAuth2ClientEntity client = BeanUtils.toBean(createReqVO, OAuth2ClientEntity.class);
         oauth2ClientMapper.insert(client);
         return client.getId();
     }
@@ -59,7 +59,7 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
         validateClientIdExists(updateReqVO.getId(), updateReqVO.getClientId());
 
         // 更新
-        OAuth2ClientDO updateObj = BeanUtils.toBean(updateReqVO, OAuth2ClientDO.class);
+        OAuth2ClientEntity updateObj = BeanUtils.toBean(updateReqVO, OAuth2ClientEntity.class);
         oauth2ClientMapper.updateById(updateObj);
     }
 
@@ -88,7 +88,7 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
 
     @VisibleForTesting
     void validateClientIdExists(Long id, String clientId) {
-        OAuth2ClientDO client = oauth2ClientMapper.selectByClientId(clientId);
+        OAuth2ClientEntity client = oauth2ClientMapper.selectByClientId(clientId);
         if (client == null) {
             return;
         }
@@ -102,27 +102,27 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
     }
 
     @Override
-    public OAuth2ClientDO getOAuth2Client(Long id) {
+    public OAuth2ClientEntity getOAuth2Client(Long id) {
         return oauth2ClientMapper.selectById(id);
     }
 
     @Override
     @Cacheable(cacheNames = RedisKeyConstants.OAUTH_CLIENT, key = "#clientId",
             unless = "#result == null")
-    public OAuth2ClientDO getOAuth2ClientFromCache(String clientId) {
+    public OAuth2ClientEntity getOAuth2ClientFromCache(String clientId) {
         return oauth2ClientMapper.selectByClientId(clientId);
     }
 
     @Override
-    public PageResult<OAuth2ClientDO> getOAuth2ClientPage(OAuth2ClientPageReqVO pageReqVO) {
+    public PageResult<OAuth2ClientEntity> getOAuth2ClientPage(OAuth2ClientPageReqVO pageReqVO) {
         return oauth2ClientMapper.selectPage(pageReqVO);
     }
 
     @Override
-    public OAuth2ClientDO validOAuthClientFromCache(String clientId, String clientSecret, String authorizedGrantType,
+    public OAuth2ClientEntity validOAuthClientFromCache(String clientId, String clientSecret, String authorizedGrantType,
                                                     Collection<String> scopes, String redirectUri) {
         // 校验客户端存在、且开启
-        OAuth2ClientDO client = getSelf().getOAuth2ClientFromCache(clientId);
+        OAuth2ClientEntity client = getSelf().getOAuth2ClientFromCache(clientId);
         if (client == null) {
             throw exception(OAUTH2_CLIENT_NOT_EXISTS);
         }

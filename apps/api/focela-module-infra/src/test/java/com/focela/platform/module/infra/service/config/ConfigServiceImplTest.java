@@ -6,8 +6,8 @@ import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.framework.test.core.util.RandomUtils;
 import com.focela.platform.module.infra.controller.admin.config.vo.ConfigPageReqVO;
 import com.focela.platform.module.infra.controller.admin.config.vo.ConfigSaveReqVO;
-import com.focela.platform.module.infra.dal.dataobject.config.ConfigDO;
-import com.focela.platform.module.infra.dal.mysql.config.ConfigMapper;
+import com.focela.platform.module.infra.repository.entity.config.ConfigEntity;
+import com.focela.platform.module.infra.repository.mapper.config.ConfigMapper;
 import com.focela.platform.module.infra.enums.config.ConfigTypeEnum;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
@@ -45,7 +45,7 @@ public class ConfigServiceImplTest extends BaseDbUnitTest {
         // 断言
         assertNotNull(configId);
         // 校验记录的属性是否正确
-        ConfigDO config = configMapper.selectById(configId);
+        ConfigEntity config = configMapper.selectById(configId);
         assertPojoEquals(reqVO, config, "id");
         assertEquals(ConfigTypeEnum.CUSTOM.getType(), config.getType());
     }
@@ -53,7 +53,7 @@ public class ConfigServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateConfig_success() {
         // mock 数据
-        ConfigDO dbConfig = randomConfigDO();
+        ConfigEntity dbConfig = randomConfigDO();
         configMapper.insert(dbConfig);// @Sql: 先插入出一条存在的数据
         // 准备参数
         ConfigSaveReqVO reqVO = randomPojo(ConfigSaveReqVO.class, o -> {
@@ -63,14 +63,14 @@ public class ConfigServiceImplTest extends BaseDbUnitTest {
         // 调用
         configService.updateConfig(reqVO);
         // 校验是否更新正确
-        ConfigDO config = configMapper.selectById(reqVO.getId()); // 获取最新的
+        ConfigEntity config = configMapper.selectById(reqVO.getId()); // 获取最新的
         assertPojoEquals(reqVO, config);
     }
 
     @Test
     public void testDeleteConfig_success() {
         // mock 数据
-        ConfigDO dbConfig = randomConfigDO(o -> {
+        ConfigEntity dbConfig = randomConfigDO(o -> {
             o.setType(ConfigTypeEnum.CUSTOM.getType()); // 只能删除 CUSTOM 类型
         });
         configMapper.insert(dbConfig);// @Sql: 先插入出一条存在的数据
@@ -86,7 +86,7 @@ public class ConfigServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testDeleteConfig_canNotDeleteSystemType() {
         // mock 数据
-        ConfigDO dbConfig = randomConfigDO(o -> {
+        ConfigEntity dbConfig = randomConfigDO(o -> {
             o.setType(ConfigTypeEnum.SYSTEM.getType()); // SYSTEM 不允许删除
         });
         configMapper.insert(dbConfig);// @Sql: 先插入出一条存在的数据
@@ -100,7 +100,7 @@ public class ConfigServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidateConfigExists_success() {
         // mock 数据
-        ConfigDO dbConfigDO = randomConfigDO();
+        ConfigEntity dbConfigDO = randomConfigDO();
         configMapper.insert(dbConfigDO);// @Sql: 先插入出一条存在的数据
 
         // 调用成功
@@ -146,7 +146,7 @@ public class ConfigServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetConfigPage() {
         // mock 数据
-        ConfigDO dbConfig = randomConfigDO(o -> { // 等会查询到
+        ConfigEntity dbConfig = randomConfigDO(o -> { // 等会查询到
             o.setName("芋艿");
             o.setConfigKey("yunai");
             o.setType(ConfigTypeEnum.SYSTEM.getType());
@@ -169,7 +169,7 @@ public class ConfigServiceImplTest extends BaseDbUnitTest {
         reqVO.setCreateTime(buildBetweenTime(2021, 1, 15, 2021, 2, 15));
 
         // 调用
-        PageResult<ConfigDO> pageResult = configService.getConfigPage(reqVO);
+        PageResult<ConfigEntity> pageResult = configService.getConfigPage(reqVO);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
@@ -179,13 +179,13 @@ public class ConfigServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetConfig() {
         // mock 数据
-        ConfigDO dbConfig = randomConfigDO();
+        ConfigEntity dbConfig = randomConfigDO();
         configMapper.insert(dbConfig);// @Sql: 先插入出一条存在的数据
         // 准备参数
         Long id = dbConfig.getId();
 
         // 调用
-        ConfigDO config = configService.getConfig(id);
+        ConfigEntity config = configService.getConfig(id);
         // 断言
         assertNotNull(config);
         assertPojoEquals(dbConfig, config);
@@ -194,13 +194,13 @@ public class ConfigServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetConfigByKey() {
         // mock 数据
-        ConfigDO dbConfig = randomConfigDO();
+        ConfigEntity dbConfig = randomConfigDO();
         configMapper.insert(dbConfig);// @Sql: 先插入出一条存在的数据
         // 准备参数
         String key = dbConfig.getConfigKey();
 
         // 调用
-        ConfigDO config = configService.getConfigByKey(key);
+        ConfigEntity config = configService.getConfigByKey(key);
         // 断言
         assertNotNull(config);
         assertPojoEquals(dbConfig, config);
@@ -209,11 +209,11 @@ public class ConfigServiceImplTest extends BaseDbUnitTest {
     // ========== 随机对象 ==========
 
     @SafeVarargs
-    private static ConfigDO randomConfigDO(Consumer<ConfigDO>... consumers) {
-        Consumer<ConfigDO> consumer = (o) -> {
+    private static ConfigEntity randomConfigDO(Consumer<ConfigEntity>... consumers) {
+        Consumer<ConfigEntity> consumer = (o) -> {
             o.setType(randomEle(ConfigTypeEnum.values()).getType()); // 保证 key 的范围
         };
-        return RandomUtils.randomPojo(ConfigDO.class, ArrayUtils.append(consumer, consumers));
+        return RandomUtils.randomPojo(ConfigEntity.class, ArrayUtils.append(consumer, consumers));
     }
 
 }

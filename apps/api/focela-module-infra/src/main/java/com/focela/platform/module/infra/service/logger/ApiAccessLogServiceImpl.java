@@ -7,8 +7,8 @@ import com.focela.platform.framework.common.util.string.StrUtils;
 import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
 import com.focela.platform.framework.tenant.core.util.TenantUtils;
 import com.focela.platform.module.infra.controller.admin.logger.vo.apiaccesslog.ApiAccessLogPageReqVO;
-import com.focela.platform.module.infra.dal.dataobject.logger.ApiAccessLogDO;
-import com.focela.platform.module.infra.dal.mysql.logger.ApiAccessLogMapper;
+import com.focela.platform.module.infra.repository.entity.logger.ApiAccessLogEntity;
+import com.focela.platform.module.infra.repository.mapper.logger.ApiAccessLogMapper;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,8 +16,8 @@ import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
 
-import static com.focela.platform.module.infra.dal.dataobject.logger.ApiAccessLogDO.REQUEST_PARAMS_MAX_LENGTH;
-import static com.focela.platform.module.infra.dal.dataobject.logger.ApiAccessLogDO.RESULT_MSG_MAX_LENGTH;
+import static com.focela.platform.module.infra.repository.entity.logger.ApiAccessLogEntity.REQUEST_PARAMS_MAX_LENGTH;
+import static com.focela.platform.module.infra.repository.entity.logger.ApiAccessLogEntity.RESULT_MSG_MAX_LENGTH;
 
 /**
  * API 访问日志 Service 实现类
@@ -34,7 +34,7 @@ public class ApiAccessLogServiceImpl implements ApiAccessLogService {
 
     @Override
     public void createApiAccessLog(ApiAccessLogCreateReqDTO createDTO) {
-        ApiAccessLogDO apiAccessLog = BeanUtils.toBean(createDTO, ApiAccessLogDO.class);
+        ApiAccessLogEntity apiAccessLog = BeanUtils.toBean(createDTO, ApiAccessLogEntity.class);
         apiAccessLog.setRequestParams(StrUtils.maxLength(apiAccessLog.getRequestParams(), REQUEST_PARAMS_MAX_LENGTH));
         apiAccessLog.setResultMsg(StrUtils.maxLength(apiAccessLog.getResultMsg(), RESULT_MSG_MAX_LENGTH));
         if (TenantContextHolder.getTenantId() != null) {
@@ -46,12 +46,12 @@ public class ApiAccessLogServiceImpl implements ApiAccessLogService {
     }
 
     @Override
-    public ApiAccessLogDO getApiAccessLog(Long id) {
+    public ApiAccessLogEntity getApiAccessLog(Long id) {
         return apiAccessLogMapper.selectById(id);
     }
 
     @Override
-    public PageResult<ApiAccessLogDO> getApiAccessLogPage(ApiAccessLogPageReqVO pageReqVO) {
+    public PageResult<ApiAccessLogEntity> getApiAccessLogPage(ApiAccessLogPageReqVO pageReqVO) {
         return apiAccessLogMapper.selectPage(pageReqVO);
     }
 

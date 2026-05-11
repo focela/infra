@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.infra.controller.admin.file.vo.file.FileCreateReqVO;
 import com.focela.platform.module.infra.controller.admin.file.vo.file.FilePageReqVO;
 import com.focela.platform.module.infra.controller.admin.file.vo.file.FilePresignedUrlRespVO;
-import com.focela.platform.module.infra.dal.dataobject.file.FileDO;
+import com.focela.platform.module.infra.repository.entity.file.FileEntity;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public interface FileService {
      * @param pageReqVO 分页查询
      * @return 文件分页
      */
-    PageResult<FileDO> getFilePage(FilePageReqVO pageReqVO);
+    PageResult<FileEntity> getFilePage(FilePageReqVO pageReqVO);
 
     /**
      * 保存文件，并返回文件的访问路径
@@ -61,7 +61,7 @@ public interface FileService {
      * @return 编号
      */
     Long createFile(FileCreateReqVO createReqVO);
-    FileDO getFile(Long id);
+    FileEntity getFile(Long id);
 
     /**
      * 删除文件

@@ -6,8 +6,8 @@ import com.focela.platform.module.infra.controller.admin.codegen.vo.CodegenDetai
 import com.focela.platform.module.infra.controller.admin.codegen.vo.CodegenPreviewRespVO;
 import com.focela.platform.module.infra.controller.admin.codegen.vo.column.CodegenColumnRespVO;
 import com.focela.platform.module.infra.controller.admin.codegen.vo.table.CodegenTableRespVO;
-import com.focela.platform.module.infra.dal.dataobject.codegen.CodegenColumnDO;
-import com.focela.platform.module.infra.dal.dataobject.codegen.CodegenTableDO;
+import com.focela.platform.module.infra.repository.entity.codegen.CodegenColumnEntity;
+import com.focela.platform.module.infra.repository.entity.codegen.CodegenTableEntity;
 import com.baomidou.mybatisplus.generator.config.po.TableField;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import org.apache.ibatis.type.JdbcType;
@@ -31,9 +31,9 @@ public interface CodegenConvert {
             @Mapping(source = "name", target = "tableName"),
             @Mapping(source = "comment", target = "tableComment"),
     })
-    CodegenTableDO convert(TableInfo bean);
+    CodegenTableEntity convert(TableInfo bean);
 
-    List<CodegenColumnDO> convertList(List<TableField> list);
+    List<CodegenColumnEntity> convertList(List<TableField> list);
 
     @Mappings({
             @Mapping(source = "name", target = "columnName"),
@@ -44,7 +44,7 @@ public interface CodegenConvert {
             @Mapping(source = "columnType.type", target = "javaType"),
             @Mapping(source = "propertyName", target = "javaField"),
     })
-    CodegenColumnDO convert(TableField bean);
+    CodegenColumnEntity convert(TableField bean);
 
     @Named("getDataType")
     default String getDataType(JdbcType jdbcType) {
@@ -53,7 +53,7 @@ public interface CodegenConvert {
 
     // ========== 其它 ==========
 
-    default CodegenDetailRespVO convert(CodegenTableDO table, List<CodegenColumnDO> columns) {
+    default CodegenDetailRespVO convert(CodegenTableEntity table, List<CodegenColumnEntity> columns) {
         CodegenDetailRespVO respVO = new CodegenDetailRespVO();
         respVO.setTable(BeanUtils.toBean(table, CodegenTableRespVO.class));
         respVO.setColumns(BeanUtils.toBean(columns, CodegenColumnRespVO.class));

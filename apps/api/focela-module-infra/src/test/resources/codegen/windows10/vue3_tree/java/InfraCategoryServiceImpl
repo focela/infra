@@ -7,12 +7,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import com.focela.platform.module.infra.controller.admin.demo.vo.*;
-import com.focela.platform.module.infra.dal.dataobject.demo.InfraCategoryDO;
+import com.focela.platform.module.infra.repository.entity.demo.InfraCategoryDO;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.pojo.PageParam;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 
-import com.focela.platform.module.infra.dal.mysql.demo.InfraCategoryMapper;
+import com.focela.platform.module.infra.repository.mapper.demo.InfraCategoryMapper;
 
 import static com.focela.platform.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static com.focela.platform.module.infra.enums.ErrorCodeConstants.*;

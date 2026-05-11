@@ -9,11 +9,11 @@ import com.focela.platform.module.infra.controller.admin.codegen.vo.CodegenCreat
 import com.focela.platform.module.infra.controller.admin.codegen.vo.CodegenUpdateReqVO;
 import com.focela.platform.module.infra.controller.admin.codegen.vo.table.CodegenTablePageReqVO;
 import com.focela.platform.module.infra.controller.admin.codegen.vo.table.DatabaseTableRespVO;
-import com.focela.platform.module.infra.dal.dataobject.codegen.CodegenColumnDO;
-import com.focela.platform.module.infra.dal.dataobject.codegen.CodegenTableDO;
-import com.focela.platform.module.infra.dal.dataobject.db.DataSourceConfigDO;
-import com.focela.platform.module.infra.dal.mysql.codegen.CodegenColumnMapper;
-import com.focela.platform.module.infra.dal.mysql.codegen.CodegenTableMapper;
+import com.focela.platform.module.infra.repository.entity.codegen.CodegenColumnEntity;
+import com.focela.platform.module.infra.repository.entity.codegen.CodegenTableEntity;
+import com.focela.platform.module.infra.repository.entity.db.DataSourceConfigEntity;
+import com.focela.platform.module.infra.repository.mapper.codegen.CodegenColumnMapper;
+import com.focela.platform.module.infra.repository.mapper.codegen.CodegenTableMapper;
 import com.focela.platform.module.infra.enums.codegen.CodegenSceneEnum;
 import com.focela.platform.module.infra.enums.codegen.CodegenTemplateTypeEnum;
 import com.focela.platform.module.infra.framework.codegen.config.CodegenProperties;
@@ -90,16 +90,16 @@ public class CodegenServiceImpl implements CodegenService {
             throw exception(CODEGEN_TABLE_EXISTS);
         }
 
-        // 构建 CodegenTableDO 对象，插入到 DB 中
-        CodegenTableDO table = codegenBuilder.buildTable(tableInfo);
+        // 构建 CodegenTableEntity 对象，插入到 DB 中
+        CodegenTableEntity table = codegenBuilder.buildTable(tableInfo);
         table.setDataSourceConfigId(dataSourceConfigId);
         table.setScene(CodegenSceneEnum.ADMIN.getScene()); // 默认配置下，使用管理后台的模板
         table.setFrontType(codegenProperties.getFrontType());
         table.setAuthor(author);
         codegenTableMapper.insert(table);
 
-        // 构建 CodegenColumnDO 数组，插入到 DB 中
-        List<CodegenColumnDO> columns = codegenBuilder.buildColumns(table.getId(), tableInfo.getFields());
+        // 构建 CodegenColumnEntity 数组，插入到 DB 中
+        List<CodegenColumnEntity> columns = codegenBuilder.buildColumns(table.getId(), tableInfo.getFields());
         // 如果没有主键，则使用第一个字段作为主键
         if (!tableInfo.isHavePrimaryKey()) {
             columns.get(0).setPrimaryKey(true);
@@ -145,10 +145,10 @@ public class CodegenServiceImpl implements CodegenService {
         }
 
         // 更新 table 表定义
-        CodegenTableDO updateTableObj = BeanUtils.toBean(updateReqVO.getTable(), CodegenTableDO.class);
+        CodegenTableEntity updateTableObj = BeanUtils.toBean(updateReqVO.getTable(), CodegenTableEntity.class);
         codegenTableMapper.updateById(updateTableObj);
         // 更新 column 字段定义
-        List<CodegenColumnDO> updateColumnObjs = BeanUtils.toBean(updateReqVO.getColumns(), CodegenColumnDO.class);
+        List<CodegenColumnEntity> updateColumnObjs = BeanUtils.toBean(updateReqVO.getColumns(), CodegenColumnEntity.class);
         updateColumnObjs.forEach(updateColumnObj -> codegenColumnMapper.updateById(updateColumnObj));
     }
 
@@ -156,7 +156,7 @@ public class CodegenServiceImpl implements CodegenService {
     @Transactional(rollbackFor = Exception.class)
     public void syncCodegenFromDB(Long tableId) {
         // 校验是否已经存在
-        CodegenTableDO table = codegenTableMapper.selectById(tableId);
+        CodegenTableEntity table = codegenTableMapper.selectById(tableId);
         if (table == null) {
             throw exception(CODEGEN_TABLE_NOT_EXISTS);
         }
@@ -171,13 +171,13 @@ public class CodegenServiceImpl implements CodegenService {
         validateTableInfo(tableInfo);
         List<TableField> tableFields = tableInfo.getFields();
 
-        // 2. 构建 CodegenColumnDO 数组，只同步新增的字段
-        List<CodegenColumnDO> codegenColumns = codegenColumnMapper.selectListByTableId(tableId);
-        Set<String> codegenColumnNames = convertSet(codegenColumns, CodegenColumnDO::getColumnName);
+        // 2. 构建 CodegenColumnEntity 数组，只同步新增的字段
+        List<CodegenColumnEntity> codegenColumns = codegenColumnMapper.selectListByTableId(tableId);
+        Set<String> codegenColumnNames = convertSet(codegenColumns, CodegenColumnEntity::getColumnName);
 
         // 3.1 计算需要【修改】的字段，插入时重新插入，删除时将原来的删除
-        Map<String, CodegenColumnDO> codegenColumnDOMap = convertMap(codegenColumns, CodegenColumnDO::getColumnName);
-        BiPredicate<TableField, CodegenColumnDO> primaryKeyPredicate =
+        Map<String, CodegenColumnEntity> codegenColumnDOMap = convertMap(codegenColumns, CodegenColumnEntity::getColumnName);
+        BiPredicate<TableField, CodegenColumnEntity> primaryKeyPredicate =
                 (tableField, codegenColumn) -> tableField.getMetaInfo().getJdbcType().name().equals(codegenColumn.getDataType())
                         && tableField.getMetaInfo().isNullable() == codegenColumn.getNullable()
                         && tableField.isKeyFlag() == codegenColumn.getPrimaryKey()
@@ -185,7 +185,7 @@ public class CodegenServiceImpl implements CodegenService {
         Set<String> modifyFieldNames = IntStream.range(0, tableFields.size()).mapToObj(index -> {
             TableField tableField = tableFields.get(index);
             String columnName = tableField.getColumnName();
-            CodegenColumnDO codegenColumn = codegenColumnDOMap.get(columnName);
+            CodegenColumnEntity codegenColumn = codegenColumnDOMap.get(columnName);
             if (codegenColumn == null) {
                 return null;
             }
@@ -198,7 +198,7 @@ public class CodegenServiceImpl implements CodegenService {
         Set<String> tableFieldNames = convertSet(tableFields, TableField::getName);
         Set<Long> deleteColumnIds = codegenColumns.stream()
                 .filter(column -> (!tableFieldNames.contains(column.getColumnName())) || modifyFieldNames.contains(column.getColumnName()))
-                .map(CodegenColumnDO::getId).collect(Collectors.toSet());
+                .map(CodegenColumnEntity::getId).collect(Collectors.toSet());
         // 移除已经存在的字段
         tableFields.removeIf(column -> codegenColumnNames.contains(column.getColumnName()) && (!modifyFieldNames.contains(column.getColumnName())));
         if (CollUtil.isEmpty(tableFields) && CollUtil.isEmpty(deleteColumnIds)) {
@@ -206,7 +206,7 @@ public class CodegenServiceImpl implements CodegenService {
         }
 
         // 4.1 插入新增的字段
-        List<CodegenColumnDO> columns = codegenBuilder.buildColumns(tableId, tableFields);
+        List<CodegenColumnEntity> columns = codegenBuilder.buildColumns(tableId, tableFields);
         codegenColumnMapper.insertBatch(columns);
         // 4.2 删除不存在的字段
         if (CollUtil.isNotEmpty(deleteColumnIds)) {
@@ -238,40 +238,40 @@ public class CodegenServiceImpl implements CodegenService {
     }
 
     @Override
-    public List<CodegenTableDO> getCodegenTableList(Long dataSourceConfigId) {
+    public List<CodegenTableEntity> getCodegenTableList(Long dataSourceConfigId) {
         return codegenTableMapper.selectListByDataSourceConfigId(dataSourceConfigId);
     }
 
     @Override
-    public PageResult<CodegenTableDO> getCodegenTablePage(CodegenTablePageReqVO pageReqVO) {
+    public PageResult<CodegenTableEntity> getCodegenTablePage(CodegenTablePageReqVO pageReqVO) {
         return codegenTableMapper.selectPage(pageReqVO);
     }
 
     @Override
-    public CodegenTableDO getCodegenTable(Long id) {
+    public CodegenTableEntity getCodegenTable(Long id) {
         return codegenTableMapper.selectById(id);
     }
 
     @Override
-    public List<CodegenColumnDO> getCodegenColumnListByTableId(Long tableId) {
+    public List<CodegenColumnEntity> getCodegenColumnListByTableId(Long tableId) {
         return codegenColumnMapper.selectListByTableId(tableId);
     }
 
     @Override
     public Map<String, String> generationCodes(Long tableId) {
         // 校验是否已经存在
-        CodegenTableDO table = codegenTableMapper.selectById(tableId);
+        CodegenTableEntity table = codegenTableMapper.selectById(tableId);
         if (table == null) {
             throw exception(CODEGEN_TABLE_NOT_EXISTS);
         }
-        List<CodegenColumnDO> columns = codegenColumnMapper.selectListByTableId(tableId);
+        List<CodegenColumnEntity> columns = codegenColumnMapper.selectListByTableId(tableId);
         if (CollUtil.isEmpty(columns)) {
             throw exception(CODEGEN_COLUMN_NOT_EXISTS);
         }
 
         // 如果是主子表，则加载对应的子表信息
-        List<CodegenTableDO> subTables = null;
-        List<List<CodegenColumnDO>> subColumnsList = null;
+        List<CodegenTableEntity> subTables = null;
+        List<List<CodegenColumnEntity>> subColumnsList = null;
         if (CodegenTemplateTypeEnum.isMaster(table.getTemplateType())) {
             // 校验子表存在
             subTables = codegenTableMapper.selectListByTemplateTypeAndMasterTableId(
@@ -281,8 +281,8 @@ public class CodegenServiceImpl implements CodegenService {
             }
             // 校验子表的关联字段存在
             subColumnsList = new ArrayList<>();
-            for (CodegenTableDO subTable : subTables) {
-                List<CodegenColumnDO> subColumns = codegenColumnMapper.selectListByTableId(subTable.getId());
+            for (CodegenTableEntity subTable : subTables) {
+                List<CodegenColumnEntity> subColumns = codegenColumnMapper.selectListByTableId(subTable.getId());
                 if (CollUtil.findOne(subColumns, column -> column.getId().equals(subTable.getSubJoinColumnId())) == null) {
                     throw exception(CODEGEN_SUB_COLUMN_NOT_EXISTS, subTable.getId());
                 }
@@ -291,7 +291,7 @@ public class CodegenServiceImpl implements CodegenService {
         }
 
         // 获取数据源对应的数据库类型
-        DataSourceConfigDO dataSourceConfig = dataSourceConfigService.getDataSourceConfig(table.getDataSourceConfigId());
+        DataSourceConfigEntity dataSourceConfig = dataSourceConfigService.getDataSourceConfig(table.getDataSourceConfigId());
         DbType dbType = JdbcUtils.getDbType(dataSourceConfig.getUrl());
         // 执行生成
         return codegenEngine.execute(dbType, table, columns, subTables, subColumnsList);
@@ -302,7 +302,7 @@ public class CodegenServiceImpl implements CodegenService {
         List<TableInfo> tables = databaseTableService.getTableList(dataSourceConfigId, name, comment);
         // 移除在 Codegen 中，已经存在的
         Set<String> existsTables = convertSet(
-                codegenTableMapper.selectListByDataSourceConfigId(dataSourceConfigId), CodegenTableDO::getTableName);
+                codegenTableMapper.selectListByDataSourceConfigId(dataSourceConfigId), CodegenTableEntity::getTableName);
         tables.removeIf(table -> existsTables.contains(table.getName()));
         return BeanUtils.toBean(tables, DatabaseTableRespVO.class);
     }

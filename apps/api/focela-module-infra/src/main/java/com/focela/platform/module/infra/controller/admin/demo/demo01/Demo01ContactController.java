@@ -9,7 +9,7 @@ import com.focela.platform.framework.excel.core.util.ExcelUtils;
 import com.focela.platform.module.infra.controller.admin.demo.demo01.vo.Demo01ContactPageReqVO;
 import com.focela.platform.module.infra.controller.admin.demo.demo01.vo.Demo01ContactRespVO;
 import com.focela.platform.module.infra.controller.admin.demo.demo01.vo.Demo01ContactSaveReqVO;
-import com.focela.platform.module.infra.dal.dataobject.demo.demo01.Demo01ContactDO;
+import com.focela.platform.module.infra.repository.entity.demo.demo01.Demo01ContactEntity;
 import com.focela.platform.module.infra.service.demo.demo01.Demo01ContactService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -74,7 +74,7 @@ public class Demo01ContactController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:demo01-contact:query')")
     public CommonResult<Demo01ContactRespVO> getDemo01Contact(@RequestParam("id") Long id) {
-        Demo01ContactDO demo01Contact = demo01ContactService.getDemo01Contact(id);
+        Demo01ContactEntity demo01Contact = demo01ContactService.getDemo01Contact(id);
         return success(BeanUtils.toBean(demo01Contact, Demo01ContactRespVO.class));
     }
 
@@ -82,7 +82,7 @@ public class Demo01ContactController {
     @Operation(summary = "获得示例联系人分页")
     @PreAuthorize("@ss.hasPermission('infra:demo01-contact:query')")
     public CommonResult<PageResult<Demo01ContactRespVO>> getDemo01ContactPage(@Valid Demo01ContactPageReqVO pageReqVO) {
-        PageResult<Demo01ContactDO> pageResult = demo01ContactService.getDemo01ContactPage(pageReqVO);
+        PageResult<Demo01ContactEntity> pageResult = demo01ContactService.getDemo01ContactPage(pageReqVO);
         return success(BeanUtils.toBean(pageResult, Demo01ContactRespVO.class));
     }
 
@@ -93,7 +93,7 @@ public class Demo01ContactController {
     public void exportDemo01ContactExcel(@Valid Demo01ContactPageReqVO pageReqVO,
                                          HttpServletResponse response) throws IOException {
         pageReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<Demo01ContactDO> list = demo01ContactService.getDemo01ContactPage(pageReqVO).getList();
+        List<Demo01ContactEntity> list = demo01ContactService.getDemo01ContactPage(pageReqVO).getList();
         // 导出 Excel
         ExcelUtils.write(response, "示例联系人.xls", "数据", Demo01ContactRespVO.class,
                 BeanUtils.toBean(list, Demo01ContactRespVO.class));

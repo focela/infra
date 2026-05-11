@@ -3,10 +3,10 @@ package com.focela.platform.module.system.service.mail;
 import cn.hutool.core.collection.ListUtil;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.system.controller.admin.mail.vo.log.MailLogPageReqVO;
-import com.focela.platform.module.system.dal.dataobject.mail.MailAccountDO;
-import com.focela.platform.module.system.dal.dataobject.mail.MailLogDO;
-import com.focela.platform.module.system.dal.dataobject.mail.MailTemplateDO;
-import com.focela.platform.module.system.dal.mysql.mail.MailLogMapper;
+import com.focela.platform.module.system.repository.entity.mail.MailAccountEntity;
+import com.focela.platform.module.system.repository.entity.mail.MailLogEntity;
+import com.focela.platform.module.system.repository.entity.mail.MailTemplateEntity;
+import com.focela.platform.module.system.repository.mapper.mail.MailLogMapper;
 import com.focela.platform.module.system.enums.mail.MailSendStatusEnum;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -31,21 +31,21 @@ public class MailLogServiceImpl implements MailLogService {
     private MailLogMapper mailLogMapper;
 
     @Override
-    public PageResult<MailLogDO> getMailLogPage(MailLogPageReqVO pageVO) {
+    public PageResult<MailLogEntity> getMailLogPage(MailLogPageReqVO pageVO) {
         return mailLogMapper.selectPage(pageVO);
     }
 
     @Override
-    public MailLogDO getMailLog(Long id) {
+    public MailLogEntity getMailLog(Long id) {
         return mailLogMapper.selectById(id);
     }
 
     @Override
     public Long createMailLog(Long userId, Integer userType,
                               Collection<String> toMails, Collection<String> ccMails, Collection<String> bccMails,
-                              MailAccountDO account, MailTemplateDO template,
+                              MailAccountEntity account, MailTemplateEntity template,
                               String templateContent, Map<String, Object> templateParams, Boolean isSend) {
-        MailLogDO.MailLogDOBuilder logDOBuilder = MailLogDO.builder();
+        MailLogEntity.MailLogEntityBuilder logDOBuilder = MailLogEntity.builder();
         // 根据是否要发送，设置状态
         logDOBuilder.sendStatus(Objects.equals(isSend, true) ? MailSendStatusEnum.INIT.getStatus()
                 : MailSendStatusEnum.IGNORE.getStatus())
@@ -58,7 +58,7 @@ public class MailLogServiceImpl implements MailLogService {
                 .templateTitle(template.getTitle()).templateContent(templateContent).templateParams(templateParams);
 
         // 插入数据库
-        MailLogDO logDO = logDOBuilder.build();
+        MailLogEntity logDO = logDOBuilder.build();
         mailLogMapper.insert(logDO);
         return logDO.getId();
     }
@@ -67,12 +67,12 @@ public class MailLogServiceImpl implements MailLogService {
     public void updateMailSendResult(Long logId, String messageId, Exception exception) {
         // 1. 成功
         if (exception == null) {
-            mailLogMapper.updateById(new MailLogDO().setId(logId).setSendTime(LocalDateTime.now())
+            mailLogMapper.updateById(new MailLogEntity().setId(logId).setSendTime(LocalDateTime.now())
                     .setSendStatus(MailSendStatusEnum.SUCCESS.getStatus()).setSendMessageId(messageId));
             return;
         }
         // 2. 失败
-        mailLogMapper.updateById(new MailLogDO().setId(logId).setSendTime(LocalDateTime.now())
+        mailLogMapper.updateById(new MailLogEntity().setId(logId).setSendTime(LocalDateTime.now())
                 .setSendStatus(MailSendStatusEnum.FAILURE.getStatus()).setSendException(getRootCauseMessage(exception)));
 
     }

@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.service.oauth2;
 
-import com.focela.platform.module.system.dal.dataobject.oauth2.OAuth2AccessTokenDO;
+import com.focela.platform.module.system.repository.entity.oauth2.OAuth2AccessTokenEntity;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public interface OAuth2GrantService {
      * @param scopes 授权范围
      * @return 访问令牌
      */
-    OAuth2AccessTokenDO grantImplicit(Long userId, Integer userType,
+    OAuth2AccessTokenEntity grantImplicit(Long userId, Integer userType,
                                       String clientId, List<String> scopes);
 
     /**
@@ -60,7 +60,7 @@ public interface OAuth2GrantService {
      * @param state 状态
      * @return 访问令牌
      */
-    OAuth2AccessTokenDO grantAuthorizationCodeForAccessToken(String clientId, String code,
+    OAuth2AccessTokenEntity grantAuthorizationCodeForAccessToken(String clientId, String code,
                                                              String redirectUri, String state);
 
     /**
@@ -74,7 +74,7 @@ public interface OAuth2GrantService {
      * @param scopes 授权范围
      * @return 访问令牌
      */
-    OAuth2AccessTokenDO grantPassword(String username, String password,
+    OAuth2AccessTokenEntity grantPassword(String username, String password,
                                       String clientId, List<String> scopes);
 
     /**
@@ -86,7 +86,7 @@ public interface OAuth2GrantService {
      * @param clientId 客户端编号
      * @return 访问令牌
      */
-    OAuth2AccessTokenDO grantRefreshToken(String refreshToken, String clientId);
+    OAuth2AccessTokenEntity grantRefreshToken(String refreshToken, String clientId);
 
     /**
      * 客户端模式
@@ -97,7 +97,7 @@ public interface OAuth2GrantService {
      * @param scopes 授权范围
      * @return 访问令牌
      */
-    OAuth2AccessTokenDO grantClientCredentials(String clientId, List<String> scopes);
+    OAuth2AccessTokenEntity grantClientCredentials(String clientId, List<String> scopes);
 
     /**
      * 移除访问令牌

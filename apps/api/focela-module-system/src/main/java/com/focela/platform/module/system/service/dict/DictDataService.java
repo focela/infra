@@ -3,7 +3,7 @@ package com.focela.platform.module.system.service.dict;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.system.controller.admin.dict.vo.data.DictDataPageReqVO;
 import com.focela.platform.module.system.controller.admin.dict.vo.data.DictDataSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.dict.DictDataDO;
+import com.focela.platform.module.system.repository.entity.dict.DictDataEntity;
 import org.springframework.lang.Nullable;
 
 import java.util.Collection;
@@ -52,7 +52,7 @@ public interface DictDataService {
      * @param dictType 字典类型
      * @return 字典数据全列表
      */
-    List<DictDataDO> getDictDataList(@Nullable Integer status, @Nullable String dictType);
+    List<DictDataEntity> getDictDataList(@Nullable Integer status, @Nullable String dictType);
 
     /**
      * 获得字典数据分页列表
@@ -60,7 +60,7 @@ public interface DictDataService {
      * @param pageReqVO 分页请求
      * @return 字典数据分页列表
      */
-    PageResult<DictDataDO> getDictDataPage(DictDataPageReqVO pageReqVO);
+    PageResult<DictDataEntity> getDictDataPage(DictDataPageReqVO pageReqVO);
 
     /**
      * 获得字典数据详情
@@ -68,7 +68,7 @@ public interface DictDataService {
      * @param id 字典数据编号
      * @return 字典数据
      */
-    DictDataDO getDictData(Long id);
+    DictDataEntity getDictData(Long id);
 
     /**
      * 获得指定字典类型的数据数量
@@ -95,7 +95,7 @@ public interface DictDataService {
      * @param value    字典数据值
      * @return 字典数据
      */
-    DictDataDO getDictData(String dictType, String value);
+    DictDataEntity getDictData(String dictType, String value);
 
     /**
      * 解析获得指定的字典数据，从缓存中
@@ -104,7 +104,7 @@ public interface DictDataService {
      * @param label    字典数据标签
      * @return 字典数据
      */
-    DictDataDO parseDictData(String dictType, String label);
+    DictDataEntity parseDictData(String dictType, String label);
 
     /**
      * 获得指定数据类型的字典数据列表
@@ -112,6 +112,6 @@ public interface DictDataService {
      * @param dictType 字典类型
      * @return 字典数据列表
      */
-    List<DictDataDO> getDictDataListByDictType(String dictType);
+    List<DictDataEntity> getDictDataListByDictType(String dictType);
 
 }

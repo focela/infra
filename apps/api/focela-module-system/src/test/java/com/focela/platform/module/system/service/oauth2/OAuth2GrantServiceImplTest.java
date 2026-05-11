@@ -2,9 +2,9 @@ package com.focela.platform.module.system.service.oauth2;
 
 import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.test.core.ut.BaseMockitoUnitTest;
-import com.focela.platform.module.system.dal.dataobject.oauth2.OAuth2AccessTokenDO;
-import com.focela.platform.module.system.dal.dataobject.oauth2.OAuth2CodeDO;
-import com.focela.platform.module.system.dal.dataobject.user.AdminUserDO;
+import com.focela.platform.module.system.repository.entity.oauth2.OAuth2AccessTokenEntity;
+import com.focela.platform.module.system.repository.entity.oauth2.OAuth2CodeEntity;
+import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
 import com.focela.platform.module.system.service.auth.AdminAuthService;
 import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Test;
@@ -45,7 +45,7 @@ public class OAuth2GrantServiceImplTest extends BaseMockitoUnitTest {
         String clientId = randomString();
         List<String> scopes = Lists.newArrayList("read", "write");
         // mock 方法
-        OAuth2AccessTokenDO accessTokenDO = randomPojo(OAuth2AccessTokenDO.class);
+        OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class);
         when(oauth2TokenService.createAccessToken(eq(userId), eq(userType),
                 eq(clientId), eq(scopes))).thenReturn(accessTokenDO);
 
@@ -64,7 +64,7 @@ public class OAuth2GrantServiceImplTest extends BaseMockitoUnitTest {
         String redirectUri = randomString();
         String state = randomString();
         // mock 方法
-        OAuth2CodeDO codeDO = randomPojo(OAuth2CodeDO.class);
+        OAuth2CodeEntity codeDO = randomPojo(OAuth2CodeEntity.class);
         when(oauth2CodeService.createAuthorizationCode(eq(userId), eq(userType),
                 eq(clientId), eq(scopes), eq(redirectUri), eq(state))).thenReturn(codeDO);
 
@@ -82,7 +82,7 @@ public class OAuth2GrantServiceImplTest extends BaseMockitoUnitTest {
         String redirectUri = randomString();
         String state = randomString();
         // mock 方法（code）
-        OAuth2CodeDO codeDO = randomPojo(OAuth2CodeDO.class, o -> {
+        OAuth2CodeEntity codeDO = randomPojo(OAuth2CodeEntity.class, o -> {
             o.setClientId(clientId);
             o.setRedirectUri(redirectUri);
             o.setState(state);
@@ -90,7 +90,7 @@ public class OAuth2GrantServiceImplTest extends BaseMockitoUnitTest {
         });
         when(oauth2CodeService.consumeAuthorizationCode(eq(code))).thenReturn(codeDO);
         // mock 方法（创建令牌）
-        OAuth2AccessTokenDO accessTokenDO = randomPojo(OAuth2AccessTokenDO.class);
+        OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class);
         when(oauth2TokenService.createAccessToken(eq(codeDO.getUserId()), eq(codeDO.getUserType()),
                 eq(codeDO.getClientId()), eq(codeDO.getScopes()))).thenReturn(accessTokenDO);
 
@@ -107,10 +107,10 @@ public class OAuth2GrantServiceImplTest extends BaseMockitoUnitTest {
         String clientId = randomString();
         List<String> scopes = Lists.newArrayList("read", "write");
         // mock 方法(认证)
-        AdminUserDO user = randomPojo(AdminUserDO.class);
+        AdminUserEntity user = randomPojo(AdminUserEntity.class);
         when(adminAuthService.authenticate(eq(username), eq(password))).thenReturn(user);
         // mock 方法（访问令牌）
-        OAuth2AccessTokenDO accessTokenDO = randomPojo(OAuth2AccessTokenDO.class);
+        OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class);
         when(oauth2TokenService.createAccessToken(eq(user.getId()), eq(UserTypeEnum.ADMIN.getValue()),
                 eq(clientId), eq(scopes))).thenReturn(accessTokenDO);
 
@@ -125,7 +125,7 @@ public class OAuth2GrantServiceImplTest extends BaseMockitoUnitTest {
         String refreshToken = randomString();
         String clientId = randomString();
         // mock 方法
-        OAuth2AccessTokenDO accessTokenDO = randomPojo(OAuth2AccessTokenDO.class);
+        OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class);
         when(oauth2TokenService.refreshAccessToken(eq(refreshToken), eq(clientId)))
                 .thenReturn(accessTokenDO);
 
@@ -140,7 +140,7 @@ public class OAuth2GrantServiceImplTest extends BaseMockitoUnitTest {
         String clientId = randomString();
         String accessToken = randomString();
         // mock 方法
-        OAuth2AccessTokenDO accessTokenDO = randomPojo(OAuth2AccessTokenDO.class);
+        OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class);
         when(oauth2TokenService.getAccessToken(eq(accessToken))).thenReturn(accessTokenDO);
 
         // 调用，并断言
@@ -153,7 +153,7 @@ public class OAuth2GrantServiceImplTest extends BaseMockitoUnitTest {
         String clientId = randomString();
         String accessToken = randomString();
         // mock 方法（访问令牌）
-        OAuth2AccessTokenDO accessTokenDO = randomPojo(OAuth2AccessTokenDO.class).setClientId(clientId);
+        OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class).setClientId(clientId);
         when(oauth2TokenService.getAccessToken(eq(accessToken))).thenReturn(accessTokenDO);
         // mock 方法（移除）
         when(oauth2TokenService.removeAccessToken(eq(accessToken))).thenReturn(accessTokenDO);

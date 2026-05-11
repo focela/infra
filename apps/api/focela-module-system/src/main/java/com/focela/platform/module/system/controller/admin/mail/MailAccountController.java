@@ -8,7 +8,7 @@ import com.focela.platform.module.system.controller.admin.mail.vo.account.MailAc
 import com.focela.platform.module.system.controller.admin.mail.vo.account.MailAccountRespVO;
 import com.focela.platform.module.system.controller.admin.mail.vo.account.MailAccountSaveReqVO;
 import com.focela.platform.module.system.controller.admin.mail.vo.account.MailAccountSimpleRespVO;
-import com.focela.platform.module.system.dal.dataobject.mail.MailAccountDO;
+import com.focela.platform.module.system.repository.entity.mail.MailAccountEntity;
 import com.focela.platform.module.system.service.mail.MailAccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -68,7 +68,7 @@ public class MailAccountController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:mail-account:query')")
     public CommonResult<MailAccountRespVO> getMailAccount(@RequestParam("id") Long id) {
-        MailAccountDO account = mailAccountService.getMailAccount(id);
+        MailAccountEntity account = mailAccountService.getMailAccount(id);
         return success(BeanUtils.toBean(account, MailAccountRespVO.class));
     }
 
@@ -76,14 +76,14 @@ public class MailAccountController {
     @Operation(summary = "获得邮箱账号分页")
     @PreAuthorize("@ss.hasPermission('system:mail-account:query')")
     public CommonResult<PageResult<MailAccountRespVO>> getMailAccountPage(@Valid MailAccountPageReqVO pageReqVO) {
-        PageResult<MailAccountDO> pageResult = mailAccountService.getMailAccountPage(pageReqVO);
+        PageResult<MailAccountEntity> pageResult = mailAccountService.getMailAccountPage(pageReqVO);
         return success(BeanUtils.toBean(pageResult, MailAccountRespVO.class));
     }
 
     @GetMapping({"/list-all-simple", "simple-list"})
     @Operation(summary = "获得邮箱账号精简列表")
     public CommonResult<List<MailAccountSimpleRespVO>> getSimpleMailAccountList() {
-        List<MailAccountDO> list = mailAccountService.getMailAccountList();
+        List<MailAccountEntity> list = mailAccountService.getMailAccountList();
         return success(BeanUtils.toBean(list, MailAccountSimpleRespVO.class));
     }
 

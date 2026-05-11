@@ -4,9 +4,9 @@ import com.focela.platform.framework.common.pojo.PageParam;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.infra.controller.admin.demo.demo03.erp.vo.Demo03StudentErpPageReqVO;
 import com.focela.platform.module.infra.controller.admin.demo.demo03.erp.vo.Demo03StudentErpSaveReqVO;
-import com.focela.platform.module.infra.dal.dataobject.demo.demo03.Demo03CourseDO;
-import com.focela.platform.module.infra.dal.dataobject.demo.demo03.Demo03GradeDO;
-import com.focela.platform.module.infra.dal.dataobject.demo.demo03.Demo03StudentDO;
+import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03CourseEntity;
+import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03GradeEntity;
+import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03StudentEntity;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -53,7 +53,7 @@ public interface Demo03StudentErpService {
      * @param id 编号
      * @return 学生
      */
-    Demo03StudentDO getDemo03Student(Long id);
+    Demo03StudentEntity getDemo03Student(Long id);
 
     /**
      * 获得学生分页
@@ -61,7 +61,7 @@ public interface Demo03StudentErpService {
      * @param pageReqVO 分页查询
      * @return 学生分页
      */
-    PageResult<Demo03StudentDO> getDemo03StudentPage(Demo03StudentErpPageReqVO pageReqVO);
+    PageResult<Demo03StudentEntity> getDemo03StudentPage(Demo03StudentErpPageReqVO pageReqVO);
 
     // ==================== 子表（学生课程） ====================
 
@@ -72,7 +72,7 @@ public interface Demo03StudentErpService {
      * @param studentId 学生编号
      * @return 学生课程分页
      */
-    PageResult<Demo03CourseDO> getDemo03CoursePage(PageParam pageReqVO, Long studentId);
+    PageResult<Demo03CourseEntity> getDemo03CoursePage(PageParam pageReqVO, Long studentId);
 
     /**
      * 创建学生课程
@@ -80,14 +80,14 @@ public interface Demo03StudentErpService {
      * @param demo03Course 创建信息
      * @return 编号
      */
-    Long createDemo03Course(@Valid Demo03CourseDO demo03Course);
+    Long createDemo03Course(@Valid Demo03CourseEntity demo03Course);
 
     /**
      * 更新学生课程
      *
      * @param demo03Course 更新信息
      */
-    void updateDemo03Course(@Valid Demo03CourseDO demo03Course);
+    void updateDemo03Course(@Valid Demo03CourseEntity demo03Course);
 
     /**
      * 删除学生课程
@@ -109,7 +109,7 @@ public interface Demo03StudentErpService {
      * @param id 编号
      * @return 学生课程
      */
-    Demo03CourseDO getDemo03Course(Long id);
+    Demo03CourseEntity getDemo03Course(Long id);
 
     // ==================== 子表（学生班级） ====================
 
@@ -120,7 +120,7 @@ public interface Demo03StudentErpService {
      * @param studentId 学生编号
      * @return 学生班级分页
      */
-    PageResult<Demo03GradeDO> getDemo03GradePage(PageParam pageReqVO, Long studentId);
+    PageResult<Demo03GradeEntity> getDemo03GradePage(PageParam pageReqVO, Long studentId);
 
     /**
      * 创建学生班级
@@ -128,14 +128,14 @@ public interface Demo03StudentErpService {
      * @param demo03Grade 创建信息
      * @return 编号
      */
-    Long createDemo03Grade(@Valid Demo03GradeDO demo03Grade);
+    Long createDemo03Grade(@Valid Demo03GradeEntity demo03Grade);
 
     /**
      * 更新学生班级
      *
      * @param demo03Grade 更新信息
      */
-    void updateDemo03Grade(@Valid Demo03GradeDO demo03Grade);
+    void updateDemo03Grade(@Valid Demo03GradeEntity demo03Grade);
 
     /**
      * 删除学生班级
@@ -157,6 +157,6 @@ public interface Demo03StudentErpService {
      * @param id 编号
      * @return 学生班级
      */
-    Demo03GradeDO getDemo03Grade(Long id);
+    Demo03GradeEntity getDemo03Grade(Long id);
 
 }

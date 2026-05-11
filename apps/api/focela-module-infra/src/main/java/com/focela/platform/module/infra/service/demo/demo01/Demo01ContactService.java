@@ -3,7 +3,7 @@ package com.focela.platform.module.infra.service.demo.demo01;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.infra.controller.admin.demo.demo01.vo.Demo01ContactPageReqVO;
 import com.focela.platform.module.infra.controller.admin.demo.demo01.vo.Demo01ContactSaveReqVO;
-import com.focela.platform.module.infra.dal.dataobject.demo.demo01.Demo01ContactDO;
+import com.focela.platform.module.infra.repository.entity.demo.demo01.Demo01ContactEntity;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -50,7 +50,7 @@ public interface Demo01ContactService {
      * @param id 编号
      * @return 示例联系人
      */
-    Demo01ContactDO getDemo01Contact(Long id);
+    Demo01ContactEntity getDemo01Contact(Long id);
 
     /**
      * 获得示例联系人分页
@@ -58,6 +58,6 @@ public interface Demo01ContactService {
      * @param pageReqVO 分页查询
      * @return 示例联系人分页
      */
-    PageResult<Demo01ContactDO> getDemo01ContactPage(Demo01ContactPageReqVO pageReqVO);
+    PageResult<Demo01ContactEntity> getDemo01ContactPage(Demo01ContactPageReqVO pageReqVO);
 
 }

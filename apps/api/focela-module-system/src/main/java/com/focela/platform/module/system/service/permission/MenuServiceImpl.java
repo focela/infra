@@ -7,9 +7,9 @@ import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.permission.vo.menu.MenuListReqVO;
 import com.focela.platform.module.system.controller.admin.permission.vo.menu.MenuSaveVO;
-import com.focela.platform.module.system.dal.dataobject.permission.MenuDO;
-import com.focela.platform.module.system.dal.mysql.permission.MenuMapper;
-import com.focela.platform.module.system.dal.redis.RedisKeyConstants;
+import com.focela.platform.module.system.repository.entity.permission.MenuEntity;
+import com.focela.platform.module.system.repository.mapper.permission.MenuMapper;
+import com.focela.platform.module.system.repository.redis.RedisKeyConstants;
 import com.focela.platform.module.system.enums.permission.MenuTypeEnum;
 import com.focela.platform.module.system.service.tenant.TenantService;
 import com.google.common.annotations.VisibleForTesting;
@@ -27,7 +27,7 @@ import java.util.*;
 import static com.focela.platform.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static com.focela.platform.framework.common.util.collection.CollectionUtils.convertList;
 import static com.focela.platform.framework.common.util.collection.CollectionUtils.convertMap;
-import static com.focela.platform.module.system.dal.dataobject.permission.MenuDO.ID_ROOT;
+import static com.focela.platform.module.system.repository.entity.permission.MenuEntity.ID_ROOT;
 import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
 
 /**
@@ -58,7 +58,7 @@ public class MenuServiceImpl implements MenuService {
         validateMenuComponentName(createReqVO.getComponentName(), null);
 
         // 插入数据库
-        MenuDO menu = BeanUtils.toBean(createReqVO, MenuDO.class);
+        MenuEntity menu = BeanUtils.toBean(createReqVO, MenuEntity.class);
         initMenuProperty(menu);
         menuMapper.insert(menu);
         // 返回
@@ -80,7 +80,7 @@ public class MenuServiceImpl implements MenuService {
         validateMenuComponentName(updateReqVO.getComponentName(), updateReqVO.getId());
 
         // 更新到数据库
-        MenuDO updateObj = BeanUtils.toBean(updateReqVO, MenuDO.class);
+        MenuEntity updateObj = BeanUtils.toBean(updateReqVO, MenuEntity.class);
         initMenuProperty(updateObj);
         menuMapper.updateById(updateObj);
     }
@@ -123,30 +123,30 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<MenuDO> getMenuList() {
+    public List<MenuEntity> getMenuList() {
         return menuMapper.selectList();
     }
 
     @Override
-    public List<MenuDO> getMenuListByTenant(MenuListReqVO reqVO) {
+    public List<MenuEntity> getMenuListByTenant(MenuListReqVO reqVO) {
         // 查询所有菜单，并过滤掉关闭的节点
-        List<MenuDO> menus = getMenuList(reqVO);
+        List<MenuEntity> menus = getMenuList(reqVO);
         // 开启多租户的情况下，需要过滤掉未开通的菜单
         tenantService.handleTenantMenu(menuIds -> menus.removeIf(menu -> !CollUtil.contains(menuIds, menu.getId())));
         return menus;
     }
 
     @Override
-    public List<MenuDO> filterDisableMenus(List<MenuDO> menuList) {
+    public List<MenuEntity> filterDisableMenus(List<MenuEntity> menuList) {
         if (CollUtil.isEmpty(menuList)){
             return Collections.emptyList();
         }
-        Map<Long, MenuDO> menuMap = convertMap(menuList, MenuDO::getId);
+        Map<Long, MenuEntity> menuMap = convertMap(menuList, MenuEntity::getId);
 
         // 遍历 menu 菜单，查找不是禁用的菜单，添加到 enabledMenus 结果
-        List<MenuDO> enabledMenus = new ArrayList<>();
+        List<MenuEntity> enabledMenus = new ArrayList<>();
         Set<Long> disabledMenuCache = new HashSet<>(); // 存下递归搜索过被禁用的菜单，防止重复的搜索
-        for (MenuDO menu : menuList) {
+        for (MenuEntity menu : menuList) {
             if (isMenuDisabled(menu, menuMap, disabledMenuCache)) {
                 continue;
             }
@@ -155,7 +155,7 @@ public class MenuServiceImpl implements MenuService {
         return enabledMenus;
     }
 
-    private boolean isMenuDisabled(MenuDO node, Map<Long, MenuDO> menuMap, Set<Long> disabledMenuCache) {
+    private boolean isMenuDisabled(MenuEntity node, Map<Long, MenuEntity> menuMap, Set<Long> disabledMenuCache) {
         // 如果已经判定是禁用的节点，直接结束
         if (disabledMenuCache.contains(node.getId())) {
             return true;
@@ -174,7 +174,7 @@ public class MenuServiceImpl implements MenuService {
         }
 
         // 3. 继续遍历 parent 节点
-        MenuDO parent = menuMap.get(parentId);
+        MenuEntity parent = menuMap.get(parentId);
         if (parent == null || isMenuDisabled(parent, menuMap, disabledMenuCache)) {
             disabledMenuCache.add(node.getId());
             return true;
@@ -183,24 +183,24 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<MenuDO> getMenuList(MenuListReqVO reqVO) {
+    public List<MenuEntity> getMenuList(MenuListReqVO reqVO) {
         return menuMapper.selectList(reqVO);
     }
 
     @Override
     @Cacheable(value = RedisKeyConstants.PERMISSION_MENU_ID_LIST, key = "#permission")
     public List<Long> getMenuIdListByPermissionFromCache(String permission) {
-        List<MenuDO> menus = menuMapper.selectListByPermission(permission);
-        return convertList(menus, MenuDO::getId);
+        List<MenuEntity> menus = menuMapper.selectListByPermission(permission);
+        return convertList(menus, MenuEntity::getId);
     }
 
     @Override
-    public MenuDO getMenu(Long id) {
+    public MenuEntity getMenu(Long id) {
         return menuMapper.selectById(id);
     }
 
     @Override
-    public List<MenuDO> getMenuList(Collection<Long> ids) {
+    public List<MenuEntity> getMenuList(Collection<Long> ids) {
         // 当 ids 为空时，返回一个空的实例对象
         if (CollUtil.isEmpty(ids)) {
             return Lists.newArrayList();
@@ -227,7 +227,7 @@ public class MenuServiceImpl implements MenuService {
         if (parentId.equals(childId)) {
             throw exception(MENU_PARENT_ERROR);
         }
-        MenuDO menu = menuMapper.selectById(parentId);
+        MenuEntity menu = menuMapper.selectById(parentId);
         // 父菜单不存在
         if (menu == null) {
             throw exception(MENU_PARENT_NOT_EXISTS);
@@ -250,7 +250,7 @@ public class MenuServiceImpl implements MenuService {
      */
     @VisibleForTesting
     void validateMenuName(Long parentId, String name, Long id) {
-        MenuDO menu = menuMapper.selectByParentIdAndName(parentId, name);
+        MenuEntity menu = menuMapper.selectByParentIdAndName(parentId, name);
         if (menu == null) {
             return;
         }
@@ -274,7 +274,7 @@ public class MenuServiceImpl implements MenuService {
         if (StrUtil.isBlank(componentName)) {
             return;
         }
-        MenuDO menu = menuMapper.selectByComponentName(componentName);
+        MenuEntity menu = menuMapper.selectByComponentName(componentName);
         if (menu == null) {
             return;
         }
@@ -294,7 +294,7 @@ public class MenuServiceImpl implements MenuService {
      *
      * @param menu 菜单
      */
-    private void initMenuProperty(MenuDO menu) {
+    private void initMenuProperty(MenuEntity menu) {
         // 菜单为按钮类型时，无需 component、icon、path 属性，进行置空
         if (MenuTypeEnum.BUTTON.getType().equals(menu.getType())) {
             menu.setComponent("");

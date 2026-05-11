@@ -5,7 +5,7 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.mail.vo.log.MailLogPageReqVO;
 import com.focela.platform.module.system.controller.admin.mail.vo.log.MailLogRespVO;
-import com.focela.platform.module.system.dal.dataobject.mail.MailLogDO;
+import com.focela.platform.module.system.repository.entity.mail.MailLogEntity;
 import com.focela.platform.module.system.service.mail.MailLogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -33,7 +33,7 @@ public class MailLogController {
     @Operation(summary = "获得邮箱日志分页")
     @PreAuthorize("@ss.hasPermission('system:mail-log:query')")
     public CommonResult<PageResult<MailLogRespVO>> getMailLogPage(@Valid MailLogPageReqVO pageVO) {
-        PageResult<MailLogDO> pageResult = mailLogService.getMailLogPage(pageVO);
+        PageResult<MailLogEntity> pageResult = mailLogService.getMailLogPage(pageVO);
         return success(BeanUtils.toBean(pageResult, MailLogRespVO.class));
     }
 
@@ -42,7 +42,7 @@ public class MailLogController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:mail-log:query')")
     public CommonResult<MailLogRespVO> getMailTemplate(@RequestParam("id") Long id) {
-        MailLogDO log = mailLogService.getMailLog(id);
+        MailLogEntity log = mailLogService.getMailLog(id);
         return success(BeanUtils.toBean(log, MailLogRespVO.class));
     }
 

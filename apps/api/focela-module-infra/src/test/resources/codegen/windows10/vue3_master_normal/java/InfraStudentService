@@ -3,9 +3,9 @@ package com.focela.platform.module.infra.service.demo;
 import java.util.*;
 import javax.validation.*;
 import com.focela.platform.module.infra.controller.admin.demo.vo.*;
-import com.focela.platform.module.infra.dal.dataobject.demo.InfraStudentDO;
-import com.focela.platform.module.infra.dal.dataobject.demo.InfraStudentContactDO;
-import com.focela.platform.module.infra.dal.dataobject.demo.InfraStudentTeacherDO;
+import com.focela.platform.module.infra.repository.entity.demo.InfraStudentDO;
+import com.focela.platform.module.infra.repository.entity.demo.InfraStudentContactDO;
+import com.focela.platform.module.infra.repository.entity.demo.InfraStudentTeacherDO;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.pojo.PageParam;
 

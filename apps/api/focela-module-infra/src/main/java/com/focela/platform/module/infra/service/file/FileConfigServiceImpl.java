@@ -8,8 +8,8 @@ import com.focela.platform.framework.common.util.validation.ValidationUtils;
 import com.focela.platform.module.infra.controller.admin.file.vo.config.FileConfigPageReqVO;
 import com.focela.platform.module.infra.controller.admin.file.vo.config.FileConfigSaveReqVO;
 import com.focela.platform.module.infra.convert.file.FileConfigConvert;
-import com.focela.platform.module.infra.dal.dataobject.file.FileConfigDO;
-import com.focela.platform.module.infra.dal.mysql.file.FileConfigMapper;
+import com.focela.platform.module.infra.repository.entity.file.FileConfigEntity;
+import com.focela.platform.module.infra.repository.mapper.file.FileConfigMapper;
 import com.focela.platform.module.infra.framework.file.core.client.FileClient;
 import com.focela.platform.module.infra.framework.file.core.client.FileClientConfig;
 import com.focela.platform.module.infra.framework.file.core.client.FileClientFactory;
@@ -55,7 +55,7 @@ public class FileConfigServiceImpl implements FileConfigService {
 
                 @Override
                 public FileClient load(Long id) {
-                    FileConfigDO config = Objects.equals(CACHE_MASTER_ID, id) ?
+                    FileConfigEntity config = Objects.equals(CACHE_MASTER_ID, id) ?
                             fileConfigMapper.selectByMaster() : fileConfigMapper.selectById(id);
                     if (config != null) {
                         fileClientFactory.createOrUpdateFileClient(config.getId(), config.getStorage(), config.getConfig());
@@ -76,7 +76,7 @@ public class FileConfigServiceImpl implements FileConfigService {
 
     @Override
     public Long createFileConfig(FileConfigSaveReqVO createReqVO) {
-        FileConfigDO fileConfig = FileConfigConvert.INSTANCE.convert(createReqVO)
+        FileConfigEntity fileConfig = FileConfigConvert.INSTANCE.convert(createReqVO)
                 .setConfig(parseClientConfig(createReqVO.getStorage(), createReqVO.getConfig()))
                 .setMaster(false); // 默认非 master
         fileConfigMapper.insert(fileConfig);
@@ -86,9 +86,9 @@ public class FileConfigServiceImpl implements FileConfigService {
     @Override
     public void updateFileConfig(FileConfigSaveReqVO updateReqVO) {
         // 校验存在
-        FileConfigDO config = validateFileConfigExists(updateReqVO.getId());
+        FileConfigEntity config = validateFileConfigExists(updateReqVO.getId());
         // 更新
-        FileConfigDO updateObj = FileConfigConvert.INSTANCE.convert(updateReqVO)
+        FileConfigEntity updateObj = FileConfigConvert.INSTANCE.convert(updateReqVO)
                 .setConfig(parseClientConfig(config.getStorage(), updateReqVO.getConfig()));
         fileConfigMapper.updateById(updateObj);
 
@@ -102,9 +102,9 @@ public class FileConfigServiceImpl implements FileConfigService {
         // 校验存在
         validateFileConfigExists(id);
         // 更新其它为非 master
-        fileConfigMapper.updateBatch(new FileConfigDO().setMaster(false));
+        fileConfigMapper.updateBatch(new FileConfigEntity().setMaster(false));
         // 更新
-        fileConfigMapper.updateById(new FileConfigDO().setId(id).setMaster(true));
+        fileConfigMapper.updateById(new FileConfigEntity().setId(id).setMaster(true));
 
         // 清空缓存
         clearCache(null, true);
@@ -124,7 +124,7 @@ public class FileConfigServiceImpl implements FileConfigService {
     @Override
     public void deleteFileConfig(Long id) {
         // 校验存在
-        FileConfigDO config = validateFileConfigExists(id);
+        FileConfigEntity config = validateFileConfigExists(id);
         if (Boolean.TRUE.equals(config.getMaster())) {
             throw exception(FILE_CONFIG_DELETE_FAIL_MASTER);
         }
@@ -138,8 +138,8 @@ public class FileConfigServiceImpl implements FileConfigService {
     @Override
     public void deleteFileConfigList(List<Long> ids) {
         // 校验是否有主配置
-        List<FileConfigDO> configs = fileConfigMapper.selectByIds(ids);
-        for (FileConfigDO config : configs) {
+        List<FileConfigEntity> configs = fileConfigMapper.selectByIds(ids);
+        for (FileConfigEntity config : configs) {
             if (Boolean.TRUE.equals(config.getMaster())) {
                 throw exception(FILE_CONFIG_DELETE_FAIL_MASTER);
             }
@@ -167,8 +167,8 @@ public class FileConfigServiceImpl implements FileConfigService {
         }
     }
 
-    private FileConfigDO validateFileConfigExists(Long id) {
-        FileConfigDO config = fileConfigMapper.selectById(id);
+    private FileConfigEntity validateFileConfigExists(Long id) {
+        FileConfigEntity config = fileConfigMapper.selectById(id);
         if (config == null) {
             throw exception(FILE_CONFIG_NOT_EXISTS);
         }
@@ -176,12 +176,12 @@ public class FileConfigServiceImpl implements FileConfigService {
     }
 
     @Override
-    public FileConfigDO getFileConfig(Long id) {
+    public FileConfigEntity getFileConfig(Long id) {
         return fileConfigMapper.selectById(id);
     }
 
     @Override
-    public PageResult<FileConfigDO> getFileConfigPage(FileConfigPageReqVO pageReqVO) {
+    public PageResult<FileConfigEntity> getFileConfigPage(FileConfigPageReqVO pageReqVO) {
         return fileConfigMapper.selectPage(pageReqVO);
     }
 

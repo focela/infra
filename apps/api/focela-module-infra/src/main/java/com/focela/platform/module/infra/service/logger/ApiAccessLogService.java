@@ -3,7 +3,7 @@ package com.focela.platform.module.infra.service.logger;
 import com.focela.platform.framework.common.biz.infra.logger.dto.ApiAccessLogCreateReqDTO;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.infra.controller.admin.logger.vo.apiaccesslog.ApiAccessLogPageReqVO;
-import com.focela.platform.module.infra.dal.dataobject.logger.ApiAccessLogDO;
+import com.focela.platform.module.infra.repository.entity.logger.ApiAccessLogEntity;
 
 /**
  * API 访问日志 Service 接口
@@ -25,7 +25,7 @@ public interface ApiAccessLogService {
      * @param id 编号
      * @return API 访问日志
      */
-    ApiAccessLogDO getApiAccessLog(Long id);
+    ApiAccessLogEntity getApiAccessLog(Long id);
 
     /**
      * 获得 API 访问日志分页
@@ -33,7 +33,7 @@ public interface ApiAccessLogService {
      * @param pageReqVO 分页查询
      * @return API 访问日志分页
      */
-    PageResult<ApiAccessLogDO> getApiAccessLogPage(ApiAccessLogPageReqVO pageReqVO);
+    PageResult<ApiAccessLogEntity> getApiAccessLogPage(ApiAccessLogPageReqVO pageReqVO);
 
     /**
      * 清理 exceedDay 天前的访问日志

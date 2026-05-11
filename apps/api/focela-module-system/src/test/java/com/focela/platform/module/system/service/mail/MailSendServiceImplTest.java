@@ -5,9 +5,9 @@ import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.test.core.ut.BaseMockitoUnitTest;
 import com.focela.platform.framework.test.core.util.RandomUtils;
-import com.focela.platform.module.system.dal.dataobject.mail.MailAccountDO;
-import com.focela.platform.module.system.dal.dataobject.mail.MailTemplateDO;
-import com.focela.platform.module.system.dal.dataobject.user.AdminUserDO;
+import com.focela.platform.module.system.repository.entity.mail.MailAccountEntity;
+import com.focela.platform.module.system.repository.entity.mail.MailTemplateEntity;
+import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
 import com.focela.platform.module.system.mq.message.mail.MailSendMessage;
 import com.focela.platform.module.system.mq.producer.mail.MailProducer;
 import com.focela.platform.module.system.service.member.MemberService;
@@ -79,11 +79,11 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
         Collection<String> bccMails = Lists.newArrayList("bcc@test.com");
 
         // mock adminUserService 的方法
-        AdminUserDO user = randomPojo(AdminUserDO.class, o -> o.setEmail("admin@example.com"));
+        AdminUserEntity user = randomPojo(AdminUserEntity.class, o -> o.setEmail("admin@example.com"));
         when(adminUserService.getUser(eq(userId))).thenReturn(user);
 
         // mock MailTemplateService 的方法
-        MailTemplateDO template = randomPojo(MailTemplateDO.class, o -> {
+        MailTemplateEntity template = randomPojo(MailTemplateEntity.class, o -> {
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
             o.setContent("验证码为{code}, 操作为{op}");
             o.setParams(Lists.newArrayList("code", "op"));
@@ -96,7 +96,7 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
         when(mailTemplateService.formatMailTemplateContent(eq(template.getContent()), eq(templateParams)))
                 .thenReturn(content);
         // mock MailAccountService 的方法
-        MailAccountDO account = randomPojo(MailAccountDO.class);
+        MailAccountEntity account = randomPojo(MailAccountEntity.class);
         when(mailAccountService.getMailAccountFromCache(eq(template.getAccountId()))).thenReturn(account);
         // mock MailLogService 的方法
         Long mailLogId = randomLongId();
@@ -134,7 +134,7 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
         Collection<String> toMails = Lists.newArrayList(mail);
 
         // mock MailTemplateService 的方法
-        MailTemplateDO template = randomPojo(MailTemplateDO.class, o -> {
+        MailTemplateEntity template = randomPojo(MailTemplateEntity.class, o -> {
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
             o.setContent("验证码为{code}, 操作为{op}");
             o.setParams(Lists.newArrayList("code", "op"));
@@ -147,7 +147,7 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
         when(mailTemplateService.formatMailTemplateContent(eq(template.getContent()), eq(templateParams)))
                 .thenReturn(content);
         // mock MailAccountService 的方法
-        MailAccountDO account = randomPojo(MailAccountDO.class);
+        MailAccountEntity account = randomPojo(MailAccountEntity.class);
         when(mailAccountService.getMailAccountFromCache(eq(template.getAccountId()))).thenReturn(account);
         // mock MailLogService 的方法
         Long mailLogId = randomLongId();
@@ -184,7 +184,7 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
         Collection<String> toMails = Lists.newArrayList(mail);
 
         // mock MailTemplateService 的方法
-        MailTemplateDO template = randomPojo(MailTemplateDO.class, o -> {
+        MailTemplateEntity template = randomPojo(MailTemplateEntity.class, o -> {
             o.setStatus(CommonStatusEnum.DISABLE.getStatus());
             o.setContent("验证码为{code}, 操作为{op}");
             o.setParams(Lists.newArrayList("code", "op"));
@@ -197,7 +197,7 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
         when(mailTemplateService.formatMailTemplateContent(eq(template.getContent()), eq(templateParams)))
                 .thenReturn(content);
         // mock MailAccountService 的方法
-        MailAccountDO account = randomPojo(MailAccountDO.class);
+        MailAccountEntity account = randomPojo(MailAccountEntity.class);
         when(mailAccountService.getMailAccountFromCache(eq(template.getAccountId()))).thenReturn(account);
         // mock MailLogService 的方法
         Long mailLogId = randomLongId();
@@ -230,7 +230,7 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
     @Test
     public void testValidateTemplateParams_paramMiss() {
         // 准备参数
-        MailTemplateDO template = randomPojo(MailTemplateDO.class,
+        MailTemplateEntity template = randomPojo(MailTemplateEntity.class,
                 o -> o.setParams(Lists.newArrayList("code")));
         Map<String, Object> templateParams = new HashMap<>();
         // mock 方法
@@ -250,7 +250,7 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
         Collection<String> toMails = Lists.newArrayList("invalid-email"); // 非法邮箱
 
         // mock MailTemplateService 的方法
-        MailTemplateDO template = randomPojo(MailTemplateDO.class, o -> {
+        MailTemplateEntity template = randomPojo(MailTemplateEntity.class, o -> {
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
             o.setContent("验证码为{code}, 操作为{op}");
             o.setParams(Lists.newArrayList("code", "op"));
@@ -258,7 +258,7 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
         when(mailTemplateService.getMailTemplateByCodeFromCache(eq(templateCode))).thenReturn(template);
 
         // mock MailAccountService 的方法
-        MailAccountDO account = randomPojo(MailAccountDO.class);
+        MailAccountEntity account = randomPojo(MailAccountEntity.class);
         when(mailAccountService.getMailAccountFromCache(eq(template.getAccountId()))).thenReturn(account);
 
         // 调用，并断言异常
@@ -273,7 +273,7 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
             // 准备参数
             MailSendMessage message = randomPojo(MailSendMessage.class, o -> o.setNickname("芋艿"));
             // mock 方法（获得邮箱账号）
-            MailAccountDO account = randomPojo(MailAccountDO.class, o -> o.setMail("7685@qq.com"));
+            MailAccountEntity account = randomPojo(MailAccountEntity.class, o -> o.setMail("7685@qq.com"));
             when(mailAccountService.getMailAccountFromCache(eq(message.getAccountId())))
                     .thenReturn(account);
 
@@ -306,7 +306,7 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
             // 准备参数
             MailSendMessage message = randomPojo(MailSendMessage.class, o -> o.setNickname("芋艿"));
             // mock 方法（获得邮箱账号）
-            MailAccountDO account = randomPojo(MailAccountDO.class, o -> o.setMail("7685@qq.com"));
+            MailAccountEntity account = randomPojo(MailAccountEntity.class, o -> o.setMail("7685@qq.com"));
             when(mailAccountService.getMailAccountFromCache(eq(message.getAccountId())))
                     .thenReturn(account);
 

@@ -27,10 +27,10 @@ import ${ApiAccessLogClassName};
 import static ${OperateTypeEnumClassName}.*;
 
 import ${basePackage}.module.${table.moduleName}.controller.${sceneEnum.basePackage}.${table.businessName}.vo.*;
-import ${basePackage}.module.${table.moduleName}.dal.dataobject.${table.businessName}.${table.className}DO;
+import ${basePackage}.module.${table.moduleName}.repository.entity.${table.businessName}.${table.className}DO;
 ## 特殊：主子表专属逻辑
 #foreach ($subTable in $subTables)
-import ${basePackage}.module.${subTable.moduleName}.dal.dataobject.${subTable.businessName}.${subTable.className}DO;
+import ${basePackage}.module.${subTable.moduleName}.repository.entity.${subTable.businessName}.${subTable.className}DO;
 #end
 import ${basePackage}.module.${table.moduleName}.service.${table.businessName}.${table.className}Service;
 

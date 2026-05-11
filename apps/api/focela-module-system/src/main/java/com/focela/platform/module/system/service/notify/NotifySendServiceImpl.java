@@ -2,7 +2,7 @@ package com.focela.platform.module.system.service.notify;
 
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.module.system.dal.dataobject.notify.NotifyTemplateDO;
+import com.focela.platform.module.system.repository.entity.notify.NotifyTemplateEntity;
 import com.google.common.annotations.VisibleForTesting;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -44,7 +44,7 @@ public class NotifySendServiceImpl implements NotifySendService {
     @Override
     public Long sendSingleNotify(Long userId, Integer userType, String templateCode, Map<String, Object> templateParams) {
         // 校验模版
-        NotifyTemplateDO template = validateNotifyTemplate(templateCode);
+        NotifyTemplateEntity template = validateNotifyTemplate(templateCode);
         if (Objects.equals(template.getStatus(), CommonStatusEnum.DISABLE.getStatus())) {
             log.info("[sendSingleNotify][模版({})已经关闭，无法给用户({}/{})发送]", templateCode, userId, userType);
             return null;
@@ -58,9 +58,9 @@ public class NotifySendServiceImpl implements NotifySendService {
     }
 
     @VisibleForTesting
-    public NotifyTemplateDO validateNotifyTemplate(String templateCode) {
+    public NotifyTemplateEntity validateNotifyTemplate(String templateCode) {
         // 获得站内信模板。考虑到效率，从缓存中获取
-        NotifyTemplateDO template = notifyTemplateService.getNotifyTemplateByCodeFromCache(templateCode);
+        NotifyTemplateEntity template = notifyTemplateService.getNotifyTemplateByCodeFromCache(templateCode);
         // 站内信模板不存在
         if (template == null) {
             throw exception(NOTICE_NOT_FOUND);
@@ -75,7 +75,7 @@ public class NotifySendServiceImpl implements NotifySendService {
      * @param templateParams 参数列表
      */
     @VisibleForTesting
-    public void validateTemplateParams(NotifyTemplateDO template, Map<String, Object> templateParams) {
+    public void validateTemplateParams(NotifyTemplateEntity template, Map<String, Object> templateParams) {
         template.getParams().forEach(key -> {
             Object value = templateParams.get(key);
             if (value == null) {

@@ -5,8 +5,8 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.module.system.controller.admin.mail.vo.template.MailTemplateSaveReqVO;
 import com.focela.platform.module.system.controller.admin.mail.vo.template.MailTemplatePageReqVO;
-import com.focela.platform.module.system.dal.dataobject.mail.MailTemplateDO;
-import com.focela.platform.module.system.dal.mysql.mail.MailTemplateMapper;
+import com.focela.platform.module.system.repository.entity.mail.MailTemplateEntity;
+import com.focela.platform.module.system.repository.mapper.mail.MailTemplateMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
 
@@ -50,14 +50,14 @@ public class MailTemplateServiceImplTest extends BaseDbUnitTest {
         // 断言
         assertNotNull(mailTemplateId);
         // 校验记录的属性是否正确
-        MailTemplateDO mailTemplate = mailTemplateMapper.selectById(mailTemplateId);
+        MailTemplateEntity mailTemplate = mailTemplateMapper.selectById(mailTemplateId);
         assertPojoEquals(reqVO, mailTemplate, "id");
     }
 
     @Test
     public void testUpdateMailTemplate_success() {
         // mock 数据
-        MailTemplateDO dbMailTemplate = randomPojo(MailTemplateDO.class);
+        MailTemplateEntity dbMailTemplate = randomPojo(MailTemplateEntity.class);
         mailTemplateMapper.insert(dbMailTemplate);// @Sql: 先插入出一条存在的数据
         // 准备参数
         MailTemplateSaveReqVO reqVO = randomPojo(MailTemplateSaveReqVO.class, o -> {
@@ -67,7 +67,7 @@ public class MailTemplateServiceImplTest extends BaseDbUnitTest {
         // 调用
         mailTemplateService.updateMailTemplate(reqVO);
         // 校验是否更新正确
-        MailTemplateDO mailTemplate = mailTemplateMapper.selectById(reqVO.getId()); // 获取最新的
+        MailTemplateEntity mailTemplate = mailTemplateMapper.selectById(reqVO.getId()); // 获取最新的
         assertPojoEquals(reqVO, mailTemplate);
     }
 
@@ -83,7 +83,7 @@ public class MailTemplateServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testDeleteMailTemplate_success() {
         // mock 数据
-        MailTemplateDO dbMailTemplate = randomPojo(MailTemplateDO.class);
+        MailTemplateEntity dbMailTemplate = randomPojo(MailTemplateEntity.class);
         mailTemplateMapper.insert(dbMailTemplate);// @Sql: 先插入出一条存在的数据
         // 准备参数
         Long id = dbMailTemplate.getId();
@@ -106,7 +106,7 @@ public class MailTemplateServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetMailTemplatePage() {
         // mock 数据
-        MailTemplateDO dbMailTemplate = randomPojo(MailTemplateDO.class, o -> { // 等会查询到
+        MailTemplateEntity dbMailTemplate = randomPojo(MailTemplateEntity.class, o -> { // 等会查询到
             o.setName("源码");
             o.setCode("test_01");
             o.setAccountId(1L);
@@ -133,7 +133,7 @@ public class MailTemplateServiceImplTest extends BaseDbUnitTest {
         reqVO.setCreateTime(buildBetweenTime(2023, 2, 1, 2023, 2, 5));
 
         // 调用
-        PageResult<MailTemplateDO> pageResult = mailTemplateService.getMailTemplatePage(reqVO);
+        PageResult<MailTemplateEntity> pageResult = mailTemplateService.getMailTemplatePage(reqVO);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
@@ -143,13 +143,13 @@ public class MailTemplateServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetMailTemplateList() {
         // mock 数据
-        MailTemplateDO dbMailTemplate01 = randomPojo(MailTemplateDO.class);
+        MailTemplateEntity dbMailTemplate01 = randomPojo(MailTemplateEntity.class);
         mailTemplateMapper.insert(dbMailTemplate01);
-        MailTemplateDO dbMailTemplate02 = randomPojo(MailTemplateDO.class);
+        MailTemplateEntity dbMailTemplate02 = randomPojo(MailTemplateEntity.class);
         mailTemplateMapper.insert(dbMailTemplate02);
 
         // 调用
-        List<MailTemplateDO> list = mailTemplateService.getMailTemplateList();
+        List<MailTemplateEntity> list = mailTemplateService.getMailTemplateList();
         // 断言
         assertEquals(2, list.size());
         assertEquals(dbMailTemplate01, list.get(0));
@@ -159,13 +159,13 @@ public class MailTemplateServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetMailTemplate() {
         // mock 数据
-        MailTemplateDO dbMailTemplate = randomPojo(MailTemplateDO.class);
+        MailTemplateEntity dbMailTemplate = randomPojo(MailTemplateEntity.class);
         mailTemplateMapper.insert(dbMailTemplate);
         // 准备参数
         Long id = dbMailTemplate.getId();
 
         // 调用
-        MailTemplateDO mailTemplate = mailTemplateService.getMailTemplate(id);
+        MailTemplateEntity mailTemplate = mailTemplateService.getMailTemplate(id);
         // 断言
         assertPojoEquals(dbMailTemplate, mailTemplate);
     }
@@ -173,13 +173,13 @@ public class MailTemplateServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetMailTemplateByCodeFromCache() {
         // mock 数据
-        MailTemplateDO dbMailTemplate = randomPojo(MailTemplateDO.class);
+        MailTemplateEntity dbMailTemplate = randomPojo(MailTemplateEntity.class);
         mailTemplateMapper.insert(dbMailTemplate);
         // 准备参数
         String code = dbMailTemplate.getCode();
 
         // 调用
-        MailTemplateDO mailTemplate = mailTemplateService.getMailTemplateByCodeFromCache(code);
+        MailTemplateEntity mailTemplate = mailTemplateService.getMailTemplateByCodeFromCache(code);
         // 断言
         assertPojoEquals(dbMailTemplate, mailTemplate);
     }
@@ -312,7 +312,7 @@ public class MailTemplateServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCountByAccountId() {
         // mock 数据
-        MailTemplateDO dbMailTemplate = randomPojo(MailTemplateDO.class);
+        MailTemplateEntity dbMailTemplate = randomPojo(MailTemplateEntity.class);
         mailTemplateMapper.insert(dbMailTemplate);
         // 测试 accountId 不匹配
         mailTemplateMapper.insert(cloneIgnoreId(dbMailTemplate, o -> o.setAccountId(2L)));

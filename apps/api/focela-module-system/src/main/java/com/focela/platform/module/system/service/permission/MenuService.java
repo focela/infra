@@ -2,7 +2,7 @@ package com.focela.platform.module.system.service.permission;
 
 import com.focela.platform.module.system.controller.admin.permission.vo.menu.MenuListReqVO;
 import com.focela.platform.module.system.controller.admin.permission.vo.menu.MenuSaveVO;
-import com.focela.platform.module.system.dal.dataobject.permission.MenuDO;
+import com.focela.platform.module.system.repository.entity.permission.MenuEntity;
 
 import java.util.Collection;
 import java.util.List;
@@ -48,7 +48,7 @@ public interface MenuService {
      *
      * @return 菜单列表
      */
-    List<MenuDO> getMenuList();
+    List<MenuEntity> getMenuList();
 
     /**
      * 基于租户，筛选菜单列表
@@ -57,7 +57,7 @@ public interface MenuService {
      * @param reqVO 筛选条件请求 VO
      * @return 菜单列表
      */
-    List<MenuDO> getMenuListByTenant(MenuListReqVO reqVO);
+    List<MenuEntity> getMenuListByTenant(MenuListReqVO reqVO);
 
     /**
      * 过滤掉关闭的菜单及其子菜单
@@ -65,7 +65,7 @@ public interface MenuService {
      * @param list 菜单列表
      * @return 过滤后的菜单列表
      */
-    List<MenuDO> filterDisableMenus(List<MenuDO> list);
+    List<MenuEntity> filterDisableMenus(List<MenuEntity> list);
 
     /**
      * 筛选菜单列表
@@ -73,7 +73,7 @@ public interface MenuService {
      * @param reqVO 筛选条件请求 VO
      * @return 菜单列表
      */
-    List<MenuDO> getMenuList(MenuListReqVO reqVO);
+    List<MenuEntity> getMenuList(MenuListReqVO reqVO);
 
     /**
      * 获得权限对应的菜单编号数组
@@ -89,7 +89,7 @@ public interface MenuService {
      * @param id 菜单编号
      * @return 菜单
      */
-    MenuDO getMenu(Long id);
+    MenuEntity getMenu(Long id);
 
     /**
      * 获得菜单数组
@@ -97,6 +97,6 @@ public interface MenuService {
      * @param ids 菜单编号数组
      * @return 菜单数组
      */
-    List<MenuDO> getMenuList(Collection<Long> ids);
+    List<MenuEntity> getMenuList(Collection<Long> ids);
 
 }

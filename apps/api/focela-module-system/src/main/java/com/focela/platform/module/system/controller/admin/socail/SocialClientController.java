@@ -8,7 +8,7 @@ import com.focela.platform.module.system.api.social.dto.SocialWxaSubscribeMessag
 import com.focela.platform.module.system.controller.admin.socail.vo.client.SocialClientPageReqVO;
 import com.focela.platform.module.system.controller.admin.socail.vo.client.SocialClientRespVO;
 import com.focela.platform.module.system.controller.admin.socail.vo.client.SocialClientSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.social.SocialClientDO;
+import com.focela.platform.module.system.repository.entity.social.SocialClientEntity;
 import com.focela.platform.module.system.service.social.SocialClientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -72,7 +72,7 @@ public class SocialClientController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:social-client:query')")
     public CommonResult<SocialClientRespVO> getSocialClient(@RequestParam("id") Long id) {
-        SocialClientDO client = socialClientService.getSocialClient(id);
+        SocialClientEntity client = socialClientService.getSocialClient(id);
         return success(BeanUtils.toBean(client, SocialClientRespVO.class));
     }
 
@@ -80,7 +80,7 @@ public class SocialClientController {
     @Operation(summary = "获得社交客户端分页")
     @PreAuthorize("@ss.hasPermission('system:social-client:query')")
     public CommonResult<PageResult<SocialClientRespVO>> getSocialClientPage(@Valid SocialClientPageReqVO pageVO) {
-        PageResult<SocialClientDO> pageResult = socialClientService.getSocialClientPage(pageVO);
+        PageResult<SocialClientEntity> pageResult = socialClientService.getSocialClientPage(pageVO);
         return success(BeanUtils.toBean(pageResult, SocialClientRespVO.class));
     }
 

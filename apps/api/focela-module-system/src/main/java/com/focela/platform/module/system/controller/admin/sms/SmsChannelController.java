@@ -7,7 +7,7 @@ import com.focela.platform.module.system.controller.admin.sms.vo.channel.SmsChan
 import com.focela.platform.module.system.controller.admin.sms.vo.channel.SmsChannelRespVO;
 import com.focela.platform.module.system.controller.admin.sms.vo.channel.SmsChannelSaveReqVO;
 import com.focela.platform.module.system.controller.admin.sms.vo.channel.SmsChannelSimpleRespVO;
-import com.focela.platform.module.system.dal.dataobject.sms.SmsChannelDO;
+import com.focela.platform.module.system.repository.entity.sms.SmsChannelEntity;
 import com.focela.platform.module.system.service.sms.SmsChannelService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -68,7 +68,7 @@ public class SmsChannelController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:sms-channel:query')")
     public CommonResult<SmsChannelRespVO> getSmsChannel(@RequestParam("id") Long id) {
-        SmsChannelDO channel = smsChannelService.getSmsChannel(id);
+        SmsChannelEntity channel = smsChannelService.getSmsChannel(id);
         return success(BeanUtils.toBean(channel, SmsChannelRespVO.class));
     }
 
@@ -76,15 +76,15 @@ public class SmsChannelController {
     @Operation(summary = "获得短信渠道分页")
     @PreAuthorize("@ss.hasPermission('system:sms-channel:query')")
     public CommonResult<PageResult<SmsChannelRespVO>> getSmsChannelPage(@Valid SmsChannelPageReqVO pageVO) {
-        PageResult<SmsChannelDO> pageResult = smsChannelService.getSmsChannelPage(pageVO);
+        PageResult<SmsChannelEntity> pageResult = smsChannelService.getSmsChannelPage(pageVO);
         return success(BeanUtils.toBean(pageResult, SmsChannelRespVO.class));
     }
 
     @GetMapping({"/list-all-simple", "/simple-list"})
     @Operation(summary = "获得短信渠道精简列表", description = "包含被禁用的短信渠道")
     public CommonResult<List<SmsChannelSimpleRespVO>> getSimpleSmsChannelList() {
-        List<SmsChannelDO> list = smsChannelService.getSmsChannelList();
-        list.sort(Comparator.comparing(SmsChannelDO::getId));
+        List<SmsChannelEntity> list = smsChannelService.getSmsChannelList();
+        list.sort(Comparator.comparing(SmsChannelEntity::getId));
         return success(BeanUtils.toBean(list, SmsChannelSimpleRespVO.class));
     }
 

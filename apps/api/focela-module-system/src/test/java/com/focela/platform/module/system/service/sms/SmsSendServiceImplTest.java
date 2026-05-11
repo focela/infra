@@ -8,9 +8,9 @@ import com.focela.platform.module.system.framework.sms.core.client.SmsClient;
 import com.focela.platform.module.system.framework.sms.core.client.dto.SmsReceiveRespDTO;
 import com.focela.platform.module.system.framework.sms.core.client.dto.SmsSendRespDTO;
 import com.focela.platform.framework.test.core.ut.BaseMockitoUnitTest;
-import com.focela.platform.module.system.dal.dataobject.sms.SmsChannelDO;
-import com.focela.platform.module.system.dal.dataobject.sms.SmsTemplateDO;
-import com.focela.platform.module.system.dal.dataobject.user.AdminUserDO;
+import com.focela.platform.module.system.repository.entity.sms.SmsChannelEntity;
+import com.focela.platform.module.system.repository.entity.sms.SmsTemplateEntity;
+import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
 import com.focela.platform.module.system.mq.message.sms.SmsSendMessage;
 import com.focela.platform.module.system.mq.producer.sms.SmsProducer;
 import com.focela.platform.module.system.service.member.MemberService;
@@ -59,11 +59,11 @@ public class SmsSendServiceImplTest extends BaseMockitoUnitTest {
         Map<String, Object> templateParams = MapUtil.<String, Object>builder().put("code", "1234")
                 .put("op", "login").build();
         // mock adminUserService 的方法
-        AdminUserDO user = randomPojo(AdminUserDO.class, o -> o.setMobile("15601691300"));
+        AdminUserEntity user = randomPojo(AdminUserEntity.class, o -> o.setMobile("15601691300"));
         when(adminUserService.getUser(eq(userId))).thenReturn(user);
 
         // mock SmsTemplateService 的方法
-        SmsTemplateDO template = randomPojo(SmsTemplateDO.class, o -> {
+        SmsTemplateEntity template = randomPojo(SmsTemplateEntity.class, o -> {
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
             o.setContent("验证码为{code}, 操作为{op}");
             o.setParams(Lists.newArrayList("code", "op"));
@@ -73,7 +73,7 @@ public class SmsSendServiceImplTest extends BaseMockitoUnitTest {
         when(smsTemplateService.formatSmsTemplateContent(eq(template.getContent()), eq(templateParams)))
                 .thenReturn(content);
         // mock SmsChannelService 的方法
-        SmsChannelDO smsChannel = randomPojo(SmsChannelDO.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
+        SmsChannelEntity smsChannel = randomPojo(SmsChannelEntity.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
         when(smsChannelService.getSmsChannel(eq(template.getChannelId()))).thenReturn(smsChannel);
         // mock SmsLogService 的方法
         Long smsLogId = randomLongId();
@@ -102,7 +102,7 @@ public class SmsSendServiceImplTest extends BaseMockitoUnitTest {
         when(memberService.getMemberUserMobile(eq(userId))).thenReturn(mobile);
 
         // mock SmsTemplateService 的方法
-        SmsTemplateDO template = randomPojo(SmsTemplateDO.class, o -> {
+        SmsTemplateEntity template = randomPojo(SmsTemplateEntity.class, o -> {
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
             o.setContent("验证码为{code}, 操作为{op}");
             o.setParams(Lists.newArrayList("code", "op"));
@@ -112,7 +112,7 @@ public class SmsSendServiceImplTest extends BaseMockitoUnitTest {
         when(smsTemplateService.formatSmsTemplateContent(eq(template.getContent()), eq(templateParams)))
                 .thenReturn(content);
         // mock SmsChannelService 的方法
-        SmsChannelDO smsChannel = randomPojo(SmsChannelDO.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
+        SmsChannelEntity smsChannel = randomPojo(SmsChannelEntity.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
         when(smsChannelService.getSmsChannel(eq(template.getChannelId()))).thenReturn(smsChannel);
         // mock SmsLogService 的方法
         Long smsLogId = randomLongId();
@@ -142,7 +142,7 @@ public class SmsSendServiceImplTest extends BaseMockitoUnitTest {
         Map<String, Object> templateParams = MapUtil.<String, Object>builder().put("code", "1234")
                 .put("op", "login").build();
         // mock SmsTemplateService 的方法
-        SmsTemplateDO template = randomPojo(SmsTemplateDO.class, o -> {
+        SmsTemplateEntity template = randomPojo(SmsTemplateEntity.class, o -> {
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
             o.setContent("验证码为{code}, 操作为{op}");
             o.setParams(Lists.newArrayList("code", "op"));
@@ -152,7 +152,7 @@ public class SmsSendServiceImplTest extends BaseMockitoUnitTest {
         when(smsTemplateService.formatSmsTemplateContent(eq(template.getContent()), eq(templateParams)))
                 .thenReturn(content);
         // mock SmsChannelService 的方法
-        SmsChannelDO smsChannel = randomPojo(SmsChannelDO.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
+        SmsChannelEntity smsChannel = randomPojo(SmsChannelEntity.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
         when(smsChannelService.getSmsChannel(eq(template.getChannelId()))).thenReturn(smsChannel);
         // mock SmsLogService 的方法
         Long smsLogId = randomLongId();
@@ -182,7 +182,7 @@ public class SmsSendServiceImplTest extends BaseMockitoUnitTest {
         Map<String, Object> templateParams = MapUtil.<String, Object>builder().put("code", "1234")
                 .put("op", "login").build();
         // mock SmsTemplateService 的方法
-        SmsTemplateDO template = randomPojo(SmsTemplateDO.class, o -> {
+        SmsTemplateEntity template = randomPojo(SmsTemplateEntity.class, o -> {
             o.setStatus(CommonStatusEnum.DISABLE.getStatus());
             o.setContent("验证码为{code}, 操作为{op}");
             o.setParams(Lists.newArrayList("code", "op"));
@@ -192,7 +192,7 @@ public class SmsSendServiceImplTest extends BaseMockitoUnitTest {
         when(smsTemplateService.formatSmsTemplateContent(eq(template.getContent()), eq(templateParams)))
                 .thenReturn(content);
         // mock SmsChannelService 的方法
-        SmsChannelDO smsChannel = randomPojo(SmsChannelDO.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
+        SmsChannelEntity smsChannel = randomPojo(SmsChannelEntity.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
         when(smsChannelService.getSmsChannel(eq(template.getChannelId()))).thenReturn(smsChannel);
         // mock SmsLogService 的方法
         Long smsLogId = randomLongId();
@@ -222,7 +222,7 @@ public class SmsSendServiceImplTest extends BaseMockitoUnitTest {
     @Test
     public void testBuildTemplateParams_paramMiss() {
         // 准备参数
-        SmsTemplateDO template = randomPojo(SmsTemplateDO.class,
+        SmsTemplateEntity template = randomPojo(SmsTemplateEntity.class,
                 o -> o.setParams(Lists.newArrayList("code")));
         Map<String, Object> templateParams = new HashMap<>();
         // mock 方法

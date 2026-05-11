@@ -9,11 +9,11 @@ import com.focela.platform.module.infra.controller.admin.codegen.vo.CodegenUpdat
 import com.focela.platform.module.infra.controller.admin.codegen.vo.column.CodegenColumnSaveReqVO;
 import com.focela.platform.module.infra.controller.admin.codegen.vo.table.CodegenTablePageReqVO;
 import com.focela.platform.module.infra.controller.admin.codegen.vo.table.DatabaseTableRespVO;
-import com.focela.platform.module.infra.dal.dataobject.codegen.CodegenColumnDO;
-import com.focela.platform.module.infra.dal.dataobject.codegen.CodegenTableDO;
-import com.focela.platform.module.infra.dal.dataobject.db.DataSourceConfigDO;
-import com.focela.platform.module.infra.dal.mysql.codegen.CodegenColumnMapper;
-import com.focela.platform.module.infra.dal.mysql.codegen.CodegenTableMapper;
+import com.focela.platform.module.infra.repository.entity.codegen.CodegenColumnEntity;
+import com.focela.platform.module.infra.repository.entity.codegen.CodegenTableEntity;
+import com.focela.platform.module.infra.repository.entity.db.DataSourceConfigEntity;
+import com.focela.platform.module.infra.repository.mapper.codegen.CodegenColumnMapper;
+import com.focela.platform.module.infra.repository.mapper.codegen.CodegenTableMapper;
 import com.focela.platform.module.infra.enums.codegen.CodegenFrontTypeEnum;
 import com.focela.platform.module.infra.enums.codegen.CodegenSceneEnum;
 import com.focela.platform.module.infra.enums.codegen.CodegenTemplateTypeEnum;
@@ -94,11 +94,11 @@ public class CodegenServiceImplTest extends BaseDbUnitTest {
         when(field02.getComment()).thenReturn("名字");
         List<TableField> fields = Arrays.asList(field01, field02);
         when(tableInfo.getFields()).thenReturn(fields);
-        // mock 方法（CodegenTableDO）
-        CodegenTableDO table = randomPojo(CodegenTableDO.class);
+        // mock 方法（CodegenTableEntity）
+        CodegenTableEntity table = randomPojo(CodegenTableEntity.class);
         when(codegenBuilder.buildTable(same(tableInfo))).thenReturn(table);
-        // mock 方法（CodegenColumnDO）
-        List<CodegenColumnDO> columns = randomPojoList(CodegenColumnDO.class);
+        // mock 方法（CodegenColumnEntity）
+        List<CodegenColumnEntity> columns = randomPojoList(CodegenColumnEntity.class);
         when(codegenBuilder.buildColumns(eq(table.getId()), same(fields)))
                 .thenReturn(columns);
         // mock 方法（CodegenProperties）
@@ -108,15 +108,15 @@ public class CodegenServiceImplTest extends BaseDbUnitTest {
         List<Long> result = codegenService.createCodegenList(author, reqVO);
         // 断言
         assertEquals(1, result.size());
-        // 断言（CodegenTableDO）
-        CodegenTableDO dbTable = codegenTableMapper.selectList().get(0);
+        // 断言（CodegenTableEntity）
+        CodegenTableEntity dbTable = codegenTableMapper.selectList().get(0);
         assertPojoEquals(table, dbTable);
         assertEquals(1L, dbTable.getDataSourceConfigId());
         assertEquals(CodegenSceneEnum.ADMIN.getScene(), dbTable.getScene());
         assertEquals(CodegenFrontTypeEnum.VUE3_ELEMENT_PLUS.getType(), dbTable.getFrontType());
         assertEquals(author, dbTable.getAuthor());
-        // 断言（CodegenColumnDO）
-        List<CodegenColumnDO> dbColumns = codegenColumnMapper.selectList();
+        // 断言（CodegenColumnEntity）
+        List<CodegenColumnEntity> dbColumns = codegenColumnMapper.selectList();
         assertEquals(columns.size(), dbColumns.size());
         assertTrue(dbColumns.get(0).getPrimaryKey());
         for (int i = 0; i < dbColumns.size(); i++) {
@@ -159,7 +159,7 @@ public class CodegenServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateCodegen_sub_masterNotExists() {
         // mock 数据
-        CodegenTableDO table = randomPojo(CodegenTableDO.class,
+        CodegenTableEntity table = randomPojo(CodegenTableEntity.class,
                 o -> o.setTemplateType(CodegenTemplateTypeEnum.SUB.getType())
                         .setScene(CodegenSceneEnum.ADMIN.getScene()));
         codegenTableMapper.insert(table);
@@ -176,12 +176,12 @@ public class CodegenServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateCodegen_sub_columnNotExists() {
         // mock 数据
-        CodegenTableDO subTable = randomPojo(CodegenTableDO.class,
+        CodegenTableEntity subTable = randomPojo(CodegenTableEntity.class,
                 o -> o.setTemplateType(CodegenTemplateTypeEnum.SUB.getType())
                         .setScene(CodegenSceneEnum.ADMIN.getScene()));
         codegenTableMapper.insert(subTable);
         // mock 数据（master）
-        CodegenTableDO masterTable = randomPojo(CodegenTableDO.class,
+        CodegenTableEntity masterTable = randomPojo(CodegenTableEntity.class,
                 o -> o.setTemplateType(CodegenTemplateTypeEnum.MASTER_ERP.getType())
                         .setScene(CodegenSceneEnum.ADMIN.getScene()));
         codegenTableMapper.insert(masterTable);
@@ -199,13 +199,13 @@ public class CodegenServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateCodegen_success() {
         // mock 数据
-        CodegenTableDO table = randomPojo(CodegenTableDO.class,
+        CodegenTableEntity table = randomPojo(CodegenTableEntity.class,
                 o -> o.setTemplateType(CodegenTemplateTypeEnum.ONE.getType())
                         .setScene(CodegenSceneEnum.ADMIN.getScene()));
         codegenTableMapper.insert(table);
-        CodegenColumnDO column01 = randomPojo(CodegenColumnDO.class, o -> o.setTableId(table.getId()));
+        CodegenColumnEntity column01 = randomPojo(CodegenColumnEntity.class, o -> o.setTableId(table.getId()));
         codegenColumnMapper.insert(column01);
-        CodegenColumnDO column02 = randomPojo(CodegenColumnDO.class, o -> o.setTableId(table.getId()));
+        CodegenColumnEntity column02 = randomPojo(CodegenColumnEntity.class, o -> o.setTableId(table.getId()));
         codegenColumnMapper.insert(column02);
         // 准备参数
         CodegenUpdateReqVO updateReqVO = randomPojo(CodegenUpdateReqVO.class,
@@ -221,9 +221,9 @@ public class CodegenServiceImplTest extends BaseDbUnitTest {
         // 调用
         codegenService.updateCodegen(updateReqVO);
         // 断言
-        CodegenTableDO dbTable = codegenTableMapper.selectById(table.getId());
+        CodegenTableEntity dbTable = codegenTableMapper.selectById(table.getId());
         assertPojoEquals(updateReqVO.getTable(), dbTable);
-        List<CodegenColumnDO> dbColumns = codegenColumnMapper.selectList();
+        List<CodegenColumnEntity> dbColumns = codegenColumnMapper.selectList();
         assertEquals(2, dbColumns.size());
         assertPojoEquals(columnVO01, dbColumns.get(0));
         assertPojoEquals(columnVO02, dbColumns.get(1));
@@ -231,14 +231,14 @@ public class CodegenServiceImplTest extends BaseDbUnitTest {
 
     @Test
     public void testSyncCodegenFromDB() {
-        // mock 数据（CodegenTableDO）
-        CodegenTableDO table = randomPojo(CodegenTableDO.class, o -> o.setTableName("t_yunai")
+        // mock 数据（CodegenTableEntity）
+        CodegenTableEntity table = randomPojo(CodegenTableEntity.class, o -> o.setTableName("t_yunai")
                 .setDataSourceConfigId(1L).setScene(CodegenSceneEnum.ADMIN.getScene()));
         codegenTableMapper.insert(table);
-        CodegenColumnDO column01 = randomPojo(CodegenColumnDO.class, o -> o.setTableId(table.getId())
+        CodegenColumnEntity column01 = randomPojo(CodegenColumnEntity.class, o -> o.setTableId(table.getId())
                 .setColumnName("id").setPrimaryKey(true).setOrdinalPosition(0));
         codegenColumnMapper.insert(column01);
-        CodegenColumnDO column02 = randomPojo(CodegenColumnDO.class, o -> o.setTableId(table.getId())
+        CodegenColumnEntity column02 = randomPojo(CodegenColumnEntity.class, o -> o.setTableId(table.getId())
                 .setColumnName("name").setOrdinalPosition(1));
         codegenColumnMapper.insert(column02);
         // 准备参数
@@ -257,8 +257,8 @@ public class CodegenServiceImplTest extends BaseDbUnitTest {
         when(tableInfo.getFields()).thenReturn(fields);
         when(databaseTableService.getTable(eq(1L), eq("t_yunai")))
                 .thenReturn(tableInfo);
-        // mock 方法（CodegenTableDO）
-        List<CodegenColumnDO> newColumns = randomPojoList(CodegenColumnDO.class, 2);
+        // mock 方法（CodegenTableEntity）
+        List<CodegenColumnEntity> newColumns = randomPojoList(CodegenColumnEntity.class, 2);
         when(codegenBuilder.buildColumns(eq(table.getId()), argThat(tableFields -> {
             assertEquals(2, tableFields.size());
             assertSame(tableInfo.getFields(), tableFields);
@@ -268,7 +268,7 @@ public class CodegenServiceImplTest extends BaseDbUnitTest {
         // 调用
         codegenService.syncCodegenFromDB(tableId);
         // 断言
-        List<CodegenColumnDO> dbColumns = codegenColumnMapper.selectList();
+        List<CodegenColumnEntity> dbColumns = codegenColumnMapper.selectList();
         assertEquals(newColumns.size(), dbColumns.size());
         assertPojoEquals(newColumns.get(0), dbColumns.get(0));
         assertPojoEquals(newColumns.get(1), dbColumns.get(1));
@@ -283,10 +283,10 @@ public class CodegenServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testDeleteCodegen_success() {
         // mock 数据
-        CodegenTableDO table = randomPojo(CodegenTableDO.class,
+        CodegenTableEntity table = randomPojo(CodegenTableEntity.class,
                 o -> o.setScene(CodegenSceneEnum.ADMIN.getScene()));
         codegenTableMapper.insert(table);
-        CodegenColumnDO column = randomPojo(CodegenColumnDO.class, o -> o.setTableId(table.getId()));
+        CodegenColumnEntity column = randomPojo(CodegenColumnEntity.class, o -> o.setTableId(table.getId()));
         codegenColumnMapper.insert(column);
         // 准备参数
         Long tableId = table.getId();
@@ -301,17 +301,17 @@ public class CodegenServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetCodegenTableList() {
         // mock 数据
-        CodegenTableDO table01 = randomPojo(CodegenTableDO.class,
+        CodegenTableEntity table01 = randomPojo(CodegenTableEntity.class,
                 o -> o.setScene(CodegenSceneEnum.ADMIN.getScene()));
         codegenTableMapper.insert(table01);
-        CodegenTableDO table02 = randomPojo(CodegenTableDO.class,
+        CodegenTableEntity table02 = randomPojo(CodegenTableEntity.class,
                 o -> o.setScene(CodegenSceneEnum.ADMIN.getScene()));
         codegenTableMapper.insert(table02);
         // 准备参数
         Long dataSourceConfigId = table01.getDataSourceConfigId();
 
         // 调用
-        List<CodegenTableDO> result = codegenService.getCodegenTableList(dataSourceConfigId);
+        List<CodegenTableEntity> result = codegenService.getCodegenTableList(dataSourceConfigId);
         // 断言
         assertEquals(1, result.size());
         assertPojoEquals(table01, result.get(0));
@@ -320,7 +320,7 @@ public class CodegenServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetCodegenTablePage() {
         // mock 数据
-        CodegenTableDO tableDO = randomPojo(CodegenTableDO.class, o -> {
+        CodegenTableEntity tableDO = randomPojo(CodegenTableEntity.class, o -> {
             o.setTableName("t_yunai");
             o.setTableComment("芋艿");
             o.setClassName("SystemYunai");
@@ -343,7 +343,7 @@ public class CodegenServiceImplTest extends BaseDbUnitTest {
         reqVO.setCreateTime(buildBetweenTime(2021, 3, 1, 2021, 3, 31));
 
         // 调用
-        PageResult<CodegenTableDO> pageResult = codegenService.getCodegenTablePage(reqVO);
+        PageResult<CodegenTableEntity> pageResult = codegenService.getCodegenTablePage(reqVO);
         // 断言，只查到了一条符合条件的
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
@@ -353,13 +353,13 @@ public class CodegenServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetCodegenTable() {
         // mock 数据
-        CodegenTableDO tableDO = randomPojo(CodegenTableDO.class, o -> o.setScene(CodegenSceneEnum.ADMIN.getScene()));
+        CodegenTableEntity tableDO = randomPojo(CodegenTableEntity.class, o -> o.setScene(CodegenSceneEnum.ADMIN.getScene()));
         codegenTableMapper.insert(tableDO);
         // 准备参数
         Long id = tableDO.getId();
 
         // 调用
-        CodegenTableDO result = codegenService.getCodegenTable(id);
+        CodegenTableEntity result = codegenService.getCodegenTable(id);
         // 断言
         assertPojoEquals(tableDO, result);
     }
@@ -367,15 +367,15 @@ public class CodegenServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetCodegenColumnListByTableId() {
         // mock 数据
-        CodegenColumnDO column01 = randomPojo(CodegenColumnDO.class);
+        CodegenColumnEntity column01 = randomPojo(CodegenColumnEntity.class);
         codegenColumnMapper.insert(column01);
-        CodegenColumnDO column02 = randomPojo(CodegenColumnDO.class);
+        CodegenColumnEntity column02 = randomPojo(CodegenColumnEntity.class);
         codegenColumnMapper.insert(column02);
         // 准备参数
         Long tableId = column01.getTableId();
 
         // 调用
-        List<CodegenColumnDO> result = codegenService.getCodegenColumnListByTableId(tableId);
+        List<CodegenColumnEntity> result = codegenService.getCodegenColumnListByTableId(tableId);
         // 断言
         assertEquals(1, result.size());
         assertPojoEquals(column01, result.get(0));
@@ -389,8 +389,8 @@ public class CodegenServiceImplTest extends BaseDbUnitTest {
 
     @Test
     public void testGenerationCodes_columnNotExists() {
-        // mock 数据（CodegenTableDO）
-        CodegenTableDO table = randomPojo(CodegenTableDO.class,
+        // mock 数据（CodegenTableEntity）
+        CodegenTableEntity table = randomPojo(CodegenTableEntity.class,
                 o -> o.setScene(CodegenSceneEnum.ADMIN.getScene())
                         .setTemplateType(CodegenTemplateTypeEnum.MASTER_NORMAL.getType()));
         codegenTableMapper.insert(table);
@@ -404,13 +404,13 @@ public class CodegenServiceImplTest extends BaseDbUnitTest {
 
     @Test
     public void testGenerationCodes_sub_tableNotExists() {
-        // mock 数据（CodegenTableDO）
-        CodegenTableDO table = randomPojo(CodegenTableDO.class,
+        // mock 数据（CodegenTableEntity）
+        CodegenTableEntity table = randomPojo(CodegenTableEntity.class,
                 o -> o.setScene(CodegenSceneEnum.ADMIN.getScene())
                         .setTemplateType(CodegenTemplateTypeEnum.MASTER_NORMAL.getType()));
         codegenTableMapper.insert(table);
-        // mock 数据（CodegenColumnDO）
-        CodegenColumnDO column01 = randomPojo(CodegenColumnDO.class, o -> o.setTableId(table.getId()));
+        // mock 数据（CodegenColumnEntity）
+        CodegenColumnEntity column01 = randomPojo(CodegenColumnEntity.class, o -> o.setTableId(table.getId()));
         codegenColumnMapper.insert(column01);
         // 准备参数
         Long tableId = table.getId();
@@ -422,16 +422,16 @@ public class CodegenServiceImplTest extends BaseDbUnitTest {
 
     @Test
     public void testGenerationCodes_sub_columnNotExists() {
-        // mock 数据（CodegenTableDO）
-        CodegenTableDO table = randomPojo(CodegenTableDO.class,
+        // mock 数据（CodegenTableEntity）
+        CodegenTableEntity table = randomPojo(CodegenTableEntity.class,
                 o -> o.setScene(CodegenSceneEnum.ADMIN.getScene())
                         .setTemplateType(CodegenTemplateTypeEnum.MASTER_NORMAL.getType()));
         codegenTableMapper.insert(table);
-        // mock 数据（CodegenColumnDO）
-        CodegenColumnDO column01 = randomPojo(CodegenColumnDO.class, o -> o.setTableId(table.getId()));
+        // mock 数据（CodegenColumnEntity）
+        CodegenColumnEntity column01 = randomPojo(CodegenColumnEntity.class, o -> o.setTableId(table.getId()));
         codegenColumnMapper.insert(column01);
-        // mock 数据（sub CodegenTableDO）
-        CodegenTableDO subTable = randomPojo(CodegenTableDO.class,
+        // mock 数据（sub CodegenTableEntity）
+        CodegenTableEntity subTable = randomPojo(CodegenTableEntity.class,
                 o -> o.setScene(CodegenSceneEnum.ADMIN.getScene())
                         .setTemplateType(CodegenTemplateTypeEnum.SUB.getType())
                         .setMasterTableId(table.getId()));
@@ -446,21 +446,21 @@ public class CodegenServiceImplTest extends BaseDbUnitTest {
 
     @Test
     public void testGenerationCodes_one_success() {
-        // mock 数据（CodegenTableDO）
-        CodegenTableDO table = randomPojo(CodegenTableDO.class,
+        // mock 数据（CodegenTableEntity）
+        CodegenTableEntity table = randomPojo(CodegenTableEntity.class,
                 o -> o.setScene(CodegenSceneEnum.ADMIN.getScene())
                         .setTemplateType(CodegenTemplateTypeEnum.ONE.getType()));
         codegenTableMapper.insert(table);
-        // mock 数据（CodegenColumnDO）
-        CodegenColumnDO column01 = randomPojo(CodegenColumnDO.class, o -> o.setTableId(table.getId())
+        // mock 数据（CodegenColumnEntity）
+        CodegenColumnEntity column01 = randomPojo(CodegenColumnEntity.class, o -> o.setTableId(table.getId())
                 .setOrdinalPosition(1));
         codegenColumnMapper.insert(column01);
-        CodegenColumnDO column02 = randomPojo(CodegenColumnDO.class, o -> o.setTableId(table.getId())
+        CodegenColumnEntity column02 = randomPojo(CodegenColumnEntity.class, o -> o.setTableId(table.getId())
                 .setOrdinalPosition(2));
         codegenColumnMapper.insert(column02);
-        // mock 数据（DataSourceConfigDO）
+        // mock 数据（DataSourceConfigEntity）
         when(dataSourceConfigService.getDataSourceConfig(eq(table.getDataSourceConfigId())))
-                .thenReturn(randomPojo(DataSourceConfigDO.class, o -> o.setUrl("jdbc:mysql://")));
+                .thenReturn(randomPojo(DataSourceConfigEntity.class, o -> o.setUrl("jdbc:mysql://")));
         // mock 执行生成
         Map<String, String> codes = MapUtil.of(randomString(), randomString());
         when(codegenEngine.execute(eq(DbType.MYSQL), eq(table), argThat(columns -> {
@@ -480,31 +480,31 @@ public class CodegenServiceImplTest extends BaseDbUnitTest {
 
     @Test
     public void testGenerationCodes_master_success() {
-        // mock 数据（CodegenTableDO）
-        CodegenTableDO table = randomPojo(CodegenTableDO.class,
+        // mock 数据（CodegenTableEntity）
+        CodegenTableEntity table = randomPojo(CodegenTableEntity.class,
                 o -> o.setScene(CodegenSceneEnum.ADMIN.getScene())
                         .setTemplateType(CodegenTemplateTypeEnum.MASTER_NORMAL.getType()));
         codegenTableMapper.insert(table);
-        // mock 数据（CodegenColumnDO）
-        CodegenColumnDO column01 = randomPojo(CodegenColumnDO.class, o -> o.setTableId(table.getId())
+        // mock 数据（CodegenColumnEntity）
+        CodegenColumnEntity column01 = randomPojo(CodegenColumnEntity.class, o -> o.setTableId(table.getId())
                 .setOrdinalPosition(1));
         codegenColumnMapper.insert(column01);
-        CodegenColumnDO column02 = randomPojo(CodegenColumnDO.class, o -> o.setTableId(table.getId())
+        CodegenColumnEntity column02 = randomPojo(CodegenColumnEntity.class, o -> o.setTableId(table.getId())
                 .setOrdinalPosition(2));
         codegenColumnMapper.insert(column02);
-        // mock 数据（sub CodegenTableDO）
-        CodegenTableDO subTable = randomPojo(CodegenTableDO.class,
+        // mock 数据（sub CodegenTableEntity）
+        CodegenTableEntity subTable = randomPojo(CodegenTableEntity.class,
                 o -> o.setScene(CodegenSceneEnum.ADMIN.getScene())
                         .setTemplateType(CodegenTemplateTypeEnum.SUB.getType())
                         .setMasterTableId(table.getId())
                         .setSubJoinColumnId(1024L));
         codegenTableMapper.insert(subTable);
-        // mock 数据（sub CodegenColumnDO）
-        CodegenColumnDO subColumn01 = randomPojo(CodegenColumnDO.class, o -> o.setId(1024L).setTableId(subTable.getId()));
+        // mock 数据（sub CodegenColumnEntity）
+        CodegenColumnEntity subColumn01 = randomPojo(CodegenColumnEntity.class, o -> o.setId(1024L).setTableId(subTable.getId()));
         codegenColumnMapper.insert(subColumn01);
-        // mock 数据（DataSourceConfigDO）
+        // mock 数据（DataSourceConfigEntity）
         when(dataSourceConfigService.getDataSourceConfig(eq(table.getDataSourceConfigId())))
-                .thenReturn(randomPojo(DataSourceConfigDO.class, o -> o.setUrl("jdbc:mysql://")));
+                .thenReturn(randomPojo(DataSourceConfigEntity.class, o -> o.setUrl("jdbc:mysql://")));
         // mock 执行生成
         Map<String, String> codes = MapUtil.of(randomString(), randomString());
         when(codegenEngine.execute(eq(DbType.MYSQL), eq(table), argThat(columns -> {
@@ -546,7 +546,7 @@ public class CodegenServiceImplTest extends BaseDbUnitTest {
         when(databaseTableService.getTableList(eq(dataSourceConfigId), eq(name), eq(comment)))
                 .thenReturn(ListUtil.toList(tableInfo01, tableInfo02));
         // mock 数据
-        CodegenTableDO tableDO = randomPojo(CodegenTableDO.class,
+        CodegenTableEntity tableDO = randomPojo(CodegenTableEntity.class,
                 o -> o.setScene(CodegenSceneEnum.ADMIN.getScene())
                         .setTableName("t_yunai_02")
                         .setDataSourceConfigId(dataSourceConfigId));

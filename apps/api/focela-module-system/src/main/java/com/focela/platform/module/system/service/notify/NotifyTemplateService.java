@@ -3,7 +3,7 @@ package com.focela.platform.module.system.service.notify;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.system.controller.admin.notify.vo.template.NotifyTemplatePageReqVO;
 import com.focela.platform.module.system.controller.admin.notify.vo.template.NotifyTemplateSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.notify.NotifyTemplateDO;
+import com.focela.platform.module.system.repository.entity.notify.NotifyTemplateEntity;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -51,7 +51,7 @@ public interface NotifyTemplateService {
      * @param id 编号
      * @return 站内信模版
      */
-    NotifyTemplateDO getNotifyTemplate(Long id);
+    NotifyTemplateEntity getNotifyTemplate(Long id);
 
     /**
      * 获得站内信模板，从缓存中
@@ -59,7 +59,7 @@ public interface NotifyTemplateService {
      * @param code 模板编码
      * @return 站内信模板
      */
-    NotifyTemplateDO getNotifyTemplateByCodeFromCache(String code);
+    NotifyTemplateEntity getNotifyTemplateByCodeFromCache(String code);
 
     /**
      * 获得站内信模版分页
@@ -67,7 +67,7 @@ public interface NotifyTemplateService {
      * @param pageReqVO 分页查询
      * @return 站内信模版分页
      */
-    PageResult<NotifyTemplateDO> getNotifyTemplatePage(NotifyTemplatePageReqVO pageReqVO);
+    PageResult<NotifyTemplateEntity> getNotifyTemplatePage(NotifyTemplatePageReqVO pageReqVO);
 
     /**
      * 格式化站内信内容

@@ -3,7 +3,7 @@ package com.focela.platform.module.system.service.permission;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.system.controller.admin.permission.vo.role.RolePageReqVO;
 import com.focela.platform.module.system.controller.admin.permission.vo.role.RoleSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.permission.RoleDO;
+import com.focela.platform.module.system.repository.entity.permission.RoleEntity;
 import jakarta.validation.Valid;
 
 import java.util.Collection;
@@ -62,7 +62,7 @@ public interface RoleService {
      * @param id 角色编号
      * @return 角色
      */
-    RoleDO getRole(Long id);
+    RoleEntity getRole(Long id);
 
     /**
      * 获得角色，从缓存中
@@ -70,7 +70,7 @@ public interface RoleService {
      * @param id 角色编号
      * @return 角色
      */
-    RoleDO getRoleFromCache(Long id);
+    RoleEntity getRoleFromCache(Long id);
 
     /**
      * 获得角色列表
@@ -78,7 +78,7 @@ public interface RoleService {
      * @param ids 角色编号数组
      * @return 角色列表
      */
-    List<RoleDO> getRoleList(Collection<Long> ids);
+    List<RoleEntity> getRoleList(Collection<Long> ids);
 
     /**
      * 获得角色数组，从缓存中
@@ -86,7 +86,7 @@ public interface RoleService {
      * @param ids 角色编号数组
      * @return 角色数组
      */
-    List<RoleDO> getRoleListFromCache(Collection<Long> ids);
+    List<RoleEntity> getRoleListFromCache(Collection<Long> ids);
 
     /**
      * 获得角色列表
@@ -94,14 +94,14 @@ public interface RoleService {
      * @param statuses 筛选的状态
      * @return 角色列表
      */
-    List<RoleDO> getRoleListByStatus(Collection<Integer> statuses);
+    List<RoleEntity> getRoleListByStatus(Collection<Integer> statuses);
 
     /**
      * 获得所有角色列表
      *
      * @return 角色列表
      */
-    List<RoleDO> getRoleList();
+    List<RoleEntity> getRoleList();
 
     /**
      * 获得角色分页
@@ -109,7 +109,7 @@ public interface RoleService {
      * @param reqVO 角色分页查询
      * @return 角色分页结果
      */
-    PageResult<RoleDO> getRolePage(RolePageReqVO reqVO);
+    PageResult<RoleEntity> getRolePage(RolePageReqVO reqVO);
 
     /**
      * 判断角色编号数组中，是否有管理员

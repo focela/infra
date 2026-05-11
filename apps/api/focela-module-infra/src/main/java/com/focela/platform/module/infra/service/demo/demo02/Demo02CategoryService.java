@@ -2,7 +2,7 @@ package com.focela.platform.module.infra.service.demo.demo02;
 
 import com.focela.platform.module.infra.controller.admin.demo.demo02.vo.Demo02CategoryListReqVO;
 import com.focela.platform.module.infra.controller.admin.demo.demo02.vo.Demo02CategorySaveReqVO;
-import com.focela.platform.module.infra.dal.dataobject.demo.demo02.Demo02CategoryDO;
+import com.focela.platform.module.infra.repository.entity.demo.demo02.Demo02CategoryEntity;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -42,7 +42,7 @@ public interface Demo02CategoryService {
      * @param id 编号
      * @return 示例分类
      */
-    Demo02CategoryDO getDemo02Category(Long id);
+    Demo02CategoryEntity getDemo02Category(Long id);
 
     /**
      * 获得示例分类列表
@@ -50,6 +50,6 @@ public interface Demo02CategoryService {
      * @param listReqVO 查询条件
      * @return 示例分类列表
      */
-    List<Demo02CategoryDO> getDemo02CategoryList(Demo02CategoryListReqVO listReqVO);
+    List<Demo02CategoryEntity> getDemo02CategoryList(Demo02CategoryListReqVO listReqVO);
 
 }

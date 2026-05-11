@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.service.oauth2;
 
-import com.focela.platform.module.system.dal.dataobject.oauth2.OAuth2CodeDO;
+import com.focela.platform.module.system.repository.entity.oauth2.OAuth2CodeEntity;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public interface OAuth2CodeService {
      * @param state 状态
      * @return 授权码的信息
      */
-    OAuth2CodeDO createAuthorizationCode(Long userId, Integer userType, String clientId,
+    OAuth2CodeEntity createAuthorizationCode(Long userId, Integer userType, String clientId,
                                          List<String> scopes, String redirectUri, String state);
 
     /**
@@ -34,6 +34,6 @@ public interface OAuth2CodeService {
      *
      * @param code 授权码
      */
-    OAuth2CodeDO consumeAuthorizationCode(String code);
+    OAuth2CodeEntity consumeAuthorizationCode(String code);
 
 }

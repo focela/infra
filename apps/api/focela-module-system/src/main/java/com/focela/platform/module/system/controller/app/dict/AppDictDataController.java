@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.pojo.CommonResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.system.controller.app.dict.vo.AppDictDataRespVO;
-import com.focela.platform.module.system.dal.dataobject.dict.DictDataDO;
+import com.focela.platform.module.system.repository.entity.dict.DictDataEntity;
 import com.focela.platform.module.system.service.dict.DictDataService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -35,7 +35,7 @@ public class AppDictDataController {
     @Parameter(name = "type", description = "字典类型", required = true, example = "common_status")
     @PermitAll
     public CommonResult<List<AppDictDataRespVO>> getDictDataListByType(@RequestParam("type") String type) {
-        List<DictDataDO> list = dictDataService.getDictDataList(
+        List<DictDataEntity> list = dictDataService.getDictDataList(
                 CommonStatusEnum.ENABLE.getStatus(), type);
         return success(BeanUtils.toBean(list, AppDictDataRespVO.class));
     }

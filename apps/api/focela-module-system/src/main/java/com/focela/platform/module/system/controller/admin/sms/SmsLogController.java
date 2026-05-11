@@ -8,7 +8,7 @@ import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.excel.core.util.ExcelUtils;
 import com.focela.platform.module.system.controller.admin.sms.vo.log.SmsLogPageReqVO;
 import com.focela.platform.module.system.controller.admin.sms.vo.log.SmsLogRespVO;
-import com.focela.platform.module.system.dal.dataobject.sms.SmsLogDO;
+import com.focela.platform.module.system.repository.entity.sms.SmsLogEntity;
 import com.focela.platform.module.system.service.sms.SmsLogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -42,7 +42,7 @@ public class SmsLogController {
     @Operation(summary = "获得短信日志分页")
     @PreAuthorize("@ss.hasPermission('system:sms-log:query')")
     public CommonResult<PageResult<SmsLogRespVO>> getSmsLogPage(@Valid SmsLogPageReqVO pageReqVO) {
-        PageResult<SmsLogDO> pageResult = smsLogService.getSmsLogPage(pageReqVO);
+        PageResult<SmsLogEntity> pageResult = smsLogService.getSmsLogPage(pageReqVO);
         return success(BeanUtils.toBean(pageResult, SmsLogRespVO.class));
     }
 
@@ -51,7 +51,7 @@ public class SmsLogController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:sms-log:query')")
     public CommonResult<SmsLogRespVO> getSmsLog(@RequestParam("id") Long id) {
-        SmsLogDO smsLog = smsLogService.getSmsLog(id);
+        SmsLogEntity smsLog = smsLogService.getSmsLog(id);
         return success(BeanUtils.toBean(smsLog, SmsLogRespVO.class));
     }
 
@@ -62,7 +62,7 @@ public class SmsLogController {
     public void exportSmsLogExcel(@Valid SmsLogPageReqVO exportReqVO,
                                   HttpServletResponse response) throws IOException {
         exportReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<SmsLogDO> list = smsLogService.getSmsLogPage(exportReqVO).getList();
+        List<SmsLogEntity> list = smsLogService.getSmsLogPage(exportReqVO).getList();
         // 导出 Excel
         ExcelUtils.write(response, "短信日志.xls", "数据", SmsLogRespVO.class,
                 BeanUtils.toBean(list, SmsLogRespVO.class));

@@ -8,8 +8,8 @@ import com.focela.platform.module.system.api.sms.SmsCodeApi;
 import com.focela.platform.module.system.api.social.dto.SocialUserBindReqDTO;
 import com.focela.platform.module.system.api.social.dto.SocialUserRespDTO;
 import com.focela.platform.module.system.controller.admin.auth.vo.*;
-import com.focela.platform.module.system.dal.dataobject.oauth2.OAuth2AccessTokenDO;
-import com.focela.platform.module.system.dal.dataobject.user.AdminUserDO;
+import com.focela.platform.module.system.repository.entity.oauth2.OAuth2AccessTokenEntity;
+import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
 import com.focela.platform.module.system.enums.logger.LoginLogTypeEnum;
 import com.focela.platform.module.system.enums.logger.LoginResultEnum;
 import com.focela.platform.module.system.enums.sms.SmsSceneEnum;
@@ -76,14 +76,14 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
         String username = randomString();
         String password = randomString();
         // mock user 数据
-        AdminUserDO user = randomPojo(AdminUserDO.class, o -> o.setUsername(username)
+        AdminUserEntity user = randomPojo(AdminUserEntity.class, o -> o.setUsername(username)
                 .setPassword(password).setStatus(CommonStatusEnum.ENABLE.getStatus()));
         when(userService.getUserByUsername(eq(username))).thenReturn(user);
         // mock password 匹配
         when(userService.isPasswordMatch(eq(password), eq(user.getPassword()))).thenReturn(true);
 
         // 调用
-        AdminUserDO loginUser = authService.authenticate(username, password);
+        AdminUserEntity loginUser = authService.authenticate(username, password);
         // 校验
         assertPojoEquals(user, loginUser);
     }
@@ -110,7 +110,7 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
         String username = randomString();
         String password = randomString();
         // mock user 数据
-        AdminUserDO user = randomPojo(AdminUserDO.class, o -> o.setUsername(username)
+        AdminUserEntity user = randomPojo(AdminUserEntity.class, o -> o.setUsername(username)
                 .setPassword(password).setStatus(CommonStatusEnum.ENABLE.getStatus()));
         when(userService.getUserByUsername(eq(username))).thenReturn(user);
 
@@ -130,7 +130,7 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
         String username = randomString();
         String password = randomString();
         // mock user 数据
-        AdminUserDO user = randomPojo(AdminUserDO.class, o -> o.setUsername(username)
+        AdminUserEntity user = randomPojo(AdminUserEntity.class, o -> o.setUsername(username)
                 .setPassword(password).setStatus(CommonStatusEnum.DISABLE.getStatus()));
         when(userService.getUserByUsername(eq(username))).thenReturn(user);
         // mock password 匹配
@@ -156,13 +156,13 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
         // mock 验证码正确
         authService.setCaptchaEnable(false);
         // mock user 数据
-        AdminUserDO user = randomPojo(AdminUserDO.class, o -> o.setId(1L).setUsername("test_username")
+        AdminUserEntity user = randomPojo(AdminUserEntity.class, o -> o.setId(1L).setUsername("test_username")
                 .setPassword("test_password").setStatus(CommonStatusEnum.ENABLE.getStatus()));
         when(userService.getUserByUsername(eq("test_username"))).thenReturn(user);
         // mock password 匹配
         when(userService.isPasswordMatch(eq("test_password"), eq(user.getPassword()))).thenReturn(true);
         // mock 缓存登录用户到 Redis
-        OAuth2AccessTokenDO accessTokenDO = randomPojo(OAuth2AccessTokenDO.class, o -> o.setUserId(1L)
+        OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class, o -> o.setUserId(1L)
                 .setUserType(UserTypeEnum.ADMIN.getValue()));
         when(oauth2TokenService.createAccessToken(eq(1L), eq(UserTypeEnum.ADMIN.getValue()), eq("default"), isNull()))
                 .thenReturn(accessTokenDO);
@@ -188,7 +188,7 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
         Integer scene = SmsSceneEnum.ADMIN_MEMBER_LOGIN.getScene();
         AuthSmsSendReqVO reqVO = new AuthSmsSendReqVO(mobile, scene);
         // mock 方法（用户信息）
-        AdminUserDO user = randomPojo(AdminUserDO.class);
+        AdminUserEntity user = randomPojo(AdminUserEntity.class);
         when(userService.getUserByMobile(eq(mobile))).thenReturn(user);
 
         // 调用
@@ -215,10 +215,10 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
             return true;
         })));
         // mock 方法（用户信息）
-        AdminUserDO user = randomPojo(AdminUserDO.class, o -> o.setId(1L));
+        AdminUserEntity user = randomPojo(AdminUserEntity.class, o -> o.setId(1L));
         when(userService.getUserByMobile(eq(mobile))).thenReturn(user);
         // mock 缓存登录用户到 Redis
-        OAuth2AccessTokenDO accessTokenDO = randomPojo(OAuth2AccessTokenDO.class, o -> o.setUserId(1L)
+        OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class, o -> o.setUserId(1L)
                 .setUserType(UserTypeEnum.ADMIN.getValue()));
         when(oauth2TokenService.createAccessToken(eq(1L), eq(UserTypeEnum.ADMIN.getValue()), eq("default"), isNull()))
                 .thenReturn(accessTokenDO);
@@ -243,10 +243,10 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
         when(socialUserService.getSocialUserByCode(eq(UserTypeEnum.ADMIN.getValue()), eq(reqVO.getType()),
                 eq(reqVO.getCode()), eq(reqVO.getState()))).thenReturn(new SocialUserRespDTO(randomString(), randomString(), randomString(), userId));
         // mock（用户）
-        AdminUserDO user = randomPojo(AdminUserDO.class, o -> o.setId(userId));
+        AdminUserEntity user = randomPojo(AdminUserEntity.class, o -> o.setId(userId));
         when(userService.getUser(eq(userId))).thenReturn(user);
         // mock 缓存登录用户到 Redis
-        OAuth2AccessTokenDO accessTokenDO = randomPojo(OAuth2AccessTokenDO.class, o -> o.setUserId(1L)
+        OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class, o -> o.setUserId(1L)
                 .setUserType(UserTypeEnum.ADMIN.getValue()));
         when(oauth2TokenService.createAccessToken(eq(1L), eq(UserTypeEnum.ADMIN.getValue()), eq("default"), isNull()))
                 .thenReturn(accessTokenDO);
@@ -314,7 +314,7 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         String refreshToken = randomString();
         // mock 方法
-        OAuth2AccessTokenDO accessTokenDO = randomPojo(OAuth2AccessTokenDO.class);
+        OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class);
         when(oauth2TokenService.refreshAccessToken(eq(refreshToken), eq("default")))
                 .thenReturn(accessTokenDO);
 
@@ -329,7 +329,7 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         String token = randomString();
         // mock
-        OAuth2AccessTokenDO accessTokenDO = randomPojo(OAuth2AccessTokenDO.class, o -> o.setUserId(1L)
+        OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class, o -> o.setUserId(1L)
                 .setUserType(UserTypeEnum.ADMIN.getValue()));
         when(oauth2TokenService.removeAccessToken(eq(token))).thenReturn(accessTokenDO);
 

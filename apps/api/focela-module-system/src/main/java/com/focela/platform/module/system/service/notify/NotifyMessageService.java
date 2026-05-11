@@ -3,8 +3,8 @@ package com.focela.platform.module.system.service.notify;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.system.controller.admin.notify.vo.message.NotifyMessageMyPageReqVO;
 import com.focela.platform.module.system.controller.admin.notify.vo.message.NotifyMessagePageReqVO;
-import com.focela.platform.module.system.dal.dataobject.notify.NotifyMessageDO;
-import com.focela.platform.module.system.dal.dataobject.notify.NotifyTemplateDO;
+import com.focela.platform.module.system.repository.entity.notify.NotifyMessageEntity;
+import com.focela.platform.module.system.repository.entity.notify.NotifyTemplateEntity;
 
 import java.util.Collection;
 import java.util.List;
@@ -28,7 +28,7 @@ public interface NotifyMessageService {
      * @return 站内信编号
      */
     Long createNotifyMessage(Long userId, Integer userType,
-                             NotifyTemplateDO template, String templateContent, Map<String, Object> templateParams);
+                             NotifyTemplateEntity template, String templateContent, Map<String, Object> templateParams);
 
     /**
      * 获得站内信分页
@@ -36,7 +36,7 @@ public interface NotifyMessageService {
      * @param pageReqVO 分页查询
      * @return 站内信分页
      */
-    PageResult<NotifyMessageDO> getNotifyMessagePage(NotifyMessagePageReqVO pageReqVO);
+    PageResult<NotifyMessageEntity> getNotifyMessagePage(NotifyMessagePageReqVO pageReqVO);
 
     /**
      * 获得【我的】站内信分页
@@ -46,7 +46,7 @@ public interface NotifyMessageService {
      * @param userType 用户类型
      * @return 站内信分页
      */
-    PageResult<NotifyMessageDO> getMyMyNotifyMessagePage(NotifyMessageMyPageReqVO pageReqVO, Long userId, Integer userType);
+    PageResult<NotifyMessageEntity> getMyMyNotifyMessagePage(NotifyMessageMyPageReqVO pageReqVO, Long userId, Integer userType);
 
     /**
      * 获得站内信
@@ -54,7 +54,7 @@ public interface NotifyMessageService {
      * @param id 编号
      * @return 站内信
      */
-    NotifyMessageDO getNotifyMessage(Long id);
+    NotifyMessageEntity getNotifyMessage(Long id);
 
     /**
      * 获得【我的】未读站内信列表
@@ -64,7 +64,7 @@ public interface NotifyMessageService {
      * @param size     数量
      * @return 站内信列表
      */
-    List<NotifyMessageDO> getUnreadNotifyMessageList(Long userId, Integer userType, Integer size);
+    List<NotifyMessageEntity> getUnreadNotifyMessageList(Long userId, Integer userType, Integer size);
 
     /**
      * 统计用户未读站内信条数

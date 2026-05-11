@@ -8,13 +8,13 @@ import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.util.collection.CollectionUtils;
 import com.focela.platform.framework.datapermission.core.annotation.DataPermission;
 import com.focela.platform.framework.common.biz.system.permission.dto.DeptDataPermissionRespDTO;
-import com.focela.platform.module.system.dal.dataobject.permission.MenuDO;
-import com.focela.platform.module.system.dal.dataobject.permission.RoleDO;
-import com.focela.platform.module.system.dal.dataobject.permission.RoleMenuDO;
-import com.focela.platform.module.system.dal.dataobject.permission.UserRoleDO;
-import com.focela.platform.module.system.dal.mysql.permission.RoleMenuMapper;
-import com.focela.platform.module.system.dal.mysql.permission.UserRoleMapper;
-import com.focela.platform.module.system.dal.redis.RedisKeyConstants;
+import com.focela.platform.module.system.repository.entity.permission.MenuEntity;
+import com.focela.platform.module.system.repository.entity.permission.RoleEntity;
+import com.focela.platform.module.system.repository.entity.permission.RoleMenuEntity;
+import com.focela.platform.module.system.repository.entity.permission.UserRoleEntity;
+import com.focela.platform.module.system.repository.mapper.permission.RoleMenuMapper;
+import com.focela.platform.module.system.repository.mapper.permission.UserRoleMapper;
+import com.focela.platform.module.system.repository.redis.RedisKeyConstants;
 import com.focela.platform.module.system.enums.permission.DataScopeEnum;
 import com.focela.platform.module.system.service.dept.DeptService;
 import com.focela.platform.module.system.service.user.AdminUserService;
@@ -67,7 +67,7 @@ public class PermissionServiceImpl implements PermissionService {
         }
 
         // 获得当前登录的角色。如果为空，说明没有权限
-        List<RoleDO> roles = getEnableUserRoleListByUserIdFromCache(userId);
+        List<RoleEntity> roles = getEnableUserRoleListByUserIdFromCache(userId);
         if (CollUtil.isEmpty(roles)) {
             return false;
         }
@@ -80,7 +80,7 @@ public class PermissionServiceImpl implements PermissionService {
         }
 
         // 情况二：如果是超管，也说明有权限
-        return roleService.hasAnySuperAdmin(convertSet(roles, RoleDO::getId));
+        return roleService.hasAnySuperAdmin(convertSet(roles, RoleEntity::getId));
     }
 
     /**
@@ -90,7 +90,7 @@ public class PermissionServiceImpl implements PermissionService {
      * @param permission 权限标识
      * @return 是否拥有
      */
-    private boolean hasAnyPermission(List<RoleDO> roles, String permission) {
+    private boolean hasAnyPermission(List<RoleEntity> roles, String permission) {
         List<Long> menuIds = menuService.getMenuIdListByPermissionFromCache(permission);
         // 采用严格模式，如果权限找不到对应的 Menu 的话，也认为没有权限
         if (CollUtil.isEmpty(menuIds)) {
@@ -98,7 +98,7 @@ public class PermissionServiceImpl implements PermissionService {
         }
 
         // 判断是否有权限
-        Set<Long> roleIds = convertSet(roles, RoleDO::getId);
+        Set<Long> roleIds = convertSet(roles, RoleEntity::getId);
         for (Long menuId : menuIds) {
             // 获得拥有该菜单的角色编号集合
             Set<Long> menuRoleIds = getSelf().getMenuRoleIdListByMenuIdFromCache(menuId);
@@ -118,13 +118,13 @@ public class PermissionServiceImpl implements PermissionService {
         }
 
         // 获得当前登录的角色。如果为空，说明没有权限
-        List<RoleDO> roleList = getEnableUserRoleListByUserIdFromCache(userId);
+        List<RoleEntity> roleList = getEnableUserRoleListByUserIdFromCache(userId);
         if (CollUtil.isEmpty(roleList)) {
             return false;
         }
 
         // 判断是否有角色
-        Set<String> userRoles = convertSet(roleList, RoleDO::getCode);
+        Set<String> userRoles = convertSet(roleList, RoleEntity::getCode);
         return CollUtil.containsAny(userRoles, Sets.newHashSet(roles));
     }
 
@@ -140,7 +140,7 @@ public class PermissionServiceImpl implements PermissionService {
     })
     public void assignRoleMenu(Long roleId, Set<Long> menuIds) {
         // 获得角色拥有菜单编号
-        Set<Long> dbMenuIds = convertSet(roleMenuMapper.selectListByRoleId(roleId), RoleMenuDO::getMenuId);
+        Set<Long> dbMenuIds = convertSet(roleMenuMapper.selectListByRoleId(roleId), RoleMenuEntity::getMenuId);
         // 计算新增和删除的菜单编号
         Set<Long> menuIdList = CollUtil.emptyIfNull(menuIds);
         Collection<Long> createMenuIds = CollUtil.subtract(menuIdList, dbMenuIds);
@@ -148,7 +148,7 @@ public class PermissionServiceImpl implements PermissionService {
         // 执行新增和删除。对于已经授权的菜单，不用做任何处理
         if (CollUtil.isNotEmpty(createMenuIds)) {
             roleMenuMapper.insertBatch(CollectionUtils.convertList(createMenuIds, menuId -> {
-                RoleMenuDO entity = new RoleMenuDO();
+                RoleMenuEntity entity = new RoleMenuEntity();
                 entity.setRoleId(roleId);
                 entity.setMenuId(menuId);
                 return entity;
@@ -188,16 +188,16 @@ public class PermissionServiceImpl implements PermissionService {
 
         // 如果是管理员的情况下，获取全部菜单编号
         if (roleService.hasAnySuperAdmin(roleIds)) {
-            return convertSet(menuService.getMenuList(), MenuDO::getId);
+            return convertSet(menuService.getMenuList(), MenuEntity::getId);
         }
         // 如果是非管理员的情况下，获得拥有的菜单编号
-        return convertSet(roleMenuMapper.selectListByRoleId(roleIds), RoleMenuDO::getMenuId);
+        return convertSet(roleMenuMapper.selectListByRoleId(roleIds), RoleMenuEntity::getMenuId);
     }
 
     @Override
     @Cacheable(value = RedisKeyConstants.MENU_ROLE_ID_LIST, key = "#menuId")
     public Set<Long> getMenuRoleIdListByMenuIdFromCache(Long menuId) {
-        return convertSet(roleMenuMapper.selectListByMenuId(menuId), RoleMenuDO::getRoleId);
+        return convertSet(roleMenuMapper.selectListByMenuId(menuId), RoleMenuEntity::getRoleId);
     }
 
     // ========== 用户-角色的相关方法  ==========
@@ -208,7 +208,7 @@ public class PermissionServiceImpl implements PermissionService {
     public void assignUserRole(Long userId, Set<Long> roleIds) {
         // 获得角色拥有角色编号
         Set<Long> dbRoleIds = convertSet(userRoleMapper.selectListByUserId(userId),
-                UserRoleDO::getRoleId);
+                UserRoleEntity::getRoleId);
         // 计算新增和删除的角色编号
         Set<Long> roleIdList = CollUtil.emptyIfNull(roleIds);
         Collection<Long> createRoleIds = CollUtil.subtract(roleIdList, dbRoleIds);
@@ -216,7 +216,7 @@ public class PermissionServiceImpl implements PermissionService {
         // 执行新增和删除。对于已经授权的角色，不用做任何处理
         if (!CollectionUtil.isEmpty(createRoleIds)) {
             userRoleMapper.insertBatch(CollectionUtils.convertList(createRoleIds, roleId -> {
-                UserRoleDO entity = new UserRoleDO();
+                UserRoleEntity entity = new UserRoleEntity();
                 entity.setUserId(userId);
                 entity.setRoleId(roleId);
                 return entity;
@@ -235,7 +235,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public Set<Long> getUserRoleIdListByUserId(Long userId) {
-        return convertSet(userRoleMapper.selectListByUserId(userId), UserRoleDO::getRoleId);
+        return convertSet(userRoleMapper.selectListByUserId(userId), UserRoleEntity::getRoleId);
     }
 
     @Override
@@ -246,7 +246,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public Set<Long> getUserRoleIdListByRoleId(Collection<Long> roleIds) {
-        return convertSet(userRoleMapper.selectListByRoleIds(roleIds), UserRoleDO::getUserId);
+        return convertSet(userRoleMapper.selectListByRoleIds(roleIds), UserRoleEntity::getUserId);
     }
 
     /**
@@ -256,11 +256,11 @@ public class PermissionServiceImpl implements PermissionService {
      * @return 用户拥有的角色
      */
     @VisibleForTesting
-    List<RoleDO> getEnableUserRoleListByUserIdFromCache(Long userId) {
+    List<RoleEntity> getEnableUserRoleListByUserIdFromCache(Long userId) {
         // 获得用户拥有的角色编号
         Set<Long> roleIds = getSelf().getUserRoleIdListByUserIdFromCache(userId);
         // 获得角色数组，并移除被禁用的
-        List<RoleDO> roles = roleService.getRoleListFromCache(roleIds);
+        List<RoleEntity> roles = roleService.getRoleListFromCache(roleIds);
         roles.removeIf(role -> !CommonStatusEnum.ENABLE.getStatus().equals(role.getStatus()));
         return roles;
     }
@@ -276,7 +276,7 @@ public class PermissionServiceImpl implements PermissionService {
     @DataPermission(enable = false) // 关闭数据权限，不然就会出现递归获取数据权限的问题
     public DeptDataPermissionRespDTO getDeptDataPermission(Long userId) {
         // 获得用户的角色
-        List<RoleDO> roles = getEnableUserRoleListByUserIdFromCache(userId);
+        List<RoleEntity> roles = getEnableUserRoleListByUserIdFromCache(userId);
 
         // 如果角色为空，则只能查看自己
         DeptDataPermissionRespDTO result = new DeptDataPermissionRespDTO();
@@ -288,7 +288,7 @@ public class PermissionServiceImpl implements PermissionService {
         // 获得用户的部门编号的缓存，通过 Guava 的 Suppliers 惰性求值，即有且仅有第一次发起 DB 的查询
         Supplier<Long> userDeptId = Suppliers.memoize(() -> userService.getUser(userId).getDeptId());
         // 遍历每个角色，计算
-        for (RoleDO role : roles) {
+        for (RoleEntity role : roles) {
             // 为空时，跳过
             if (role.getDataScope() == null) {
                 continue;

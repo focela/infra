@@ -5,7 +5,7 @@ import com.focela.platform.framework.common.pojo.CommonResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.tenant.core.aop.TenantIgnore;
 import com.focela.platform.module.system.controller.app.tenant.vo.AppTenantRespVO;
-import com.focela.platform.module.system.dal.dataobject.tenant.TenantDO;
+import com.focela.platform.module.system.repository.entity.tenant.TenantEntity;
 import com.focela.platform.module.system.service.tenant.TenantService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -37,7 +37,7 @@ public class AppTenantController {
     @Parameter(name = "website", description = "域名", required = true, example = "www.iocoder.cn")
     public CommonResult<AppTenantRespVO> getTenantByWebsite(
             @RequestParam("website") @Pattern(regexp = "^[a-zA-Z0-9.-]+$", message = "网站域名格式不正确") String website) {
-        TenantDO tenant = tenantService.getTenantByWebsite(website);
+        TenantEntity tenant = tenantService.getTenantByWebsite(website);
         if (tenant == null || CommonStatusEnum.isDisable(tenant.getStatus())) {
             return success(null);
         }

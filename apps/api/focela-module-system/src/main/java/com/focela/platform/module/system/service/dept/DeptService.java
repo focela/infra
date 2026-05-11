@@ -3,7 +3,7 @@ package com.focela.platform.module.system.service.dept;
 import com.focela.platform.framework.common.util.collection.CollectionUtils;
 import com.focela.platform.module.system.controller.admin.dept.vo.dept.DeptListReqVO;
 import com.focela.platform.module.system.controller.admin.dept.vo.dept.DeptSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.dept.DeptDO;
+import com.focela.platform.module.system.repository.entity.dept.DeptEntity;
 
 import java.util.*;
 
@@ -49,7 +49,7 @@ public interface DeptService {
      * @param id 部门编号
      * @return 部门信息
      */
-    DeptDO getDept(Long id);
+    DeptEntity getDept(Long id);
 
     /**
      * 获得部门信息数组
@@ -57,7 +57,7 @@ public interface DeptService {
      * @param ids 部门编号数组
      * @return 部门信息数组
      */
-    List<DeptDO> getDeptList(Collection<Long> ids);
+    List<DeptEntity> getDeptList(Collection<Long> ids);
 
     /**
      * 筛选部门列表
@@ -65,7 +65,7 @@ public interface DeptService {
      * @param reqVO 筛选条件请求 VO
      * @return 部门列表
      */
-    List<DeptDO> getDeptList(DeptListReqVO reqVO);
+    List<DeptEntity> getDeptList(DeptListReqVO reqVO);
 
     /**
      * 获得指定编号的部门 Map
@@ -73,9 +73,9 @@ public interface DeptService {
      * @param ids 部门编号数组
      * @return 部门 Map
      */
-    default Map<Long, DeptDO> getDeptMap(Collection<Long> ids) {
-        List<DeptDO> list = getDeptList(ids);
-        return CollectionUtils.convertMap(list, DeptDO::getId);
+    default Map<Long, DeptEntity> getDeptMap(Collection<Long> ids) {
+        List<DeptEntity> list = getDeptList(ids);
+        return CollectionUtils.convertMap(list, DeptEntity::getId);
     }
 
     /**
@@ -84,7 +84,7 @@ public interface DeptService {
      * @param id 部门编号
      * @return 子部门列表
      */
-    default List<DeptDO> getChildDeptList(Long id) {
+    default List<DeptEntity> getChildDeptList(Long id) {
         return getChildDeptList(Collections.singleton(id));
     }
 
@@ -94,7 +94,7 @@ public interface DeptService {
      * @param ids 部门编号数组
      * @return 子部门列表
      */
-    List<DeptDO> getChildDeptList(Collection<Long> ids);
+    List<DeptEntity> getChildDeptList(Collection<Long> ids);
 
     /**
      * 获得指定领导者的部门列表
@@ -102,7 +102,7 @@ public interface DeptService {
      * @param id 领导者编号
      * @return 部门列表
      */
-    List<DeptDO> getDeptListByLeaderUserId(Long id);
+    List<DeptEntity> getDeptListByLeaderUserId(Long id);
 
     /**
      * 获得所有子部门，从缓存中

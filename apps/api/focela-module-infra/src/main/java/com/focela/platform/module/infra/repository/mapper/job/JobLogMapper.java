@@ -1,0 +1,43 @@
+package com.focela.platform.module.infra.repository.mapper.job;
+
+import com.focela.platform.framework.common.pojo.PageResult;
+import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
+import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
+import com.focela.platform.module.infra.controller.admin.job.vo.log.JobLogPageReqVO;
+import com.focela.platform.module.infra.repository.entity.job.JobLogEntity;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.time.LocalDateTime;
+
+/**
+ * 任务日志 Mapper
+ *
+ * @author 芋道源码
+ */
+@Mapper
+public interface JobLogMapper extends BaseMapperX<JobLogEntity> {
+
+    default PageResult<JobLogEntity> selectPage(JobLogPageReqVO reqVO) {
+        return selectPage(reqVO, new LambdaQueryWrapperX<JobLogEntity>()
+                .eqIfPresent(JobLogEntity::getJobId, reqVO.getJobId())
+                .likeIfPresent(JobLogEntity::getHandlerName, reqVO.getHandlerName())
+                .geIfPresent(JobLogEntity::getBeginTime, reqVO.getBeginTime())
+                .leIfPresent(JobLogEntity::getEndTime, reqVO.getEndTime())
+                .eqIfPresent(JobLogEntity::getStatus, reqVO.getStatus())
+                .orderByDesc(JobLogEntity::getId) // ID 倒序
+        );
+    }
+
+    /**
+     * 物理删除指定时间之前的日志
+     *
+     * @param createTime 最大时间
+     * @param limit      删除条数，防止一次删除太多
+     * @return 删除条数
+     */
+    @Delete("DELETE FROM infra_job_log WHERE create_time < #{createTime} LIMIT #{limit}")
+    Integer deleteByCreateTimeLt(@Param("createTime") LocalDateTime createTime, @Param("limit") Integer limit);
+
+}

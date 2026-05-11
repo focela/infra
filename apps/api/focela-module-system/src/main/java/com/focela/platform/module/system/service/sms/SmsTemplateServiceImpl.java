@@ -9,10 +9,10 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.sms.vo.template.SmsTemplatePageReqVO;
 import com.focela.platform.module.system.controller.admin.sms.vo.template.SmsTemplateSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.sms.SmsChannelDO;
-import com.focela.platform.module.system.dal.dataobject.sms.SmsTemplateDO;
-import com.focela.platform.module.system.dal.mysql.sms.SmsTemplateMapper;
-import com.focela.platform.module.system.dal.redis.RedisKeyConstants;
+import com.focela.platform.module.system.repository.entity.sms.SmsChannelEntity;
+import com.focela.platform.module.system.repository.entity.sms.SmsTemplateEntity;
+import com.focela.platform.module.system.repository.mapper.sms.SmsTemplateMapper;
+import com.focela.platform.module.system.repository.redis.RedisKeyConstants;
 import com.focela.platform.module.system.framework.sms.core.client.SmsClient;
 import com.focela.platform.module.system.framework.sms.core.client.dto.SmsTemplateRespDTO;
 import com.focela.platform.module.system.framework.sms.core.enums.SmsTemplateAuditStatusEnum;
@@ -55,14 +55,14 @@ public class SmsTemplateServiceImpl implements SmsTemplateService {
     @Override
     public Long createSmsTemplate(SmsTemplateSaveReqVO createReqVO) {
         // 校验短信渠道
-        SmsChannelDO channelDO = validateSmsChannel(createReqVO.getChannelId());
+        SmsChannelEntity channelDO = validateSmsChannel(createReqVO.getChannelId());
         // 校验短信编码是否重复
         validateSmsTemplateCodeDuplicate(null, createReqVO.getCode());
         // 校验短信模板
         validateApiTemplate(createReqVO.getChannelId(), createReqVO.getApiTemplateId());
 
         // 插入
-        SmsTemplateDO template = BeanUtils.toBean(createReqVO, SmsTemplateDO.class);
+        SmsTemplateEntity template = BeanUtils.toBean(createReqVO, SmsTemplateEntity.class);
         template.setParams(parseTemplateContentParams(template.getContent()));
         template.setChannelCode(channelDO.getCode());
         smsTemplateMapper.insert(template);
@@ -77,14 +77,14 @@ public class SmsTemplateServiceImpl implements SmsTemplateService {
         // 校验存在
         validateSmsTemplateExists(updateReqVO.getId());
         // 校验短信渠道
-        SmsChannelDO channelDO = validateSmsChannel(updateReqVO.getChannelId());
+        SmsChannelEntity channelDO = validateSmsChannel(updateReqVO.getChannelId());
         // 校验短信编码是否重复
         validateSmsTemplateCodeDuplicate(updateReqVO.getId(), updateReqVO.getCode());
         // 校验短信模板
         validateApiTemplate(updateReqVO.getChannelId(), updateReqVO.getApiTemplateId());
 
         // 更新
-        SmsTemplateDO updateObj = BeanUtils.toBean(updateReqVO, SmsTemplateDO.class);
+        SmsTemplateEntity updateObj = BeanUtils.toBean(updateReqVO, SmsTemplateEntity.class);
         updateObj.setParams(parseTemplateContentParams(updateObj.getContent()));
         updateObj.setChannelCode(channelDO.getCode());
         smsTemplateMapper.updateById(updateObj);
@@ -114,19 +114,19 @@ public class SmsTemplateServiceImpl implements SmsTemplateService {
     }
 
     @Override
-    public SmsTemplateDO getSmsTemplate(Long id) {
+    public SmsTemplateEntity getSmsTemplate(Long id) {
         return smsTemplateMapper.selectById(id);
     }
 
     @Override
     @Cacheable(cacheNames = RedisKeyConstants.SMS_TEMPLATE, key = "#code",
             unless = "#result == null")
-    public SmsTemplateDO getSmsTemplateByCodeFromCache(String code) {
+    public SmsTemplateEntity getSmsTemplateByCodeFromCache(String code) {
         return smsTemplateMapper.selectByCode(code);
     }
 
     @Override
-    public PageResult<SmsTemplateDO> getSmsTemplatePage(SmsTemplatePageReqVO pageReqVO) {
+    public PageResult<SmsTemplateEntity> getSmsTemplatePage(SmsTemplatePageReqVO pageReqVO) {
         return smsTemplateMapper.selectPage(pageReqVO);
     }
 
@@ -136,8 +136,8 @@ public class SmsTemplateServiceImpl implements SmsTemplateService {
     }
 
     @VisibleForTesting
-    public SmsChannelDO validateSmsChannel(Long channelId) {
-        SmsChannelDO channelDO = smsChannelService.getSmsChannel(channelId);
+    public SmsChannelEntity validateSmsChannel(Long channelId) {
+        SmsChannelEntity channelDO = smsChannelService.getSmsChannel(channelId);
         if (channelDO == null) {
             throw exception(SMS_CHANNEL_NOT_EXISTS);
         }
@@ -149,7 +149,7 @@ public class SmsTemplateServiceImpl implements SmsTemplateService {
 
     @VisibleForTesting
     public void validateSmsTemplateCodeDuplicate(Long id, String code) {
-        SmsTemplateDO template = smsTemplateMapper.selectByCode(code);
+        SmsTemplateEntity template = smsTemplateMapper.selectByCode(code);
         if (template == null) {
             return;
         }

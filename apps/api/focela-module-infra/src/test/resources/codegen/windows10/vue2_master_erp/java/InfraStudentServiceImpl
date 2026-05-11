@@ -7,16 +7,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import com.focela.platform.module.infra.controller.admin.demo.vo.*;
-import com.focela.platform.module.infra.dal.dataobject.demo.InfraStudentDO;
-import com.focela.platform.module.infra.dal.dataobject.demo.InfraStudentContactDO;
-import com.focela.platform.module.infra.dal.dataobject.demo.InfraStudentTeacherDO;
+import com.focela.platform.module.infra.repository.entity.demo.InfraStudentDO;
+import com.focela.platform.module.infra.repository.entity.demo.InfraStudentContactDO;
+import com.focela.platform.module.infra.repository.entity.demo.InfraStudentTeacherDO;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.pojo.PageParam;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 
-import com.focela.platform.module.infra.dal.mysql.demo.InfraStudentMapper;
-import com.focela.platform.module.infra.dal.mysql.demo.InfraStudentContactMapper;
-import com.focela.platform.module.infra.dal.mysql.demo.InfraStudentTeacherMapper;
+import com.focela.platform.module.infra.repository.mapper.demo.InfraStudentMapper;
+import com.focela.platform.module.infra.repository.mapper.demo.InfraStudentContactMapper;
+import com.focela.platform.module.infra.repository.mapper.demo.InfraStudentTeacherMapper;
 
 import static com.focela.platform.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static com.focela.platform.module.infra.enums.ErrorCodeConstants.*;

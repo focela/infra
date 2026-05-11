@@ -5,8 +5,8 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.framework.common.biz.infra.logger.dto.ApiErrorLogCreateReqDTO;
 import com.focela.platform.module.infra.controller.admin.logger.vo.apierrorlog.ApiErrorLogPageReqVO;
-import com.focela.platform.module.infra.dal.dataobject.logger.ApiErrorLogDO;
-import com.focela.platform.module.infra.dal.mysql.logger.ApiErrorLogMapper;
+import com.focela.platform.module.infra.repository.entity.logger.ApiErrorLogEntity;
+import com.focela.platform.module.infra.repository.mapper.logger.ApiErrorLogMapper;
 import com.focela.platform.module.infra.enums.logger.ApiErrorLogProcessStatusEnum;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
@@ -39,7 +39,7 @@ public class ApiErrorLogServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetApiErrorLogPage() {
         // mock 数据
-        ApiErrorLogDO apiErrorLogDO = randomPojo(ApiErrorLogDO.class, o -> {
+        ApiErrorLogEntity apiErrorLogDO = randomPojo(ApiErrorLogEntity.class, o -> {
             o.setUserId(2233L);
             o.setUserType(UserTypeEnum.ADMIN.getValue());
             o.setApplicationName("yudao-test");
@@ -70,7 +70,7 @@ public class ApiErrorLogServiceImplTest extends BaseDbUnitTest {
         reqVO.setProcessStatus(ApiErrorLogProcessStatusEnum.INIT.getStatus());
 
         // 调用
-        PageResult<ApiErrorLogDO> pageResult = apiErrorLogService.getApiErrorLogPage(reqVO);
+        PageResult<ApiErrorLogEntity> pageResult = apiErrorLogService.getApiErrorLogPage(reqVO);
         // 断言，只查到了一条符合条件的
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
@@ -85,7 +85,7 @@ public class ApiErrorLogServiceImplTest extends BaseDbUnitTest {
         // 调用
         apiErrorLogService.createApiErrorLog(createDTO);
         // 断言
-        ApiErrorLogDO apiErrorLogDO = apiErrorLogMapper.selectOne(null);
+        ApiErrorLogEntity apiErrorLogDO = apiErrorLogMapper.selectOne(null);
         assertPojoEquals(createDTO, apiErrorLogDO);
         assertEquals(ApiErrorLogProcessStatusEnum.INIT.getStatus(), apiErrorLogDO.getProcessStatus());
     }
@@ -93,7 +93,7 @@ public class ApiErrorLogServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateApiErrorLogProcess_success() {
         // 准备参数
-        ApiErrorLogDO apiErrorLogDO = randomPojo(ApiErrorLogDO.class,
+        ApiErrorLogEntity apiErrorLogDO = randomPojo(ApiErrorLogEntity.class,
                 o -> o.setProcessStatus(ApiErrorLogProcessStatusEnum.INIT.getStatus()));
         apiErrorLogMapper.insert(apiErrorLogDO);
         // 准备参数
@@ -104,7 +104,7 @@ public class ApiErrorLogServiceImplTest extends BaseDbUnitTest {
         // 调用
         apiErrorLogService.updateApiErrorLogProcess(id, processStatus, processUserId);
         // 断言
-        ApiErrorLogDO dbApiErrorLogDO = apiErrorLogMapper.selectById(apiErrorLogDO.getId());
+        ApiErrorLogEntity dbApiErrorLogDO = apiErrorLogMapper.selectById(apiErrorLogDO.getId());
         assertEquals(processStatus, dbApiErrorLogDO.getProcessStatus());
         assertEquals(processUserId, dbApiErrorLogDO.getProcessUserId());
         assertNotNull(dbApiErrorLogDO.getProcessTime());
@@ -113,7 +113,7 @@ public class ApiErrorLogServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateApiErrorLogProcess_processed() {
         // 准备参数
-        ApiErrorLogDO apiErrorLogDO = randomPojo(ApiErrorLogDO.class,
+        ApiErrorLogEntity apiErrorLogDO = randomPojo(ApiErrorLogEntity.class,
                 o -> o.setProcessStatus(ApiErrorLogProcessStatusEnum.DONE.getStatus()));
         apiErrorLogMapper.insert(apiErrorLogDO);
         // 准备参数
@@ -143,9 +143,9 @@ public class ApiErrorLogServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCleanJobLog() {
         // mock 数据
-        ApiErrorLogDO log01 = randomPojo(ApiErrorLogDO.class, o -> o.setCreateTime(addTime(Duration.ofDays(-3))));
+        ApiErrorLogEntity log01 = randomPojo(ApiErrorLogEntity.class, o -> o.setCreateTime(addTime(Duration.ofDays(-3))));
         apiErrorLogMapper.insert(log01);
-        ApiErrorLogDO log02 = randomPojo(ApiErrorLogDO.class, o -> o.setCreateTime(addTime(Duration.ofDays(-1))));
+        ApiErrorLogEntity log02 = randomPojo(ApiErrorLogEntity.class, o -> o.setCreateTime(addTime(Duration.ofDays(-1))));
         apiErrorLogMapper.insert(log02);
         // 准备参数
         Integer exceedDay = 2;
@@ -155,7 +155,7 @@ public class ApiErrorLogServiceImplTest extends BaseDbUnitTest {
         Integer count = apiErrorLogService.cleanErrorLog(exceedDay, deleteLimit);
         // 断言
         assertEquals(1, count);
-        List<ApiErrorLogDO> logs = apiErrorLogMapper.selectList();
+        List<ApiErrorLogEntity> logs = apiErrorLogMapper.selectList();
         assertEquals(1, logs.size());
         // TODO @芋艿：createTime updateTime 被屏蔽，仅 win11 会复现，建议后续修复。
         assertPojoEquals(log02, logs.get(0), "createTime", "updateTime");

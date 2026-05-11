@@ -7,8 +7,8 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.module.infra.controller.admin.file.vo.config.FileConfigPageReqVO;
 import com.focela.platform.module.infra.controller.admin.file.vo.config.FileConfigSaveReqVO;
-import com.focela.platform.module.infra.dal.dataobject.file.FileConfigDO;
-import com.focela.platform.module.infra.dal.mysql.file.FileConfigMapper;
+import com.focela.platform.module.infra.repository.entity.file.FileConfigEntity;
+import com.focela.platform.module.infra.repository.mapper.file.FileConfigMapper;
 import com.focela.platform.module.infra.framework.file.core.client.FileClient;
 import com.focela.platform.module.infra.framework.file.core.client.FileClientConfig;
 import com.focela.platform.module.infra.framework.file.core.client.FileClientFactory;
@@ -72,7 +72,7 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
         // 断言
         assertNotNull(fileConfigId);
         // 校验记录的属性是否正确
-        FileConfigDO fileConfig = fileConfigMapper.selectById(fileConfigId);
+        FileConfigEntity fileConfig = fileConfigMapper.selectById(fileConfigId);
         assertPojoEquals(reqVO, fileConfig, "id", "config");
         assertFalse(fileConfig.getMaster());
         assertEquals("/yunai", ((LocalFileClientConfig) fileConfig.getConfig()).getBasePath());
@@ -84,7 +84,7 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateFileConfig_success() {
         // mock 数据
-        FileConfigDO dbFileConfig = randomPojo(FileConfigDO.class, o -> o.setStorage(FileStorageEnum.LOCAL.getStorage())
+        FileConfigEntity dbFileConfig = randomPojo(FileConfigEntity.class, o -> o.setStorage(FileStorageEnum.LOCAL.getStorage())
                 .setConfig(new LocalFileClientConfig().setBasePath("/yunai").setDomain("https://www.iocoder.cn")));
         fileConfigMapper.insert(dbFileConfig);// @Sql: 先插入出一条存在的数据
         // 准备参数
@@ -99,7 +99,7 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
         // 调用
         fileConfigService.updateFileConfig(reqVO);
         // 校验是否更新正确
-        FileConfigDO fileConfig = fileConfigMapper.selectById(reqVO.getId()); // 获取最新的
+        FileConfigEntity fileConfig = fileConfigMapper.selectById(reqVO.getId()); // 获取最新的
         assertPojoEquals(reqVO, fileConfig, "config");
         assertEquals("/yunai2", ((LocalFileClientConfig) fileConfig.getConfig()).getBasePath());
         assertEquals("https://doc.iocoder.cn", ((LocalFileClientConfig) fileConfig.getConfig()).getDomain());
@@ -119,9 +119,9 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateFileConfigMaster_success() {
         // mock 数据
-        FileConfigDO dbFileConfig = randomFileConfigDO().setMaster(false);
+        FileConfigEntity dbFileConfig = randomFileConfigDO().setMaster(false);
         fileConfigMapper.insert(dbFileConfig);// @Sql: 先插入出一条存在的数据
-        FileConfigDO masterFileConfig = randomFileConfigDO().setMaster(true);
+        FileConfigEntity masterFileConfig = randomFileConfigDO().setMaster(true);
         fileConfigMapper.insert(masterFileConfig);// @Sql: 先插入出一条存在的数据
 
         // 调用
@@ -142,7 +142,7 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testDeleteFileConfig_success() {
         // mock 数据
-        FileConfigDO dbFileConfig = randomFileConfigDO().setMaster(false);
+        FileConfigEntity dbFileConfig = randomFileConfigDO().setMaster(false);
         fileConfigMapper.insert(dbFileConfig);// @Sql: 先插入出一条存在的数据
         // 准备参数
         Long id = dbFileConfig.getId();
@@ -167,7 +167,7 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testDeleteFileConfig_master() {
         // mock 数据
-        FileConfigDO dbFileConfig = randomFileConfigDO().setMaster(true);
+        FileConfigEntity dbFileConfig = randomFileConfigDO().setMaster(true);
         fileConfigMapper.insert(dbFileConfig);// @Sql: 先插入出一条存在的数据
         // 准备参数
         Long id = dbFileConfig.getId();
@@ -179,7 +179,7 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetFileConfigPage() {
         // mock 数据
-        FileConfigDO dbFileConfig = randomFileConfigDO().setName("芋道源码")
+        FileConfigEntity dbFileConfig = randomFileConfigDO().setName("芋道源码")
                 .setStorage(FileStorageEnum.LOCAL.getStorage());
         dbFileConfig.setCreateTime(LocalDateTimeUtil.parse("2020-01-23", DatePattern.NORM_DATE_PATTERN));// 等会查询到
         fileConfigMapper.insert(dbFileConfig);
@@ -197,7 +197,7 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
                 buildTime(2020, 1, 24)}));
 
         // 调用
-        PageResult<FileConfigDO> pageResult = fileConfigService.getFileConfigPage(reqVO);
+        PageResult<FileConfigEntity> pageResult = fileConfigService.getFileConfigPage(reqVO);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
@@ -207,7 +207,7 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testFileConfig() throws Exception {
         // mock 数据
-        FileConfigDO dbFileConfig = randomFileConfigDO().setMaster(false);
+        FileConfigEntity dbFileConfig = randomFileConfigDO().setMaster(false);
         fileConfigMapper.insert(dbFileConfig);// @Sql: 先插入出一条存在的数据
         // 准备参数
         Long id = dbFileConfig.getId();
@@ -223,7 +223,7 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetFileConfig() {
         // mock 数据
-        FileConfigDO dbFileConfig = randomFileConfigDO().setMaster(false);
+        FileConfigEntity dbFileConfig = randomFileConfigDO().setMaster(false);
         fileConfigMapper.insert(dbFileConfig);// @Sql: 先插入出一条存在的数据
         // 准备参数
         Long id = dbFileConfig.getId();
@@ -235,7 +235,7 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetFileClient() {
         // mock 数据
-        FileConfigDO fileConfig = randomFileConfigDO().setMaster(false);
+        FileConfigEntity fileConfig = randomFileConfigDO().setMaster(false);
         fileConfigMapper.insert(fileConfig);
         // 准备参数
         Long id = fileConfig.getId();
@@ -253,7 +253,7 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetMasterFileClient() {
         // mock 数据
-        FileConfigDO fileConfig = randomFileConfigDO().setMaster(true);
+        FileConfigEntity fileConfig = randomFileConfigDO().setMaster(true);
         fileConfigMapper.insert(fileConfig);
         // 准备参数
         Long id = fileConfig.getId();
@@ -268,8 +268,8 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
                 eq(fileConfig.getConfig()));
     }
 
-    private FileConfigDO randomFileConfigDO() {
-        return randomPojo(FileConfigDO.class).setStorage(randomEle(FileStorageEnum.values()).getStorage())
+    private FileConfigEntity randomFileConfigDO() {
+        return randomPojo(FileConfigEntity.class).setStorage(randomEle(FileStorageEnum.values()).getStorage())
                 .setConfig(new EmptyFileClientConfig());
     }
 

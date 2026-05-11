@@ -4,8 +4,8 @@ import cn.hutool.core.util.RandomUtil;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.common.util.date.DateUtils;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
-import com.focela.platform.module.system.dal.dataobject.oauth2.OAuth2CodeDO;
-import com.focela.platform.module.system.dal.mysql.oauth2.OAuth2CodeMapper;
+import com.focela.platform.module.system.repository.entity.oauth2.OAuth2CodeEntity;
+import com.focela.platform.module.system.repository.mapper.oauth2.OAuth2CodeMapper;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
@@ -46,10 +46,10 @@ class OAuth2CodeServiceImplTest extends BaseDbUnitTest {
         String state = randomString();
 
         // 调用
-        OAuth2CodeDO codeDO = oauth2CodeService.createAuthorizationCode(userId, userType, clientId,
+        OAuth2CodeEntity codeDO = oauth2CodeService.createAuthorizationCode(userId, userType, clientId,
                 scopes, redirectUri, state);
         // 断言
-        OAuth2CodeDO dbCodeDO = oauth2CodeMapper.selectByCode(codeDO.getCode());
+        OAuth2CodeEntity dbCodeDO = oauth2CodeMapper.selectByCode(codeDO.getCode());
         // TODO @芋艿：expiresTime 被屏蔽，仅 win11 会复现，建议后续修复。
         assertPojoEquals(codeDO, dbCodeDO, "expiresTime", "createTime", "updateTime", "deleted");
         assertEquals(userId, codeDO.getUserId());
@@ -73,7 +73,7 @@ class OAuth2CodeServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         String code = "test_code";
         // mock 数据
-        OAuth2CodeDO codeDO = randomPojo(OAuth2CodeDO.class).setCode(code)
+        OAuth2CodeEntity codeDO = randomPojo(OAuth2CodeEntity.class).setCode(code)
                 .setExpiresTime(LocalDateTime.now().minusDays(1));
         oauth2CodeMapper.insert(codeDO);
 
@@ -87,12 +87,12 @@ class OAuth2CodeServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         String code = "test_code";
         // mock 数据
-        OAuth2CodeDO codeDO = randomPojo(OAuth2CodeDO.class).setCode(code)
+        OAuth2CodeEntity codeDO = randomPojo(OAuth2CodeEntity.class).setCode(code)
                 .setExpiresTime(LocalDateTime.now().plusDays(1));
         oauth2CodeMapper.insert(codeDO);
 
         // 调用
-        OAuth2CodeDO result = oauth2CodeService.consumeAuthorizationCode(code);
+        OAuth2CodeEntity result = oauth2CodeService.consumeAuthorizationCode(code);
         // TODO @芋艿：expiresTime 被屏蔽，仅 win11 会复现，建议后续修复。
         assertPojoEquals(codeDO, result, "expiresTime");
         assertNull(oauth2CodeMapper.selectByCode(code));

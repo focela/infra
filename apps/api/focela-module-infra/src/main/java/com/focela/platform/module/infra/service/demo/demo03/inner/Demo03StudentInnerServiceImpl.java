@@ -6,12 +6,12 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.infra.controller.admin.demo.demo03.inner.vo.Demo03StudentInnerPageReqVO;
 import com.focela.platform.module.infra.controller.admin.demo.demo03.inner.vo.Demo03StudentInnerSaveReqVO;
-import com.focela.platform.module.infra.dal.dataobject.demo.demo03.Demo03CourseDO;
-import com.focela.platform.module.infra.dal.dataobject.demo.demo03.Demo03GradeDO;
-import com.focela.platform.module.infra.dal.dataobject.demo.demo03.Demo03StudentDO;
-import com.focela.platform.module.infra.dal.mysql.demo.demo03.inner.Demo03CourseInnerMapper;
-import com.focela.platform.module.infra.dal.mysql.demo.demo03.inner.Demo03GradeInnerMapper;
-import com.focela.platform.module.infra.dal.mysql.demo.demo03.inner.Demo03StudentInnerMapper;
+import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03CourseEntity;
+import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03GradeEntity;
+import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03StudentEntity;
+import com.focela.platform.module.infra.repository.mapper.demo.demo03.inner.Demo03CourseInnerMapper;
+import com.focela.platform.module.infra.repository.mapper.demo.demo03.inner.Demo03GradeInnerMapper;
+import com.focela.platform.module.infra.repository.mapper.demo.demo03.inner.Demo03StudentInnerMapper;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,7 +44,7 @@ public class Demo03StudentInnerServiceImpl implements Demo03StudentInnerService 
     @Transactional(rollbackFor = Exception.class)
     public Long createDemo03Student(Demo03StudentInnerSaveReqVO createReqVO) {
         // 插入
-        Demo03StudentDO demo03Student = BeanUtils.toBean(createReqVO, Demo03StudentDO.class);
+        Demo03StudentEntity demo03Student = BeanUtils.toBean(createReqVO, Demo03StudentEntity.class);
         demo03StudentInnerMapper.insert(demo03Student);
 
         // 插入子表
@@ -60,7 +60,7 @@ public class Demo03StudentInnerServiceImpl implements Demo03StudentInnerService 
         // 校验存在
         validateDemo03StudentExists(updateReqVO.getId());
         // 更新
-        Demo03StudentDO updateObj = BeanUtils.toBean(updateReqVO, Demo03StudentDO.class);
+        Demo03StudentEntity updateObj = BeanUtils.toBean(updateReqVO, Demo03StudentEntity.class);
         demo03StudentInnerMapper.updateById(updateObj);
 
         // 更新子表
@@ -95,7 +95,7 @@ public class Demo03StudentInnerServiceImpl implements Demo03StudentInnerService 
     }
 
     private void validateDemo03StudentExists(List<Long> ids) {
-        List<Demo03StudentDO> list = demo03StudentInnerMapper.selectByIds(ids);
+        List<Demo03StudentEntity> list = demo03StudentInnerMapper.selectByIds(ids);
         if (CollUtil.isEmpty(list) || list.size() != ids.size()) {
             throw exception(DEMO03_STUDENT_NOT_EXISTS);
         }
@@ -108,31 +108,31 @@ public class Demo03StudentInnerServiceImpl implements Demo03StudentInnerService 
     }
 
     @Override
-    public Demo03StudentDO getDemo03Student(Long id) {
+    public Demo03StudentEntity getDemo03Student(Long id) {
         return demo03StudentInnerMapper.selectById(id);
     }
 
     @Override
-    public PageResult<Demo03StudentDO> getDemo03StudentPage(Demo03StudentInnerPageReqVO pageReqVO) {
+    public PageResult<Demo03StudentEntity> getDemo03StudentPage(Demo03StudentInnerPageReqVO pageReqVO) {
         return demo03StudentInnerMapper.selectPage(pageReqVO);
     }
 
     // ==================== 子表（学生课程） ====================
 
     @Override
-    public List<Demo03CourseDO> getDemo03CourseListByStudentId(Long studentId) {
+    public List<Demo03CourseEntity> getDemo03CourseListByStudentId(Long studentId) {
         return demo03CourseInnerMapper.selectListByStudentId(studentId);
     }
 
-    private void createDemo03CourseList(Long studentId, List<Demo03CourseDO> list) {
+    private void createDemo03CourseList(Long studentId, List<Demo03CourseEntity> list) {
         list.forEach(o -> o.setStudentId(studentId).clean());
         demo03CourseInnerMapper.insertBatch(list);
     }
 
-    private void updateDemo03CourseList(Long studentId, List<Demo03CourseDO> list) {
+    private void updateDemo03CourseList(Long studentId, List<Demo03CourseEntity> list) {
         list.forEach(o -> o.setStudentId(studentId).clean());
-        List<Demo03CourseDO> oldList = demo03CourseInnerMapper.selectListByStudentId(studentId);
-        List<List<Demo03CourseDO>> diffList = diffList(oldList, list, (oldVal, newVal) -> {
+        List<Demo03CourseEntity> oldList = demo03CourseInnerMapper.selectListByStudentId(studentId);
+        List<List<Demo03CourseEntity>> diffList = diffList(oldList, list, (oldVal, newVal) -> {
             boolean same = ObjectUtil.equal(oldVal.getId(), newVal.getId());
             if (same) {
                 newVal.setId(oldVal.getId());
@@ -148,7 +148,7 @@ public class Demo03StudentInnerServiceImpl implements Demo03StudentInnerService 
             demo03CourseInnerMapper.updateBatch(diffList.get(1));
         }
         if (CollUtil.isNotEmpty(diffList.get(2))) {
-            demo03CourseInnerMapper.deleteByIds(convertList(diffList.get(2), Demo03CourseDO::getId));
+            demo03CourseInnerMapper.deleteByIds(convertList(diffList.get(2), Demo03CourseEntity::getId));
         }
     }
 
@@ -163,11 +163,11 @@ public class Demo03StudentInnerServiceImpl implements Demo03StudentInnerService 
     // ==================== 子表（学生班级） ====================
 
     @Override
-    public Demo03GradeDO getDemo03GradeByStudentId(Long studentId) {
+    public Demo03GradeEntity getDemo03GradeByStudentId(Long studentId) {
         return demo03GradeInnerMapper.selectByStudentId(studentId);
     }
 
-    private void createDemo03Grade(Long studentId, Demo03GradeDO demo03Grade) {
+    private void createDemo03Grade(Long studentId, Demo03GradeEntity demo03Grade) {
         if (demo03Grade == null) {
             return;
         }
@@ -175,7 +175,7 @@ public class Demo03StudentInnerServiceImpl implements Demo03StudentInnerService 
         demo03GradeInnerMapper.insert(demo03Grade);
     }
 
-    private void updateDemo03Grade(Long studentId, Demo03GradeDO demo03Grade) {
+    private void updateDemo03Grade(Long studentId, Demo03GradeEntity demo03Grade) {
         if (demo03Grade == null) {
             return;
         }

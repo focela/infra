@@ -3,7 +3,7 @@ package com.focela.platform.module.system.service.oauth2;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.system.controller.admin.oauth2.vo.client.OAuth2ClientPageReqVO;
 import com.focela.platform.module.system.controller.admin.oauth2.vo.client.OAuth2ClientSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.oauth2.OAuth2ClientDO;
+import com.focela.platform.module.system.repository.entity.oauth2.OAuth2ClientEntity;
 import jakarta.validation.Valid;
 
 import java.util.Collection;
@@ -53,7 +53,7 @@ public interface OAuth2ClientService {
      * @param id 编号
      * @return OAuth2 客户端
      */
-    OAuth2ClientDO getOAuth2Client(Long id);
+    OAuth2ClientEntity getOAuth2Client(Long id);
 
     /**
      * 获得 OAuth2 客户端，从缓存中
@@ -61,7 +61,7 @@ public interface OAuth2ClientService {
      * @param clientId 客户端编号
      * @return OAuth2 客户端
      */
-    OAuth2ClientDO getOAuth2ClientFromCache(String clientId);
+    OAuth2ClientEntity getOAuth2ClientFromCache(String clientId);
 
     /**
      * 获得 OAuth2 客户端分页
@@ -69,14 +69,14 @@ public interface OAuth2ClientService {
      * @param pageReqVO 分页查询
      * @return OAuth2 客户端分页
      */
-    PageResult<OAuth2ClientDO> getOAuth2ClientPage(OAuth2ClientPageReqVO pageReqVO);
+    PageResult<OAuth2ClientEntity> getOAuth2ClientPage(OAuth2ClientPageReqVO pageReqVO);
 
     /**
      * 从缓存中，校验客户端是否合法
      *
      * @return 客户端
      */
-    default OAuth2ClientDO validOAuthClientFromCache(String clientId) {
+    default OAuth2ClientEntity validOAuthClientFromCache(String clientId) {
         return validOAuthClientFromCache(clientId, null, null, null, null);
     }
 
@@ -92,7 +92,7 @@ public interface OAuth2ClientService {
      * @param redirectUri 重定向地址
      * @return 客户端
      */
-    OAuth2ClientDO validOAuthClientFromCache(String clientId, String clientSecret, String authorizedGrantType,
+    OAuth2ClientEntity validOAuthClientFromCache(String clientId, String clientSecret, String authorizedGrantType,
                                              Collection<String> scopes, String redirectUri);
 
 }

@@ -1,7 +1,7 @@
 package com.focela.platform.module.system.service.auth;
 
 import com.focela.platform.module.system.controller.admin.auth.vo.*;
-import com.focela.platform.module.system.dal.dataobject.user.AdminUserDO;
+import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
 
 import jakarta.validation.Valid;
 
@@ -21,7 +21,7 @@ public interface AdminAuthService {
      * @param password 密码
      * @return 用户
      */
-    AdminUserDO authenticate(String username, String password);
+    AdminUserEntity authenticate(String username, String password);
 
     /**
      * 账号登录

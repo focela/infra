@@ -11,8 +11,8 @@ import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.infra.controller.admin.file.vo.file.FileCreateReqVO;
 import com.focela.platform.module.infra.controller.admin.file.vo.file.FilePageReqVO;
 import com.focela.platform.module.infra.controller.admin.file.vo.file.FilePresignedUrlRespVO;
-import com.focela.platform.module.infra.dal.dataobject.file.FileDO;
-import com.focela.platform.module.infra.dal.mysql.file.FileMapper;
+import com.focela.platform.module.infra.repository.entity.file.FileEntity;
+import com.focela.platform.module.infra.repository.mapper.file.FileMapper;
 import com.focela.platform.module.infra.framework.file.core.client.FileClient;
 import com.focela.platform.module.infra.framework.file.core.utils.FileTypeUtils;
 import com.google.common.annotations.VisibleForTesting;
@@ -55,7 +55,7 @@ public class FileServiceImpl implements FileService {
     private FileMapper fileMapper;
 
     @Override
-    public PageResult<FileDO> getFilePage(FilePageReqVO pageReqVO) {
+    public PageResult<FileEntity> getFilePage(FilePageReqVO pageReqVO) {
         return fileMapper.selectPage(pageReqVO);
     }
 
@@ -86,7 +86,7 @@ public class FileServiceImpl implements FileService {
         String url = client.upload(content, path, type);
 
         // 3. 保存到数据库
-        fileMapper.insert(new FileDO().setConfigId(client.getId())
+        fileMapper.insert(new FileEntity().setConfigId(client.getId())
                 .setName(name).setPath(path).setUrl(url)
                 .setType(type).setSize((long) content.length));
         return url;
@@ -147,20 +147,20 @@ public class FileServiceImpl implements FileService {
     @Override
     public Long createFile(FileCreateReqVO createReqVO) {
         createReqVO.setUrl(HttpUtils.removeUrlQuery(createReqVO.getUrl())); // 目的：移除私有桶情况下，URL 的签名参数
-        FileDO file = BeanUtils.toBean(createReqVO, FileDO.class);
+        FileEntity file = BeanUtils.toBean(createReqVO, FileEntity.class);
         fileMapper.insert(file);
         return file.getId();
     }
 
     @Override
-    public FileDO getFile(Long id) {
+    public FileEntity getFile(Long id) {
         return validateFileExists(id);
     }
 
     @Override
     public void deleteFile(Long id) throws Exception {
         // 校验存在
-        FileDO file = validateFileExists(id);
+        FileEntity file = validateFileExists(id);
 
         // 从文件存储器中删除
         FileClient client = fileConfigService.getFileClient(file.getConfigId());
@@ -175,8 +175,8 @@ public class FileServiceImpl implements FileService {
     @SneakyThrows
     public void deleteFileList(List<Long> ids) {
         // 删除文件
-        List<FileDO> files = fileMapper.selectByIds(ids);
-        for (FileDO file : files) {
+        List<FileEntity> files = fileMapper.selectByIds(ids);
+        for (FileEntity file : files) {
             // 获取客户端
             FileClient client = fileConfigService.getFileClient(file.getConfigId());
             Assert.notNull(client, "客户端({}) 不能为空", file.getPath());
@@ -188,8 +188,8 @@ public class FileServiceImpl implements FileService {
         fileMapper.deleteByIds(ids);
     }
 
-    private FileDO validateFileExists(Long id) {
-        FileDO fileDO = fileMapper.selectById(id);
+    private FileEntity validateFileExists(Long id) {
+        FileEntity fileDO = fileMapper.selectById(id);
         if (fileDO == null) {
             throw exception(FILE_NOT_EXISTS);
         }

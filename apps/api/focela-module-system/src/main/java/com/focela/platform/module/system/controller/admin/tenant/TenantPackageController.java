@@ -8,7 +8,7 @@ import com.focela.platform.module.system.controller.admin.tenant.vo.packages.Ten
 import com.focela.platform.module.system.controller.admin.tenant.vo.packages.TenantPackageRespVO;
 import com.focela.platform.module.system.controller.admin.tenant.vo.packages.TenantPackageSaveReqVO;
 import com.focela.platform.module.system.controller.admin.tenant.vo.packages.TenantPackageSimpleRespVO;
-import com.focela.platform.module.system.dal.dataobject.tenant.TenantPackageDO;
+import com.focela.platform.module.system.repository.entity.tenant.TenantPackageEntity;
 import com.focela.platform.module.system.service.tenant.TenantPackageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -70,7 +70,7 @@ public class TenantPackageController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:tenant-package:query')")
     public CommonResult<TenantPackageRespVO> getTenantPackage(@RequestParam("id") Long id) {
-        TenantPackageDO tenantPackage = tenantPackageService.getTenantPackage(id);
+        TenantPackageEntity tenantPackage = tenantPackageService.getTenantPackage(id);
         return success(BeanUtils.toBean(tenantPackage, TenantPackageRespVO.class));
     }
 
@@ -78,14 +78,14 @@ public class TenantPackageController {
     @Operation(summary = "获得租户套餐分页")
     @PreAuthorize("@ss.hasPermission('system:tenant-package:query')")
     public CommonResult<PageResult<TenantPackageRespVO>> getTenantPackagePage(@Valid TenantPackagePageReqVO pageVO) {
-        PageResult<TenantPackageDO> pageResult = tenantPackageService.getTenantPackagePage(pageVO);
+        PageResult<TenantPackageEntity> pageResult = tenantPackageService.getTenantPackagePage(pageVO);
         return success(BeanUtils.toBean(pageResult, TenantPackageRespVO.class));
     }
 
     @GetMapping({"/get-simple-list", "simple-list"})
     @Operation(summary = "获取租户套餐精简信息列表", description = "只包含被开启的租户套餐，主要用于前端的下拉选项")
     public CommonResult<List<TenantPackageSimpleRespVO>> getTenantPackageList() {
-        List<TenantPackageDO> list = tenantPackageService.getTenantPackageListByStatus(CommonStatusEnum.ENABLE.getStatus());
+        List<TenantPackageEntity> list = tenantPackageService.getTenantPackageListByStatus(CommonStatusEnum.ENABLE.getStatus());
         return success(BeanUtils.toBean(list, TenantPackageSimpleRespVO.class));
     }
 

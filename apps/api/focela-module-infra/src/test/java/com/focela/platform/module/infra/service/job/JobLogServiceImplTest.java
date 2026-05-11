@@ -3,8 +3,8 @@ package com.focela.platform.module.infra.service.job;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.module.infra.controller.admin.job.vo.log.JobLogPageReqVO;
-import com.focela.platform.module.infra.dal.dataobject.job.JobLogDO;
-import com.focela.platform.module.infra.dal.mysql.job.JobLogMapper;
+import com.focela.platform.module.infra.repository.entity.job.JobLogEntity;
+import com.focela.platform.module.infra.repository.mapper.job.JobLogMapper;
 import com.focela.platform.module.infra.enums.job.JobLogStatusEnum;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
@@ -33,7 +33,7 @@ public class JobLogServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateJobLog() {
         // 准备参数
-        JobLogDO reqVO = randomPojo(JobLogDO.class, o -> o.setExecuteIndex(1));
+        JobLogEntity reqVO = randomPojo(JobLogEntity.class, o -> o.setExecuteIndex(1));
 
         // 调用
         Long id = jobLogService.createJobLog(reqVO.getJobId(), reqVO.getBeginTime(),
@@ -41,14 +41,14 @@ public class JobLogServiceImplTest extends BaseDbUnitTest {
         // 断言
         assertNotNull(id);
         // 校验记录的属性是否正确
-        JobLogDO job = jobLogMapper.selectById(id);
+        JobLogEntity job = jobLogMapper.selectById(id);
         assertEquals(JobLogStatusEnum.RUNNING.getStatus(), job.getStatus());
     }
 
     @Test
     public void testUpdateJobLogResultAsync_success() {
         // mock 数据
-        JobLogDO log = randomPojo(JobLogDO.class, o -> {
+        JobLogEntity log = randomPojo(JobLogEntity.class, o -> {
             o.setExecuteIndex(1);
             o.setStatus(JobLogStatusEnum.RUNNING.getStatus());
         });
@@ -63,7 +63,7 @@ public class JobLogServiceImplTest extends BaseDbUnitTest {
         // 调用
         jobLogService.updateJobLogResultAsync(logId, endTime, duration, success, result);
         // 校验记录的属性是否正确
-        JobLogDO dbLog = jobLogMapper.selectById(log.getId());
+        JobLogEntity dbLog = jobLogMapper.selectById(log.getId());
         assertEquals(endTime, dbLog.getEndTime());
         assertEquals(duration, dbLog.getDuration());
         assertEquals(JobLogStatusEnum.SUCCESS.getStatus(), dbLog.getStatus());
@@ -73,7 +73,7 @@ public class JobLogServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateJobLogResultAsync_failure() {
         // mock 数据
-        JobLogDO log = randomPojo(JobLogDO.class, o -> {
+        JobLogEntity log = randomPojo(JobLogEntity.class, o -> {
             o.setExecuteIndex(1);
             o.setStatus(JobLogStatusEnum.RUNNING.getStatus());
         });
@@ -88,7 +88,7 @@ public class JobLogServiceImplTest extends BaseDbUnitTest {
         // 调用
         jobLogService.updateJobLogResultAsync(logId, endTime, duration, success, result);
         // 校验记录的属性是否正确
-        JobLogDO dbLog = jobLogMapper.selectById(log.getId());
+        JobLogEntity dbLog = jobLogMapper.selectById(log.getId());
         assertEquals(endTime, dbLog.getEndTime());
         assertEquals(duration, dbLog.getDuration());
         assertEquals(JobLogStatusEnum.FAILURE.getStatus(), dbLog.getStatus());
@@ -98,10 +98,10 @@ public class JobLogServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCleanJobLog() {
         // mock 数据
-        JobLogDO log01 = randomPojo(JobLogDO.class, o -> o.setCreateTime(addTime(Duration.ofDays(-3))))
+        JobLogEntity log01 = randomPojo(JobLogEntity.class, o -> o.setCreateTime(addTime(Duration.ofDays(-3))))
                 .setExecuteIndex(1);
         jobLogMapper.insert(log01);
-        JobLogDO log02 = randomPojo(JobLogDO.class, o -> o.setCreateTime(addTime(Duration.ofDays(-1))))
+        JobLogEntity log02 = randomPojo(JobLogEntity.class, o -> o.setCreateTime(addTime(Duration.ofDays(-1))))
                 .setExecuteIndex(1);
         jobLogMapper.insert(log02);
         // 准备参数
@@ -112,7 +112,7 @@ public class JobLogServiceImplTest extends BaseDbUnitTest {
         Integer count = jobLogService.cleanJobLog(exceedDay, deleteLimit);
         // 断言
         assertEquals(1, count);
-        List<JobLogDO> logs = jobLogMapper.selectList();
+        List<JobLogEntity> logs = jobLogMapper.selectList();
         assertEquals(1, logs.size());
         // TODO @芋艿：createTime updateTime 被屏蔽，仅 win11 会复现，建议后续修复。
         assertPojoEquals(log02, logs.get(0), "createTime", "updateTime");
@@ -121,13 +121,13 @@ public class JobLogServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetJobLog() {
         // mock 数据
-        JobLogDO dbJobLog = randomPojo(JobLogDO.class, o -> o.setExecuteIndex(1));
+        JobLogEntity dbJobLog = randomPojo(JobLogEntity.class, o -> o.setExecuteIndex(1));
         jobLogMapper.insert(dbJobLog);
         // 准备参数
         Long id = dbJobLog.getId();
 
         // 调用
-        JobLogDO jobLog = jobLogService.getJobLog(id);
+        JobLogEntity jobLog = jobLogService.getJobLog(id);
         // 断言
         assertPojoEquals(dbJobLog, jobLog);
     }
@@ -135,7 +135,7 @@ public class JobLogServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetJobPage() {
         // mock 数据
-        JobLogDO dbJobLog = randomPojo(JobLogDO.class, o -> {
+        JobLogEntity dbJobLog = randomPojo(JobLogEntity.class, o -> {
             o.setExecuteIndex(1);
             o.setHandlerName("handlerName 单元测试");
             o.setStatus(JobLogStatusEnum.SUCCESS.getStatus());
@@ -162,7 +162,7 @@ public class JobLogServiceImplTest extends BaseDbUnitTest {
         reqVo.setStatus(JobLogStatusEnum.SUCCESS.getStatus());
 
         // 调用
-        PageResult<JobLogDO> pageResult = jobLogService.getJobLogPage(reqVo);
+        PageResult<JobLogEntity> pageResult = jobLogService.getJobLogPage(reqVo);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());

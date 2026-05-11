@@ -1,7 +1,7 @@
 package com.focela.platform.module.infra.service.codegen.inner;
 
-import com.focela.platform.module.infra.dal.dataobject.codegen.CodegenColumnDO;
-import com.focela.platform.module.infra.dal.dataobject.codegen.CodegenTableDO;
+import com.focela.platform.module.infra.repository.entity.codegen.CodegenColumnEntity;
+import com.focela.platform.module.infra.repository.entity.codegen.CodegenTableEntity;
 import com.focela.platform.module.infra.enums.codegen.CodegenFrontTypeEnum;
 import com.focela.platform.module.infra.enums.codegen.CodegenTemplateTypeEnum;
 import com.baomidou.mybatisplus.annotation.DbType;
@@ -23,10 +23,10 @@ public class CodegenEngineVue3Test extends CodegenEngineAbstractTest {
     @Test
     public void testExecute_vue3_one() {
         // 准备参数
-        CodegenTableDO table = getTable("student")
+        CodegenTableEntity table = getTable("student")
                 .setFrontType(CodegenFrontTypeEnum.VUE3_ELEMENT_PLUS.getType())
                 .setTemplateType(CodegenTemplateTypeEnum.ONE.getType());
-        List<CodegenColumnDO> columns = getColumnList("student");
+        List<CodegenColumnEntity> columns = getColumnList("student");
 
         // 调用
         Map<String, String> result = codegenEngine.execute(DbType.MYSQL, table, columns, null, null);
@@ -39,10 +39,10 @@ public class CodegenEngineVue3Test extends CodegenEngineAbstractTest {
     @Test
     public void testExecute_vue3_tree() {
         // 准备参数
-        CodegenTableDO table = getTable("category")
+        CodegenTableEntity table = getTable("category")
                 .setFrontType(CodegenFrontTypeEnum.VUE3_ELEMENT_PLUS.getType())
                 .setTemplateType(CodegenTemplateTypeEnum.TREE.getType());
-        List<CodegenColumnDO> columns = getColumnList("category");
+        List<CodegenColumnEntity> columns = getColumnList("category");
 
         // 调用
         Map<String, String> result = codegenEngine.execute(DbType.MYSQL, table, columns, null, null);
@@ -71,22 +71,22 @@ public class CodegenEngineVue3Test extends CodegenEngineAbstractTest {
     private void testExecute_vue3_master(CodegenTemplateTypeEnum templateType,
                                          String path) {
         // 准备参数
-        CodegenTableDO table = getTable("student")
+        CodegenTableEntity table = getTable("student")
                 .setFrontType(CodegenFrontTypeEnum.VUE3_ELEMENT_PLUS.getType())
                 .setTemplateType(templateType.getType());
-        List<CodegenColumnDO> columns = getColumnList("student");
+        List<CodegenColumnEntity> columns = getColumnList("student");
         // 准备参数（子表）
-        CodegenTableDO contactTable = getTable("contact")
+        CodegenTableEntity contactTable = getTable("contact")
                 .setTemplateType(CodegenTemplateTypeEnum.SUB.getType())
                 .setFrontType(CodegenFrontTypeEnum.VUE3_ELEMENT_PLUS.getType())
                 .setSubJoinColumnId(100L).setSubJoinMany(true);
-        List<CodegenColumnDO> contactColumns = getColumnList("contact");
+        List<CodegenColumnEntity> contactColumns = getColumnList("contact");
         // 准备参数（班主任）
-        CodegenTableDO teacherTable = getTable("teacher")
+        CodegenTableEntity teacherTable = getTable("teacher")
                 .setTemplateType(CodegenTemplateTypeEnum.SUB.getType())
                 .setFrontType(CodegenFrontTypeEnum.VUE3_ELEMENT_PLUS.getType())
                 .setSubJoinColumnId(200L).setSubJoinMany(false);
-        List<CodegenColumnDO> teacherColumns = getColumnList("teacher");
+        List<CodegenColumnEntity> teacherColumns = getColumnList("teacher");
 
         // 调用
         Map<String, String> result = codegenEngine.execute(DbType.MYSQL, table, columns,

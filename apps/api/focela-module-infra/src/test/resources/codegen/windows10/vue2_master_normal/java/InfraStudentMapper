@@ -1,11 +1,11 @@
-package com.focela.platform.module.infra.dal.mysql.demo;
+package com.focela.platform.module.infra.repository.mapper.demo;
 
 import java.util.*;
 
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
-import com.focela.platform.module.infra.dal.dataobject.demo.InfraStudentDO;
+import com.focela.platform.module.infra.repository.entity.demo.InfraStudentDO;
 import org.apache.ibatis.annotations.Mapper;
 import com.focela.platform.module.infra.controller.admin.demo.vo.*;
 

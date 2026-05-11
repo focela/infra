@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
 import com.focela.platform.module.system.controller.admin.tenant.vo.tenant.TenantPageReqVO;
 import com.focela.platform.module.system.controller.admin.tenant.vo.tenant.TenantSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.tenant.TenantDO;
+import com.focela.platform.module.system.repository.entity.tenant.TenantEntity;
 import com.focela.platform.module.system.service.tenant.handler.TenantInfoHandler;
 import com.focela.platform.module.system.service.tenant.handler.TenantMenuHandler;
 import jakarta.validation.Valid;
@@ -62,7 +62,7 @@ public interface TenantService {
      * @param id 编号
      * @return 租户
      */
-    TenantDO getTenant(Long id);
+    TenantEntity getTenant(Long id);
 
     /**
      * 获得租户分页
@@ -70,7 +70,7 @@ public interface TenantService {
      * @param pageReqVO 分页查询
      * @return 租户分页
      */
-    PageResult<TenantDO> getTenantPage(TenantPageReqVO pageReqVO);
+    PageResult<TenantEntity> getTenantPage(TenantPageReqVO pageReqVO);
 
     /**
      * 获得名字对应的租户
@@ -78,7 +78,7 @@ public interface TenantService {
      * @param name 租户名
      * @return 租户
      */
-    TenantDO getTenantByName(String name);
+    TenantEntity getTenantByName(String name);
 
     /**
      * 获得域名对应的租户
@@ -86,7 +86,7 @@ public interface TenantService {
      * @param website 域名
      * @return 租户
      */
-    TenantDO getTenantByWebsite(String website);
+    TenantEntity getTenantByWebsite(String website);
 
     /**
      * 获得使用指定套餐的租户数量
@@ -102,7 +102,7 @@ public interface TenantService {
      * @param packageId 租户套餐编号
      * @return 租户数组
      */
-    List<TenantDO> getTenantListByPackageId(Long packageId);
+    List<TenantEntity> getTenantListByPackageId(Long packageId);
 
     /**
      * 获得指定状态的租户列表
@@ -110,7 +110,7 @@ public interface TenantService {
      * @param status 状态
      * @return 租户列表
      */
-    List<TenantDO> getTenantListByStatus(Integer status);
+    List<TenantEntity> getTenantListByStatus(Integer status);
 
     /**
      * 进行租户的信息处理逻辑

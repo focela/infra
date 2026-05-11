@@ -5,9 +5,9 @@ import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.StrUtil;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.module.system.dal.dataobject.mail.MailAccountDO;
-import com.focela.platform.module.system.dal.dataobject.mail.MailTemplateDO;
-import com.focela.platform.module.system.dal.dataobject.user.AdminUserDO;
+import com.focela.platform.module.system.repository.entity.mail.MailAccountEntity;
+import com.focela.platform.module.system.repository.entity.mail.MailTemplateEntity;
+import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
 import com.focela.platform.module.system.mq.message.mail.MailSendMessage;
 import com.focela.platform.module.system.mq.producer.mail.MailProducer;
 import com.focela.platform.module.system.service.member.MemberService;
@@ -60,9 +60,9 @@ public class MailSendServiceImpl implements MailSendService {
                                String templateCode, Map<String, Object> templateParams,
                                File... attachments) {
         // 1.1 校验邮箱模版是否合法
-        MailTemplateDO template = validateMailTemplate(templateCode);
+        MailTemplateEntity template = validateMailTemplate(templateCode);
         // 1.2 校验邮箱账号是否合法
-        MailAccountDO account = validateMailAccount(template.getAccountId());
+        MailAccountEntity account = validateMailAccount(template.getAccountId());
         // 1.3 校验邮件参数是否缺失
         validateTemplateParams(template, templateParams);
 
@@ -106,7 +106,7 @@ public class MailSendServiceImpl implements MailSendService {
             return null;
         }
         if (UserTypeEnum.ADMIN.getValue().equals(userType)) {
-            AdminUserDO user = adminUserService.getUser(userId);
+            AdminUserEntity user = adminUserService.getUser(userId);
             if (user != null) {
                 return user.getEmail();
             }
@@ -120,7 +120,7 @@ public class MailSendServiceImpl implements MailSendService {
     @Override
     public void doSendMail(MailSendMessage message) {
         // 1. 创建发送账号
-        MailAccountDO account = validateMailAccount(message.getAccountId());
+        MailAccountEntity account = validateMailAccount(message.getAccountId());
         MailAccount mailAccount  = buildMailAccount(account, message.getNickname());
         // 2. 发送邮件
         try {
@@ -134,7 +134,7 @@ public class MailSendServiceImpl implements MailSendService {
         }
     }
 
-    private MailAccount buildMailAccount(MailAccountDO account, String nickname) {
+    private MailAccount buildMailAccount(MailAccountEntity account, String nickname) {
         String from = StrUtil.isNotEmpty(nickname) ? nickname + " <" + account.getMail() + ">" : account.getMail();
         return new MailAccount().setFrom(from).setAuth(true)
                 .setUser(account.getUsername()).setPass(account.getPassword().toCharArray())
@@ -143,9 +143,9 @@ public class MailSendServiceImpl implements MailSendService {
     }
 
     @VisibleForTesting
-    MailTemplateDO validateMailTemplate(String templateCode) {
+    MailTemplateEntity validateMailTemplate(String templateCode) {
         // 获得邮件模板。考虑到效率，从缓存中获取
-        MailTemplateDO template = mailTemplateService.getMailTemplateByCodeFromCache(templateCode);
+        MailTemplateEntity template = mailTemplateService.getMailTemplateByCodeFromCache(templateCode);
         // 邮件模板不存在
         if (template == null) {
             throw exception(MAIL_TEMPLATE_NOT_EXISTS);
@@ -154,9 +154,9 @@ public class MailSendServiceImpl implements MailSendService {
     }
 
     @VisibleForTesting
-    MailAccountDO validateMailAccount(Long accountId) {
+    MailAccountEntity validateMailAccount(Long accountId) {
         // 获得邮箱账号。考虑到效率，从缓存中获取
-        MailAccountDO account = mailAccountService.getMailAccountFromCache(accountId);
+        MailAccountEntity account = mailAccountService.getMailAccountFromCache(accountId);
         // 邮箱账号不存在
         if (account == null) {
             throw exception(MAIL_ACCOUNT_NOT_EXISTS);
@@ -171,7 +171,7 @@ public class MailSendServiceImpl implements MailSendService {
      * @param templateParams 参数列表
      */
     @VisibleForTesting
-    void validateTemplateParams(MailTemplateDO template, Map<String, Object> templateParams) {
+    void validateTemplateParams(MailTemplateEntity template, Map<String, Object> templateParams) {
         template.getParams().forEach(key -> {
             Object value = templateParams.get(key);
             if (value == null) {

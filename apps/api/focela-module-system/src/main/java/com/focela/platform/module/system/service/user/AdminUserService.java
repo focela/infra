@@ -10,7 +10,7 @@ import com.focela.platform.module.system.controller.admin.user.vo.user.UserImpor
 import com.focela.platform.module.system.controller.admin.user.vo.user.UserImportRespVO;
 import com.focela.platform.module.system.controller.admin.user.vo.user.UserPageReqVO;
 import com.focela.platform.module.system.controller.admin.user.vo.user.UserSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.user.AdminUserDO;
+import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
 import jakarta.validation.Valid;
 
 import java.util.Collection;
@@ -108,7 +108,7 @@ public interface AdminUserService {
      * @param username 用户名
      * @return 用户对象信息
      */
-    AdminUserDO getUserByUsername(String username);
+    AdminUserEntity getUserByUsername(String username);
 
     /**
      * 通过手机号获取用户
@@ -116,7 +116,7 @@ public interface AdminUserService {
      * @param mobile 手机号
      * @return 用户对象信息
      */
-    AdminUserDO getUserByMobile(String mobile);
+    AdminUserEntity getUserByMobile(String mobile);
 
     /**
      * 获得用户分页列表
@@ -124,7 +124,7 @@ public interface AdminUserService {
      * @param reqVO 分页条件
      * @return 分页列表
      */
-    PageResult<AdminUserDO> getUserPage(UserPageReqVO reqVO);
+    PageResult<AdminUserEntity> getUserPage(UserPageReqVO reqVO);
 
     /**
      * 通过用户 ID 查询用户
@@ -132,7 +132,7 @@ public interface AdminUserService {
      * @param id 用户ID
      * @return 用户对象信息
      */
-    AdminUserDO getUser(Long id);
+    AdminUserEntity getUser(Long id);
 
     /**
      * 获得指定部门的用户数组
@@ -140,7 +140,7 @@ public interface AdminUserService {
      * @param deptIds 部门数组
      * @return 用户数组
      */
-    List<AdminUserDO> getUserListByDeptIds(Collection<Long> deptIds);
+    List<AdminUserEntity> getUserListByDeptIds(Collection<Long> deptIds);
 
     /**
      * 获得指定岗位的用户数组
@@ -148,7 +148,7 @@ public interface AdminUserService {
      * @param postIds 岗位数组
      * @return 用户数组
      */
-    List<AdminUserDO> getUserListByPostIds(Collection<Long> postIds);
+    List<AdminUserEntity> getUserListByPostIds(Collection<Long> postIds);
 
     /**
      * 获得用户列表
@@ -156,7 +156,7 @@ public interface AdminUserService {
      * @param ids 用户编号数组
      * @return 用户列表
      */
-    List<AdminUserDO> getUserList(Collection<Long> ids);
+    List<AdminUserEntity> getUserList(Collection<Long> ids);
 
     /**
      * 校验用户们是否有效。如下情况，视为无效：
@@ -173,11 +173,11 @@ public interface AdminUserService {
      * @param ids 用户编号数组
      * @return 用户 Map
      */
-    default Map<Long, AdminUserDO> getUserMap(Collection<Long> ids) {
+    default Map<Long, AdminUserEntity> getUserMap(Collection<Long> ids) {
         if (CollUtil.isEmpty(ids)) {
             return new HashMap<>();
         }
-        return CollectionUtils.convertMap(getUserList(ids), AdminUserDO::getId);
+        return CollectionUtils.convertMap(getUserList(ids), AdminUserEntity::getId);
     }
 
     /**
@@ -186,7 +186,7 @@ public interface AdminUserService {
      * @param nickname 昵称
      * @return 用户列表
      */
-    List<AdminUserDO> getUserListByNickname(String nickname);
+    List<AdminUserEntity> getUserListByNickname(String nickname);
 
     /**
      * 批量导入用户
@@ -203,7 +203,7 @@ public interface AdminUserService {
      * @param status 状态
      * @return 用户们
      */
-    List<AdminUserDO> getUserListByStatus(Integer status);
+    List<AdminUserEntity> getUserListByStatus(Integer status);
 
     /**
      * 判断密码是否匹配

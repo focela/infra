@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.biz.system.logger.dto.OperateLogCreateReqDTO;
 import com.focela.platform.module.system.api.logger.dto.OperateLogPageReqDTO;
 import com.focela.platform.module.system.controller.admin.logger.vo.operatelog.OperateLogPageReqVO;
-import com.focela.platform.module.system.dal.dataobject.logger.OperateLogDO;
+import com.focela.platform.module.system.repository.entity.logger.OperateLogEntity;
 
 /**
  * 操作日志 Service 接口
@@ -26,7 +26,7 @@ public interface OperateLogService {
      * @param id 编号
      * @return 操作日志
      */
-    OperateLogDO getOperateLog(Long id);
+    OperateLogEntity getOperateLog(Long id);
 
     /**
      * 获得操作日志分页列表
@@ -34,7 +34,7 @@ public interface OperateLogService {
      * @param pageReqVO 分页条件
      * @return 操作日志分页列表
      */
-    PageResult<OperateLogDO> getOperateLogPage(OperateLogPageReqVO pageReqVO);
+    PageResult<OperateLogEntity> getOperateLogPage(OperateLogPageReqVO pageReqVO);
 
     /**
      * 获得操作日志分页列表
@@ -42,6 +42,6 @@ public interface OperateLogService {
      * @param pageReqVO 分页条件
      * @return 操作日志分页列表
      */
-    PageResult<OperateLogDO> getOperateLogPage(OperateLogPageReqDTO pageReqVO);
+    PageResult<OperateLogEntity> getOperateLogPage(OperateLogPageReqDTO pageReqVO);
 
 }

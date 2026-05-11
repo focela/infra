@@ -4,8 +4,8 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.system.api.logger.dto.LoginLogCreateReqDTO;
 import com.focela.platform.module.system.controller.admin.logger.vo.loginlog.LoginLogPageReqVO;
-import com.focela.platform.module.system.dal.dataobject.logger.LoginLogDO;
-import com.focela.platform.module.system.dal.mysql.logger.LoginLogMapper;
+import com.focela.platform.module.system.repository.entity.logger.LoginLogEntity;
+import com.focela.platform.module.system.repository.mapper.logger.LoginLogMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -22,18 +22,18 @@ public class LoginLogServiceImpl implements LoginLogService {
     private LoginLogMapper loginLogMapper;
 
     @Override
-    public LoginLogDO getLoginLog(Long id) {
+    public LoginLogEntity getLoginLog(Long id) {
         return loginLogMapper.selectById(id);
     }
 
     @Override
-    public PageResult<LoginLogDO> getLoginLogPage(LoginLogPageReqVO pageReqVO) {
+    public PageResult<LoginLogEntity> getLoginLogPage(LoginLogPageReqVO pageReqVO) {
         return loginLogMapper.selectPage(pageReqVO);
     }
 
     @Override
     public void createLoginLog(LoginLogCreateReqDTO reqDTO) {
-        LoginLogDO loginLog = BeanUtils.toBean(reqDTO, LoginLogDO.class);
+        LoginLogEntity loginLog = BeanUtils.toBean(reqDTO, LoginLogEntity.class);
         loginLogMapper.insert(loginLog);
     }
 

@@ -6,8 +6,8 @@ import com.focela.platform.framework.common.util.collection.ArrayUtils;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.module.system.controller.admin.dict.vo.type.DictTypePageReqVO;
 import com.focela.platform.module.system.controller.admin.dict.vo.type.DictTypeSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.dict.DictTypeDO;
-import com.focela.platform.module.system.dal.mysql.dict.DictTypeMapper;
+import com.focela.platform.module.system.repository.entity.dict.DictTypeEntity;
+import com.focela.platform.module.system.repository.mapper.dict.DictTypeMapper;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
@@ -42,7 +42,7 @@ public class DictTypeServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetDictTypePage() {
        // mock 数据
-       DictTypeDO dbDictType = randomPojo(DictTypeDO.class, o -> { // 等会查询到
+       DictTypeEntity dbDictType = randomPojo(DictTypeEntity.class, o -> { // 等会查询到
            o.setName("yunai");
            o.setType("芋艿");
            o.setStatus(CommonStatusEnum.ENABLE.getStatus());
@@ -65,7 +65,7 @@ public class DictTypeServiceImplTest extends BaseDbUnitTest {
        reqVO.setCreateTime(buildBetweenTime(2021, 1, 10, 2021, 1, 20));
 
        // 调用
-       PageResult<DictTypeDO> pageResult = dictTypeService.getDictTypePage(reqVO);
+       PageResult<DictTypeEntity> pageResult = dictTypeService.getDictTypePage(reqVO);
        // 断言
        assertEquals(1, pageResult.getTotal());
        assertEquals(1, pageResult.getList().size());
@@ -75,13 +75,13 @@ public class DictTypeServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetDictType_id() {
         // mock 数据
-        DictTypeDO dbDictType = randomDictTypeDO();
+        DictTypeEntity dbDictType = randomDictTypeDO();
         dictTypeMapper.insert(dbDictType);
         // 准备参数
         Long id = dbDictType.getId();
 
         // 调用
-        DictTypeDO dictType = dictTypeService.getDictType(id);
+        DictTypeEntity dictType = dictTypeService.getDictType(id);
         // 断言
         assertNotNull(dictType);
         assertPojoEquals(dbDictType, dictType);
@@ -90,13 +90,13 @@ public class DictTypeServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetDictType_type() {
         // mock 数据
-        DictTypeDO dbDictType = randomDictTypeDO();
+        DictTypeEntity dbDictType = randomDictTypeDO();
         dictTypeMapper.insert(dbDictType);
         // 准备参数
         String type = dbDictType.getType();
 
         // 调用
-        DictTypeDO dictType = dictTypeService.getDictType(type);
+        DictTypeEntity dictType = dictTypeService.getDictType(type);
         // 断言
         assertNotNull(dictType);
         assertPojoEquals(dbDictType, dictType);
@@ -114,14 +114,14 @@ public class DictTypeServiceImplTest extends BaseDbUnitTest {
         // 断言
         assertNotNull(dictTypeId);
         // 校验记录的属性是否正确
-        DictTypeDO dictType = dictTypeMapper.selectById(dictTypeId);
+        DictTypeEntity dictType = dictTypeMapper.selectById(dictTypeId);
         assertPojoEquals(reqVO, dictType, "id");
     }
 
     @Test
     public void testUpdateDictType_success() {
         // mock 数据
-        DictTypeDO dbDictType = randomDictTypeDO();
+        DictTypeEntity dbDictType = randomDictTypeDO();
         dictTypeMapper.insert(dbDictType);// @Sql: 先插入出一条存在的数据
         // 准备参数
         DictTypeSaveReqVO reqVO = randomPojo(DictTypeSaveReqVO.class, o -> {
@@ -132,14 +132,14 @@ public class DictTypeServiceImplTest extends BaseDbUnitTest {
         // 调用
         dictTypeService.updateDictType(reqVO);
         // 校验是否更新正确
-        DictTypeDO dictType = dictTypeMapper.selectById(reqVO.getId()); // 获取最新的
+        DictTypeEntity dictType = dictTypeMapper.selectById(reqVO.getId()); // 获取最新的
         assertPojoEquals(reqVO, dictType);
     }
 
     @Test
     public void testDeleteDictType_success() {
         // mock 数据
-        DictTypeDO dbDictType = randomDictTypeDO();
+        DictTypeEntity dbDictType = randomDictTypeDO();
         dictTypeMapper.insert(dbDictType);// @Sql: 先插入出一条存在的数据
         // 准备参数
         Long id = dbDictType.getId();
@@ -153,7 +153,7 @@ public class DictTypeServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testDeleteDictType_hasChildren() {
         // mock 数据
-        DictTypeDO dbDictType = randomDictTypeDO();
+        DictTypeEntity dbDictType = randomDictTypeDO();
         dictTypeMapper.insert(dbDictType);// @Sql: 先插入出一条存在的数据
         // 准备参数
         Long id = dbDictType.getId();
@@ -167,14 +167,14 @@ public class DictTypeServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetDictTypeList() {
         // 准备参数
-        DictTypeDO dictTypeDO01 = randomDictTypeDO();
+        DictTypeEntity dictTypeDO01 = randomDictTypeDO();
         dictTypeMapper.insert(dictTypeDO01);
-        DictTypeDO dictTypeDO02 = randomDictTypeDO();
+        DictTypeEntity dictTypeDO02 = randomDictTypeDO();
         dictTypeMapper.insert(dictTypeDO02);
         // mock 方法
 
         // 调用
-        List<DictTypeDO> dictTypeDOList = dictTypeService.getDictTypeList();
+        List<DictTypeEntity> dictTypeDOList = dictTypeService.getDictTypeList();
         // 断言
         assertEquals(2, dictTypeDOList.size());
         assertPojoEquals(dictTypeDO01, dictTypeDOList.get(0));
@@ -184,7 +184,7 @@ public class DictTypeServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidateDictDataExists_success() {
         // mock 数据
-        DictTypeDO dbDictType = randomDictTypeDO();
+        DictTypeEntity dbDictType = randomDictTypeDO();
         dictTypeMapper.insert(dbDictType);// @Sql: 先插入出一条存在的数据
 
         // 调用成功
@@ -261,11 +261,11 @@ public class DictTypeServiceImplTest extends BaseDbUnitTest {
     // ========== 随机对象 ==========
 
     @SafeVarargs
-    private static DictTypeDO randomDictTypeDO(Consumer<DictTypeDO>... consumers) {
-        Consumer<DictTypeDO> consumer = (o) -> {
+    private static DictTypeEntity randomDictTypeDO(Consumer<DictTypeEntity>... consumers) {
+        Consumer<DictTypeEntity> consumer = (o) -> {
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // 保证 status 的范围
         };
-        return randomPojo(DictTypeDO.class, ArrayUtils.append(consumer, consumers));
+        return randomPojo(DictTypeEntity.class, ArrayUtils.append(consumer, consumers));
     }
 
 }

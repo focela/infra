@@ -1,8 +1,8 @@
 package com.focela.platform.module.infra.service.codegen.inner;
 
 import com.focela.platform.framework.test.core.ut.BaseMockitoUnitTest;
-import com.focela.platform.module.infra.dal.dataobject.codegen.CodegenColumnDO;
-import com.focela.platform.module.infra.dal.dataobject.codegen.CodegenTableDO;
+import com.focela.platform.module.infra.repository.entity.codegen.CodegenColumnEntity;
+import com.focela.platform.module.infra.repository.entity.codegen.CodegenTableEntity;
 import com.baomidou.mybatisplus.generator.config.po.TableField;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.IColumnType;
@@ -32,7 +32,7 @@ public class CodegenBuilderTest extends BaseMockitoUnitTest {
         when(tableInfo.getComment()).thenReturn("用户");
 
         // 调用
-        CodegenTableDO table = codegenBuilder.buildTable(tableInfo);
+        CodegenTableEntity table = codegenBuilder.buildTable(tableInfo);
         // 断言
         assertEquals("system_user", table.getTableName());
         assertEquals("用户", table.getTableComment());
@@ -61,10 +61,10 @@ public class CodegenBuilderTest extends BaseMockitoUnitTest {
         when(tableField.getPropertyName()).thenReturn("id");
 
         // 调用
-        List<CodegenColumnDO> columns = codegenBuilder.buildColumns(tableId, tableFields);
+        List<CodegenColumnEntity> columns = codegenBuilder.buildColumns(tableId, tableFields);
         // 断言
         assertEquals(1, columns.size());
-        CodegenColumnDO column = columns.get(0);
+        CodegenColumnEntity column = columns.get(0);
         assertEquals(tableId, column.getTableId());
         assertEquals("id2", column.getColumnName());
         assertEquals("BIGINT", column.getDataType());

@@ -11,7 +11,7 @@ import com.focela.platform.module.system.controller.admin.dict.vo.data.DictDataP
 import com.focela.platform.module.system.controller.admin.dict.vo.data.DictDataRespVO;
 import com.focela.platform.module.system.controller.admin.dict.vo.data.DictDataSaveReqVO;
 import com.focela.platform.module.system.controller.admin.dict.vo.data.DictDataSimpleRespVO;
-import com.focela.platform.module.system.dal.dataobject.dict.DictDataDO;
+import com.focela.platform.module.system.repository.entity.dict.DictDataEntity;
 import com.focela.platform.module.system.service.dict.DictDataService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -76,7 +76,7 @@ public class DictDataController {
     @Operation(summary = "获得全部字典数据列表", description = "一般用于管理后台缓存字典数据在本地")
     // 无需添加权限认证，因为前端全局都需要
     public CommonResult<List<DictDataSimpleRespVO>> getSimpleDictDataList() {
-        List<DictDataDO> list = dictDataService.getDictDataList(
+        List<DictDataEntity> list = dictDataService.getDictDataList(
                 CommonStatusEnum.ENABLE.getStatus(), null);
         return success(BeanUtils.toBean(list, DictDataSimpleRespVO.class));
     }
@@ -85,7 +85,7 @@ public class DictDataController {
     @Operation(summary = "获得字典类型的分页")
     @PreAuthorize("@ss.hasPermission('system:dict:query')")
     public CommonResult<PageResult<DictDataRespVO>> getDictTypePage(@Valid DictDataPageReqVO pageReqVO) {
-        PageResult<DictDataDO> pageResult = dictDataService.getDictDataPage(pageReqVO);
+        PageResult<DictDataEntity> pageResult = dictDataService.getDictDataPage(pageReqVO);
         return success(BeanUtils.toBean(pageResult, DictDataRespVO.class));
     }
 
@@ -94,7 +94,7 @@ public class DictDataController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:dict:query')")
     public CommonResult<DictDataRespVO> getDictData(@RequestParam("id") Long id) {
-        DictDataDO dictData = dictDataService.getDictData(id);
+        DictDataEntity dictData = dictDataService.getDictData(id);
         return success(BeanUtils.toBean(dictData, DictDataRespVO.class));
     }
 
@@ -104,7 +104,7 @@ public class DictDataController {
     @ApiAccessLog(operateType = EXPORT)
     public void export(HttpServletResponse response, @Valid DictDataPageReqVO exportReqVO) throws IOException {
         exportReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<DictDataDO> list = dictDataService.getDictDataPage(exportReqVO).getList();
+        List<DictDataEntity> list = dictDataService.getDictDataPage(exportReqVO).getList();
         // 输出
         ExcelUtils.write(response, "字典数据.xls", "数据", DictDataRespVO.class,
                 BeanUtils.toBean(list, DictDataRespVO.class));

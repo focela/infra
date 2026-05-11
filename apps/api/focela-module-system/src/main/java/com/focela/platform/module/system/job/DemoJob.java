@@ -3,8 +3,8 @@ package com.focela.platform.module.system.job;
 import com.focela.platform.framework.quartz.core.handler.JobHandler;
 import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
 import com.focela.platform.framework.tenant.core.job.TenantJob;
-import com.focela.platform.module.system.dal.dataobject.user.AdminUserDO;
-import com.focela.platform.module.system.dal.mysql.user.AdminUserMapper;
+import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
+import com.focela.platform.module.system.repository.mapper.user.AdminUserMapper;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.Resource;
@@ -20,7 +20,7 @@ public class DemoJob implements JobHandler {
     @TenantJob // 标记多租户
     public String execute(String param) {
         System.out.println("当前租户：" + TenantContextHolder.getTenantId());
-        List<AdminUserDO> users = adminUserMapper.selectList();
+        List<AdminUserEntity> users = adminUserMapper.selectList();
         return "用户数量：" + users.size();
     }
 

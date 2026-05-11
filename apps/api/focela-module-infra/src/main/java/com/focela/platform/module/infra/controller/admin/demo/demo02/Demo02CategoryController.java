@@ -7,7 +7,7 @@ import com.focela.platform.framework.excel.core.util.ExcelUtils;
 import com.focela.platform.module.infra.controller.admin.demo.demo02.vo.Demo02CategoryListReqVO;
 import com.focela.platform.module.infra.controller.admin.demo.demo02.vo.Demo02CategoryRespVO;
 import com.focela.platform.module.infra.controller.admin.demo.demo02.vo.Demo02CategorySaveReqVO;
-import com.focela.platform.module.infra.dal.dataobject.demo.demo02.Demo02CategoryDO;
+import com.focela.platform.module.infra.repository.entity.demo.demo02.Demo02CategoryEntity;
 import com.focela.platform.module.infra.service.demo.demo02.Demo02CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -63,7 +63,7 @@ public class Demo02CategoryController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:demo02-category:query')")
     public CommonResult<Demo02CategoryRespVO> getDemo02Category(@RequestParam("id") Long id) {
-        Demo02CategoryDO demo02Category = demo02CategoryService.getDemo02Category(id);
+        Demo02CategoryEntity demo02Category = demo02CategoryService.getDemo02Category(id);
         return success(BeanUtils.toBean(demo02Category, Demo02CategoryRespVO.class));
     }
 
@@ -71,7 +71,7 @@ public class Demo02CategoryController {
     @Operation(summary = "获得示例分类列表")
     @PreAuthorize("@ss.hasPermission('infra:demo02-category:query')")
     public CommonResult<List<Demo02CategoryRespVO>> getDemo02CategoryList(@Valid Demo02CategoryListReqVO listReqVO) {
-        List<Demo02CategoryDO> list = demo02CategoryService.getDemo02CategoryList(listReqVO);
+        List<Demo02CategoryEntity> list = demo02CategoryService.getDemo02CategoryList(listReqVO);
         return success(BeanUtils.toBean(list, Demo02CategoryRespVO.class));
     }
 
@@ -81,7 +81,7 @@ public class Demo02CategoryController {
     @ApiAccessLog(operateType = EXPORT)
     public void exportDemo02CategoryExcel(@Valid Demo02CategoryListReqVO listReqVO,
                                           HttpServletResponse response) throws IOException {
-        List<Demo02CategoryDO> list = demo02CategoryService.getDemo02CategoryList(listReqVO);
+        List<Demo02CategoryEntity> list = demo02CategoryService.getDemo02CategoryList(listReqVO);
         // 导出 Excel
         ExcelUtils.write(response, "示例分类.xls", "数据", Demo02CategoryRespVO.class,
                 BeanUtils.toBean(list, Demo02CategoryRespVO.class));

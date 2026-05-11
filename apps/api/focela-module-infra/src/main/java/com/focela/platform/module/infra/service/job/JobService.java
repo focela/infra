@@ -3,7 +3,7 @@ package com.focela.platform.module.infra.service.job;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.infra.controller.admin.job.vo.job.JobPageReqVO;
 import com.focela.platform.module.infra.controller.admin.job.vo.job.JobSaveReqVO;
-import com.focela.platform.module.infra.dal.dataobject.job.JobDO;
+import com.focela.platform.module.infra.repository.entity.job.JobEntity;
 import jakarta.validation.Valid;
 import org.quartz.SchedulerException;
 
@@ -73,7 +73,7 @@ public interface JobService {
      * @param id 编号
      * @return 定时任务
      */
-    JobDO getJob(Long id);
+    JobEntity getJob(Long id);
 
     /**
      * 获得定时任务分页
@@ -81,6 +81,6 @@ public interface JobService {
      * @param pageReqVO 分页查询
      * @return 定时任务分页
      */
-    PageResult<JobDO> getJobPage(JobPageReqVO pageReqVO);
+    PageResult<JobEntity> getJobPage(JobPageReqVO pageReqVO);
 
 }

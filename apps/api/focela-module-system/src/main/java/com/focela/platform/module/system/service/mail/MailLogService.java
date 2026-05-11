@@ -2,9 +2,9 @@ package com.focela.platform.module.system.service.mail;
 
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.system.controller.admin.mail.vo.log.MailLogPageReqVO;
-import com.focela.platform.module.system.dal.dataobject.mail.MailAccountDO;
-import com.focela.platform.module.system.dal.dataobject.mail.MailLogDO;
-import com.focela.platform.module.system.dal.dataobject.mail.MailTemplateDO;
+import com.focela.platform.module.system.repository.entity.mail.MailAccountEntity;
+import com.focela.platform.module.system.repository.entity.mail.MailLogEntity;
+import com.focela.platform.module.system.repository.entity.mail.MailTemplateEntity;
 
 import java.util.Collection;
 import java.util.List;
@@ -24,7 +24,7 @@ public interface MailLogService {
      * @param pageVO 分页参数
      * @return 分页结果
      */
-    PageResult<MailLogDO> getMailLogPage(MailLogPageReqVO pageVO);
+    PageResult<MailLogEntity> getMailLogPage(MailLogPageReqVO pageVO);
 
     /**
      * 获得指定编号的邮件日志
@@ -32,7 +32,7 @@ public interface MailLogService {
      * @param id 日志编号
      * @return 邮件日志
      */
-    MailLogDO getMailLog(Long id);
+    MailLogEntity getMailLog(Long id);
 
     /**
      * 创建邮件日志
@@ -51,7 +51,7 @@ public interface MailLogService {
      */
     Long createMailLog(Long userId, Integer userType,
                        Collection<String> toMails, Collection<String> ccMails, Collection<String> bccMails,
-                       MailAccountDO account, MailTemplateDO template,
+                       MailAccountEntity account, MailTemplateEntity template,
                        String templateContent, Map<String, Object> templateParams, Boolean isSend);
 
     /**

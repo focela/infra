@@ -8,8 +8,8 @@ import ${jakartaPackage}.annotation.Resource;
 import ${baseFrameworkPackage}.test.core.ut.BaseDbUnitTest;
 
 import ${basePackage}.module.${table.moduleName}.controller.${sceneEnum.basePackage}.${table.businessName}.vo.*;
-import ${basePackage}.module.${table.moduleName}.dal.dataobject.${table.businessName}.${table.className}DO;
-import ${basePackage}.module.${table.moduleName}.dal.mysql.${table.businessName}.${table.className}Mapper;
+import ${basePackage}.module.${table.moduleName}.repository.entity.${table.businessName}.${table.className}DO;
+import ${basePackage}.module.${table.moduleName}.repository.mapper.${table.businessName}.${table.className}Mapper;
 import ${PageResultClassName};
 
 import ${jakartaPackage}.annotation.Resource;

@@ -9,9 +9,9 @@ import com.focela.platform.framework.excel.core.util.ExcelUtils;
 import com.focela.platform.module.infra.controller.admin.demo.demo03.inner.vo.Demo03StudentInnerPageReqVO;
 import com.focela.platform.module.infra.controller.admin.demo.demo03.inner.vo.Demo03StudentInnerRespVO;
 import com.focela.platform.module.infra.controller.admin.demo.demo03.inner.vo.Demo03StudentInnerSaveReqVO;
-import com.focela.platform.module.infra.dal.dataobject.demo.demo03.Demo03CourseDO;
-import com.focela.platform.module.infra.dal.dataobject.demo.demo03.Demo03GradeDO;
-import com.focela.platform.module.infra.dal.dataobject.demo.demo03.Demo03StudentDO;
+import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03CourseEntity;
+import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03GradeEntity;
+import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03StudentEntity;
 import com.focela.platform.module.infra.service.demo.demo03.inner.Demo03StudentInnerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -76,7 +76,7 @@ public class Demo03StudentInnerController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:demo03-student:query')")
     public CommonResult<Demo03StudentInnerRespVO> getDemo03Student(@RequestParam("id") Long id) {
-        Demo03StudentDO demo03Student = demo03StudentInnerService.getDemo03Student(id);
+        Demo03StudentEntity demo03Student = demo03StudentInnerService.getDemo03Student(id);
         return success(BeanUtils.toBean(demo03Student, Demo03StudentInnerRespVO.class));
     }
 
@@ -84,7 +84,7 @@ public class Demo03StudentInnerController {
     @Operation(summary = "获得学生分页")
     @PreAuthorize("@ss.hasPermission('infra:demo03-student:query')")
     public CommonResult<PageResult<Demo03StudentInnerRespVO>> getDemo03StudentPage(@Valid Demo03StudentInnerPageReqVO pageReqVO) {
-        PageResult<Demo03StudentDO> pageResult = demo03StudentInnerService.getDemo03StudentPage(pageReqVO);
+        PageResult<Demo03StudentEntity> pageResult = demo03StudentInnerService.getDemo03StudentPage(pageReqVO);
         return success(BeanUtils.toBean(pageResult, Demo03StudentInnerRespVO.class));
     }
 
@@ -95,7 +95,7 @@ public class Demo03StudentInnerController {
     public void exportDemo03StudentExcel(@Valid Demo03StudentInnerPageReqVO pageReqVO,
                                          HttpServletResponse response) throws IOException {
         pageReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<Demo03StudentDO> list = demo03StudentInnerService.getDemo03StudentPage(pageReqVO).getList();
+        List<Demo03StudentEntity> list = demo03StudentInnerService.getDemo03StudentPage(pageReqVO).getList();
         // 导出 Excel
         ExcelUtils.write(response, "学生.xls", "数据", Demo03StudentInnerRespVO.class,
                 BeanUtils.toBean(list, Demo03StudentInnerRespVO.class));
@@ -107,7 +107,7 @@ public class Demo03StudentInnerController {
     @Operation(summary = "获得学生课程列表")
     @Parameter(name = "studentId", description = "学生编号")
     @PreAuthorize("@ss.hasPermission('infra:demo03-student:query')")
-    public CommonResult<List<Demo03CourseDO>> getDemo03CourseListByStudentId(@RequestParam("studentId") Long studentId) {
+    public CommonResult<List<Demo03CourseEntity>> getDemo03CourseListByStudentId(@RequestParam("studentId") Long studentId) {
         return success(demo03StudentInnerService.getDemo03CourseListByStudentId(studentId));
     }
 
@@ -117,7 +117,7 @@ public class Demo03StudentInnerController {
     @Operation(summary = "获得学生班级")
     @Parameter(name = "studentId", description = "学生编号")
     @PreAuthorize("@ss.hasPermission('infra:demo03-student:query')")
-    public CommonResult<Demo03GradeDO> getDemo03GradeByStudentId(@RequestParam("studentId") Long studentId) {
+    public CommonResult<Demo03GradeEntity> getDemo03GradeByStudentId(@RequestParam("studentId") Long studentId) {
         return success(demo03StudentInnerService.getDemo03GradeByStudentId(studentId));
     }
 

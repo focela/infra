@@ -6,8 +6,8 @@ import com.focela.platform.framework.test.core.util.RandomUtils;
 import com.focela.platform.framework.common.biz.system.logger.dto.OperateLogCreateReqDTO;
 import com.focela.platform.module.system.api.logger.dto.OperateLogPageReqDTO;
 import com.focela.platform.module.system.controller.admin.logger.vo.operatelog.OperateLogPageReqVO;
-import com.focela.platform.module.system.dal.dataobject.logger.OperateLogDO;
-import com.focela.platform.module.system.dal.mysql.logger.OperateLogMapper;
+import com.focela.platform.module.system.repository.entity.logger.OperateLogEntity;
+import com.focela.platform.module.system.repository.mapper.logger.OperateLogMapper;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
@@ -34,14 +34,14 @@ public class OperateLogServiceImplTest extends BaseDbUnitTest {
         // 调研
         operateLogServiceImpl.createOperateLog(reqVO);
         // 断言
-        OperateLogDO operateLogDO = operateLogMapper.selectOne(null);
+        OperateLogEntity operateLogDO = operateLogMapper.selectOne(null);
         assertPojoEquals(reqVO, operateLogDO);
     }
 
     @Test
     public void testGetOperateLogPage_vo() {
         // 构造操作日志
-        OperateLogDO operateLogDO = RandomUtils.randomPojo(OperateLogDO.class, o -> {
+        OperateLogEntity operateLogDO = RandomUtils.randomPojo(OperateLogEntity.class, o -> {
             o.setUserId(2048L);
             o.setBizId(999L);
             o.setType("订单");
@@ -73,7 +73,7 @@ public class OperateLogServiceImplTest extends BaseDbUnitTest {
         reqVO.setCreateTime(buildBetweenTime(2021, 3, 5, 2021, 3, 7));
 
         // 调用
-        PageResult<OperateLogDO> pageResult = operateLogServiceImpl.getOperateLogPage(reqVO);
+        PageResult<OperateLogEntity> pageResult = operateLogServiceImpl.getOperateLogPage(reqVO);
         // 断言，只查到了一条符合条件的
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
@@ -83,7 +83,7 @@ public class OperateLogServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetOperateLogPage_dto() {
         // 构造操作日志
-        OperateLogDO operateLogDO = RandomUtils.randomPojo(OperateLogDO.class, o -> {
+        OperateLogEntity operateLogDO = RandomUtils.randomPojo(OperateLogEntity.class, o -> {
             o.setUserId(2048L);
             o.setBizId(999L);
             o.setType("订单");
@@ -103,7 +103,7 @@ public class OperateLogServiceImplTest extends BaseDbUnitTest {
         reqDTO.setType("订单");
 
         // 调用
-        PageResult<OperateLogDO> pageResult = operateLogServiceImpl.getOperateLogPage(reqDTO);
+        PageResult<OperateLogEntity> pageResult = operateLogServiceImpl.getOperateLogPage(reqDTO);
         // 断言，只查到了一条符合条件的
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());

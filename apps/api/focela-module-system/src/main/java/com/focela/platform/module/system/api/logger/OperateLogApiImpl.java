@@ -5,7 +5,7 @@ import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.common.biz.system.logger.dto.OperateLogCreateReqDTO;
 import com.focela.platform.module.system.api.logger.dto.OperateLogPageReqDTO;
 import com.focela.platform.module.system.api.logger.dto.OperateLogRespDTO;
-import com.focela.platform.module.system.dal.dataobject.logger.OperateLogDO;
+import com.focela.platform.module.system.repository.entity.logger.OperateLogEntity;
 import com.focela.platform.module.system.service.logger.OperateLogService;
 import com.fhs.core.trans.anno.TransMethodResult;
 import jakarta.annotation.Resource;
@@ -32,7 +32,7 @@ public class OperateLogApiImpl implements OperateLogApi {
     @Override
     @TransMethodResult
     public PageResult<OperateLogRespDTO> getOperateLogPage(OperateLogPageReqDTO pageReqDTO) {
-        PageResult<OperateLogDO> operateLogPage = operateLogService.getOperateLogPage(pageReqDTO);
+        PageResult<OperateLogEntity> operateLogPage = operateLogService.getOperateLogPage(pageReqDTO);
         return BeanUtils.toBean(operateLogPage, OperateLogRespDTO.class);
     }
 

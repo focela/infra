@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.pojo.CommonResult;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.mail.vo.template.*;
-import com.focela.platform.module.system.dal.dataobject.mail.MailTemplateDO;
+import com.focela.platform.module.system.repository.entity.mail.MailTemplateEntity;
 import com.focela.platform.module.system.service.mail.MailSendService;
 import com.focela.platform.module.system.service.mail.MailTemplateService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -68,7 +68,7 @@ public class MailTemplateController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:mail-template:query')")
     public CommonResult<MailTemplateRespVO> getMailTemplate(@RequestParam("id") Long id) {
-        MailTemplateDO template = mailTempleService.getMailTemplate(id);
+        MailTemplateEntity template = mailTempleService.getMailTemplate(id);
         return success(BeanUtils.toBean(template, MailTemplateRespVO.class));
     }
 
@@ -76,14 +76,14 @@ public class MailTemplateController {
     @Operation(summary = "获得邮件模版分页")
     @PreAuthorize("@ss.hasPermission('system:mail-template:query')")
     public CommonResult<PageResult<MailTemplateRespVO>> getMailTemplatePage(@Valid MailTemplatePageReqVO pageReqVO) {
-        PageResult<MailTemplateDO> pageResult = mailTempleService.getMailTemplatePage(pageReqVO);
+        PageResult<MailTemplateEntity> pageResult = mailTempleService.getMailTemplatePage(pageReqVO);
         return success(BeanUtils.toBean(pageResult, MailTemplateRespVO.class));
     }
 
     @GetMapping({"/list-all-simple", "simple-list"})
     @Operation(summary = "获得邮件模版精简列表")
     public CommonResult<List<MailTemplateSimpleRespVO>> getSimpleTemplateList() {
-        List<MailTemplateDO> list = mailTempleService.getMailTemplateList();
+        List<MailTemplateEntity> list = mailTempleService.getMailTemplateList();
         return success(BeanUtils.toBean(list, MailTemplateSimpleRespVO.class));
     }
 

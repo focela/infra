@@ -3,7 +3,7 @@ package com.focela.platform.module.system.service.mail;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.system.controller.admin.mail.vo.account.MailAccountPageReqVO;
 import com.focela.platform.module.system.controller.admin.mail.vo.account.MailAccountSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.mail.MailAccountDO;
+import com.focela.platform.module.system.repository.entity.mail.MailAccountEntity;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -51,7 +51,7 @@ public interface MailAccountService {
      * @param id 编号
      * @return 邮箱账号信息
      */
-    MailAccountDO getMailAccount(Long id);
+    MailAccountEntity getMailAccount(Long id);
 
     /**
      * 从缓存中获取邮箱账号
@@ -59,7 +59,7 @@ public interface MailAccountService {
      * @param id 编号
      * @return 邮箱账号
      */
-    MailAccountDO getMailAccountFromCache(Long id);
+    MailAccountEntity getMailAccountFromCache(Long id);
 
     /**
      * 获取邮箱账号分页信息
@@ -67,13 +67,13 @@ public interface MailAccountService {
      * @param pageReqVO 邮箱账号分页参数
      * @return 邮箱账号分页信息
      */
-    PageResult<MailAccountDO> getMailAccountPage(MailAccountPageReqVO pageReqVO);
+    PageResult<MailAccountEntity> getMailAccountPage(MailAccountPageReqVO pageReqVO);
 
     /**
      * 获取邮箱数组信息
      *
      * @return 邮箱账号信息数组
      */
-    List<MailAccountDO> getMailAccountList();
+    List<MailAccountEntity> getMailAccountList();
 
 }

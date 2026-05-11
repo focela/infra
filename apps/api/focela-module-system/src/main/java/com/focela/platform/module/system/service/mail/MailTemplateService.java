@@ -3,7 +3,7 @@ package com.focela.platform.module.system.service.mail;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.system.controller.admin.mail.vo.template.MailTemplatePageReqVO;
 import com.focela.platform.module.system.controller.admin.mail.vo.template.MailTemplateSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.mail.MailTemplateDO;
+import com.focela.platform.module.system.repository.entity.mail.MailTemplateEntity;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -52,7 +52,7 @@ public interface MailTemplateService {
      * @param id 编号
      * @return 邮件模版
      */
-    MailTemplateDO getMailTemplate(Long id);
+    MailTemplateEntity getMailTemplate(Long id);
 
     /**
      * 获取邮件模版分页
@@ -60,14 +60,14 @@ public interface MailTemplateService {
      * @param pageReqVO 模版信息
      * @return 邮件模版分页信息
      */
-    PageResult<MailTemplateDO> getMailTemplatePage(MailTemplatePageReqVO pageReqVO);
+    PageResult<MailTemplateEntity> getMailTemplatePage(MailTemplatePageReqVO pageReqVO);
 
     /**
      * 获取邮件模板数组
      *
      * @return 模版数组
      */
-    List<MailTemplateDO> getMailTemplateList();
+    List<MailTemplateEntity> getMailTemplateList();
 
     /**
      * 从缓存中获取邮件模版
@@ -75,7 +75,7 @@ public interface MailTemplateService {
      * @param code 模板编码
      * @return 邮件模板
      */
-    MailTemplateDO getMailTemplateByCodeFromCache(String code);
+    MailTemplateEntity getMailTemplateByCodeFromCache(String code);
 
     /**
      * 邮件模版内容合成

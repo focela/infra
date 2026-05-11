@@ -1,7 +1,7 @@
 package com.focela.platform.module.infra.service.db;
 
 import com.focela.platform.module.infra.controller.admin.db.vo.DataSourceConfigSaveReqVO;
-import com.focela.platform.module.infra.dal.dataobject.db.DataSourceConfigDO;
+import com.focela.platform.module.infra.repository.entity.db.DataSourceConfigEntity;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -48,13 +48,13 @@ public interface DataSourceConfigService {
      * @param id 编号
      * @return 数据源配置
      */
-    DataSourceConfigDO getDataSourceConfig(Long id);
+    DataSourceConfigEntity getDataSourceConfig(Long id);
 
     /**
      * 获得数据源配置列表
      *
      * @return 数据源配置列表
      */
-    List<DataSourceConfigDO> getDataSourceConfigList();
+    List<DataSourceConfigEntity> getDataSourceConfigList();
 
 }

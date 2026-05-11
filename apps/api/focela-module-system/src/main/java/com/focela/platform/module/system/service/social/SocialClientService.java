@@ -8,7 +8,7 @@ import com.focela.platform.module.system.api.social.dto.SocialWxaOrderUploadShip
 import com.focela.platform.module.system.api.social.dto.SocialWxaSubscribeMessageSendReqDTO;
 import com.focela.platform.module.system.controller.admin.socail.vo.client.SocialClientPageReqVO;
 import com.focela.platform.module.system.controller.admin.socail.vo.client.SocialClientSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.social.SocialClientDO;
+import com.focela.platform.module.system.repository.entity.social.SocialClientEntity;
 import com.focela.platform.module.system.enums.social.SocialTypeEnum;
 import jakarta.validation.Valid;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
@@ -147,7 +147,7 @@ public interface SocialClientService {
      * @param id 编号
      * @return 社交客户端
      */
-    SocialClientDO getSocialClient(Long id);
+    SocialClientEntity getSocialClient(Long id);
 
     /**
      * 获得社交客户端分页
@@ -155,6 +155,6 @@ public interface SocialClientService {
      * @param pageReqVO 分页查询
      * @return 社交客户端分页
      */
-    PageResult<SocialClientDO> getSocialClientPage(SocialClientPageReqVO pageReqVO);
+    PageResult<SocialClientEntity> getSocialClientPage(SocialClientPageReqVO pageReqVO);
 
 }

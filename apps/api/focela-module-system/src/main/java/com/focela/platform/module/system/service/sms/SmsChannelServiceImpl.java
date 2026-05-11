@@ -4,8 +4,8 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.sms.vo.channel.SmsChannelPageReqVO;
 import com.focela.platform.module.system.controller.admin.sms.vo.channel.SmsChannelSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.sms.SmsChannelDO;
-import com.focela.platform.module.system.dal.mysql.sms.SmsChannelMapper;
+import com.focela.platform.module.system.repository.entity.sms.SmsChannelEntity;
+import com.focela.platform.module.system.repository.mapper.sms.SmsChannelMapper;
 import com.focela.platform.module.system.framework.sms.core.client.SmsClient;
 import com.focela.platform.module.system.framework.sms.core.client.SmsClientFactory;
 import com.focela.platform.module.system.framework.sms.core.property.SmsChannelProperties;
@@ -39,7 +39,7 @@ public class SmsChannelServiceImpl implements SmsChannelService {
 
     @Override
     public Long createSmsChannel(SmsChannelSaveReqVO createReqVO) {
-        SmsChannelDO channel = BeanUtils.toBean(createReqVO, SmsChannelDO.class);
+        SmsChannelEntity channel = BeanUtils.toBean(createReqVO, SmsChannelEntity.class);
         smsChannelMapper.insert(channel);
         return channel.getId();
     }
@@ -49,7 +49,7 @@ public class SmsChannelServiceImpl implements SmsChannelService {
         // 校验存在
         validateSmsChannelExists(updateReqVO.getId());
         // 更新
-        SmsChannelDO updateObj = BeanUtils.toBean(updateReqVO, SmsChannelDO.class);
+        SmsChannelEntity updateObj = BeanUtils.toBean(updateReqVO, SmsChannelEntity.class);
         smsChannelMapper.updateById(updateObj);
     }
 
@@ -78,8 +78,8 @@ public class SmsChannelServiceImpl implements SmsChannelService {
         smsChannelMapper.deleteByIds(ids);
     }
 
-    private SmsChannelDO validateSmsChannelExists(Long id) {
-        SmsChannelDO channel = smsChannelMapper.selectById(id);
+    private SmsChannelEntity validateSmsChannelExists(Long id) {
+        SmsChannelEntity channel = smsChannelMapper.selectById(id);
         if (channel == null) {
             throw exception(SMS_CHANNEL_NOT_EXISTS);
         }
@@ -87,23 +87,23 @@ public class SmsChannelServiceImpl implements SmsChannelService {
     }
 
     @Override
-    public SmsChannelDO getSmsChannel(Long id) {
+    public SmsChannelEntity getSmsChannel(Long id) {
         return smsChannelMapper.selectById(id);
     }
 
     @Override
-    public List<SmsChannelDO> getSmsChannelList() {
+    public List<SmsChannelEntity> getSmsChannelList() {
         return smsChannelMapper.selectList();
     }
 
     @Override
-    public PageResult<SmsChannelDO> getSmsChannelPage(SmsChannelPageReqVO pageReqVO) {
+    public PageResult<SmsChannelEntity> getSmsChannelPage(SmsChannelPageReqVO pageReqVO) {
         return smsChannelMapper.selectPage(pageReqVO);
     }
 
     @Override
     public SmsClient getSmsClient(Long id) {
-        SmsChannelDO channel = smsChannelMapper.selectById(id);
+        SmsChannelEntity channel = smsChannelMapper.selectById(id);
         SmsChannelProperties properties = BeanUtils.toBean(channel, SmsChannelProperties.class);
         return smsClientFactory.createOrUpdateSmsClient(properties);
     }

@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.pojo.CommonResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.infra.controller.admin.db.vo.DataSourceConfigRespVO;
 import com.focela.platform.module.infra.controller.admin.db.vo.DataSourceConfigSaveReqVO;
-import com.focela.platform.module.infra.dal.dataobject.db.DataSourceConfigDO;
+import com.focela.platform.module.infra.repository.entity.db.DataSourceConfigEntity;
 import com.focela.platform.module.infra.service.db.DataSourceConfigService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -66,7 +66,7 @@ public class DataSourceConfigController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:data-source-config:query')")
     public CommonResult<DataSourceConfigRespVO> getDataSourceConfig(@RequestParam("id") Long id) {
-        DataSourceConfigDO config = dataSourceConfigService.getDataSourceConfig(id);
+        DataSourceConfigEntity config = dataSourceConfigService.getDataSourceConfig(id);
         return success(BeanUtils.toBean(config, DataSourceConfigRespVO.class));
     }
 
@@ -74,7 +74,7 @@ public class DataSourceConfigController {
     @Operation(summary = "获得数据源配置列表")
     @PreAuthorize("@ss.hasPermission('infra:data-source-config:query')")
     public CommonResult<List<DataSourceConfigRespVO>> getDataSourceConfigList() {
-        List<DataSourceConfigDO> list = dataSourceConfigService.getDataSourceConfigList();
+        List<DataSourceConfigEntity> list = dataSourceConfigService.getDataSourceConfigList();
         return success(BeanUtils.toBean(list, DataSourceConfigRespVO.class));
     }
 

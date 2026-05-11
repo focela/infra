@@ -2,8 +2,8 @@ package com.focela.platform.module.infra.service.job;
 
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.infra.controller.admin.job.vo.log.JobLogPageReqVO;
-import com.focela.platform.module.infra.dal.dataobject.job.JobLogDO;
-import com.focela.platform.module.infra.dal.mysql.job.JobLogMapper;
+import com.focela.platform.module.infra.repository.entity.job.JobLogEntity;
+import com.focela.platform.module.infra.repository.mapper.job.JobLogMapper;
 import com.focela.platform.module.infra.enums.job.JobLogStatusEnum;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class JobLogServiceImpl implements JobLogService {
     @Override
     public Long createJobLog(Long jobId, LocalDateTime beginTime,
                              String jobHandlerName, String jobHandlerParam, Integer executeIndex) {
-        JobLogDO log = JobLogDO.builder().jobId(jobId).handlerName(jobHandlerName)
+        JobLogEntity log = JobLogEntity.builder().jobId(jobId).handlerName(jobHandlerName)
                 .handlerParam(jobHandlerParam).executeIndex(executeIndex)
                 .beginTime(beginTime).status(JobLogStatusEnum.RUNNING.getStatus()).build();
         jobLogMapper.insert(log);
@@ -40,7 +40,7 @@ public class JobLogServiceImpl implements JobLogService {
     @Async
     public void updateJobLogResultAsync(Long logId, LocalDateTime endTime, Integer duration, boolean success, String result) {
         try {
-            JobLogDO updateObj = JobLogDO.builder().id(logId).endTime(endTime).duration(duration)
+            JobLogEntity updateObj = JobLogEntity.builder().id(logId).endTime(endTime).duration(duration)
                     .status(success ? JobLogStatusEnum.SUCCESS.getStatus() : JobLogStatusEnum.FAILURE.getStatus())
                     .result(result).build();
             jobLogMapper.updateById(updateObj);
@@ -68,12 +68,12 @@ public class JobLogServiceImpl implements JobLogService {
     }
 
     @Override
-    public JobLogDO getJobLog(Long id) {
+    public JobLogEntity getJobLog(Long id) {
         return jobLogMapper.selectById(id);
     }
 
     @Override
-    public PageResult<JobLogDO> getJobLogPage(JobLogPageReqVO pageReqVO) {
+    public PageResult<JobLogEntity> getJobLogPage(JobLogPageReqVO pageReqVO) {
         return jobLogMapper.selectPage(pageReqVO);
     }
 

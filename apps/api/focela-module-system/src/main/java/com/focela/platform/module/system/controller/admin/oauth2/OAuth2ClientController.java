@@ -6,7 +6,7 @@ import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.oauth2.vo.client.OAuth2ClientPageReqVO;
 import com.focela.platform.module.system.controller.admin.oauth2.vo.client.OAuth2ClientRespVO;
 import com.focela.platform.module.system.controller.admin.oauth2.vo.client.OAuth2ClientSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.oauth2.OAuth2ClientDO;
+import com.focela.platform.module.system.repository.entity.oauth2.OAuth2ClientEntity;
 import com.focela.platform.module.system.service.oauth2.OAuth2ClientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -68,7 +68,7 @@ public class OAuth2ClientController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:oauth2-client:query')")
     public CommonResult<OAuth2ClientRespVO> getOAuth2Client(@RequestParam("id") Long id) {
-        OAuth2ClientDO client = oAuth2ClientService.getOAuth2Client(id);
+        OAuth2ClientEntity client = oAuth2ClientService.getOAuth2Client(id);
         return success(BeanUtils.toBean(client, OAuth2ClientRespVO.class));
     }
 
@@ -76,7 +76,7 @@ public class OAuth2ClientController {
     @Operation(summary = "获得 OAuth2 客户端分页")
     @PreAuthorize("@ss.hasPermission('system:oauth2-client:query')")
     public CommonResult<PageResult<OAuth2ClientRespVO>> getOAuth2ClientPage(@Valid OAuth2ClientPageReqVO pageVO) {
-        PageResult<OAuth2ClientDO> pageResult = oAuth2ClientService.getOAuth2ClientPage(pageVO);
+        PageResult<OAuth2ClientEntity> pageResult = oAuth2ClientService.getOAuth2ClientPage(pageVO);
         return success(BeanUtils.toBean(pageResult, OAuth2ClientRespVO.class));
     }
 

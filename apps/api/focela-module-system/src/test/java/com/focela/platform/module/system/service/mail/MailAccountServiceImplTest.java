@@ -4,8 +4,8 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.module.system.controller.admin.mail.vo.account.MailAccountPageReqVO;
 import com.focela.platform.module.system.controller.admin.mail.vo.account.MailAccountSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.mail.MailAccountDO;
-import com.focela.platform.module.system.dal.mysql.mail.MailAccountMapper;
+import com.focela.platform.module.system.repository.entity.mail.MailAccountEntity;
+import com.focela.platform.module.system.repository.mapper.mail.MailAccountMapper;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
@@ -50,14 +50,14 @@ public class MailAccountServiceImplTest extends BaseDbUnitTest {
         // 断言
         assertNotNull(mailAccountId);
         // 校验记录的属性是否正确
-        MailAccountDO mailAccount = mailAccountMapper.selectById(mailAccountId);
+        MailAccountEntity mailAccount = mailAccountMapper.selectById(mailAccountId);
         assertPojoEquals(reqVO, mailAccount, "id");
     }
 
     @Test
     public void testUpdateMailAccount_success() {
         // mock 数据
-        MailAccountDO dbMailAccount = randomPojo(MailAccountDO.class);
+        MailAccountEntity dbMailAccount = randomPojo(MailAccountEntity.class);
         mailAccountMapper.insert(dbMailAccount);// @Sql: 先插入出一条存在的数据
         // 准备参数
         MailAccountSaveReqVO reqVO = randomPojo(MailAccountSaveReqVO.class, o -> {
@@ -68,7 +68,7 @@ public class MailAccountServiceImplTest extends BaseDbUnitTest {
         // 调用
         mailAccountService.updateMailAccount(reqVO);
         // 校验是否更新正确
-        MailAccountDO mailAccount = mailAccountMapper.selectById(reqVO.getId()); // 获取最新的
+        MailAccountEntity mailAccount = mailAccountMapper.selectById(reqVO.getId()); // 获取最新的
         assertPojoEquals(reqVO, mailAccount);
     }
 
@@ -84,7 +84,7 @@ public class MailAccountServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testDeleteMailAccount_success() {
         // mock 数据
-        MailAccountDO dbMailAccount = randomPojo(MailAccountDO.class);
+        MailAccountEntity dbMailAccount = randomPojo(MailAccountEntity.class);
         mailAccountMapper.insert(dbMailAccount);// @Sql: 先插入出一条存在的数据
         // 准备参数
         Long id = dbMailAccount.getId();
@@ -100,13 +100,13 @@ public class MailAccountServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetMailAccountFromCache() {
         // mock 数据
-        MailAccountDO dbMailAccount = randomPojo(MailAccountDO.class);
+        MailAccountEntity dbMailAccount = randomPojo(MailAccountEntity.class);
         mailAccountMapper.insert(dbMailAccount);// @Sql: 先插入出一条存在的数据
         // 准备参数
         Long id = dbMailAccount.getId();
 
         // 调用
-        MailAccountDO mailAccount = mailAccountService.getMailAccountFromCache(id);
+        MailAccountEntity mailAccount = mailAccountService.getMailAccountFromCache(id);
         // 断言
         assertPojoEquals(dbMailAccount, mailAccount);
     }
@@ -123,7 +123,7 @@ public class MailAccountServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetMailAccountPage() {
         // mock 数据
-        MailAccountDO dbMailAccount = randomPojo(MailAccountDO.class, o -> { // 等会查询到
+        MailAccountEntity dbMailAccount = randomPojo(MailAccountEntity.class, o -> { // 等会查询到
             o.setMail("768@qq.com");
             o.setUsername("yunai");
         });
@@ -138,7 +138,7 @@ public class MailAccountServiceImplTest extends BaseDbUnitTest {
         reqVO.setUsername("yu");
 
         // 调用
-        PageResult<MailAccountDO> pageResult = mailAccountService.getMailAccountPage(reqVO);
+        PageResult<MailAccountEntity> pageResult = mailAccountService.getMailAccountPage(reqVO);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
@@ -148,13 +148,13 @@ public class MailAccountServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetMailAccount() {
         // mock 数据
-        MailAccountDO dbMailAccount = randomPojo(MailAccountDO.class);
+        MailAccountEntity dbMailAccount = randomPojo(MailAccountEntity.class);
         mailAccountMapper.insert(dbMailAccount);// @Sql: 先插入出一条存在的数据
         // 准备参数
         Long id = dbMailAccount.getId();
 
         // 调用
-        MailAccountDO mailAccount = mailAccountService.getMailAccount(id);
+        MailAccountEntity mailAccount = mailAccountService.getMailAccount(id);
         // 断言
         assertPojoEquals(dbMailAccount, mailAccount);
     }
@@ -162,14 +162,14 @@ public class MailAccountServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetMailAccountList() {
         // mock 数据
-        MailAccountDO dbMailAccount01 = randomPojo(MailAccountDO.class);
+        MailAccountEntity dbMailAccount01 = randomPojo(MailAccountEntity.class);
         mailAccountMapper.insert(dbMailAccount01);
-        MailAccountDO dbMailAccount02 = randomPojo(MailAccountDO.class);
+        MailAccountEntity dbMailAccount02 = randomPojo(MailAccountEntity.class);
         mailAccountMapper.insert(dbMailAccount02);
         // 准备参数
 
         // 调用
-        List<MailAccountDO> list = mailAccountService.getMailAccountList();
+        List<MailAccountEntity> list = mailAccountService.getMailAccountList();
         // 断言
         assertEquals(2, list.size());
         assertPojoEquals(dbMailAccount01, list.get(0));

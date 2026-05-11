@@ -5,7 +5,7 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.system.api.social.dto.SocialUserBindReqDTO;
 import com.focela.platform.module.system.api.social.dto.SocialUserRespDTO;
 import com.focela.platform.module.system.controller.admin.socail.vo.user.SocialUserPageReqVO;
-import com.focela.platform.module.system.dal.dataobject.social.SocialUserDO;
+import com.focela.platform.module.system.repository.entity.social.SocialUserEntity;
 import com.focela.platform.module.system.enums.social.SocialTypeEnum;
 
 import jakarta.validation.Valid;
@@ -25,7 +25,7 @@ public interface SocialUserService {
      * @param userType 用户类型
      * @return 社交用户列表
      */
-    List<SocialUserDO> getSocialUserList(Long userId, Integer userType);
+    List<SocialUserEntity> getSocialUserList(Long userId, Integer userType);
 
     /**
      * 绑定社交用户
@@ -76,7 +76,7 @@ public interface SocialUserService {
      * @param id 编号
      * @return 社交用户
      */
-    SocialUserDO getSocialUser(Long id);
+    SocialUserEntity getSocialUser(Long id);
 
     /**
      * 获得社交用户分页
@@ -84,6 +84,6 @@ public interface SocialUserService {
      * @param pageReqVO 分页查询
      * @return 社交用户分页
      */
-    PageResult<SocialUserDO> getSocialUserPage(SocialUserPageReqVO pageReqVO);
+    PageResult<SocialUserEntity> getSocialUserPage(SocialUserPageReqVO pageReqVO);
 
 }

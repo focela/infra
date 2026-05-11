@@ -7,9 +7,9 @@ import com.focela.platform.framework.common.util.collection.CollectionUtils;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.dict.vo.data.DictDataPageReqVO;
 import com.focela.platform.module.system.controller.admin.dict.vo.data.DictDataSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.dict.DictDataDO;
-import com.focela.platform.module.system.dal.dataobject.dict.DictTypeDO;
-import com.focela.platform.module.system.dal.mysql.dict.DictDataMapper;
+import com.focela.platform.module.system.repository.entity.dict.DictDataEntity;
+import com.focela.platform.module.system.repository.entity.dict.DictTypeEntity;
+import com.focela.platform.module.system.repository.mapper.dict.DictDataMapper;
 import com.google.common.annotations.VisibleForTesting;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -35,9 +35,9 @@ public class DictDataServiceImpl implements DictDataService {
     /**
      * 排序 dictType > sort
      */
-    private static final Comparator<DictDataDO> COMPARATOR_TYPE_AND_SORT = Comparator
-            .comparing(DictDataDO::getDictType)
-            .thenComparingInt(DictDataDO::getSort);
+    private static final Comparator<DictDataEntity> COMPARATOR_TYPE_AND_SORT = Comparator
+            .comparing(DictDataEntity::getDictType)
+            .thenComparingInt(DictDataEntity::getSort);
 
     @Resource
     private DictTypeService dictTypeService;
@@ -46,19 +46,19 @@ public class DictDataServiceImpl implements DictDataService {
     private DictDataMapper dictDataMapper;
 
     @Override
-    public List<DictDataDO> getDictDataList(Integer status, String dictType) {
-        List<DictDataDO> list = dictDataMapper.selectListByStatusAndDictType(status, dictType);
+    public List<DictDataEntity> getDictDataList(Integer status, String dictType) {
+        List<DictDataEntity> list = dictDataMapper.selectListByStatusAndDictType(status, dictType);
         list.sort(COMPARATOR_TYPE_AND_SORT);
         return list;
     }
 
     @Override
-    public PageResult<DictDataDO> getDictDataPage(DictDataPageReqVO pageReqVO) {
+    public PageResult<DictDataEntity> getDictDataPage(DictDataPageReqVO pageReqVO) {
         return dictDataMapper.selectPage(pageReqVO);
     }
 
     @Override
-    public DictDataDO getDictData(Long id) {
+    public DictDataEntity getDictData(Long id) {
         return dictDataMapper.selectById(id);
     }
 
@@ -70,7 +70,7 @@ public class DictDataServiceImpl implements DictDataService {
         validateDictDataValueUnique(null, createReqVO.getDictType(), createReqVO.getValue());
 
         // 插入字典类型
-        DictDataDO dictData = BeanUtils.toBean(createReqVO, DictDataDO.class);
+        DictDataEntity dictData = BeanUtils.toBean(createReqVO, DictDataEntity.class);
         dictDataMapper.insert(dictData);
         return dictData.getId();
     }
@@ -85,7 +85,7 @@ public class DictDataServiceImpl implements DictDataService {
         validateDictDataValueUnique(updateReqVO.getId(), updateReqVO.getDictType(), updateReqVO.getValue());
 
         // 更新字典类型
-        DictDataDO updateObj = BeanUtils.toBean(updateReqVO, DictDataDO.class);
+        DictDataEntity updateObj = BeanUtils.toBean(updateReqVO, DictDataEntity.class);
         dictDataMapper.updateById(updateObj);
     }
 
@@ -110,7 +110,7 @@ public class DictDataServiceImpl implements DictDataService {
 
     @VisibleForTesting
     public void validateDictDataValueUnique(Long id, String dictType, String value) {
-        DictDataDO dictData = dictDataMapper.selectByDictTypeAndValue(dictType, value);
+        DictDataEntity dictData = dictDataMapper.selectByDictTypeAndValue(dictType, value);
         if (dictData == null) {
             return;
         }
@@ -128,7 +128,7 @@ public class DictDataServiceImpl implements DictDataService {
         if (id == null) {
             return;
         }
-        DictDataDO dictData = dictDataMapper.selectById(id);
+        DictDataEntity dictData = dictDataMapper.selectById(id);
         if (dictData == null) {
             throw exception(DICT_DATA_NOT_EXISTS);
         }
@@ -136,7 +136,7 @@ public class DictDataServiceImpl implements DictDataService {
 
     @VisibleForTesting
     public void validateDictTypeExists(String type) {
-        DictTypeDO dictType = dictTypeService.getDictType(type);
+        DictTypeEntity dictType = dictTypeService.getDictType(type);
         if (dictType == null) {
             throw exception(DICT_TYPE_NOT_EXISTS);
         }
@@ -150,11 +150,11 @@ public class DictDataServiceImpl implements DictDataService {
         if (CollUtil.isEmpty(values)) {
             return;
         }
-        Map<String, DictDataDO> dictDataMap = CollectionUtils.convertMap(
-                dictDataMapper.selectByDictTypeAndValues(dictType, values), DictDataDO::getValue);
+        Map<String, DictDataEntity> dictDataMap = CollectionUtils.convertMap(
+                dictDataMapper.selectByDictTypeAndValues(dictType, values), DictDataEntity::getValue);
         // 校验
         values.forEach(value -> {
-            DictDataDO dictData = dictDataMap.get(value);
+            DictDataEntity dictData = dictDataMap.get(value);
             if (dictData == null) {
                 throw exception(DICT_DATA_NOT_EXISTS);
             }
@@ -165,19 +165,19 @@ public class DictDataServiceImpl implements DictDataService {
     }
 
     @Override
-    public DictDataDO getDictData(String dictType, String value) {
+    public DictDataEntity getDictData(String dictType, String value) {
         return dictDataMapper.selectByDictTypeAndValue(dictType, value);
     }
 
     @Override
-    public DictDataDO parseDictData(String dictType, String label) {
+    public DictDataEntity parseDictData(String dictType, String label) {
         return dictDataMapper.selectByDictTypeAndLabel(dictType, label);
     }
 
     @Override
-    public List<DictDataDO> getDictDataListByDictType(String dictType) {
-        List<DictDataDO> list = dictDataMapper.selectList(DictDataDO::getDictType, dictType);
-        list.sort(Comparator.comparing(DictDataDO::getSort));
+    public List<DictDataEntity> getDictDataListByDictType(String dictType) {
+        List<DictDataEntity> list = dictDataMapper.selectList(DictDataEntity::getDictType, dictType);
+        list.sort(Comparator.comparing(DictDataEntity::getSort));
         return list;
     }
 

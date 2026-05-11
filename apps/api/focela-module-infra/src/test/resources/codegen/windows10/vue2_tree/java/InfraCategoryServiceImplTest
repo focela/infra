@@ -8,8 +8,8 @@ import javax.annotation.Resource;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 
 import com.focela.platform.module.infra.controller.admin.demo.vo.*;
-import com.focela.platform.module.infra.dal.dataobject.demo.InfraCategoryDO;
-import com.focela.platform.module.infra.dal.mysql.demo.InfraCategoryMapper;
+import com.focela.platform.module.infra.repository.entity.demo.InfraCategoryDO;
+import com.focela.platform.module.infra.repository.mapper.demo.InfraCategoryMapper;
 import com.focela.platform.framework.common.pojo.PageResult;
 
 import javax.annotation.Resource;

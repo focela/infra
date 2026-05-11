@@ -3,7 +3,7 @@ package com.focela.platform.module.system.service.sms;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.system.controller.admin.sms.vo.template.SmsTemplatePageReqVO;
 import com.focela.platform.module.system.controller.admin.sms.vo.template.SmsTemplateSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.sms.SmsTemplateDO;
+import com.focela.platform.module.system.repository.entity.sms.SmsTemplateEntity;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -52,7 +52,7 @@ public interface SmsTemplateService {
      * @param id 编号
      * @return 短信模板
      */
-    SmsTemplateDO getSmsTemplate(Long id);
+    SmsTemplateEntity getSmsTemplate(Long id);
 
     /**
      * 获得短信模板，从缓存中
@@ -60,7 +60,7 @@ public interface SmsTemplateService {
      * @param code 模板编码
      * @return 短信模板
      */
-    SmsTemplateDO getSmsTemplateByCodeFromCache(String code);
+    SmsTemplateEntity getSmsTemplateByCodeFromCache(String code);
 
     /**
      * 获得短信模板分页
@@ -68,7 +68,7 @@ public interface SmsTemplateService {
      * @param pageReqVO 分页查询
      * @return 短信模板分页
      */
-    PageResult<SmsTemplateDO> getSmsTemplatePage(SmsTemplatePageReqVO pageReqVO);
+    PageResult<SmsTemplateEntity> getSmsTemplatePage(SmsTemplatePageReqVO pageReqVO);
 
     /**
      * 获得指定短信渠道下的短信模板数量

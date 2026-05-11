@@ -9,9 +9,9 @@ import com.focela.platform.framework.excel.core.util.ExcelUtils;
 import com.focela.platform.module.infra.controller.admin.demo.demo03.erp.vo.Demo03StudentErpPageReqVO;
 import com.focela.platform.module.infra.controller.admin.demo.demo03.erp.vo.Demo03StudentErpRespVO;
 import com.focela.platform.module.infra.controller.admin.demo.demo03.erp.vo.Demo03StudentErpSaveReqVO;
-import com.focela.platform.module.infra.dal.dataobject.demo.demo03.Demo03CourseDO;
-import com.focela.platform.module.infra.dal.dataobject.demo.demo03.Demo03GradeDO;
-import com.focela.platform.module.infra.dal.dataobject.demo.demo03.Demo03StudentDO;
+import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03CourseEntity;
+import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03GradeEntity;
+import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03StudentEntity;
 import com.focela.platform.module.infra.service.demo.demo03.erp.Demo03StudentErpService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -76,7 +76,7 @@ public class Demo03StudentErpController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:demo03-student:query')")
     public CommonResult<Demo03StudentErpRespVO> getDemo03Student(@RequestParam("id") Long id) {
-        Demo03StudentDO demo03Student = demo03StudentErpService.getDemo03Student(id);
+        Demo03StudentEntity demo03Student = demo03StudentErpService.getDemo03Student(id);
         return success(BeanUtils.toBean(demo03Student, Demo03StudentErpRespVO.class));
     }
 
@@ -84,7 +84,7 @@ public class Demo03StudentErpController {
     @Operation(summary = "获得学生分页")
     @PreAuthorize("@ss.hasPermission('infra:demo03-student:query')")
     public CommonResult<PageResult<Demo03StudentErpRespVO>> getDemo03StudentPage(@Valid Demo03StudentErpPageReqVO pageReqVO) {
-        PageResult<Demo03StudentDO> pageResult = demo03StudentErpService.getDemo03StudentPage(pageReqVO);
+        PageResult<Demo03StudentEntity> pageResult = demo03StudentErpService.getDemo03StudentPage(pageReqVO);
         return success(BeanUtils.toBean(pageResult, Demo03StudentErpRespVO.class));
     }
 
@@ -95,7 +95,7 @@ public class Demo03StudentErpController {
     public void exportDemo03StudentExcel(@Valid Demo03StudentErpPageReqVO pageReqVO,
                                          HttpServletResponse response) throws IOException {
         pageReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<Demo03StudentDO> list = demo03StudentErpService.getDemo03StudentPage(pageReqVO).getList();
+        List<Demo03StudentEntity> list = demo03StudentErpService.getDemo03StudentPage(pageReqVO).getList();
         // 导出 Excel
         ExcelUtils.write(response, "学生.xls", "数据", Demo03StudentErpRespVO.class,
                 BeanUtils.toBean(list, Demo03StudentErpRespVO.class));
@@ -107,7 +107,7 @@ public class Demo03StudentErpController {
     @Operation(summary = "获得学生课程分页")
     @Parameter(name = "studentId", description = "学生编号")
     @PreAuthorize("@ss.hasPermission('infra:demo03-student:query')")
-    public CommonResult<PageResult<Demo03CourseDO>> getDemo03CoursePage(PageParam pageReqVO,
+    public CommonResult<PageResult<Demo03CourseEntity>> getDemo03CoursePage(PageParam pageReqVO,
                                                                         @RequestParam("studentId") Long studentId) {
         return success(demo03StudentErpService.getDemo03CoursePage(pageReqVO, studentId));
     }
@@ -115,14 +115,14 @@ public class Demo03StudentErpController {
     @PostMapping("/demo03-course/create")
     @Operation(summary = "创建学生课程")
     @PreAuthorize("@ss.hasPermission('infra:demo03-student:create')")
-    public CommonResult<Long> createDemo03Course(@Valid @RequestBody Demo03CourseDO demo03Course) {
+    public CommonResult<Long> createDemo03Course(@Valid @RequestBody Demo03CourseEntity demo03Course) {
         return success(demo03StudentErpService.createDemo03Course(demo03Course));
     }
 
     @PutMapping("/demo03-course/update")
     @Operation(summary = "更新学生课程")
     @PreAuthorize("@ss.hasPermission('infra:demo03-student:update')")
-    public CommonResult<Boolean> updateDemo03Course(@Valid @RequestBody Demo03CourseDO demo03Course) {
+    public CommonResult<Boolean> updateDemo03Course(@Valid @RequestBody Demo03CourseEntity demo03Course) {
         demo03StudentErpService.updateDemo03Course(demo03Course);
         return success(true);
     }
@@ -149,7 +149,7 @@ public class Demo03StudentErpController {
     @Operation(summary = "获得学生课程")
     @Parameter(name = "id", description = "编号", required = true)
     @PreAuthorize("@ss.hasPermission('infra:demo03-student:query')")
-    public CommonResult<Demo03CourseDO> getDemo03Course(@RequestParam("id") Long id) {
+    public CommonResult<Demo03CourseEntity> getDemo03Course(@RequestParam("id") Long id) {
         return success(demo03StudentErpService.getDemo03Course(id));
     }
 
@@ -159,7 +159,7 @@ public class Demo03StudentErpController {
     @Operation(summary = "获得学生班级分页")
     @Parameter(name = "studentId", description = "学生编号")
     @PreAuthorize("@ss.hasPermission('infra:demo03-student:query')")
-    public CommonResult<PageResult<Demo03GradeDO>> getDemo03GradePage(PageParam pageReqVO,
+    public CommonResult<PageResult<Demo03GradeEntity>> getDemo03GradePage(PageParam pageReqVO,
                                                                       @RequestParam("studentId") Long studentId) {
         return success(demo03StudentErpService.getDemo03GradePage(pageReqVO, studentId));
     }
@@ -167,14 +167,14 @@ public class Demo03StudentErpController {
     @PostMapping("/demo03-grade/create")
     @Operation(summary = "创建学生班级")
     @PreAuthorize("@ss.hasPermission('infra:demo03-student:create')")
-    public CommonResult<Long> createDemo03Grade(@Valid @RequestBody Demo03GradeDO demo03Grade) {
+    public CommonResult<Long> createDemo03Grade(@Valid @RequestBody Demo03GradeEntity demo03Grade) {
         return success(demo03StudentErpService.createDemo03Grade(demo03Grade));
     }
 
     @PutMapping("/demo03-grade/update")
     @Operation(summary = "更新学生班级")
     @PreAuthorize("@ss.hasPermission('infra:demo03-student:update')")
-    public CommonResult<Boolean> updateDemo03Grade(@Valid @RequestBody Demo03GradeDO demo03Grade) {
+    public CommonResult<Boolean> updateDemo03Grade(@Valid @RequestBody Demo03GradeEntity demo03Grade) {
         demo03StudentErpService.updateDemo03Grade(demo03Grade);
         return success(true);
     }
@@ -201,7 +201,7 @@ public class Demo03StudentErpController {
     @Operation(summary = "获得学生班级")
     @Parameter(name = "id", description = "编号", required = true)
     @PreAuthorize("@ss.hasPermission('infra:demo03-student:query')")
-    public CommonResult<Demo03GradeDO> getDemo03Grade(@RequestParam("id") Long id) {
+    public CommonResult<Demo03GradeEntity> getDemo03Grade(@RequestParam("id") Long id) {
         return success(demo03StudentErpService.getDemo03Grade(id));
     }
 

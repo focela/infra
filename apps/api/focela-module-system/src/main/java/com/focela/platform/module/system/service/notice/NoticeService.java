@@ -3,7 +3,7 @@ package com.focela.platform.module.system.service.notice;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.system.controller.admin.notice.vo.NoticePageReqVO;
 import com.focela.platform.module.system.controller.admin.notice.vo.NoticeSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.notice.NoticeDO;
+import com.focela.platform.module.system.repository.entity.notice.NoticeEntity;
 
 import java.util.List;
 
@@ -47,7 +47,7 @@ public interface NoticeService {
      * @param reqVO 分页条件
      * @return 部门分页列表
      */
-    PageResult<NoticeDO> getNoticePage(NoticePageReqVO reqVO);
+    PageResult<NoticeEntity> getNoticePage(NoticePageReqVO reqVO);
 
     /**
      * 获得通知公告
@@ -55,6 +55,6 @@ public interface NoticeService {
      * @param id 编号
      * @return 通知公告
      */
-    NoticeDO getNotice(Long id);
+    NoticeEntity getNotice(Long id);
 
 }

@@ -3,8 +3,8 @@ package com.focela.platform.module.infra.service.demo.demo02;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.infra.controller.admin.demo.demo02.vo.Demo02CategoryListReqVO;
 import com.focela.platform.module.infra.controller.admin.demo.demo02.vo.Demo02CategorySaveReqVO;
-import com.focela.platform.module.infra.dal.dataobject.demo.demo02.Demo02CategoryDO;
-import com.focela.platform.module.infra.dal.mysql.demo.demo02.Demo02CategoryMapper;
+import com.focela.platform.module.infra.repository.entity.demo.demo02.Demo02CategoryEntity;
+import com.focela.platform.module.infra.repository.mapper.demo.demo02.Demo02CategoryMapper;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -35,7 +35,7 @@ public class Demo02CategoryServiceImpl implements Demo02CategoryService {
         validateDemo02CategoryNameUnique(null, createReqVO.getParentId(), createReqVO.getName());
 
         // 插入
-        Demo02CategoryDO demo02Category = BeanUtils.toBean(createReqVO, Demo02CategoryDO.class);
+        Demo02CategoryEntity demo02Category = BeanUtils.toBean(createReqVO, Demo02CategoryEntity.class);
         demo02CategoryMapper.insert(demo02Category);
         // 返回
         return demo02Category.getId();
@@ -51,7 +51,7 @@ public class Demo02CategoryServiceImpl implements Demo02CategoryService {
         validateDemo02CategoryNameUnique(updateReqVO.getId(), updateReqVO.getParentId(), updateReqVO.getName());
 
         // 更新
-        Demo02CategoryDO updateObj = BeanUtils.toBean(updateReqVO, Demo02CategoryDO.class);
+        Demo02CategoryEntity updateObj = BeanUtils.toBean(updateReqVO, Demo02CategoryEntity.class);
         demo02CategoryMapper.updateById(updateObj);
     }
 
@@ -74,7 +74,7 @@ public class Demo02CategoryServiceImpl implements Demo02CategoryService {
     }
 
     private void validateParentDemo02Category(Long id, Long parentId) {
-        if (parentId == null || Demo02CategoryDO.PARENT_ID_ROOT.equals(parentId)) {
+        if (parentId == null || Demo02CategoryEntity.PARENT_ID_ROOT.equals(parentId)) {
             return;
         }
         // 1. 不能设置自己为父示例分类
@@ -82,7 +82,7 @@ public class Demo02CategoryServiceImpl implements Demo02CategoryService {
             throw exception(DEMO02_CATEGORY_PARENT_ERROR);
         }
         // 2. 父示例分类不存在
-        Demo02CategoryDO parentDemo02Category = demo02CategoryMapper.selectById(parentId);
+        Demo02CategoryEntity parentDemo02Category = demo02CategoryMapper.selectById(parentId);
         if (parentDemo02Category == null) {
             throw exception(DEMO02_CATEGORY_PARENT_NOT_EXITS);
         }
@@ -97,7 +97,7 @@ public class Demo02CategoryServiceImpl implements Demo02CategoryService {
                 throw exception(DEMO02_CATEGORY_PARENT_IS_CHILD);
             }
             // 3.2 继续递归下一级父示例分类
-            if (parentId == null || Demo02CategoryDO.PARENT_ID_ROOT.equals(parentId)) {
+            if (parentId == null || Demo02CategoryEntity.PARENT_ID_ROOT.equals(parentId)) {
                 break;
             }
             parentDemo02Category = demo02CategoryMapper.selectById(parentId);
@@ -108,7 +108,7 @@ public class Demo02CategoryServiceImpl implements Demo02CategoryService {
     }
 
     private void validateDemo02CategoryNameUnique(Long id, Long parentId, String name) {
-        Demo02CategoryDO demo02Category = demo02CategoryMapper.selectByParentIdAndName(parentId, name);
+        Demo02CategoryEntity demo02Category = demo02CategoryMapper.selectByParentIdAndName(parentId, name);
         if (demo02Category == null) {
             return;
         }
@@ -122,12 +122,12 @@ public class Demo02CategoryServiceImpl implements Demo02CategoryService {
     }
 
     @Override
-    public Demo02CategoryDO getDemo02Category(Long id) {
+    public Demo02CategoryEntity getDemo02Category(Long id) {
         return demo02CategoryMapper.selectById(id);
     }
 
     @Override
-    public List<Demo02CategoryDO> getDemo02CategoryList(Demo02CategoryListReqVO listReqVO) {
+    public List<Demo02CategoryEntity> getDemo02CategoryList(Demo02CategoryListReqVO listReqVO) {
         return demo02CategoryMapper.selectList(listReqVO);
     }
 

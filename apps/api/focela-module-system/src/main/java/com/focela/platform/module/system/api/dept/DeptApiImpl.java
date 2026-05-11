@@ -2,7 +2,7 @@ package com.focela.platform.module.system.api.dept;
 
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.system.api.dept.dto.DeptRespDTO;
-import com.focela.platform.module.system.dal.dataobject.dept.DeptDO;
+import com.focela.platform.module.system.repository.entity.dept.DeptEntity;
 import com.focela.platform.module.system.service.dept.DeptService;
 import org.springframework.stereotype.Service;
 
@@ -23,13 +23,13 @@ public class DeptApiImpl implements DeptApi {
 
     @Override
     public DeptRespDTO getDept(Long id) {
-        DeptDO dept = deptService.getDept(id);
+        DeptEntity dept = deptService.getDept(id);
         return BeanUtils.toBean(dept, DeptRespDTO.class);
     }
 
     @Override
     public List<DeptRespDTO> getDeptList(Collection<Long> ids) {
-        List<DeptDO> depts = deptService.getDeptList(ids);
+        List<DeptEntity> depts = deptService.getDeptList(ids);
         return BeanUtils.toBean(depts, DeptRespDTO.class);
     }
 
@@ -40,7 +40,7 @@ public class DeptApiImpl implements DeptApi {
 
     @Override
     public List<DeptRespDTO> getChildDeptList(Long id) {
-        List<DeptDO> childDeptList = deptService.getChildDeptList(id);
+        List<DeptEntity> childDeptList = deptService.getChildDeptList(id);
         return BeanUtils.toBean(childDeptList, DeptRespDTO.class);
     }
 

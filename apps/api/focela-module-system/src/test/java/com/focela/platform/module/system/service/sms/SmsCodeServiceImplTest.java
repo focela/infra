@@ -5,8 +5,8 @@ import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.module.system.api.sms.dto.code.SmsCodeSendReqDTO;
 import com.focela.platform.module.system.api.sms.dto.code.SmsCodeUseReqDTO;
 import com.focela.platform.module.system.api.sms.dto.code.SmsCodeValidateReqDTO;
-import com.focela.platform.module.system.dal.dataobject.sms.SmsCodeDO;
-import com.focela.platform.module.system.dal.mysql.sms.SmsCodeMapper;
+import com.focela.platform.module.system.repository.entity.sms.SmsCodeEntity;
+import com.focela.platform.module.system.repository.mapper.sms.SmsCodeMapper;
 import com.focela.platform.module.system.enums.sms.SmsSceneEnum;
 import com.focela.platform.module.system.framework.sms.config.SmsCodeProperties;
 import jakarta.annotation.Resource;
@@ -63,7 +63,7 @@ public class SmsCodeServiceImplTest extends BaseDbUnitTest {
         // 调用
         smsCodeService.sendSmsCode(reqDTO);
         // 断言 code 验证码
-        SmsCodeDO smsCodeDO = smsCodeMapper.selectOne(null);
+        SmsCodeEntity smsCodeDO = smsCodeMapper.selectOne(null);
         assertPojoEquals(reqDTO, smsCodeDO);
         assertEquals("9999", smsCodeDO.getCode());
         assertEquals(1, smsCodeDO.getTodayIndex());
@@ -76,7 +76,7 @@ public class SmsCodeServiceImplTest extends BaseDbUnitTest {
     @Test
     public void sendSmsCode_tooFast() {
         // mock 数据
-        SmsCodeDO smsCodeDO = randomPojo(SmsCodeDO.class,
+        SmsCodeEntity smsCodeDO = randomPojo(SmsCodeEntity.class,
                 o -> o.setMobile("15601691300").setTodayIndex(1));
         smsCodeMapper.insert(smsCodeDO);
         // 准备参数
@@ -93,7 +93,7 @@ public class SmsCodeServiceImplTest extends BaseDbUnitTest {
     @Test
     public void sendSmsCode_exceedDay() {
         // mock 数据
-        SmsCodeDO smsCodeDO = randomPojo(SmsCodeDO.class,
+        SmsCodeEntity smsCodeDO = randomPojo(SmsCodeEntity.class,
                 o -> o.setMobile("15601691300").setTodayIndex(10).setCreateTime(LocalDateTime.now()));
         smsCodeMapper.insert(smsCodeDO);
         // 准备参数
@@ -115,7 +115,7 @@ public class SmsCodeServiceImplTest extends BaseDbUnitTest {
             o.setMobile("15601691300");
             o.setScene(randomEle(SmsSceneEnum.values()).getScene());
         });
-        smsCodeMapper.insert(randomPojo(SmsCodeDO.class, o -> {
+        smsCodeMapper.insert(randomPojo(SmsCodeEntity.class, o -> {
             o.setMobile(reqDTO.getMobile()).setScene(reqDTO.getScene())
                     .setCode(reqDTO.getCode()).setUsed(false);
         }));
@@ -123,7 +123,7 @@ public class SmsCodeServiceImplTest extends BaseDbUnitTest {
         // 调用
         smsCodeService.useSmsCode(reqDTO);
         // 断言
-        SmsCodeDO smsCodeDO = smsCodeMapper.selectOne(null);
+        SmsCodeEntity smsCodeDO = smsCodeMapper.selectOne(null);
         assertTrue(smsCodeDO.getUsed());
         assertNotNull(smsCodeDO.getUsedTime());
         assertEquals(reqDTO.getUsedIp(), smsCodeDO.getUsedIp());
@@ -136,7 +136,7 @@ public class SmsCodeServiceImplTest extends BaseDbUnitTest {
             o.setMobile("15601691300");
             o.setScene(randomEle(SmsSceneEnum.values()).getScene());
         });
-        smsCodeMapper.insert(randomPojo(SmsCodeDO.class, o -> o.setMobile(reqDTO.getMobile())
+        smsCodeMapper.insert(randomPojo(SmsCodeEntity.class, o -> o.setMobile(reqDTO.getMobile())
                 .setScene(reqDTO.getScene()).setCode(reqDTO.getCode()).setUsed(false)));
 
         // 调用
@@ -163,7 +163,7 @@ public class SmsCodeServiceImplTest extends BaseDbUnitTest {
             o.setMobile("15601691300");
             o.setScene(randomEle(SmsSceneEnum.values()).getScene());
         });
-        smsCodeMapper.insert(randomPojo(SmsCodeDO.class, o -> o.setMobile(reqDTO.getMobile())
+        smsCodeMapper.insert(randomPojo(SmsCodeEntity.class, o -> o.setMobile(reqDTO.getMobile())
                 .setScene(reqDTO.getScene()).setCode(reqDTO.getCode()).setUsed(false)
                 .setCreateTime(LocalDateTime.now().minusMinutes(6))));
 
@@ -179,7 +179,7 @@ public class SmsCodeServiceImplTest extends BaseDbUnitTest {
             o.setMobile("15601691300");
             o.setScene(randomEle(SmsSceneEnum.values()).getScene());
         });
-        smsCodeMapper.insert(randomPojo(SmsCodeDO.class, o -> o.setMobile(reqDTO.getMobile())
+        smsCodeMapper.insert(randomPojo(SmsCodeEntity.class, o -> o.setMobile(reqDTO.getMobile())
                 .setScene(reqDTO.getScene()).setCode(reqDTO.getCode()).setUsed(true)
                 .setCreateTime(LocalDateTime.now())));
 

@@ -3,8 +3,8 @@ package com.focela.platform.module.infra.service.db;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.mybatis.core.util.JdbcUtils;
 import com.focela.platform.module.infra.controller.admin.db.vo.DataSourceConfigSaveReqVO;
-import com.focela.platform.module.infra.dal.dataobject.db.DataSourceConfigDO;
-import com.focela.platform.module.infra.dal.mysql.db.DataSourceConfigMapper;
+import com.focela.platform.module.infra.repository.entity.db.DataSourceConfigEntity;
+import com.focela.platform.module.infra.repository.mapper.db.DataSourceConfigMapper;
 import com.baomidou.dynamic.datasource.creator.DataSourceProperty;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties;
 import jakarta.annotation.Resource;
@@ -35,7 +35,7 @@ public class DataSourceConfigServiceImpl implements DataSourceConfigService {
 
     @Override
     public Long createDataSourceConfig(DataSourceConfigSaveReqVO createReqVO) {
-        DataSourceConfigDO config = BeanUtils.toBean(createReqVO, DataSourceConfigDO.class);
+        DataSourceConfigEntity config = BeanUtils.toBean(createReqVO, DataSourceConfigEntity.class);
         validateConnectionOK(config);
 
         // 插入
@@ -48,7 +48,7 @@ public class DataSourceConfigServiceImpl implements DataSourceConfigService {
     public void updateDataSourceConfig(DataSourceConfigSaveReqVO updateReqVO) {
         // 校验存在
         validateDataSourceConfigExists(updateReqVO.getId());
-        DataSourceConfigDO updateObj = BeanUtils.toBean(updateReqVO, DataSourceConfigDO.class);
+        DataSourceConfigEntity updateObj = BeanUtils.toBean(updateReqVO, DataSourceConfigEntity.class);
         validateConnectionOK(updateObj);
 
         // 更新
@@ -75,9 +75,9 @@ public class DataSourceConfigServiceImpl implements DataSourceConfigService {
     }
 
     @Override
-    public DataSourceConfigDO getDataSourceConfig(Long id) {
+    public DataSourceConfigEntity getDataSourceConfig(Long id) {
         // 如果 id 为 0，默认为 master 的数据源
-        if (Objects.equals(id, DataSourceConfigDO.ID_MASTER)) {
+        if (Objects.equals(id, DataSourceConfigEntity.ID_MASTER)) {
             return buildMasterDataSourceConfig();
         }
         // 从 DB 中读取
@@ -85,24 +85,24 @@ public class DataSourceConfigServiceImpl implements DataSourceConfigService {
     }
 
     @Override
-    public List<DataSourceConfigDO> getDataSourceConfigList() {
-        List<DataSourceConfigDO> result = dataSourceConfigMapper.selectList();
+    public List<DataSourceConfigEntity> getDataSourceConfigList() {
+        List<DataSourceConfigEntity> result = dataSourceConfigMapper.selectList();
         // 补充 master 数据源
         result.add(0, buildMasterDataSourceConfig());
         return result;
     }
 
-    private void validateConnectionOK(DataSourceConfigDO config) {
+    private void validateConnectionOK(DataSourceConfigEntity config) {
         boolean success = JdbcUtils.isConnectionOK(config.getUrl(), config.getUsername(), config.getPassword());
         if (!success) {
             throw exception(DATA_SOURCE_CONFIG_NOT_OK);
         }
     }
 
-    private DataSourceConfigDO buildMasterDataSourceConfig() {
+    private DataSourceConfigEntity buildMasterDataSourceConfig() {
         String primary = dynamicDataSourceProperties.getPrimary();
         DataSourceProperty dataSourceProperty = dynamicDataSourceProperties.getDatasource().get(primary);
-        return new DataSourceConfigDO().setId(DataSourceConfigDO.ID_MASTER).setName(primary)
+        return new DataSourceConfigEntity().setId(DataSourceConfigEntity.ID_MASTER).setName(primary)
                 .setUrl(dataSourceProperty.getUrl())
                 .setUsername(dataSourceProperty.getUsername())
                 .setPassword(dataSourceProperty.getPassword());

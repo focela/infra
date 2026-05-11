@@ -10,7 +10,7 @@ import com.focela.platform.module.system.controller.admin.sms.vo.template.SmsTem
 import com.focela.platform.module.system.controller.admin.sms.vo.template.SmsTemplateRespVO;
 import com.focela.platform.module.system.controller.admin.sms.vo.template.SmsTemplateSaveReqVO;
 import com.focela.platform.module.system.controller.admin.sms.vo.template.SmsTemplateSendReqVO;
-import com.focela.platform.module.system.dal.dataobject.sms.SmsTemplateDO;
+import com.focela.platform.module.system.repository.entity.sms.SmsTemplateEntity;
 import com.focela.platform.module.system.service.sms.SmsSendService;
 import com.focela.platform.module.system.service.sms.SmsTemplateService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -76,7 +76,7 @@ public class SmsTemplateController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:sms-template:query')")
     public CommonResult<SmsTemplateRespVO> getSmsTemplate(@RequestParam("id") Long id) {
-        SmsTemplateDO template = smsTemplateService.getSmsTemplate(id);
+        SmsTemplateEntity template = smsTemplateService.getSmsTemplate(id);
         return success(BeanUtils.toBean(template, SmsTemplateRespVO.class));
     }
 
@@ -84,7 +84,7 @@ public class SmsTemplateController {
     @Operation(summary = "获得短信模板分页")
     @PreAuthorize("@ss.hasPermission('system:sms-template:query')")
     public CommonResult<PageResult<SmsTemplateRespVO>> getSmsTemplatePage(@Valid SmsTemplatePageReqVO pageVO) {
-        PageResult<SmsTemplateDO> pageResult = smsTemplateService.getSmsTemplatePage(pageVO);
+        PageResult<SmsTemplateEntity> pageResult = smsTemplateService.getSmsTemplatePage(pageVO);
         return success(BeanUtils.toBean(pageResult, SmsTemplateRespVO.class));
     }
 
@@ -95,7 +95,7 @@ public class SmsTemplateController {
     public void exportSmsTemplateExcel(@Valid SmsTemplatePageReqVO exportReqVO,
                                        HttpServletResponse response) throws IOException {
         exportReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<SmsTemplateDO> list = smsTemplateService.getSmsTemplatePage(exportReqVO).getList();
+        List<SmsTemplateEntity> list = smsTemplateService.getSmsTemplatePage(exportReqVO).getList();
         // 导出 Excel
         ExcelUtils.write(response, "短信模板.xls", "数据", SmsTemplateRespVO.class,
                 BeanUtils.toBean(list, SmsTemplateRespVO.class));

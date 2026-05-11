@@ -3,7 +3,7 @@ package com.focela.platform.module.system.service.dept;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.system.controller.admin.dept.vo.post.PostPageReqVO;
 import com.focela.platform.module.system.controller.admin.dept.vo.post.PostSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.dept.PostDO;
+import com.focela.platform.module.system.repository.entity.dept.PostEntity;
 import org.springframework.lang.Nullable;
 
 import java.util.Collection;
@@ -51,7 +51,7 @@ public interface PostService {
      * @param ids 岗位编号数组
      * @return 部门列表
      */
-    List<PostDO> getPostList(@Nullable Collection<Long> ids);
+    List<PostEntity> getPostList(@Nullable Collection<Long> ids);
 
     /**
      * 获得符合条件的岗位列表
@@ -60,7 +60,7 @@ public interface PostService {
      * @param statuses 状态数组。如果为空，不进行筛选
      * @return 部门列表
      */
-    List<PostDO> getPostList(@Nullable Collection<Long> ids,
+    List<PostEntity> getPostList(@Nullable Collection<Long> ids,
                              @Nullable Collection<Integer> statuses);
 
     /**
@@ -69,7 +69,7 @@ public interface PostService {
      * @param reqVO 分页条件
      * @return 部门分页列表
      */
-    PageResult<PostDO> getPostPage(PostPageReqVO reqVO);
+    PageResult<PostEntity> getPostPage(PostPageReqVO reqVO);
 
     /**
      * 获得岗位信息
@@ -77,7 +77,7 @@ public interface PostService {
      * @param id 岗位编号
      * @return 岗位信息
      */
-    PostDO getPost(Long id);
+    PostEntity getPost(Long id);
 
     /**
      * 校验岗位们是否有效。如下情况，视为无效：

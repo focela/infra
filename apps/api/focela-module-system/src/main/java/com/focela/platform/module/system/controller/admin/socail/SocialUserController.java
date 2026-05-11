@@ -9,7 +9,7 @@ import com.focela.platform.module.system.controller.admin.socail.vo.user.SocialU
 import com.focela.platform.module.system.controller.admin.socail.vo.user.SocialUserPageReqVO;
 import com.focela.platform.module.system.controller.admin.socail.vo.user.SocialUserRespVO;
 import com.focela.platform.module.system.controller.admin.socail.vo.user.SocialUserUnbindReqVO;
-import com.focela.platform.module.system.dal.dataobject.social.SocialUserDO;
+import com.focela.platform.module.system.repository.entity.social.SocialUserEntity;
 import com.focela.platform.module.system.service.social.SocialUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -54,7 +54,7 @@ public class SocialUserController {
     @GetMapping("/get-bind-list")
     @Operation(summary = "获得绑定社交用户列表")
     public CommonResult<List<SocialUserRespVO>> getBindSocialUserList() {
-        List<SocialUserDO> list = socialUserService.getSocialUserList(getLoginUserId(), UserTypeEnum.ADMIN.getValue());
+        List<SocialUserEntity> list = socialUserService.getSocialUserList(getLoginUserId(), UserTypeEnum.ADMIN.getValue());
         return success(convertList(list, socialUser -> new SocialUserRespVO() // 返回精简信息
                 .setId(socialUser.getId()).setType(socialUser.getType()).setOpenid(socialUser.getOpenid())
                 .setNickname(socialUser.getNickname()).setAvatar(socialUser.getNickname())));
@@ -67,7 +67,7 @@ public class SocialUserController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:social-user:query')")
     public CommonResult<SocialUserRespVO> getSocialUser(@RequestParam("id") Long id) {
-        SocialUserDO socialUser = socialUserService.getSocialUser(id);
+        SocialUserEntity socialUser = socialUserService.getSocialUser(id);
         return success(BeanUtils.toBean(socialUser, SocialUserRespVO.class));
     }
 
@@ -75,7 +75,7 @@ public class SocialUserController {
     @Operation(summary = "获得社交用户分页")
     @PreAuthorize("@ss.hasPermission('system:social-user:query')")
     public CommonResult<PageResult<SocialUserRespVO>> getSocialUserPage(@Valid SocialUserPageReqVO pageVO) {
-        PageResult<SocialUserDO> pageResult = socialUserService.getSocialUserPage(pageVO);
+        PageResult<SocialUserEntity> pageResult = socialUserService.getSocialUserPage(pageVO);
         return success(BeanUtils.toBean(pageResult, SocialUserRespVO.class));
     }
 

@@ -5,7 +5,7 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.oauth2.vo.token.OAuth2AccessTokenPageReqVO;
 import com.focela.platform.module.system.controller.admin.oauth2.vo.token.OAuth2AccessTokenRespVO;
-import com.focela.platform.module.system.dal.dataobject.oauth2.OAuth2AccessTokenDO;
+import com.focela.platform.module.system.repository.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.module.system.enums.logger.LoginLogTypeEnum;
 import com.focela.platform.module.system.service.auth.AdminAuthService;
 import com.focela.platform.module.system.service.oauth2.OAuth2TokenService;
@@ -35,7 +35,7 @@ public class OAuth2TokenController {
     @Operation(summary = "获得访问令牌分页", description = "只返回有效期内的")
     @PreAuthorize("@ss.hasPermission('system:oauth2-token:page')")
     public CommonResult<PageResult<OAuth2AccessTokenRespVO>> getAccessTokenPage(@Valid OAuth2AccessTokenPageReqVO reqVO) {
-        PageResult<OAuth2AccessTokenDO> pageResult = oauth2TokenService.getAccessTokenPage(reqVO);
+        PageResult<OAuth2AccessTokenEntity> pageResult = oauth2TokenService.getAccessTokenPage(reqVO);
         return success(BeanUtils.toBean(pageResult, OAuth2AccessTokenRespVO.class));
     }
 

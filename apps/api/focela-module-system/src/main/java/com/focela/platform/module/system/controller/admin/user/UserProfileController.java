@@ -7,10 +7,10 @@ import com.focela.platform.module.system.controller.admin.user.vo.profile.UserPr
 import com.focela.platform.module.system.controller.admin.user.vo.profile.UserProfileUpdatePasswordReqVO;
 import com.focela.platform.module.system.controller.admin.user.vo.profile.UserProfileUpdateReqVO;
 import com.focela.platform.module.system.convert.user.UserConvert;
-import com.focela.platform.module.system.dal.dataobject.dept.DeptDO;
-import com.focela.platform.module.system.dal.dataobject.dept.PostDO;
-import com.focela.platform.module.system.dal.dataobject.permission.RoleDO;
-import com.focela.platform.module.system.dal.dataobject.user.AdminUserDO;
+import com.focela.platform.module.system.repository.entity.dept.DeptEntity;
+import com.focela.platform.module.system.repository.entity.dept.PostEntity;
+import com.focela.platform.module.system.repository.entity.permission.RoleEntity;
+import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
 import com.focela.platform.module.system.service.dept.DeptService;
 import com.focela.platform.module.system.service.dept.PostService;
 import com.focela.platform.module.system.service.permission.PermissionService;
@@ -52,13 +52,13 @@ public class UserProfileController {
     @DataPermission(enable = false) // 关闭数据权限，避免只查看自己时，查询不到部门。
     public CommonResult<UserProfileRespVO> getUserProfile() {
         // 获得用户基本信息
-        AdminUserDO user = userService.getUser(getLoginUserId());
+        AdminUserEntity user = userService.getUser(getLoginUserId());
         // 获得用户角色
-        List<RoleDO> userRoles = roleService.getRoleListFromCache(permissionService.getUserRoleIdListByUserId(user.getId()));
+        List<RoleEntity> userRoles = roleService.getRoleListFromCache(permissionService.getUserRoleIdListByUserId(user.getId()));
         // 获得部门信息
-        DeptDO dept = user.getDeptId() != null ? deptService.getDept(user.getDeptId()) : null;
+        DeptEntity dept = user.getDeptId() != null ? deptService.getDept(user.getDeptId()) : null;
         // 获得岗位信息
-        List<PostDO> posts = CollUtil.isNotEmpty(user.getPostIds()) ? postService.getPostList(user.getPostIds()) : null;
+        List<PostEntity> posts = CollUtil.isNotEmpty(user.getPostIds()) ? postService.getPostList(user.getPostIds()) : null;
         return success(UserConvert.INSTANCE.convert(user, userRoles, dept, posts));
     }
 

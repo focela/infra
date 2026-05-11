@@ -8,8 +8,8 @@ import com.focela.platform.framework.quartz.core.scheduler.SchedulerManager;
 import com.focela.platform.framework.quartz.core.util.CronUtils;
 import com.focela.platform.module.infra.controller.admin.job.vo.job.JobPageReqVO;
 import com.focela.platform.module.infra.controller.admin.job.vo.job.JobSaveReqVO;
-import com.focela.platform.module.infra.dal.dataobject.job.JobDO;
-import com.focela.platform.module.infra.dal.mysql.job.JobMapper;
+import com.focela.platform.module.infra.repository.entity.job.JobEntity;
+import com.focela.platform.module.infra.repository.mapper.job.JobMapper;
 import com.focela.platform.module.infra.enums.job.JobStatusEnum;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -53,8 +53,8 @@ public class JobServiceImpl implements JobService {
         // 1.2 校验 JobHandler 是否存在
         validateJobHandlerExists(createReqVO.getHandlerName());
 
-        // 2. 插入 JobDO
-        JobDO job = BeanUtils.toBean(createReqVO, JobDO.class);
+        // 2. 插入 JobEntity
+        JobEntity job = BeanUtils.toBean(createReqVO, JobEntity.class);
         job.setStatus(JobStatusEnum.INIT.getStatus());
         fillJobMonitorTimeoutEmpty(job);
         jobMapper.insert(job);
@@ -62,8 +62,8 @@ public class JobServiceImpl implements JobService {
         // 3.1 添加 Job 到 Quartz 中
         schedulerManager.addJob(job.getId(), job.getHandlerName(), job.getHandlerParam(), job.getCronExpression(),
                 createReqVO.getRetryCount(), createReqVO.getRetryInterval());
-        // 3.2 更新 JobDO
-        JobDO updateObj = JobDO.builder().id(job.getId()).status(JobStatusEnum.NORMAL.getStatus()).build();
+        // 3.2 更新 JobEntity
+        JobEntity updateObj = JobEntity.builder().id(job.getId()).status(JobStatusEnum.NORMAL.getStatus()).build();
         jobMapper.updateById(updateObj);
         return job.getId();
     }
@@ -73,7 +73,7 @@ public class JobServiceImpl implements JobService {
     public void updateJob(JobSaveReqVO updateReqVO) throws SchedulerException {
         validateCronExpression(updateReqVO.getCronExpression());
         // 1.1 校验存在
-        JobDO job = validateJobExists(updateReqVO.getId());
+        JobEntity job = validateJobExists(updateReqVO.getId());
         // 1.2 只有开启状态，才可以修改.原因是，如果出暂停状态，修改 Quartz Job 时，会导致任务又开始执行
         if (!job.getStatus().equals(JobStatusEnum.NORMAL.getStatus())) {
             throw exception(JOB_UPDATE_ONLY_NORMAL_STATUS);
@@ -81,8 +81,8 @@ public class JobServiceImpl implements JobService {
         // 1.3 校验 JobHandler 是否存在
         validateJobHandlerExists(updateReqVO.getHandlerName());
 
-        // 2. 更新 JobDO
-        JobDO updateObj = BeanUtils.toBean(updateReqVO, JobDO.class);
+        // 2. 更新 JobEntity
+        JobEntity updateObj = BeanUtils.toBean(updateReqVO, JobEntity.class);
         fillJobMonitorTimeoutEmpty(updateObj);
         jobMapper.updateById(updateObj);
 
@@ -111,13 +111,13 @@ public class JobServiceImpl implements JobService {
             throw exception(JOB_CHANGE_STATUS_INVALID);
         }
         // 校验存在
-        JobDO job = validateJobExists(id);
+        JobEntity job = validateJobExists(id);
         // 校验是否已经为当前状态
         if (job.getStatus().equals(status)) {
             throw exception(JOB_CHANGE_STATUS_EQUALS);
         }
         // 更新 Job 状态
-        JobDO updateObj = JobDO.builder().id(id).status(status).build();
+        JobEntity updateObj = JobEntity.builder().id(id).status(status).build();
         jobMapper.updateById(updateObj);
 
         // 更新状态 Job 到 Quartz 中
@@ -131,7 +131,7 @@ public class JobServiceImpl implements JobService {
     @Override
     public void triggerJob(Long id) throws SchedulerException {
         // 校验存在
-        JobDO job = validateJobExists(id);
+        JobEntity job = validateJobExists(id);
 
         // 触发 Quartz 中的 Job
         schedulerManager.triggerJob(job.getId(), job.getHandlerName(), job.getHandlerParam());
@@ -141,10 +141,10 @@ public class JobServiceImpl implements JobService {
     @Transactional(rollbackFor = Exception.class)
     public void syncJob() throws SchedulerException {
         // 1. 查询 Job 配置
-        List<JobDO> jobList = jobMapper.selectList();
+        List<JobEntity> jobList = jobMapper.selectList();
 
         // 2. 遍历处理
-        for (JobDO job : jobList) {
+        for (JobEntity job : jobList) {
             // 2.1 先删除，再创建
             schedulerManager.deleteJob(job.getHandlerName());
             schedulerManager.addJob(job.getId(), job.getHandlerName(), job.getHandlerParam(), job.getCronExpression(),
@@ -161,7 +161,7 @@ public class JobServiceImpl implements JobService {
     @Transactional(rollbackFor = Exception.class)
     public void deleteJob(Long id) throws SchedulerException {
         // 校验存在
-        JobDO job = validateJobExists(id);
+        JobEntity job = validateJobExists(id);
         // 更新
         jobMapper.deleteById(id);
 
@@ -173,17 +173,17 @@ public class JobServiceImpl implements JobService {
     @Transactional(rollbackFor = Exception.class)
     public void deleteJobList(List<Long> ids) throws SchedulerException {
         // 批量删除
-        List<JobDO> jobs = jobMapper.selectByIds(ids);
+        List<JobEntity> jobs = jobMapper.selectByIds(ids);
         jobMapper.deleteByIds(ids);
 
         // 删除 Job 到 Quartz 中
-        for (JobDO job : jobs) {
+        for (JobEntity job : jobs) {
             schedulerManager.deleteJob(job.getHandlerName());
         }
     }
 
-    private JobDO validateJobExists(Long id) {
-        JobDO job = jobMapper.selectById(id);
+    private JobEntity validateJobExists(Long id) {
+        JobEntity job = jobMapper.selectById(id);
         if (job == null) {
             throw exception(JOB_NOT_EXISTS);
         }
@@ -197,16 +197,16 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public JobDO getJob(Long id) {
+    public JobEntity getJob(Long id) {
         return jobMapper.selectById(id);
     }
 
     @Override
-    public PageResult<JobDO> getJobPage(JobPageReqVO pageReqVO) {
+    public PageResult<JobEntity> getJobPage(JobPageReqVO pageReqVO) {
         return jobMapper.selectPage(pageReqVO);
     }
 
-    private static void fillJobMonitorTimeoutEmpty(JobDO job) {
+    private static void fillJobMonitorTimeoutEmpty(JobEntity job) {
         if (job.getMonitorTimeout() == null) {
             job.setMonitorTimeout(0);
         }

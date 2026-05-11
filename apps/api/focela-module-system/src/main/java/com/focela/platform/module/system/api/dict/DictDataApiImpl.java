@@ -2,7 +2,7 @@ package com.focela.platform.module.system.api.dict;
 
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.common.biz.system.dict.dto.DictDataRespDTO;
-import com.focela.platform.module.system.dal.dataobject.dict.DictDataDO;
+import com.focela.platform.module.system.repository.entity.dict.DictDataEntity;
 import com.focela.platform.module.system.service.dict.DictDataService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class DictDataApiImpl implements DictDataApi {
 
     @Override
     public List<DictDataRespDTO> getDictDataList(String dictType) {
-        List<DictDataDO> list = dictDataService.getDictDataListByDictType(dictType);
+        List<DictDataEntity> list = dictDataService.getDictDataListByDictType(dictType);
         return BeanUtils.toBean(list, DictDataRespDTO.class);
     }
 

@@ -7,9 +7,9 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.mail.vo.template.MailTemplatePageReqVO;
 import com.focela.platform.module.system.controller.admin.mail.vo.template.MailTemplateSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.mail.MailTemplateDO;
-import com.focela.platform.module.system.dal.mysql.mail.MailTemplateMapper;
-import com.focela.platform.module.system.dal.redis.RedisKeyConstants;
+import com.focela.platform.module.system.repository.entity.mail.MailTemplateEntity;
+import com.focela.platform.module.system.repository.mapper.mail.MailTemplateMapper;
+import com.focela.platform.module.system.repository.redis.RedisKeyConstants;
 import com.google.common.annotations.VisibleForTesting;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
@@ -54,7 +54,7 @@ public class MailTemplateServiceImpl implements MailTemplateService {
         validateCodeUnique(null, createReqVO.getCode());
 
         // 插入
-        MailTemplateDO template = BeanUtils.toBean(createReqVO, MailTemplateDO.class)
+        MailTemplateEntity template = BeanUtils.toBean(createReqVO, MailTemplateEntity.class)
                 .setParams(parseTemplateTitleAndContentParams(createReqVO.getTitle(), createReqVO.getContent()));
         mailTemplateMapper.insert(template);
         return template.getId();
@@ -70,14 +70,14 @@ public class MailTemplateServiceImpl implements MailTemplateService {
         validateCodeUnique(updateReqVO.getId(),updateReqVO.getCode());
 
         // 更新
-        MailTemplateDO updateObj = BeanUtils.toBean(updateReqVO, MailTemplateDO.class)
+        MailTemplateEntity updateObj = BeanUtils.toBean(updateReqVO, MailTemplateEntity.class)
                 .setParams(parseTemplateTitleAndContentParams(updateReqVO.getTitle(), updateReqVO.getContent()));
         mailTemplateMapper.updateById(updateObj);
     }
 
     @VisibleForTesting
     void validateCodeUnique(Long id, String code) {
-        MailTemplateDO template = mailTemplateMapper.selectByCode(code);
+        MailTemplateEntity template = mailTemplateMapper.selectByCode(code);
         if (template == null) {
             return;
         }
@@ -113,21 +113,21 @@ public class MailTemplateServiceImpl implements MailTemplateService {
     }
 
     @Override
-    public MailTemplateDO getMailTemplate(Long id) {return mailTemplateMapper.selectById(id);}
+    public MailTemplateEntity getMailTemplate(Long id) {return mailTemplateMapper.selectById(id);}
 
     @Override
     @Cacheable(value = RedisKeyConstants.MAIL_TEMPLATE, key = "#code", unless = "#result == null")
-    public MailTemplateDO getMailTemplateByCodeFromCache(String code) {
+    public MailTemplateEntity getMailTemplateByCodeFromCache(String code) {
         return mailTemplateMapper.selectByCode(code);
     }
 
     @Override
-    public PageResult<MailTemplateDO> getMailTemplatePage(MailTemplatePageReqVO pageReqVO) {
+    public PageResult<MailTemplateEntity> getMailTemplatePage(MailTemplatePageReqVO pageReqVO) {
         return mailTemplateMapper.selectPage(pageReqVO);
     }
 
     @Override
-    public List<MailTemplateDO> getMailTemplateList() {return mailTemplateMapper.selectList();}
+    public List<MailTemplateEntity> getMailTemplateList() {return mailTemplateMapper.selectList();}
 
     @Override
     public String formatMailTemplateContent(String content, Map<String, Object> params) {

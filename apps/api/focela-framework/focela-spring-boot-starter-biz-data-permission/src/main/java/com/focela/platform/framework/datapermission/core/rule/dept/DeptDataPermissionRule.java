@@ -9,7 +9,7 @@ import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.common.util.collection.CollectionUtils;
 import com.focela.platform.framework.common.util.json.JsonUtils;
 import com.focela.platform.framework.datapermission.core.rule.DataPermissionRule;
-import com.focela.platform.framework.mybatis.core.dataobject.BaseDO;
+import com.focela.platform.framework.mybatis.core.entity.BaseEntity;
 import com.focela.platform.framework.mybatis.core.util.MyBatisUtils;
 import com.focela.platform.framework.security.core.LoginUser;
 import com.focela.platform.framework.security.core.util.SecurityFrameworkUtils;
@@ -176,11 +176,11 @@ public class DeptDataPermissionRule implements DataPermissionRule {
 
     // ==================== 添加配置 ====================
 
-    public void addDeptColumn(Class<? extends BaseDO> entityClass) {
+    public void addDeptColumn(Class<? extends BaseEntity> entityClass) {
         addDeptColumn(entityClass, DEPT_COLUMN_NAME);
     }
 
-    public void addDeptColumn(Class<? extends BaseDO> entityClass, String columnName) {
+    public void addDeptColumn(Class<? extends BaseEntity> entityClass, String columnName) {
         String tableName = TableInfoHelper.getTableInfo(entityClass).getTableName();
        addDeptColumn(tableName, columnName);
     }
@@ -190,11 +190,11 @@ public class DeptDataPermissionRule implements DataPermissionRule {
         TABLE_NAMES.add(tableName);
     }
 
-    public void addUserColumn(Class<? extends BaseDO> entityClass) {
+    public void addUserColumn(Class<? extends BaseEntity> entityClass) {
         addUserColumn(entityClass, USER_COLUMN_NAME);
     }
 
-    public void addUserColumn(Class<? extends BaseDO> entityClass, String columnName) {
+    public void addUserColumn(Class<? extends BaseEntity> entityClass, String columnName) {
         String tableName = TableInfoHelper.getTableInfo(entityClass).getTableName();
         addUserColumn(tableName, columnName);
     }

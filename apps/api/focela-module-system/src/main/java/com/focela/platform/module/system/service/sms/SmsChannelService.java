@@ -3,7 +3,7 @@ package com.focela.platform.module.system.service.sms;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.system.controller.admin.sms.vo.channel.SmsChannelPageReqVO;
 import com.focela.platform.module.system.controller.admin.sms.vo.channel.SmsChannelSaveReqVO;
-import com.focela.platform.module.system.dal.dataobject.sms.SmsChannelDO;
+import com.focela.platform.module.system.repository.entity.sms.SmsChannelEntity;
 import com.focela.platform.module.system.framework.sms.core.client.SmsClient;
 import jakarta.validation.Valid;
 
@@ -52,14 +52,14 @@ public interface SmsChannelService {
      * @param id 编号
      * @return 短信渠道
      */
-    SmsChannelDO getSmsChannel(Long id);
+    SmsChannelEntity getSmsChannel(Long id);
 
     /**
      * 获得所有短信渠道列表
      *
      * @return 短信渠道列表
      */
-    List<SmsChannelDO> getSmsChannelList();
+    List<SmsChannelEntity> getSmsChannelList();
 
     /**
      * 获得短信渠道分页
@@ -67,7 +67,7 @@ public interface SmsChannelService {
      * @param pageReqVO 分页查询
      * @return 短信渠道分页
      */
-    PageResult<SmsChannelDO> getSmsChannelPage(SmsChannelPageReqVO pageReqVO);
+    PageResult<SmsChannelEntity> getSmsChannelPage(SmsChannelPageReqVO pageReqVO);
 
     /**
      * 获得短信客户端

@@ -3,7 +3,7 @@ package com.focela.platform.module.infra.service.config;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.infra.controller.admin.config.vo.ConfigPageReqVO;
 import com.focela.platform.module.infra.controller.admin.config.vo.ConfigSaveReqVO;
-import com.focela.platform.module.infra.dal.dataobject.config.ConfigDO;
+import com.focela.platform.module.infra.repository.entity.config.ConfigEntity;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -50,7 +50,7 @@ public interface ConfigService {
      * @param id 配置编号
      * @return 参数配置
      */
-    ConfigDO getConfig(Long id);
+    ConfigEntity getConfig(Long id);
 
     /**
      * 根据参数键，获得参数配置
@@ -58,7 +58,7 @@ public interface ConfigService {
      * @param key 配置键
      * @return 参数配置
      */
-    ConfigDO getConfigByKey(String key);
+    ConfigEntity getConfigByKey(String key);
 
     /**
      * 获得参数配置分页列表
@@ -66,6 +66,6 @@ public interface ConfigService {
      * @param reqVO 分页条件
      * @return 分页列表
      */
-    PageResult<ConfigDO> getConfigPage(ConfigPageReqVO reqVO);
+    PageResult<ConfigEntity> getConfigPage(ConfigPageReqVO reqVO);
 
 }

@@ -6,9 +6,9 @@ import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.oauth2.vo.user.OAuth2UserInfoRespVO;
 import com.focela.platform.module.system.controller.admin.oauth2.vo.user.OAuth2UserUpdateReqVO;
 import com.focela.platform.module.system.controller.admin.user.vo.profile.UserProfileUpdateReqVO;
-import com.focela.platform.module.system.dal.dataobject.dept.DeptDO;
-import com.focela.platform.module.system.dal.dataobject.dept.PostDO;
-import com.focela.platform.module.system.dal.dataobject.user.AdminUserDO;
+import com.focela.platform.module.system.repository.entity.dept.DeptEntity;
+import com.focela.platform.module.system.repository.entity.dept.PostEntity;
+import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
 import com.focela.platform.module.system.service.dept.DeptService;
 import com.focela.platform.module.system.service.dept.PostService;
 import com.focela.platform.module.system.service.user.AdminUserService;
@@ -53,16 +53,16 @@ public class OAuth2UserController {
     @PreAuthorize("@ss.hasScope('user.read')") //
     public CommonResult<OAuth2UserInfoRespVO> getUserInfo() {
         // 获得用户基本信息
-        AdminUserDO user = userService.getUser(getLoginUserId());
+        AdminUserEntity user = userService.getUser(getLoginUserId());
         OAuth2UserInfoRespVO resp = BeanUtils.toBean(user, OAuth2UserInfoRespVO.class);
         // 获得部门信息
         if (user.getDeptId() != null) {
-            DeptDO dept = deptService.getDept(user.getDeptId());
+            DeptEntity dept = deptService.getDept(user.getDeptId());
             resp.setDept(BeanUtils.toBean(dept, OAuth2UserInfoRespVO.Dept.class));
         }
         // 获得岗位信息
         if (CollUtil.isNotEmpty(user.getPostIds())) {
-            List<PostDO> posts = postService.getPostList(user.getPostIds());
+            List<PostEntity> posts = postService.getPostList(user.getPostIds());
             resp.setPosts(BeanUtils.toBean(posts, OAuth2UserInfoRespVO.Post.class));
         }
         return success(resp);

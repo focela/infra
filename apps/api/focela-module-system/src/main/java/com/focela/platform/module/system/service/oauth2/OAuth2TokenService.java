@@ -2,7 +2,7 @@ package com.focela.platform.module.system.service.oauth2;
 
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.system.controller.admin.oauth2.vo.token.OAuth2AccessTokenPageReqVO;
-import com.focela.platform.module.system.dal.dataobject.oauth2.OAuth2AccessTokenDO;
+import com.focela.platform.module.system.repository.entity.oauth2.OAuth2AccessTokenEntity;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public interface OAuth2TokenService {
      * @param scopes 授权范围
      * @return 访问令牌的信息
      */
-    OAuth2AccessTokenDO createAccessToken(Long userId, Integer userType, String clientId, List<String> scopes);
+    OAuth2AccessTokenEntity createAccessToken(Long userId, Integer userType, String clientId, List<String> scopes);
 
     /**
      * 刷新访问令牌
@@ -38,7 +38,7 @@ public interface OAuth2TokenService {
      * @param clientId 客户端编号
      * @return 访问令牌的信息
      */
-    OAuth2AccessTokenDO refreshAccessToken(String refreshToken, String clientId);
+    OAuth2AccessTokenEntity refreshAccessToken(String refreshToken, String clientId);
 
     /**
      * 获得访问令牌
@@ -48,7 +48,7 @@ public interface OAuth2TokenService {
      * @param accessToken 访问令牌
      * @return 访问令牌的信息
      */
-    OAuth2AccessTokenDO getAccessToken(String accessToken);
+    OAuth2AccessTokenEntity getAccessToken(String accessToken);
 
     /**
      * 校验访问令牌
@@ -56,7 +56,7 @@ public interface OAuth2TokenService {
      * @param accessToken 访问令牌
      * @return 访问令牌的信息
      */
-    OAuth2AccessTokenDO checkAccessToken(String accessToken);
+    OAuth2AccessTokenEntity checkAccessToken(String accessToken);
 
     /**
      * 移除访问令牌
@@ -67,7 +67,7 @@ public interface OAuth2TokenService {
      * @param accessToken 刷新令牌
      * @return 访问令牌的信息
      */
-    OAuth2AccessTokenDO removeAccessToken(String accessToken);
+    OAuth2AccessTokenEntity removeAccessToken(String accessToken);
 
     /**
      * 移除访问令牌
@@ -86,6 +86,6 @@ public interface OAuth2TokenService {
      * @param reqVO 请求
      * @return 访问令牌分页
      */
-    PageResult<OAuth2AccessTokenDO> getAccessTokenPage(OAuth2AccessTokenPageReqVO reqVO);
+    PageResult<OAuth2AccessTokenEntity> getAccessTokenPage(OAuth2AccessTokenPageReqVO reqVO);
 
 }
