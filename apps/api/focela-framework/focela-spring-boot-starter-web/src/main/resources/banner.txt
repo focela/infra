@@ -1,4 +1,4 @@
-Focela Platform
+Focela Platform https://www.platform.focela.com
 Application Version: ${focela.info.version}
 Spring Boot Version: ${spring-boot.version}
 
