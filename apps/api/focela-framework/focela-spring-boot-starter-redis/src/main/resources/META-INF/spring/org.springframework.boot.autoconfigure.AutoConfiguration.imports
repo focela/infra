@@ -1,2 +1,2 @@
-com.focela.platform.framework.redis.config.YudaoRedisAutoConfiguration
-com.focela.platform.framework.redis.config.YudaoCacheAutoConfiguration
+com.focela.platform.framework.redis.config.FocelaRedisAutoConfiguration
+com.focela.platform.framework.redis.config.FocelaCacheAutoConfiguration

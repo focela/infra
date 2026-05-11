@@ -1,7 +1,7 @@
-com.focela.platform.framework.apilog.config.YudaoApiLogAutoConfiguration
-com.focela.platform.framework.jackson.config.YudaoJacksonAutoConfiguration
-com.focela.platform.framework.swagger.config.YudaoSwaggerAutoConfiguration
-com.focela.platform.framework.web.config.YudaoWebAutoConfiguration
-com.focela.platform.framework.xss.config.YudaoXssAutoConfiguration
-com.focela.platform.framework.banner.config.YudaoBannerAutoConfiguration
-com.focela.platform.framework.encrypt.config.YudaoApiEncryptAutoConfiguration
+com.focela.platform.framework.apilog.config.FocelaApiLogAutoConfiguration
+com.focela.platform.framework.jackson.config.FocelaJacksonAutoConfiguration
+com.focela.platform.framework.swagger.config.FocelaSwaggerAutoConfiguration
+com.focela.platform.framework.web.config.FocelaWebAutoConfiguration
+com.focela.platform.framework.xss.config.FocelaXssAutoConfiguration
+com.focela.platform.framework.banner.config.FocelaBannerAutoConfiguration
+com.focela.platform.framework.encrypt.config.FocelaApiEncryptAutoConfiguration

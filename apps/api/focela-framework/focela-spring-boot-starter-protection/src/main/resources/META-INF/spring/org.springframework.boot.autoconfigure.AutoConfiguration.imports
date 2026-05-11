@@ -1,4 +1,4 @@
-com.focela.platform.framework.idempotent.config.YudaoIdempotentConfiguration
-com.focela.platform.framework.lock4j.config.YudaoLock4jConfiguration
-com.focela.platform.framework.ratelimiter.config.YudaoRateLimiterConfiguration
-com.focela.platform.framework.signature.config.YudaoApiSignatureAutoConfiguration
+com.focela.platform.framework.idempotent.config.FocelaIdempotentConfiguration
+com.focela.platform.framework.lock4j.config.FocelaLock4jConfiguration
+com.focela.platform.framework.ratelimiter.config.FocelaRateLimiterConfiguration
+com.focela.platform.framework.signature.config.FocelaApiSignatureAutoConfiguration
