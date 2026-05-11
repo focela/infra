@@ -148,6 +148,8 @@ secrets/
 *.log
 *.temp
 *.tmp
+LOG_FILE_IS_UNDEFINED
+logs/
 
 # Application writable runtime data
 writable/*
@@ -225,3 +227,55 @@ venv/
 .tox/
 coverage/
 test-results/
+
+#-----------------------------------------------------------------------------
+# SPRING BOOT FILES
+#-----------------------------------------------------------------------------
+# Build tools and directories
+!.mvn/wrapper/maven-wrapper.jar
+!gradle/wrapper/gradle-wrapper.jar
+.flattened-pom.xml
+.gradle
+/build/
+target/
+
+# Spring Boot application configuration files (local/dev/test profiles)
+application-dev.properties
+application-dev.yaml
+application-dev.yml
+application-local.properties
+application-local.yaml
+application-local.yml
+application-my.yaml
+application-test.properties
+application-test.yaml
+application-test.yml
+
+# Spring Boot DevTools
+.spring-boot-devtools.properties
+
+# Eclipse STS (Spring Tool Suite) IDE files
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+# JRebel hot-reload configuration
+rebel.xml
+
+# H2 Database files (Spring Boot default embedded database)
+*.lock.db
+*.mv.db
+*.trace.db
+h2/
+
+# Build exceptions (keep source files in build directories)
+!*/build/*.html
+!*/build/*.java
+!*/build/*.xml
+
+# Others
+*.swp
+*.xml.versionsBackup
