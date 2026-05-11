@@ -70,11 +70,11 @@ public class FocelaCacheAutoConfiguration {
     @Bean
     public RedisCacheManager redisCacheManager(RedisTemplate<String, Object> redisTemplate,
                                                RedisCacheConfiguration redisCacheConfiguration,
-                                               FocelaCacheProperties yudaoCacheProperties) {
+                                               FocelaCacheProperties focelaCacheProperties) {
         // 创建 RedisCacheWriter 对象
         RedisConnectionFactory connectionFactory = Objects.requireNonNull(redisTemplate.getConnectionFactory());
         RedisCacheWriter cacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory,
-                BatchStrategies.scan(yudaoCacheProperties.getRedisScanBatchSize()));
+                BatchStrategies.scan(focelaCacheProperties.getRedisScanBatchSize()));
         // 创建 TenantRedisCacheManager 对象
         return new TimeoutRedisCacheManager(cacheWriter, redisCacheConfiguration);
     }
