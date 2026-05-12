@@ -2,8 +2,6 @@ package com.focela.platform.framework.datapermission.core.rule.department;
 
 /**
  * {@link DepartmentDataPermissionRule} 的自定义配置接口
- *
- * @author 芋道源码
  */
 @FunctionalInterface
 public interface DepartmentDataPermissionRuleCustomizer {

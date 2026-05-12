@@ -7,8 +7,6 @@ import com.focela.platform.module.infra.repository.entity.job.JobLogEntity;
 
 /**
  * Job 日志 Service 接口
- *
- * @author 芋道源码
  */
 public interface JobLogService extends JobLogFrameworkService {
 

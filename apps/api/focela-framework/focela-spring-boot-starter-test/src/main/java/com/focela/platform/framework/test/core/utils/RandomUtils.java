@@ -21,8 +21,6 @@ import java.util.stream.Stream;
 
 /**
  * 随机工具类
- *
- * @author 芋道源码
  */
 public class RandomUtils {
 
@@ -113,7 +111,7 @@ public class RandomUtils {
     }
 
     public static String randomURL() {
-        return "https://www.iocoder.cn/" + randomString();
+        return "https://www.example.com/" + randomString();
     }
 
     @SafeVarargs

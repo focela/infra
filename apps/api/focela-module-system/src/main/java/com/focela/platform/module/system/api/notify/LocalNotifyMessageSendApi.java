@@ -8,8 +8,6 @@ import jakarta.annotation.Resource;
 
 /**
  * 站内信发送 API 实现类
- *
- * @author xrcoder
  */
 @Service
 public class LocalNotifyMessageSendApi implements NotifyMessageSendApi {

@@ -18,8 +18,6 @@ import static com.focela.platform.framework.common.exception.utils.ServiceExcept
 
 /**
  * OAuth2 授予 Service 实现类
- *
- * @author 芋道源码
  */
 @Service
 public class DefaultOAuth2GrantService implements OAuth2GrantService {

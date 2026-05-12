@@ -14,8 +14,6 @@ import org.aspectj.lang.annotation.Aspect;
  * 又例如说，读取所有数据，进行缓存。
  *
  * 整体逻辑的实现，和 {@link TenantUtils#executeIgnore(Runnable)} 需要保持一致
- *
- * @author 芋道源码
  */
 @Aspect
 @Slf4j

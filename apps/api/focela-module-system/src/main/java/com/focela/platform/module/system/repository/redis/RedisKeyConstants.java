@@ -4,8 +4,6 @@ import com.focela.platform.module.system.repository.entity.oauth2.OAuth2AccessTo
 
 /**
  * System Redis Key 枚举类
- *
- * @author 芋道源码
  */
 public interface RedisKeyConstants {
 

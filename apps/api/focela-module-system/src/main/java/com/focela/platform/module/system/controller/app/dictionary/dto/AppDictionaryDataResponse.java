@@ -17,7 +17,7 @@ public class AppDictionaryDataResponse {
     @Schema(description = "字典标签", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
     private String label;
 
-    @Schema(description = "字典值", requiredMode = Schema.RequiredMode.REQUIRED, example = "iocoder")
+    @Schema(description = "字典值", requiredMode = Schema.RequiredMode.REQUIRED, example = "sample")
     private String value;
 
     @Schema(description = "字典类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "sys_common_sex")

@@ -24,8 +24,6 @@ import static org.mockito.Mockito.when;
 
 /**
  * {@link DefaultMailAccountService} 的单元测试类
- *
- * @author 芋道源码
  */
 @Import(DefaultMailAccountService.class)
 public class DefaultMailAccountServiceTest extends BaseDbUnitTest {

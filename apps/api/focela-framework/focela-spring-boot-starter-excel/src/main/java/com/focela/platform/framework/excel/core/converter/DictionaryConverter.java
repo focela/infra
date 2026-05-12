@@ -13,8 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Excel 数据字典转换器
- *
- * @author 芋道源码
  */
 @Slf4j
 public class DictionaryConverter implements Converter<Object> {

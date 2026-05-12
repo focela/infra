@@ -9,8 +9,6 @@ import jakarta.validation.Valid;
  * 管理后台的认证 Service 接口
  *
  * 提供用户的登录、登出的能力
- *
- * @author 芋道源码
  */
 public interface AdminAuthService {
 

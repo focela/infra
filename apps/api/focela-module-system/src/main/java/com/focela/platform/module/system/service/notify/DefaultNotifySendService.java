@@ -17,8 +17,6 @@ import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
 
 /**
  * 站内信发送 Service 实现类
- *
- * @author xrcoder
  */
 @Service
 @Validated

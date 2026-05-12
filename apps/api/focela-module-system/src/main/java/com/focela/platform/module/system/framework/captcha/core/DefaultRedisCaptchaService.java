@@ -8,8 +8,6 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 基于 Redis 实现验证码的存储
- *
- * @author 星语
  */
 @Setter
 public class DefaultRedisCaptchaService implements CaptchaCacheService {

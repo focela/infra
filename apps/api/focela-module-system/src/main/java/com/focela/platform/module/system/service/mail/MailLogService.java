@@ -13,7 +13,6 @@ import java.util.Map;
 /**
  * 邮件日志 Service 接口
  *
- * @author wangjingyi
  * @since 2022-03-21
  */
 public interface MailLogService {

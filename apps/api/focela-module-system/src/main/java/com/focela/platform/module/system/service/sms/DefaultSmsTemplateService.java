@@ -34,7 +34,6 @@ import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
 /**
  * 短信模板 Service 实现类
  *
- * @author zzf
  * @since 2021/1/25 9:25
  */
 @Service

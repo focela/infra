@@ -12,8 +12,6 @@ import java.lang.annotation.Target;
 
 /**
  * 手机号
- *
- * @author gaibu
  */
 @Documented
 @Target({ElementType.FIELD})

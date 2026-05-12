@@ -8,8 +8,6 @@ import java.util.List;
 
 /**
  * 短信发送消息
- *
- * @author 芋道源码
  */
 @Data
 public class SmsSendMessage {

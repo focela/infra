@@ -27,7 +27,7 @@ public class DictionaryDataResponse {
     @ExcelProperty("字典标签")
     private String label;
 
-    @Schema(description = "字典值", requiredMode = Schema.RequiredMode.REQUIRED, example = "iocoder")
+    @Schema(description = "字典值", requiredMode = Schema.RequiredMode.REQUIRED, example = "sample")
     @ExcelProperty("字典键值")
     private String value;
 

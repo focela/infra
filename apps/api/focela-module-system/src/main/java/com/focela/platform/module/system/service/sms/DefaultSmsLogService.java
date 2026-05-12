@@ -18,8 +18,6 @@ import java.util.Objects;
 
 /**
  * 短信日志 Service 实现类
- *
- * @author zzf
  */
 @Slf4j
 @Service

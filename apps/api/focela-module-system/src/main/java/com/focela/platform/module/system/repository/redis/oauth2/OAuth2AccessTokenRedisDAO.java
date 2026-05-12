@@ -18,8 +18,6 @@ import static com.focela.platform.module.system.repository.redis.RedisKeyConstan
 
 /**
  * {@link OAuth2AccessTokenEntity} 的 RedisDAO
- *
- * @author 芋道源码
  */
 @Repository
 public class OAuth2AccessTokenRedisDAO {

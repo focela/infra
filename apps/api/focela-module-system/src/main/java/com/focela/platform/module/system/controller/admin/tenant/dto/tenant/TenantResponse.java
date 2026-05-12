@@ -37,7 +37,7 @@ public class TenantResponse {
     @DictionaryFormat(DictionaryTypeConstants.COMMON_STATUS)
     private Integer status;
 
-    @Schema(description = "绑定域名数组", example = "https://www.iocoder.cn")
+    @Schema(description = "绑定域名数组", example = "https://www.example.com")
     private List<String> websites;
 
     @Schema(description = "租户套餐编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")

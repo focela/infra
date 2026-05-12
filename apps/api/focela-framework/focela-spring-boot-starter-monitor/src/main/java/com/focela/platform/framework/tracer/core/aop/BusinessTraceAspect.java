@@ -20,8 +20,6 @@ import static java.util.Arrays.asList;
 
 /**
  * {@link BusinessTrace} 切面，记录业务链路
- *
- * @author mashu
  */
 @Aspect
 @AllArgsConstructor

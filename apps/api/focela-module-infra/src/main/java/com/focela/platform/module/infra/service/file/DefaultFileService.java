@@ -28,8 +28,6 @@ import static com.focela.platform.module.infra.enums.ErrorCodeConstants.FILE_NOT
 
 /**
  * 文件 Service 实现类
- *
- * @author 芋道源码
  */
 @Service
 public class DefaultFileService implements FileService {

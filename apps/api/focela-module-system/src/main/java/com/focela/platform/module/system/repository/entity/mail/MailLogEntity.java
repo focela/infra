@@ -20,7 +20,6 @@ import java.util.Map;
  * 邮箱日志 DO
  * 记录每一次邮件的发送
  *
- * @author wangjingyi
  * @since 2022-03-21
  */
 @TableName(value = "system_mail_log", autoResultMap = true)

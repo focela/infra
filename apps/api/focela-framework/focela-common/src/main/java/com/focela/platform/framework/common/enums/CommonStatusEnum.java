@@ -9,8 +9,6 @@ import java.util.Arrays;
 
 /**
  * 通用状态枚举
- *
- * @author 芋道源码
  */
 @Getter
 @AllArgsConstructor

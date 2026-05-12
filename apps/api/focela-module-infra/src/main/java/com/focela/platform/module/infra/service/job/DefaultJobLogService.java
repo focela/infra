@@ -15,8 +15,6 @@ import java.time.LocalDateTime;
 
 /**
  * Job 日志 Service 实现类
- *
- * @author 芋道源码
  */
 @Service
 @Validated

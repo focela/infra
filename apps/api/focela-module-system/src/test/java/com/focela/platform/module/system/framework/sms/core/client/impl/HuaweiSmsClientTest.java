@@ -23,8 +23,6 @@ import static org.mockito.Mockito.mockStatic;
 
 /**
  * {@link HuaweiSmsClient} 的单元测试
- *
- * @author scholar
  */
 public class HuaweiSmsClientTest extends BaseMockitoUnitTest {
 

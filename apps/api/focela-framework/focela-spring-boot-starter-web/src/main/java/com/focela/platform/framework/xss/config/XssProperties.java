@@ -9,8 +9,6 @@ import java.util.List;
 
 /**
  * Xss 配置属性
- *
- * @author 芋道源码
  */
 @ConfigurationProperties(prefix = "focela.xss")
 @Validated

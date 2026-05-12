@@ -36,8 +36,6 @@ import static com.focela.platform.module.infra.enums.ErrorCodeConstants.FILE_CON
 
 /**
  * 文件配置 Service 实现类
- *
- * @author 芋道源码
  */
 @Service
 @Validated

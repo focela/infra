@@ -12,8 +12,6 @@ import java.lang.annotation.Target;
 
 /**
  * 固定电话
- *
- * @author gaibu
  */
 @Documented
 @Target({ElementType.FIELD})

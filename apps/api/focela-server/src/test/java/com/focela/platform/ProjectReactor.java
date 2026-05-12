@@ -19,8 +19,6 @@ import static java.io.File.separator;
  * 项目修改器，一键替换 Maven 的 groupId、artifactId，项目的 package 等
  * <p>
  * 通过修改 groupIdNew、artifactIdNew、projectBaseDirNew 三个变量
- *
- * @author 芋道源码
  */
 @Slf4j
 public class ProjectReactor {

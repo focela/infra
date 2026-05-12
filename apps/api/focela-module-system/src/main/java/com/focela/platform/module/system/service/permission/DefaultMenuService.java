@@ -32,8 +32,6 @@ import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
 
 /**
  * 菜单 Service 实现
- *
- * @author 芋道源码
  */
 @Service
 @Slf4j

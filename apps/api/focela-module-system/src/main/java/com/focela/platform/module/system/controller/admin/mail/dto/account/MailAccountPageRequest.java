@@ -12,7 +12,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class MailAccountPageRequest extends PageParam {
 
-    @Schema(description = "邮箱", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudaoyuanma@123.com")
+    @Schema(description = "邮箱", requiredMode = Schema.RequiredMode.REQUIRED, example = "user@example.com")
     private String mail;
 
     @Schema(description = "用户名" , requiredMode = Schema.RequiredMode.REQUIRED , example = "yudao")

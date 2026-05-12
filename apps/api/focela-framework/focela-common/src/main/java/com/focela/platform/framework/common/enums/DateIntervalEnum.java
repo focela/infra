@@ -9,8 +9,6 @@ import java.util.Arrays;
 
 /**
  * 时间间隔的枚举
- *
- * @author dhb52
  */
 @Getter
 @AllArgsConstructor

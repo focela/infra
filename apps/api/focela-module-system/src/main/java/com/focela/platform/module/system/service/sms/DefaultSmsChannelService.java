@@ -21,8 +21,6 @@ import static com.focela.platform.module.system.enums.ErrorCodeConstants.SMS_CHA
 
 /**
  * 短信渠道 Service 实现类
- *
- * @author zzf
  */
 @Service
 @Slf4j

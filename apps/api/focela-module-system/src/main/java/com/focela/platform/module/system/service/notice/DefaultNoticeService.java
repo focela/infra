@@ -17,8 +17,6 @@ import static com.focela.platform.module.system.enums.ErrorCodeConstants.NOTICE_
 
 /**
  * 通知公告 Service 实现类
- *
- * @author 芋道源码
  */
 @Service
 public class DefaultNoticeService implements NoticeService {

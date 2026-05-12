@@ -8,8 +8,6 @@ import java.util.Map;
 
 /**
  * 短信发送给 Admin 或者 Member 用户
- *
- * @author 芋道源码
  */
 @Data
 public class SmsSendSingleToUserReqDTO {

@@ -23,8 +23,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * {@link DefaultOAuth2CodeService} 的单元测试类
- *
- * @author 芋道源码
  */
 @Import(DefaultOAuth2CodeService.class)
 class DefaultOAuth2CodeServiceTest extends BaseDbUnitTest {

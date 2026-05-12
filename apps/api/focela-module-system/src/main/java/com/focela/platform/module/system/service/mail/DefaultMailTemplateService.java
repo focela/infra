@@ -32,7 +32,6 @@ import static com.focela.platform.module.system.enums.ErrorCodeConstants.MAIL_TE
 /**
  * 邮箱模版 Service 实现类
  *
- * @author wangjingyi
  * @since 2022-03-21
  */
 @Service

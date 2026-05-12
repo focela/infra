@@ -9,8 +9,6 @@ import jakarta.annotation.Resource;
 
 /**
  * 邮件发送 API 实现类
- *
- * @author wangjingyi
  */
 @Service
 @Validated

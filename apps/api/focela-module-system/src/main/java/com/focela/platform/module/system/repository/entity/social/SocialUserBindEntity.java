@@ -10,8 +10,6 @@ import lombok.*;
 /**
  * 社交用户的绑定
  * 即 {@link SocialUserEntity} 与 UserDO 的关联表
- *
- * @author 芋道源码
  */
 @TableName(value = "system_social_user_bind", autoResultMap = true)
 @KeySequence("system_social_user_bind_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。

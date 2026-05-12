@@ -36,8 +36,6 @@ import static org.mockito.Mockito.when;
 
 /**
  * {@link DefaultSocialUserService} 的单元测试类
- *
- * @author 芋道源码
  */
 @Import(DefaultSocialUserService.class)
 public class DefaultSocialUserServiceTest extends BaseDbUnitTest {

@@ -9,8 +9,6 @@ import java.time.LocalDateTime;
 
 /**
  * 系统操作日志 Resp DTO
- *
- * @author HUIHUI
  */
 @Data
 public class OperateLogRespDTO implements VO {

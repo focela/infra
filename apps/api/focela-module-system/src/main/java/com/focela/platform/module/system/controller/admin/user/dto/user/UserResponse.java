@@ -40,7 +40,7 @@ public class UserResponse{
     @Schema(description = "岗位编号数组", example = "1")
     private Set<Long> postIds;
 
-    @Schema(description = "用户邮箱", example = "yudao@iocoder.cn")
+    @Schema(description = "用户邮箱", example = "user@example.com")
     @ExcelProperty("用户邮箱")
     private String email;
 
@@ -53,7 +53,7 @@ public class UserResponse{
     @DictionaryFormat(DictionaryTypeConstants.USER_SEX)
     private Integer sex;
 
-    @Schema(description = "用户头像", example = "https://www.iocoder.cn/xxx.png")
+    @Schema(description = "用户头像", example = "https://www.example.com/xxx.png")
     private String avatar;
 
     @Schema(description = "状态，参见 CommonStatusEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")

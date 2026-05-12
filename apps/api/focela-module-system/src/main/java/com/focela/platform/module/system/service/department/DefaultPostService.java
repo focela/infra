@@ -23,8 +23,6 @@ import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
 
 /**
  * 岗位 Service 实现类
- *
- * @author 芋道源码
  */
 @Service
 @Validated

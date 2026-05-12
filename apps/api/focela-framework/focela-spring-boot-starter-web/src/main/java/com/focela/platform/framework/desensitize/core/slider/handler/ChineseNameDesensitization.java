@@ -4,8 +4,6 @@ import com.focela.platform.framework.desensitize.core.slider.annotation.ChineseN
 
 /**
  * {@link ChineseNameDesensitize} 的脱敏处理器
- *
- * @author gaibu
  */
 public class ChineseNameDesensitization extends AbstractSliderDesensitizationHandler<ChineseNameDesensitize> {
 

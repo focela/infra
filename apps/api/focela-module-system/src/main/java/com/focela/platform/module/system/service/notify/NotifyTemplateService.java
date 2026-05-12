@@ -11,8 +11,6 @@ import java.util.Map;
 
 /**
  * 站内信模版 Service 接口
- *
- * @author xrcoder
  */
 public interface NotifyTemplateService {
 

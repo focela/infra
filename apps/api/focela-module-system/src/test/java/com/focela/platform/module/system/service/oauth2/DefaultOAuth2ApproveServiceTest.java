@@ -31,8 +31,6 @@ import static org.mockito.Mockito.when;
 
 /**
  * {@link DefaultOAuth2ApproveService} 的单元测试类
- *
- * @author 芋道源码
  */
 @Import(DefaultOAuth2ApproveService.class)
 public class DefaultOAuth2ApproveServiceTest extends BaseDbUnitTest {

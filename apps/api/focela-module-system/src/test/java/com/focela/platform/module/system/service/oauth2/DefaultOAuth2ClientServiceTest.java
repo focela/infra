@@ -26,8 +26,6 @@ import static org.mockito.Mockito.mockStatic;
 
 /**
  * {@link DefaultOAuth2ClientService} 的单元测试类
- *
- * @author 芋道源码
  */
 @Import(DefaultOAuth2ClientService.class)
 public class DefaultOAuth2ClientServiceTest extends BaseDbUnitTest {

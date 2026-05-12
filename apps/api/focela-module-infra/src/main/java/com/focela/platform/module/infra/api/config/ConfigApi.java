@@ -2,8 +2,6 @@ package com.focela.platform.module.infra.api.config;
 
 /**
  * 参数配置 API 接口
- *
- * @author 芋道源码
  */
 public interface ConfigApi {
 

@@ -4,8 +4,6 @@ import com.focela.platform.framework.desensitize.core.slider.annotation.FixedPho
 
 /**
  * {@link FixedPhoneDesensitize} 的脱敏处理器
- *
- * @author gaibu
  */
 public class FixedPhoneDesensitization extends AbstractSliderDesensitizationHandler<FixedPhoneDesensitize> {
 

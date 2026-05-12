@@ -12,8 +12,6 @@ import java.util.List;
 
 /**
  * 字典数据 API 实现类
- *
- * @author 芋道源码
  */
 @Service
 public class LocalDictionaryDataApi implements DictionaryDataApi {

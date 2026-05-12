@@ -4,8 +4,6 @@ import com.focela.platform.framework.desensitize.core.regex.annotation.EmailDese
 
 /**
  * {@link EmailDesensitize} 的脱敏处理器
- *
- * @author gaibu
  */
 public class EmailDesensitizationHandler extends AbstractRegexDesensitizationHandler<EmailDesensitize> {
 

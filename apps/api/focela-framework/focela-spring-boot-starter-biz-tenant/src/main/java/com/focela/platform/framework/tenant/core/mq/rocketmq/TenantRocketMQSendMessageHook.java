@@ -10,8 +10,6 @@ import static com.focela.platform.framework.web.core.utils.WebFrameworkUtils.HEA
  * RocketMQ 消息队列的多租户 {@link SendMessageHook} 实现类
  *
  * Producer 发送消息时，将 {@link TenantContextHolder} 租户编号，添加到消息的 Header 中
- *
- * @author 芋道源码
  */
 public class TenantRocketMQSendMessageHook implements SendMessageHook {
 

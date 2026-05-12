@@ -7,8 +7,6 @@ import com.focela.platform.module.infra.repository.entity.logger.ApiErrorLogEnti
 
 /**
  * API 错误日志 Service 接口
- *
- * @author 芋道源码
  */
 public interface ApiErrorLogService {
 

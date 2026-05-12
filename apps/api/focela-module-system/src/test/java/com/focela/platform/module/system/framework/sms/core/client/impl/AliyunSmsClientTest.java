@@ -26,8 +26,6 @@ import static org.mockito.Mockito.mockStatic;
 
 /**
  * {@link com.focela.platform.module.system.framework.sms.core.client.impl.AliyunSmsClient} 的单元测试
- *
- * @author 芋道源码
  */
 public class AliyunSmsClientTest extends BaseMockitoUnitTest {
 

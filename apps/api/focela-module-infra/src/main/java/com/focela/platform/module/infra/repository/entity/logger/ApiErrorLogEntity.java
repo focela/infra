@@ -12,8 +12,6 @@ import java.time.LocalDateTime;
 
 /**
  * API 异常数据
- *
- * @author 芋道源码
  */
 @TableName("infra_api_error_log")
 @Data

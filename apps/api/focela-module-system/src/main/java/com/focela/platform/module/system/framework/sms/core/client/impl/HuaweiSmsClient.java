@@ -30,7 +30,6 @@ import static com.focela.platform.framework.common.utils.collection.CollectionUt
 /**
  * 华为短信客户端的实现类
  *
- * @author scholar
  * @since 2024/6/02 11:55
  */
 @Slf4j

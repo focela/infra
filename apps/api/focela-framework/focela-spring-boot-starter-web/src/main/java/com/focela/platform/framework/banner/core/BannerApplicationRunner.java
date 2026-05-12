@@ -10,8 +10,6 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 项目启动成功后，提供文档相关的地址
- *
- * @author 芋道源码
  */
 @Slf4j
 public class BannerApplicationRunner implements ApplicationRunner {
@@ -26,45 +24,45 @@ public class BannerApplicationRunner implements ApplicationRunner {
                             "开发文档: \t{} \n\t" +
                             "视频教程: \t{} \n" +
                             "----------------------------------------------------------",
-                    "https://doc.iocoder.cn/api-doc/",
-                    "https://doc.iocoder.cn",
+                    "https://www.example.com/api-doc/",
+                    "https://www.example.com",
                     "https://t.zsxq.com/02Yf6M7Qn");
 
             // 数据报表
             if (isNotPresent("com.focela.platform.module.report.framework.security.config.SecurityConfiguration")) {
-                System.out.println("[报表模块 focela-module-report - 已禁用][参考 https://doc.iocoder.cn/report/ 开启]");
+                System.out.println("[报表模块 focela-module-report - 已禁用][参考 https://www.example.com/report/ 开启]");
             }
             // 工作流
             if (isNotPresent("com.focela.platform.module.bpm.framework.flowable.config.BpmFlowableConfiguration")) {
-                System.out.println("[工作流模块 focela-module-bpm - 已禁用][参考 https://doc.iocoder.cn/bpm/ 开启]");
+                System.out.println("[工作流模块 focela-module-bpm - 已禁用][参考 https://www.example.com/bpm/ 开启]");
             }
             // 商城系统
             if (isNotPresent("com.focela.platform.module.trade.framework.web.config.TradeWebConfiguration")) {
-                System.out.println("[商城系统 focela-module-mall - 已禁用][参考 https://doc.iocoder.cn/mall/build/ 开启]");
+                System.out.println("[商城系统 focela-module-mall - 已禁用][参考 https://www.example.com/mall/build/ 开启]");
             }
             // ERP 系统
             if (isNotPresent("com.focela.platform.module.erp.framework.web.config.ErpWebConfiguration")) {
-                System.out.println("[ERP 系统 focela-module-erp - 已禁用][参考 https://doc.iocoder.cn/erp/build/ 开启]");
+                System.out.println("[ERP 系统 focela-module-erp - 已禁用][参考 https://www.example.com/erp/build/ 开启]");
             }
             // CRM 系统
             if (isNotPresent("com.focela.platform.module.crm.framework.web.config.CrmWebConfiguration")) {
-                System.out.println("[CRM 系统 focela-module-crm - 已禁用][参考 https://doc.iocoder.cn/crm/build/ 开启]");
+                System.out.println("[CRM 系统 focela-module-crm - 已禁用][参考 https://www.example.com/crm/build/ 开启]");
             }
             // 微信公众号
             if (isNotPresent("com.focela.platform.module.mp.framework.mp.config.MpConfiguration")) {
-                System.out.println("[微信公众号 focela-module-mp - 已禁用][参考 https://doc.iocoder.cn/mp/build/ 开启]");
+                System.out.println("[微信公众号 focela-module-mp - 已禁用][参考 https://www.example.com/mp/build/ 开启]");
             }
             // 支付平台
             if (isNotPresent("com.focela.platform.module.pay.framework.pay.config.PayConfiguration")) {
-                System.out.println("[支付系统 focela-module-pay - 已禁用][参考 https://doc.iocoder.cn/pay/build/ 开启]");
+                System.out.println("[支付系统 focela-module-pay - 已禁用][参考 https://www.example.com/pay/build/ 开启]");
             }
             // AI 大模型
             if (isNotPresent("com.focela.platform.module.ai.framework.web.config.AiWebConfiguration")) {
-                System.out.println("[AI 大模型 focela-module-ai - 已禁用][参考 https://doc.iocoder.cn/ai/build/ 开启]");
+                System.out.println("[AI 大模型 focela-module-ai - 已禁用][参考 https://www.example.com/ai/build/ 开启]");
             }
             // IoT 物联网
             if (isNotPresent("com.focela.platform.module.iot.framework.web.config.IotWebConfiguration")) {
-                System.out.println("[IoT 物联网 focela-module-iot - 已禁用][参考 https://doc.iocoder.cn/iot/build/ 开启]");
+                System.out.println("[IoT 物联网 focela-module-iot - 已禁用][参考 https://www.example.com/iot/build/ 开启]");
             }
         });
     }

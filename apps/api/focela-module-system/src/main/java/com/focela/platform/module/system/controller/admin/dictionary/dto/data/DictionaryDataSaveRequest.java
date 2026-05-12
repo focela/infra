@@ -25,7 +25,7 @@ public class DictionaryDataSaveRequest {
     @Size(max = 100, message = "字典标签长度不能超过100个字符")
     private String label;
 
-    @Schema(description = "字典值", requiredMode = Schema.RequiredMode.REQUIRED, example = "iocoder")
+    @Schema(description = "字典值", requiredMode = Schema.RequiredMode.REQUIRED, example = "sample")
     @NotBlank(message = "字典键值不能为空")
     @Size(max = 100, message = "字典键值长度不能超过100个字符")
     private String value;

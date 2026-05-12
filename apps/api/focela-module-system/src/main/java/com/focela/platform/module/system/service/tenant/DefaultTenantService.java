@@ -47,8 +47,6 @@ import static java.util.Collections.singleton;
 
 /**
  * 租户 Service 实现类
- *
- * @author 芋道源码
  */
 @Service
 @Validated
@@ -56,7 +54,7 @@ import static java.util.Collections.singleton;
 public class DefaultTenantService implements TenantService {
 
     @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
-    @Autowired(required = false) // 由于 yudao.tenant.enable 配置项，可以关闭多租户的功能，所以这里只能不强制注入
+    @Autowired(required = false) // focela.tenant.enable may disable multi-tenancy
     private TenantProperties tenantProperties;
 
     @Resource

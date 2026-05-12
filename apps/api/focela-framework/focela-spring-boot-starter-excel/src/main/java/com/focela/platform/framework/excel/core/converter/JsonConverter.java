@@ -9,8 +9,6 @@ import cn.idev.excel.metadata.property.ExcelContentProperty;
 
 /**
  * Excel Json 转换器
- *
- * @author 芋道源码
  */
 public class JsonConverter implements Converter<Object> {
 

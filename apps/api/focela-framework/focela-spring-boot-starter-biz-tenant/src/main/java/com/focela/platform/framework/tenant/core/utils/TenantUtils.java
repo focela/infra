@@ -9,8 +9,6 @@ import static com.focela.platform.framework.web.core.utils.WebFrameworkUtils.HEA
 
 /**
  * 多租户 Util
- *
- * @author 芋道源码
  */
 public class TenantUtils {
 

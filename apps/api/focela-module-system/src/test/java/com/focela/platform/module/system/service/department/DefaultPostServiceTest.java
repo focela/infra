@@ -27,8 +27,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * {@link DefaultPostService} 的单元测试类
- *
- * @author niudehua
  */
 @Import(DefaultPostService.class)
 public class DefaultPostServiceTest extends BaseDbUnitTest {

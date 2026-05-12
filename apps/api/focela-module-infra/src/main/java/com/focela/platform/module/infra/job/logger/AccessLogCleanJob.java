@@ -10,8 +10,6 @@ import jakarta.annotation.Resource;
 
 /**
  * 物理删除 N 天前的访问日志的 Job
- *
- * @author j-sentinel
  */
 @Component
 @Slf4j

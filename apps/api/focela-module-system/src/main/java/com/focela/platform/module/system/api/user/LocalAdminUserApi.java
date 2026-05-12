@@ -22,8 +22,6 @@ import static com.focela.platform.framework.common.utils.collection.CollectionUt
 
 /**
  * Admin 用户 API 实现类
- *
- * @author 芋道源码
  */
 @Service
 public class LocalAdminUserApi implements AdminUserApi {

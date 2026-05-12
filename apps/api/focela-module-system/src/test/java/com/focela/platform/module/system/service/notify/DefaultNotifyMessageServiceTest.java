@@ -28,8 +28,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
 * {@link DefaultNotifyMessageService} 的单元测试类
-*
-* @author 芋道源码
 */
 @Import(DefaultNotifyMessageService.class)
 public class DefaultNotifyMessageServiceTest extends BaseDbUnitTest {

@@ -4,8 +4,6 @@ import jakarta.validation.constraints.NotEmpty;
 
 /**
  * 文件 API 接口
- *
- * @author 芋道源码
  */
 public interface FileApi {
 

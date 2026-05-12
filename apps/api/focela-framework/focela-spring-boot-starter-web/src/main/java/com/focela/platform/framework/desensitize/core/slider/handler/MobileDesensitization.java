@@ -4,8 +4,6 @@ import com.focela.platform.framework.desensitize.core.slider.annotation.MobileDe
 
 /**
  * {@link MobileDesensitize} 的脱敏处理器
- *
- * @author gaibu
  */
 public class MobileDesensitization extends AbstractSliderDesensitizationHandler<MobileDesensitize> {
 

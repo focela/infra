@@ -22,8 +22,6 @@ import static org.mockito.Mockito.when;
 
 /**
  * {@link DefaultOAuth2GrantService} 的单元测试
- *
- * @author 芋道源码
  */
 public class DefaultOAuth2GrantServiceTest extends BaseMockitoUnitTest {
 

@@ -24,8 +24,6 @@ package com.focela.platform.framework.common.exception.enums;
  * 第四段，3 位，错误码
  *       不限制规则。
  *       一般建议，每个模块自增。
- *
- * @author 芋道源码
  */
 public class ServiceErrorCodeRange {
 

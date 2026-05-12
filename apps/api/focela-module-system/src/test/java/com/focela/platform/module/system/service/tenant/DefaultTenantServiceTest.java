@@ -50,8 +50,6 @@ import static org.mockito.Mockito.*;
 
 /**
  * {@link DefaultTenantService} 的单元测试类
- *
- * @author 芋道源码
  */
 @Import(DefaultTenantService.class)
 public class DefaultTenantServiceTest extends BaseDbUnitTest {
@@ -157,7 +155,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
             o.setContactMobile("15601691300");
             o.setPackageId(100L);
             o.setStatus(randomCommonStatus());
-            o.setWebsites(singletonList("https://www.iocoder.cn"));
+            o.setWebsites(singletonList("https://www.example.com"));
             o.setUsername("yunai");
             o.setPassword("yuanma");
         }).setId(null); // 设置为 null，方便后面校验
@@ -337,11 +335,11 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
     @Disabled // H2 不支持 find_in_set 函数
     public void testGetTenantByWebsite() {
         // mock 数据
-        TenantEntity dbTenant = randomPojo(TenantEntity.class, o -> o.setWebsites(singletonList("https://www.iocoder.cn")));
+        TenantEntity dbTenant = randomPojo(TenantEntity.class, o -> o.setWebsites(singletonList("https://www.example.com")));
         tenantMapper.insert(dbTenant);// @Sql: 先插入出一条存在的数据
 
         // 调用
-        TenantEntity result = tenantService.getTenantByWebsite("https://www.iocoder.cn");
+        TenantEntity result = tenantService.getTenantByWebsite("https://www.example.com");
         // 校验存在
         assertPojoEquals(result, dbTenant);
     }

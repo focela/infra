@@ -9,8 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * {@link AreaUtils} 的单元测试
- *
- * @author 芋道源码
  */
 public class AreaUtilsTest {
 

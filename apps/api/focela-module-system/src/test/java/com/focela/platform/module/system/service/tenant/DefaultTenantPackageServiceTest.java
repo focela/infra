@@ -30,8 +30,6 @@ import static org.mockito.Mockito.when;
 
 /**
 * {@link DefaultTenantPackageService} 的单元测试类
-*
-* @author 芋道源码
 */
 @Import(DefaultTenantPackageService.class)
 public class DefaultTenantPackageServiceTest extends BaseDbUnitTest {

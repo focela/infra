@@ -13,8 +13,6 @@ import jakarta.annotation.Resource;
 
 /**
  * OAuth2.0 Token API 实现类
- *
- * @author 芋道源码
  */
 @Service
 public class LocalOAuth2TokenApi implements OAuth2TokenCommonApi {

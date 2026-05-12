@@ -5,8 +5,6 @@ import lombok.Data;
 
 /**
  * 操作日志分页 Request DTO
- *
- * @author HUIHUI
  */
 @Data
 public class OperateLogPageReqDTO extends PageParam {

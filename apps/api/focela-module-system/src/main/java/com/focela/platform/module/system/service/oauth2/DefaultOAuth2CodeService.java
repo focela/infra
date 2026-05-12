@@ -17,8 +17,6 @@ import static com.focela.platform.module.system.enums.ErrorCodeConstants.OAUTH2_
 
 /**
  * OAuth2.0 授权码 Service 实现类
- *
- * @author 芋道源码
  */
 @Service
 @Validated

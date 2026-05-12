@@ -25,8 +25,6 @@ import static org.mockito.Mockito.mockStatic;
 
 /**
  * {@link TencentSmsClient} 的单元测试
- *
- * @author shiwp
  */
 public class TencentSmsClientTest extends BaseMockitoUnitTest {
 

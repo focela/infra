@@ -15,7 +15,6 @@ import java.util.List;
 /**
  * 邮件模版 DO
  *
- * @author wangjingyi
  * @since 2022-03-21
  */
 @TableName(value = "system_mail_template", autoResultMap = true)

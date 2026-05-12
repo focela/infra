@@ -13,8 +13,6 @@ import java.util.List;
  * OAuth2.0 Client Service 接口
  *
  * 从功能上，和 JdbcClientDetailsService 的功能，提供客户端的操作
- *
- * @author 芋道源码
  */
 public interface OAuth2ClientService {
 

@@ -12,8 +12,6 @@ import static com.focela.platform.framework.common.utils.collection.CollectionUt
 
 /**
  * Array 工具类
- *
- * @author 芋道源码
  */
 public class ArrayUtils {
 

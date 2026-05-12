@@ -5,7 +5,6 @@ import com.focela.platform.module.system.framework.sms.core.property.SmsChannelP
 /**
  * 短信客户端的工厂接口
  *
- * @author zzf
  * @since 2021/1/28 14:01
  */
 public interface SmsClientFactory {

@@ -37,8 +37,6 @@ import static com.focela.platform.framework.common.exception.utils.ServiceExcept
  *
  * 疑问：为什么不使用 SpringMVC 的 RequestBodyAdvice 或 ResponseBodyAdvice 机制呢？
  * 回答：考虑到项目中会记录访问日志、异常日志，以及 HTTP API 签名等场景，最好是全局级、且提前做解析！！！
- *
- * @author 芋道源码
  */
 @Slf4j
 public class ApiEncryptFilter extends ApiRequestFilter {

@@ -41,8 +41,6 @@ import static org.mockito.Mockito.*;
 
 /**
  * {@link DefaultFileConfigService} 的单元测试类
- *
- * @author 芋道源码
  */
 @Import(DefaultFileConfigService.class)
 public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
@@ -62,7 +60,7 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
     public void testCreateFileConfig_success() {
         // 准备参数
         Map<String, Object> config = MapUtil.<String, Object>builder().put("basePath", "/yunai")
-                .put("domain", "https://www.iocoder.cn").build();
+                .put("domain", "https://www.example.com").build();
         FileConfigSaveRequest request = randomPojo(FileConfigSaveRequest.class,
                 o -> o.setStorage(FileStorageEnum.LOCAL.getStorage()).setConfig(config))
                 .setId(null); // 避免 id 被赋值
@@ -76,7 +74,7 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
         assertPojoEquals(request, fileConfig, "id", "config");
         assertFalse(fileConfig.getMaster());
         assertEquals("/yunai", ((LocalFileClientConfig) fileConfig.getConfig()).getBasePath());
-        assertEquals("https://www.iocoder.cn", ((LocalFileClientConfig) fileConfig.getConfig()).getDomain());
+        assertEquals("https://www.example.com", ((LocalFileClientConfig) fileConfig.getConfig()).getDomain());
         // 验证 cache
         assertNull(fileConfigService.getClientCache().getIfPresent(fileConfigId));
     }
@@ -85,14 +83,14 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
     public void testUpdateFileConfig_success() {
         // mock 数据
         FileConfigEntity dbFileConfig = randomPojo(FileConfigEntity.class, o -> o.setStorage(FileStorageEnum.LOCAL.getStorage())
-                .setConfig(new LocalFileClientConfig().setBasePath("/yunai").setDomain("https://www.iocoder.cn")));
+                .setConfig(new LocalFileClientConfig().setBasePath("/yunai").setDomain("https://www.example.com")));
         fileConfigMapper.insert(dbFileConfig);// @Sql: 先插入出一条存在的数据
         // 准备参数
         FileConfigSaveRequest request = randomPojo(FileConfigSaveRequest.class, o -> {
             o.setId(dbFileConfig.getId()); // 设置更新的 ID
             o.setStorage(FileStorageEnum.LOCAL.getStorage());
             Map<String, Object> config = MapUtil.<String, Object>builder().put("basePath", "/yunai2")
-                    .put("domain", "https://doc.iocoder.cn").build();
+                    .put("domain", "https://www.example.com").build();
             o.setConfig(config);
         });
 
@@ -102,7 +100,7 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
         FileConfigEntity fileConfig = fileConfigMapper.selectById(request.getId()); // 获取最新的
         assertPojoEquals(request, fileConfig, "config");
         assertEquals("/yunai2", ((LocalFileClientConfig) fileConfig.getConfig()).getBasePath());
-        assertEquals("https://doc.iocoder.cn", ((LocalFileClientConfig) fileConfig.getConfig()).getDomain());
+        assertEquals("https://www.example.com", ((LocalFileClientConfig) fileConfig.getConfig()).getDomain());
         // 验证 cache
         assertNull(fileConfigService.getClientCache().getIfPresent(fileConfig.getId()));
     }
@@ -214,10 +212,10 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
         // mock 获得 Client
         FileClient fileClient = mock(FileClient.class);
         when(fileClientFactory.getFileClient(eq(id))).thenReturn(fileClient);
-        when(fileClient.upload(any(), any(), any())).thenReturn("https://www.iocoder.cn");
+        when(fileClient.upload(any(), any(), any())).thenReturn("https://www.example.com");
 
         // 调用，并断言
-        assertEquals("https://www.iocoder.cn", fileConfigService.testFileConfig(id));
+        assertEquals("https://www.example.com", fileConfigService.testFileConfig(id));
     }
 
     @Test

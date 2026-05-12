@@ -13,8 +13,6 @@ import static com.focela.platform.framework.security.core.utils.SecurityFramewor
 
 /**
  * 默认的 {@link SecurityFrameworkService} 实现类
- *
- * @author 芋道源码
  */
 @AllArgsConstructor
 public class DefaultSecurityFrameworkService implements SecurityFrameworkService {

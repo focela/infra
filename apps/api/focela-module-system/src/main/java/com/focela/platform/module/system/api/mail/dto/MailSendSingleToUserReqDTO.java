@@ -10,8 +10,6 @@ import java.util.Map;
 
 /**
  * 邮件发送 Request DTO
- *
- * @author wangjingqi
  */
 @Data
 public class MailSendSingleToUserReqDTO {

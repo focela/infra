@@ -24,8 +24,6 @@ import static com.focela.platform.module.infra.enums.ErrorCodeConstants.API_ERRO
 
 /**
  * API 错误日志 Service 实现类
- *
- * @author 芋道源码
  */
 @Service
 @Validated

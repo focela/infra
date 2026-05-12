@@ -11,8 +11,6 @@ import jakarta.annotation.Resource;
 
 /**
  * 针对 {@link SmsSendMessage} 的消费者
- *
- * @author zzf
  */
 @Component
 @Slf4j

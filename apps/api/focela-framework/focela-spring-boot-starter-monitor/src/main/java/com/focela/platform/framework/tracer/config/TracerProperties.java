@@ -5,8 +5,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * BusinessTracer配置类
- *
- * @author 麻薯
  */
 @ConfigurationProperties("focela.tracer")
 @Data

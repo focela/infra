@@ -30,7 +30,6 @@ import static com.focela.platform.framework.common.utils.collection.CollectionUt
 /**
  * 阿里短信客户端的实现类
  *
- * @author zzf
  * @since 2021/1/25 14:17
  */
 @Slf4j

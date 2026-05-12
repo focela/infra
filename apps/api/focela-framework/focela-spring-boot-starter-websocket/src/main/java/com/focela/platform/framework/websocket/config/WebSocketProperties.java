@@ -9,8 +9,6 @@ import jakarta.validation.constraints.NotNull;
 
 /**
  * WebSocket 配置项
- *
- * @author xingyu4j
  */
 @ConfigurationProperties("focela.websocket")
 @Data

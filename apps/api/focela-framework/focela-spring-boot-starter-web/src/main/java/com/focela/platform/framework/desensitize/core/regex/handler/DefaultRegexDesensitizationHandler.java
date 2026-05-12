@@ -4,8 +4,6 @@ import com.focela.platform.framework.desensitize.core.regex.annotation.RegexDese
 
 /**
  * {@link RegexDesensitize} 的正则脱敏处理器
- *
- * @author gaibu
  */
 public class DefaultRegexDesensitizationHandler extends AbstractRegexDesensitizationHandler<RegexDesensitize> {
 

@@ -16,8 +16,6 @@ import java.util.Map;
 
 /**
  * 站内信 Service 实现类
- *
- * @author xrcoder
  */
 @Service
 @Validated

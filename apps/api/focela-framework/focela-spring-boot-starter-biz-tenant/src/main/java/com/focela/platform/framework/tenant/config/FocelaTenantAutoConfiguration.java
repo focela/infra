@@ -49,7 +49,7 @@ import java.util.*;
 import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertList;
 
 @AutoConfiguration
-@ConditionalOnProperty(prefix = "focela.tenant", value = "enable", matchIfMissing = true) // 允许使用 yudao.tenant.enable=false 禁用多租户
+@ConditionalOnProperty(prefix = "focela.tenant", value = "enable", matchIfMissing = true)
 @EnableConfigurationProperties(TenantProperties.class)
 public class FocelaTenantAutoConfiguration {
 

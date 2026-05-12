@@ -16,8 +16,6 @@ import java.util.List;
  * 用于定期清理已消费的消息，防止内存占用过大
  *
  * @see <a href="https://www.cnblogs.com/nanxiang/p/16179519.html">记一次 redis stream 数据类型内存不释放问题</a>
- *
- * @author 芋道源码
  */
 @Slf4j
 @AllArgsConstructor

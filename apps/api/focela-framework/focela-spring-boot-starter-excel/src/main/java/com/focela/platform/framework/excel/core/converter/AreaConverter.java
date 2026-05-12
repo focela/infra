@@ -12,8 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Excel 数据地区转换器
- *
- * @author HUIHUI
  */
 @Slf4j
 public class AreaConverter implements Converter<Object> {

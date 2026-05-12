@@ -10,7 +10,6 @@ import java.util.Map;
 /**
  * 邮件发送 Service 接口
  *
- * @author wangjingyi
  * @since 2022-03-21
  */
 public interface MailSendService {

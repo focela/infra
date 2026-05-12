@@ -28,8 +28,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * {@link DefaultMailLogService} 的单元测试类
- *
- * @author 芋道源码
  */
 @Import(DefaultMailLogService.class)
 public class DefaultMailLogServiceTest extends BaseDbUnitTest {

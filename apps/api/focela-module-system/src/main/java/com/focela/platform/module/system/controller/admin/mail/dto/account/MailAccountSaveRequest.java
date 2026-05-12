@@ -13,7 +13,7 @@ public class MailAccountSaveRequest {
     @Schema(description = "编号", example = "1024")
     private Long id;
 
-    @Schema(description = "邮箱", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudaoyuanma@123.com")
+    @Schema(description = "邮箱", requiredMode = Schema.RequiredMode.REQUIRED, example = "user@example.com")
     @NotNull(message = "邮箱不能为空")
     @Email(message = "必须是 Email 格式")
     private String mail;
@@ -26,7 +26,7 @@ public class MailAccountSaveRequest {
     @NotNull(message = "密码必填")
     private String password;
 
-    @Schema(description = "SMTP 服务器域名", requiredMode = Schema.RequiredMode.REQUIRED, example = "www.iocoder.cn")
+    @Schema(description = "SMTP 服务器域名", requiredMode = Schema.RequiredMode.REQUIRED, example = "www.example.com")
     @NotNull(message = "SMTP 服务器域名不能为空")
     private String host;
 

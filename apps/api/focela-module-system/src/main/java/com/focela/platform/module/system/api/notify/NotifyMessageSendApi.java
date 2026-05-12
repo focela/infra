@@ -6,8 +6,6 @@ import jakarta.validation.Valid;
 
 /**
  * 站内信发送 API 接口
- *
- * @author xrcoder
  */
 public interface NotifyMessageSendApi {
 

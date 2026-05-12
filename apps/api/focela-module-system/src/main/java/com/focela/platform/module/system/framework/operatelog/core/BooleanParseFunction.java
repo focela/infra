@@ -9,8 +9,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * 是否类型的 {@link IParseFunction} 实现类
- *
- * @author HUIHUI
  */
 @Component
 @Slf4j

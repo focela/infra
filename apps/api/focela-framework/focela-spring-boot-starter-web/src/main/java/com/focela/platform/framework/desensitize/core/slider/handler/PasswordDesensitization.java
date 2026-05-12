@@ -4,8 +4,6 @@ import com.focela.platform.framework.desensitize.core.slider.annotation.Password
 
 /**
  * {@link PasswordDesensitize} 的码脱敏处理器
- *
- * @author gaibu
  */
 public class PasswordDesensitization extends AbstractSliderDesensitizationHandler<PasswordDesensitize> {
     @Override

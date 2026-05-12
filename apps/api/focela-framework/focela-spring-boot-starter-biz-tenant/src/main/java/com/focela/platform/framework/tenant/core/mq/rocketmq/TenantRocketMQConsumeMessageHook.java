@@ -16,8 +16,6 @@ import static com.focela.platform.framework.web.core.utils.WebFrameworkUtils.HEA
  * RocketMQ 消息队列的多租户 {@link ConsumeMessageHook} 实现类
  *
  * Consumer 消费消息时，将消息的 Header 的租户编号，添加到 {@link TenantContextHolder} 中，通过 {@link InvocableHandlerMethod} 实现
- *
- * @author 芋道源码
  */
 public class TenantRocketMQConsumeMessageHook implements ConsumeMessageHook {
 

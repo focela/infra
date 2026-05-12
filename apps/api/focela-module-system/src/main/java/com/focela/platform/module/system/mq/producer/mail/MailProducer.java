@@ -12,7 +12,6 @@ import java.util.Collection;
 /**
  * Mail 邮件相关消息的 Producer
  *
- * @author wangjingyi
  * @since 2021/4/19 13:33
  */
 @Slf4j

@@ -27,7 +27,6 @@ import static com.focela.platform.framework.common.utils.collection.CollectionUt
 /**
  * 七牛云短信客户端的实现类
  *
- * @author scholar
  * @since 2024/08/26 15:35
  */
 @Slf4j

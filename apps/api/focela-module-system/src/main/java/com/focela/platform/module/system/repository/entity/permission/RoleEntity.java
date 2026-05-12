@@ -16,8 +16,6 @@ import java.util.Set;
 
 /**
  * 角色 DO
- *
- * @author ruoyi
  */
 @TableName(value = "system_role", autoResultMap = true)
 @KeySequence("system_role_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。

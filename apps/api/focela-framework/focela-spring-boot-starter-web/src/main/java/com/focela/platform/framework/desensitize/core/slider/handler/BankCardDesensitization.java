@@ -4,8 +4,6 @@ import com.focela.platform.framework.desensitize.core.slider.annotation.BankCard
 
 /**
  * {@link BankCardDesensitize} 的脱敏处理器
- *
- * @author gaibu
  */
 public class BankCardDesensitization extends AbstractSliderDesensitizationHandler<BankCardDesensitize> {
 

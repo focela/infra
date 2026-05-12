@@ -4,8 +4,6 @@ import com.focela.platform.framework.desensitize.core.slider.annotation.IdCardDe
 
 /**
  * {@link IdCardDesensitize} 的脱敏处理器
- *
- * @author gaibu
  */
 public class IdCardDesensitization extends AbstractSliderDesensitizationHandler<IdCardDesensitize> {
     @Override

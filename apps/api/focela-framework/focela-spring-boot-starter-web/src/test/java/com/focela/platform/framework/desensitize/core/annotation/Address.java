@@ -15,8 +15,6 @@ import java.lang.annotation.Target;
  * 地址
  *
  * 用于 {@link DesensitizeTest} 测试使用
- *
- * @author gaibu
  */
 @Documented
 @Target({ElementType.FIELD})

@@ -14,8 +14,6 @@ import java.util.concurrent.ConcurrentMap;
 
 /**
  * 短信客户端工厂接口
- *
- * @author zzf
  */
 @Validated
 @Slf4j

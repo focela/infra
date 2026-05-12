@@ -27,8 +27,6 @@ import static com.focela.platform.framework.common.exception.enums.GlobalErrorCo
 
 /**
  * 拦截声明了 {@link ApiSignature} 注解的方法，实现签名
- *
- * @author Zhougang
  */
 @Aspect
 @Slf4j

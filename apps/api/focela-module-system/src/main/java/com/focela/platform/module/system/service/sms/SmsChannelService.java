@@ -12,7 +12,6 @@ import java.util.List;
 /**
  * 短信渠道 Service 接口
  *
- * @author zzf
  * @since 2021/1/25 9:24
  */
 public interface SmsChannelService {

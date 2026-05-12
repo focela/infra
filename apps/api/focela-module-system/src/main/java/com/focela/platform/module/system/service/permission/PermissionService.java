@@ -11,8 +11,6 @@ import static java.util.Collections.singleton;
  * 权限 Service 接口
  * <p>
  * 提供用户-角色、角色-菜单、角色-部门的关联权限处理
- *
- * @author 芋道源码
  */
 public interface PermissionService {
 

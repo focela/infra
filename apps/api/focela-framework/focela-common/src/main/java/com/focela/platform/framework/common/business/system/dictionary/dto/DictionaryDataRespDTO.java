@@ -5,8 +5,6 @@ import lombok.Data;
 
 /**
  * 字典数据 Response DTO
- *
- * @author 芋道源码
  */
 @Data
 public class DictionaryDataRespDTO {

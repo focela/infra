@@ -38,8 +38,6 @@ import static com.focela.platform.framework.common.utils.collection.CollectionUt
 
 /**
  * OAuth2.0 Token Service 实现类
- *
- * @author 芋道源码
  */
 @Service
 public class DefaultOAuth2TokenService implements OAuth2TokenService {

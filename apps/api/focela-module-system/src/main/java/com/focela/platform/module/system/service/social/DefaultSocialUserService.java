@@ -30,8 +30,6 @@ import static com.focela.platform.module.system.enums.ErrorCodeConstants.SOCIAL_
 
 /**
  * 社交用户 Service 实现类
- *
- * @author 芋道源码
  */
 @Service
 @Validated

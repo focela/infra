@@ -20,8 +20,6 @@ import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
 
 /**
  * 字典类型 Service 实现类
- *
- * @author 芋道源码
  */
 @Service
 public class DefaultDictionaryTypeService implements DictionaryTypeService {

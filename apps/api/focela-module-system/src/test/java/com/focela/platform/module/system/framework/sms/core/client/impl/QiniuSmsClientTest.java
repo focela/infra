@@ -25,8 +25,6 @@ import static org.mockito.Mockito.mockStatic;
 
 /**
  * {@link QiniuSmsClient} 的单元测试
- *
- * @author scholar
  */
 public class QiniuSmsClientTest extends BaseMockitoUnitTest {
 

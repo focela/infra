@@ -13,8 +13,6 @@ import java.math.RoundingMode;
  * 金额转换器
  *
  * 金额单位：分
- *
- * @author 芋道源码
  */
 public class MoneyConverter implements Converter<Integer> {
 

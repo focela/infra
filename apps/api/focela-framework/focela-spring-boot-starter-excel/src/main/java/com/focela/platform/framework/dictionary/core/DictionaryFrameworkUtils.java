@@ -17,8 +17,6 @@ import static com.focela.platform.framework.common.utils.collection.CollectionUt
 
 /**
  * 字典工具类
- *
- * @author 芋道源码
  */
 @Slf4j
 public class DictionaryFrameworkUtils {

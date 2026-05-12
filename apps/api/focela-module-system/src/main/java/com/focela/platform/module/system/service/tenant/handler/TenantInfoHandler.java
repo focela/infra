@@ -5,8 +5,6 @@ import com.focela.platform.module.system.repository.entity.tenant.TenantEntity;
 /**
  * 租户信息处理
  * 目的：尽量减少租户逻辑耦合到系统中
- *
- * @author 芋道源码
  */
 public interface TenantInfoHandler {
 

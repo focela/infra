@@ -37,12 +37,10 @@ import java.util.List;
 
 /**
  * WebSocket 自动配置
- *
- * @author xingyu4j
  */
 @AutoConfiguration(before = FocelaRedisMQConsumerAutoConfiguration.class) // before FocelaRedisMQConsumerAutoConfiguration 的原因是，需要保证 RedisWebSocketMessageConsumer 先创建，才能创建 RedisMessageListenerContainer
 @EnableWebSocket // 开启 websocket
-@ConditionalOnProperty(prefix = "focela.websocket", value = "enable", matchIfMissing = true) // 允许使用 yudao.websocket.enable=false 禁用 websocket
+@ConditionalOnProperty(prefix = "focela.websocket", value = "enable", matchIfMissing = true)
 @EnableConfigurationProperties(WebSocketProperties.class)
 public class FocelaWebSocketAutoConfiguration {
 

@@ -6,8 +6,6 @@ import java.lang.annotation.*;
  * 给 Excel 列添加下拉选择数据
  *
  * 其中 {@link #dictType()} 和 {@link #functionName()} 二选一
- *
- * @author HUIHUI
  */
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)

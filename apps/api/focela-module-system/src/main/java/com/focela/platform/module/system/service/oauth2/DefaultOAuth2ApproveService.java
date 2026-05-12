@@ -19,8 +19,6 @@ import static com.focela.platform.framework.common.utils.collection.CollectionUt
 
 /**
  * OAuth2 批准 Service 实现类
- *
- * @author 芋道源码
  */
 @Service
 @Validated

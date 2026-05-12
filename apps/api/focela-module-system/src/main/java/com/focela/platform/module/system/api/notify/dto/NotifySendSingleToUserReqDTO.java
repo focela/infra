@@ -8,8 +8,6 @@ import java.util.Map;
 
 /**
  * 站内信发送给 Admin 或者 Member 用户
- *
- * @author xrcoder
  */
 @Data
 public class NotifySendSingleToUserReqDTO {

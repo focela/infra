@@ -29,8 +29,6 @@ import static com.focela.platform.framework.common.utils.collection.CollectionUt
  * 腾讯云短信功能实现
  *
  * 参见 <a href="https://cloud.tencent.com/document/product/382/52077">文档</a>
- *
- * @author shiwp
  */
 public class TencentSmsClient extends AbstractSmsClient {
 

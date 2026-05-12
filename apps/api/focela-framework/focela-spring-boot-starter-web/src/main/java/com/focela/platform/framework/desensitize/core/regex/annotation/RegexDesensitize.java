@@ -12,8 +12,6 @@ import java.lang.annotation.Target;
 
 /**
  * 正则脱敏注解
- *
- * @author gaibu
  */
 @Documented
 @Target({ElementType.FIELD, ElementType.ANNOTATION_TYPE})

@@ -20,8 +20,6 @@ import static com.focela.platform.module.infra.enums.ErrorCodeConstants.DATA_SOU
 
 /**
  * 数据源配置 Service 实现类
- *
- * @author 芋道源码
  */
 @Service
 @Validated

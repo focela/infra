@@ -21,8 +21,6 @@ import static com.focela.platform.module.infra.repository.entity.logger.ApiAcces
 
 /**
  * API 访问日志 Service 实现类
- *
- * @author 芋道源码
  */
 @Slf4j
 @Service

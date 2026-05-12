@@ -31,7 +31,6 @@ import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
 /**
  * 邮箱发送 Service 实现类
  *
- * @author wangjingyi
  * @since 2022-03-21
  */
 @Service

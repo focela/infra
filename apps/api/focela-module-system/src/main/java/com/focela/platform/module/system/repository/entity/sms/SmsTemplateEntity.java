@@ -17,7 +17,6 @@ import java.util.List;
 /**
  * 短信模板 DO
  *
- * @author zzf
  * @since 2021-01-25
  */
 @TableName(value = "system_sms_template", autoResultMap = true)

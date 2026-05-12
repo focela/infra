@@ -7,7 +7,6 @@ import lombok.Getter;
 /**
  * 短信渠道枚举
  *
- * @author zzf
  * @since 2021/1/25 10:56
  */
 @Getter

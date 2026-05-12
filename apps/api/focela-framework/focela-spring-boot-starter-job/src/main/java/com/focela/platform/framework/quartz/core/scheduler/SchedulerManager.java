@@ -15,8 +15,6 @@ import static com.focela.platform.framework.common.exception.utils.ServiceExcept
  * 2. Trigger 的 {@link Trigger#getKey()}
  *
  * 另外，jobHandlerName 对应到 Spring Bean 的名字，直接调用
- *
- * @author 芋道源码
  */
 public class SchedulerManager {
 
@@ -143,7 +141,7 @@ public class SchedulerManager {
     private void validateScheduler() {
         if (scheduler == null) {
             throw exception0(NOT_IMPLEMENTED.getCode(),
-                    "[定时任务 - 已禁用][参考 https://doc.iocoder.cn/job/ 开启]");
+                    "[定时任务 - 已禁用][参考 https://www.example.com/job/ 开启]");
         }
     }
 
