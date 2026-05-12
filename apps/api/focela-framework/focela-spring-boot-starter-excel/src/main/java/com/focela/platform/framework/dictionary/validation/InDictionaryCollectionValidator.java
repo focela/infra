@@ -1,30 +1,32 @@
 package com.focela.platform.framework.dictionary.validation;
 
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.collection.CollUtil;
 import com.focela.platform.framework.dictionary.core.DictionaryFrameworkUtils;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
+import java.util.Collection;
 import java.util.List;
 
-public class InDictValidator implements ConstraintValidator<InDict, Object> {
+public class InDictionaryCollectionValidator implements ConstraintValidator<InDictionary, Collection<?>> {
 
     private String dictType;
 
     @Override
-    public void initialize(InDict annotation) {
+    public void initialize(InDictionary annotation) {
         this.dictType = annotation.type();
     }
 
     @Override
-    public boolean isValid(Object value, ConstraintValidatorContext context) {
+    public boolean isValid(Collection<?> list, ConstraintValidatorContext context) {
         // 为空时，默认不校验，即认为通过
-        if (value == null) {
+        if (CollUtil.isEmpty(list)) {
             return true;
         }
-        // 校验通过
-        final List<String> values = DictionaryFrameworkUtils.getDictDataValueList(dictType);
-        boolean match = values.stream().anyMatch(v -> StrUtil.equalsIgnoreCase(v, value.toString()));
+        // 校验全部通过
+        List<String> dbValues = DictionaryFrameworkUtils.getDictDataValueList(dictType);
+        boolean match = list.stream().allMatch(v -> dbValues.stream()
+                .anyMatch(dbValue -> dbValue.equalsIgnoreCase(v.toString())));
         if (match) {
             return true;
         }
@@ -32,7 +34,7 @@ public class InDictValidator implements ConstraintValidator<InDict, Object> {
         // 校验不通过，自定义提示语句
         context.disableDefaultConstraintViolation(); // 禁用默认的 message 的值
         context.buildConstraintViolationWithTemplate(
-                context.getDefaultConstraintMessageTemplate().replaceAll("\\{value}", values.toString())
+                context.getDefaultConstraintMessageTemplate().replaceAll("\\{value}", dbValues.toString())
         ).addConstraintViolation(); // 重新添加错误提示语句
         return false;
     }

@@ -19,7 +19,7 @@ import java.util.List;
 @AutoConfiguration
 @ConditionalOnClass(LoginUser.class)
 @ConditionalOnBean(value = {DepartmentDataPermissionRuleCustomizer.class})
-public class FocelaDeptDataPermissionAutoConfiguration {
+public class FocelaDepartmentDataPermissionAutoConfiguration {
 
     @Bean
     public DepartmentDataPermissionRule deptDataPermissionRule(PermissionCommonApi permissionApi,

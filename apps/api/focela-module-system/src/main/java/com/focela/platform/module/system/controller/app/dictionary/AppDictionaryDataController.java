@@ -3,7 +3,7 @@ package com.focela.platform.module.system.controller.app.dictionary;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.model.CommonResult;
 import com.focela.platform.framework.common.utils.object.BeanUtils;
-import com.focela.platform.module.system.controller.app.dictionary.dto.AppDictDataResponse;
+import com.focela.platform.module.system.controller.app.dictionary.dto.AppDictionaryDataResponse;
 import com.focela.platform.module.system.repository.entity.dictionary.DictionaryDataEntity;
 import com.focela.platform.module.system.service.dictionary.DictionaryDataService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,7 +25,7 @@ import static com.focela.platform.framework.common.model.CommonResult.success;
 @RestController
 @RequestMapping("/system/dict-data")
 @Validated
-public class AppDictDataController {
+public class AppDictionaryDataController {
 
     @Resource
     private DictionaryDataService dictDataService;
@@ -34,10 +34,10 @@ public class AppDictDataController {
     @Operation(summary = "根据字典类型查询字典数据信息")
     @Parameter(name = "type", description = "字典类型", required = true, example = "common_status")
     @PermitAll
-    public CommonResult<List<AppDictDataResponse>> getDictDataListByType(@RequestParam("type") String type) {
+    public CommonResult<List<AppDictionaryDataResponse>> getDictDataListByType(@RequestParam("type") String type) {
         List<DictionaryDataEntity> list = dictDataService.getDictDataList(
                 CommonStatusEnum.ENABLE.getStatus(), type);
-        return success(BeanUtils.toBean(list, AppDictDataResponse.class));
+        return success(BeanUtils.toBean(list, AppDictionaryDataResponse.class));
     }
 
 }

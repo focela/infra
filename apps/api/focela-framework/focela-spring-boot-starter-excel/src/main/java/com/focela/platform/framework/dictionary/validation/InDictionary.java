@@ -20,9 +20,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Constraint(
-        validatedBy = {InDictValidator.class, InDictCollectionValidator.class}
+        validatedBy = {InDictionaryValidator.class, InDictionaryCollectionValidator.class}
 )
-public @interface InDict {
+public @interface InDictionary {
 
     /**
      * 数据字典 type
