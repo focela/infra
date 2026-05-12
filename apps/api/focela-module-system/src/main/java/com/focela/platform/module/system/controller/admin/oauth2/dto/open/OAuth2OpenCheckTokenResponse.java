@@ -8,33 +8,33 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Schema(description = "管理后台 - 【开放接口】校验令牌 Response VO")
+@Schema(description = "Admin - [Open API]validate token Response VO")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class OAuth2OpenCheckTokenResponse {
 
-    @Schema(description = "用户编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "666")
+    @Schema(description = "User ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "666")
     @JsonProperty("user_id")
     private Long userId;
-    @Schema(description = "用户类型，参见 UserTypeEnum 枚举", requiredMode = Schema.RequiredMode.REQUIRED, example = "2")
+    @Schema(description = "User type, see UserTypeEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "2")
     @JsonProperty("user_type")
     private Integer userType;
-    @Schema(description = "租户编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    @Schema(description = "Tenant ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     @JsonProperty("tenant_id")
     private Long tenantId;
 
-    @Schema(description = "客户端编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "car")
+    @Schema(description = "Client ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "car")
     @JsonProperty("client_id")
     private String clientId;
-    @Schema(description = "授权范围", requiredMode = Schema.RequiredMode.REQUIRED, example = "user_info")
+    @Schema(description = "Scope", requiredMode = Schema.RequiredMode.REQUIRED, example = "user_info")
     private List<String> scopes;
 
-    @Schema(description = "访问令牌", requiredMode = Schema.RequiredMode.REQUIRED, example = "tudou")
+    @Schema(description = "Access token", requiredMode = Schema.RequiredMode.REQUIRED, example = "tudou")
     @JsonProperty("access_token")
     private String accessToken;
 
-    @Schema(description = "过期时间，时间戳 / 1000，即单位：秒", requiredMode = Schema.RequiredMode.REQUIRED, example = "1593092157")
+    @Schema(description = "expires at, timestamp / 1000, i.e., unit: seconds", requiredMode = Schema.RequiredMode.REQUIRED, example = "1593092157")
     private Long exp;
 
 }

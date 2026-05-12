@@ -11,20 +11,20 @@ import java.time.LocalDateTime;
 
 import static com.focela.platform.framework.common.utils.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
-@Schema(description = "管理后台 - 短信渠道分页 Request VO")
+@Schema(description = "Admin - SMS channel page Request VO")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class SmsChannelPageRequest extends PageParam {
 
-    @Schema(description = "任务状态", example = "1")
+    @Schema(description = "Job status", example = "1")
     private Integer status;
 
-    @Schema(description = "短信签名，模糊匹配", example = "芋道源码")
+    @Schema(description = "SMS signature, fuzzy match", example = "Acme")
     private String signature;
 
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
-    @Schema(description = "创建时间")
+    @Schema(description = "Created time")
     private LocalDateTime[] createTime;
 
 }

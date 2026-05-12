@@ -9,42 +9,42 @@ import lombok.Data;
 
 import jakarta.validation.constraints.NotNull;
 
-@Schema(description = "管理后台 - 社交客户端创建/修改 Request VO")
+@Schema(description = "Admin - social client create /update Request VO")
 @Data
 public class SocialClientSaveRequest {
 
-    @Schema(description = "编号", example = "27162")
+    @Schema(description = "ID", example = "27162")
     private Long id;
 
-    @Schema(description = "应用名", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao商城")
+    @Schema(description = "Application name", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudaomall")
     @NotNull(message = "应用名不能为空")
     private String name;
 
-    @Schema(description = "社交平台的类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "31")
+    @Schema(description = "Social platform type", requiredMode = Schema.RequiredMode.REQUIRED, example = "31")
     @NotNull(message = "社交平台的类型不能为空")
     @InEnum(SocialTypeEnum.class)
     private Integer socialType;
 
-    @Schema(description = "用户类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "2")
+    @Schema(description = "User type", requiredMode = Schema.RequiredMode.REQUIRED, example = "2")
     @NotNull(message = "用户类型不能为空")
     @InEnum(UserTypeEnum.class)
     private Integer userType;
 
-    @Schema(description = "客户端编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "wwd411c69a39ad2e54")
+    @Schema(description = "Client ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "wwd411c69a39ad2e54")
     @NotNull(message = "客户端编号不能为空")
     private String clientId;
 
-    @Schema(description = "客户端密钥", requiredMode = Schema.RequiredMode.REQUIRED, example = "peter")
+    @Schema(description = "Client secret", requiredMode = Schema.RequiredMode.REQUIRED, example = "peter")
     @NotNull(message = "客户端密钥不能为空")
     private String clientSecret;
 
-    @Schema(description = "授权方的网页应用编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "2000045")
+    @Schema(description = "Web application agent ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "2000045")
     private String agentId;
 
-    @Schema(description = "publicKey 公钥", example = "2000045")
+    @Schema(description = "Public key", example = "2000045")
     private String publicKey;
 
-    @Schema(description = "状态", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    @Schema(description = "Status", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @NotNull(message = "状态不能为空")
     @InEnum(CommonStatusEnum.class)
     private Integer status;

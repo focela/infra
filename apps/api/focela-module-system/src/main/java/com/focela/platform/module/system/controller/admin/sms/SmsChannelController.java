@@ -22,7 +22,7 @@ import java.util.List;
 
 import static com.focela.platform.framework.common.model.CommonResult.success;
 
-@Tag(name = "管理后台 - 短信渠道")
+@Tag(name = "Admin - SMS channel")
 @RestController
 @RequestMapping("system/sms-channel")
 public class SmsChannelController {
@@ -31,14 +31,14 @@ public class SmsChannelController {
     private SmsChannelService smsChannelService;
 
     @PostMapping("/create")
-    @Operation(summary = "创建短信渠道")
+    @Operation(summary = "create SMS channel")
     @PreAuthorize("@ss.hasPermission('system:sms-channel:create')")
     public CommonResult<Long> createSmsChannel(@Valid @RequestBody SmsChannelSaveRequest createRequest) {
         return success(smsChannelService.createSmsChannel(createRequest));
     }
 
     @PutMapping("/update")
-    @Operation(summary = "更新短信渠道")
+    @Operation(summary = "update SMS channel")
     @PreAuthorize("@ss.hasPermission('system:sms-channel:update')")
     public CommonResult<Boolean> updateSmsChannel(@Valid @RequestBody SmsChannelSaveRequest updateRequest) {
         smsChannelService.updateSmsChannel(updateRequest);
@@ -46,8 +46,8 @@ public class SmsChannelController {
     }
 
     @DeleteMapping("/delete")
-    @Operation(summary = "删除短信渠道")
-    @Parameter(name = "id", description = "编号", required = true)
+    @Operation(summary = "delete SMS channel")
+    @Parameter(name = "id", description = "ID", required = true)
     @PreAuthorize("@ss.hasPermission('system:sms-channel:delete')")
     public CommonResult<Boolean> deleteSmsChannel(@RequestParam("id") Long id) {
         smsChannelService.deleteSmsChannel(id);
@@ -55,8 +55,8 @@ public class SmsChannelController {
     }
 
     @DeleteMapping("/delete-list")
-    @Parameter(name = "ids", description = "编号列表", required = true)
-    @Operation(summary = "批量删除短信渠道")
+    @Parameter(name = "ids", description = "ID list", required = true)
+    @Operation(summary = "batch delete SMS channel")
     @PreAuthorize("@ss.hasPermission('system:sms-channel:delete')")
     public CommonResult<Boolean> deleteSmsChannelList(@RequestParam("ids") List<Long> ids) {
         smsChannelService.deleteSmsChannelList(ids);
@@ -64,8 +64,8 @@ public class SmsChannelController {
     }
 
     @GetMapping("/get")
-    @Operation(summary = "获得短信渠道")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "get SMS channel")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:sms-channel:query')")
     public CommonResult<SmsChannelResponse> getSmsChannel(@RequestParam("id") Long id) {
         SmsChannelEntity channel = smsChannelService.getSmsChannel(id);
@@ -73,7 +73,7 @@ public class SmsChannelController {
     }
 
     @GetMapping("/page")
-    @Operation(summary = "获得短信渠道分页")
+    @Operation(summary = "get SMS channel page")
     @PreAuthorize("@ss.hasPermission('system:sms-channel:query')")
     public CommonResult<PageResult<SmsChannelResponse>> getSmsChannelPage(@Valid SmsChannelPageRequest pageVO) {
         PageResult<SmsChannelEntity> pageResult = smsChannelService.getSmsChannelPage(pageVO);
@@ -81,7 +81,7 @@ public class SmsChannelController {
     }
 
     @GetMapping({"/list-all-simple", "/simple-list"})
-    @Operation(summary = "获得短信渠道精简列表", description = "包含被禁用的短信渠道")
+    @Operation(summary = "get SMS channel simplified list", description = "contain disabled SMS channel")
     public CommonResult<List<SmsChannelSimpleResponse>> getSimpleSmsChannelList() {
         List<SmsChannelEntity> list = smsChannelService.getSmsChannelList();
         list.sort(Comparator.comparing(SmsChannelEntity::getId));

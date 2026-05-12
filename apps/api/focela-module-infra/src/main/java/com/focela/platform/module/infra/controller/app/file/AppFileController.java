@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import static com.focela.platform.framework.common.model.CommonResult.success;
 
-@Tag(name = "用户 App - 文件存储")
+@Tag(name = "User App - File storage")
 @RestController
 @RequestMapping("/infra/file")
 @Validated
@@ -32,8 +32,8 @@ public class AppFileController {
     private FileService fileService;
 
     @PostMapping("/upload")
-    @Operation(summary = "上传文件")
-    @Parameter(name = "file", description = "文件附件", required = true,
+    @Operation(summary = "Upload file")
+    @Parameter(name = "file", description = "File attachments", required = true,
             schema = @Schema(type = "string", format = "binary"))
     @PermitAll
     public CommonResult<String> uploadFile(AppFileUploadRequest uploadRequest) throws Exception {
@@ -44,10 +44,10 @@ public class AppFileController {
     }
 
     @GetMapping("/presigned-url")
-    @Operation(summary = "获取文件预签名地址（上传）", description = "模式二：前端上传文件：用于前端直接上传七牛、阿里云 OSS 等文件存储器")
+    @Operation(summary = "Get file presigned URL (upload)", description = "Mode 2: frontend direct upload to OSS")
     @Parameters({
-            @Parameter(name = "name", description = "文件名称", required = true),
-            @Parameter(name = "directory", description = "文件目录")
+            @Parameter(name = "name", description = "File name", required = true),
+            @Parameter(name = "directory", description = "File directory")
     })
     public CommonResult<FilePresignedUrlResponse> getFilePresignedUrl(
             @RequestParam("name") String name,
@@ -56,7 +56,7 @@ public class AppFileController {
     }
 
     @PostMapping("/create")
-    @Operation(summary = "创建文件", description = "模式二：前端上传文件：配合 presigned-url 接口，记录上传了上传的文件")
+    @Operation(summary = "Create file", description = "Mode 2: frontend upload via presigned-url")
     @PermitAll
     public CommonResult<Long> createFile(@Valid @RequestBody FileCreateRequest createRequest) {
         return success(fileService.createFile(createRequest));

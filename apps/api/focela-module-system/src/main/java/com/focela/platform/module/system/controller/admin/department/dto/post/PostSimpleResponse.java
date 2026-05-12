@@ -4,15 +4,15 @@ import cn.idev.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "管理后台 - 岗位信息的精简 Response VO")
+@Schema(description = "Admin - post info simplified Response VO")
 @Data
 public class PostSimpleResponse {
 
-    @Schema(description = "岗位序号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    @Schema(description = "Post order", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     @ExcelProperty("岗位序号")
     private Long id;
 
-    @Schema(description = "岗位名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "小土豆")
+    @Schema(description = "Post name", requiredMode = Schema.RequiredMode.REQUIRED, example = "little potato")
     @ExcelProperty("岗位名称")
     private String name;
 

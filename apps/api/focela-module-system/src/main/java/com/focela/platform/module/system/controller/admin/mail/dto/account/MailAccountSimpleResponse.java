@@ -3,14 +3,14 @@ package com.focela.platform.module.system.controller.admin.mail.dto.account;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "管理后台 - 邮箱账号的精简 Response VO")
+@Schema(description = "Admin - email account simplified Response VO")
 @Data
 public class MailAccountSimpleResponse {
 
-    @Schema(description = "邮箱编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    @Schema(description = "Email ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     private Long id;
 
-    @Schema(description = "邮箱", requiredMode = Schema.RequiredMode.REQUIRED, example = "768541388@qq.com")
+    @Schema(description = "Email", requiredMode = Schema.RequiredMode.REQUIRED, example = "768541388@qq.com")
     private String mail;
 
 }

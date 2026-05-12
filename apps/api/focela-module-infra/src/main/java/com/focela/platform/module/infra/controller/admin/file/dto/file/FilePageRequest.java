@@ -9,17 +9,17 @@ import java.time.LocalDateTime;
 
 import static com.focela.platform.framework.common.utils.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
-@Schema(description = "管理后台 - 文件分页 Request VO")
+@Schema(description = "Admin - file page Request VO")
 @Data
 public class FilePageRequest extends PageParam {
 
-    @Schema(description = "文件路径，模糊匹配", example = "yudao")
+    @Schema(description = "file path, fuzzy match", example = "yudao")
     private String path;
 
-    @Schema(description = "文件类型，模糊匹配", example = "jpg")
+    @Schema(description = "file type, fuzzy match", example = "jpg")
     private String type;
 
-    @Schema(description = "创建时间", example = "[2022-07-01 00:00:00, 2022-07-01 23:59:59]")
+    @Schema(description = "Created time", example = "[2022-07-01 00:00:00, 2022-07-01 23:59:59]")
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
     private LocalDateTime[] createTime;
 

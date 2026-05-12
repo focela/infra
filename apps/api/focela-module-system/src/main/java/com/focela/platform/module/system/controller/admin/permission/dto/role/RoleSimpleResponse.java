@@ -5,14 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Schema(description = "管理后台 - 角色精简信息 Response VO")
+@Schema(description = "Admin - role simplified info Response VO")
 @Data
 public class RoleSimpleResponse {
 
-    @Schema(description = "角色编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    @Schema(description = "Role ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     private Long id;
 
-    @Schema(description = "角色名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
+    @Schema(description = "Role name", requiredMode = Schema.RequiredMode.REQUIRED, example = "Acme")
     private String name;
 
 }

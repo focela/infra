@@ -29,7 +29,7 @@ import java.util.List;
 import static com.focela.platform.framework.common.model.CommonResult.success;
 import static com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils.getLoginUserId;
 
-@Tag(name = "管理后台 - 用户个人中心")
+@Tag(name = "Admin - User profile")
 @RestController
 @RequestMapping("/system/user/profile")
 @Validated
@@ -48,7 +48,7 @@ public class UserProfileController {
     private RoleService roleService;
 
     @GetMapping("/get")
-    @Operation(summary = "获得登录用户信息")
+    @Operation(summary = "get login user info")
     @DataPermission(enable = false) // 关闭数据权限，避免只查看自己时，查询不到部门。
     public CommonResult<UserProfileResponse> getUserProfile() {
         // 获得用户基本信息
@@ -63,14 +63,14 @@ public class UserProfileController {
     }
 
     @PutMapping("/update")
-    @Operation(summary = "修改用户个人信息")
+    @Operation(summary = "update user personal info")
     public CommonResult<Boolean> updateUserProfile(@Valid @RequestBody UserProfileUpdateRequest request) {
         userService.updateUserProfile(getLoginUserId(), request);
         return success(true);
     }
 
     @PutMapping("/update-password")
-    @Operation(summary = "修改用户个人密码")
+    @Operation(summary = "update user personal password")
     public CommonResult<Boolean> updateUserProfilePassword(@Valid @RequestBody UserProfileUpdatePasswordRequest request) {
         userService.updateUserPassword(getLoginUserId(), request);
         return success(true);

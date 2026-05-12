@@ -32,7 +32,7 @@ import static com.focela.platform.framework.apilog.core.enums.OperateTypeEnum.EX
 import static com.focela.platform.framework.common.model.CommonResult.success;
 import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertList;
 
-@Tag(name = "管理后台 - 租户")
+@Tag(name = "Admin - Tenant")
 @RestController
 @RequestMapping("/system/tenant")
 @Validated
@@ -44,8 +44,8 @@ public class TenantController {
     @GetMapping("/get-id-by-name")
     @PermitAll
     @TenantIgnore
-    @Operation(summary = "使用租户名，获得租户编号", description = "登录界面，根据用户的租户名，获得租户编号")
-    @Parameter(name = "name", description = "租户名", required = true, example = "1024")
+    @Operation(summary = "use tenant name, get tenant ID", description = "login page, by user tenant name, get tenant ID")
+    @Parameter(name = "name", description = "Tenant name", required = true, example = "1024")
     public CommonResult<Long> getTenantIdByName(@RequestParam("name") String name) {
         TenantEntity tenant = tenantService.getTenantByName(name);
         return success(tenant != null ? tenant.getId() : null);
@@ -54,7 +54,7 @@ public class TenantController {
     @GetMapping({ "simple-list" })
     @PermitAll
     @TenantIgnore
-    @Operation(summary = "获取租户精简信息列表", description = "只包含被开启的租户，用于【首页】功能的选择租户选项")
+    @Operation(summary = "get tenant simplified info list", description = "only include enabled tenant, for [home]feature select tenant options")
     public CommonResult<List<TenantResponse>> getTenantSimpleList() {
         List<TenantEntity> list = tenantService.getTenantListByStatus(CommonStatusEnum.ENABLE.getStatus());
         return success(convertList(list, tenantDO ->
@@ -64,8 +64,8 @@ public class TenantController {
     @GetMapping("/get-by-website")
     @PermitAll
     @TenantIgnore
-    @Operation(summary = "使用域名，获得租户信息", description = "登录界面，根据用户的域名，获得租户信息")
-    @Parameter(name = "website", description = "域名", required = true, example = "www.example.com")
+    @Operation(summary = "Get tenant info by domain", description = "login page, by user domain, get tenant info")
+    @Parameter(name = "website", description = "Domain", required = true, example = "www.example.com")
     public CommonResult<TenantResponse> getTenantByWebsite(
             @RequestParam("website") @Pattern(regexp = "^[a-zA-Z0-9.-]+$", message = "网站域名格式不正确") String website) {
         TenantEntity tenant = tenantService.getTenantByWebsite(website);
@@ -76,14 +76,14 @@ public class TenantController {
     }
 
     @PostMapping("/create")
-    @Operation(summary = "创建租户")
+    @Operation(summary = "create tenant")
     @PreAuthorize("@ss.hasPermission('system:tenant:create')")
     public CommonResult<Long> createTenant(@Valid @RequestBody TenantSaveRequest createRequest) {
         return success(tenantService.createTenant(createRequest));
     }
 
     @PutMapping("/update")
-    @Operation(summary = "更新租户")
+    @Operation(summary = "update tenant")
     @PreAuthorize("@ss.hasPermission('system:tenant:update')")
     public CommonResult<Boolean> updateTenant(@Valid @RequestBody TenantSaveRequest updateRequest) {
         tenantService.updateTenant(updateRequest);
@@ -91,8 +91,8 @@ public class TenantController {
     }
 
     @DeleteMapping("/delete")
-    @Operation(summary = "删除租户")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "delete tenant")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:tenant:delete')")
     public CommonResult<Boolean> deleteTenant(@RequestParam("id") Long id) {
         tenantService.deleteTenant(id);
@@ -100,8 +100,8 @@ public class TenantController {
     }
 
     @DeleteMapping("/delete-list")
-    @Parameter(name = "ids", description = "编号列表", required = true)
-    @Operation(summary = "批量删除租户")
+    @Parameter(name = "ids", description = "ID list", required = true)
+    @Operation(summary = "batch delete tenant")
     @PreAuthorize("@ss.hasPermission('system:tenant:delete')")
     public CommonResult<Boolean> deleteTenantList(@RequestParam("ids") List<Long> ids) {
         tenantService.deleteTenantList(ids);
@@ -109,8 +109,8 @@ public class TenantController {
     }
 
     @GetMapping("/get")
-    @Operation(summary = "获得租户")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "get tenant")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:tenant:query')")
     public CommonResult<TenantResponse> getTenant(@RequestParam("id") Long id) {
         TenantEntity tenant = tenantService.getTenant(id);
@@ -118,7 +118,7 @@ public class TenantController {
     }
 
     @GetMapping("/page")
-    @Operation(summary = "获得租户分页")
+    @Operation(summary = "get tenant page")
     @PreAuthorize("@ss.hasPermission('system:tenant:query')")
     public CommonResult<PageResult<TenantResponse>> getTenantPage(@Valid TenantPageRequest pageVO) {
         PageResult<TenantEntity> pageResult = tenantService.getTenantPage(pageVO);
@@ -126,7 +126,7 @@ public class TenantController {
     }
 
     @GetMapping("/export-excel")
-    @Operation(summary = "导出租户 Excel")
+    @Operation(summary = "export tenant Excel")
     @PreAuthorize("@ss.hasPermission('system:tenant:export')")
     @ApiAccessLog(operateType = EXPORT)
     public void exportTenantExcel(@Valid TenantPageRequest exportRequest, HttpServletResponse response) throws IOException {

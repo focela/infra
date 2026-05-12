@@ -30,7 +30,7 @@ import static com.focela.platform.framework.apilog.core.enums.OperateTypeEnum.EX
 import static com.focela.platform.framework.common.model.CommonResult.success;
 import static java.util.Collections.singleton;
 
-@Tag(name = "管理后台 - 角色")
+@Tag(name = "Admin - Role")
 @RestController
 @RequestMapping("/system/role")
 @Validated
@@ -40,14 +40,14 @@ public class RoleController {
     private RoleService roleService;
 
     @PostMapping("/create")
-    @Operation(summary = "创建角色")
+    @Operation(summary = "create role")
     @PreAuthorize("@ss.hasPermission('system:role:create')")
     public CommonResult<Long> createRole(@Valid @RequestBody RoleSaveRequest createRequest) {
         return success(roleService.createRole(createRequest, null));
     }
 
     @PutMapping("/update")
-    @Operation(summary = "修改角色")
+    @Operation(summary = "update role")
     @PreAuthorize("@ss.hasPermission('system:role:update')")
     public CommonResult<Boolean> updateRole(@Valid @RequestBody RoleSaveRequest updateRequest) {
         roleService.updateRole(updateRequest);
@@ -55,8 +55,8 @@ public class RoleController {
     }
 
     @DeleteMapping("/delete")
-    @Operation(summary = "删除角色")
-    @Parameter(name = "id", description = "角色编号", required = true, example = "1024")
+    @Operation(summary = "delete role")
+    @Parameter(name = "id", description = "Role ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:role:delete')")
     public CommonResult<Boolean> deleteRole(@RequestParam("id") Long id) {
         roleService.deleteRole(id);
@@ -64,8 +64,8 @@ public class RoleController {
     }
 
     @DeleteMapping("/delete-list")
-    @Operation(summary = "批量删除角色")
-    @Parameter(name = "ids", description = "编号列表", required = true)
+    @Operation(summary = "batch delete role")
+    @Parameter(name = "ids", description = "ID list", required = true)
     @PreAuthorize("@ss.hasPermission('system:role:delete')")
     public CommonResult<Boolean> deleteRoleList(@RequestParam("ids") List<Long> ids) {
         roleService.deleteRoleList(ids);
@@ -73,7 +73,7 @@ public class RoleController {
     }
 
     @GetMapping("/get")
-    @Operation(summary = "获得角色信息")
+    @Operation(summary = "get role info")
     @PreAuthorize("@ss.hasPermission('system:role:query')")
     public CommonResult<RoleResponse> getRole(@RequestParam("id") Long id) {
         RoleEntity role = roleService.getRole(id);
@@ -81,7 +81,7 @@ public class RoleController {
     }
 
     @GetMapping("/page")
-    @Operation(summary = "获得角色分页")
+    @Operation(summary = "get role page")
     @PreAuthorize("@ss.hasPermission('system:role:query')")
     public CommonResult<PageResult<RoleResponse>> getRolePage(RolePageRequest pageRequest) {
         PageResult<RoleEntity> pageResult = roleService.getRolePage(pageRequest);
@@ -89,7 +89,7 @@ public class RoleController {
     }
 
     @GetMapping({"/list-all-simple", "/simple-list"})
-    @Operation(summary = "获取角色精简信息列表", description = "只包含被开启的角色，主要用于前端的下拉选项")
+    @Operation(summary = "get role simplified info list", description = "only include enabled role, for frontend dropdown options")
     public CommonResult<List<RoleResponse>> getSimpleRoleList() {
         List<RoleEntity> list = roleService.getRoleListByStatus(singleton(CommonStatusEnum.ENABLE.getStatus()));
         list.sort(Comparator.comparing(RoleEntity::getSort));
@@ -97,7 +97,7 @@ public class RoleController {
     }
 
     @GetMapping("/export-excel")
-    @Operation(summary = "导出角色 Excel")
+    @Operation(summary = "export role Excel")
     @ApiAccessLog(operateType = EXPORT)
     @PreAuthorize("@ss.hasPermission('system:role:export')")
     public void export(HttpServletResponse response, @Validated RolePageRequest exportRequest) throws IOException {

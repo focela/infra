@@ -11,22 +11,22 @@ import java.time.LocalDateTime;
 
 import static com.focela.platform.framework.common.utils.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
-@Schema(description = "管理后台 - 社交用户分页 Request VO")
+@Schema(description = "Admin - social user page Request VO")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class SocialUserPageRequest extends PageParam {
 
-    @Schema(description = "社交平台的类型", example = "30")
+    @Schema(description = "Social platform type", example = "30")
     private Integer type;
 
-    @Schema(description = "用户昵称", example = "李四")
+    @Schema(description = "Nickname", example = "John Doe")
     private String nickname;
 
-    @Schema(description = "社交 openid", example = "oz-Jdt0kd_jdhUxJHQdBJMlOFN7w")
+    @Schema(description = "Social openid", example = "oz-Jdt0kd_jdhUxJHQdBJMlOFN7w")
     private String openid;
 
-    @Schema(description = "创建时间")
+    @Schema(description = "Created time")
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
     private LocalDateTime[] createTime;
 

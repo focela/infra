@@ -20,7 +20,7 @@ import java.util.List;
 import static com.focela.platform.framework.common.model.CommonResult.success;
 import static com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils.getLoginUserId;
 
-@Tag(name = "管理后台 - 邮件模版")
+@Tag(name = "Admin - Email template")
 @RestController
 @RequestMapping("/system/mail-template")
 public class MailTemplateController {
@@ -31,14 +31,14 @@ public class MailTemplateController {
     private MailSendService mailSendService;
 
     @PostMapping("/create")
-    @Operation(summary = "创建邮件模版")
+    @Operation(summary = "create email template")
     @PreAuthorize("@ss.hasPermission('system:mail-template:create')")
     public CommonResult<Long> createMailTemplate(@Valid @RequestBody MailTemplateSaveRequest createRequest){
         return success(mailTempleService.createMailTemplate(createRequest));
     }
 
     @PutMapping("/update")
-    @Operation(summary = "修改邮件模版")
+    @Operation(summary = "update email template")
     @PreAuthorize("@ss.hasPermission('system:mail-template:update')")
     public CommonResult<Boolean> updateMailTemplate(@Valid @RequestBody MailTemplateSaveRequest updateRequest){
         mailTempleService.updateMailTemplate(updateRequest);
@@ -46,8 +46,8 @@ public class MailTemplateController {
     }
 
     @DeleteMapping("/delete")
-    @Operation(summary = "删除邮件模版")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "delete email template")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:mail-template:delete')")
     public CommonResult<Boolean> deleteMailTemplate(@RequestParam("id") Long id) {
         mailTempleService.deleteMailTemplate(id);
@@ -55,8 +55,8 @@ public class MailTemplateController {
     }
 
     @DeleteMapping("/delete-list")
-    @Operation(summary = "批量删除邮件模版")
-    @Parameter(name = "ids", description = "编号列表", required = true)
+    @Operation(summary = "batch delete email template")
+    @Parameter(name = "ids", description = "ID list", required = true)
     @PreAuthorize("@ss.hasPermission('system:mail-template:delete')")
     public CommonResult<Boolean> deleteMailTemplateList(@RequestParam("ids") List<Long> ids) {
         mailTempleService.deleteMailTemplateList(ids);
@@ -64,8 +64,8 @@ public class MailTemplateController {
     }
 
     @GetMapping("/get")
-    @Operation(summary = "获得邮件模版")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "get email template")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:mail-template:query')")
     public CommonResult<MailTemplateResponse> getMailTemplate(@RequestParam("id") Long id) {
         MailTemplateEntity template = mailTempleService.getMailTemplate(id);
@@ -73,7 +73,7 @@ public class MailTemplateController {
     }
 
     @GetMapping("/page")
-    @Operation(summary = "获得邮件模版分页")
+    @Operation(summary = "get email template page")
     @PreAuthorize("@ss.hasPermission('system:mail-template:query')")
     public CommonResult<PageResult<MailTemplateResponse>> getMailTemplatePage(@Valid MailTemplatePageRequest pageRequest) {
         PageResult<MailTemplateEntity> pageResult = mailTempleService.getMailTemplatePage(pageRequest);
@@ -81,14 +81,14 @@ public class MailTemplateController {
     }
 
     @GetMapping({"/list-all-simple", "simple-list"})
-    @Operation(summary = "获得邮件模版精简列表")
+    @Operation(summary = "get email template simplified list")
     public CommonResult<List<MailTemplateSimpleResponse>> getSimpleTemplateList() {
         List<MailTemplateEntity> list = mailTempleService.getMailTemplateList();
         return success(BeanUtils.toBean(list, MailTemplateSimpleResponse.class));
     }
 
     @PostMapping("/send-mail")
-    @Operation(summary = "发送短信")
+    @Operation(summary = "Send SMS")
     @PreAuthorize("@ss.hasPermission('system:mail-template:send-mail')")
     public CommonResult<Long> sendMail(@Valid @RequestBody MailTemplateSendRequest sendRequest) {
         return success(mailSendService.sendSingleMailToAdmin(getLoginUserId(),

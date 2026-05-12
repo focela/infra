@@ -28,7 +28,7 @@ import static com.focela.platform.framework.apilog.core.enums.OperateTypeEnum.EX
 import static com.focela.platform.framework.common.model.CommonResult.success;
 import static com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils.getLoginUserId;
 
-@Tag(name = "管理后台 - API 错误日志")
+@Tag(name = "Admin - API error log")
 @RestController
 @RequestMapping("/infra/api-error-log")
 @Validated
@@ -38,10 +38,10 @@ public class ApiErrorLogController {
     private ApiErrorLogService apiErrorLogService;
 
     @PutMapping("/update-status")
-    @Operation(summary = "更新 API 错误日志的状态")
+    @Operation(summary = "update API error log status")
     @Parameters({
-            @Parameter(name = "id", description = "编号", required = true, example = "1024"),
-            @Parameter(name = "processStatus", description = "处理状态", required = true, example = "1")
+            @Parameter(name = "id", description = "ID", required = true, example = "1024"),
+            @Parameter(name = "processStatus", description = "Process status", required = true, example = "1")
     })
     @PreAuthorize("@ss.hasPermission('infra:api-error-log:update-status')")
     public CommonResult<Boolean> updateApiErrorLogProcess(@RequestParam("id") Long id,
@@ -51,8 +51,8 @@ public class ApiErrorLogController {
     }
 
     @GetMapping("/get")
-    @Operation(summary = "获得 API 错误日志")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "get API error log")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:api-error-log:query')")
     public CommonResult<ApiErrorLogResponse> getApiErrorLog(@RequestParam("id") Long id) {
         ApiErrorLogEntity apiErrorLog = apiErrorLogService.getApiErrorLog(id);
@@ -60,7 +60,7 @@ public class ApiErrorLogController {
     }
 
     @GetMapping("/page")
-    @Operation(summary = "获得 API 错误日志分页")
+    @Operation(summary = "get API error log page")
     @PreAuthorize("@ss.hasPermission('infra:api-error-log:query')")
     public CommonResult<PageResult<ApiErrorLogResponse>> getApiErrorLogPage(@Valid ApiErrorLogPageRequest pageRequest) {
         PageResult<ApiErrorLogEntity> pageResult = apiErrorLogService.getApiErrorLogPage(pageRequest);
@@ -68,7 +68,7 @@ public class ApiErrorLogController {
     }
 
     @GetMapping("/export-excel")
-    @Operation(summary = "导出 API 错误日志 Excel")
+    @Operation(summary = "export API error log Excel")
     @PreAuthorize("@ss.hasPermission('infra:api-error-log:export')")
     @ApiAccessLog(operateType = EXPORT)
     public void exportApiErrorLogExcel(@Valid ApiErrorLogPageRequest exportRequest,

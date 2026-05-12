@@ -29,7 +29,7 @@ import java.util.List;
 import static com.focela.platform.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
 import static com.focela.platform.framework.common.model.CommonResult.success;
 
-@Tag(name = "管理后台 - API 访问日志")
+@Tag(name = "Admin - API access log")
 @RestController
 @RequestMapping("/infra/api-access-log")
 @Validated
@@ -39,8 +39,8 @@ public class ApiAccessLogController {
     private ApiAccessLogService apiAccessLogService;
 
     @GetMapping("/get")
-    @Operation(summary = "获得 API 访问日志")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "get API access log")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:api-access-log:query')")
     public CommonResult<ApiAccessLogResponse> getApiAccessLog(@RequestParam("id") Long id) {
         ApiAccessLogEntity apiAccessLog = apiAccessLogService.getApiAccessLog(id);
@@ -48,7 +48,7 @@ public class ApiAccessLogController {
     }
 
     @GetMapping("/page")
-    @Operation(summary = "获得API 访问日志分页")
+    @Operation(summary = "get API access log page")
     @PreAuthorize("@ss.hasPermission('infra:api-access-log:query')")
     public CommonResult<PageResult<ApiAccessLogResponse>> getApiAccessLogPage(@Valid ApiAccessLogPageRequest pageRequest) {
         PageResult<ApiAccessLogEntity> pageResult = apiAccessLogService.getApiAccessLogPage(pageRequest);
@@ -56,7 +56,7 @@ public class ApiAccessLogController {
     }
 
     @GetMapping("/export-excel")
-    @Operation(summary = "导出API 访问日志 Excel")
+    @Operation(summary = "export API access log Excel")
     @PreAuthorize("@ss.hasPermission('infra:api-access-log:export')")
     @ApiAccessLog(operateType = EXPORT)
     public void exportApiAccessLogExcel(@Valid ApiAccessLogPageRequest exportRequest,

@@ -12,48 +12,48 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@Schema(description = "管理后台 - 角色信息 Response VO")
+@Schema(description = "Admin - role info Response VO")
 @Data
 @ExcelIgnoreUnannotated
 public class RoleResponse {
 
-    @Schema(description = "角色编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    @Schema(description = "Role ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @ExcelProperty("角色序号")
     private Long id;
 
-    @Schema(description = "角色名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "管理员")
+    @Schema(description = "Role name", requiredMode = Schema.RequiredMode.REQUIRED, example = "admin")
     @ExcelProperty("角色名称")
     private String name;
 
-    @Schema(description = "角色标志", requiredMode = Schema.RequiredMode.REQUIRED, example = "admin")
+    @Schema(description = "Role code", requiredMode = Schema.RequiredMode.REQUIRED, example = "admin")
     @NotBlank(message = "角色标志不能为空")
     @ExcelProperty("角色标志")
     private String code;
 
-    @Schema(description = "显示顺序", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    @Schema(description = "Display order", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     @ExcelProperty("角色排序")
     private Integer sort;
 
-    @Schema(description = "状态，参见 CommonStatusEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    @Schema(description = "Status, see CommonStatusEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @ExcelProperty(value = "角色状态", converter = DictionaryConverter.class)
     @DictionaryFormat(DictionaryTypeConstants.COMMON_STATUS)
     private Integer status;
 
-    @Schema(description = "角色类型，参见 RoleTypeEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    @Schema(description = "role type, see RoleTypeEnum enum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Integer type;
 
-    @Schema(description = "备注", example = "我是一个角色")
+    @Schema(description = "Remarks", example = "I am a role")
     private String remark;
 
-    @Schema(description = "数据范围，参见 DataScopeEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    @Schema(description = "Data scope, see DataScopeEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @ExcelProperty(value = "数据范围", converter = DictionaryConverter.class)
     @DictionaryFormat(DictionaryTypeConstants.DATA_SCOPE)
     private Integer dataScope;
 
-    @Schema(description = "数据范围(指定部门数组)", example = "1")
+    @Schema(description = "data scope (specific department array)", example = "1")
     private Set<Long> dataScopeDeptIds;
 
-    @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED, example = "时间戳格式")
+    @Schema(description = "Created time", requiredMode = Schema.RequiredMode.REQUIRED, example = "timestamp format")
     private LocalDateTime createTime;
 
 }

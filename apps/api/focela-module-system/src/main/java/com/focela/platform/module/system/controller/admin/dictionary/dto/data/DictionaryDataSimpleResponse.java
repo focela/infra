@@ -3,23 +3,23 @@ package com.focela.platform.module.system.controller.admin.dictionary.dto.data;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "管理后台 - 数据字典精简 Response VO")
+@Schema(description = "Admin - data dictionary simplified Response VO")
 @Data
 public class DictionaryDataSimpleResponse {
 
-    @Schema(description = "字典类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "gender")
+    @Schema(description = "Dictionary type", requiredMode = Schema.RequiredMode.REQUIRED, example = "gender")
     private String dictType;
 
-    @Schema(description = "字典键值", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    @Schema(description = "dictionary value", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private String value;
 
-    @Schema(description = "字典标签", requiredMode = Schema.RequiredMode.REQUIRED, example = "男")
+    @Schema(description = "Dictionary label", requiredMode = Schema.RequiredMode.REQUIRED, example = "male")
     private String label;
 
-    @Schema(description = "颜色类型，default、primary、success、info、warning、danger", example = "default")
+    @Schema(description = "color type, default, primary, success, info, warning, danger", example = "default")
     private String colorType;
 
-    @Schema(description = "css 样式", example = "btn-visible")
+    @Schema(description = "CSS style", example = "btn-visible")
     private String cssClass;
 
 }

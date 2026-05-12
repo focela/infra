@@ -18,7 +18,7 @@ import java.util.Properties;
 
 import static com.focela.platform.framework.common.model.CommonResult.success;
 
-@Tag(name = "管理后台 - Redis 监控")
+@Tag(name = "Admin - Redis monitor")
 @RestController
 @RequestMapping("/infra/redis")
 public class RedisController {
@@ -27,7 +27,7 @@ public class RedisController {
     private StringRedisTemplate stringRedisTemplate;
 
     @GetMapping("/get-monitor-info")
-    @Operation(summary = "获得 Redis 监控信息")
+    @Operation(summary = "get Redis monitor info")
     @PreAuthorize("@ss.hasPermission('infra:redis:get-monitor-info')")
     public CommonResult<RedisMonitorResponse> getRedisMonitorInfo() {
         // 获得 Redis 统计信息

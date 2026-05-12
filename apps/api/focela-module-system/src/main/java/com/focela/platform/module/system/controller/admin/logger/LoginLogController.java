@@ -27,7 +27,7 @@ import java.util.List;
 import static com.focela.platform.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
 import static com.focela.platform.framework.common.model.CommonResult.success;
 
-@Tag(name = "管理后台 - 登录日志")
+@Tag(name = "Admin - Login log")
 @RestController
 @RequestMapping("/system/login-log")
 @Validated
@@ -37,7 +37,7 @@ public class LoginLogController {
     private LoginLogService loginLogService;
 
     @GetMapping("/get")
-    @Operation(summary = "获得登录日志")
+    @Operation(summary = "get login log")
     @PreAuthorize("@ss.hasPermission('system:login-log:query')")
     public CommonResult<LoginLogResponse> getLoginLog(Long id) {
         LoginLogEntity loginLog = loginLogService.getLoginLog(id);
@@ -45,7 +45,7 @@ public class LoginLogController {
     }
 
     @GetMapping("/page")
-    @Operation(summary = "获得登录日志分页列表")
+    @Operation(summary = "get login log page list")
     @PreAuthorize("@ss.hasPermission('system:login-log:query')")
     public CommonResult<PageResult<LoginLogResponse>> getLoginLogPage(@Valid LoginLogPageRequest pageRequest) {
         PageResult<LoginLogEntity> pageResult = loginLogService.getLoginLogPage(pageRequest);
@@ -53,7 +53,7 @@ public class LoginLogController {
     }
 
     @GetMapping("/export-excel")
-    @Operation(summary = "导出登录日志 Excel")
+    @Operation(summary = "export login log Excel")
     @PreAuthorize("@ss.hasPermission('system:login-log:export')")
     @ApiAccessLog(operateType = EXPORT)
     public void exportLoginLog(HttpServletResponse response, @Valid LoginLogPageRequest exportRequest) throws IOException {

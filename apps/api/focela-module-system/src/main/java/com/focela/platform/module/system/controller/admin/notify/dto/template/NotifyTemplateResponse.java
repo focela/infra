@@ -6,38 +6,38 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Schema(description = "管理后台 - 站内信模版 Response VO")
+@Schema(description = "Admin - notify template Response VO")
 @Data
 public class NotifyTemplateResponse {
 
     @Schema(description = "ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     private Long id;
 
-    @Schema(description = "模版名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "测试模版")
+    @Schema(description = "Template name", requiredMode = Schema.RequiredMode.REQUIRED, example = "test template")
     private String name;
 
-    @Schema(description = "模版编码", requiredMode = Schema.RequiredMode.REQUIRED, example = "SEND_TEST")
+    @Schema(description = "Template code", requiredMode = Schema.RequiredMode.REQUIRED, example = "SEND_TEST")
     private String code;
 
-    @Schema(description = "模版类型，对应 system_notify_template_type 字典", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    @Schema(description = "Template type (system_notify_template_type dictionary)", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Integer type;
 
-    @Schema(description = "发送人名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "土豆")
+    @Schema(description = "Sender name", requiredMode = Schema.RequiredMode.REQUIRED, example = "potato")
     private String nickname;
 
-    @Schema(description = "模版内容", requiredMode = Schema.RequiredMode.REQUIRED, example = "我是模版内容")
+    @Schema(description = "Template content", requiredMode = Schema.RequiredMode.REQUIRED, example = "I am template content")
     private String content;
 
-    @Schema(description = "参数数组", example = "name,code")
+    @Schema(description = "Param array", example = "name,code")
     private List<String> params;
 
-    @Schema(description = "状态，参见 CommonStatusEnum 枚举", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    @Schema(description = "Status, see CommonStatusEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Integer status;
 
-    @Schema(description = "备注", example = "我是备注")
+    @Schema(description = "Remarks", example = "I am remarks")
     private String remark;
 
-    @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Created time", requiredMode = Schema.RequiredMode.REQUIRED)
     private LocalDateTime createTime;
 
 }

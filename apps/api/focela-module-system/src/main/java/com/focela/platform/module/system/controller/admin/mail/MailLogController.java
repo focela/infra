@@ -21,7 +21,7 @@ import jakarta.validation.Valid;
 
 import static com.focela.platform.framework.common.model.CommonResult.success;
 
-@Tag(name = "管理后台 - 邮件日志")
+@Tag(name = "Admin - email log")
 @RestController
 @RequestMapping("/system/mail-log")
 public class MailLogController {
@@ -30,7 +30,7 @@ public class MailLogController {
     private MailLogService mailLogService;
 
     @GetMapping("/page")
-    @Operation(summary = "获得邮箱日志分页")
+    @Operation(summary = "get email log page")
     @PreAuthorize("@ss.hasPermission('system:mail-log:query')")
     public CommonResult<PageResult<MailLogResponse>> getMailLogPage(@Valid MailLogPageRequest pageVO) {
         PageResult<MailLogEntity> pageResult = mailLogService.getMailLogPage(pageVO);
@@ -38,8 +38,8 @@ public class MailLogController {
     }
 
     @GetMapping("/get")
-    @Operation(summary = "获得邮箱日志")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "get email log")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:mail-log:query')")
     public CommonResult<MailLogResponse> getMailTemplate(@RequestParam("id") Long id) {
         MailLogEntity log = mailLogService.getMailLog(id);

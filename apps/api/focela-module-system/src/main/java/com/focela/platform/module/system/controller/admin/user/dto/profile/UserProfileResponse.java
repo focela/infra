@@ -10,37 +10,37 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-@Schema(description = "管理后台 - 用户个人中心信息 Response VO")
+@Schema(description = "Admin - user profile info Response VO")
 public class UserProfileResponse {
 
-    @Schema(description = "用户编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    @Schema(description = "User ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Long id;
 
-    @Schema(description = "用户账号", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
+    @Schema(description = "Username", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
     private String username;
 
-    @Schema(description = "用户昵称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋艿")
+    @Schema(description = "Nickname", requiredMode = Schema.RequiredMode.REQUIRED, example = "Alice")
     private String nickname;
 
-    @Schema(description = "用户邮箱", example = "user@example.com")
+    @Schema(description = "Email", example = "user@example.com")
     private String email;
 
-    @Schema(description = "手机号码", example = "15601691300")
+    @Schema(description = "Mobile number", example = "15601691300")
     private String mobile;
 
-    @Schema(description = "用户性别，参见 SexEnum 枚举类", example = "1")
+    @Schema(description = "Gender, see SexEnum", example = "1")
     private Integer sex;
 
-    @Schema(description = "用户头像", example = "https://www.example.com/xxx.png")
+    @Schema(description = "Avatar", example = "https://www.example.com/xxx.png")
     private String avatar;
 
-    @Schema(description = "最后登录 IP", requiredMode = Schema.RequiredMode.REQUIRED, example = "192.168.1.1")
+    @Schema(description = "Last login IP", requiredMode = Schema.RequiredMode.REQUIRED, example = "192.168.1.1")
     private String loginIp;
 
-    @Schema(description = "最后登录时间", requiredMode = Schema.RequiredMode.REQUIRED, example = "时间戳格式")
+    @Schema(description = "Last login time", requiredMode = Schema.RequiredMode.REQUIRED, example = "timestamp format")
     private LocalDateTime loginDate;
 
-    @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED, example = "时间戳格式")
+    @Schema(description = "Created time", requiredMode = Schema.RequiredMode.REQUIRED, example = "timestamp format")
     private LocalDateTime createTime;
 
     /**

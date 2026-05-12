@@ -9,26 +9,26 @@ import java.time.LocalDateTime;
 
 import static com.focela.platform.framework.common.utils.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
-@Schema(description = "管理后台 - 操作日志分页列表 Request VO")
+@Schema(description = "Admin - operation log page list Request VO")
 @Data
 public class OperateLogPageRequest extends PageParam {
 
-    @Schema(description = "用户编号", example = "芋道")
+    @Schema(description = "User ID", example = "Acme")
     private Long userId;
 
-    @Schema(description = "操作模块业务编号", example = "1")
+    @Schema(description = "Business ID", example = "1")
     private Long bizId;
 
-    @Schema(description = "操作模块，模拟匹配", example = "订单")
+    @Schema(description = "operation module, fuzzy match", example = "order")
     private String type;
 
-    @Schema(description = "操作名，模拟匹配", example = "创建订单")
+    @Schema(description = "operation name, fuzzy match", example = "create order")
     private String subType;
 
-    @Schema(description = "操作明细，模拟匹配", example = "修改编号为 1 的用户信息")
+    @Schema(description = "operation detail, fuzzy match", example = "update ID as 1 user info")
     private String action;
 
-    @Schema(description = "开始时间", example = "[2022-07-01 00:00:00,2022-07-01 23:59:59]")
+    @Schema(description = "Start time", example = "[2022-07-01 00:00:00,2022-07-01 23:59:59]")
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
     private LocalDateTime[] createTime;
 

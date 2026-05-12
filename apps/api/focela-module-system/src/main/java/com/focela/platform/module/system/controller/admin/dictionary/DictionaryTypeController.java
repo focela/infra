@@ -28,7 +28,7 @@ import java.util.List;
 import static com.focela.platform.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
 import static com.focela.platform.framework.common.model.CommonResult.success;
 
-@Tag(name = "管理后台 - 字典类型")
+@Tag(name = "Admin - Dictionary type")
 @RestController
 @RequestMapping("/system/dict-type")
 @Validated
@@ -38,7 +38,7 @@ public class DictionaryTypeController {
     private DictionaryTypeService dictTypeService;
 
     @PostMapping("/create")
-    @Operation(summary = "创建字典类型")
+    @Operation(summary = "create dictionary type")
     @PreAuthorize("@ss.hasPermission('system:dict:create')")
     public CommonResult<Long> createDictType(@Valid @RequestBody DictionaryTypeSaveRequest createRequest) {
         Long dictTypeId = dictTypeService.createDictType(createRequest);
@@ -46,7 +46,7 @@ public class DictionaryTypeController {
     }
 
     @PutMapping("/update")
-    @Operation(summary = "修改字典类型")
+    @Operation(summary = "update dictionary type")
     @PreAuthorize("@ss.hasPermission('system:dict:update')")
     public CommonResult<Boolean> updateDictType(@Valid @RequestBody DictionaryTypeSaveRequest updateRequest) {
         dictTypeService.updateDictType(updateRequest);
@@ -54,8 +54,8 @@ public class DictionaryTypeController {
     }
 
     @DeleteMapping("/delete")
-    @Operation(summary = "删除字典类型")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "delete dictionary type")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:dict:delete')")
     public CommonResult<Boolean> deleteDictType(Long id) {
         dictTypeService.deleteDictType(id);
@@ -63,8 +63,8 @@ public class DictionaryTypeController {
     }
 
     @DeleteMapping("/delete-list")
-    @Operation(summary = "批量删除字典类型")
-    @Parameter(name = "ids", description = "编号列表", required = true)
+    @Operation(summary = "batch delete dictionary type")
+    @Parameter(name = "ids", description = "ID list", required = true)
     @PreAuthorize("@ss.hasPermission('system:dict:delete')")
     public CommonResult<Boolean> deleteDictTypeList(@RequestParam("ids") List<Long> ids) {
         dictTypeService.deleteDictTypeList(ids);
@@ -72,15 +72,15 @@ public class DictionaryTypeController {
     }
 
     @GetMapping("/page")
-    @Operation(summary = "获得字典类型的分页列表")
+    @Operation(summary = "get dictionary type page list")
     @PreAuthorize("@ss.hasPermission('system:dict:query')")
     public CommonResult<PageResult<DictionaryTypeResponse>> pageDictTypes(@Valid DictionaryTypePageRequest pageRequest) {
         PageResult<DictionaryTypeEntity> pageResult = dictTypeService.getDictTypePage(pageRequest);
         return success(BeanUtils.toBean(pageResult, DictionaryTypeResponse.class));
     }
 
-    @Operation(summary = "/查询字典类型详细")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "/query dictionary type details")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @GetMapping(value = "/get")
     @PreAuthorize("@ss.hasPermission('system:dict:query')")
     public CommonResult<DictionaryTypeResponse> getDictType(@RequestParam("id") Long id) {
@@ -89,14 +89,14 @@ public class DictionaryTypeController {
     }
 
     @GetMapping(value = {"/list-all-simple", "simple-list"})
-    @Operation(summary = "获得全部字典类型列表", description = "包括开启 + 禁用的字典类型，主要用于前端的下拉选项")
+    @Operation(summary = "get all dictionary type list", description = "include enable + disable dictionary type, for frontend dropdown options")
     // 无需添加权限认证，因为前端全局都需要
     public CommonResult<List<DictionaryTypeSimpleResponse>> getSimpleDictTypeList() {
         List<DictionaryTypeEntity> list = dictTypeService.getDictTypeList();
         return success(BeanUtils.toBean(list, DictionaryTypeSimpleResponse.class));
     }
 
-    @Operation(summary = "导出数据类型")
+    @Operation(summary = "export data type")
     @GetMapping("/export-excel")
     @PreAuthorize("@ss.hasPermission('system:dict:query')")
     @ApiAccessLog(operateType = EXPORT)

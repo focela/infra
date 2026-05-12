@@ -32,7 +32,7 @@ import static com.focela.platform.framework.security.core.utils.SecurityFramewor
  * 1. 在 getUserInfo 方法上，添加 @PreAuthorize("@ss.hasScope('user.read')") 注解，声明需要满足 scope = user.read
  * 2. 在 updateUserInfo 方法上，添加 @PreAuthorize("@ss.hasScope('user.write')") 注解，声明需要满足 scope = user.write
  */
-@Tag(name = "管理后台 - OAuth2.0 用户")
+@Tag(name = "Admin - OAuth2.0 user")
 @RestController
 @RequestMapping("/system/oauth2/user")
 @Validated
@@ -47,7 +47,7 @@ public class OAuth2UserController {
     private PostService postService;
 
     @GetMapping("/get")
-    @Operation(summary = "获得用户基本信息")
+    @Operation(summary = "get user basic info")
     @PreAuthorize("@ss.hasScope('user.read')") //
     public CommonResult<OAuth2UserInfoResponse> getUserInfo() {
         // 获得用户基本信息
@@ -67,7 +67,7 @@ public class OAuth2UserController {
     }
 
     @PutMapping("/update")
-    @Operation(summary = "更新用户基本信息")
+    @Operation(summary = "update user basic info")
     @PreAuthorize("@ss.hasScope('user.write')")
     public CommonResult<Boolean> updateUserInfo(@Valid @RequestBody OAuth2UserUpdateRequest request) {
         // 这里将 UserProfileUpdateRequest =》UserProfileUpdateRequest 对象，实现接口的复用。

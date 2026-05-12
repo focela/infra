@@ -22,7 +22,7 @@ import java.util.List;
 
 import static com.focela.platform.framework.common.model.CommonResult.success;
 
-@Tag(name = "管理后台 - 邮箱账号")
+@Tag(name = "Admin - Email account")
 @RestController
 @RequestMapping("/system/mail-account")
 public class MailAccountController {
@@ -31,14 +31,14 @@ public class MailAccountController {
     private MailAccountService mailAccountService;
 
     @PostMapping("/create")
-    @Operation(summary = "创建邮箱账号")
+    @Operation(summary = "create email account")
     @PreAuthorize("@ss.hasPermission('system:mail-account:create')")
     public CommonResult<Long> createMailAccount(@Valid @RequestBody MailAccountSaveRequest createRequest) {
         return success(mailAccountService.createMailAccount(createRequest));
     }
 
     @PutMapping("/update")
-    @Operation(summary = "修改邮箱账号")
+    @Operation(summary = "update email account")
     @PreAuthorize("@ss.hasPermission('system:mail-account:update')")
     public CommonResult<Boolean> updateMailAccount(@Valid @RequestBody MailAccountSaveRequest updateRequest) {
         mailAccountService.updateMailAccount(updateRequest);
@@ -46,8 +46,8 @@ public class MailAccountController {
     }
 
     @DeleteMapping("/delete")
-    @Operation(summary = "删除邮箱账号")
-    @Parameter(name = "id", description = "编号", required = true)
+    @Operation(summary = "delete email account")
+    @Parameter(name = "id", description = "ID", required = true)
     @PreAuthorize("@ss.hasPermission('system:mail-account:delete')")
     public CommonResult<Boolean> deleteMailAccount(@RequestParam Long id) {
         mailAccountService.deleteMailAccount(id);
@@ -55,8 +55,8 @@ public class MailAccountController {
     }
 
     @DeleteMapping("/delete-list")
-    @Operation(summary = "批量删除邮箱账号")
-    @Parameter(name = "ids", description = "编号列表", required = true)
+    @Operation(summary = "batch delete email account")
+    @Parameter(name = "ids", description = "ID list", required = true)
     @PreAuthorize("@ss.hasPermission('system:mail-account:delete')")
     public CommonResult<Boolean> deleteMailAccountList(@RequestParam("ids") List<Long> ids) {
         mailAccountService.deleteMailAccountList(ids);
@@ -64,8 +64,8 @@ public class MailAccountController {
     }
 
     @GetMapping("/get")
-    @Operation(summary = "获得邮箱账号")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "get email account")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:mail-account:query')")
     public CommonResult<MailAccountResponse> getMailAccount(@RequestParam("id") Long id) {
         MailAccountEntity account = mailAccountService.getMailAccount(id);
@@ -73,7 +73,7 @@ public class MailAccountController {
     }
 
     @GetMapping("/page")
-    @Operation(summary = "获得邮箱账号分页")
+    @Operation(summary = "get email account page")
     @PreAuthorize("@ss.hasPermission('system:mail-account:query')")
     public CommonResult<PageResult<MailAccountResponse>> getMailAccountPage(@Valid MailAccountPageRequest pageRequest) {
         PageResult<MailAccountEntity> pageResult = mailAccountService.getMailAccountPage(pageRequest);
@@ -81,7 +81,7 @@ public class MailAccountController {
     }
 
     @GetMapping({"/list-all-simple", "simple-list"})
-    @Operation(summary = "获得邮箱账号精简列表")
+    @Operation(summary = "get email account simplified list")
     public CommonResult<List<MailAccountSimpleResponse>> getSimpleMailAccountList() {
         List<MailAccountEntity> list = mailAccountService.getMailAccountList();
         return success(BeanUtils.toBean(list, MailAccountSimpleResponse.class));

@@ -31,14 +31,14 @@ public class SocialClientController {
     private SocialClientService socialClientService;
 
     @PostMapping("/create")
-    @Operation(summary = "创建社交客户端")
+    @Operation(summary = "create social client")
     @PreAuthorize("@ss.hasPermission('system:social-client:create')")
     public CommonResult<Long> createSocialClient(@Valid @RequestBody SocialClientSaveRequest createRequest) {
         return success(socialClientService.createSocialClient(createRequest));
     }
 
     @PutMapping("/update")
-    @Operation(summary = "更新社交客户端")
+    @Operation(summary = "update social client")
     @PreAuthorize("@ss.hasPermission('system:social-client:update')")
     public CommonResult<Boolean> updateSocialClient(@Valid @RequestBody SocialClientSaveRequest updateRequest) {
         socialClientService.updateSocialClient(updateRequest);
@@ -46,8 +46,8 @@ public class SocialClientController {
     }
 
     @DeleteMapping("/delete")
-    @Operation(summary = "删除社交客户端")
-    @Parameter(name = "id", description = "编号", required = true)
+    @Operation(summary = "delete social client")
+    @Parameter(name = "id", description = "ID", required = true)
     @PreAuthorize("@ss.hasPermission('system:social-client:delete')")
     public CommonResult<Boolean> deleteSocialClient(@RequestParam("id") Long id) {
         socialClientService.deleteSocialClient(id);
@@ -55,8 +55,8 @@ public class SocialClientController {
     }
 
     @DeleteMapping("/delete-list")
-    @Parameter(name = "ids", description = "编号列表", required = true)
-    @Operation(summary = "批量删除社交客户端")
+    @Parameter(name = "ids", description = "ID list", required = true)
+    @Operation(summary = "batch delete social client")
     @PreAuthorize("@ss.hasPermission('system:social-client:delete')")
     public CommonResult<Boolean> deleteSocialClientList(@RequestParam("ids") List<Long> ids) {
         socialClientService.deleteSocialClientList(ids);
@@ -64,8 +64,8 @@ public class SocialClientController {
     }
 
     @GetMapping("/get")
-    @Operation(summary = "获得社交客户端")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "get social client")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:social-client:query')")
     public CommonResult<SocialClientResponse> getSocialClient(@RequestParam("id") Long id) {
         SocialClientEntity client = socialClientService.getSocialClient(id);
@@ -73,7 +73,7 @@ public class SocialClientController {
     }
 
     @GetMapping("/page")
-    @Operation(summary = "获得社交客户端分页")
+    @Operation(summary = "get social client page")
     @PreAuthorize("@ss.hasPermission('system:social-client:query')")
     public CommonResult<PageResult<SocialClientResponse>> getSocialClientPage(@Valid SocialClientPageRequest pageVO) {
         PageResult<SocialClientEntity> pageResult = socialClientService.getSocialClientPage(pageVO);

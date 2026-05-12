@@ -7,26 +7,26 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-@Schema(description = "管理后台 - 通知公告创建/修改 Request VO")
+@Schema(description = "Admin - notice create /update Request VO")
 @Data
 public class NoticeSaveRequest {
 
-    @Schema(description = "岗位公告编号", example = "1024")
+    @Schema(description = "post notice ID", example = "1024")
     private Long id;
 
-    @Schema(description = "公告标题", requiredMode = Schema.RequiredMode.REQUIRED, example = "小博主")
+    @Schema(description = "Notice title", requiredMode = Schema.RequiredMode.REQUIRED, example = "XiaoBo master")
     @NotBlank(message = "公告标题不能为空")
     @Size(max = 50, message = "公告标题不能超过50个字符")
     private String title;
 
-    @Schema(description = "公告类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "小博主")
+    @Schema(description = "Notice type", requiredMode = Schema.RequiredMode.REQUIRED, example = "XiaoBo master")
     @NotNull(message = "公告类型不能为空")
     private Integer type;
 
-    @Schema(description = "公告内容", requiredMode = Schema.RequiredMode.REQUIRED, example = "半生编码")
+    @Schema(description = "Notice content", requiredMode = Schema.RequiredMode.REQUIRED, example = "Acme")
     private String content;
 
-    @Schema(description = "状态，参见 CommonStatusEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    @Schema(description = "Status, see CommonStatusEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Integer status;
 
 }

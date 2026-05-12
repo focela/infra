@@ -24,7 +24,7 @@ import java.util.List;
 
 import static com.focela.platform.framework.common.model.CommonResult.success;
 
-@Tag(name = "管理后台 - 通知公告")
+@Tag(name = "Admin - Notice")
 @RestController
 @RequestMapping("/system/notice")
 @Validated
@@ -37,7 +37,7 @@ public class NoticeController {
     private WebSocketSenderApi webSocketSenderApi;
 
     @PostMapping("/create")
-    @Operation(summary = "创建通知公告")
+    @Operation(summary = "create notice")
     @PreAuthorize("@ss.hasPermission('system:notice:create')")
     public CommonResult<Long> createNotice(@Valid @RequestBody NoticeSaveRequest createRequest) {
         Long noticeId = noticeService.createNotice(createRequest);
@@ -45,7 +45,7 @@ public class NoticeController {
     }
 
     @PutMapping("/update")
-    @Operation(summary = "修改通知公告")
+    @Operation(summary = "update notice")
     @PreAuthorize("@ss.hasPermission('system:notice:update')")
     public CommonResult<Boolean> updateNotice(@Valid @RequestBody NoticeSaveRequest updateRequest) {
         noticeService.updateNotice(updateRequest);
@@ -53,8 +53,8 @@ public class NoticeController {
     }
 
     @DeleteMapping("/delete")
-    @Operation(summary = "删除通知公告")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "delete notice")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:notice:delete')")
     public CommonResult<Boolean> deleteNotice(@RequestParam("id") Long id) {
         noticeService.deleteNotice(id);
@@ -62,8 +62,8 @@ public class NoticeController {
     }
 
     @DeleteMapping("/delete-list")
-    @Operation(summary = "批量删除通知公告")
-    @Parameter(name = "ids", description = "编号列表", required = true)
+    @Operation(summary = "batch delete notice")
+    @Parameter(name = "ids", description = "ID list", required = true)
     @PreAuthorize("@ss.hasPermission('system:notice:delete')")
     public CommonResult<Boolean> deleteNoticeList(@RequestParam("ids") List<Long> ids) {
         noticeService.deleteNoticeList(ids);
@@ -71,7 +71,7 @@ public class NoticeController {
     }
 
     @GetMapping("/page")
-    @Operation(summary = "获取通知公告列表")
+    @Operation(summary = "get notice list")
     @PreAuthorize("@ss.hasPermission('system:notice:query')")
     public CommonResult<PageResult<NoticeResponse>> getNoticePage(@Validated NoticePageRequest pageRequest) {
         PageResult<NoticeEntity> pageResult = noticeService.getNoticePage(pageRequest);
@@ -79,8 +79,8 @@ public class NoticeController {
     }
 
     @GetMapping("/get")
-    @Operation(summary = "获得通知公告")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "get notice")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:notice:query')")
     public CommonResult<NoticeResponse> getNotice(@RequestParam("id") Long id) {
         NoticeEntity notice = noticeService.getNotice(id);
@@ -88,8 +88,8 @@ public class NoticeController {
     }
 
     @PostMapping("/push")
-    @Operation(summary = "推送通知公告", description = "只发送给 websocket 连接在线的用户")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "push notice", description = "only send to websocket connection online user")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:notice:update')")
     public CommonResult<Boolean> push(@RequestParam("id") Long id) {
         NoticeEntity notice = noticeService.getNotice(id);

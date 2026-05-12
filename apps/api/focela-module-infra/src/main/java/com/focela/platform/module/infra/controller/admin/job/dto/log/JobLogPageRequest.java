@@ -9,25 +9,25 @@ import java.time.LocalDateTime;
 
 import static com.focela.platform.framework.common.utils.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
-@Schema(description = "管理后台 - 定时任务日志分页 Request VO")
+@Schema(description = "Admin - scheduled job log page Request VO")
 @Data
 public class JobLogPageRequest extends PageParam {
 
-    @Schema(description = "任务编号", example = "10")
+    @Schema(description = "Job ID", example = "10")
     private Long jobId;
 
-    @Schema(description = "处理器的名字，模糊匹配")
+    @Schema(description = "Handler name (fuzzy match)")
     private String handlerName;
 
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
-    @Schema(description = "开始执行时间")
+    @Schema(description = "Execution start time")
     private LocalDateTime beginTime;
 
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
-    @Schema(description = "结束执行时间")
+    @Schema(description = "Execution end time")
     private LocalDateTime endTime;
 
-    @Schema(description = "任务状态，参见 JobLogStatusEnum 枚举")
+    @Schema(description = "Job status, see JobLogStatusEnum")
     private Integer status;
 
 }

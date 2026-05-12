@@ -24,7 +24,7 @@ import java.util.List;
 import static com.focela.platform.framework.common.model.CommonResult.success;
 import static com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils.getLoginUserId;
 
-@Tag(name = "管理后台 - 我的站内信")
+@Tag(name = "Admin - My notifications")
 @RestController
 @RequestMapping("/system/notify-message")
 @Validated
@@ -36,8 +36,8 @@ public class NotifyMessageController {
     // ========== 管理所有的站内信 ==========
 
     @GetMapping("/get")
-    @Operation(summary = "获得站内信")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "get notify message")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:notify-message:query')")
     public CommonResult<NotifyMessageResponse> getNotifyMessage(@RequestParam("id") Long id) {
         NotifyMessageEntity message = notifyMessageService.getNotifyMessage(id);
@@ -45,7 +45,7 @@ public class NotifyMessageController {
     }
 
     @GetMapping("/page")
-    @Operation(summary = "获得站内信分页")
+    @Operation(summary = "get notify message page")
     @PreAuthorize("@ss.hasPermission('system:notify-message:query')")
     public CommonResult<PageResult<NotifyMessageResponse>> getNotifyMessagePage(@Valid NotifyMessagePageRequest pageVO) {
         PageResult<NotifyMessageEntity> pageResult = notifyMessageService.getNotifyMessagePage(pageVO);
@@ -55,7 +55,7 @@ public class NotifyMessageController {
     // ========== 查看自己的站内信 ==========
 
     @GetMapping("/my-page")
-    @Operation(summary = "获得我的站内信分页")
+    @Operation(summary = "get my notify message page")
     public CommonResult<PageResult<NotifyMessageResponse>> getMyMyNotifyMessagePage(@Valid NotifyMessageMyPageRequest pageVO) {
         PageResult<NotifyMessageEntity> pageResult = notifyMessageService.getMyMyNotifyMessagePage(pageVO,
                 getLoginUserId(), UserTypeEnum.ADMIN.getValue());
@@ -63,22 +63,22 @@ public class NotifyMessageController {
     }
 
     @PutMapping("/update-read")
-    @Operation(summary = "标记站内信为已读")
-    @Parameter(name = "ids", description = "编号列表", required = true, example = "1024,2048")
+    @Operation(summary = "mark notify message as read")
+    @Parameter(name = "ids", description = "ID list", required = true, example = "1024,2048")
     public CommonResult<Boolean> updateNotifyMessageRead(@RequestParam("ids") List<Long> ids) {
         notifyMessageService.updateNotifyMessageRead(ids, getLoginUserId(), UserTypeEnum.ADMIN.getValue());
         return success(Boolean.TRUE);
     }
 
     @PutMapping("/update-all-read")
-    @Operation(summary = "标记所有站内信为已读")
+    @Operation(summary = "mark all notify message as read")
     public CommonResult<Boolean> updateAllNotifyMessageRead() {
         notifyMessageService.updateAllNotifyMessageRead(getLoginUserId(), UserTypeEnum.ADMIN.getValue());
         return success(Boolean.TRUE);
     }
 
     @GetMapping("/get-unread-list")
-    @Operation(summary = "获取当前用户的最新站内信列表，默认 10 条")
+    @Operation(summary = "get current user latest notify message list, default 10 item")
     @Parameter(name = "size", description = "10")
     public CommonResult<List<NotifyMessageResponse>> getUnreadNotifyMessageList(
             @RequestParam(name = "size", defaultValue = "10") Integer size) {
@@ -88,7 +88,7 @@ public class NotifyMessageController {
     }
 
     @GetMapping("/get-unread-count")
-    @Operation(summary = "获得当前用户的未读站内信数量")
+    @Operation(summary = "get current user unread notify message count")
     @ApiAccessLog(enable = false) // 由于前端会不断轮询该接口，记录日志没有意义
     public CommonResult<Long> getUnreadNotifyMessageCount() {
         return success(notifyMessageService.getUnreadNotifyMessageCount(

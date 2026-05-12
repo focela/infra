@@ -21,7 +21,7 @@ import java.util.List;
 
 import static com.focela.platform.framework.common.model.CommonResult.success;
 
-@Tag(name = "管理后台 - OAuth2.0 令牌")
+@Tag(name = "Admin - OAuth2.0 token")
 @RestController
 @RequestMapping("/system/oauth2-token")
 public class OAuth2TokenController {
@@ -32,7 +32,7 @@ public class OAuth2TokenController {
     private AdminAuthService authService;
 
     @GetMapping("/page")
-    @Operation(summary = "获得访问令牌分页", description = "只返回有效期内的")
+    @Operation(summary = "get access token page", description = "return only TTL within")
     @PreAuthorize("@ss.hasPermission('system:oauth2-token:page')")
     public CommonResult<PageResult<OAuth2AccessTokenResponse>> getAccessTokenPage(@Valid OAuth2AccessTokenPageRequest request) {
         PageResult<OAuth2AccessTokenEntity> pageResult = oauth2TokenService.getAccessTokenPage(request);
@@ -40,8 +40,8 @@ public class OAuth2TokenController {
     }
 
     @DeleteMapping("/delete")
-    @Operation(summary = "删除访问令牌")
-    @Parameter(name = "accessToken", description = "访问令牌", required = true, example = "tudou")
+    @Operation(summary = "Delete access token")
+    @Parameter(name = "accessToken", description = "Access token", required = true, example = "tudou")
     @PreAuthorize("@ss.hasPermission('system:oauth2-token:delete')")
     public CommonResult<Boolean> deleteAccessToken(@RequestParam("accessToken") String accessToken) {
         authService.logout(accessToken, LoginLogTypeEnum.LOGOUT_DELETE.getType());
@@ -49,8 +49,8 @@ public class OAuth2TokenController {
     }
 
     @DeleteMapping("/delete-list")
-    @Operation(summary = "批量删除访问令牌")
-    @Parameter(name = "accessTokens", description = "访问令牌数组", required = true)
+    @Operation(summary = "batch delete access token")
+    @Parameter(name = "accessTokens", description = "access token array", required = true)
     @PreAuthorize("@ss.hasPermission('system:oauth2-token:delete')")
     public CommonResult<Boolean> deleteAccessTokenList(@RequestParam("accessTokens") List<String> accessTokens) {
         accessTokens.forEach(accessToken ->

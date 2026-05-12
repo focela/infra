@@ -11,22 +11,22 @@ import java.time.LocalDateTime;
 
 import static com.focela.platform.framework.common.utils.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
-@Schema(description = "管理后台 - 租户套餐分页 Request VO")
+@Schema(description = "Admin - tenant package page Request VO")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class TenantPackagePageRequest extends PageParam {
 
-    @Schema(description = "套餐名", example = "VIP")
+    @Schema(description = "Package name", example = "VIP")
     private String name;
 
-    @Schema(description = "状态", example = "1")
+    @Schema(description = "Status", example = "1")
     private Integer status;
 
-    @Schema(description = "备注", example = "好")
+    @Schema(description = "Remarks", example = "good")
     private String remark;
 
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
-    @Schema(description = "创建时间")
+    @Schema(description = "Created time")
     private LocalDateTime[] createTime;
 }

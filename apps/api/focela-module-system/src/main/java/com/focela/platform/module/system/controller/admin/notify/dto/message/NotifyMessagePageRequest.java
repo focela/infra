@@ -11,25 +11,25 @@ import java.time.LocalDateTime;
 
 import static com.focela.platform.framework.common.utils.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
-@Schema(description = "管理后台 - 站内信分页 Request VO")
+@Schema(description = "Admin - Notify message page request")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class NotifyMessagePageRequest extends PageParam {
 
-    @Schema(description = "用户编号", example = "25025")
+    @Schema(description = "User ID", example = "25025")
     private Long userId;
 
-    @Schema(description = "用户类型", example = "1")
+    @Schema(description = "User type", example = "1")
     private Integer userType;
 
-    @Schema(description = "模板编码", example = "test_01")
+    @Schema(description = "Template code", example = "test_01")
     private String templateCode;
 
-    @Schema(description = "模版类型", example = "2")
+    @Schema(description = "Template type", example = "2")
     private Integer templateType;
 
-    @Schema(description = "创建时间")
+    @Schema(description = "Created time")
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
     private LocalDateTime[] createTime;
 

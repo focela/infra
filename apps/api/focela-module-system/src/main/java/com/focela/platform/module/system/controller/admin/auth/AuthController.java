@@ -40,7 +40,7 @@ import static com.focela.platform.framework.common.model.CommonResult.success;
 import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertSet;
 import static com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils.getLoginUserId;
 
-@Tag(name = "管理后台 - 认证")
+@Tag(name = "Admin - Auth")
 @RestController
 @RequestMapping("/system/auth")
 @Validated
@@ -65,14 +65,14 @@ public class AuthController {
 
     @PostMapping("/login")
     @PermitAll
-    @Operation(summary = "使用账号密码登录")
+    @Operation(summary = "use account/password login")
     public CommonResult<AuthLoginResponse> login(@RequestBody @Valid AuthLoginRequest request) {
         return success(authService.login(request));
     }
 
     @PostMapping("/logout")
     @PermitAll
-    @Operation(summary = "登出系统")
+    @Operation(summary = "logout system")
     public CommonResult<Boolean> logout(HttpServletRequest request) {
         String token = SecurityFrameworkUtils.obtainAuthorization(request,
                 securityProperties.getTokenHeader(), securityProperties.getTokenParameter());
@@ -84,14 +84,14 @@ public class AuthController {
 
     @PostMapping("/refresh-token")
     @PermitAll
-    @Operation(summary = "刷新令牌")
-    @Parameter(name = "refreshToken", description = "刷新令牌", required = true)
+    @Operation(summary = "Refresh token")
+    @Parameter(name = "refreshToken", description = "Refresh token", required = true)
     public CommonResult<AuthLoginResponse> refreshToken(@RequestParam("refreshToken") String refreshToken) {
         return success(authService.refreshToken(refreshToken));
     }
 
     @GetMapping("/get-permission-info")
-    @Operation(summary = "获取登录用户的权限信息")
+    @Operation(summary = "get login user permission info")
     @DataPermission(enable = false) // 忽略数据权限，避免因为过滤，导致无法查询用户。类似：https://t.zsxq.com/LHnrp
     public CommonResult<AuthPermissionInfoResponse> getPermissionInfo() {
         // 1.1 获得用户信息
@@ -119,7 +119,7 @@ public class AuthController {
 
     @PostMapping("/register")
     @PermitAll
-    @Operation(summary = "注册用户")
+    @Operation(summary = "register user")
     public CommonResult<AuthLoginResponse> register(@RequestBody @Valid AuthRegisterRequest registerRequest) {
         return success(authService.register(registerRequest));
     }
@@ -128,7 +128,7 @@ public class AuthController {
 
     @PostMapping("/sms-login")
     @PermitAll
-    @Operation(summary = "使用短信验证码登录")
+    @Operation(summary = "use SMS CAPTCHA login")
     // 可按需开启限流：https://github.com/YunaiV/ruoyi-vue-pro/issues/851
     // @RateLimiter(time = 60, count = 6, keyResolver = ExpressionRateLimiterKeyResolver.class, keyArg = "#request.mobile")
     public CommonResult<AuthLoginResponse> smsLogin(@RequestBody @Valid AuthSmsLoginRequest request) {
@@ -137,7 +137,7 @@ public class AuthController {
 
     @PostMapping("/send-sms-code")
     @PermitAll
-    @Operation(summary = "发送手机验证码")
+    @Operation(summary = "send mobile CAPTCHA")
     public CommonResult<Boolean> sendLoginSmsCode(@RequestBody @Valid AuthSmsSendRequest request) {
         authService.sendSmsCode(request);
         return success(true);
@@ -145,7 +145,7 @@ public class AuthController {
 
     @PostMapping("/reset-password")
     @PermitAll
-    @Operation(summary = "重置密码")
+    @Operation(summary = "reset password")
     public CommonResult<Boolean> resetPassword(@RequestBody @Valid AuthResetPasswordRequest request) {
         authService.resetPassword(request);
         return success(true);
@@ -155,10 +155,10 @@ public class AuthController {
 
     @GetMapping("/social-auth-redirect")
     @PermitAll
-    @Operation(summary = "社交授权的跳转")
+    @Operation(summary = "social authorize redirect")
     @Parameters({
-            @Parameter(name = "type", description = "社交类型", required = true),
-            @Parameter(name = "redirectUri", description = "回调路径")
+            @Parameter(name = "type", description = "social type", required = true),
+            @Parameter(name = "redirectUri", description = "callback path")
     })
     public CommonResult<String> socialLogin(@RequestParam("type") Integer type,
                                             @RequestParam("redirectUri") String redirectUri) {
@@ -168,7 +168,7 @@ public class AuthController {
 
     @PostMapping("/social-login")
     @PermitAll
-    @Operation(summary = "社交快捷登录，使用 code 授权码", description = "适合未登录的用户，但是社交账号已绑定用户")
+    @Operation(summary = "quick social login, use code authorization code", description = "for not logged in user, but social account bound user")
     public CommonResult<AuthLoginResponse> socialQuickLogin(@RequestBody @Valid AuthSocialLoginRequest request) {
         return success(authService.socialLogin(request));
     }

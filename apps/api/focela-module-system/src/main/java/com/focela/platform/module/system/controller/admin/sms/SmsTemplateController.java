@@ -28,7 +28,7 @@ import java.util.List;
 import static com.focela.platform.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
 import static com.focela.platform.framework.common.model.CommonResult.success;
 
-@Tag(name = "管理后台 - 短信模板")
+@Tag(name = "Admin - SMS template")
 @RestController
 @RequestMapping("/system/sms-template")
 public class SmsTemplateController {
@@ -39,14 +39,14 @@ public class SmsTemplateController {
     private SmsSendService smsSendService;
 
     @PostMapping("/create")
-    @Operation(summary = "创建短信模板")
+    @Operation(summary = "create SMS template")
     @PreAuthorize("@ss.hasPermission('system:sms-template:create')")
     public CommonResult<Long> createSmsTemplate(@Valid @RequestBody SmsTemplateSaveRequest createRequest) {
         return success(smsTemplateService.createSmsTemplate(createRequest));
     }
 
     @PutMapping("/update")
-    @Operation(summary = "更新短信模板")
+    @Operation(summary = "update SMS template")
     @PreAuthorize("@ss.hasPermission('system:sms-template:update')")
     public CommonResult<Boolean> updateSmsTemplate(@Valid @RequestBody SmsTemplateSaveRequest updateRequest) {
         smsTemplateService.updateSmsTemplate(updateRequest);
@@ -54,8 +54,8 @@ public class SmsTemplateController {
     }
 
     @DeleteMapping("/delete")
-    @Operation(summary = "删除短信模板")
-    @Parameter(name = "id", description = "编号", required = true)
+    @Operation(summary = "delete SMS template")
+    @Parameter(name = "id", description = "ID", required = true)
     @PreAuthorize("@ss.hasPermission('system:sms-template:delete')")
     public CommonResult<Boolean> deleteSmsTemplate(@RequestParam("id") Long id) {
         smsTemplateService.deleteSmsTemplate(id);
@@ -63,8 +63,8 @@ public class SmsTemplateController {
     }
 
     @DeleteMapping("/delete-list")
-    @Parameter(name = "ids", description = "编号列表", required = true)
-    @Operation(summary = "批量删除短信模板")
+    @Parameter(name = "ids", description = "ID list", required = true)
+    @Operation(summary = "batch delete SMS template")
     @PreAuthorize("@ss.hasPermission('system:sms-template:delete')")
     public CommonResult<Boolean> deleteSmsTemplateList(@RequestParam("ids") List<Long> ids) {
         smsTemplateService.deleteSmsTemplateList(ids);
@@ -72,8 +72,8 @@ public class SmsTemplateController {
     }
 
     @GetMapping("/get")
-    @Operation(summary = "获得短信模板")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "get SMS template")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:sms-template:query')")
     public CommonResult<SmsTemplateResponse> getSmsTemplate(@RequestParam("id") Long id) {
         SmsTemplateEntity template = smsTemplateService.getSmsTemplate(id);
@@ -81,7 +81,7 @@ public class SmsTemplateController {
     }
 
     @GetMapping("/page")
-    @Operation(summary = "获得短信模板分页")
+    @Operation(summary = "get SMS template page")
     @PreAuthorize("@ss.hasPermission('system:sms-template:query')")
     public CommonResult<PageResult<SmsTemplateResponse>> getSmsTemplatePage(@Valid SmsTemplatePageRequest pageVO) {
         PageResult<SmsTemplateEntity> pageResult = smsTemplateService.getSmsTemplatePage(pageVO);
@@ -89,7 +89,7 @@ public class SmsTemplateController {
     }
 
     @GetMapping("/export-excel")
-    @Operation(summary = "导出短信模板 Excel")
+    @Operation(summary = "export SMS template Excel")
     @PreAuthorize("@ss.hasPermission('system:sms-template:export')")
     @ApiAccessLog(operateType = EXPORT)
     public void exportSmsTemplateExcel(@Valid SmsTemplatePageRequest exportRequest,
@@ -102,7 +102,7 @@ public class SmsTemplateController {
     }
 
     @PostMapping("/send-sms")
-    @Operation(summary = "发送短信")
+    @Operation(summary = "Send SMS")
     @PreAuthorize("@ss.hasPermission('system:sms-template:send-sms')")
     public CommonResult<Long> sendSms(@Valid @RequestBody SmsTemplateSendRequest sendRequest) {
         return success(smsSendService.sendSingleSmsToAdmin(sendRequest.getMobile(), null,

@@ -31,7 +31,7 @@ import java.util.List;
 import static com.focela.platform.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
 import static com.focela.platform.framework.common.model.CommonResult.success;
 
-@Tag(name = "管理后台 - 操作日志")
+@Tag(name = "Admin - Operation log")
 @RestController
 @RequestMapping("/system/operate-log")
 @Validated
@@ -41,8 +41,8 @@ public class OperateLogController {
     private OperateLogService operateLogService;
 
     @GetMapping("/get")
-    @Operation(summary = "查看操作日志")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "view operation log")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:operate-log:query')")
     public CommonResult<OperateLogResponse> getOperateLog(@RequestParam("id") Long id) {
         OperateLogEntity operateLog = operateLogService.getOperateLog(id);
@@ -50,7 +50,7 @@ public class OperateLogController {
     }
 
     @GetMapping("/page")
-    @Operation(summary = "查看操作日志分页列表")
+    @Operation(summary = "view operation log page list")
     @PreAuthorize("@ss.hasPermission('system:operate-log:query')")
     @TransMethodResult
     public CommonResult<PageResult<OperateLogResponse>> pageOperateLog(@Valid OperateLogPageRequest pageRequest) {
@@ -58,7 +58,7 @@ public class OperateLogController {
         return success(BeanUtils.toBean(pageResult, OperateLogResponse.class));
     }
 
-    @Operation(summary = "导出操作日志")
+    @Operation(summary = "export operation log")
     @GetMapping("/export-excel")
     @PreAuthorize("@ss.hasPermission('system:operate-log:export')")
     @TransMethodResult

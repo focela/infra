@@ -22,7 +22,7 @@ import java.util.List;
 
 import static com.focela.platform.framework.common.model.CommonResult.success;
 
-@Tag(name = "管理后台 - 部门")
+@Tag(name = "Admin - Department")
 @RestController
 @RequestMapping("/system/dept")
 @Validated
@@ -32,7 +32,7 @@ public class DepartmentController {
     private DepartmentService deptService;
 
     @PostMapping("create")
-    @Operation(summary = "创建部门")
+    @Operation(summary = "create department")
     @PreAuthorize("@ss.hasPermission('system:dept:create')")
     public CommonResult<Long> createDept(@Valid @RequestBody DepartmentSaveRequest createRequest) {
         Long deptId = deptService.createDept(createRequest);
@@ -40,7 +40,7 @@ public class DepartmentController {
     }
 
     @PutMapping("update")
-    @Operation(summary = "更新部门")
+    @Operation(summary = "update department")
     @PreAuthorize("@ss.hasPermission('system:dept:update')")
     public CommonResult<Boolean> updateDept(@Valid @RequestBody DepartmentSaveRequest updateRequest) {
         deptService.updateDept(updateRequest);
@@ -48,8 +48,8 @@ public class DepartmentController {
     }
 
     @DeleteMapping("delete")
-    @Operation(summary = "删除部门")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "delete department")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:dept:delete')")
     public CommonResult<Boolean> deleteDept(@RequestParam("id") Long id) {
         deptService.deleteDept(id);
@@ -57,8 +57,8 @@ public class DepartmentController {
     }
 
     @DeleteMapping("/delete-list")
-    @Operation(summary = "批量删除部门")
-    @Parameter(name = "ids", description = "编号列表", required = true)
+    @Operation(summary = "batch delete department")
+    @Parameter(name = "ids", description = "ID list", required = true)
     @PreAuthorize("@ss.hasPermission('system:dept:delete')")
     public CommonResult<Boolean> deleteDeptList(@RequestParam("ids") List<Long> ids) {
         deptService.deleteDeptList(ids);
@@ -66,7 +66,7 @@ public class DepartmentController {
     }
 
     @GetMapping("/list")
-    @Operation(summary = "获取部门列表")
+    @Operation(summary = "get department list")
     @PreAuthorize("@ss.hasPermission('system:dept:query')")
     public CommonResult<List<DepartmentResponse>> getDeptList(DepartmentListRequest request) {
         List<DepartmentEntity> list = deptService.getDeptList(request);
@@ -74,7 +74,7 @@ public class DepartmentController {
     }
 
     @GetMapping(value = {"/list-all-simple", "/simple-list"})
-    @Operation(summary = "获取部门精简信息列表", description = "只包含被开启的部门，主要用于前端的下拉选项")
+    @Operation(summary = "get department simplified info list", description = "only include enabled department, for frontend dropdown options")
     public CommonResult<List<DepartmentSimpleResponse>> getSimpleDeptList() {
         List<DepartmentEntity> list = deptService.getDeptList(
                 new DepartmentListRequest().setStatus(CommonStatusEnum.ENABLE.getStatus()));
@@ -82,8 +82,8 @@ public class DepartmentController {
     }
 
     @GetMapping("/get")
-    @Operation(summary = "获得部门信息")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "get department info")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:dept:query')")
     public CommonResult<DepartmentResponse> getDept(@RequestParam("id") Long id) {
         DepartmentEntity dept = deptService.getDept(id);

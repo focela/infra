@@ -11,19 +11,19 @@ import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-@Schema(description = "管理后台 - 社交绑定 Request VO，使用 code 授权码")
+@Schema(description = "Admin - social bind Request VO, use code authorization code")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class SocialUserBindRequest {
 
-    @Schema(description = "社交平台的类型，参见 UserSocialTypeEnum 枚举值", requiredMode = Schema.RequiredMode.REQUIRED, example = "10")
+    @Schema(description = "Social platform type, see UserSocialTypeEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "10")
     @InEnum(SocialTypeEnum.class)
     @NotNull(message = "社交平台的类型不能为空")
     private Integer type;
 
-    @Schema(description = "授权码", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    @Schema(description = "Authorization code", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     @NotEmpty(message = "授权码不能为空")
     private String code;
 

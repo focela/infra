@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.focela.platform.framework.common.model.CommonResult.success;
 
-@Tag(name = "用户 App - 租户")
+@Tag(name = "User App - Tenant")
 @RestController
 @RequestMapping("/system/tenant")
 @Validated
@@ -33,8 +33,8 @@ public class AppTenantController {
     @GetMapping("/get-by-website")
     @PermitAll
     @TenantIgnore
-    @Operation(summary = "使用域名，获得租户信息", description = "根据用户的域名，获得租户信息")
-    @Parameter(name = "website", description = "域名", required = true, example = "www.example.com")
+    @Operation(summary = "Get tenant info by domain", description = "by user domain, get tenant info")
+    @Parameter(name = "website", description = "Domain", required = true, example = "www.example.com")
     public CommonResult<AppTenantResponse> getTenantByWebsite(
             @RequestParam("website") @Pattern(regexp = "^[a-zA-Z0-9.-]+$", message = "网站域名格式不正确") String website) {
         TenantEntity tenant = tenantService.getTenantByWebsite(website);

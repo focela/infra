@@ -11,16 +11,16 @@ import java.time.LocalDateTime;
 
 import static com.focela.platform.framework.common.utils.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
-@Schema(description = "管理后台 - 站内信分页 Request VO")
+@Schema(description = "Admin - Notify message page request")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class NotifyMessageMyPageRequest extends PageParam {
 
-    @Schema(description = "是否已读", example = "true")
+    @Schema(description = "Is read", example = "true")
     private Boolean readStatus;
 
-    @Schema(description = "创建时间")
+    @Schema(description = "Created time")
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
     private LocalDateTime[] createTime;
 

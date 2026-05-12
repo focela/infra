@@ -5,32 +5,32 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "管理后台 - 文件 Response VO,不返回 content 字段，太大")
+@Schema(description = "Admin - file Response VO,exclude content field, too large")
 @Data
 public class FileResponse {
 
-    @Schema(description = "文件编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    @Schema(description = "file ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     private Long id;
 
-    @Schema(description = "配置编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "11")
+    @Schema(description = "Config ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "11")
     private Long configId;
 
-    @Schema(description = "文件路径", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela.jpg")
+    @Schema(description = "File path", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela.jpg")
     private String path;
 
-    @Schema(description = "原文件名", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela.jpg")
+    @Schema(description = "Original filename", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela.jpg")
     private String name;
 
-    @Schema(description = "文件 URL", requiredMode = Schema.RequiredMode.REQUIRED, example = "https://www.example.com/sample.jpg")
+    @Schema(description = "File URL", requiredMode = Schema.RequiredMode.REQUIRED, example = "https://www.example.com/sample.jpg")
     private String url;
 
-    @Schema(description = "文件MIME类型", example = "application/octet-stream")
+    @Schema(description = "file MIMEtype", example = "application/octet-stream")
     private String type;
 
-    @Schema(description = "文件大小", example = "2048", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "File size", example = "2048", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long size;
 
-    @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Created time", requiredMode = Schema.RequiredMode.REQUIRED)
     private LocalDateTime createTime;
 
 }

@@ -4,17 +4,17 @@ import com.focela.platform.framework.common.model.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "管理后台 - 定时任务分页 Request VO")
+@Schema(description = "Admin - scheduled job page Request VO")
 @Data
 public class JobPageRequest extends PageParam {
 
-    @Schema(description = "任务名称，模糊匹配", example = "测试任务")
+    @Schema(description = "job name, fuzzy match", example = "test job")
     private String name;
 
-    @Schema(description = "任务状态，参见 JobStatusEnum 枚举", example = "1")
+    @Schema(description = "job status, see JobStatusEnum enum", example = "1")
     private Integer status;
 
-    @Schema(description = "处理器的名字，模糊匹配", example = "sysUserSessionTimeoutJob")
+    @Schema(description = "Handler name (fuzzy match)", example = "sysUserSessionTimeoutJob")
     private String handlerName;
 
 }

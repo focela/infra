@@ -29,7 +29,7 @@ import static com.focela.platform.framework.apilog.core.enums.OperateTypeEnum.EX
 import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.framework.common.model.CommonResult.success;
 
-@Tag(name = "管理后台 - 参数配置")
+@Tag(name = "Admin - System config")
 @RestController
 @RequestMapping("/infra/config")
 @Validated
@@ -39,14 +39,14 @@ public class ConfigController {
     private ConfigService configService;
 
     @PostMapping("/create")
-    @Operation(summary = "创建参数配置")
+    @Operation(summary = "create param config")
     @PreAuthorize("@ss.hasPermission('infra:config:create')")
     public CommonResult<Long> createConfig(@Valid @RequestBody ConfigSaveRequest createRequest) {
         return success(configService.createConfig(createRequest));
     }
 
     @PutMapping("/update")
-    @Operation(summary = "修改参数配置")
+    @Operation(summary = "update param config")
     @PreAuthorize("@ss.hasPermission('infra:config:update')")
     public CommonResult<Boolean> updateConfig(@Valid @RequestBody ConfigSaveRequest updateRequest) {
         configService.updateConfig(updateRequest);
@@ -54,8 +54,8 @@ public class ConfigController {
     }
 
     @DeleteMapping("/delete")
-    @Operation(summary = "删除参数配置")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "delete param config")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:config:delete')")
     public CommonResult<Boolean> deleteConfig(@RequestParam("id") Long id) {
         configService.deleteConfig(id);
@@ -63,8 +63,8 @@ public class ConfigController {
     }
 
     @DeleteMapping("/delete-list")
-    @Operation(summary = "批量删除参数配置")
-    @Parameter(name = "ids", description = "编号列表", required = true)
+    @Operation(summary = "batch delete param config")
+    @Parameter(name = "ids", description = "ID list", required = true)
     @PreAuthorize("@ss.hasPermission('infra:config:delete')")
     public CommonResult<Boolean> deleteConfigList(@RequestParam("ids") List<Long> ids) {
         configService.deleteConfigList(ids);
@@ -72,16 +72,16 @@ public class ConfigController {
     }
 
     @GetMapping(value = "/get")
-    @Operation(summary = "获得参数配置")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "get param config")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:config:query')")
     public CommonResult<ConfigResponse> getConfig(@RequestParam("id") Long id) {
         return success(ConfigConverter.INSTANCE.convert(configService.getConfig(id)));
     }
 
     @GetMapping(value = "/get-value-by-key")
-    @Operation(summary = "根据参数键名查询参数值", description = "不可见的配置，不允许返回给前端")
-    @Parameter(name = "key", description = "参数键", required = true, example = "yunai.biz.username")
+    @Operation(summary = "by param key query param value", description = "hidden config, not returned to frontend")
+    @Parameter(name = "key", description = "param key", required = true, example = "yunai.biz.username")
     public CommonResult<String> getConfigKey(@RequestParam("key") String key) {
         ConfigEntity config = configService.getConfigByKey(key);
         if (config == null) {
@@ -94,7 +94,7 @@ public class ConfigController {
     }
 
     @GetMapping("/page")
-    @Operation(summary = "获取参数配置分页")
+    @Operation(summary = "get param config page")
     @PreAuthorize("@ss.hasPermission('infra:config:query')")
     public CommonResult<PageResult<ConfigResponse>> getConfigPage(@Valid ConfigPageRequest pageRequest) {
         PageResult<ConfigEntity> page = configService.getConfigPage(pageRequest);
@@ -102,7 +102,7 @@ public class ConfigController {
     }
 
     @GetMapping("/export-excel")
-    @Operation(summary = "导出参数配置")
+    @Operation(summary = "export param config")
     @PreAuthorize("@ss.hasPermission('infra:config:export')")
     @ApiAccessLog(operateType = EXPORT)
     public void exportConfig(ConfigPageRequest exportRequest,

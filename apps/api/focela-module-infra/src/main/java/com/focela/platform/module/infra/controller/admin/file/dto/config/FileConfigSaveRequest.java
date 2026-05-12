@@ -6,26 +6,26 @@ import lombok.Data;
 
 import java.util.Map;
 
-@Schema(description = "管理后台 - 文件配置创建/修改 Request VO")
+@Schema(description = "Admin - file config create /update Request VO")
 @Data
 public class FileConfigSaveRequest {
 
-    @Schema(description = "编号", example = "1")
+    @Schema(description = "ID", example = "1")
     private Long id;
 
-    @Schema(description = "配置名", requiredMode = Schema.RequiredMode.REQUIRED, example = "S3 - 阿里云")
+    @Schema(description = "Config name", requiredMode = Schema.RequiredMode.REQUIRED, example = "S3 - Aliyun")
     @NotNull(message = "配置名不能为空")
     private String name;
 
-    @Schema(description = "存储器，参见 FileStorageEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    @Schema(description = "Storage, see FileStorageEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @NotNull(message = "存储器不能为空")
     private Integer storage;
 
-    @Schema(description = "存储配置,配置是动态参数，所以使用 Map 接收", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "storage config,config is dynamic params, so use Map receive", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(message = "存储配置不能为空")
     private Map<String, Object> config;
 
-    @Schema(description = "备注", example = "我是备注")
+    @Schema(description = "Remarks", example = "I am remarks")
     private String remark;
 
 }

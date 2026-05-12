@@ -7,14 +7,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Schema(description = "分页结果")
+@Schema(description = "page result")
 @Data
 public final class PageResult<T> implements Serializable {
 
-    @Schema(description = "总量", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "total", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long total;
 
-    @Schema(description = "数据", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "data", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<T> list;
 
     public PageResult() {

@@ -5,41 +5,41 @@ import lombok.Data;
 
 import jakarta.validation.constraints.NotNull;
 
-@Schema(description = "管理后台 - 短信模板创建/修改 Request VO")
+@Schema(description = "Admin - SMS template create /update Request VO")
 @Data
 public class SmsTemplateSaveRequest {
 
-    @Schema(description = "编号", example = "1024")
+    @Schema(description = "ID", example = "1024")
     private Long id;
 
-    @Schema(description = "短信类型，参见 SmsTemplateTypeEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    @Schema(description = "SMS template type, see SmsTemplateTypeEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @NotNull(message = "短信类型不能为空")
     private Integer type;
 
-    @Schema(description = "开启状态，参见 CommonStatusEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    @Schema(description = "Enable status, see CommonStatusEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @NotNull(message = "开启状态不能为空")
     private Integer status;
 
-    @Schema(description = "模板编码", requiredMode = Schema.RequiredMode.REQUIRED, example = "test_01")
+    @Schema(description = "Template code", requiredMode = Schema.RequiredMode.REQUIRED, example = "test_01")
     @NotNull(message = "模板编码不能为空")
     private String code;
 
-    @Schema(description = "模板名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
+    @Schema(description = "Template name", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
     @NotNull(message = "模板名称不能为空")
     private String name;
 
-    @Schema(description = "模板内容", requiredMode = Schema.RequiredMode.REQUIRED, example = "你好，{name}。你长的太{like}啦！")
+    @Schema(description = "Template content", requiredMode = Schema.RequiredMode.REQUIRED, example = "hello, {name}. you tall too {like}!")
     @NotNull(message = "模板内容不能为空")
     private String content;
 
-    @Schema(description = "备注", example = "哈哈哈")
+    @Schema(description = "Remarks", example = "")
     private String remark;
 
-    @Schema(description = "短信 API 的模板编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "4383920")
+    @Schema(description = "SMS API template ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "4383920")
     @NotNull(message = "短信 API 的模板编号不能为空")
     private String apiTemplateId;
 
-    @Schema(description = "短信渠道编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "10")
+    @Schema(description = "SMS channel ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "10")
     @NotNull(message = "短信渠道编号不能为空")
     private Long channelId;
 

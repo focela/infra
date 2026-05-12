@@ -5,35 +5,35 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "管理后台 - 部门信息 Response VO")
+@Schema(description = "Admin - department info Response VO")
 @Data
 public class DepartmentResponse {
 
-    @Schema(description = "部门编号", example = "1024")
+    @Schema(description = "Department ID", example = "1024")
     private Long id;
 
-    @Schema(description = "部门名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
+    @Schema(description = "Department name", requiredMode = Schema.RequiredMode.REQUIRED, example = "Acme")
     private String name;
 
-    @Schema(description = "父部门 ID", example = "1024")
+    @Schema(description = "Parent department ID", example = "1024")
     private Long parentId;
 
-    @Schema(description = "显示顺序", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    @Schema(description = "Display order", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     private Integer sort;
 
-    @Schema(description = "负责人的用户编号", example = "2048")
+    @Schema(description = "Owner user ID", example = "2048")
     private Long leaderUserId;
 
-    @Schema(description = "联系电话", example = "15601691000")
+    @Schema(description = "Contact phone", example = "15601691000")
     private String phone;
 
-    @Schema(description = "邮箱", example = "user@example.com")
+    @Schema(description = "Email", example = "user@example.com")
     private String email;
 
-    @Schema(description = "状态,见 CommonStatusEnum 枚举", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    @Schema(description = "Status, see CommonStatusEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Integer status;
 
-    @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED, example = "时间戳格式")
+    @Schema(description = "Created time", requiredMode = Schema.RequiredMode.REQUIRED, example = "timestamp format")
     private LocalDateTime createTime;
 
 }

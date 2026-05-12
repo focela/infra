@@ -23,7 +23,7 @@ import static com.focela.platform.framework.common.model.CommonResult.success;
 /**
  * 权限 Controller，提供赋予用户、角色的权限的 API 接口
  */
-@Tag(name = "管理后台 - 权限")
+@Tag(name = "Admin - permission")
 @RestController
 @RequestMapping("/system/permission")
 public class PermissionController {
@@ -33,8 +33,8 @@ public class PermissionController {
     @Resource
     private TenantService tenantService;
 
-    @Operation(summary = "获得角色拥有的菜单编号")
-    @Parameter(name = "roleId", description = "角色编号", required = true)
+    @Operation(summary = "get role owned menu ID")
+    @Parameter(name = "roleId", description = "Role ID", required = true)
     @GetMapping("/list-role-menus")
     @PreAuthorize("@ss.hasPermission('system:permission:assign-role-menu')")
     public CommonResult<Set<Long>> getRoleMenuList(Long roleId) {
@@ -42,7 +42,7 @@ public class PermissionController {
     }
 
     @PostMapping("/assign-role-menu")
-    @Operation(summary = "赋予角色菜单")
+    @Operation(summary = "grant role menus")
     @PreAuthorize("@ss.hasPermission('system:permission:assign-role-menu')")
     public CommonResult<Boolean> assignRoleMenu(@Validated @RequestBody PermissionAssignRoleMenuRequest request) {
         // 开启多租户的情况下，需要过滤掉未开通的菜单
@@ -54,22 +54,22 @@ public class PermissionController {
     }
 
     @PostMapping("/assign-role-data-scope")
-    @Operation(summary = "赋予角色数据权限")
+    @Operation(summary = "grant role data permission")
     @PreAuthorize("@ss.hasPermission('system:permission:assign-role-data-scope')")
     public CommonResult<Boolean> assignRoleDataScope(@Valid @RequestBody PermissionAssignRoleDataScopeRequest request) {
         permissionService.assignRoleDataScope(request.getRoleId(), request.getDataScope(), request.getDataScopeDeptIds());
         return success(true);
     }
 
-    @Operation(summary = "获得管理员拥有的角色编号列表")
-    @Parameter(name = "userId", description = "用户编号", required = true)
+    @Operation(summary = "get admin owned role ID list")
+    @Parameter(name = "userId", description = "User ID", required = true)
     @GetMapping("/list-user-roles")
     @PreAuthorize("@ss.hasPermission('system:permission:assign-user-role')")
     public CommonResult<Set<Long>> listAdminRoles(@RequestParam("userId") Long userId) {
         return success(permissionService.getUserRoleIdListByUserId(userId));
     }
 
-    @Operation(summary = "赋予用户角色")
+    @Operation(summary = "grant user role")
     @PostMapping("/assign-user-role")
     @PreAuthorize("@ss.hasPermission('system:permission:assign-user-role')")
     public CommonResult<Boolean> assignUserRole(@Validated @RequestBody PermissionAssignUserRoleRequest request) {

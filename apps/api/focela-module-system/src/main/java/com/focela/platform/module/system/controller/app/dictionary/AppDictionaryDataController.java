@@ -21,7 +21,7 @@ import java.util.List;
 
 import static com.focela.platform.framework.common.model.CommonResult.success;
 
-@Tag(name = "用户 App - 字典数据")
+@Tag(name = "User App - Dictionary data")
 @RestController
 @RequestMapping("/system/dict-data")
 @Validated
@@ -31,8 +31,8 @@ public class AppDictionaryDataController {
     private DictionaryDataService dictDataService;
 
     @GetMapping("/type")
-    @Operation(summary = "根据字典类型查询字典数据信息")
-    @Parameter(name = "type", description = "字典类型", required = true, example = "common_status")
+    @Operation(summary = "by dictionary type query dictionary data info")
+    @Parameter(name = "type", description = "Dictionary type", required = true, example = "common_status")
     @PermitAll
     public CommonResult<List<AppDictionaryDataResponse>> getDictDataListByType(@RequestParam("type") String type) {
         List<DictionaryDataEntity> list = dictDataService.getDictDataList(

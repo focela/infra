@@ -84,7 +84,7 @@ public class DefaultFileServiceTest extends BaseDbUnitTest {
     public void testCreateFile_success_01() throws Exception {
         // 准备参数
         byte[] content = ResourceUtil.readBytes("file/erweima.jpg");
-        String name = "单测文件名";
+        String name = "test file name";
         String directory = randomString();
         String type = "image/jpeg";
         // mock Master 文件客户端

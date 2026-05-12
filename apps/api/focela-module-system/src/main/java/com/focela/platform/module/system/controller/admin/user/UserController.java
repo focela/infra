@@ -35,7 +35,7 @@ import static com.focela.platform.framework.apilog.core.enums.OperateTypeEnum.EX
 import static com.focela.platform.framework.common.model.CommonResult.success;
 import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertList;
 
-@Tag(name = "管理后台 - 用户")
+@Tag(name = "Admin - User")
 @RestController
 @RequestMapping("/system/user")
 @Validated
@@ -47,7 +47,7 @@ public class UserController {
     private DepartmentService deptService;
 
     @PostMapping("/create")
-    @Operation(summary = "新增用户")
+    @Operation(summary = "create user")
     @PreAuthorize("@ss.hasPermission('system:user:create')")
     public CommonResult<Long> createUser(@Valid @RequestBody UserSaveRequest request) {
         Long id = userService.createUser(request);
@@ -55,7 +55,7 @@ public class UserController {
     }
 
     @PutMapping("update")
-    @Operation(summary = "修改用户")
+    @Operation(summary = "update user")
     @PreAuthorize("@ss.hasPermission('system:user:update')")
     public CommonResult<Boolean> updateUser(@Valid @RequestBody UserSaveRequest request) {
         userService.updateUser(request);
@@ -63,8 +63,8 @@ public class UserController {
     }
 
     @DeleteMapping("/delete")
-    @Operation(summary = "删除用户")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "delete user")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:user:delete')")
     public CommonResult<Boolean> deleteUser(@RequestParam("id") Long id) {
         userService.deleteUser(id);
@@ -72,8 +72,8 @@ public class UserController {
     }
 
     @DeleteMapping("/delete-list")
-    @Parameter(name = "ids", description = "编号列表", required = true)
-    @Operation(summary = "批量删除用户")
+    @Parameter(name = "ids", description = "ID list", required = true)
+    @Operation(summary = "batch delete user")
     @PreAuthorize("@ss.hasPermission('system:user:delete')")
     public CommonResult<Boolean> deleteUserList(@RequestParam("ids") List<Long> ids) {
         userService.deleteUserList(ids);
@@ -81,7 +81,7 @@ public class UserController {
     }
 
     @PutMapping("/update-password")
-    @Operation(summary = "重置用户密码")
+    @Operation(summary = "reset user password")
     @PreAuthorize("@ss.hasPermission('system:user:update-password')")
     public CommonResult<Boolean> updateUserPassword(@Valid @RequestBody UserUpdatePasswordRequest request) {
         userService.updateUserPassword(request.getId(), request.getPassword());
@@ -89,7 +89,7 @@ public class UserController {
     }
 
     @PutMapping("/update-status")
-    @Operation(summary = "修改用户状态")
+    @Operation(summary = "update user status")
     @PreAuthorize("@ss.hasPermission('system:user:update')")
     public CommonResult<Boolean> updateUserStatus(@Valid @RequestBody UserUpdateStatusRequest request) {
         userService.updateUserStatus(request.getId(), request.getStatus());
@@ -97,7 +97,7 @@ public class UserController {
     }
 
     @GetMapping("/page")
-    @Operation(summary = "获得用户分页列表")
+    @Operation(summary = "get user page list")
     @PreAuthorize("@ss.hasPermission('system:user:query')")
     public CommonResult<PageResult<UserResponse>> getUserPage(@Valid UserPageRequest pageRequest) {
         // 获得用户分页列表
@@ -113,7 +113,7 @@ public class UserController {
     }
 
     @GetMapping({"/list-all-simple", "/simple-list"})
-    @Operation(summary = "获取用户精简信息列表", description = "只包含被开启的用户，主要用于前端的下拉选项")
+    @Operation(summary = "get user simplified info list", description = "only include enabled user, for frontend dropdown options")
     public CommonResult<List<UserSimpleResponse>> getSimpleUserList() {
         List<AdminUserEntity> list = userService.getUserListByStatus(CommonStatusEnum.ENABLE.getStatus());
         // 拼接数据
@@ -123,8 +123,8 @@ public class UserController {
     }
 
     @GetMapping("/get")
-    @Operation(summary = "获得用户详情")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "get user detail")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:user:query')")
     public CommonResult<UserResponse> getUser(@RequestParam("id") Long id) {
         AdminUserEntity user = userService.getUser(id);
@@ -137,7 +137,7 @@ public class UserController {
     }
 
     @GetMapping("/export-excel")
-    @Operation(summary = "导出用户")
+    @Operation(summary = "export user")
     @PreAuthorize("@ss.hasPermission('system:user:export')")
     @ApiAccessLog(operateType = EXPORT)
     public void exportUserList(@Validated UserPageRequest exportRequest,
@@ -152,7 +152,7 @@ public class UserController {
     }
 
     @GetMapping("/get-import-template")
-    @Operation(summary = "获得导入用户模板")
+    @Operation(summary = "get import user template")
     public void importTemplate(HttpServletResponse response) throws IOException {
         // 手动创建导出 demo
         List<UserImportExcelDto> list = Arrays.asList(
@@ -166,10 +166,10 @@ public class UserController {
     }
 
     @PostMapping("/import")
-    @Operation(summary = "导入用户")
+    @Operation(summary = "import user")
     @Parameters({
-            @Parameter(name = "file", description = "Excel 文件", required = true),
-            @Parameter(name = "updateSupport", description = "是否支持更新，默认为 false", example = "true")
+            @Parameter(name = "file", description = "Excel file", required = true),
+            @Parameter(name = "updateSupport", description = "support update, default as false", example = "true")
     })
     @PreAuthorize("@ss.hasPermission('system:user:import')")
     public CommonResult<UserImportResponse> importExcel(@RequestParam("file") MultipartFile file,

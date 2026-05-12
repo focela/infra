@@ -3,14 +3,14 @@ package com.focela.platform.module.system.controller.admin.mail.dto.template;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "管理后台 - 邮件模版的精简 Response VO")
+@Schema(description = "Admin - email template simplified Response VO")
 @Data
 public class MailTemplateSimpleResponse {
 
-    @Schema(description = "模版编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    @Schema(description = "Template ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     private Long id;
 
-    @Schema(description = "模版名字", requiredMode = Schema.RequiredMode.REQUIRED, example = "哒哒哒")
+    @Schema(description = "template name", requiredMode = Schema.RequiredMode.REQUIRED, example = "")
     private String name;
 
 }

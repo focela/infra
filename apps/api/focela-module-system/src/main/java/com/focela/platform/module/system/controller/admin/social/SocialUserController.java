@@ -26,7 +26,7 @@ import static com.focela.platform.framework.common.model.CommonResult.success;
 import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertList;
 import static com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils.getLoginUserId;
 
-@Tag(name = "管理后台 - 社交用户")
+@Tag(name = "Admin - Social user")
 @RestController
 @RequestMapping("/system/social-user")
 @Validated
@@ -36,7 +36,7 @@ public class SocialUserController {
     private SocialUserService socialUserService;
 
     @PostMapping("/bind")
-    @Operation(summary = "社交绑定，使用 code 授权码")
+    @Operation(summary = "social bind, use code authorization code")
     public CommonResult<Boolean> socialBind(@RequestBody @Valid SocialUserBindRequest request) {
         socialUserService.bindSocialUser(new SocialUserBindReqDTO().setSocialType(request.getType())
                         .setCode(request.getCode()).setState(request.getState())
@@ -45,14 +45,14 @@ public class SocialUserController {
     }
 
     @DeleteMapping("/unbind")
-    @Operation(summary = "取消社交绑定")
+    @Operation(summary = "unbind social")
     public CommonResult<Boolean> socialUnbind(@RequestBody SocialUserUnbindRequest request) {
         socialUserService.unbindSocialUser(getLoginUserId(), UserTypeEnum.ADMIN.getValue(), request.getType(), request.getOpenid());
         return CommonResult.success(true);
     }
 
     @GetMapping("/get-bind-list")
-    @Operation(summary = "获得绑定社交用户列表")
+    @Operation(summary = "get bind social user list")
     public CommonResult<List<SocialUserResponse>> getBindSocialUserList() {
         List<SocialUserEntity> list = socialUserService.getSocialUserList(getLoginUserId(), UserTypeEnum.ADMIN.getValue());
         return success(convertList(list, socialUser -> new SocialUserResponse() // 返回精简信息
@@ -63,8 +63,8 @@ public class SocialUserController {
     // ==================== 社交用户 CRUD ====================
 
     @GetMapping("/get")
-    @Operation(summary = "获得社交用户")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "get social user")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:social-user:query')")
     public CommonResult<SocialUserResponse> getSocialUser(@RequestParam("id") Long id) {
         SocialUserEntity socialUser = socialUserService.getSocialUser(id);
@@ -72,7 +72,7 @@ public class SocialUserController {
     }
 
     @GetMapping("/page")
-    @Operation(summary = "获得社交用户分页")
+    @Operation(summary = "get social user page")
     @PreAuthorize("@ss.hasPermission('system:social-user:query')")
     public CommonResult<PageResult<SocialUserResponse>> getSocialUserPage(@Valid SocialUserPageRequest pageVO) {
         PageResult<SocialUserEntity> pageResult = socialUserService.getSocialUserPage(pageVO);

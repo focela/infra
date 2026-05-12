@@ -29,7 +29,7 @@ import java.util.List;
 import static com.focela.platform.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
 import static com.focela.platform.framework.common.model.CommonResult.success;
 
-@Tag(name = "管理后台 - 短信日志")
+@Tag(name = "Admin - SMS log")
 @RestController
 @RequestMapping("/system/sms-log")
 @Validated
@@ -39,7 +39,7 @@ public class SmsLogController {
     private SmsLogService smsLogService;
 
     @GetMapping("/page")
-    @Operation(summary = "获得短信日志分页")
+    @Operation(summary = "get SMS log page")
     @PreAuthorize("@ss.hasPermission('system:sms-log:query')")
     public CommonResult<PageResult<SmsLogResponse>> getSmsLogPage(@Valid SmsLogPageRequest pageRequest) {
         PageResult<SmsLogEntity> pageResult = smsLogService.getSmsLogPage(pageRequest);
@@ -47,8 +47,8 @@ public class SmsLogController {
     }
 
     @GetMapping("/get")
-    @Operation(summary = "获得短信日志")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "get SMS log")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:sms-log:query')")
     public CommonResult<SmsLogResponse> getSmsLog(@RequestParam("id") Long id) {
         SmsLogEntity smsLog = smsLogService.getSmsLog(id);
@@ -56,7 +56,7 @@ public class SmsLogController {
     }
 
     @GetMapping("/export-excel")
-    @Operation(summary = "导出短信日志 Excel")
+    @Operation(summary = "export SMS log Excel")
     @PreAuthorize("@ss.hasPermission('system:sms-log:export')")
     @ApiAccessLog(operateType = EXPORT)
     public void exportSmsLogExcel(@Valid SmsLogPageRequest exportRequest,

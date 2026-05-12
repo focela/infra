@@ -31,7 +31,7 @@ import java.util.List;
 import static com.focela.platform.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
 import static com.focela.platform.framework.common.model.CommonResult.success;
 
-@Tag(name = "管理后台 - 岗位")
+@Tag(name = "Admin - Post")
 @RestController
 @RequestMapping("/system/post")
 @Validated
@@ -41,7 +41,7 @@ public class PostController {
     private PostService postService;
 
     @PostMapping("/create")
-    @Operation(summary = "创建岗位")
+    @Operation(summary = "create post")
     @PreAuthorize("@ss.hasPermission('system:post:create')")
     public CommonResult<Long> createPost(@Valid @RequestBody PostSaveRequest createRequest) {
         Long postId = postService.createPost(createRequest);
@@ -49,7 +49,7 @@ public class PostController {
     }
 
     @PutMapping("/update")
-    @Operation(summary = "修改岗位")
+    @Operation(summary = "update post")
     @PreAuthorize("@ss.hasPermission('system:post:update')")
     public CommonResult<Boolean> updatePost(@Valid @RequestBody PostSaveRequest updateRequest) {
         postService.updatePost(updateRequest);
@@ -57,7 +57,7 @@ public class PostController {
     }
 
     @DeleteMapping("/delete")
-    @Operation(summary = "删除岗位")
+    @Operation(summary = "delete post")
     @PreAuthorize("@ss.hasPermission('system:post:delete')")
     public CommonResult<Boolean> deletePost(@RequestParam("id") Long id) {
         postService.deletePost(id);
@@ -65,7 +65,7 @@ public class PostController {
     }
 
     @DeleteMapping("delete-list")
-    @Operation(summary = "批量删除岗位")
+    @Operation(summary = "batch delete post")
     @PreAuthorize("@ss.hasPermission('system:post:delete')")
     public CommonResult<Boolean> deletePostList(@RequestParam("ids") List<Long> ids) {
         postService.deletePostList(ids);
@@ -73,8 +73,8 @@ public class PostController {
     }
 
     @GetMapping(value = "/get")
-    @Operation(summary = "获得岗位信息")
-    @Parameter(name = "id", description = "岗位编号", required = true, example = "1024")
+    @Operation(summary = "get post info")
+    @Parameter(name = "id", description = "Post ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:post:query')")
     public CommonResult<PostResponse> getPost(@RequestParam("id") Long id) {
         PostEntity post = postService.getPost(id);
@@ -82,7 +82,7 @@ public class PostController {
     }
 
     @GetMapping(value = {"/list-all-simple", "simple-list"})
-    @Operation(summary = "获取岗位全列表", description = "只包含被开启的岗位，主要用于前端的下拉选项")
+    @Operation(summary = "get post all list", description = "only include enabled post, for frontend dropdown options")
     public CommonResult<List<PostSimpleResponse>> getSimplePostList() {
         // 获得岗位列表，只要开启状态的
         List<PostEntity> list = postService.getPostList(null, Collections.singleton(CommonStatusEnum.ENABLE.getStatus()));
@@ -92,7 +92,7 @@ public class PostController {
     }
 
     @GetMapping("/page")
-    @Operation(summary = "获得岗位分页列表")
+    @Operation(summary = "get post page list")
     @PreAuthorize("@ss.hasPermission('system:post:query')")
     public CommonResult<PageResult<PostResponse>> getPostPage(@Validated PostPageRequest pageRequest) {
         PageResult<PostEntity> pageResult = postService.getPostPage(pageRequest);
@@ -100,7 +100,7 @@ public class PostController {
     }
 
     @GetMapping("/export-excel")
-    @Operation(summary = "岗位管理")
+    @Operation(summary = "post management")
     @PreAuthorize("@ss.hasPermission('system:post:export')")
     @ApiAccessLog(operateType = EXPORT)
     public void export(HttpServletResponse response, @Validated PostPageRequest request) throws IOException {

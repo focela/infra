@@ -5,38 +5,38 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "管理后台 - 社交客户端 Response VO")
+@Schema(description = "Admin - social client Response VO")
 @Data
 public class SocialClientResponse {
 
-    @Schema(description = "编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "27162")
+    @Schema(description = "ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "27162")
     private Long id;
 
-    @Schema(description = "应用名", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao商城")
+    @Schema(description = "Application name", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudaomall")
     private String name;
 
-    @Schema(description = "社交平台的类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "31")
+    @Schema(description = "Social platform type", requiredMode = Schema.RequiredMode.REQUIRED, example = "31")
     private Integer socialType;
 
-    @Schema(description = "用户类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "2")
+    @Schema(description = "User type", requiredMode = Schema.RequiredMode.REQUIRED, example = "2")
     private Integer userType;
 
-    @Schema(description = "客户端编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "wwd411c69a39ad2e54")
+    @Schema(description = "Client ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "wwd411c69a39ad2e54")
     private String clientId;
 
-    @Schema(description = "客户端密钥", requiredMode = Schema.RequiredMode.REQUIRED, example = "peter")
+    @Schema(description = "Client secret", requiredMode = Schema.RequiredMode.REQUIRED, example = "peter")
     private String clientSecret;
 
-    @Schema(description = "授权方的网页应用编号", example = "2000045")
+    @Schema(description = "Web application agent ID", example = "2000045")
     private String agentId;
 
-    @Schema(description = "publicKey 公钥", example = "2000045")
+    @Schema(description = "Public key", example = "2000045")
     private String publicKey;
 
-    @Schema(description = "状态", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    @Schema(description = "Status", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Integer status;
 
-    @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Created time", requiredMode = Schema.RequiredMode.REQUIRED)
     private LocalDateTime createTime;
 
 }

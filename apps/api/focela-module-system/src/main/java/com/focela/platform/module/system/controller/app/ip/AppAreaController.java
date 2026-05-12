@@ -18,14 +18,14 @@ import java.util.List;
 
 import static com.focela.platform.framework.common.model.CommonResult.success;
 
-@Tag(name = "用户 App - 地区")
+@Tag(name = "User App - Area")
 @RestController
 @RequestMapping("/system/area")
 @Validated
 public class AppAreaController {
 
     @GetMapping("/tree")
-    @Operation(summary = "获得地区树")
+    @Operation(summary = "Get area tree")
     @PermitAll
     public CommonResult<List<AppAreaNodeResponse>> getAreaTree() {
         Area area = AreaUtils.getArea(Area.ID_CHINA);

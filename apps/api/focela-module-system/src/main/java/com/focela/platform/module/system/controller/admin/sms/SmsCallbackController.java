@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import static com.focela.platform.framework.common.model.CommonResult.success;
 
-@Tag(name = "管理后台 - 短信回调")
+@Tag(name = "Admin - SMS callback")
 @RestController
 @RequestMapping("/system/sms/callback")
 public class SmsCallbackController {
@@ -26,7 +26,7 @@ public class SmsCallbackController {
     @PostMapping("/aliyun")
     @PermitAll
     @TenantIgnore
-    @Operation(summary = "阿里云短信的回调", description = "参见 https://help.aliyun.com/document_detail/120998.html 文档")
+    @Operation(summary = "Aliyun SMS callback", description = "see https://help.aliyun.com/document_detail/120998.html docs")
     public CommonResult<Boolean> receiveAliyunSmsStatus(HttpServletRequest request) throws Throwable {
         String text = ServletUtils.getBody(request);
         smsSendService.receiveSmsStatus(SmsChannelEnum.ALIYUN.getCode(), text);
@@ -36,7 +36,7 @@ public class SmsCallbackController {
     @PostMapping("/tencent")
     @PermitAll
     @TenantIgnore
-    @Operation(summary = "腾讯云短信的回调", description = "参见 https://cloud.tencent.com/document/product/382/52077 文档")
+    @Operation(summary = "Tencent Cloud SMS callback", description = "see https://cloud.tencent.com/document/product/382/52077 docs")
     public CommonResult<Boolean> receiveTencentSmsStatus(HttpServletRequest request) throws Throwable {
         String text = ServletUtils.getBody(request);
         smsSendService.receiveSmsStatus(SmsChannelEnum.TENCENT.getCode(), text);
@@ -47,7 +47,7 @@ public class SmsCallbackController {
     @PostMapping("/huawei")
     @PermitAll
     @TenantIgnore
-    @Operation(summary = "华为云短信的回调", description = "参见 https://support.huaweicloud.com/api-msgsms/sms_05_0003.html 文档")
+    @Operation(summary = "Huawei Cloud SMS callback", description = "see https://support.huaweicloud.com/api-msgsms/sms_05_0003.html docs")
     public CommonResult<Boolean> receiveHuaweiSmsStatus(@RequestBody String requestBody) throws Throwable {
         smsSendService.receiveSmsStatus(SmsChannelEnum.HUAWEI.getCode(), requestBody);
         return success(true);
@@ -56,7 +56,7 @@ public class SmsCallbackController {
     @PostMapping("/qiniu")
     @PermitAll
     @TenantIgnore
-    @Operation(summary = "七牛云短信的回调", description = "参见 https://developer.qiniu.com/sms/5910/message-push 文档")
+    @Operation(summary = "Qiniu SMS callback", description = "see https://developer.qiniu.com/sms/5910/message-push docs")
     public CommonResult<Boolean> receiveQiniuSmsStatus(@RequestBody String requestBody) throws Throwable {
         smsSendService.receiveSmsStatus(SmsChannelEnum.QINIU.getCode(), requestBody);
         return success(true);

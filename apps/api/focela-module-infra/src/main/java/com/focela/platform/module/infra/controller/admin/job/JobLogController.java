@@ -29,7 +29,7 @@ import java.util.List;
 import static com.focela.platform.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
 import static com.focela.platform.framework.common.model.CommonResult.success;
 
-@Tag(name = "管理后台 - 定时任务日志")
+@Tag(name = "Admin - scheduled job log")
 @RestController
 @RequestMapping("/infra/job-log")
 @Validated
@@ -39,8 +39,8 @@ public class JobLogController {
     private JobLogService jobLogService;
 
     @GetMapping("/get")
-    @Operation(summary = "获得定时任务日志")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "get scheduled job log")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:job:query')")
     public CommonResult<JobLogResponse> getJobLog(@RequestParam("id") Long id) {
         JobLogEntity jobLog = jobLogService.getJobLog(id);
@@ -48,7 +48,7 @@ public class JobLogController {
     }
 
     @GetMapping("/page")
-    @Operation(summary = "获得定时任务日志分页")
+    @Operation(summary = "get scheduled job log page")
     @PreAuthorize("@ss.hasPermission('infra:job:query')")
     public CommonResult<PageResult<JobLogResponse>> getJobLogPage(@Valid JobLogPageRequest pageVO) {
         PageResult<JobLogEntity> pageResult = jobLogService.getJobLogPage(pageVO);
@@ -56,7 +56,7 @@ public class JobLogController {
     }
 
     @GetMapping("/export-excel")
-    @Operation(summary = "导出定时任务日志 Excel")
+    @Operation(summary = "export scheduled job log Excel")
     @PreAuthorize("@ss.hasPermission('infra:job:export')")
     @ApiAccessLog(operateType = EXPORT)
     public void exportJobLogExcel(@Valid JobLogPageRequest exportRequest,

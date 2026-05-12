@@ -24,7 +24,7 @@ import java.util.List;
 
 import static com.focela.platform.framework.common.model.CommonResult.success;
 
-@Tag(name = "管理后台 - 站内信模版")
+@Tag(name = "Admin - Notify template")
 @RestController
 @RequestMapping("/system/notify-template")
 @Validated
@@ -37,14 +37,14 @@ public class NotifyTemplateController {
     private NotifySendService notifySendService;
 
     @PostMapping("/create")
-    @Operation(summary = "创建站内信模版")
+    @Operation(summary = "create notify template")
     @PreAuthorize("@ss.hasPermission('system:notify-template:create')")
     public CommonResult<Long> createNotifyTemplate(@Valid @RequestBody NotifyTemplateSaveRequest createRequest) {
         return success(notifyTemplateService.createNotifyTemplate(createRequest));
     }
 
     @PutMapping("/update")
-    @Operation(summary = "更新站内信模版")
+    @Operation(summary = "update notify template")
     @PreAuthorize("@ss.hasPermission('system:notify-template:update')")
     public CommonResult<Boolean> updateNotifyTemplate(@Valid @RequestBody NotifyTemplateSaveRequest updateRequest) {
         notifyTemplateService.updateNotifyTemplate(updateRequest);
@@ -52,8 +52,8 @@ public class NotifyTemplateController {
     }
 
     @DeleteMapping("/delete")
-    @Operation(summary = "删除站内信模版")
-    @Parameter(name = "id", description = "编号", required = true)
+    @Operation(summary = "delete notify template")
+    @Parameter(name = "id", description = "ID", required = true)
     @PreAuthorize("@ss.hasPermission('system:notify-template:delete')")
     public CommonResult<Boolean> deleteNotifyTemplate(@RequestParam("id") Long id) {
         notifyTemplateService.deleteNotifyTemplate(id);
@@ -61,8 +61,8 @@ public class NotifyTemplateController {
     }
 
     @DeleteMapping("/delete-list")
-    @Operation(summary = "批量删除站内信模版")
-    @Parameter(name = "ids", description = "编号列表", required = true)
+    @Operation(summary = "batch delete notify template")
+    @Parameter(name = "ids", description = "ID list", required = true)
     @PreAuthorize("@ss.hasPermission('system:notify-template:delete')")
     public CommonResult<Boolean> deleteNotifyTemplateList(@RequestParam("ids") List<Long> ids) {
         notifyTemplateService.deleteNotifyTemplateList(ids);
@@ -70,8 +70,8 @@ public class NotifyTemplateController {
     }
 
     @GetMapping("/get")
-    @Operation(summary = "获得站内信模版")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Operation(summary = "get notify template")
+    @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:notify-template:query')")
     public CommonResult<NotifyTemplateResponse> getNotifyTemplate(@RequestParam("id") Long id) {
         NotifyTemplateEntity template = notifyTemplateService.getNotifyTemplate(id);
@@ -79,7 +79,7 @@ public class NotifyTemplateController {
     }
 
     @GetMapping("/page")
-    @Operation(summary = "获得站内信模版分页")
+    @Operation(summary = "get notify template page")
     @PreAuthorize("@ss.hasPermission('system:notify-template:query')")
     public CommonResult<PageResult<NotifyTemplateResponse>> getNotifyTemplatePage(@Valid NotifyTemplatePageRequest pageVO) {
         PageResult<NotifyTemplateEntity> pageResult = notifyTemplateService.getNotifyTemplatePage(pageVO);
@@ -87,7 +87,7 @@ public class NotifyTemplateController {
     }
 
     @PostMapping("/send-notify")
-    @Operation(summary = "发送站内信")
+    @Operation(summary = "send notify message")
     @PreAuthorize("@ss.hasPermission('system:notify-template:send-notify')")
     public CommonResult<Long> sendNotify(@Valid @RequestBody NotifyTemplateSendRequest sendRequest) {
         if (UserTypeEnum.MEMBER.getValue().equals(sendRequest.getUserType())) {
