@@ -3,8 +3,6 @@ package com.focela.platform.module.system.controller.admin.social;
 import com.focela.platform.framework.common.model.CommonResult;
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.common.utils.object.BeanUtils;
-import com.focela.platform.module.system.api.social.SocialClientApi;
-import com.focela.platform.module.system.api.social.dto.SocialWxaSubscribeMessageSendReqDTO;
 import com.focela.platform.module.system.controller.admin.social.dto.client.SocialClientPageRequest;
 import com.focela.platform.module.system.controller.admin.social.dto.client.SocialClientResponse;
 import com.focela.platform.module.system.controller.admin.social.dto.client.SocialClientSaveRequest;
@@ -23,7 +21,7 @@ import java.util.List;
 
 import static com.focela.platform.framework.common.model.CommonResult.success;
 
-@Tag(name = "管理后台 - 社交客户端")
+@Tag(name = "Admin - Social Client")
 @RestController
 @RequestMapping("/system/social-client")
 @Validated
@@ -31,8 +29,6 @@ public class SocialClientController {
 
     @Resource
     private SocialClientService socialClientService;
-    @Resource
-    private SocialClientApi socialClientApi;
 
     @PostMapping("/create")
     @Operation(summary = "创建社交客户端")
@@ -82,13 +78,6 @@ public class SocialClientController {
     public CommonResult<PageResult<SocialClientResponse>> getSocialClientPage(@Valid SocialClientPageRequest pageVO) {
         PageResult<SocialClientEntity> pageResult = socialClientService.getSocialClientPage(pageVO);
         return success(BeanUtils.toBean(pageResult, SocialClientResponse.class));
-    }
-
-    @PostMapping("/send-subscribe-message")
-    @Operation(summary = "发送订阅消息") // 用于测试
-    @PreAuthorize("@ss.hasPermission('system:social-client:query')")
-    public void sendSubscribeMessage(@RequestBody SocialWxaSubscribeMessageSendReqDTO reqDTO) {
-        socialClientApi.sendWxaSubscribeMessage(reqDTO);
     }
 
 }

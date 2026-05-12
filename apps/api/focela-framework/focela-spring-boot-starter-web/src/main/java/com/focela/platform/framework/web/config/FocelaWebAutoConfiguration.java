@@ -4,7 +4,6 @@ import cn.hutool.core.util.StrUtil;
 import com.focela.platform.framework.common.business.infra.logger.ApiErrorLogCommonApi;
 import com.focela.platform.framework.common.enums.WebFilterOrderEnum;
 import com.focela.platform.framework.web.core.filter.CacheRequestBodyFilter;
-import com.focela.platform.framework.web.core.filter.DemoFilter;
 import com.focela.platform.framework.web.core.handler.GlobalExceptionHandler;
 import com.focela.platform.framework.web.core.handler.GlobalResponseBodyHandler;
 import com.focela.platform.framework.web.core.utils.WebFrameworkUtils;
@@ -13,7 +12,6 @@ import jakarta.servlet.Filter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrations;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -124,15 +122,6 @@ public class FocelaWebAutoConfiguration {
     @Bean
     public FilterRegistrationBean<CacheRequestBodyFilter> requestBodyCacheFilter() {
         return createFilterBean(new CacheRequestBodyFilter(), WebFilterOrderEnum.REQUEST_BODY_CACHE_FILTER);
-    }
-
-    /**
-     * 创建 DemoFilter Bean，演示模式
-     */
-    @Bean
-    @ConditionalOnProperty(value = "focela.demo", havingValue = "true")
-    public FilterRegistrationBean<DemoFilter> demoFilter() {
-        return createFilterBean(new DemoFilter(), WebFilterOrderEnum.DEMO_FILTER);
     }
 
     public static <T extends Filter> FilterRegistrationBean<T> createFilterBean(T filter, Integer order) {

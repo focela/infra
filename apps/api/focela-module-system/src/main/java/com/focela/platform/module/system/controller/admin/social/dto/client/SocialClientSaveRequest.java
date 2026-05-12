@@ -1,17 +1,13 @@
 package com.focela.platform.module.system.controller.admin.social.dto.client;
 
-import cn.hutool.core.util.StrUtil;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.common.validation.InEnum;
 import com.focela.platform.module.system.enums.social.SocialTypeEnum;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
-import java.util.Objects;
 
 @Schema(description = "管理后台 - 社交客户端创建/修改 Request VO")
 @Data
@@ -52,21 +48,5 @@ public class SocialClientSaveRequest {
     @NotNull(message = "状态不能为空")
     @InEnum(CommonStatusEnum.class)
     private Integer status;
-
-    @AssertTrue(message = "agentId 不能为空")
-    @JsonIgnore
-    public boolean isAgentIdValid() {
-        // 如果是企业微信，必须填写 agentId 属性
-        return !Objects.equals(socialType, SocialTypeEnum.WECHAT_ENTERPRISE.getType())
-                || !StrUtil.isEmpty(agentId);
-    }
-
-    @AssertTrue(message = "publicKey 不能为空")
-    @JsonIgnore
-    public boolean isPublicKeyValid() {
-        // 如果是支付宝，必须填写 publicKey 属性
-        return !Objects.equals(socialType, SocialTypeEnum.ALIPAY_MINI_PROGRAM.getType())
-                || !StrUtil.isEmpty(publicKey);
-    }
 
 }
