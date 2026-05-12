@@ -28,7 +28,12 @@
         </dependency>
         <dependency>
             <groupId>com.focela.platform</groupId>
-            <artifactId>focela-module-infra</artifactId>
+            <artifactId>focela-module-infra-api</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.focela.platform</groupId>
+            <artifactId>focela-module-infra-biz</artifactId>
             <version>${revision}</version>
         </dependency>
 

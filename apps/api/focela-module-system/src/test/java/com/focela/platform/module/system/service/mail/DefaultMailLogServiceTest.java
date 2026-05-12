@@ -121,7 +121,7 @@ public class DefaultMailLogServiceTest extends BaseDbUnitTest {
         assertEquals(MailSendStatusEnum.FAILURE.getStatus(), dbLog.getSendStatus());
         assertNotNull(dbLog.getSendTime());
         assertNull(dbLog.getSendMessageId());
-        assertEquals("NullPointerException: 测试异常", dbLog.getSendException());
+        assertEquals("NullPointerException: test exception", dbLog.getSendException());
     }
 
     @Test

@@ -253,7 +253,7 @@ public class DefaultSmsSendServiceTest extends BaseMockitoUnitTest {
                 () -> smsSendService.sendBatchSms(null, null, null, null, null)
         );
         // 断言
-        assertEquals("暂时不支持该操作，感兴趣可以实现该功能哟！", exception.getMessage());
+        assertEquals("temporarily not supported this operation, if interested can implement this feature!", exception.getMessage());
     }
 
     @Test

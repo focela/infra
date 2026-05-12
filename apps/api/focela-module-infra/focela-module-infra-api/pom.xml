@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.focela.platform</groupId>
+        <artifactId>focela-platform</artifactId>
+        <version>${revision}</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>focela-module-infra-api</artifactId>
+    <packaging>jar</packaging>
+
+    <name>${project.artifactId}</name>
+    <description>
+        Public API contracts for the infra module. Other modules depend on this
+        artifact (not on infra-biz) to call infra services. Contains interfaces,
+        DTOs, and constants — no business logic.
+    </description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.focela.platform</groupId>
+            <artifactId>focela-common</artifactId>
+        </dependency>
+        <!-- @NotEmpty etc. on API contracts -->
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
