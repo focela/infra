@@ -26,7 +26,7 @@ import static com.focela.platform.framework.common.exception.enums.GlobalErrorCo
  */
 @Slf4j
 @SuppressWarnings("JavadocReference")
-public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
+public class JsonAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e)

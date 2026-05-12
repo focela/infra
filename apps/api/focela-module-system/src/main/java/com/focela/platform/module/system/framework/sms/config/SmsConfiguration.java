@@ -1,7 +1,7 @@
 package com.focela.platform.module.system.framework.sms.config;
 
 import com.focela.platform.module.system.framework.sms.core.client.SmsClientFactory;
-import com.focela.platform.module.system.framework.sms.core.client.impl.SmsClientFactoryImpl;
+import com.focela.platform.module.system.framework.sms.core.client.impl.DefaultSmsClientFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +17,7 @@ public class SmsConfiguration {
 
     @Bean
     public SmsClientFactory smsClientFactory() {
-        return new SmsClientFactoryImpl();
+        return new DefaultSmsClientFactory();
     }
 
 }

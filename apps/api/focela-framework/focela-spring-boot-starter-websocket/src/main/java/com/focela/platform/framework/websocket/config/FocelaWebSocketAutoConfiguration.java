@@ -17,7 +17,7 @@ import com.focela.platform.framework.websocket.core.sender.rocketmq.RocketMQWebS
 import com.focela.platform.framework.websocket.core.sender.rocketmq.RocketMQWebSocketMessageSender;
 import com.focela.platform.framework.websocket.core.session.WebSocketSessionHandlerDecorator;
 import com.focela.platform.framework.websocket.core.session.WebSocketSessionManager;
-import com.focela.platform.framework.websocket.core.session.WebSocketSessionManagerImpl;
+import com.focela.platform.framework.websocket.core.session.DefaultWebSocketSessionManager;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -74,7 +74,7 @@ public class FocelaWebSocketAutoConfiguration {
 
     @Bean
     public WebSocketSessionManager webSocketSessionManager() {
-        return new WebSocketSessionManagerImpl();
+        return new DefaultWebSocketSessionManager();
     }
 
     @Bean

@@ -19,14 +19,14 @@ import static com.focela.platform.framework.test.core.utils.RandomUtils.randomSt
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * {@link DataPermissionRuleFactoryImpl} 单元测试
+ * {@link DefaultDataPermissionRuleFactory} 单元测试
  *
  * @author 芋道源码
  */
 class DataPermissionRuleFactoryImplTest extends BaseMockitoUnitTest {
 
     @InjectMocks
-    private DataPermissionRuleFactoryImpl dataPermissionRuleFactory;
+    private DefaultDataPermissionRuleFactory dataPermissionRuleFactory;
 
     @Spy
     private List<DataPermissionRule> rules = Arrays.asList(new DataPermissionRule01(),

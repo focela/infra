@@ -12,13 +12,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * 默认的 DataPermissionRuleFactoryImpl 实现类
+ * 默认的 DefaultDataPermissionRuleFactory 实现类
  * 支持通过 {@link DataPermissionContextHolder} 过滤数据权限
  *
  * @author 芋道源码
  */
 @RequiredArgsConstructor
-public class DataPermissionRuleFactoryImpl implements DataPermissionRuleFactory {
+public class DefaultDataPermissionRuleFactory implements DataPermissionRuleFactory {
 
     /**
      * 数据权限规则数组

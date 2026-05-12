@@ -19,7 +19,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  *
  * @author 芋道源码
  */
-public class WebSocketSessionManagerImpl implements WebSocketSessionManager {
+public class DefaultWebSocketSessionManager implements WebSocketSessionManager {
 
     /**
      * id 与 WebSocketSession 映射

@@ -4,7 +4,7 @@ import com.focela.platform.framework.datapermission.core.aop.DataPermissionAnnot
 import com.focela.platform.framework.datapermission.core.db.DataPermissionRuleHandler;
 import com.focela.platform.framework.datapermission.core.rule.DataPermissionRule;
 import com.focela.platform.framework.datapermission.core.rule.DataPermissionRuleFactory;
-import com.focela.platform.framework.datapermission.core.rule.DataPermissionRuleFactoryImpl;
+import com.focela.platform.framework.datapermission.core.rule.DefaultDataPermissionRuleFactory;
 import com.focela.platform.framework.mybatis.core.utils.MyBatisUtils;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.DataPermissionInterceptor;
@@ -23,7 +23,7 @@ public class FocelaDataPermissionAutoConfiguration {
 
     @Bean
     public DataPermissionRuleFactory dataPermissionRuleFactory(List<DataPermissionRule> rules) {
-        return new DataPermissionRuleFactoryImpl(rules);
+        return new DefaultDataPermissionRuleFactory(rules);
     }
 
     @Bean

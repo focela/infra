@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 @Validated
 @Slf4j
-public class SmsClientFactoryImpl implements SmsClientFactory {
+public class DefaultSmsClientFactory implements SmsClientFactory {
 
     /**
      * 短信客户端 Map
@@ -36,7 +36,7 @@ public class SmsClientFactoryImpl implements SmsClientFactory {
      */
     private final ConcurrentMap<String, AbstractSmsClient> channelCodeClients = new ConcurrentHashMap<>();
 
-    public SmsClientFactoryImpl() {
+    public DefaultSmsClientFactory() {
         // 初始化 channelCodeClients 集合
         Arrays.stream(SmsChannelEnum.values()).forEach(channel -> {
             // 创建一个空的 SmsChannelProperties 对象

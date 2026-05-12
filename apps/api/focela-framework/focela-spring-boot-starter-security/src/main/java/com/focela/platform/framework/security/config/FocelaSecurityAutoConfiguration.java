@@ -4,8 +4,8 @@ import com.focela.platform.framework.common.business.system.oauth2.OAuth2TokenCo
 import com.focela.platform.framework.common.business.system.permission.PermissionCommonApi;
 import com.focela.platform.framework.security.core.context.TransmittableThreadLocalSecurityContextHolderStrategy;
 import com.focela.platform.framework.security.core.filter.TokenAuthenticationFilter;
-import com.focela.platform.framework.security.core.handler.AccessDeniedHandlerImpl;
-import com.focela.platform.framework.security.core.handler.AuthenticationEntryPointImpl;
+import com.focela.platform.framework.security.core.handler.JsonAccessDeniedHandler;
+import com.focela.platform.framework.security.core.handler.JsonAuthenticationEntryPoint;
 import com.focela.platform.framework.security.core.service.SecurityFrameworkService;
 import com.focela.platform.framework.security.core.service.DefaultSecurityFrameworkService;
 import com.focela.platform.framework.web.core.handler.GlobalExceptionHandler;
@@ -42,7 +42,7 @@ public class FocelaSecurityAutoConfiguration {
      */
     @Bean
     public AuthenticationEntryPoint authenticationEntryPoint() {
-        return new AuthenticationEntryPointImpl();
+        return new JsonAuthenticationEntryPoint();
     }
 
     /**
@@ -50,7 +50,7 @@ public class FocelaSecurityAutoConfiguration {
      */
     @Bean
     public AccessDeniedHandler accessDeniedHandler() {
-        return new AccessDeniedHandlerImpl();
+        return new JsonAccessDeniedHandler();
     }
 
     /**

@@ -23,7 +23,7 @@ import static com.focela.platform.framework.common.exception.enums.GlobalErrorCo
  */
 @Slf4j
 @SuppressWarnings("JavadocReference") // 忽略文档引用报错
-public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
+public class JsonAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) {

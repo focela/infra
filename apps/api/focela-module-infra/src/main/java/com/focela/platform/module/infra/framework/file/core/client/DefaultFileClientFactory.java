@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author 芋道源码
  */
 @Slf4j
-public class FileClientFactoryImpl implements FileClientFactory {
+public class DefaultFileClientFactory implements FileClientFactory {
 
     /**
      * 文件客户端 Map
