@@ -4,8 +4,8 @@ import cn.hutool.core.util.StrUtil;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.date.LocalDateTimeUtils;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.system.controller.admin.dict.vo.type.DictTypePageReqVO;
-import com.focela.platform.module.system.controller.admin.dict.vo.type.DictTypeSaveReqVO;
+import com.focela.platform.module.system.controller.admin.dict.dto.type.DictTypePageRequest;
+import com.focela.platform.module.system.controller.admin.dict.dto.type.DictTypeSaveRequest;
 import com.focela.platform.module.system.repository.entity.dict.DictTypeEntity;
 import com.focela.platform.module.system.repository.mapper.dict.DictTypeMapper;
 import com.google.common.annotations.VisibleForTesting;
@@ -33,8 +33,8 @@ public class DictTypeServiceImpl implements DictTypeService {
     private DictTypeMapper dictTypeMapper;
 
     @Override
-    public PageResult<DictTypeEntity> getDictTypePage(DictTypePageReqVO pageReqVO) {
-        return dictTypeMapper.selectPage(pageReqVO);
+    public PageResult<DictTypeEntity> getDictTypePage(DictTypePageRequest pageRequest) {
+        return dictTypeMapper.selectPage(pageRequest);
     }
 
     @Override
@@ -48,30 +48,30 @@ public class DictTypeServiceImpl implements DictTypeService {
     }
 
     @Override
-    public Long createDictType(DictTypeSaveReqVO createReqVO) {
+    public Long createDictType(DictTypeSaveRequest createRequest) {
         // 校验字典类型的名字的唯一性
-        validateDictTypeNameUnique(null, createReqVO.getName());
+        validateDictTypeNameUnique(null, createRequest.getName());
         // 校验字典类型的类型的唯一性
-        validateDictTypeUnique(null, createReqVO.getType());
+        validateDictTypeUnique(null, createRequest.getType());
 
         // 插入字典类型
-        DictTypeEntity dictType = BeanUtils.toBean(createReqVO, DictTypeEntity.class);
+        DictTypeEntity dictType = BeanUtils.toBean(createRequest, DictTypeEntity.class);
         dictType.setDeletedTime(LocalDateTimeUtils.EMPTY); // 唯一索引，避免 null 值
         dictTypeMapper.insert(dictType);
         return dictType.getId();
     }
 
     @Override
-    public void updateDictType(DictTypeSaveReqVO updateReqVO) {
+    public void updateDictType(DictTypeSaveRequest updateRequest) {
         // 校验自己存在
-        validateDictTypeExists(updateReqVO.getId());
+        validateDictTypeExists(updateRequest.getId());
         // 校验字典类型的名字的唯一性
-        validateDictTypeNameUnique(updateReqVO.getId(), updateReqVO.getName());
+        validateDictTypeNameUnique(updateRequest.getId(), updateRequest.getName());
         // 校验字典类型的类型的唯一性
-        validateDictTypeUnique(updateReqVO.getId(), updateReqVO.getType());
+        validateDictTypeUnique(updateRequest.getId(), updateRequest.getType());
 
         // 更新字典类型
-        DictTypeEntity updateObj = BeanUtils.toBean(updateReqVO, DictTypeEntity.class);
+        DictTypeEntity updateObj = BeanUtils.toBean(updateRequest, DictTypeEntity.class);
         dictTypeMapper.updateById(updateObj);
     }
 

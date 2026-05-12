@@ -1,7 +1,7 @@
 package com.focela.platform.module.infra.service.job;
 
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.infra.controller.admin.job.vo.log.JobLogPageReqVO;
+import com.focela.platform.module.infra.controller.admin.job.dto.log.JobLogPageRequest;
 import com.focela.platform.module.infra.repository.entity.job.JobLogEntity;
 import com.focela.platform.module.infra.repository.mapper.job.JobLogMapper;
 import com.focela.platform.module.infra.enums.job.JobLogStatusEnum;
@@ -73,8 +73,8 @@ public class JobLogServiceImpl implements JobLogService {
     }
 
     @Override
-    public PageResult<JobLogEntity> getJobLogPage(JobLogPageReqVO pageReqVO) {
-        return jobLogMapper.selectPage(pageReqVO);
+    public PageResult<JobLogEntity> getJobLogPage(JobLogPageRequest pageRequest) {
+        return jobLogMapper.selectPage(pageRequest);
     }
 
 }

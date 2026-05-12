@@ -2,8 +2,8 @@ package com.focela.platform.module.infra.controller.admin.db;
 
 import com.focela.platform.framework.common.pojo.CommonResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.infra.controller.admin.db.vo.DataSourceConfigRespVO;
-import com.focela.platform.module.infra.controller.admin.db.vo.DataSourceConfigSaveReqVO;
+import com.focela.platform.module.infra.controller.admin.db.dto.DataSourceConfigResponse;
+import com.focela.platform.module.infra.controller.admin.db.dto.DataSourceConfigSaveRequest;
 import com.focela.platform.module.infra.repository.entity.db.DataSourceConfigEntity;
 import com.focela.platform.module.infra.service.db.DataSourceConfigService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,15 +31,15 @@ public class DataSourceConfigController {
     @PostMapping("/create")
     @Operation(summary = "创建数据源配置")
     @PreAuthorize("@ss.hasPermission('infra:data-source-config:create')")
-    public CommonResult<Long> createDataSourceConfig(@Valid @RequestBody DataSourceConfigSaveReqVO createReqVO) {
-        return success(dataSourceConfigService.createDataSourceConfig(createReqVO));
+    public CommonResult<Long> createDataSourceConfig(@Valid @RequestBody DataSourceConfigSaveRequest createRequest) {
+        return success(dataSourceConfigService.createDataSourceConfig(createRequest));
     }
 
     @PutMapping("/update")
     @Operation(summary = "更新数据源配置")
     @PreAuthorize("@ss.hasPermission('infra:data-source-config:update')")
-    public CommonResult<Boolean> updateDataSourceConfig(@Valid @RequestBody DataSourceConfigSaveReqVO updateReqVO) {
-        dataSourceConfigService.updateDataSourceConfig(updateReqVO);
+    public CommonResult<Boolean> updateDataSourceConfig(@Valid @RequestBody DataSourceConfigSaveRequest updateRequest) {
+        dataSourceConfigService.updateDataSourceConfig(updateRequest);
         return success(true);
     }
 
@@ -65,17 +65,17 @@ public class DataSourceConfigController {
     @Operation(summary = "获得数据源配置")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:data-source-config:query')")
-    public CommonResult<DataSourceConfigRespVO> getDataSourceConfig(@RequestParam("id") Long id) {
+    public CommonResult<DataSourceConfigResponse> getDataSourceConfig(@RequestParam("id") Long id) {
         DataSourceConfigEntity config = dataSourceConfigService.getDataSourceConfig(id);
-        return success(BeanUtils.toBean(config, DataSourceConfigRespVO.class));
+        return success(BeanUtils.toBean(config, DataSourceConfigResponse.class));
     }
 
     @GetMapping("/list")
     @Operation(summary = "获得数据源配置列表")
     @PreAuthorize("@ss.hasPermission('infra:data-source-config:query')")
-    public CommonResult<List<DataSourceConfigRespVO>> getDataSourceConfigList() {
+    public CommonResult<List<DataSourceConfigResponse>> getDataSourceConfigList() {
         List<DataSourceConfigEntity> list = dataSourceConfigService.getDataSourceConfigList();
-        return success(BeanUtils.toBean(list, DataSourceConfigRespVO.class));
+        return success(BeanUtils.toBean(list, DataSourceConfigResponse.class));
     }
 
 }

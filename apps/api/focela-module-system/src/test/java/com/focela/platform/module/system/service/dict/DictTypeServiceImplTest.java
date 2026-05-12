@@ -4,8 +4,8 @@ import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.collection.ArrayUtils;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
-import com.focela.platform.module.system.controller.admin.dict.vo.type.DictTypePageReqVO;
-import com.focela.platform.module.system.controller.admin.dict.vo.type.DictTypeSaveReqVO;
+import com.focela.platform.module.system.controller.admin.dict.dto.type.DictTypePageRequest;
+import com.focela.platform.module.system.controller.admin.dict.dto.type.DictTypeSaveRequest;
 import com.focela.platform.module.system.repository.entity.dict.DictTypeEntity;
 import com.focela.platform.module.system.repository.mapper.dict.DictTypeMapper;
 import jakarta.annotation.Resource;
@@ -58,7 +58,7 @@ public class DictTypeServiceImplTest extends BaseDbUnitTest {
        // 测试 createTime 不匹配
        dictTypeMapper.insert(cloneIgnoreId(dbDictType, o -> o.setCreateTime(buildTime(2021, 1, 1))));
        // 准备参数
-       DictTypePageReqVO reqVO = new DictTypePageReqVO();
+       DictTypePageRequest reqVO = new DictTypePageRequest();
        reqVO.setName("nai");
        reqVO.setType("艿");
        reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
@@ -105,7 +105,7 @@ public class DictTypeServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateDictType_success() {
         // 准备参数
-        DictTypeSaveReqVO reqVO = randomPojo(DictTypeSaveReqVO.class,
+        DictTypeSaveRequest reqVO = randomPojo(DictTypeSaveRequest.class,
                 o -> o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()))
                 .setId(null); // 避免 id 被赋值
 
@@ -124,7 +124,7 @@ public class DictTypeServiceImplTest extends BaseDbUnitTest {
         DictTypeEntity dbDictType = randomDictTypeDO();
         dictTypeMapper.insert(dbDictType);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        DictTypeSaveReqVO reqVO = randomPojo(DictTypeSaveReqVO.class, o -> {
+        DictTypeSaveRequest reqVO = randomPojo(DictTypeSaveRequest.class, o -> {
             o.setId(dbDictType.getId()); // 设置更新的 ID
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus());
         });

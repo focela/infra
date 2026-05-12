@@ -1,7 +1,7 @@
 package com.focela.platform.module.system.service.sms;
 
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.system.controller.admin.sms.vo.log.SmsLogPageReqVO;
+import com.focela.platform.module.system.controller.admin.sms.dto.log.SmsLogPageRequest;
 import com.focela.platform.module.system.repository.entity.sms.SmsLogEntity;
 import com.focela.platform.module.system.repository.entity.sms.SmsTemplateEntity;
 
@@ -69,9 +69,9 @@ public interface SmsLogService {
     /**
      * 获得短信日志分页
      *
-     * @param pageReqVO 分页查询
+     * @param pageRequest 分页查询
      * @return 短信日志分页
      */
-    PageResult<SmsLogEntity> getSmsLogPage(SmsLogPageReqVO pageReqVO);
+    PageResult<SmsLogEntity> getSmsLogPage(SmsLogPageRequest pageRequest);
 
 }

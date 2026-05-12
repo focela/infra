@@ -3,8 +3,8 @@ package com.focela.platform.module.system.service.mail;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
-import com.focela.platform.module.system.controller.admin.mail.vo.template.MailTemplateSaveReqVO;
-import com.focela.platform.module.system.controller.admin.mail.vo.template.MailTemplatePageReqVO;
+import com.focela.platform.module.system.controller.admin.mail.dto.template.MailTemplateSaveRequest;
+import com.focela.platform.module.system.controller.admin.mail.dto.template.MailTemplatePageRequest;
 import com.focela.platform.module.system.repository.entity.mail.MailTemplateEntity;
 import com.focela.platform.module.system.repository.mapper.mail.MailTemplateMapper;
 import org.junit.jupiter.api.Test;
@@ -42,7 +42,7 @@ public class MailTemplateServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateMailTemplate_success() {
         // 准备参数
-        MailTemplateSaveReqVO reqVO = randomPojo(MailTemplateSaveReqVO.class)
+        MailTemplateSaveRequest reqVO = randomPojo(MailTemplateSaveRequest.class)
                 .setId(null); // 防止 id 被赋值
 
         // 调用
@@ -60,7 +60,7 @@ public class MailTemplateServiceImplTest extends BaseDbUnitTest {
         MailTemplateEntity dbMailTemplate = randomPojo(MailTemplateEntity.class);
         mailTemplateMapper.insert(dbMailTemplate);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        MailTemplateSaveReqVO reqVO = randomPojo(MailTemplateSaveReqVO.class, o -> {
+        MailTemplateSaveRequest reqVO = randomPojo(MailTemplateSaveRequest.class, o -> {
             o.setId(dbMailTemplate.getId()); // 设置更新的 ID
         });
 
@@ -74,7 +74,7 @@ public class MailTemplateServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateMailTemplate_notExists() {
         // 准备参数
-        MailTemplateSaveReqVO reqVO = randomPojo(MailTemplateSaveReqVO.class);
+        MailTemplateSaveRequest reqVO = randomPojo(MailTemplateSaveRequest.class);
 
         // 调用, 并断言异常
         assertServiceException(() -> mailTemplateService.updateMailTemplate(reqVO), MAIL_TEMPLATE_NOT_EXISTS);
@@ -125,7 +125,7 @@ public class MailTemplateServiceImplTest extends BaseDbUnitTest {
         // 测试 createTime 不匹配
         mailTemplateMapper.insert(cloneIgnoreId(dbMailTemplate, o -> o.setCreateTime(buildTime(2023, 1, 5))));
         // 准备参数
-        MailTemplatePageReqVO reqVO = new MailTemplatePageReqVO();
+        MailTemplatePageRequest reqVO = new MailTemplatePageRequest();
         reqVO.setName("源");
         reqVO.setCode("est_01");
         reqVO.setAccountId(1L);

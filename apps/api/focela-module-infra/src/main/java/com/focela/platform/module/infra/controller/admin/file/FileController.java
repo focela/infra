@@ -7,7 +7,7 @@ import com.focela.platform.framework.common.pojo.CommonResult;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.tenant.core.aop.TenantIgnore;
-import com.focela.platform.module.infra.controller.admin.file.vo.file.*;
+import com.focela.platform.module.infra.controller.admin.file.dto.file.*;
 import com.focela.platform.module.infra.repository.entity.file.FileEntity;
 import com.focela.platform.module.infra.service.file.FileService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -47,11 +47,11 @@ public class FileController {
     @Operation(summary = "上传文件", description = "模式一：后端上传文件")
     @Parameter(name = "file", description = "文件附件", required = true,
             schema = @Schema(type = "string", format = "binary"))
-    public CommonResult<String> uploadFile(@Valid FileUploadReqVO uploadReqVO) throws Exception {
-        MultipartFile file = uploadReqVO.getFile();
+    public CommonResult<String> uploadFile(@Valid FileUploadRequest uploadRequest) throws Exception {
+        MultipartFile file = uploadRequest.getFile();
         byte[] content = IoUtil.readBytes(file.getInputStream());
         return success(fileService.createFile(content, file.getOriginalFilename(),
-                uploadReqVO.getDirectory(), file.getContentType()));
+                uploadRequest.getDirectory(), file.getContentType()));
     }
 
     @GetMapping("/presigned-url")
@@ -60,7 +60,7 @@ public class FileController {
             @Parameter(name = "name", description = "文件名称", required = true),
             @Parameter(name = "directory", description = "文件目录")
     })
-    public CommonResult<FilePresignedUrlRespVO> getFilePresignedUrl(
+    public CommonResult<FilePresignedUrlResponse> getFilePresignedUrl(
             @RequestParam("name") String name,
             @RequestParam(value = "directory", required = false) String directory) {
         return success(fileService.presignPutUrl(name, directory));
@@ -68,16 +68,16 @@ public class FileController {
 
     @PostMapping("/create")
     @Operation(summary = "创建文件", description = "模式二：前端上传文件：配合 presigned-url 接口，记录上传了上传的文件")
-    public CommonResult<Long> createFile(@Valid @RequestBody FileCreateReqVO createReqVO) {
-        return success(fileService.createFile(createReqVO));
+    public CommonResult<Long> createFile(@Valid @RequestBody FileCreateRequest createRequest) {
+        return success(fileService.createFile(createRequest));
     }
 
     @GetMapping("/get")
     @Operation(summary = "获得文件")
     @Parameter(name = "id", description = "编号", required = true)
     @PreAuthorize("@ss.hasPermission('infra:file:query')")
-    public CommonResult<FileRespVO> getFile(@RequestParam("id") Long id) {
-        return success(BeanUtils.toBean(fileService.getFile(id), FileRespVO.class));
+    public CommonResult<FileResponse> getFile(@RequestParam("id") Long id) {
+        return success(BeanUtils.toBean(fileService.getFile(id), FileResponse.class));
     }
 
     @DeleteMapping("/delete")
@@ -129,9 +129,9 @@ public class FileController {
     @GetMapping("/page")
     @Operation(summary = "获得文件分页")
     @PreAuthorize("@ss.hasPermission('infra:file:query')")
-    public CommonResult<PageResult<FileRespVO>> getFilePage(@Valid FilePageReqVO pageVO) {
+    public CommonResult<PageResult<FileResponse>> getFilePage(@Valid FilePageRequest pageVO) {
         PageResult<FileEntity> pageResult = fileService.getFilePage(pageVO);
-        return success(BeanUtils.toBean(pageResult, FileRespVO.class));
+        return success(BeanUtils.toBean(pageResult, FileResponse.class));
     }
 
 }

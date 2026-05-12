@@ -4,8 +4,8 @@ import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
-import com.focela.platform.module.system.controller.admin.sms.vo.channel.SmsChannelPageReqVO;
-import com.focela.platform.module.system.controller.admin.sms.vo.channel.SmsChannelSaveReqVO;
+import com.focela.platform.module.system.controller.admin.sms.dto.channel.SmsChannelPageRequest;
+import com.focela.platform.module.system.controller.admin.sms.dto.channel.SmsChannelSaveRequest;
 import com.focela.platform.module.system.repository.entity.sms.SmsChannelEntity;
 import com.focela.platform.module.system.repository.mapper.sms.SmsChannelMapper;
 import com.focela.platform.module.system.framework.sms.core.client.SmsClient;
@@ -48,7 +48,7 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
     @Test
     public void testCreateSmsChannel_success() {
         // 准备参数
-        SmsChannelSaveReqVO reqVO = randomPojo(SmsChannelSaveReqVO.class, o -> o.setStatus(randomCommonStatus()))
+        SmsChannelSaveRequest reqVO = randomPojo(SmsChannelSaveRequest.class, o -> o.setStatus(randomCommonStatus()))
                 .setId(null); // 防止 id 被赋值
 
         // 调用
@@ -66,7 +66,7 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
         SmsChannelEntity dbSmsChannel = randomPojo(SmsChannelEntity.class);
         smsChannelMapper.insert(dbSmsChannel);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        SmsChannelSaveReqVO reqVO = randomPojo(SmsChannelSaveReqVO.class, o -> {
+        SmsChannelSaveRequest reqVO = randomPojo(SmsChannelSaveRequest.class, o -> {
             o.setId(dbSmsChannel.getId()); // 设置更新的 ID
             o.setStatus(randomCommonStatus());
             o.setCallbackUrl(randomString());
@@ -82,7 +82,7 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
     @Test
     public void testUpdateSmsChannel_notExists() {
         // 准备参数
-        SmsChannelSaveReqVO reqVO = randomPojo(SmsChannelSaveReqVO.class);
+        SmsChannelSaveRequest reqVO = randomPojo(SmsChannelSaveRequest.class);
 
         // 调用, 并断言异常
         assertServiceException(() -> smsChannelService.updateSmsChannel(reqVO), SMS_CHANNEL_NOT_EXISTS);
@@ -170,7 +170,7 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
        // 测试 createTime 不匹配
        smsChannelMapper.insert(cloneIgnoreId(dbSmsChannel, o -> o.setCreateTime(buildTime(2020, 11, 11))));
        // 准备参数
-       SmsChannelPageReqVO reqVO = new SmsChannelPageReqVO();
+       SmsChannelPageRequest reqVO = new SmsChannelPageRequest();
        reqVO.setSignature("芋道");
        reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
        reqVO.setCreateTime(buildBetweenTime(2020, 12, 1, 2020, 12, 24));

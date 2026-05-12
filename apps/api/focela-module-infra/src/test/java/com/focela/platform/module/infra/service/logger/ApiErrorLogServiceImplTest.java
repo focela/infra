@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.framework.common.biz.infra.logger.dto.ApiErrorLogCreateReqDTO;
-import com.focela.platform.module.infra.controller.admin.logger.vo.apierrorlog.ApiErrorLogPageReqVO;
+import com.focela.platform.module.infra.controller.admin.logger.dto.apierrorlog.ApiErrorLogPageRequest;
 import com.focela.platform.module.infra.repository.entity.logger.ApiErrorLogEntity;
 import com.focela.platform.module.infra.repository.mapper.logger.ApiErrorLogMapper;
 import com.focela.platform.module.infra.enums.logger.ApiErrorLogProcessStatusEnum;
@@ -61,7 +61,7 @@ public class ApiErrorLogServiceImplTest extends BaseDbUnitTest {
         // 测试 progressStatus 不匹配
         apiErrorLogMapper.insert(cloneIgnoreId(apiErrorLogDO, logDO -> logDO.setProcessStatus(ApiErrorLogProcessStatusEnum.DONE.getStatus())));
         // 准备参数
-        ApiErrorLogPageReqVO reqVO = new ApiErrorLogPageReqVO();
+        ApiErrorLogPageRequest reqVO = new ApiErrorLogPageRequest();
         reqVO.setUserId(2233L);
         reqVO.setUserType(UserTypeEnum.ADMIN.getValue());
         reqVO.setApplicationName("yudao-test");

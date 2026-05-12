@@ -5,8 +5,8 @@ import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.collection.CollectionUtils;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.system.controller.admin.dict.vo.data.DictDataPageReqVO;
-import com.focela.platform.module.system.controller.admin.dict.vo.data.DictDataSaveReqVO;
+import com.focela.platform.module.system.controller.admin.dict.dto.data.DictDataPageRequest;
+import com.focela.platform.module.system.controller.admin.dict.dto.data.DictDataSaveRequest;
 import com.focela.platform.module.system.repository.entity.dict.DictDataEntity;
 import com.focela.platform.module.system.repository.entity.dict.DictTypeEntity;
 import com.focela.platform.module.system.repository.mapper.dict.DictDataMapper;
@@ -53,8 +53,8 @@ public class DictDataServiceImpl implements DictDataService {
     }
 
     @Override
-    public PageResult<DictDataEntity> getDictDataPage(DictDataPageReqVO pageReqVO) {
-        return dictDataMapper.selectPage(pageReqVO);
+    public PageResult<DictDataEntity> getDictDataPage(DictDataPageRequest pageRequest) {
+        return dictDataMapper.selectPage(pageRequest);
     }
 
     @Override
@@ -63,29 +63,29 @@ public class DictDataServiceImpl implements DictDataService {
     }
 
     @Override
-    public Long createDictData(DictDataSaveReqVO createReqVO) {
+    public Long createDictData(DictDataSaveRequest createRequest) {
         // 校验字典类型有效
-        validateDictTypeExists(createReqVO.getDictType());
+        validateDictTypeExists(createRequest.getDictType());
         // 校验字典数据的值的唯一性
-        validateDictDataValueUnique(null, createReqVO.getDictType(), createReqVO.getValue());
+        validateDictDataValueUnique(null, createRequest.getDictType(), createRequest.getValue());
 
         // 插入字典类型
-        DictDataEntity dictData = BeanUtils.toBean(createReqVO, DictDataEntity.class);
+        DictDataEntity dictData = BeanUtils.toBean(createRequest, DictDataEntity.class);
         dictDataMapper.insert(dictData);
         return dictData.getId();
     }
 
     @Override
-    public void updateDictData(DictDataSaveReqVO updateReqVO) {
+    public void updateDictData(DictDataSaveRequest updateRequest) {
         // 校验自己存在
-        validateDictDataExists(updateReqVO.getId());
+        validateDictDataExists(updateRequest.getId());
         // 校验字典类型有效
-        validateDictTypeExists(updateReqVO.getDictType());
+        validateDictTypeExists(updateRequest.getDictType());
         // 校验字典数据的值的唯一性
-        validateDictDataValueUnique(updateReqVO.getId(), updateReqVO.getDictType(), updateReqVO.getValue());
+        validateDictDataValueUnique(updateRequest.getId(), updateRequest.getDictType(), updateRequest.getValue());
 
         // 更新字典类型
-        DictDataEntity updateObj = BeanUtils.toBean(updateReqVO, DictDataEntity.class);
+        DictDataEntity updateObj = BeanUtils.toBean(updateRequest, DictDataEntity.class);
         dictDataMapper.updateById(updateObj);
     }
 

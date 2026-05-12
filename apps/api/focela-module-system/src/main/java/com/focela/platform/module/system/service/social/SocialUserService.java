@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.exception.ServiceException;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.system.api.social.dto.SocialUserBindReqDTO;
 import com.focela.platform.module.system.api.social.dto.SocialUserRespDTO;
-import com.focela.platform.module.system.controller.admin.socail.vo.user.SocialUserPageReqVO;
+import com.focela.platform.module.system.controller.admin.socail.dto.user.SocialUserPageRequest;
 import com.focela.platform.module.system.repository.entity.social.SocialUserEntity;
 import com.focela.platform.module.system.enums.social.SocialTypeEnum;
 
@@ -81,9 +81,9 @@ public interface SocialUserService {
     /**
      * 获得社交用户分页
      *
-     * @param pageReqVO 分页查询
+     * @param pageRequest 分页查询
      * @return 社交用户分页
      */
-    PageResult<SocialUserEntity> getSocialUserPage(SocialUserPageReqVO pageReqVO);
+    PageResult<SocialUserEntity> getSocialUserPage(SocialUserPageRequest pageRequest);
 
 }

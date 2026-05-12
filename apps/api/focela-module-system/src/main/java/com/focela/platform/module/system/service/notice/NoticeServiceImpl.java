@@ -2,8 +2,8 @@ package com.focela.platform.module.system.service.notice;
 
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.system.controller.admin.notice.vo.NoticePageReqVO;
-import com.focela.platform.module.system.controller.admin.notice.vo.NoticeSaveReqVO;
+import com.focela.platform.module.system.controller.admin.notice.dto.NoticePageRequest;
+import com.focela.platform.module.system.controller.admin.notice.dto.NoticeSaveRequest;
 import com.focela.platform.module.system.repository.entity.notice.NoticeEntity;
 import com.focela.platform.module.system.repository.mapper.notice.NoticeMapper;
 import com.google.common.annotations.VisibleForTesting;
@@ -27,18 +27,18 @@ public class NoticeServiceImpl implements NoticeService {
     private NoticeMapper noticeMapper;
 
     @Override
-    public Long createNotice(NoticeSaveReqVO createReqVO) {
-        NoticeEntity notice = BeanUtils.toBean(createReqVO, NoticeEntity.class);
+    public Long createNotice(NoticeSaveRequest createRequest) {
+        NoticeEntity notice = BeanUtils.toBean(createRequest, NoticeEntity.class);
         noticeMapper.insert(notice);
         return notice.getId();
     }
 
     @Override
-    public void updateNotice(NoticeSaveReqVO updateReqVO) {
+    public void updateNotice(NoticeSaveRequest updateRequest) {
         // 校验是否存在
-        validateNoticeExists(updateReqVO.getId());
+        validateNoticeExists(updateRequest.getId());
         // 更新通知公告
-        NoticeEntity updateObj = BeanUtils.toBean(updateReqVO, NoticeEntity.class);
+        NoticeEntity updateObj = BeanUtils.toBean(updateRequest, NoticeEntity.class);
         noticeMapper.updateById(updateObj);
     }
 
@@ -56,7 +56,7 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public PageResult<NoticeEntity> getNoticePage(NoticePageReqVO reqVO) {
+    public PageResult<NoticeEntity> getNoticePage(NoticePageRequest reqVO) {
         return noticeMapper.selectPage(reqVO);
     }
 

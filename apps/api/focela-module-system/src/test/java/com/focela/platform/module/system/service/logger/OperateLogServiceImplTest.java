@@ -5,7 +5,7 @@ import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.framework.test.core.util.RandomUtils;
 import com.focela.platform.framework.common.biz.system.logger.dto.OperateLogCreateReqDTO;
 import com.focela.platform.module.system.api.logger.dto.OperateLogPageReqDTO;
-import com.focela.platform.module.system.controller.admin.logger.vo.operatelog.OperateLogPageReqVO;
+import com.focela.platform.module.system.controller.admin.logger.dto.operatelog.OperateLogPageRequest;
 import com.focela.platform.module.system.repository.entity.logger.OperateLogEntity;
 import com.focela.platform.module.system.repository.mapper.logger.OperateLogMapper;
 import jakarta.annotation.Resource;
@@ -64,7 +64,7 @@ public class OperateLogServiceImplTest extends BaseDbUnitTest {
         operateLogMapper.insert(cloneIgnoreId(operateLogDO, o -> o.setCreateTime(buildTime(2021, 2, 6))));
 
         // 构造调用参数
-        OperateLogPageReqVO reqVO = new OperateLogPageReqVO();
+        OperateLogPageRequest reqVO = new OperateLogPageRequest();
         reqVO.setUserId(2048L);
         reqVO.setBizId(999L);
         reqVO.setType("订");

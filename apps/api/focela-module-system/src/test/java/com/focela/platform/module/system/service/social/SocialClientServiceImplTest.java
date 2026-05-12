@@ -8,8 +8,8 @@ import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
-import com.focela.platform.module.system.controller.admin.socail.vo.client.SocialClientPageReqVO;
-import com.focela.platform.module.system.controller.admin.socail.vo.client.SocialClientSaveReqVO;
+import com.focela.platform.module.system.controller.admin.socail.dto.client.SocialClientPageRequest;
+import com.focela.platform.module.system.controller.admin.socail.dto.client.SocialClientSaveRequest;
 import com.focela.platform.module.system.repository.entity.social.SocialClientEntity;
 import com.focela.platform.module.system.repository.mapper.social.SocialClientMapper;
 import com.focela.platform.module.system.enums.social.SocialTypeEnum;
@@ -350,7 +350,7 @@ public class SocialClientServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateSocialClient_success() {
         // 准备参数
-        SocialClientSaveReqVO reqVO = randomPojo(SocialClientSaveReqVO.class,
+        SocialClientSaveRequest reqVO = randomPojo(SocialClientSaveRequest.class,
                 o -> o.setSocialType(randomEle(SocialTypeEnum.values()).getType())
                         .setUserType(randomEle(UserTypeEnum.values()).getValue())
                         .setStatus(randomCommonStatus()))
@@ -371,7 +371,7 @@ public class SocialClientServiceImplTest extends BaseDbUnitTest {
         SocialClientEntity dbSocialClient = randomPojo(SocialClientEntity.class);
         socialClientMapper.insert(dbSocialClient);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        SocialClientSaveReqVO reqVO = randomPojo(SocialClientSaveReqVO.class, o -> {
+        SocialClientSaveRequest reqVO = randomPojo(SocialClientSaveRequest.class, o -> {
             o.setId(dbSocialClient.getId()); // 设置更新的 ID
             o.setSocialType(randomEle(SocialTypeEnum.values()).getType())
                     .setUserType(randomEle(UserTypeEnum.values()).getValue())
@@ -388,7 +388,7 @@ public class SocialClientServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateSocialClient_notExists() {
         // 准备参数
-        SocialClientSaveReqVO reqVO = randomPojo(SocialClientSaveReqVO.class);
+        SocialClientSaveRequest reqVO = randomPojo(SocialClientSaveRequest.class);
 
         // 调用, 并断言异常
         assertServiceException(() -> socialClientService.updateSocialClient(reqVO), SOCIAL_CLIENT_NOT_EXISTS);
@@ -453,7 +453,7 @@ public class SocialClientServiceImplTest extends BaseDbUnitTest {
         // 测试 status 不匹配
         socialClientMapper.insert(cloneIgnoreId(dbSocialClient, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
         // 准备参数
-        SocialClientPageReqVO reqVO = new SocialClientPageReqVO();
+        SocialClientPageRequest reqVO = new SocialClientPageRequest();
         reqVO.setName("芋");
         reqVO.setSocialType(SocialTypeEnum.GITEE.getType());
         reqVO.setUserType(UserTypeEnum.ADMIN.getValue());

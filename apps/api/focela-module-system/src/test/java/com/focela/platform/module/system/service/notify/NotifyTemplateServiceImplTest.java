@@ -3,8 +3,8 @@ package com.focela.platform.module.system.service.notify;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
-import com.focela.platform.module.system.controller.admin.notify.vo.template.NotifyTemplatePageReqVO;
-import com.focela.platform.module.system.controller.admin.notify.vo.template.NotifyTemplateSaveReqVO;
+import com.focela.platform.module.system.controller.admin.notify.dto.template.NotifyTemplatePageRequest;
+import com.focela.platform.module.system.controller.admin.notify.dto.template.NotifyTemplateSaveRequest;
 import com.focela.platform.module.system.repository.entity.notify.NotifyTemplateEntity;
 import com.focela.platform.module.system.repository.mapper.notify.NotifyTemplateMapper;
 import org.junit.jupiter.api.Test;
@@ -40,7 +40,7 @@ public class NotifyTemplateServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateNotifyTemplate_success() {
         // 准备参数
-        NotifyTemplateSaveReqVO reqVO = randomPojo(NotifyTemplateSaveReqVO.class,
+        NotifyTemplateSaveRequest reqVO = randomPojo(NotifyTemplateSaveRequest.class,
                 o -> o.setStatus(randomCommonStatus()))
                 .setId(null); // 防止 id 被赋值
 
@@ -59,7 +59,7 @@ public class NotifyTemplateServiceImplTest extends BaseDbUnitTest {
         NotifyTemplateEntity dbNotifyTemplate = randomPojo(NotifyTemplateEntity.class);
         notifyTemplateMapper.insert(dbNotifyTemplate);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        NotifyTemplateSaveReqVO reqVO = randomPojo(NotifyTemplateSaveReqVO.class, o -> {
+        NotifyTemplateSaveRequest reqVO = randomPojo(NotifyTemplateSaveRequest.class, o -> {
             o.setId(dbNotifyTemplate.getId()); // 设置更新的 ID
             o.setStatus(randomCommonStatus());
         });
@@ -74,7 +74,7 @@ public class NotifyTemplateServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateNotifyTemplate_notExists() {
         // 准备参数
-        NotifyTemplateSaveReqVO reqVO = randomPojo(NotifyTemplateSaveReqVO.class);
+        NotifyTemplateSaveRequest reqVO = randomPojo(NotifyTemplateSaveRequest.class);
 
         // 调用, 并断言异常
         assertServiceException(() -> notifyTemplateService.updateNotifyTemplate(reqVO), NOTIFY_TEMPLATE_NOT_EXISTS);
@@ -122,7 +122,7 @@ public class NotifyTemplateServiceImplTest extends BaseDbUnitTest {
         // 测试 createTime 不匹配
         notifyTemplateMapper.insert(cloneIgnoreId(dbNotifyTemplate, o -> o.setCreateTime(buildTime(2022, 1, 5))));
         // 准备参数
-        NotifyTemplatePageReqVO reqVO = new NotifyTemplatePageReqVO();
+        NotifyTemplatePageRequest reqVO = new NotifyTemplatePageRequest();
         reqVO.setName("芋");
         reqVO.setCode("est_01");
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());

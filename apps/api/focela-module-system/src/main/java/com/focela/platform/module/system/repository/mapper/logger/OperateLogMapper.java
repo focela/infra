@@ -4,14 +4,14 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
 import com.focela.platform.module.system.api.logger.dto.OperateLogPageReqDTO;
-import com.focela.platform.module.system.controller.admin.logger.vo.operatelog.OperateLogPageReqVO;
+import com.focela.platform.module.system.controller.admin.logger.dto.operatelog.OperateLogPageRequest;
 import com.focela.platform.module.system.repository.entity.logger.OperateLogEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface OperateLogMapper extends BaseMapperX<OperateLogEntity> {
 
-    default PageResult<OperateLogEntity> selectPage(OperateLogPageReqVO pageReqDTO) {
+    default PageResult<OperateLogEntity> selectPage(OperateLogPageRequest pageReqDTO) {
         return selectPage(pageReqDTO, new LambdaQueryWrapperX<OperateLogEntity>()
                 .eqIfPresent(OperateLogEntity::getUserId, pageReqDTO.getUserId())
                 .eqIfPresent(OperateLogEntity::getBizId, pageReqDTO.getBizId())

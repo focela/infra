@@ -7,7 +7,7 @@ import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.module.system.api.sms.SmsCodeApi;
 import com.focela.platform.module.system.api.social.dto.SocialUserBindReqDTO;
 import com.focela.platform.module.system.api.social.dto.SocialUserRespDTO;
-import com.focela.platform.module.system.controller.admin.auth.vo.*;
+import com.focela.platform.module.system.controller.admin.auth.dto.*;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
 import com.focela.platform.module.system.enums.logger.LoginLogTypeEnum;
@@ -149,7 +149,7 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testLogin_success() {
         // 准备参数
-        AuthLoginReqVO reqVO = randomPojo(AuthLoginReqVO.class, o ->
+        AuthLoginRequest reqVO = randomPojo(AuthLoginRequest.class, o ->
                 o.setUsername("test_username").setPassword("test_password")
                         .setSocialType(randomEle(SocialTypeEnum.values()).getType()));
 
@@ -168,8 +168,8 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
                 .thenReturn(accessTokenDO);
 
         // 调用，并校验
-        AuthLoginRespVO loginRespVO = authService.login(reqVO);
-        assertPojoEquals(accessTokenDO, loginRespVO);
+        AuthLoginResponse loginResponse = authService.login(reqVO);
+        assertPojoEquals(accessTokenDO, loginResponse);
         // 校验调用参数
         verify(loginLogService).createLoginLog(
                 argThat(o -> o.getLogType().equals(LoginLogTypeEnum.LOGIN_USERNAME.getType())
@@ -186,7 +186,7 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         String mobile = randomString();
         Integer scene = SmsSceneEnum.ADMIN_MEMBER_LOGIN.getScene();
-        AuthSmsSendReqVO reqVO = new AuthSmsSendReqVO(mobile, scene);
+        AuthSmsSendRequest reqVO = new AuthSmsSendRequest(mobile, scene);
         // mock 方法（用户信息）
         AdminUserEntity user = randomPojo(AdminUserEntity.class);
         when(userService.getUserByMobile(eq(mobile))).thenReturn(user);
@@ -206,7 +206,7 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         String mobile = randomString();
         String code = randomString();
-        AuthSmsLoginReqVO reqVO = new AuthSmsLoginReqVO(mobile, code);
+        AuthSmsLoginRequest reqVO = new AuthSmsLoginRequest(mobile, code);
         // mock 方法（验证码）
         doNothing().when(smsCodeApi).useSmsCode((argThat(smsCodeUseReqDTO -> {
             assertEquals(mobile, smsCodeUseReqDTO.getMobile());
@@ -224,8 +224,8 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
                 .thenReturn(accessTokenDO);
 
         // 调用，并断言
-        AuthLoginRespVO loginRespVO = authService.smsLogin(reqVO);
-        assertPojoEquals(accessTokenDO, loginRespVO);
+        AuthLoginResponse loginResponse = authService.smsLogin(reqVO);
+        assertPojoEquals(accessTokenDO, loginResponse);
         // 断言调用
         verify(loginLogService).createLoginLog(
                 argThat(o -> o.getLogType().equals(LoginLogTypeEnum.LOGIN_MOBILE.getType())
@@ -237,7 +237,7 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testSocialLogin_success() {
         // 准备参数
-        AuthSocialLoginReqVO reqVO = randomPojo(AuthSocialLoginReqVO.class);
+        AuthSocialLoginRequest reqVO = randomPojo(AuthSocialLoginRequest.class);
         // mock 方法（绑定的用户编号）
         Long userId = 1L;
         when(socialUserService.getSocialUserByCode(eq(UserTypeEnum.ADMIN.getValue()), eq(reqVO.getType()),
@@ -252,8 +252,8 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
                 .thenReturn(accessTokenDO);
 
         // 调用，并断言
-        AuthLoginRespVO loginRespVO = authService.socialLogin(reqVO);
-        assertPojoEquals(accessTokenDO, loginRespVO);
+        AuthLoginResponse loginResponse = authService.socialLogin(reqVO);
+        assertPojoEquals(accessTokenDO, loginResponse);
         // 断言调用
         verify(loginLogService).createLoginLog(
                 argThat(o -> o.getLogType().equals(LoginLogTypeEnum.LOGIN_SOCIAL.getType())
@@ -265,7 +265,7 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidateCaptcha_successWithEnable() {
         // 准备参数
-        AuthLoginReqVO reqVO = randomPojo(AuthLoginReqVO.class);
+        AuthLoginRequest reqVO = randomPojo(AuthLoginRequest.class);
 
         // mock 验证通过
         when(captchaService.verification(argThat(captchaVO -> {
@@ -280,7 +280,7 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidateCaptcha_successWithDisable() {
         // 准备参数
-        AuthLoginReqVO reqVO = randomPojo(AuthLoginReqVO.class);
+        AuthLoginRequest reqVO = randomPojo(AuthLoginRequest.class);
 
         // mock 验证码关闭
         authService.setCaptchaEnable(false);
@@ -292,7 +292,7 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCaptcha_fail() {
         // 准备参数
-        AuthLoginReqVO reqVO = randomPojo(AuthLoginReqVO.class);
+        AuthLoginRequest reqVO = randomPojo(AuthLoginRequest.class);
 
         // mock 验证通过
         when(captchaService.verification(argThat(captchaVO -> {
@@ -319,9 +319,9 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
                 .thenReturn(accessTokenDO);
 
         // 调用
-        AuthLoginRespVO loginRespVO = authService.refreshToken(refreshToken);
+        AuthLoginResponse loginResponse = authService.refreshToken(refreshToken);
         // 断言
-        assertPojoEquals(accessTokenDO, loginRespVO);
+        assertPojoEquals(accessTokenDO, loginResponse);
     }
 
     @Test

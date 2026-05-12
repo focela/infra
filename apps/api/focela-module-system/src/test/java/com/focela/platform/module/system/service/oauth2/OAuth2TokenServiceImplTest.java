@@ -7,7 +7,7 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.date.DateUtils;
 import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
 import com.focela.platform.framework.test.core.ut.BaseDbAndRedisUnitTest;
-import com.focela.platform.module.system.controller.admin.oauth2.vo.token.OAuth2AccessTokenPageReqVO;
+import com.focela.platform.module.system.controller.admin.oauth2.dto.token.OAuth2AccessTokenPageRequest;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2ClientEntity;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2RefreshTokenEntity;
@@ -313,7 +313,7 @@ public class OAuth2TokenServiceImplTest extends BaseDbAndRedisUnitTest {
         // 测试 expireTime 不匹配
         oauth2AccessTokenMapper.insert(cloneIgnoreId(dbAccessToken, o -> o.setExpiresTime(LocalDateTimeUtil.now())));
         // 准备参数
-        OAuth2AccessTokenPageReqVO reqVO = new OAuth2AccessTokenPageReqVO();
+        OAuth2AccessTokenPageRequest reqVO = new OAuth2AccessTokenPageRequest();
         reqVO.setUserId(10L);
         reqVO.setUserType(1);
         reqVO.setClientId("test");

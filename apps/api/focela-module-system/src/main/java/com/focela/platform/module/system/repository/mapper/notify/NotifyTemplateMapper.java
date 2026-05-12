@@ -3,7 +3,7 @@ package com.focela.platform.module.system.repository.mapper.notify;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.module.system.controller.admin.notify.vo.template.NotifyTemplatePageReqVO;
+import com.focela.platform.module.system.controller.admin.notify.dto.template.NotifyTemplatePageRequest;
 import com.focela.platform.module.system.repository.entity.notify.NotifyTemplateEntity;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,7 +14,7 @@ public interface NotifyTemplateMapper extends BaseMapperX<NotifyTemplateEntity> 
         return selectOne(NotifyTemplateEntity::getCode, code);
     }
 
-    default PageResult<NotifyTemplateEntity> selectPage(NotifyTemplatePageReqVO reqVO) {
+    default PageResult<NotifyTemplateEntity> selectPage(NotifyTemplatePageRequest reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<NotifyTemplateEntity>()
                 .likeIfPresent(NotifyTemplateEntity::getCode, reqVO.getCode())
                 .likeIfPresent(NotifyTemplateEntity::getName, reqVO.getName())

@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.service.auth;
 
-import com.focela.platform.module.system.controller.admin.auth.vo.*;
+import com.focela.platform.module.system.controller.admin.auth.dto.*;
 import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
 
 import jakarta.validation.Valid;
@@ -29,7 +29,7 @@ public interface AdminAuthService {
      * @param reqVO 登录信息
      * @return 登录结果
      */
-    AuthLoginRespVO login(@Valid AuthLoginReqVO reqVO);
+    AuthLoginResponse login(@Valid AuthLoginRequest reqVO);
 
     /**
      * 基于 token 退出登录
@@ -44,7 +44,7 @@ public interface AdminAuthService {
      *
      * @param reqVO 发送请求
      */
-    void sendSmsCode(AuthSmsSendReqVO reqVO);
+    void sendSmsCode(AuthSmsSendRequest reqVO);
 
     /**
      * 短信登录
@@ -52,7 +52,7 @@ public interface AdminAuthService {
      * @param reqVO 登录信息
      * @return 登录结果
      */
-    AuthLoginRespVO smsLogin(AuthSmsLoginReqVO reqVO);
+    AuthLoginResponse smsLogin(AuthSmsLoginRequest reqVO);
 
     /**
      * 社交快捷登录，使用 code 授权码
@@ -60,7 +60,7 @@ public interface AdminAuthService {
      * @param reqVO 登录信息
      * @return 登录结果
      */
-    AuthLoginRespVO socialLogin(@Valid AuthSocialLoginReqVO reqVO);
+    AuthLoginResponse socialLogin(@Valid AuthSocialLoginRequest reqVO);
 
     /**
      * 刷新访问令牌
@@ -68,21 +68,21 @@ public interface AdminAuthService {
      * @param refreshToken 刷新令牌
      * @return 登录结果
      */
-    AuthLoginRespVO refreshToken(String refreshToken);
+    AuthLoginResponse refreshToken(String refreshToken);
 
     /**
      * 用户注册
      *
-     * @param createReqVO 注册用户
+     * @param createRequest 注册用户
      * @return 注册结果
      */
-    AuthLoginRespVO register(AuthRegisterReqVO createReqVO);
+    AuthLoginResponse register(AuthRegisterRequest createRequest);
 
     /**
      * 重置密码
      *
      * @param reqVO 验证码信息
      */
-    void resetPassword(AuthResetPasswordReqVO reqVO);
+    void resetPassword(AuthResetPasswordRequest reqVO);
 
 }

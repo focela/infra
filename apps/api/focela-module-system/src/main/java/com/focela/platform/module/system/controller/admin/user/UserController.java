@@ -7,7 +7,7 @@ import com.focela.platform.framework.common.pojo.CommonResult;
 import com.focela.platform.framework.common.pojo.PageParam;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.excel.core.util.ExcelUtils;
-import com.focela.platform.module.system.controller.admin.user.vo.user.*;
+import com.focela.platform.module.system.controller.admin.user.dto.user.*;
 import com.focela.platform.module.system.convert.user.UserConvert;
 import com.focela.platform.module.system.repository.entity.dept.DeptEntity;
 import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
@@ -49,7 +49,7 @@ public class UserController {
     @PostMapping("/create")
     @Operation(summary = "新增用户")
     @PreAuthorize("@ss.hasPermission('system:user:create')")
-    public CommonResult<Long> createUser(@Valid @RequestBody UserSaveReqVO reqVO) {
+    public CommonResult<Long> createUser(@Valid @RequestBody UserSaveRequest reqVO) {
         Long id = userService.createUser(reqVO);
         return success(id);
     }
@@ -57,7 +57,7 @@ public class UserController {
     @PutMapping("update")
     @Operation(summary = "修改用户")
     @PreAuthorize("@ss.hasPermission('system:user:update')")
-    public CommonResult<Boolean> updateUser(@Valid @RequestBody UserSaveReqVO reqVO) {
+    public CommonResult<Boolean> updateUser(@Valid @RequestBody UserSaveRequest reqVO) {
         userService.updateUser(reqVO);
         return success(true);
     }
@@ -83,7 +83,7 @@ public class UserController {
     @PutMapping("/update-password")
     @Operation(summary = "重置用户密码")
     @PreAuthorize("@ss.hasPermission('system:user:update-password')")
-    public CommonResult<Boolean> updateUserPassword(@Valid @RequestBody UserUpdatePasswordReqVO reqVO) {
+    public CommonResult<Boolean> updateUserPassword(@Valid @RequestBody UserUpdatePasswordRequest reqVO) {
         userService.updateUserPassword(reqVO.getId(), reqVO.getPassword());
         return success(true);
     }
@@ -91,7 +91,7 @@ public class UserController {
     @PutMapping("/update-status")
     @Operation(summary = "修改用户状态")
     @PreAuthorize("@ss.hasPermission('system:user:update')")
-    public CommonResult<Boolean> updateUserStatus(@Valid @RequestBody UserUpdateStatusReqVO reqVO) {
+    public CommonResult<Boolean> updateUserStatus(@Valid @RequestBody UserUpdateStatusRequest reqVO) {
         userService.updateUserStatus(reqVO.getId(), reqVO.getStatus());
         return success(true);
     }
@@ -99,9 +99,9 @@ public class UserController {
     @GetMapping("/page")
     @Operation(summary = "获得用户分页列表")
     @PreAuthorize("@ss.hasPermission('system:user:query')")
-    public CommonResult<PageResult<UserRespVO>> getUserPage(@Valid UserPageReqVO pageReqVO) {
+    public CommonResult<PageResult<UserResponse>> getUserPage(@Valid UserPageRequest pageRequest) {
         // 获得用户分页列表
-        PageResult<AdminUserEntity> pageResult = userService.getUserPage(pageReqVO);
+        PageResult<AdminUserEntity> pageResult = userService.getUserPage(pageRequest);
         if (CollUtil.isEmpty(pageResult.getList())) {
             return success(new PageResult<>(pageResult.getTotal()));
         }
@@ -114,7 +114,7 @@ public class UserController {
 
     @GetMapping({"/list-all-simple", "/simple-list"})
     @Operation(summary = "获取用户精简信息列表", description = "只包含被开启的用户，主要用于前端的下拉选项")
-    public CommonResult<List<UserSimpleRespVO>> getSimpleUserList() {
+    public CommonResult<List<UserSimpleResponse>> getSimpleUserList() {
         List<AdminUserEntity> list = userService.getUserListByStatus(CommonStatusEnum.ENABLE.getStatus());
         // 拼接数据
         Map<Long, DeptEntity> deptMap = deptService.getDeptMap(
@@ -126,7 +126,7 @@ public class UserController {
     @Operation(summary = "获得用户详情")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:user:query')")
-    public CommonResult<UserRespVO> getUser(@RequestParam("id") Long id) {
+    public CommonResult<UserResponse> getUser(@RequestParam("id") Long id) {
         AdminUserEntity user = userService.getUser(id);
         if (user == null) {
             return success(null);
@@ -140,14 +140,14 @@ public class UserController {
     @Operation(summary = "导出用户")
     @PreAuthorize("@ss.hasPermission('system:user:export')")
     @ApiAccessLog(operateType = EXPORT)
-    public void exportUserList(@Validated UserPageReqVO exportReqVO,
+    public void exportUserList(@Validated UserPageRequest exportRequest,
                                HttpServletResponse response) throws IOException {
-        exportReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<AdminUserEntity> list = userService.getUserPage(exportReqVO).getList();
+        exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
+        List<AdminUserEntity> list = userService.getUserPage(exportRequest).getList();
         // 输出 Excel
         Map<Long, DeptEntity> deptMap = deptService.getDeptMap(
                 convertList(list, AdminUserEntity::getDeptId));
-        ExcelUtils.write(response, "用户数据.xls", "数据", UserRespVO.class,
+        ExcelUtils.write(response, "用户数据.xls", "数据", UserResponse.class,
                 UserConvert.INSTANCE.convertList(list, deptMap));
     }
 
@@ -155,14 +155,14 @@ public class UserController {
     @Operation(summary = "获得导入用户模板")
     public void importTemplate(HttpServletResponse response) throws IOException {
         // 手动创建导出 demo
-        List<UserImportExcelVO> list = Arrays.asList(
-                UserImportExcelVO.builder().username("yunai").deptId(1L).email("yunai@iocoder.cn").mobile("15601691300")
+        List<UserImportExcelDto> list = Arrays.asList(
+                UserImportExcelDto.builder().username("yunai").deptId(1L).email("yunai@iocoder.cn").mobile("15601691300")
                         .nickname("芋道").status(CommonStatusEnum.ENABLE.getStatus()).sex(SexEnum.MALE.getSex()).build(),
-                UserImportExcelVO.builder().username("yuanma").deptId(2L).email("yuanma@iocoder.cn").mobile("15601701300")
+                UserImportExcelDto.builder().username("yuanma").deptId(2L).email("yuanma@iocoder.cn").mobile("15601701300")
                         .nickname("源码").status(CommonStatusEnum.DISABLE.getStatus()).sex(SexEnum.FEMALE.getSex()).build()
         );
         // 输出
-        ExcelUtils.write(response, "用户导入模板.xls", "用户列表", UserImportExcelVO.class, list);
+        ExcelUtils.write(response, "用户导入模板.xls", "用户列表", UserImportExcelDto.class, list);
     }
 
     @PostMapping("/import")
@@ -172,9 +172,9 @@ public class UserController {
             @Parameter(name = "updateSupport", description = "是否支持更新，默认为 false", example = "true")
     })
     @PreAuthorize("@ss.hasPermission('system:user:import')")
-    public CommonResult<UserImportRespVO> importExcel(@RequestParam("file") MultipartFile file,
+    public CommonResult<UserImportResponse> importExcel(@RequestParam("file") MultipartFile file,
                                                       @RequestParam(value = "updateSupport", required = false, defaultValue = "false") Boolean updateSupport) throws Exception {
-        List<UserImportExcelVO> list = ExcelUtils.read(file, UserImportExcelVO.class);
+        List<UserImportExcelDto> list = ExcelUtils.read(file, UserImportExcelDto.class);
         return success(userService.importUserList(list, updateSupport));
     }
 

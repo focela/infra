@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.common.biz.system.logger.dto.OperateLogCreateReqDTO;
 import com.focela.platform.module.system.api.logger.dto.OperateLogPageReqDTO;
-import com.focela.platform.module.system.controller.admin.logger.vo.operatelog.OperateLogPageReqVO;
+import com.focela.platform.module.system.controller.admin.logger.dto.operatelog.OperateLogPageRequest;
 import com.focela.platform.module.system.repository.entity.logger.OperateLogEntity;
 import com.focela.platform.module.system.repository.mapper.logger.OperateLogMapper;
 import jakarta.annotation.Resource;
@@ -37,8 +37,8 @@ public class OperateLogServiceImpl implements OperateLogService {
     }
 
     @Override
-    public PageResult<OperateLogEntity> getOperateLogPage(OperateLogPageReqVO pageReqVO) {
-        return operateLogMapper.selectPage(pageReqVO);
+    public PageResult<OperateLogEntity> getOperateLogPage(OperateLogPageRequest pageRequest) {
+        return operateLogMapper.selectPage(pageRequest);
     }
 
     @Override

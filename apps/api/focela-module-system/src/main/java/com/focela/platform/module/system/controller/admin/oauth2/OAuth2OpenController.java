@@ -8,9 +8,9 @@ import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.common.pojo.CommonResult;
 import com.focela.platform.framework.common.util.http.HttpUtils;
 import com.focela.platform.framework.common.util.json.JsonUtils;
-import com.focela.platform.module.system.controller.admin.oauth2.vo.open.OAuth2OpenAccessTokenRespVO;
-import com.focela.platform.module.system.controller.admin.oauth2.vo.open.OAuth2OpenAuthorizeInfoRespVO;
-import com.focela.platform.module.system.controller.admin.oauth2.vo.open.OAuth2OpenCheckTokenRespVO;
+import com.focela.platform.module.system.controller.admin.oauth2.dto.open.OAuth2OpenAccessTokenResponse;
+import com.focela.platform.module.system.controller.admin.oauth2.dto.open.OAuth2OpenAuthorizeInfoResponse;
+import com.focela.platform.module.system.controller.admin.oauth2.dto.open.OAuth2OpenCheckTokenResponse;
 import com.focela.platform.module.system.convert.oauth2.OAuth2OpenConvert;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2ApproveEntity;
@@ -95,7 +95,7 @@ public class OAuth2OpenController {
             @Parameter(name = "refresh_token", example = "123424233"),
     })
     @SuppressWarnings("EnhancedSwitchMigration")
-    public CommonResult<OAuth2OpenAccessTokenRespVO> postAccessToken(HttpServletRequest request,
+    public CommonResult<OAuth2OpenAccessTokenResponse> postAccessToken(HttpServletRequest request,
                                                                      @RequestParam("grant_type") String grantType,
                                                                      @RequestParam(value = "code", required = false) String code, // 授权码模式
                                                                      @RequestParam(value = "redirect_uri", required = false) String redirectUri, // 授权码模式
@@ -163,7 +163,7 @@ public class OAuth2OpenController {
     @PermitAll
     @Operation(summary = "校验访问令牌")
     @Parameter(name = "token", required = true, description = "访问令牌", example = "biu")
-    public CommonResult<OAuth2OpenCheckTokenRespVO> checkToken(HttpServletRequest request,
+    public CommonResult<OAuth2OpenCheckTokenResponse> checkToken(HttpServletRequest request,
                                                                @RequestParam("token") String token) {
         // 校验客户端
         String[] clientIdAndSecret = obtainBasicAuthorization(request);
@@ -182,7 +182,7 @@ public class OAuth2OpenController {
     @GetMapping("/authorize")
     @Operation(summary = "获得授权信息", description = "适合 code 授权码模式，或者 implicit 简化模式；在 sso.vue 单点登录界面被【获取】调用")
     @Parameter(name = "clientId", required = true, description = "客户端编号", example = "tudou")
-    public CommonResult<OAuth2OpenAuthorizeInfoRespVO> authorize(@RequestParam("clientId") String clientId) {
+    public CommonResult<OAuth2OpenAuthorizeInfoResponse> authorize(@RequestParam("clientId") String clientId) {
         // 0. 校验用户已经登录。通过 Spring Security 实现
 
         // 1. 获得 Client 客户端的信息

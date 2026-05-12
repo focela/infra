@@ -4,7 +4,7 @@ import cn.hutool.core.map.MapUtil;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
-import com.focela.platform.module.system.controller.admin.mail.vo.log.MailLogPageReqVO;
+import com.focela.platform.module.system.controller.admin.mail.dto.log.MailLogPageRequest;
 import com.focela.platform.module.system.repository.entity.mail.MailAccountEntity;
 import com.focela.platform.module.system.repository.entity.mail.MailLogEntity;
 import com.focela.platform.module.system.repository.entity.mail.MailTemplateEntity;
@@ -171,7 +171,7 @@ public class MailLogServiceImplTest extends BaseDbUnitTest {
        // 测试 sendTime 不匹配
        mailLogMapper.insert(cloneIgnoreId(dbMailLog, o -> o.setSendTime(buildTime(2023, 3, 10))));
        // 准备参数
-       MailLogPageReqVO reqVO = new MailLogPageReqVO();
+       MailLogPageRequest reqVO = new MailLogPageRequest();
        reqVO.setUserId(1L);
        reqVO.setUserType(UserTypeEnum.ADMIN.getValue());
 //       reqVO.setToMail("768@qq.com");

@@ -3,7 +3,7 @@ package com.focela.platform.module.infra.repository.mapper.config;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.module.infra.controller.admin.config.vo.ConfigPageReqVO;
+import com.focela.platform.module.infra.controller.admin.config.dto.ConfigPageRequest;
 import com.focela.platform.module.infra.repository.entity.config.ConfigEntity;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,7 +14,7 @@ public interface ConfigMapper extends BaseMapperX<ConfigEntity> {
         return selectOne(ConfigEntity::getConfigKey, key);
     }
 
-    default PageResult<ConfigEntity> selectPage(ConfigPageReqVO reqVO) {
+    default PageResult<ConfigEntity> selectPage(ConfigPageRequest reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<ConfigEntity>()
                 .likeIfPresent(ConfigEntity::getName, reqVO.getName())
                 .likeIfPresent(ConfigEntity::getConfigKey, reqVO.getKey())

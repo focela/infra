@@ -13,7 +13,7 @@ import com.focela.platform.module.system.api.sms.SmsCodeApi;
 import com.focela.platform.module.system.api.sms.dto.code.SmsCodeUseReqDTO;
 import com.focela.platform.module.system.api.social.dto.SocialUserBindReqDTO;
 import com.focela.platform.module.system.api.social.dto.SocialUserRespDTO;
-import com.focela.platform.module.system.controller.admin.auth.vo.*;
+import com.focela.platform.module.system.controller.admin.auth.dto.*;
 import com.focela.platform.module.system.convert.auth.AuthConvert;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
@@ -100,7 +100,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     @Override
     @DataPermission(enable = false)
-    public AuthLoginRespVO login(AuthLoginReqVO reqVO) {
+    public AuthLoginResponse login(AuthLoginRequest reqVO) {
         // 校验验证码
         validateCaptcha(reqVO);
 
@@ -117,7 +117,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     }
 
     @Override
-    public void sendSmsCode(AuthSmsSendReqVO reqVO) {
+    public void sendSmsCode(AuthSmsSendRequest reqVO) {
         // 如果是重置密码场景，需要校验图形验证码是否正确
         if (Objects.equals(SmsSceneEnum.ADMIN_MEMBER_RESET_PASSWORD.getScene(), reqVO.getScene())) {
             ResponseModel response = doValidateCaptcha(reqVO);
@@ -135,7 +135,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     }
 
     @Override
-    public AuthLoginRespVO smsLogin(AuthSmsLoginReqVO reqVO) {
+    public AuthLoginResponse smsLogin(AuthSmsLoginRequest reqVO) {
         // 校验验证码
         smsCodeApi.useSmsCode(AuthConvert.INSTANCE.convert(reqVO, SmsSceneEnum.ADMIN_MEMBER_LOGIN.getScene(), getClientIP()));
 
@@ -169,7 +169,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     }
 
     @Override
-    public AuthLoginRespVO socialLogin(AuthSocialLoginReqVO reqVO) {
+    public AuthLoginResponse socialLogin(AuthSocialLoginRequest reqVO) {
         // 使用 code 授权码，进行登录。然后，获得到绑定的用户编号
         SocialUserRespDTO socialUser = socialUserService.getSocialUserByCode(UserTypeEnum.ADMIN.getValue(), reqVO.getType(),
                 reqVO.getCode(), reqVO.getState());
@@ -188,7 +188,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     }
 
     @VisibleForTesting
-    void validateCaptcha(AuthLoginReqVO reqVO) {
+    void validateCaptcha(AuthLoginRequest reqVO) {
         ResponseModel response = doValidateCaptcha(reqVO);
         // 校验验证码
         if (!response.isSuccess()) {
@@ -198,31 +198,31 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         }
     }
 
-    private ResponseModel doValidateCaptcha(CaptchaVerificationReqVO reqVO) {
+    private ResponseModel doValidateCaptcha(CaptchaVerificationRequest reqVO) {
         // 如果验证码关闭，则不进行校验
         if (!captchaEnable) {
             return ResponseModel.success();
         }
-        ValidationUtils.validate(validator, reqVO, CaptchaVerificationReqVO.CodeEnableGroup.class);
+        ValidationUtils.validate(validator, reqVO, CaptchaVerificationRequest.CodeEnableGroup.class);
         CaptchaVO captchaVO = new CaptchaVO();
         captchaVO.setCaptchaVerification(reqVO.getCaptchaVerification());
         return captchaService.verification(captchaVO);
     }
 
-    private AuthLoginRespVO createTokenAfterLoginSuccess(Long userId, String username, LoginLogTypeEnum logType) {
+    private AuthLoginResponse createTokenAfterLoginSuccess(Long userId, String username, LoginLogTypeEnum logType) {
         // 插入登陆日志
         createLoginLog(userId, username, logType, LoginResultEnum.SUCCESS);
         // 创建访问令牌
         OAuth2AccessTokenEntity accessTokenDO = oauth2TokenService.createAccessToken(userId, getUserType().getValue(),
                 OAuth2ClientConstants.CLIENT_ID_DEFAULT, null);
         // 构建返回结果
-        return BeanUtils.toBean(accessTokenDO, AuthLoginRespVO.class);
+        return BeanUtils.toBean(accessTokenDO, AuthLoginResponse.class);
     }
 
     @Override
-    public AuthLoginRespVO refreshToken(String refreshToken) {
+    public AuthLoginResponse refreshToken(String refreshToken) {
         OAuth2AccessTokenEntity accessTokenDO = oauth2TokenService.refreshAccessToken(refreshToken, OAuth2ClientConstants.CLIENT_ID_DEFAULT);
-        return BeanUtils.toBean(accessTokenDO, AuthLoginRespVO.class);
+        return BeanUtils.toBean(accessTokenDO, AuthLoginResponse.class);
     }
 
     @Override
@@ -266,19 +266,19 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     }
 
     @Override
-    public AuthLoginRespVO register(AuthRegisterReqVO registerReqVO) {
+    public AuthLoginResponse register(AuthRegisterRequest registerRequest) {
         // 1. 校验验证码
-        validateCaptcha(registerReqVO);
+        validateCaptcha(registerRequest);
 
         // 2. 校验用户名是否已存在
-        Long userId = userService.registerUser(registerReqVO);
+        Long userId = userService.registerUser(registerRequest);
 
         // 3. 创建 Token 令牌，记录登录日志
-        return createTokenAfterLoginSuccess(userId, registerReqVO.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME);
+        return createTokenAfterLoginSuccess(userId, registerRequest.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME);
     }
 
     @VisibleForTesting
-    void validateCaptcha(AuthRegisterReqVO reqVO) {
+    void validateCaptcha(AuthRegisterRequest reqVO) {
         ResponseModel response = doValidateCaptcha(reqVO);
         // 验证不通过
         if (!response.isSuccess()) {
@@ -288,7 +288,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void resetPassword(AuthResetPasswordReqVO reqVO) {
+    public void resetPassword(AuthResetPasswordRequest reqVO) {
         AdminUserEntity userByMobile = userService.getUserByMobile(reqVO.getMobile());
         if (userByMobile == null) {
             throw exception(USER_MOBILE_NOT_EXISTS);

@@ -4,8 +4,8 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
 import com.focela.platform.framework.mybatis.core.query.QueryWrapperX;
-import com.focela.platform.module.system.controller.admin.notify.vo.message.NotifyMessageMyPageReqVO;
-import com.focela.platform.module.system.controller.admin.notify.vo.message.NotifyMessagePageReqVO;
+import com.focela.platform.module.system.controller.admin.notify.dto.message.NotifyMessageMyPageRequest;
+import com.focela.platform.module.system.controller.admin.notify.dto.message.NotifyMessagePageRequest;
 import com.focela.platform.module.system.repository.entity.notify.NotifyMessageEntity;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -16,7 +16,7 @@ import java.util.List;
 @Mapper
 public interface NotifyMessageMapper extends BaseMapperX<NotifyMessageEntity> {
 
-    default PageResult<NotifyMessageEntity> selectPage(NotifyMessagePageReqVO reqVO) {
+    default PageResult<NotifyMessageEntity> selectPage(NotifyMessagePageRequest reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<NotifyMessageEntity>()
                 .eqIfPresent(NotifyMessageEntity::getUserId, reqVO.getUserId())
                 .eqIfPresent(NotifyMessageEntity::getUserType, reqVO.getUserType())
@@ -26,7 +26,7 @@ public interface NotifyMessageMapper extends BaseMapperX<NotifyMessageEntity> {
                 .orderByDesc(NotifyMessageEntity::getId));
     }
 
-    default PageResult<NotifyMessageEntity> selectPage(NotifyMessageMyPageReqVO reqVO, Long userId, Integer userType) {
+    default PageResult<NotifyMessageEntity> selectPage(NotifyMessageMyPageRequest reqVO, Long userId, Integer userType) {
         return selectPage(reqVO, new LambdaQueryWrapperX<NotifyMessageEntity>()
                 .eqIfPresent(NotifyMessageEntity::getReadStatus, reqVO.getReadStatus())
                 .betweenIfPresent(NotifyMessageEntity::getCreateTime, reqVO.getCreateTime())

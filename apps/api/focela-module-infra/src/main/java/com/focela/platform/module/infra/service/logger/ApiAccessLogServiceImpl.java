@@ -6,7 +6,7 @@ import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.common.util.string.StrUtils;
 import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
 import com.focela.platform.framework.tenant.core.util.TenantUtils;
-import com.focela.platform.module.infra.controller.admin.logger.vo.apiaccesslog.ApiAccessLogPageReqVO;
+import com.focela.platform.module.infra.controller.admin.logger.dto.apiaccesslog.ApiAccessLogPageRequest;
 import com.focela.platform.module.infra.repository.entity.logger.ApiAccessLogEntity;
 import com.focela.platform.module.infra.repository.mapper.logger.ApiAccessLogMapper;
 import jakarta.annotation.Resource;
@@ -51,8 +51,8 @@ public class ApiAccessLogServiceImpl implements ApiAccessLogService {
     }
 
     @Override
-    public PageResult<ApiAccessLogEntity> getApiAccessLogPage(ApiAccessLogPageReqVO pageReqVO) {
-        return apiAccessLogMapper.selectPage(pageReqVO);
+    public PageResult<ApiAccessLogEntity> getApiAccessLogPage(ApiAccessLogPageRequest pageRequest) {
+        return apiAccessLogMapper.selectPage(pageRequest);
     }
 
     @Override

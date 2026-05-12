@@ -3,7 +3,7 @@ package com.focela.platform.module.system.service.logger;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.module.system.api.logger.dto.LoginLogCreateReqDTO;
-import com.focela.platform.module.system.controller.admin.logger.vo.loginlog.LoginLogPageReqVO;
+import com.focela.platform.module.system.controller.admin.logger.dto.loginlog.LoginLogPageRequest;
 import com.focela.platform.module.system.repository.entity.logger.LoginLogEntity;
 import com.focela.platform.module.system.repository.mapper.logger.LoginLogMapper;
 import org.junit.jupiter.api.Test;
@@ -48,7 +48,7 @@ public class LoginLogServiceImplTest extends BaseDbUnitTest {
         // 测试 createTime 不匹配
         loginLogMapper.insert(cloneIgnoreId(loginLogDO, o -> o.setCreateTime(buildTime(2021, 2, 6))));
         // 构造调用参数
-        LoginLogPageReqVO reqVO = new LoginLogPageReqVO();
+        LoginLogPageRequest reqVO = new LoginLogPageRequest();
         reqVO.setUsername("wang");
         reqVO.setUserIp("192.168.199");
         reqVO.setStatus(true);

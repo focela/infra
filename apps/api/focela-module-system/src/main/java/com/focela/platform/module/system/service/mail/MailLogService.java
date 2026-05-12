@@ -1,7 +1,7 @@
 package com.focela.platform.module.system.service.mail;
 
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.system.controller.admin.mail.vo.log.MailLogPageReqVO;
+import com.focela.platform.module.system.controller.admin.mail.dto.log.MailLogPageRequest;
 import com.focela.platform.module.system.repository.entity.mail.MailAccountEntity;
 import com.focela.platform.module.system.repository.entity.mail.MailLogEntity;
 import com.focela.platform.module.system.repository.entity.mail.MailTemplateEntity;
@@ -24,7 +24,7 @@ public interface MailLogService {
      * @param pageVO 分页参数
      * @return 分页结果
      */
-    PageResult<MailLogEntity> getMailLogPage(MailLogPageReqVO pageVO);
+    PageResult<MailLogEntity> getMailLogPage(MailLogPageRequest pageVO);
 
     /**
      * 获得指定编号的邮件日志

@@ -2,7 +2,7 @@ package com.focela.platform.module.system.repository.mapper.dept;
 
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.module.system.controller.admin.dept.vo.dept.DeptListReqVO;
+import com.focela.platform.module.system.controller.admin.dept.dto.dept.DeptListRequest;
 import com.focela.platform.module.system.repository.entity.dept.DeptEntity;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper
 public interface DeptMapper extends BaseMapperX<DeptEntity> {
 
-    default List<DeptEntity> selectList(DeptListReqVO reqVO) {
+    default List<DeptEntity> selectList(DeptListRequest reqVO) {
         return selectList(new LambdaQueryWrapperX<DeptEntity>()
                 .likeIfPresent(DeptEntity::getName, reqVO.getName())
                 .eqIfPresent(DeptEntity::getStatus, reqVO.getStatus()));

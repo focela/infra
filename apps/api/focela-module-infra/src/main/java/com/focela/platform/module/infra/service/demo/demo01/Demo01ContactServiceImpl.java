@@ -3,8 +3,8 @@ package com.focela.platform.module.infra.service.demo.demo01;
 import cn.hutool.core.collection.CollUtil;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.infra.controller.admin.demo.demo01.vo.Demo01ContactPageReqVO;
-import com.focela.platform.module.infra.controller.admin.demo.demo01.vo.Demo01ContactSaveReqVO;
+import com.focela.platform.module.infra.controller.admin.demo.demo01.dto.Demo01ContactPageRequest;
+import com.focela.platform.module.infra.controller.admin.demo.demo01.dto.Demo01ContactSaveRequest;
 import com.focela.platform.module.infra.repository.entity.demo.demo01.Demo01ContactEntity;
 import com.focela.platform.module.infra.repository.mapper.demo.demo01.Demo01ContactMapper;
 import jakarta.annotation.Resource;
@@ -29,20 +29,20 @@ public class Demo01ContactServiceImpl implements Demo01ContactService {
     private Demo01ContactMapper demo01ContactMapper;
 
     @Override
-    public Long createDemo01Contact(Demo01ContactSaveReqVO createReqVO) {
+    public Long createDemo01Contact(Demo01ContactSaveRequest createRequest) {
         // 插入
-        Demo01ContactEntity demo01Contact = BeanUtils.toBean(createReqVO, Demo01ContactEntity.class);
+        Demo01ContactEntity demo01Contact = BeanUtils.toBean(createRequest, Demo01ContactEntity.class);
         demo01ContactMapper.insert(demo01Contact);
         // 返回
         return demo01Contact.getId();
     }
 
     @Override
-    public void updateDemo01Contact(Demo01ContactSaveReqVO updateReqVO) {
+    public void updateDemo01Contact(Demo01ContactSaveRequest updateRequest) {
         // 校验存在
-        validateDemo01ContactExists(updateReqVO.getId());
+        validateDemo01ContactExists(updateRequest.getId());
         // 更新
-        Demo01ContactEntity updateObj = BeanUtils.toBean(updateReqVO, Demo01ContactEntity.class);
+        Demo01ContactEntity updateObj = BeanUtils.toBean(updateRequest, Demo01ContactEntity.class);
         demo01ContactMapper.updateById(updateObj);
     }
 
@@ -81,8 +81,8 @@ public class Demo01ContactServiceImpl implements Demo01ContactService {
     }
 
     @Override
-    public PageResult<Demo01ContactEntity> getDemo01ContactPage(Demo01ContactPageReqVO pageReqVO) {
-        return demo01ContactMapper.selectPage(pageReqVO);
+    public PageResult<Demo01ContactEntity> getDemo01ContactPage(Demo01ContactPageRequest pageRequest) {
+        return demo01ContactMapper.selectPage(pageRequest);
     }
 
 }

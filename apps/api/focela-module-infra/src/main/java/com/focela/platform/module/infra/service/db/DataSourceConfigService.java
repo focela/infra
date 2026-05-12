@@ -1,6 +1,6 @@
 package com.focela.platform.module.infra.service.db;
 
-import com.focela.platform.module.infra.controller.admin.db.vo.DataSourceConfigSaveReqVO;
+import com.focela.platform.module.infra.controller.admin.db.dto.DataSourceConfigSaveRequest;
 import com.focela.platform.module.infra.repository.entity.db.DataSourceConfigEntity;
 import jakarta.validation.Valid;
 
@@ -16,17 +16,17 @@ public interface DataSourceConfigService {
     /**
      * 创建数据源配置
      *
-     * @param createReqVO 创建信息
+     * @param createRequest 创建信息
      * @return 编号
      */
-    Long createDataSourceConfig(@Valid DataSourceConfigSaveReqVO createReqVO);
+    Long createDataSourceConfig(@Valid DataSourceConfigSaveRequest createRequest);
 
     /**
      * 更新数据源配置
      *
-     * @param updateReqVO 更新信息
+     * @param updateRequest 更新信息
      */
-    void updateDataSourceConfig(@Valid DataSourceConfigSaveReqVO updateReqVO);
+    void updateDataSourceConfig(@Valid DataSourceConfigSaveRequest updateRequest);
 
     /**
      * 删除数据源配置

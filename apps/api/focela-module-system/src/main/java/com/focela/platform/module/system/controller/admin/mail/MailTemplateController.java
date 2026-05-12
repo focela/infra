@@ -3,7 +3,7 @@ package com.focela.platform.module.system.controller.admin.mail;
 import com.focela.platform.framework.common.pojo.CommonResult;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.system.controller.admin.mail.vo.template.*;
+import com.focela.platform.module.system.controller.admin.mail.dto.template.*;
 import com.focela.platform.module.system.repository.entity.mail.MailTemplateEntity;
 import com.focela.platform.module.system.service.mail.MailSendService;
 import com.focela.platform.module.system.service.mail.MailTemplateService;
@@ -33,15 +33,15 @@ public class MailTemplateController {
     @PostMapping("/create")
     @Operation(summary = "创建邮件模版")
     @PreAuthorize("@ss.hasPermission('system:mail-template:create')")
-    public CommonResult<Long> createMailTemplate(@Valid @RequestBody MailTemplateSaveReqVO createReqVO){
-        return success(mailTempleService.createMailTemplate(createReqVO));
+    public CommonResult<Long> createMailTemplate(@Valid @RequestBody MailTemplateSaveRequest createRequest){
+        return success(mailTempleService.createMailTemplate(createRequest));
     }
 
     @PutMapping("/update")
     @Operation(summary = "修改邮件模版")
     @PreAuthorize("@ss.hasPermission('system:mail-template:update')")
-    public CommonResult<Boolean> updateMailTemplate(@Valid @RequestBody MailTemplateSaveReqVO updateReqVO){
-        mailTempleService.updateMailTemplate(updateReqVO);
+    public CommonResult<Boolean> updateMailTemplate(@Valid @RequestBody MailTemplateSaveRequest updateRequest){
+        mailTempleService.updateMailTemplate(updateRequest);
         return success(true);
     }
 
@@ -67,33 +67,33 @@ public class MailTemplateController {
     @Operation(summary = "获得邮件模版")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:mail-template:query')")
-    public CommonResult<MailTemplateRespVO> getMailTemplate(@RequestParam("id") Long id) {
+    public CommonResult<MailTemplateResponse> getMailTemplate(@RequestParam("id") Long id) {
         MailTemplateEntity template = mailTempleService.getMailTemplate(id);
-        return success(BeanUtils.toBean(template, MailTemplateRespVO.class));
+        return success(BeanUtils.toBean(template, MailTemplateResponse.class));
     }
 
     @GetMapping("/page")
     @Operation(summary = "获得邮件模版分页")
     @PreAuthorize("@ss.hasPermission('system:mail-template:query')")
-    public CommonResult<PageResult<MailTemplateRespVO>> getMailTemplatePage(@Valid MailTemplatePageReqVO pageReqVO) {
-        PageResult<MailTemplateEntity> pageResult = mailTempleService.getMailTemplatePage(pageReqVO);
-        return success(BeanUtils.toBean(pageResult, MailTemplateRespVO.class));
+    public CommonResult<PageResult<MailTemplateResponse>> getMailTemplatePage(@Valid MailTemplatePageRequest pageRequest) {
+        PageResult<MailTemplateEntity> pageResult = mailTempleService.getMailTemplatePage(pageRequest);
+        return success(BeanUtils.toBean(pageResult, MailTemplateResponse.class));
     }
 
     @GetMapping({"/list-all-simple", "simple-list"})
     @Operation(summary = "获得邮件模版精简列表")
-    public CommonResult<List<MailTemplateSimpleRespVO>> getSimpleTemplateList() {
+    public CommonResult<List<MailTemplateSimpleResponse>> getSimpleTemplateList() {
         List<MailTemplateEntity> list = mailTempleService.getMailTemplateList();
-        return success(BeanUtils.toBean(list, MailTemplateSimpleRespVO.class));
+        return success(BeanUtils.toBean(list, MailTemplateSimpleResponse.class));
     }
 
     @PostMapping("/send-mail")
     @Operation(summary = "发送短信")
     @PreAuthorize("@ss.hasPermission('system:mail-template:send-mail')")
-    public CommonResult<Long> sendMail(@Valid @RequestBody MailTemplateSendReqVO sendReqVO) {
+    public CommonResult<Long> sendMail(@Valid @RequestBody MailTemplateSendRequest sendRequest) {
         return success(mailSendService.sendSingleMailToAdmin(getLoginUserId(),
-                sendReqVO.getToMails(), sendReqVO.getCcMails(), sendReqVO.getBccMails(),
-                sendReqVO.getTemplateCode(), sendReqVO.getTemplateParams()));
+                sendRequest.getToMails(), sendRequest.getCcMails(), sendRequest.getBccMails(),
+                sendRequest.getTemplateCode(), sendRequest.getTemplateParams()));
     }
 
 }

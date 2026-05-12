@@ -3,8 +3,8 @@ package com.focela.platform.module.system.controller.admin.oauth2;
 import com.focela.platform.framework.common.pojo.CommonResult;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.system.controller.admin.oauth2.vo.token.OAuth2AccessTokenPageReqVO;
-import com.focela.platform.module.system.controller.admin.oauth2.vo.token.OAuth2AccessTokenRespVO;
+import com.focela.platform.module.system.controller.admin.oauth2.dto.token.OAuth2AccessTokenPageRequest;
+import com.focela.platform.module.system.controller.admin.oauth2.dto.token.OAuth2AccessTokenResponse;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.module.system.enums.logger.LoginLogTypeEnum;
 import com.focela.platform.module.system.service.auth.AdminAuthService;
@@ -34,9 +34,9 @@ public class OAuth2TokenController {
     @GetMapping("/page")
     @Operation(summary = "获得访问令牌分页", description = "只返回有效期内的")
     @PreAuthorize("@ss.hasPermission('system:oauth2-token:page')")
-    public CommonResult<PageResult<OAuth2AccessTokenRespVO>> getAccessTokenPage(@Valid OAuth2AccessTokenPageReqVO reqVO) {
+    public CommonResult<PageResult<OAuth2AccessTokenResponse>> getAccessTokenPage(@Valid OAuth2AccessTokenPageRequest reqVO) {
         PageResult<OAuth2AccessTokenEntity> pageResult = oauth2TokenService.getAccessTokenPage(reqVO);
-        return success(BeanUtils.toBean(pageResult, OAuth2AccessTokenRespVO.class));
+        return success(BeanUtils.toBean(pageResult, OAuth2AccessTokenResponse.class));
     }
 
     @DeleteMapping("/delete")

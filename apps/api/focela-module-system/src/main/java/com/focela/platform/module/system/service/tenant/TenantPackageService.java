@@ -1,8 +1,8 @@
 package com.focela.platform.module.system.service.tenant;
 
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.system.controller.admin.tenant.vo.packages.TenantPackagePageReqVO;
-import com.focela.platform.module.system.controller.admin.tenant.vo.packages.TenantPackageSaveReqVO;
+import com.focela.platform.module.system.controller.admin.tenant.dto.packages.TenantPackagePageRequest;
+import com.focela.platform.module.system.controller.admin.tenant.dto.packages.TenantPackageSaveRequest;
 import com.focela.platform.module.system.repository.entity.tenant.TenantPackageEntity;
 import jakarta.validation.Valid;
 
@@ -18,17 +18,17 @@ public interface TenantPackageService {
     /**
      * 创建租户套餐
      *
-     * @param createReqVO 创建信息
+     * @param createRequest 创建信息
      * @return 编号
      */
-    Long createTenantPackage(@Valid TenantPackageSaveReqVO createReqVO);
+    Long createTenantPackage(@Valid TenantPackageSaveRequest createRequest);
 
     /**
      * 更新租户套餐
      *
-     * @param updateReqVO 更新信息
+     * @param updateRequest 更新信息
      */
-    void updateTenantPackage(@Valid TenantPackageSaveReqVO updateReqVO);
+    void updateTenantPackage(@Valid TenantPackageSaveRequest updateRequest);
 
     /**
      * 删除租户套餐
@@ -55,10 +55,10 @@ public interface TenantPackageService {
     /**
      * 获得租户套餐分页
      *
-     * @param pageReqVO 分页查询
+     * @param pageRequest 分页查询
      * @return 租户套餐分页
      */
-    PageResult<TenantPackageEntity> getTenantPackagePage(TenantPackagePageReqVO pageReqVO);
+    PageResult<TenantPackageEntity> getTenantPackagePage(TenantPackagePageRequest pageRequest);
 
     /**
      * 校验租户套餐

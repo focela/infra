@@ -1,8 +1,8 @@
 package com.focela.platform.module.system.service.dict;
 
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.system.controller.admin.dict.vo.data.DictDataPageReqVO;
-import com.focela.platform.module.system.controller.admin.dict.vo.data.DictDataSaveReqVO;
+import com.focela.platform.module.system.controller.admin.dict.dto.data.DictDataPageRequest;
+import com.focela.platform.module.system.controller.admin.dict.dto.data.DictDataSaveRequest;
 import com.focela.platform.module.system.repository.entity.dict.DictDataEntity;
 import org.springframework.lang.Nullable;
 
@@ -19,17 +19,17 @@ public interface DictDataService {
     /**
      * 创建字典数据
      *
-     * @param createReqVO 字典数据信息
+     * @param createRequest 字典数据信息
      * @return 字典数据编号
      */
-    Long createDictData(DictDataSaveReqVO createReqVO);
+    Long createDictData(DictDataSaveRequest createRequest);
 
     /**
      * 更新字典数据
      *
-     * @param updateReqVO 字典数据信息
+     * @param updateRequest 字典数据信息
      */
-    void updateDictData(DictDataSaveReqVO updateReqVO);
+    void updateDictData(DictDataSaveRequest updateRequest);
 
     /**
      * 删除字典数据
@@ -57,10 +57,10 @@ public interface DictDataService {
     /**
      * 获得字典数据分页列表
      *
-     * @param pageReqVO 分页请求
+     * @param pageRequest 分页请求
      * @return 字典数据分页列表
      */
-    PageResult<DictDataEntity> getDictDataPage(DictDataPageReqVO pageReqVO);
+    PageResult<DictDataEntity> getDictDataPage(DictDataPageRequest pageRequest);
 
     /**
      * 获得字典数据详情

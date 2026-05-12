@@ -3,8 +3,8 @@ package com.focela.platform.module.system.service.notice;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
-import com.focela.platform.module.system.controller.admin.notice.vo.NoticePageReqVO;
-import com.focela.platform.module.system.controller.admin.notice.vo.NoticeSaveReqVO;
+import com.focela.platform.module.system.controller.admin.notice.dto.NoticePageRequest;
+import com.focela.platform.module.system.controller.admin.notice.dto.NoticeSaveRequest;
 import com.focela.platform.module.system.repository.entity.notice.NoticeEntity;
 import com.focela.platform.module.system.repository.mapper.notice.NoticeMapper;
 import org.junit.jupiter.api.Test;
@@ -42,7 +42,7 @@ class NoticeServiceImplTest extends BaseDbUnitTest {
         // 测试 status 不匹配
         noticeMapper.insert(cloneIgnoreId(dbNotice, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
         // 准备参数
-        NoticePageReqVO reqVO = new NoticePageReqVO();
+        NoticePageRequest reqVO = new NoticePageRequest();
         reqVO.setTitle("尼古拉斯赵四来啦！");
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
 
@@ -71,7 +71,7 @@ class NoticeServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateNotice_success() {
         // 准备参数
-        NoticeSaveReqVO reqVO = randomPojo(NoticeSaveReqVO.class)
+        NoticeSaveRequest reqVO = randomPojo(NoticeSaveRequest.class)
                 .setId(null); // 避免 id 被赋值
 
         // 调用
@@ -89,7 +89,7 @@ class NoticeServiceImplTest extends BaseDbUnitTest {
         noticeMapper.insert(dbNoticeDO);
 
         // 准备更新参数
-        NoticeSaveReqVO reqVO = randomPojo(NoticeSaveReqVO.class, o -> o.setId(dbNoticeDO.getId()));
+        NoticeSaveRequest reqVO = randomPojo(NoticeSaveRequest.class, o -> o.setId(dbNoticeDO.getId()));
 
         // 更新
         noticeService.updateNotice(reqVO);

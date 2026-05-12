@@ -1,8 +1,8 @@
 package com.focela.platform.module.system.service.permission;
 
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.system.controller.admin.permission.vo.role.RolePageReqVO;
-import com.focela.platform.module.system.controller.admin.permission.vo.role.RoleSaveReqVO;
+import com.focela.platform.module.system.controller.admin.permission.dto.role.RolePageRequest;
+import com.focela.platform.module.system.controller.admin.permission.dto.role.RoleSaveRequest;
 import com.focela.platform.module.system.repository.entity.permission.RoleEntity;
 import jakarta.validation.Valid;
 
@@ -20,18 +20,18 @@ public interface RoleService {
     /**
      * 创建角色
      *
-     * @param createReqVO 创建角色信息
+     * @param createRequest 创建角色信息
      * @param type 角色类型
      * @return 角色编号
      */
-    Long createRole(@Valid RoleSaveReqVO createReqVO, Integer type);
+    Long createRole(@Valid RoleSaveRequest createRequest, Integer type);
 
     /**
      * 更新角色
      *
-     * @param updateReqVO 更新角色信息
+     * @param updateRequest 更新角色信息
      */
-    void updateRole(@Valid RoleSaveReqVO updateReqVO);
+    void updateRole(@Valid RoleSaveRequest updateRequest);
 
     /**
      * 删除角色
@@ -109,7 +109,7 @@ public interface RoleService {
      * @param reqVO 角色分页查询
      * @return 角色分页结果
      */
-    PageResult<RoleEntity> getRolePage(RolePageReqVO reqVO);
+    PageResult<RoleEntity> getRolePage(RolePageRequest reqVO);
 
     /**
      * 判断角色编号数组中，是否有管理员

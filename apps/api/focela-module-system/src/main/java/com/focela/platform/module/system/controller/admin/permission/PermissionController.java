@@ -2,9 +2,9 @@ package com.focela.platform.module.system.controller.admin.permission;
 
 import cn.hutool.core.collection.CollUtil;
 import com.focela.platform.framework.common.pojo.CommonResult;
-import com.focela.platform.module.system.controller.admin.permission.vo.permission.PermissionAssignRoleDataScopeReqVO;
-import com.focela.platform.module.system.controller.admin.permission.vo.permission.PermissionAssignRoleMenuReqVO;
-import com.focela.platform.module.system.controller.admin.permission.vo.permission.PermissionAssignUserRoleReqVO;
+import com.focela.platform.module.system.controller.admin.permission.dto.permission.PermissionAssignRoleDataScopeRequest;
+import com.focela.platform.module.system.controller.admin.permission.dto.permission.PermissionAssignRoleMenuRequest;
+import com.focela.platform.module.system.controller.admin.permission.dto.permission.PermissionAssignUserRoleRequest;
 import com.focela.platform.module.system.service.permission.PermissionService;
 import com.focela.platform.module.system.service.tenant.TenantService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -46,7 +46,7 @@ public class PermissionController {
     @PostMapping("/assign-role-menu")
     @Operation(summary = "赋予角色菜单")
     @PreAuthorize("@ss.hasPermission('system:permission:assign-role-menu')")
-    public CommonResult<Boolean> assignRoleMenu(@Validated @RequestBody PermissionAssignRoleMenuReqVO reqVO) {
+    public CommonResult<Boolean> assignRoleMenu(@Validated @RequestBody PermissionAssignRoleMenuRequest reqVO) {
         // 开启多租户的情况下，需要过滤掉未开通的菜单
         tenantService.handleTenantMenu(menuIds -> reqVO.getMenuIds().removeIf(menuId -> !CollUtil.contains(menuIds, menuId)));
 
@@ -58,7 +58,7 @@ public class PermissionController {
     @PostMapping("/assign-role-data-scope")
     @Operation(summary = "赋予角色数据权限")
     @PreAuthorize("@ss.hasPermission('system:permission:assign-role-data-scope')")
-    public CommonResult<Boolean> assignRoleDataScope(@Valid @RequestBody PermissionAssignRoleDataScopeReqVO reqVO) {
+    public CommonResult<Boolean> assignRoleDataScope(@Valid @RequestBody PermissionAssignRoleDataScopeRequest reqVO) {
         permissionService.assignRoleDataScope(reqVO.getRoleId(), reqVO.getDataScope(), reqVO.getDataScopeDeptIds());
         return success(true);
     }
@@ -74,7 +74,7 @@ public class PermissionController {
     @Operation(summary = "赋予用户角色")
     @PostMapping("/assign-user-role")
     @PreAuthorize("@ss.hasPermission('system:permission:assign-user-role')")
-    public CommonResult<Boolean> assignUserRole(@Validated @RequestBody PermissionAssignUserRoleReqVO reqVO) {
+    public CommonResult<Boolean> assignUserRole(@Validated @RequestBody PermissionAssignUserRoleRequest reqVO) {
         permissionService.assignUserRole(reqVO.getUserId(), reqVO.getRoleIds());
         return success(true);
     }

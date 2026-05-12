@@ -2,8 +2,8 @@ package com.focela.platform.module.system.service.permission;
 
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
-import com.focela.platform.module.system.controller.admin.permission.vo.menu.MenuListReqVO;
-import com.focela.platform.module.system.controller.admin.permission.vo.menu.MenuSaveVO;
+import com.focela.platform.module.system.controller.admin.permission.dto.menu.MenuListRequest;
+import com.focela.platform.module.system.controller.admin.permission.dto.menu.MenuSaveRequest;
 import com.focela.platform.module.system.repository.entity.permission.MenuEntity;
 import com.focela.platform.module.system.repository.mapper.permission.MenuMapper;
 import com.focela.platform.module.system.enums.permission.MenuTypeEnum;
@@ -53,7 +53,7 @@ public class MenuServiceImplTest extends BaseDbUnitTest {
         menuMapper.insert(menuDO);
         Long parentId = menuDO.getId();
         // 准备参数
-        MenuSaveVO reqVO = randomPojo(MenuSaveVO.class, o -> {
+        MenuSaveRequest reqVO = randomPojo(MenuSaveRequest.class, o -> {
             o.setParentId(parentId);
             o.setName("testSonName");
             o.setType(MenuTypeEnum.MENU.getType());
@@ -71,7 +71,7 @@ public class MenuServiceImplTest extends BaseDbUnitTest {
         MenuEntity sonMenuDO = createParentAndSonMenu();
         Long sonId = sonMenuDO.getId();
         // 准备参数
-        MenuSaveVO reqVO = randomPojo(MenuSaveVO.class, o -> {
+        MenuSaveRequest reqVO = randomPojo(MenuSaveRequest.class, o -> {
             o.setId(sonId);
             o.setName("testSonName"); // 修改名字
             o.setParentId(sonMenuDO.getParentId());
@@ -88,7 +88,7 @@ public class MenuServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateMenu_sonIdNotExist() {
         // 准备参数
-        MenuSaveVO reqVO = randomPojo(MenuSaveVO.class);
+        MenuSaveRequest reqVO = randomPojo(MenuSaveRequest.class);
         // 调用，并断言异常
         assertServiceException(() -> menuService.updateMenu(reqVO), MENU_NOT_EXISTS);
     }
@@ -153,7 +153,7 @@ public class MenuServiceImplTest extends BaseDbUnitTest {
         // 测试 name 不匹配
         menuMapper.insert(cloneIgnoreId(menuDO, o -> o.setName("艿")));
         // 准备参数
-        MenuListReqVO reqVO = new MenuListReqVO().setName("芋").setStatus(CommonStatusEnum.ENABLE.getStatus());
+        MenuListRequest reqVO = new MenuListRequest().setName("芋").setStatus(CommonStatusEnum.ENABLE.getStatus());
 
         // 调用
         List<MenuEntity> result = menuService.getMenuList(reqVO);
@@ -178,7 +178,7 @@ public class MenuServiceImplTest extends BaseDbUnitTest {
             return true;
         }));
         // 准备参数
-        MenuListReqVO reqVO = new MenuListReqVO().setStatus(CommonStatusEnum.ENABLE.getStatus());
+        MenuListRequest reqVO = new MenuListRequest().setStatus(CommonStatusEnum.ENABLE.getStatus());
 
         // 调用
         List<MenuEntity> result = menuService.getMenuListByTenant(reqVO);

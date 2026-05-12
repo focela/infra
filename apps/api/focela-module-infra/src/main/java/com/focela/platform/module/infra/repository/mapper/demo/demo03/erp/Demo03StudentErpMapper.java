@@ -3,7 +3,7 @@ package com.focela.platform.module.infra.repository.mapper.demo.demo03.erp;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.module.infra.controller.admin.demo.demo03.erp.vo.Demo03StudentErpPageReqVO;
+import com.focela.platform.module.infra.controller.admin.demo.demo03.erp.dto.Demo03StudentErpPageRequest;
 import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03StudentEntity;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,7 +15,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface Demo03StudentErpMapper extends BaseMapperX<Demo03StudentEntity> {
 
-    default PageResult<Demo03StudentEntity> selectPage(Demo03StudentErpPageReqVO reqVO) {
+    default PageResult<Demo03StudentEntity> selectPage(Demo03StudentErpPageRequest reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<Demo03StudentEntity>()
                 .likeIfPresent(Demo03StudentEntity::getName, reqVO.getName())
                 .eqIfPresent(Demo03StudentEntity::getSex, reqVO.getSex())

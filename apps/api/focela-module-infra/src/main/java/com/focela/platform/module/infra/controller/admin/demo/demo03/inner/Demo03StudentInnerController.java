@@ -6,9 +6,9 @@ import com.focela.platform.framework.common.pojo.PageParam;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.excel.core.util.ExcelUtils;
-import com.focela.platform.module.infra.controller.admin.demo.demo03.inner.vo.Demo03StudentInnerPageReqVO;
-import com.focela.platform.module.infra.controller.admin.demo.demo03.inner.vo.Demo03StudentInnerRespVO;
-import com.focela.platform.module.infra.controller.admin.demo.demo03.inner.vo.Demo03StudentInnerSaveReqVO;
+import com.focela.platform.module.infra.controller.admin.demo.demo03.inner.dto.Demo03StudentInnerPageRequest;
+import com.focela.platform.module.infra.controller.admin.demo.demo03.inner.dto.Demo03StudentInnerResponse;
+import com.focela.platform.module.infra.controller.admin.demo.demo03.inner.dto.Demo03StudentInnerSaveRequest;
 import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03CourseEntity;
 import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03GradeEntity;
 import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03StudentEntity;
@@ -41,15 +41,15 @@ public class Demo03StudentInnerController {
     @PostMapping("/create")
     @Operation(summary = "创建学生")
     @PreAuthorize("@ss.hasPermission('infra:demo03-student:create')")
-    public CommonResult<Long> createDemo03Student(@Valid @RequestBody Demo03StudentInnerSaveReqVO createReqVO) {
-        return success(demo03StudentInnerService.createDemo03Student(createReqVO));
+    public CommonResult<Long> createDemo03Student(@Valid @RequestBody Demo03StudentInnerSaveRequest createRequest) {
+        return success(demo03StudentInnerService.createDemo03Student(createRequest));
     }
 
     @PutMapping("/update")
     @Operation(summary = "更新学生")
     @PreAuthorize("@ss.hasPermission('infra:demo03-student:update')")
-    public CommonResult<Boolean> updateDemo03Student(@Valid @RequestBody Demo03StudentInnerSaveReqVO updateReqVO) {
-        demo03StudentInnerService.updateDemo03Student(updateReqVO);
+    public CommonResult<Boolean> updateDemo03Student(@Valid @RequestBody Demo03StudentInnerSaveRequest updateRequest) {
+        demo03StudentInnerService.updateDemo03Student(updateRequest);
         return success(true);
     }
 
@@ -75,30 +75,30 @@ public class Demo03StudentInnerController {
     @Operation(summary = "获得学生")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:demo03-student:query')")
-    public CommonResult<Demo03StudentInnerRespVO> getDemo03Student(@RequestParam("id") Long id) {
+    public CommonResult<Demo03StudentInnerResponse> getDemo03Student(@RequestParam("id") Long id) {
         Demo03StudentEntity demo03Student = demo03StudentInnerService.getDemo03Student(id);
-        return success(BeanUtils.toBean(demo03Student, Demo03StudentInnerRespVO.class));
+        return success(BeanUtils.toBean(demo03Student, Demo03StudentInnerResponse.class));
     }
 
     @GetMapping("/page")
     @Operation(summary = "获得学生分页")
     @PreAuthorize("@ss.hasPermission('infra:demo03-student:query')")
-    public CommonResult<PageResult<Demo03StudentInnerRespVO>> getDemo03StudentPage(@Valid Demo03StudentInnerPageReqVO pageReqVO) {
-        PageResult<Demo03StudentEntity> pageResult = demo03StudentInnerService.getDemo03StudentPage(pageReqVO);
-        return success(BeanUtils.toBean(pageResult, Demo03StudentInnerRespVO.class));
+    public CommonResult<PageResult<Demo03StudentInnerResponse>> getDemo03StudentPage(@Valid Demo03StudentInnerPageRequest pageRequest) {
+        PageResult<Demo03StudentEntity> pageResult = demo03StudentInnerService.getDemo03StudentPage(pageRequest);
+        return success(BeanUtils.toBean(pageResult, Demo03StudentInnerResponse.class));
     }
 
     @GetMapping("/export-excel")
     @Operation(summary = "导出学生 Excel")
     @PreAuthorize("@ss.hasPermission('infra:demo03-student:export')")
     @ApiAccessLog(operateType = EXPORT)
-    public void exportDemo03StudentExcel(@Valid Demo03StudentInnerPageReqVO pageReqVO,
+    public void exportDemo03StudentExcel(@Valid Demo03StudentInnerPageRequest pageRequest,
                                          HttpServletResponse response) throws IOException {
-        pageReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<Demo03StudentEntity> list = demo03StudentInnerService.getDemo03StudentPage(pageReqVO).getList();
+        pageRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
+        List<Demo03StudentEntity> list = demo03StudentInnerService.getDemo03StudentPage(pageRequest).getList();
         // 导出 Excel
-        ExcelUtils.write(response, "学生.xls", "数据", Demo03StudentInnerRespVO.class,
-                BeanUtils.toBean(list, Demo03StudentInnerRespVO.class));
+        ExcelUtils.write(response, "学生.xls", "数据", Demo03StudentInnerResponse.class,
+                BeanUtils.toBean(list, Demo03StudentInnerResponse.class));
     }
 
     // ==================== 子表（学生课程） ====================

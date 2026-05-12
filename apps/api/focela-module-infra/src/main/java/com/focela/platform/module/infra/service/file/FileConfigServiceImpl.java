@@ -5,8 +5,8 @@ import cn.hutool.core.util.IdUtil;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.json.JsonUtils;
 import com.focela.platform.framework.common.util.validation.ValidationUtils;
-import com.focela.platform.module.infra.controller.admin.file.vo.config.FileConfigPageReqVO;
-import com.focela.platform.module.infra.controller.admin.file.vo.config.FileConfigSaveReqVO;
+import com.focela.platform.module.infra.controller.admin.file.dto.config.FileConfigPageRequest;
+import com.focela.platform.module.infra.controller.admin.file.dto.config.FileConfigSaveRequest;
 import com.focela.platform.module.infra.convert.file.FileConfigConvert;
 import com.focela.platform.module.infra.repository.entity.file.FileConfigEntity;
 import com.focela.platform.module.infra.repository.mapper.file.FileConfigMapper;
@@ -75,21 +75,21 @@ public class FileConfigServiceImpl implements FileConfigService {
     private Validator validator;
 
     @Override
-    public Long createFileConfig(FileConfigSaveReqVO createReqVO) {
-        FileConfigEntity fileConfig = FileConfigConvert.INSTANCE.convert(createReqVO)
-                .setConfig(parseClientConfig(createReqVO.getStorage(), createReqVO.getConfig()))
+    public Long createFileConfig(FileConfigSaveRequest createRequest) {
+        FileConfigEntity fileConfig = FileConfigConvert.INSTANCE.convert(createRequest)
+                .setConfig(parseClientConfig(createRequest.getStorage(), createRequest.getConfig()))
                 .setMaster(false); // 默认非 master
         fileConfigMapper.insert(fileConfig);
         return fileConfig.getId();
     }
 
     @Override
-    public void updateFileConfig(FileConfigSaveReqVO updateReqVO) {
+    public void updateFileConfig(FileConfigSaveRequest updateRequest) {
         // 校验存在
-        FileConfigEntity config = validateFileConfigExists(updateReqVO.getId());
+        FileConfigEntity config = validateFileConfigExists(updateRequest.getId());
         // 更新
-        FileConfigEntity updateObj = FileConfigConvert.INSTANCE.convert(updateReqVO)
-                .setConfig(parseClientConfig(config.getStorage(), updateReqVO.getConfig()));
+        FileConfigEntity updateObj = FileConfigConvert.INSTANCE.convert(updateRequest)
+                .setConfig(parseClientConfig(config.getStorage(), updateRequest.getConfig()));
         fileConfigMapper.updateById(updateObj);
 
         // 清空缓存
@@ -181,8 +181,8 @@ public class FileConfigServiceImpl implements FileConfigService {
     }
 
     @Override
-    public PageResult<FileConfigEntity> getFileConfigPage(FileConfigPageReqVO pageReqVO) {
-        return fileConfigMapper.selectPage(pageReqVO);
+    public PageResult<FileConfigEntity> getFileConfigPage(FileConfigPageRequest pageRequest) {
+        return fileConfigMapper.selectPage(pageRequest);
     }
 
     @Override

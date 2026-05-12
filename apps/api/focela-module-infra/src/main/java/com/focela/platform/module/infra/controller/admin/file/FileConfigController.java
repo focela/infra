@@ -3,9 +3,9 @@ package com.focela.platform.module.infra.controller.admin.file;
 import com.focela.platform.framework.common.pojo.CommonResult;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.infra.controller.admin.file.vo.config.FileConfigPageReqVO;
-import com.focela.platform.module.infra.controller.admin.file.vo.config.FileConfigRespVO;
-import com.focela.platform.module.infra.controller.admin.file.vo.config.FileConfigSaveReqVO;
+import com.focela.platform.module.infra.controller.admin.file.dto.config.FileConfigPageRequest;
+import com.focela.platform.module.infra.controller.admin.file.dto.config.FileConfigResponse;
+import com.focela.platform.module.infra.controller.admin.file.dto.config.FileConfigSaveRequest;
 import com.focela.platform.module.infra.repository.entity.file.FileConfigEntity;
 import com.focela.platform.module.infra.service.file.FileConfigService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,15 +33,15 @@ public class FileConfigController {
     @PostMapping("/create")
     @Operation(summary = "创建文件配置")
     @PreAuthorize("@ss.hasPermission('infra:file-config:create')")
-    public CommonResult<Long> createFileConfig(@Valid @RequestBody FileConfigSaveReqVO createReqVO) {
-        return success(fileConfigService.createFileConfig(createReqVO));
+    public CommonResult<Long> createFileConfig(@Valid @RequestBody FileConfigSaveRequest createRequest) {
+        return success(fileConfigService.createFileConfig(createRequest));
     }
 
     @PutMapping("/update")
     @Operation(summary = "更新文件配置")
     @PreAuthorize("@ss.hasPermission('infra:file-config:update')")
-    public CommonResult<Boolean> updateFileConfig(@Valid @RequestBody FileConfigSaveReqVO updateReqVO) {
-        fileConfigService.updateFileConfig(updateReqVO);
+    public CommonResult<Boolean> updateFileConfig(@Valid @RequestBody FileConfigSaveRequest updateRequest) {
+        fileConfigService.updateFileConfig(updateRequest);
         return success(true);
     }
 
@@ -75,17 +75,17 @@ public class FileConfigController {
     @Operation(summary = "获得文件配置")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:file-config:query')")
-    public CommonResult<FileConfigRespVO> getFileConfig(@RequestParam("id") Long id) {
+    public CommonResult<FileConfigResponse> getFileConfig(@RequestParam("id") Long id) {
         FileConfigEntity config = fileConfigService.getFileConfig(id);
-        return success(BeanUtils.toBean(config, FileConfigRespVO.class));
+        return success(BeanUtils.toBean(config, FileConfigResponse.class));
     }
 
     @GetMapping("/page")
     @Operation(summary = "获得文件配置分页")
     @PreAuthorize("@ss.hasPermission('infra:file-config:query')")
-    public CommonResult<PageResult<FileConfigRespVO>> getFileConfigPage(@Valid FileConfigPageReqVO pageVO) {
+    public CommonResult<PageResult<FileConfigResponse>> getFileConfigPage(@Valid FileConfigPageRequest pageVO) {
         PageResult<FileConfigEntity> pageResult = fileConfigService.getFileConfigPage(pageVO);
-        return success(BeanUtils.toBean(pageResult, FileConfigRespVO.class));
+        return success(BeanUtils.toBean(pageResult, FileConfigResponse.class));
     }
 
     @GetMapping("/test")

@@ -1,8 +1,8 @@
 package com.focela.platform.module.infra.service.file;
 
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.infra.controller.admin.file.vo.config.FileConfigPageReqVO;
-import com.focela.platform.module.infra.controller.admin.file.vo.config.FileConfigSaveReqVO;
+import com.focela.platform.module.infra.controller.admin.file.dto.config.FileConfigPageRequest;
+import com.focela.platform.module.infra.controller.admin.file.dto.config.FileConfigSaveRequest;
 import com.focela.platform.module.infra.repository.entity.file.FileConfigEntity;
 import com.focela.platform.module.infra.framework.file.core.client.FileClient;
 import jakarta.validation.Valid;
@@ -19,17 +19,17 @@ public interface FileConfigService {
     /**
      * 创建文件配置
      *
-     * @param createReqVO 创建信息
+     * @param createRequest 创建信息
      * @return 编号
      */
-    Long createFileConfig(@Valid FileConfigSaveReqVO createReqVO);
+    Long createFileConfig(@Valid FileConfigSaveRequest createRequest);
 
     /**
      * 更新文件配置
      *
-     * @param updateReqVO 更新信息
+     * @param updateRequest 更新信息
      */
-    void updateFileConfig(@Valid FileConfigSaveReqVO updateReqVO);
+    void updateFileConfig(@Valid FileConfigSaveRequest updateRequest);
 
     /**
      * 更新文件配置为 Master
@@ -63,10 +63,10 @@ public interface FileConfigService {
     /**
      * 获得文件配置分页
      *
-     * @param pageReqVO 分页查询
+     * @param pageRequest 分页查询
      * @return 文件配置分页
      */
-    PageResult<FileConfigEntity> getFileConfigPage(FileConfigPageReqVO pageReqVO);
+    PageResult<FileConfigEntity> getFileConfigPage(FileConfigPageRequest pageRequest);
 
     /**
      * 测试文件配置是否正确，通过上传文件

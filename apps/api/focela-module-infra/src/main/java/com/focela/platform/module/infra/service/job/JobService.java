@@ -1,8 +1,8 @@
 package com.focela.platform.module.infra.service.job;
 
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.infra.controller.admin.job.vo.job.JobPageReqVO;
-import com.focela.platform.module.infra.controller.admin.job.vo.job.JobSaveReqVO;
+import com.focela.platform.module.infra.controller.admin.job.dto.job.JobPageRequest;
+import com.focela.platform.module.infra.controller.admin.job.dto.job.JobSaveRequest;
 import com.focela.platform.module.infra.repository.entity.job.JobEntity;
 import jakarta.validation.Valid;
 import org.quartz.SchedulerException;
@@ -19,17 +19,17 @@ public interface JobService {
     /**
      * 创建定时任务
      *
-     * @param createReqVO 创建信息
+     * @param createRequest 创建信息
      * @return 编号
      */
-    Long createJob(@Valid JobSaveReqVO createReqVO) throws SchedulerException;
+    Long createJob(@Valid JobSaveRequest createRequest) throws SchedulerException;
 
     /**
      * 更新定时任务
      *
-     * @param updateReqVO 更新信息
+     * @param updateRequest 更新信息
      */
-    void updateJob(@Valid JobSaveReqVO updateReqVO) throws SchedulerException;
+    void updateJob(@Valid JobSaveRequest updateRequest) throws SchedulerException;
 
     /**
      * 更新定时任务的状态
@@ -78,9 +78,9 @@ public interface JobService {
     /**
      * 获得定时任务分页
      *
-     * @param pageReqVO 分页查询
+     * @param pageRequest 分页查询
      * @return 定时任务分页
      */
-    PageResult<JobEntity> getJobPage(JobPageReqVO pageReqVO);
+    PageResult<JobEntity> getJobPage(JobPageRequest pageRequest);
 
 }

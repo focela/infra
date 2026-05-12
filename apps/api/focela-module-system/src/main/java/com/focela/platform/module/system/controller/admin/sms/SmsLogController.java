@@ -6,8 +6,8 @@ import com.focela.platform.framework.common.pojo.PageParam;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.excel.core.util.ExcelUtils;
-import com.focela.platform.module.system.controller.admin.sms.vo.log.SmsLogPageReqVO;
-import com.focela.platform.module.system.controller.admin.sms.vo.log.SmsLogRespVO;
+import com.focela.platform.module.system.controller.admin.sms.dto.log.SmsLogPageRequest;
+import com.focela.platform.module.system.controller.admin.sms.dto.log.SmsLogResponse;
 import com.focela.platform.module.system.repository.entity.sms.SmsLogEntity;
 import com.focela.platform.module.system.service.sms.SmsLogService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,31 +41,31 @@ public class SmsLogController {
     @GetMapping("/page")
     @Operation(summary = "获得短信日志分页")
     @PreAuthorize("@ss.hasPermission('system:sms-log:query')")
-    public CommonResult<PageResult<SmsLogRespVO>> getSmsLogPage(@Valid SmsLogPageReqVO pageReqVO) {
-        PageResult<SmsLogEntity> pageResult = smsLogService.getSmsLogPage(pageReqVO);
-        return success(BeanUtils.toBean(pageResult, SmsLogRespVO.class));
+    public CommonResult<PageResult<SmsLogResponse>> getSmsLogPage(@Valid SmsLogPageRequest pageRequest) {
+        PageResult<SmsLogEntity> pageResult = smsLogService.getSmsLogPage(pageRequest);
+        return success(BeanUtils.toBean(pageResult, SmsLogResponse.class));
     }
 
     @GetMapping("/get")
     @Operation(summary = "获得短信日志")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:sms-log:query')")
-    public CommonResult<SmsLogRespVO> getSmsLog(@RequestParam("id") Long id) {
+    public CommonResult<SmsLogResponse> getSmsLog(@RequestParam("id") Long id) {
         SmsLogEntity smsLog = smsLogService.getSmsLog(id);
-        return success(BeanUtils.toBean(smsLog, SmsLogRespVO.class));
+        return success(BeanUtils.toBean(smsLog, SmsLogResponse.class));
     }
 
     @GetMapping("/export-excel")
     @Operation(summary = "导出短信日志 Excel")
     @PreAuthorize("@ss.hasPermission('system:sms-log:export')")
     @ApiAccessLog(operateType = EXPORT)
-    public void exportSmsLogExcel(@Valid SmsLogPageReqVO exportReqVO,
+    public void exportSmsLogExcel(@Valid SmsLogPageRequest exportRequest,
                                   HttpServletResponse response) throws IOException {
-        exportReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<SmsLogEntity> list = smsLogService.getSmsLogPage(exportReqVO).getList();
+        exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
+        List<SmsLogEntity> list = smsLogService.getSmsLogPage(exportRequest).getList();
         // 导出 Excel
-        ExcelUtils.write(response, "短信日志.xls", "数据", SmsLogRespVO.class,
-                BeanUtils.toBean(list, SmsLogRespVO.class));
+        ExcelUtils.write(response, "短信日志.xls", "数据", SmsLogResponse.class,
+                BeanUtils.toBean(list, SmsLogResponse.class));
     }
 
 }

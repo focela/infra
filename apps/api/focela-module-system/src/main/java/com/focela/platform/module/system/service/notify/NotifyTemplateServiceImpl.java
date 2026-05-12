@@ -4,8 +4,8 @@ import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.system.controller.admin.notify.vo.template.NotifyTemplatePageReqVO;
-import com.focela.platform.module.system.controller.admin.notify.vo.template.NotifyTemplateSaveReqVO;
+import com.focela.platform.module.system.controller.admin.notify.dto.template.NotifyTemplatePageRequest;
+import com.focela.platform.module.system.controller.admin.notify.dto.template.NotifyTemplateSaveRequest;
 import com.focela.platform.module.system.repository.entity.notify.NotifyTemplateEntity;
 import com.focela.platform.module.system.repository.mapper.notify.NotifyTemplateMapper;
 import com.focela.platform.module.system.repository.redis.RedisKeyConstants;
@@ -44,12 +44,12 @@ public class NotifyTemplateServiceImpl implements NotifyTemplateService {
     private NotifyTemplateMapper notifyTemplateMapper;
 
     @Override
-    public Long createNotifyTemplate(NotifyTemplateSaveReqVO createReqVO) {
+    public Long createNotifyTemplate(NotifyTemplateSaveRequest createRequest) {
         // 校验站内信编码是否重复
-        validateNotifyTemplateCodeDuplicate(null, createReqVO.getCode());
+        validateNotifyTemplateCodeDuplicate(null, createRequest.getCode());
 
         // 插入
-        NotifyTemplateEntity notifyTemplate = BeanUtils.toBean(createReqVO, NotifyTemplateEntity.class);
+        NotifyTemplateEntity notifyTemplate = BeanUtils.toBean(createRequest, NotifyTemplateEntity.class);
         notifyTemplate.setParams(parseTemplateContentParams(notifyTemplate.getContent()));
         notifyTemplateMapper.insert(notifyTemplate);
         return notifyTemplate.getId();
@@ -58,14 +58,14 @@ public class NotifyTemplateServiceImpl implements NotifyTemplateService {
     @Override
     @CacheEvict(cacheNames = RedisKeyConstants.NOTIFY_TEMPLATE,
             allEntries = true) // allEntries 清空所有缓存，因为可能修改到 code 字段，不好清理
-    public void updateNotifyTemplate(NotifyTemplateSaveReqVO updateReqVO) {
+    public void updateNotifyTemplate(NotifyTemplateSaveRequest updateRequest) {
         // 校验存在
-        validateNotifyTemplateExists(updateReqVO.getId());
+        validateNotifyTemplateExists(updateRequest.getId());
         // 校验站内信编码是否重复
-        validateNotifyTemplateCodeDuplicate(updateReqVO.getId(), updateReqVO.getCode());
+        validateNotifyTemplateCodeDuplicate(updateRequest.getId(), updateRequest.getCode());
 
         // 更新
-        NotifyTemplateEntity updateObj = BeanUtils.toBean(updateReqVO, NotifyTemplateEntity.class);
+        NotifyTemplateEntity updateObj = BeanUtils.toBean(updateRequest, NotifyTemplateEntity.class);
         updateObj.setParams(parseTemplateContentParams(updateObj.getContent()));
         notifyTemplateMapper.updateById(updateObj);
     }
@@ -111,8 +111,8 @@ public class NotifyTemplateServiceImpl implements NotifyTemplateService {
     }
 
     @Override
-    public PageResult<NotifyTemplateEntity> getNotifyTemplatePage(NotifyTemplatePageReqVO pageReqVO) {
-        return notifyTemplateMapper.selectPage(pageReqVO);
+    public PageResult<NotifyTemplateEntity> getNotifyTemplatePage(NotifyTemplatePageRequest pageRequest) {
+        return notifyTemplateMapper.selectPage(pageRequest);
     }
 
     @VisibleForTesting

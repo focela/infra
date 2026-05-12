@@ -2,7 +2,7 @@ package com.focela.platform.module.infra.service.db;
 
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.mybatis.core.util.JdbcUtils;
-import com.focela.platform.module.infra.controller.admin.db.vo.DataSourceConfigSaveReqVO;
+import com.focela.platform.module.infra.controller.admin.db.dto.DataSourceConfigSaveRequest;
 import com.focela.platform.module.infra.repository.entity.db.DataSourceConfigEntity;
 import com.focela.platform.module.infra.repository.mapper.db.DataSourceConfigMapper;
 import com.baomidou.dynamic.datasource.creator.DataSourceProperty;
@@ -34,8 +34,8 @@ public class DataSourceConfigServiceImpl implements DataSourceConfigService {
     private DynamicDataSourceProperties dynamicDataSourceProperties;
 
     @Override
-    public Long createDataSourceConfig(DataSourceConfigSaveReqVO createReqVO) {
-        DataSourceConfigEntity config = BeanUtils.toBean(createReqVO, DataSourceConfigEntity.class);
+    public Long createDataSourceConfig(DataSourceConfigSaveRequest createRequest) {
+        DataSourceConfigEntity config = BeanUtils.toBean(createRequest, DataSourceConfigEntity.class);
         validateConnectionOK(config);
 
         // 插入
@@ -45,10 +45,10 @@ public class DataSourceConfigServiceImpl implements DataSourceConfigService {
     }
 
     @Override
-    public void updateDataSourceConfig(DataSourceConfigSaveReqVO updateReqVO) {
+    public void updateDataSourceConfig(DataSourceConfigSaveRequest updateRequest) {
         // 校验存在
-        validateDataSourceConfigExists(updateReqVO.getId());
-        DataSourceConfigEntity updateObj = BeanUtils.toBean(updateReqVO, DataSourceConfigEntity.class);
+        validateDataSourceConfigExists(updateRequest.getId());
+        DataSourceConfigEntity updateObj = BeanUtils.toBean(updateRequest, DataSourceConfigEntity.class);
         validateConnectionOK(updateObj);
 
         // 更新

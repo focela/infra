@@ -1,9 +1,9 @@
 package com.focela.platform.module.infra.service.file;
 
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.infra.controller.admin.file.vo.file.FileCreateReqVO;
-import com.focela.platform.module.infra.controller.admin.file.vo.file.FilePageReqVO;
-import com.focela.platform.module.infra.controller.admin.file.vo.file.FilePresignedUrlRespVO;
+import com.focela.platform.module.infra.controller.admin.file.dto.file.FileCreateRequest;
+import com.focela.platform.module.infra.controller.admin.file.dto.file.FilePageRequest;
+import com.focela.platform.module.infra.controller.admin.file.dto.file.FilePresignedUrlResponse;
 import com.focela.platform.module.infra.repository.entity.file.FileEntity;
 import jakarta.validation.constraints.NotEmpty;
 
@@ -19,10 +19,10 @@ public interface FileService {
     /**
      * 获得文件分页
      *
-     * @param pageReqVO 分页查询
+     * @param pageRequest 分页查询
      * @return 文件分页
      */
-    PageResult<FileEntity> getFilePage(FilePageReqVO pageReqVO);
+    PageResult<FileEntity> getFilePage(FilePageRequest pageRequest);
 
     /**
      * 保存文件，并返回文件的访问路径
@@ -43,7 +43,7 @@ public interface FileService {
      * @param directory 目录
      * @return 预签名地址信息
      */
-    FilePresignedUrlRespVO presignPutUrl(@NotEmpty(message = "文件名不能为空") String name,
+    FilePresignedUrlResponse presignPutUrl(@NotEmpty(message = "文件名不能为空") String name,
                                          String directory);
     /**
      * 生成文件预签名地址信息，用于读取
@@ -57,10 +57,10 @@ public interface FileService {
     /**
      * 创建文件
      *
-     * @param createReqVO 创建信息
+     * @param createRequest 创建信息
      * @return 编号
      */
-    Long createFile(FileCreateReqVO createReqVO);
+    Long createFile(FileCreateRequest createRequest);
     FileEntity getFile(Long id);
 
     /**

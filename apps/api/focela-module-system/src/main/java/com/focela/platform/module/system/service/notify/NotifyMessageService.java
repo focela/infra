@@ -1,8 +1,8 @@
 package com.focela.platform.module.system.service.notify;
 
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.system.controller.admin.notify.vo.message.NotifyMessageMyPageReqVO;
-import com.focela.platform.module.system.controller.admin.notify.vo.message.NotifyMessagePageReqVO;
+import com.focela.platform.module.system.controller.admin.notify.dto.message.NotifyMessageMyPageRequest;
+import com.focela.platform.module.system.controller.admin.notify.dto.message.NotifyMessagePageRequest;
 import com.focela.platform.module.system.repository.entity.notify.NotifyMessageEntity;
 import com.focela.platform.module.system.repository.entity.notify.NotifyTemplateEntity;
 
@@ -33,20 +33,20 @@ public interface NotifyMessageService {
     /**
      * 获得站内信分页
      *
-     * @param pageReqVO 分页查询
+     * @param pageRequest 分页查询
      * @return 站内信分页
      */
-    PageResult<NotifyMessageEntity> getNotifyMessagePage(NotifyMessagePageReqVO pageReqVO);
+    PageResult<NotifyMessageEntity> getNotifyMessagePage(NotifyMessagePageRequest pageRequest);
 
     /**
      * 获得【我的】站内信分页
      *
-     * @param pageReqVO 分页查询
+     * @param pageRequest 分页查询
      * @param userId 用户编号
      * @param userType 用户类型
      * @return 站内信分页
      */
-    PageResult<NotifyMessageEntity> getMyMyNotifyMessagePage(NotifyMessageMyPageReqVO pageReqVO, Long userId, Integer userType);
+    PageResult<NotifyMessageEntity> getMyMyNotifyMessagePage(NotifyMessageMyPageRequest pageRequest, Long userId, Integer userType);
 
     /**
      * 获得站内信

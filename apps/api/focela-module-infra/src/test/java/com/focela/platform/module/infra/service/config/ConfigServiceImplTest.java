@@ -4,8 +4,8 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.collection.ArrayUtils;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.framework.test.core.util.RandomUtils;
-import com.focela.platform.module.infra.controller.admin.config.vo.ConfigPageReqVO;
-import com.focela.platform.module.infra.controller.admin.config.vo.ConfigSaveReqVO;
+import com.focela.platform.module.infra.controller.admin.config.dto.ConfigPageRequest;
+import com.focela.platform.module.infra.controller.admin.config.dto.ConfigSaveRequest;
 import com.focela.platform.module.infra.repository.entity.config.ConfigEntity;
 import com.focela.platform.module.infra.repository.mapper.config.ConfigMapper;
 import com.focela.platform.module.infra.enums.config.ConfigTypeEnum;
@@ -37,7 +37,7 @@ public class ConfigServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateConfig_success() {
         // 准备参数
-        ConfigSaveReqVO reqVO = randomPojo(ConfigSaveReqVO.class)
+        ConfigSaveRequest reqVO = randomPojo(ConfigSaveRequest.class)
                 .setId(null); // 防止 id 被赋值，导致唯一性校验失败
 
         // 调用
@@ -56,7 +56,7 @@ public class ConfigServiceImplTest extends BaseDbUnitTest {
         ConfigEntity dbConfig = randomConfigDO();
         configMapper.insert(dbConfig);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        ConfigSaveReqVO reqVO = randomPojo(ConfigSaveReqVO.class, o -> {
+        ConfigSaveRequest reqVO = randomPojo(ConfigSaveRequest.class, o -> {
             o.setId(dbConfig.getId()); // 设置更新的 ID
         });
 
@@ -162,7 +162,7 @@ public class ConfigServiceImplTest extends BaseDbUnitTest {
         // 测试 createTime 不匹配
         configMapper.insert(cloneIgnoreId(dbConfig, o -> o.setCreateTime(buildTime(2021, 1, 1))));
         // 准备参数
-        ConfigPageReqVO reqVO = new ConfigPageReqVO();
+        ConfigPageRequest reqVO = new ConfigPageRequest();
         reqVO.setName("艿");
         reqVO.setKey("nai");
         reqVO.setType(ConfigTypeEnum.SYSTEM.getType());

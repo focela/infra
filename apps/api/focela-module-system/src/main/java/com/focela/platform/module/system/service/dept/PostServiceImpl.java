@@ -4,8 +4,8 @@ import cn.hutool.core.collection.CollUtil;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.system.controller.admin.dept.vo.post.PostPageReqVO;
-import com.focela.platform.module.system.controller.admin.dept.vo.post.PostSaveReqVO;
+import com.focela.platform.module.system.controller.admin.dept.dto.post.PostPageRequest;
+import com.focela.platform.module.system.controller.admin.dept.dto.post.PostSaveRequest;
 import com.focela.platform.module.system.repository.entity.dept.PostEntity;
 import com.focela.platform.module.system.repository.mapper.dept.PostMapper;
 import jakarta.annotation.Resource;
@@ -34,23 +34,23 @@ public class PostServiceImpl implements PostService {
     private PostMapper postMapper;
 
     @Override
-    public Long createPost(PostSaveReqVO createReqVO) {
+    public Long createPost(PostSaveRequest createRequest) {
         // 校验正确性
-        validatePostForCreateOrUpdate(null, createReqVO.getName(), createReqVO.getCode());
+        validatePostForCreateOrUpdate(null, createRequest.getName(), createRequest.getCode());
 
         // 插入岗位
-        PostEntity post = BeanUtils.toBean(createReqVO, PostEntity.class);
+        PostEntity post = BeanUtils.toBean(createRequest, PostEntity.class);
         postMapper.insert(post);
         return post.getId();
     }
 
     @Override
-    public void updatePost(PostSaveReqVO updateReqVO) {
+    public void updatePost(PostSaveRequest updateRequest) {
         // 校验正确性
-        validatePostForCreateOrUpdate(updateReqVO.getId(), updateReqVO.getName(), updateReqVO.getCode());
+        validatePostForCreateOrUpdate(updateRequest.getId(), updateRequest.getName(), updateRequest.getCode());
 
         // 更新岗位
-        PostEntity updateObj = BeanUtils.toBean(updateReqVO, PostEntity.class);
+        PostEntity updateObj = BeanUtils.toBean(updateRequest, PostEntity.class);
         postMapper.updateById(updateObj);
     }
 
@@ -127,7 +127,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PageResult<PostEntity> getPostPage(PostPageReqVO reqVO) {
+    public PageResult<PostEntity> getPostPage(PostPageRequest reqVO) {
         return postMapper.selectPage(reqVO);
     }
 

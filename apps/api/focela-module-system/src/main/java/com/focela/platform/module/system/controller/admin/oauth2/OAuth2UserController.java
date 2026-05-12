@@ -3,9 +3,9 @@ package com.focela.platform.module.system.controller.admin.oauth2;
 import cn.hutool.core.collection.CollUtil;
 import com.focela.platform.framework.common.pojo.CommonResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.system.controller.admin.oauth2.vo.user.OAuth2UserInfoRespVO;
-import com.focela.platform.module.system.controller.admin.oauth2.vo.user.OAuth2UserUpdateReqVO;
-import com.focela.platform.module.system.controller.admin.user.vo.profile.UserProfileUpdateReqVO;
+import com.focela.platform.module.system.controller.admin.oauth2.dto.user.OAuth2UserInfoResponse;
+import com.focela.platform.module.system.controller.admin.oauth2.dto.user.OAuth2UserUpdateRequest;
+import com.focela.platform.module.system.controller.admin.user.dto.profile.UserProfileUpdateRequest;
 import com.focela.platform.module.system.repository.entity.dept.DeptEntity;
 import com.focela.platform.module.system.repository.entity.dept.PostEntity;
 import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
@@ -51,19 +51,19 @@ public class OAuth2UserController {
     @GetMapping("/get")
     @Operation(summary = "获得用户基本信息")
     @PreAuthorize("@ss.hasScope('user.read')") //
-    public CommonResult<OAuth2UserInfoRespVO> getUserInfo() {
+    public CommonResult<OAuth2UserInfoResponse> getUserInfo() {
         // 获得用户基本信息
         AdminUserEntity user = userService.getUser(getLoginUserId());
-        OAuth2UserInfoRespVO resp = BeanUtils.toBean(user, OAuth2UserInfoRespVO.class);
+        OAuth2UserInfoResponse resp = BeanUtils.toBean(user, OAuth2UserInfoResponse.class);
         // 获得部门信息
         if (user.getDeptId() != null) {
             DeptEntity dept = deptService.getDept(user.getDeptId());
-            resp.setDept(BeanUtils.toBean(dept, OAuth2UserInfoRespVO.Dept.class));
+            resp.setDept(BeanUtils.toBean(dept, OAuth2UserInfoResponse.Dept.class));
         }
         // 获得岗位信息
         if (CollUtil.isNotEmpty(user.getPostIds())) {
             List<PostEntity> posts = postService.getPostList(user.getPostIds());
-            resp.setPosts(BeanUtils.toBean(posts, OAuth2UserInfoRespVO.Post.class));
+            resp.setPosts(BeanUtils.toBean(posts, OAuth2UserInfoResponse.Post.class));
         }
         return success(resp);
     }
@@ -71,10 +71,10 @@ public class OAuth2UserController {
     @PutMapping("/update")
     @Operation(summary = "更新用户基本信息")
     @PreAuthorize("@ss.hasScope('user.write')")
-    public CommonResult<Boolean> updateUserInfo(@Valid @RequestBody OAuth2UserUpdateReqVO reqVO) {
-        // 这里将 UserProfileUpdateReqVO =》UserProfileUpdateReqVO 对象，实现接口的复用。
+    public CommonResult<Boolean> updateUserInfo(@Valid @RequestBody OAuth2UserUpdateRequest reqVO) {
+        // 这里将 UserProfileUpdateRequest =》UserProfileUpdateRequest 对象，实现接口的复用。
         // 主要是，AdminUserService 没有自己的 BO 对象，所以复用只能这么做
-        userService.updateUserProfile(getLoginUserId(), BeanUtils.toBean(reqVO, UserProfileUpdateReqVO.class));
+        userService.updateUserProfile(getLoginUserId(), BeanUtils.toBean(reqVO, UserProfileUpdateRequest.class));
         return success(true);
     }
 

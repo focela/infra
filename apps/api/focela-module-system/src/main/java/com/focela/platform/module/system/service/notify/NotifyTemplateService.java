@@ -1,8 +1,8 @@
 package com.focela.platform.module.system.service.notify;
 
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.system.controller.admin.notify.vo.template.NotifyTemplatePageReqVO;
-import com.focela.platform.module.system.controller.admin.notify.vo.template.NotifyTemplateSaveReqVO;
+import com.focela.platform.module.system.controller.admin.notify.dto.template.NotifyTemplatePageRequest;
+import com.focela.platform.module.system.controller.admin.notify.dto.template.NotifyTemplateSaveRequest;
 import com.focela.platform.module.system.repository.entity.notify.NotifyTemplateEntity;
 import jakarta.validation.Valid;
 
@@ -19,17 +19,17 @@ public interface NotifyTemplateService {
     /**
      * 创建站内信模版
      *
-     * @param createReqVO 创建信息
+     * @param createRequest 创建信息
      * @return 编号
      */
-    Long createNotifyTemplate(@Valid NotifyTemplateSaveReqVO createReqVO);
+    Long createNotifyTemplate(@Valid NotifyTemplateSaveRequest createRequest);
 
     /**
      * 更新站内信模版
      *
-     * @param updateReqVO 更新信息
+     * @param updateRequest 更新信息
      */
-    void updateNotifyTemplate(@Valid NotifyTemplateSaveReqVO updateReqVO);
+    void updateNotifyTemplate(@Valid NotifyTemplateSaveRequest updateRequest);
 
     /**
      * 删除站内信模版
@@ -64,10 +64,10 @@ public interface NotifyTemplateService {
     /**
      * 获得站内信模版分页
      *
-     * @param pageReqVO 分页查询
+     * @param pageRequest 分页查询
      * @return 站内信模版分页
      */
-    PageResult<NotifyTemplateEntity> getNotifyTemplatePage(NotifyTemplatePageReqVO pageReqVO);
+    PageResult<NotifyTemplateEntity> getNotifyTemplatePage(NotifyTemplatePageRequest pageRequest);
 
     /**
      * 格式化站内信内容

@@ -2,7 +2,7 @@ package com.focela.platform.module.system.repository.mapper.permission;
 
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.module.system.controller.admin.permission.vo.menu.MenuListReqVO;
+import com.focela.platform.module.system.controller.admin.permission.dto.menu.MenuListRequest;
 import com.focela.platform.module.system.repository.entity.permission.MenuEntity;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -19,7 +19,7 @@ public interface MenuMapper extends BaseMapperX<MenuEntity> {
         return selectCount(MenuEntity::getParentId, parentId);
     }
 
-    default List<MenuEntity> selectList(MenuListReqVO reqVO) {
+    default List<MenuEntity> selectList(MenuListRequest reqVO) {
         return selectList(new LambdaQueryWrapperX<MenuEntity>()
                 .likeIfPresent(MenuEntity::getName, reqVO.getName())
                 .eqIfPresent(MenuEntity::getStatus, reqVO.getStatus()));

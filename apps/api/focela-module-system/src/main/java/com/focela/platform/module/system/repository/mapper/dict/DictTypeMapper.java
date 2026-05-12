@@ -3,7 +3,7 @@ package com.focela.platform.module.system.repository.mapper.dict;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.module.system.controller.admin.dict.vo.type.DictTypePageReqVO;
+import com.focela.platform.module.system.controller.admin.dict.dto.type.DictTypePageRequest;
 import com.focela.platform.module.system.repository.entity.dict.DictTypeEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Mapper
 public interface DictTypeMapper extends BaseMapperX<DictTypeEntity> {
 
-    default PageResult<DictTypeEntity> selectPage(DictTypePageReqVO reqVO) {
+    default PageResult<DictTypeEntity> selectPage(DictTypePageRequest reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<DictTypeEntity>()
                 .likeIfPresent(DictTypeEntity::getName, reqVO.getName())
                 .likeIfPresent(DictTypeEntity::getType, reqVO.getType())

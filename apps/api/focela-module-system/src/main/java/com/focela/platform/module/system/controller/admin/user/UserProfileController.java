@@ -3,9 +3,9 @@ package com.focela.platform.module.system.controller.admin.user;
 import cn.hutool.core.collection.CollUtil;
 import com.focela.platform.framework.common.pojo.CommonResult;
 import com.focela.platform.framework.datapermission.core.annotation.DataPermission;
-import com.focela.platform.module.system.controller.admin.user.vo.profile.UserProfileRespVO;
-import com.focela.platform.module.system.controller.admin.user.vo.profile.UserProfileUpdatePasswordReqVO;
-import com.focela.platform.module.system.controller.admin.user.vo.profile.UserProfileUpdateReqVO;
+import com.focela.platform.module.system.controller.admin.user.dto.profile.UserProfileResponse;
+import com.focela.platform.module.system.controller.admin.user.dto.profile.UserProfileUpdatePasswordRequest;
+import com.focela.platform.module.system.controller.admin.user.dto.profile.UserProfileUpdateRequest;
 import com.focela.platform.module.system.convert.user.UserConvert;
 import com.focela.platform.module.system.repository.entity.dept.DeptEntity;
 import com.focela.platform.module.system.repository.entity.dept.PostEntity;
@@ -50,7 +50,7 @@ public class UserProfileController {
     @GetMapping("/get")
     @Operation(summary = "获得登录用户信息")
     @DataPermission(enable = false) // 关闭数据权限，避免只查看自己时，查询不到部门。
-    public CommonResult<UserProfileRespVO> getUserProfile() {
+    public CommonResult<UserProfileResponse> getUserProfile() {
         // 获得用户基本信息
         AdminUserEntity user = userService.getUser(getLoginUserId());
         // 获得用户角色
@@ -64,14 +64,14 @@ public class UserProfileController {
 
     @PutMapping("/update")
     @Operation(summary = "修改用户个人信息")
-    public CommonResult<Boolean> updateUserProfile(@Valid @RequestBody UserProfileUpdateReqVO reqVO) {
+    public CommonResult<Boolean> updateUserProfile(@Valid @RequestBody UserProfileUpdateRequest reqVO) {
         userService.updateUserProfile(getLoginUserId(), reqVO);
         return success(true);
     }
 
     @PutMapping("/update-password")
     @Operation(summary = "修改用户个人密码")
-    public CommonResult<Boolean> updateUserProfilePassword(@Valid @RequestBody UserProfileUpdatePasswordReqVO reqVO) {
+    public CommonResult<Boolean> updateUserProfilePassword(@Valid @RequestBody UserProfileUpdatePasswordRequest reqVO) {
         userService.updateUserPassword(getLoginUserId(), reqVO);
         return success(true);
     }

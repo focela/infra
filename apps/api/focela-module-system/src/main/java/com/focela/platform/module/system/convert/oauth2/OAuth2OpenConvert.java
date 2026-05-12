@@ -6,9 +6,9 @@ import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.common.util.collection.CollectionUtils;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.security.core.util.SecurityFrameworkUtils;
-import com.focela.platform.module.system.controller.admin.oauth2.vo.open.OAuth2OpenAccessTokenRespVO;
-import com.focela.platform.module.system.controller.admin.oauth2.vo.open.OAuth2OpenAuthorizeInfoRespVO;
-import com.focela.platform.module.system.controller.admin.oauth2.vo.open.OAuth2OpenCheckTokenRespVO;
+import com.focela.platform.module.system.controller.admin.oauth2.dto.open.OAuth2OpenAccessTokenResponse;
+import com.focela.platform.module.system.controller.admin.oauth2.dto.open.OAuth2OpenAuthorizeInfoResponse;
+import com.focela.platform.module.system.controller.admin.oauth2.dto.open.OAuth2OpenCheckTokenResponse;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2ApproveEntity;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2ClientEntity;
@@ -25,22 +25,22 @@ public interface OAuth2OpenConvert {
 
     OAuth2OpenConvert INSTANCE = Mappers.getMapper(OAuth2OpenConvert.class);
 
-    default OAuth2OpenAccessTokenRespVO convert(OAuth2AccessTokenEntity bean) {
-        OAuth2OpenAccessTokenRespVO respVO = BeanUtils.toBean(bean, OAuth2OpenAccessTokenRespVO.class);
+    default OAuth2OpenAccessTokenResponse convert(OAuth2AccessTokenEntity bean) {
+        OAuth2OpenAccessTokenResponse respVO = BeanUtils.toBean(bean, OAuth2OpenAccessTokenResponse.class);
         respVO.setTokenType(SecurityFrameworkUtils.AUTHORIZATION_BEARER.toLowerCase());
         respVO.setExpiresIn(OAuth2Utils.getExpiresIn(bean.getExpiresTime()));
         respVO.setScope(OAuth2Utils.buildScopeStr(bean.getScopes()));
         return respVO;
     }
 
-    default OAuth2OpenCheckTokenRespVO convert2(OAuth2AccessTokenEntity bean) {
-        OAuth2OpenCheckTokenRespVO respVO = BeanUtils.toBean(bean, OAuth2OpenCheckTokenRespVO.class);
+    default OAuth2OpenCheckTokenResponse convert2(OAuth2AccessTokenEntity bean) {
+        OAuth2OpenCheckTokenResponse respVO = BeanUtils.toBean(bean, OAuth2OpenCheckTokenResponse.class);
         respVO.setExp(LocalDateTimeUtil.toEpochMilli(bean.getExpiresTime()) / 1000L);
         respVO.setUserType(UserTypeEnum.ADMIN.getValue());
         return respVO;
     }
 
-    default OAuth2OpenAuthorizeInfoRespVO convert(OAuth2ClientEntity client, List<OAuth2ApproveEntity> approves) {
+    default OAuth2OpenAuthorizeInfoResponse convert(OAuth2ClientEntity client, List<OAuth2ApproveEntity> approves) {
         // 构建 scopes
         List<KeyValue<String, Boolean>> scopes = new ArrayList<>(client.getScopes().size());
         Map<String, OAuth2ApproveEntity> approveMap = CollectionUtils.convertMap(approves, OAuth2ApproveEntity::getScope);
@@ -49,8 +49,8 @@ public interface OAuth2OpenConvert {
             scopes.add(new KeyValue<>(scope, approve != null ? approve.getApproved() : false));
         });
         // 拼接返回
-        return new OAuth2OpenAuthorizeInfoRespVO(
-                new OAuth2OpenAuthorizeInfoRespVO.Client(client.getName(), client.getLogo()), scopes);
+        return new OAuth2OpenAuthorizeInfoResponse(
+                new OAuth2OpenAuthorizeInfoResponse.Client(client.getName(), client.getLogo()), scopes);
     }
 
 }

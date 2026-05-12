@@ -1,8 +1,8 @@
 package com.focela.platform.module.infra.service.config;
 
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.infra.controller.admin.config.vo.ConfigPageReqVO;
-import com.focela.platform.module.infra.controller.admin.config.vo.ConfigSaveReqVO;
+import com.focela.platform.module.infra.controller.admin.config.dto.ConfigPageRequest;
+import com.focela.platform.module.infra.controller.admin.config.dto.ConfigSaveRequest;
 import com.focela.platform.module.infra.repository.entity.config.ConfigEntity;
 import jakarta.validation.Valid;
 
@@ -18,17 +18,17 @@ public interface ConfigService {
     /**
      * 创建参数配置
      *
-     * @param createReqVO 创建信息
+     * @param createRequest 创建信息
      * @return 配置编号
      */
-    Long createConfig(@Valid ConfigSaveReqVO createReqVO);
+    Long createConfig(@Valid ConfigSaveRequest createRequest);
 
     /**
      * 更新参数配置
      *
-     * @param updateReqVO 更新信息
+     * @param updateRequest 更新信息
      */
-    void updateConfig(@Valid ConfigSaveReqVO updateReqVO);
+    void updateConfig(@Valid ConfigSaveRequest updateRequest);
 
     /**
      * 删除参数配置
@@ -66,6 +66,6 @@ public interface ConfigService {
      * @param reqVO 分页条件
      * @return 分页列表
      */
-    PageResult<ConfigEntity> getConfigPage(ConfigPageReqVO reqVO);
+    PageResult<ConfigEntity> getConfigPage(ConfigPageRequest reqVO);
 
 }

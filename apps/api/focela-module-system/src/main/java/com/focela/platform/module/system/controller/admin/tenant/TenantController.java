@@ -8,9 +8,9 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.excel.core.util.ExcelUtils;
 import com.focela.platform.framework.tenant.core.aop.TenantIgnore;
-import com.focela.platform.module.system.controller.admin.tenant.vo.tenant.TenantPageReqVO;
-import com.focela.platform.module.system.controller.admin.tenant.vo.tenant.TenantRespVO;
-import com.focela.platform.module.system.controller.admin.tenant.vo.tenant.TenantSaveReqVO;
+import com.focela.platform.module.system.controller.admin.tenant.dto.tenant.TenantPageRequest;
+import com.focela.platform.module.system.controller.admin.tenant.dto.tenant.TenantResponse;
+import com.focela.platform.module.system.controller.admin.tenant.dto.tenant.TenantSaveRequest;
 import com.focela.platform.module.system.repository.entity.tenant.TenantEntity;
 import com.focela.platform.module.system.service.tenant.TenantService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -55,10 +55,10 @@ public class TenantController {
     @PermitAll
     @TenantIgnore
     @Operation(summary = "获取租户精简信息列表", description = "只包含被开启的租户，用于【首页】功能的选择租户选项")
-    public CommonResult<List<TenantRespVO>> getTenantSimpleList() {
+    public CommonResult<List<TenantResponse>> getTenantSimpleList() {
         List<TenantEntity> list = tenantService.getTenantListByStatus(CommonStatusEnum.ENABLE.getStatus());
         return success(convertList(list, tenantDO ->
-                new TenantRespVO().setId(tenantDO.getId()).setName(tenantDO.getName())));
+                new TenantResponse().setId(tenantDO.getId()).setName(tenantDO.getName())));
     }
 
     @GetMapping("/get-by-website")
@@ -66,27 +66,27 @@ public class TenantController {
     @TenantIgnore
     @Operation(summary = "使用域名，获得租户信息", description = "登录界面，根据用户的域名，获得租户信息")
     @Parameter(name = "website", description = "域名", required = true, example = "www.iocoder.cn")
-    public CommonResult<TenantRespVO> getTenantByWebsite(
+    public CommonResult<TenantResponse> getTenantByWebsite(
             @RequestParam("website") @Pattern(regexp = "^[a-zA-Z0-9.-]+$", message = "网站域名格式不正确") String website) {
         TenantEntity tenant = tenantService.getTenantByWebsite(website);
         if (tenant == null || CommonStatusEnum.isDisable(tenant.getStatus())) {
             return success(null);
         }
-        return success(new TenantRespVO().setId(tenant.getId()).setName(tenant.getName()));
+        return success(new TenantResponse().setId(tenant.getId()).setName(tenant.getName()));
     }
 
     @PostMapping("/create")
     @Operation(summary = "创建租户")
     @PreAuthorize("@ss.hasPermission('system:tenant:create')")
-    public CommonResult<Long> createTenant(@Valid @RequestBody TenantSaveReqVO createReqVO) {
-        return success(tenantService.createTenant(createReqVO));
+    public CommonResult<Long> createTenant(@Valid @RequestBody TenantSaveRequest createRequest) {
+        return success(tenantService.createTenant(createRequest));
     }
 
     @PutMapping("/update")
     @Operation(summary = "更新租户")
     @PreAuthorize("@ss.hasPermission('system:tenant:update')")
-    public CommonResult<Boolean> updateTenant(@Valid @RequestBody TenantSaveReqVO updateReqVO) {
-        tenantService.updateTenant(updateReqVO);
+    public CommonResult<Boolean> updateTenant(@Valid @RequestBody TenantSaveRequest updateRequest) {
+        tenantService.updateTenant(updateRequest);
         return success(true);
     }
 
@@ -112,29 +112,29 @@ public class TenantController {
     @Operation(summary = "获得租户")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:tenant:query')")
-    public CommonResult<TenantRespVO> getTenant(@RequestParam("id") Long id) {
+    public CommonResult<TenantResponse> getTenant(@RequestParam("id") Long id) {
         TenantEntity tenant = tenantService.getTenant(id);
-        return success(BeanUtils.toBean(tenant, TenantRespVO.class));
+        return success(BeanUtils.toBean(tenant, TenantResponse.class));
     }
 
     @GetMapping("/page")
     @Operation(summary = "获得租户分页")
     @PreAuthorize("@ss.hasPermission('system:tenant:query')")
-    public CommonResult<PageResult<TenantRespVO>> getTenantPage(@Valid TenantPageReqVO pageVO) {
+    public CommonResult<PageResult<TenantResponse>> getTenantPage(@Valid TenantPageRequest pageVO) {
         PageResult<TenantEntity> pageResult = tenantService.getTenantPage(pageVO);
-        return success(BeanUtils.toBean(pageResult, TenantRespVO.class));
+        return success(BeanUtils.toBean(pageResult, TenantResponse.class));
     }
 
     @GetMapping("/export-excel")
     @Operation(summary = "导出租户 Excel")
     @PreAuthorize("@ss.hasPermission('system:tenant:export')")
     @ApiAccessLog(operateType = EXPORT)
-    public void exportTenantExcel(@Valid TenantPageReqVO exportReqVO, HttpServletResponse response) throws IOException {
-        exportReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<TenantEntity> list = tenantService.getTenantPage(exportReqVO).getList();
+    public void exportTenantExcel(@Valid TenantPageRequest exportRequest, HttpServletResponse response) throws IOException {
+        exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
+        List<TenantEntity> list = tenantService.getTenantPage(exportRequest).getList();
         // 导出 Excel
-        ExcelUtils.write(response, "租户.xls", "数据", TenantRespVO.class,
-                BeanUtils.toBean(list, TenantRespVO.class));
+        ExcelUtils.write(response, "租户.xls", "数据", TenantResponse.class,
+                BeanUtils.toBean(list, TenantResponse.class));
     }
 
 }

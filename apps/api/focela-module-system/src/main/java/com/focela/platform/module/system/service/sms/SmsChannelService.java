@@ -1,8 +1,8 @@
 package com.focela.platform.module.system.service.sms;
 
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.system.controller.admin.sms.vo.channel.SmsChannelPageReqVO;
-import com.focela.platform.module.system.controller.admin.sms.vo.channel.SmsChannelSaveReqVO;
+import com.focela.platform.module.system.controller.admin.sms.dto.channel.SmsChannelPageRequest;
+import com.focela.platform.module.system.controller.admin.sms.dto.channel.SmsChannelSaveRequest;
 import com.focela.platform.module.system.repository.entity.sms.SmsChannelEntity;
 import com.focela.platform.module.system.framework.sms.core.client.SmsClient;
 import jakarta.validation.Valid;
@@ -20,17 +20,17 @@ public interface SmsChannelService {
     /**
      * 创建短信渠道
      *
-     * @param createReqVO 创建信息
+     * @param createRequest 创建信息
      * @return 编号
      */
-    Long createSmsChannel(@Valid SmsChannelSaveReqVO createReqVO);
+    Long createSmsChannel(@Valid SmsChannelSaveRequest createRequest);
 
     /**
      * 更新短信渠道
      *
-     * @param updateReqVO 更新信息
+     * @param updateRequest 更新信息
      */
-    void updateSmsChannel(@Valid SmsChannelSaveReqVO updateReqVO);
+    void updateSmsChannel(@Valid SmsChannelSaveRequest updateRequest);
 
     /**
      * 删除短信渠道
@@ -64,10 +64,10 @@ public interface SmsChannelService {
     /**
      * 获得短信渠道分页
      *
-     * @param pageReqVO 分页查询
+     * @param pageRequest 分页查询
      * @return 短信渠道分页
      */
-    PageResult<SmsChannelEntity> getSmsChannelPage(SmsChannelPageReqVO pageReqVO);
+    PageResult<SmsChannelEntity> getSmsChannelPage(SmsChannelPageRequest pageRequest);
 
     /**
      * 获得短信客户端

@@ -1,8 +1,8 @@
 package com.focela.platform.module.system.service.oauth2;
 
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.system.controller.admin.oauth2.vo.client.OAuth2ClientPageReqVO;
-import com.focela.platform.module.system.controller.admin.oauth2.vo.client.OAuth2ClientSaveReqVO;
+import com.focela.platform.module.system.controller.admin.oauth2.dto.client.OAuth2ClientPageRequest;
+import com.focela.platform.module.system.controller.admin.oauth2.dto.client.OAuth2ClientSaveRequest;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2ClientEntity;
 import jakarta.validation.Valid;
 
@@ -21,17 +21,17 @@ public interface OAuth2ClientService {
     /**
      * 创建 OAuth2 客户端
      *
-     * @param createReqVO 创建信息
+     * @param createRequest 创建信息
      * @return 编号
      */
-    Long createOAuth2Client(@Valid OAuth2ClientSaveReqVO createReqVO);
+    Long createOAuth2Client(@Valid OAuth2ClientSaveRequest createRequest);
 
     /**
      * 更新 OAuth2 客户端
      *
-     * @param updateReqVO 更新信息
+     * @param updateRequest 更新信息
      */
-    void updateOAuth2Client(@Valid OAuth2ClientSaveReqVO updateReqVO);
+    void updateOAuth2Client(@Valid OAuth2ClientSaveRequest updateRequest);
 
     /**
      * 删除 OAuth2 客户端
@@ -66,10 +66,10 @@ public interface OAuth2ClientService {
     /**
      * 获得 OAuth2 客户端分页
      *
-     * @param pageReqVO 分页查询
+     * @param pageRequest 分页查询
      * @return OAuth2 客户端分页
      */
-    PageResult<OAuth2ClientEntity> getOAuth2ClientPage(OAuth2ClientPageReqVO pageReqVO);
+    PageResult<OAuth2ClientEntity> getOAuth2ClientPage(OAuth2ClientPageRequest pageRequest);
 
     /**
      * 从缓存中，校验客户端是否合法

@@ -3,7 +3,7 @@ package com.focela.platform.module.infra.repository.mapper.job;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.module.infra.controller.admin.job.vo.log.JobLogPageReqVO;
+import com.focela.platform.module.infra.controller.admin.job.dto.log.JobLogPageRequest;
 import com.focela.platform.module.infra.repository.entity.job.JobLogEntity;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Mapper
 public interface JobLogMapper extends BaseMapperX<JobLogEntity> {
 
-    default PageResult<JobLogEntity> selectPage(JobLogPageReqVO reqVO) {
+    default PageResult<JobLogEntity> selectPage(JobLogPageRequest reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<JobLogEntity>()
                 .eqIfPresent(JobLogEntity::getJobId, reqVO.getJobId())
                 .likeIfPresent(JobLogEntity::getHandlerName, reqVO.getHandlerName())

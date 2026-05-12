@@ -5,8 +5,8 @@ import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.system.controller.admin.permission.vo.menu.MenuListReqVO;
-import com.focela.platform.module.system.controller.admin.permission.vo.menu.MenuSaveVO;
+import com.focela.platform.module.system.controller.admin.permission.dto.menu.MenuListRequest;
+import com.focela.platform.module.system.controller.admin.permission.dto.menu.MenuSaveRequest;
 import com.focela.platform.module.system.repository.entity.permission.MenuEntity;
 import com.focela.platform.module.system.repository.mapper.permission.MenuMapper;
 import com.focela.platform.module.system.repository.redis.RedisKeyConstants;
@@ -48,17 +48,17 @@ public class MenuServiceImpl implements MenuService {
     private TenantService tenantService;
 
     @Override
-    @CacheEvict(value = RedisKeyConstants.PERMISSION_MENU_ID_LIST, key = "#createReqVO.permission",
-            condition = "#createReqVO.permission != null")
-    public Long createMenu(MenuSaveVO createReqVO) {
+    @CacheEvict(value = RedisKeyConstants.PERMISSION_MENU_ID_LIST, key = "#createRequest.permission",
+            condition = "#createRequest.permission != null")
+    public Long createMenu(MenuSaveRequest createRequest) {
         // 校验父菜单存在
-        validateParentMenu(createReqVO.getParentId(), null);
+        validateParentMenu(createRequest.getParentId(), null);
         // 校验菜单（自己）
-        validateMenuName(createReqVO.getParentId(), createReqVO.getName(), null);
-        validateMenuComponentName(createReqVO.getComponentName(), null);
+        validateMenuName(createRequest.getParentId(), createRequest.getName(), null);
+        validateMenuComponentName(createRequest.getComponentName(), null);
 
         // 插入数据库
-        MenuEntity menu = BeanUtils.toBean(createReqVO, MenuEntity.class);
+        MenuEntity menu = BeanUtils.toBean(createRequest, MenuEntity.class);
         initMenuProperty(menu);
         menuMapper.insert(menu);
         // 返回
@@ -68,19 +68,19 @@ public class MenuServiceImpl implements MenuService {
     @Override
     @CacheEvict(value = RedisKeyConstants.PERMISSION_MENU_ID_LIST,
             allEntries = true) // allEntries 清空所有缓存，因为 permission 如果变更，涉及到新老两个 permission。直接清理，简单有效
-    public void updateMenu(MenuSaveVO updateReqVO) {
+    public void updateMenu(MenuSaveRequest updateRequest) {
         // 校验更新的菜单是否存在
-        if (menuMapper.selectById(updateReqVO.getId()) == null) {
+        if (menuMapper.selectById(updateRequest.getId()) == null) {
             throw exception(MENU_NOT_EXISTS);
         }
         // 校验父菜单存在
-        validateParentMenu(updateReqVO.getParentId(), updateReqVO.getId());
+        validateParentMenu(updateRequest.getParentId(), updateRequest.getId());
         // 校验菜单（自己）
-        validateMenuName(updateReqVO.getParentId(), updateReqVO.getName(), updateReqVO.getId());
-        validateMenuComponentName(updateReqVO.getComponentName(), updateReqVO.getId());
+        validateMenuName(updateRequest.getParentId(), updateRequest.getName(), updateRequest.getId());
+        validateMenuComponentName(updateRequest.getComponentName(), updateRequest.getId());
 
         // 更新到数据库
-        MenuEntity updateObj = BeanUtils.toBean(updateReqVO, MenuEntity.class);
+        MenuEntity updateObj = BeanUtils.toBean(updateRequest, MenuEntity.class);
         initMenuProperty(updateObj);
         menuMapper.updateById(updateObj);
     }
@@ -128,7 +128,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<MenuEntity> getMenuListByTenant(MenuListReqVO reqVO) {
+    public List<MenuEntity> getMenuListByTenant(MenuListRequest reqVO) {
         // 查询所有菜单，并过滤掉关闭的节点
         List<MenuEntity> menus = getMenuList(reqVO);
         // 开启多租户的情况下，需要过滤掉未开通的菜单
@@ -183,7 +183,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<MenuEntity> getMenuList(MenuListReqVO reqVO) {
+    public List<MenuEntity> getMenuList(MenuListRequest reqVO) {
         return menuMapper.selectList(reqVO);
     }
 

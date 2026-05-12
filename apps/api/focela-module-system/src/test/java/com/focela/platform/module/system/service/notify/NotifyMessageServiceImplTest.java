@@ -4,8 +4,8 @@ import cn.hutool.core.map.MapUtil;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
-import com.focela.platform.module.system.controller.admin.notify.vo.message.NotifyMessageMyPageReqVO;
-import com.focela.platform.module.system.controller.admin.notify.vo.message.NotifyMessagePageReqVO;
+import com.focela.platform.module.system.controller.admin.notify.dto.message.NotifyMessageMyPageRequest;
+import com.focela.platform.module.system.controller.admin.notify.dto.message.NotifyMessagePageRequest;
 import com.focela.platform.module.system.repository.entity.notify.NotifyMessageEntity;
 import com.focela.platform.module.system.repository.entity.notify.NotifyTemplateEntity;
 import com.focela.platform.module.system.repository.mapper.notify.NotifyMessageMapper;
@@ -91,7 +91,7 @@ public class NotifyMessageServiceImplTest extends BaseDbUnitTest {
        // 测试 createTime 不匹配
        notifyMessageMapper.insert(cloneIgnoreId(dbNotifyMessage, o -> o.setCreateTime(buildTime(2022, 2, 1))));
        // 准备参数
-       NotifyMessagePageReqVO reqVO = new NotifyMessagePageReqVO();
+       NotifyMessagePageRequest reqVO = new NotifyMessagePageRequest();
        reqVO.setUserId(1L);
        reqVO.setUserType(UserTypeEnum.ADMIN.getValue());
        reqVO.setTemplateCode("est_01");
@@ -142,7 +142,7 @@ public class NotifyMessageServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         Long userId = 1L;
         Integer userType = UserTypeEnum.ADMIN.getValue();
-        NotifyMessageMyPageReqVO reqVO = new NotifyMessageMyPageReqVO();
+        NotifyMessageMyPageRequest reqVO = new NotifyMessageMyPageRequest();
         reqVO.setReadStatus(true);
         reqVO.setCreateTime(buildBetweenTime(2022, 1, 1, 2022, 1, 10));
 

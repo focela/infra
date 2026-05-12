@@ -3,7 +3,7 @@ package com.focela.platform.module.system.service.logger;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.biz.system.logger.dto.OperateLogCreateReqDTO;
 import com.focela.platform.module.system.api.logger.dto.OperateLogPageReqDTO;
-import com.focela.platform.module.system.controller.admin.logger.vo.operatelog.OperateLogPageReqVO;
+import com.focela.platform.module.system.controller.admin.logger.dto.operatelog.OperateLogPageRequest;
 import com.focela.platform.module.system.repository.entity.logger.OperateLogEntity;
 
 /**
@@ -31,17 +31,17 @@ public interface OperateLogService {
     /**
      * 获得操作日志分页列表
      *
-     * @param pageReqVO 分页条件
+     * @param pageRequest 分页条件
      * @return 操作日志分页列表
      */
-    PageResult<OperateLogEntity> getOperateLogPage(OperateLogPageReqVO pageReqVO);
+    PageResult<OperateLogEntity> getOperateLogPage(OperateLogPageRequest pageRequest);
 
     /**
      * 获得操作日志分页列表
      *
-     * @param pageReqVO 分页条件
+     * @param pageRequest 分页条件
      * @return 操作日志分页列表
      */
-    PageResult<OperateLogEntity> getOperateLogPage(OperateLogPageReqDTO pageReqVO);
+    PageResult<OperateLogEntity> getOperateLogPage(OperateLogPageReqDTO pageRequest);
 
 }

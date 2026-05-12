@@ -7,8 +7,8 @@ import cn.hutool.core.util.StrUtil;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.system.controller.admin.sms.vo.template.SmsTemplatePageReqVO;
-import com.focela.platform.module.system.controller.admin.sms.vo.template.SmsTemplateSaveReqVO;
+import com.focela.platform.module.system.controller.admin.sms.dto.template.SmsTemplatePageRequest;
+import com.focela.platform.module.system.controller.admin.sms.dto.template.SmsTemplateSaveRequest;
 import com.focela.platform.module.system.repository.entity.sms.SmsChannelEntity;
 import com.focela.platform.module.system.repository.entity.sms.SmsTemplateEntity;
 import com.focela.platform.module.system.repository.mapper.sms.SmsTemplateMapper;
@@ -53,16 +53,16 @@ public class SmsTemplateServiceImpl implements SmsTemplateService {
     private SmsChannelService smsChannelService;
 
     @Override
-    public Long createSmsTemplate(SmsTemplateSaveReqVO createReqVO) {
+    public Long createSmsTemplate(SmsTemplateSaveRequest createRequest) {
         // 校验短信渠道
-        SmsChannelEntity channelDO = validateSmsChannel(createReqVO.getChannelId());
+        SmsChannelEntity channelDO = validateSmsChannel(createRequest.getChannelId());
         // 校验短信编码是否重复
-        validateSmsTemplateCodeDuplicate(null, createReqVO.getCode());
+        validateSmsTemplateCodeDuplicate(null, createRequest.getCode());
         // 校验短信模板
-        validateApiTemplate(createReqVO.getChannelId(), createReqVO.getApiTemplateId());
+        validateApiTemplate(createRequest.getChannelId(), createRequest.getApiTemplateId());
 
         // 插入
-        SmsTemplateEntity template = BeanUtils.toBean(createReqVO, SmsTemplateEntity.class);
+        SmsTemplateEntity template = BeanUtils.toBean(createRequest, SmsTemplateEntity.class);
         template.setParams(parseTemplateContentParams(template.getContent()));
         template.setChannelCode(channelDO.getCode());
         smsTemplateMapper.insert(template);
@@ -73,18 +73,18 @@ public class SmsTemplateServiceImpl implements SmsTemplateService {
     @Override
     @CacheEvict(cacheNames = RedisKeyConstants.SMS_TEMPLATE,
             allEntries = true) // allEntries 清空所有缓存，因为可能修改到 code 字段，不好清理
-    public void updateSmsTemplate(SmsTemplateSaveReqVO updateReqVO) {
+    public void updateSmsTemplate(SmsTemplateSaveRequest updateRequest) {
         // 校验存在
-        validateSmsTemplateExists(updateReqVO.getId());
+        validateSmsTemplateExists(updateRequest.getId());
         // 校验短信渠道
-        SmsChannelEntity channelDO = validateSmsChannel(updateReqVO.getChannelId());
+        SmsChannelEntity channelDO = validateSmsChannel(updateRequest.getChannelId());
         // 校验短信编码是否重复
-        validateSmsTemplateCodeDuplicate(updateReqVO.getId(), updateReqVO.getCode());
+        validateSmsTemplateCodeDuplicate(updateRequest.getId(), updateRequest.getCode());
         // 校验短信模板
-        validateApiTemplate(updateReqVO.getChannelId(), updateReqVO.getApiTemplateId());
+        validateApiTemplate(updateRequest.getChannelId(), updateRequest.getApiTemplateId());
 
         // 更新
-        SmsTemplateEntity updateObj = BeanUtils.toBean(updateReqVO, SmsTemplateEntity.class);
+        SmsTemplateEntity updateObj = BeanUtils.toBean(updateRequest, SmsTemplateEntity.class);
         updateObj.setParams(parseTemplateContentParams(updateObj.getContent()));
         updateObj.setChannelCode(channelDO.getCode());
         smsTemplateMapper.updateById(updateObj);
@@ -126,8 +126,8 @@ public class SmsTemplateServiceImpl implements SmsTemplateService {
     }
 
     @Override
-    public PageResult<SmsTemplateEntity> getSmsTemplatePage(SmsTemplatePageReqVO pageReqVO) {
-        return smsTemplateMapper.selectPage(pageReqVO);
+    public PageResult<SmsTemplateEntity> getSmsTemplatePage(SmsTemplatePageRequest pageRequest) {
+        return smsTemplateMapper.selectPage(pageRequest);
     }
 
     @Override

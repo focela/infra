@@ -13,13 +13,13 @@ import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.common.util.validation.ValidationUtils;
 import com.focela.platform.framework.datapermission.core.util.DataPermissionUtils;
 import com.focela.platform.module.infra.api.config.ConfigApi;
-import com.focela.platform.module.system.controller.admin.auth.vo.AuthRegisterReqVO;
-import com.focela.platform.module.system.controller.admin.user.vo.profile.UserProfileUpdatePasswordReqVO;
-import com.focela.platform.module.system.controller.admin.user.vo.profile.UserProfileUpdateReqVO;
-import com.focela.platform.module.system.controller.admin.user.vo.user.UserImportExcelVO;
-import com.focela.platform.module.system.controller.admin.user.vo.user.UserImportRespVO;
-import com.focela.platform.module.system.controller.admin.user.vo.user.UserPageReqVO;
-import com.focela.platform.module.system.controller.admin.user.vo.user.UserSaveReqVO;
+import com.focela.platform.module.system.controller.admin.auth.dto.AuthRegisterRequest;
+import com.focela.platform.module.system.controller.admin.user.dto.profile.UserProfileUpdatePasswordRequest;
+import com.focela.platform.module.system.controller.admin.user.dto.profile.UserProfileUpdateRequest;
+import com.focela.platform.module.system.controller.admin.user.dto.user.UserImportExcelDto;
+import com.focela.platform.module.system.controller.admin.user.dto.user.UserImportResponse;
+import com.focela.platform.module.system.controller.admin.user.dto.user.UserPageRequest;
+import com.focela.platform.module.system.controller.admin.user.dto.user.UserSaveRequest;
 import com.focela.platform.module.system.repository.entity.dept.DeptEntity;
 import com.focela.platform.module.system.repository.entity.dept.UserPostEntity;
 import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
@@ -92,7 +92,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Transactional(rollbackFor = Exception.class)
     @LogRecord(type = SYSTEM_USER_TYPE, subType = SYSTEM_USER_CREATE_SUB_TYPE, bizNo = "{{#user.id}}",
             success = SYSTEM_USER_CREATE_SUCCESS)
-    public Long createUser(UserSaveReqVO createReqVO) {
+    public Long createUser(UserSaveRequest createRequest) {
         // 1.1 校验账户配合
         tenantService.handleTenantInfo(tenant -> {
             long count = userMapper.selectCount();
@@ -101,12 +101,12 @@ public class AdminUserServiceImpl implements AdminUserService {
             }
         });
         // 1.2 校验正确性
-        validateUserForCreateOrUpdate(null, createReqVO.getUsername(),
-                createReqVO.getMobile(), createReqVO.getEmail(), createReqVO.getDeptId(), createReqVO.getPostIds());
+        validateUserForCreateOrUpdate(null, createRequest.getUsername(),
+                createRequest.getMobile(), createRequest.getEmail(), createRequest.getDeptId(), createRequest.getPostIds());
         // 2.1 插入用户
-        AdminUserEntity user = BeanUtils.toBean(createReqVO, AdminUserEntity.class);
+        AdminUserEntity user = BeanUtils.toBean(createRequest, AdminUserEntity.class);
         user.setStatus(CommonStatusEnum.ENABLE.getStatus()); // 默认开启
-        user.setPassword(encodePassword(createReqVO.getPassword())); // 加密密码
+        user.setPassword(encodePassword(createRequest.getPassword())); // 加密密码
         userMapper.insert(user);
         // 2.2 插入关联岗位
         if (CollectionUtil.isNotEmpty(user.getPostIds())) {
@@ -120,7 +120,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    public Long registerUser(AuthRegisterReqVO registerReqVO) {
+    public Long registerUser(AuthRegisterRequest registerRequest) {
         // 1.1 校验是否开启注册
         if (ObjUtil.notEqual(configApi.getConfigValueByKey(USER_REGISTER_ENABLED_KEY), "true")) {
             throw exception(USER_REGISTER_DISABLED);
@@ -133,38 +133,38 @@ public class AdminUserServiceImpl implements AdminUserService {
             }
         });
         // 1.3 校验正确性
-        validateUserForCreateOrUpdate(null, registerReqVO.getUsername(), null, null, null, null);
+        validateUserForCreateOrUpdate(null, registerRequest.getUsername(), null, null, null, null);
 
         // 2. 插入用户
-        AdminUserEntity user = BeanUtils.toBean(registerReqVO, AdminUserEntity.class);
+        AdminUserEntity user = BeanUtils.toBean(registerRequest, AdminUserEntity.class);
         user.setStatus(CommonStatusEnum.ENABLE.getStatus()); // 默认开启
-        user.setPassword(encodePassword(registerReqVO.getPassword())); // 加密密码
+        user.setPassword(encodePassword(registerRequest.getPassword())); // 加密密码
         userMapper.insert(user);
         return user.getId();
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @LogRecord(type = SYSTEM_USER_TYPE, subType = SYSTEM_USER_UPDATE_SUB_TYPE, bizNo = "{{#updateReqVO.id}}",
+    @LogRecord(type = SYSTEM_USER_TYPE, subType = SYSTEM_USER_UPDATE_SUB_TYPE, bizNo = "{{#updateRequest.id}}",
             success = SYSTEM_USER_UPDATE_SUCCESS)
-    public void updateUser(UserSaveReqVO updateReqVO) {
-        updateReqVO.setPassword(null); // 特殊：此处不更新密码
+    public void updateUser(UserSaveRequest updateRequest) {
+        updateRequest.setPassword(null); // 特殊：此处不更新密码
         // 1. 校验正确性
-        AdminUserEntity oldUser = validateUserForCreateOrUpdate(updateReqVO.getId(), updateReqVO.getUsername(),
-                updateReqVO.getMobile(), updateReqVO.getEmail(), updateReqVO.getDeptId(), updateReqVO.getPostIds());
+        AdminUserEntity oldUser = validateUserForCreateOrUpdate(updateRequest.getId(), updateRequest.getUsername(),
+                updateRequest.getMobile(), updateRequest.getEmail(), updateRequest.getDeptId(), updateRequest.getPostIds());
 
         // 2.1 更新用户
-        AdminUserEntity updateObj = BeanUtils.toBean(updateReqVO, AdminUserEntity.class);
+        AdminUserEntity updateObj = BeanUtils.toBean(updateRequest, AdminUserEntity.class);
         userMapper.updateById(updateObj);
         // 2.2 更新岗位
-        updateUserPost(updateReqVO, updateObj);
+        updateUserPost(updateRequest, updateObj);
 
         // 3. 记录操作日志上下文
-        LogRecordContext.putVariable(DiffParseFunction.OLD_OBJECT, BeanUtils.toBean(oldUser, UserSaveReqVO.class));
+        LogRecordContext.putVariable(DiffParseFunction.OLD_OBJECT, BeanUtils.toBean(oldUser, UserSaveRequest.class));
         LogRecordContext.putVariable("user", oldUser);
     }
 
-    private void updateUserPost(UserSaveReqVO reqVO, AdminUserEntity updateObj) {
+    private void updateUserPost(UserSaveRequest reqVO, AdminUserEntity updateObj) {
         Long userId = reqVO.getId();
         Set<Long> dbPostIds = convertSet(userPostMapper.selectListByUserId(userId), UserPostEntity::getPostId);
         // 计算新增和删除的岗位编号
@@ -187,7 +187,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    public void updateUserProfile(Long id, UserProfileUpdateReqVO reqVO) {
+    public void updateUserProfile(Long id, UserProfileUpdateRequest reqVO) {
         // 校验正确性
         validateUserExists(id);
         validateEmailUnique(id, reqVO.getEmail());
@@ -197,7 +197,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    public void updateUserPassword(Long id, UserProfileUpdatePasswordReqVO reqVO) {
+    public void updateUserPassword(Long id, UserProfileUpdatePasswordRequest reqVO) {
         // 校验旧密码密码
         validateOldPassword(id, reqVO.getOldPassword());
         // 执行更新
@@ -283,7 +283,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    public PageResult<AdminUserEntity> getUserPage(UserPageReqVO reqVO) {
+    public PageResult<AdminUserEntity> getUserPage(UserPageRequest reqVO) {
         // 如果有角色编号，查询角色对应的用户编号
         Set<Long> userIds = null;
         if (reqVO.getRoleId() != null) {
@@ -474,7 +474,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class) // 添加事务，异常则回滚所有导入
-    public UserImportRespVO importUserList(List<UserImportExcelVO> importUsers, boolean isUpdateSupport) {
+    public UserImportResponse importUserList(List<UserImportExcelDto> importUsers, boolean isUpdateSupport) {
         // 1.1 参数校验
         if (CollUtil.isEmpty(importUsers)) {
             throw exception(USER_IMPORT_LIST_IS_EMPTY);
@@ -486,14 +486,14 @@ public class AdminUserServiceImpl implements AdminUserService {
         }
 
         // 2. 遍历，逐个创建 or 更新
-        UserImportRespVO respVO = UserImportRespVO.builder().createUsernames(new ArrayList<>())
+        UserImportResponse respVO = UserImportResponse.builder().createUsernames(new ArrayList<>())
                 .updateUsernames(new ArrayList<>()).failureUsernames(new LinkedHashMap<>()).build();
         AtomicInteger index = new AtomicInteger(1);
         importUsers.forEach(importUser -> {
             int currentIndex = index.getAndIncrement();
             // 2.1.1 校验字段是否符合要求
             try {
-                ValidationUtils.validate(BeanUtils.toBean(importUser, UserSaveReqVO.class).setPassword(initPassword));
+                ValidationUtils.validate(BeanUtils.toBean(importUser, UserSaveRequest.class).setPassword(initPassword));
             } catch (ConstraintViolationException ex) {
                 String key = StrUtil.blankToDefault(importUser.getUsername(), "第 " + currentIndex + " 行");
                 respVO.getFailureUsernames().put(key, ex.getMessage());

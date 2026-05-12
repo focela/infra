@@ -1,7 +1,7 @@
 package com.focela.platform.module.system.service.sms;
 
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.system.controller.admin.sms.vo.log.SmsLogPageReqVO;
+import com.focela.platform.module.system.controller.admin.sms.dto.log.SmsLogPageRequest;
 import com.focela.platform.module.system.repository.entity.sms.SmsLogEntity;
 import com.focela.platform.module.system.repository.entity.sms.SmsTemplateEntity;
 import com.focela.platform.module.system.repository.mapper.sms.SmsLogMapper;
@@ -85,8 +85,8 @@ public class SmsLogServiceImpl implements SmsLogService {
     }
 
     @Override
-    public PageResult<SmsLogEntity> getSmsLogPage(SmsLogPageReqVO pageReqVO) {
-        return smsLogMapper.selectPage(pageReqVO);
+    public PageResult<SmsLogEntity> getSmsLogPage(SmsLogPageRequest pageRequest) {
+        return smsLogMapper.selectPage(pageRequest);
     }
 
 }

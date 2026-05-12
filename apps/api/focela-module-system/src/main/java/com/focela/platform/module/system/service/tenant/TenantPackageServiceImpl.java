@@ -5,8 +5,8 @@ import cn.hutool.core.util.StrUtil;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.system.controller.admin.tenant.vo.packages.TenantPackagePageReqVO;
-import com.focela.platform.module.system.controller.admin.tenant.vo.packages.TenantPackageSaveReqVO;
+import com.focela.platform.module.system.controller.admin.tenant.dto.packages.TenantPackagePageRequest;
+import com.focela.platform.module.system.controller.admin.tenant.dto.packages.TenantPackageSaveRequest;
 import com.focela.platform.module.system.repository.entity.tenant.TenantEntity;
 import com.focela.platform.module.system.repository.entity.tenant.TenantPackageEntity;
 import com.focela.platform.module.system.repository.mapper.tenant.TenantPackageMapper;
@@ -39,11 +39,11 @@ public class TenantPackageServiceImpl implements TenantPackageService {
     private TenantService tenantService;
 
     @Override
-    public Long createTenantPackage(TenantPackageSaveReqVO createReqVO) {
+    public Long createTenantPackage(TenantPackageSaveRequest createRequest) {
         // 校验套餐名是否重复
-        validateTenantPackageNameUnique(null, createReqVO.getName());
+        validateTenantPackageNameUnique(null, createRequest.getName());
         // 插入
-        TenantPackageEntity tenantPackage = BeanUtils.toBean(createReqVO, TenantPackageEntity.class);
+        TenantPackageEntity tenantPackage = BeanUtils.toBean(createRequest, TenantPackageEntity.class);
         tenantPackageMapper.insert(tenantPackage);
         // 返回
         return tenantPackage.getId();
@@ -51,18 +51,18 @@ public class TenantPackageServiceImpl implements TenantPackageService {
 
     @Override
     @DSTransactional // 多数据源，使用 @DSTransactional 保证本地事务，以及数据源的切换
-    public void updateTenantPackage(TenantPackageSaveReqVO updateReqVO) {
+    public void updateTenantPackage(TenantPackageSaveRequest updateRequest) {
         // 校验存在
-        TenantPackageEntity tenantPackage = validateTenantPackageExists(updateReqVO.getId());
+        TenantPackageEntity tenantPackage = validateTenantPackageExists(updateRequest.getId());
         // 校验套餐名是否重复
-        validateTenantPackageNameUnique(updateReqVO.getId(), updateReqVO.getName());
+        validateTenantPackageNameUnique(updateRequest.getId(), updateRequest.getName());
         // 更新
-        TenantPackageEntity updateObj = BeanUtils.toBean(updateReqVO, TenantPackageEntity.class);
+        TenantPackageEntity updateObj = BeanUtils.toBean(updateRequest, TenantPackageEntity.class);
         tenantPackageMapper.updateById(updateObj);
         // 如果菜单发生变化，则修改每个租户的菜单
-        if (!CollUtil.isEqualList(tenantPackage.getMenuIds(), updateReqVO.getMenuIds())) {
+        if (!CollUtil.isEqualList(tenantPackage.getMenuIds(), updateRequest.getMenuIds())) {
             List<TenantEntity> tenants = tenantService.getTenantListByPackageId(tenantPackage.getId());
-            tenants.forEach(tenant -> tenantService.updateTenantRoleMenu(tenant.getId(), updateReqVO.getMenuIds()));
+            tenants.forEach(tenant -> tenantService.updateTenantRoleMenu(tenant.getId(), updateRequest.getMenuIds()));
         }
     }
 
@@ -109,8 +109,8 @@ public class TenantPackageServiceImpl implements TenantPackageService {
     }
 
     @Override
-    public PageResult<TenantPackageEntity> getTenantPackagePage(TenantPackagePageReqVO pageReqVO) {
-        return tenantPackageMapper.selectPage(pageReqVO);
+    public PageResult<TenantPackageEntity> getTenantPackagePage(TenantPackagePageRequest pageRequest) {
+        return tenantPackageMapper.selectPage(pageRequest);
     }
 
     @Override

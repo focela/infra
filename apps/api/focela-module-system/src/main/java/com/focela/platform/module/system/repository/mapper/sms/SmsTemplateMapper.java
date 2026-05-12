@@ -3,7 +3,7 @@ package com.focela.platform.module.system.repository.mapper.sms;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.module.system.controller.admin.sms.vo.template.SmsTemplatePageReqVO;
+import com.focela.platform.module.system.controller.admin.sms.dto.template.SmsTemplatePageRequest;
 import com.focela.platform.module.system.repository.entity.sms.SmsTemplateEntity;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,7 +14,7 @@ public interface SmsTemplateMapper extends BaseMapperX<SmsTemplateEntity> {
         return selectOne(SmsTemplateEntity::getCode, code);
     }
 
-    default PageResult<SmsTemplateEntity> selectPage(SmsTemplatePageReqVO reqVO) {
+    default PageResult<SmsTemplateEntity> selectPage(SmsTemplatePageRequest reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<SmsTemplateEntity>()
                 .eqIfPresent(SmsTemplateEntity::getType, reqVO.getType())
                 .eqIfPresent(SmsTemplateEntity::getStatus, reqVO.getStatus())

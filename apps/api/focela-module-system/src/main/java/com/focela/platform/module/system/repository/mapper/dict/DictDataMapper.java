@@ -3,7 +3,7 @@ package com.focela.platform.module.system.repository.mapper.dict;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.module.system.controller.admin.dict.vo.data.DictDataPageReqVO;
+import com.focela.platform.module.system.controller.admin.dict.dto.data.DictDataPageRequest;
 import com.focela.platform.module.system.repository.entity.dict.DictDataEntity;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -32,7 +32,7 @@ public interface DictDataMapper extends BaseMapperX<DictDataEntity> {
         return selectCount(DictDataEntity::getDictType, dictType);
     }
 
-    default PageResult<DictDataEntity> selectPage(DictDataPageReqVO reqVO) {
+    default PageResult<DictDataEntity> selectPage(DictDataPageRequest reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<DictDataEntity>()
                 .likeIfPresent(DictDataEntity::getLabel, reqVO.getLabel())
                 .eqIfPresent(DictDataEntity::getDictType, reqVO.getDictType())

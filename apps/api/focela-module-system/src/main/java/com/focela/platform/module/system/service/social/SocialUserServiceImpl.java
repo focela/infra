@@ -6,7 +6,7 @@ import com.focela.platform.framework.common.exception.ServiceException;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.system.api.social.dto.SocialUserBindReqDTO;
 import com.focela.platform.module.system.api.social.dto.SocialUserRespDTO;
-import com.focela.platform.module.system.controller.admin.socail.vo.user.SocialUserPageReqVO;
+import com.focela.platform.module.system.controller.admin.socail.dto.user.SocialUserPageRequest;
 import com.focela.platform.module.system.repository.entity.social.SocialUserBindEntity;
 import com.focela.platform.module.system.repository.entity.social.SocialUserEntity;
 import com.focela.platform.module.system.repository.mapper.social.SocialUserBindMapper;
@@ -167,8 +167,8 @@ public class SocialUserServiceImpl implements SocialUserService {
     }
 
     @Override
-    public PageResult<SocialUserEntity> getSocialUserPage(SocialUserPageReqVO pageReqVO) {
-        return socialUserMapper.selectPage(pageReqVO);
+    public PageResult<SocialUserEntity> getSocialUserPage(SocialUserPageRequest pageRequest) {
+        return socialUserMapper.selectPage(pageRequest);
     }
 
 }

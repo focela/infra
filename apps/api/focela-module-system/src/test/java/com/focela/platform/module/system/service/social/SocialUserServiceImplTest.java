@@ -5,7 +5,7 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.module.system.api.social.dto.SocialUserBindReqDTO;
 import com.focela.platform.module.system.api.social.dto.SocialUserRespDTO;
-import com.focela.platform.module.system.controller.admin.socail.vo.user.SocialUserPageReqVO;
+import com.focela.platform.module.system.controller.admin.socail.dto.user.SocialUserPageRequest;
 import com.focela.platform.module.system.repository.entity.social.SocialUserBindEntity;
 import com.focela.platform.module.system.repository.entity.social.SocialUserEntity;
 import com.focela.platform.module.system.repository.mapper.social.SocialUserBindMapper;
@@ -271,7 +271,7 @@ public class SocialUserServiceImplTest extends BaseDbUnitTest {
         // 测试 createTime 不匹配
         socialUserMapper.insert(cloneIgnoreId(dbSocialUser, o -> o.setCreateTime(buildTime(2020, 1, 21))));
         // 准备参数
-        SocialUserPageReqVO reqVO = new SocialUserPageReqVO();
+        SocialUserPageRequest reqVO = new SocialUserPageRequest();
         reqVO.setType(SocialTypeEnum.GITEE.getType());
         reqVO.setNickname("芋");
         reqVO.setOpenid("yudao");

@@ -2,8 +2,8 @@ package com.focela.platform.module.system.service.mail;
 
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
-import com.focela.platform.module.system.controller.admin.mail.vo.account.MailAccountPageReqVO;
-import com.focela.platform.module.system.controller.admin.mail.vo.account.MailAccountSaveReqVO;
+import com.focela.platform.module.system.controller.admin.mail.dto.account.MailAccountPageRequest;
+import com.focela.platform.module.system.controller.admin.mail.dto.account.MailAccountSaveRequest;
 import com.focela.platform.module.system.repository.entity.mail.MailAccountEntity;
 import com.focela.platform.module.system.repository.mapper.mail.MailAccountMapper;
 import jakarta.annotation.Resource;
@@ -42,7 +42,7 @@ public class MailAccountServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateMailAccount_success() {
         // 准备参数
-        MailAccountSaveReqVO reqVO = randomPojo(MailAccountSaveReqVO.class, o -> o.setMail(randomEmail()))
+        MailAccountSaveRequest reqVO = randomPojo(MailAccountSaveRequest.class, o -> o.setMail(randomEmail()))
                 .setId(null); // 防止 id 被赋值
 
         // 调用
@@ -60,7 +60,7 @@ public class MailAccountServiceImplTest extends BaseDbUnitTest {
         MailAccountEntity dbMailAccount = randomPojo(MailAccountEntity.class);
         mailAccountMapper.insert(dbMailAccount);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        MailAccountSaveReqVO reqVO = randomPojo(MailAccountSaveReqVO.class, o -> {
+        MailAccountSaveRequest reqVO = randomPojo(MailAccountSaveRequest.class, o -> {
             o.setId(dbMailAccount.getId()); // 设置更新的 ID
             o.setMail(randomEmail());
         });
@@ -75,7 +75,7 @@ public class MailAccountServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateMailAccount_notExists() {
         // 准备参数
-        MailAccountSaveReqVO reqVO = randomPojo(MailAccountSaveReqVO.class);
+        MailAccountSaveRequest reqVO = randomPojo(MailAccountSaveRequest.class);
 
         // 调用, 并断言异常
         assertServiceException(() -> mailAccountService.updateMailAccount(reqVO), MAIL_ACCOUNT_NOT_EXISTS);
@@ -133,7 +133,7 @@ public class MailAccountServiceImplTest extends BaseDbUnitTest {
         // 测试 username 不匹配
         mailAccountMapper.insert(cloneIgnoreId(dbMailAccount, o -> o.setUsername("tudou")));
         // 准备参数
-        MailAccountPageReqVO reqVO = new MailAccountPageReqVO();
+        MailAccountPageRequest reqVO = new MailAccountPageRequest();
         reqVO.setMail("768");
         reqVO.setUsername("yu");
 

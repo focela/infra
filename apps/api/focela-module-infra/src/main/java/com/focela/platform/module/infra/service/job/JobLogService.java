@@ -2,7 +2,7 @@ package com.focela.platform.module.infra.service.job;
 
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.quartz.core.service.JobLogFrameworkService;
-import com.focela.platform.module.infra.controller.admin.job.vo.log.JobLogPageReqVO;
+import com.focela.platform.module.infra.controller.admin.job.dto.log.JobLogPageRequest;
 import com.focela.platform.module.infra.repository.entity.job.JobLogEntity;
 
 /**
@@ -23,10 +23,10 @@ public interface JobLogService extends JobLogFrameworkService {
     /**
      * 获得定时任务分页
      *
-     * @param pageReqVO 分页查询
+     * @param pageRequest 分页查询
      * @return 定时任务分页
      */
-    PageResult<JobLogEntity> getJobLogPage(JobLogPageReqVO pageReqVO);
+    PageResult<JobLogEntity> getJobLogPage(JobLogPageRequest pageRequest);
 
     /**
      * 清理 exceedDay 天前的任务日志

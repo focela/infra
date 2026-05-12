@@ -9,12 +9,12 @@ import com.focela.platform.framework.common.util.collection.CollectionUtils;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.module.infra.api.config.ConfigApi;
 import com.focela.platform.module.infra.api.file.FileApi;
-import com.focela.platform.module.system.controller.admin.user.vo.profile.UserProfileUpdatePasswordReqVO;
-import com.focela.platform.module.system.controller.admin.user.vo.profile.UserProfileUpdateReqVO;
-import com.focela.platform.module.system.controller.admin.user.vo.user.UserImportExcelVO;
-import com.focela.platform.module.system.controller.admin.user.vo.user.UserImportRespVO;
-import com.focela.platform.module.system.controller.admin.user.vo.user.UserPageReqVO;
-import com.focela.platform.module.system.controller.admin.user.vo.user.UserSaveReqVO;
+import com.focela.platform.module.system.controller.admin.user.dto.profile.UserProfileUpdatePasswordRequest;
+import com.focela.platform.module.system.controller.admin.user.dto.profile.UserProfileUpdateRequest;
+import com.focela.platform.module.system.controller.admin.user.dto.user.UserImportExcelDto;
+import com.focela.platform.module.system.controller.admin.user.dto.user.UserImportResponse;
+import com.focela.platform.module.system.controller.admin.user.dto.user.UserPageRequest;
+import com.focela.platform.module.system.controller.admin.user.dto.user.UserSaveRequest;
 import com.focela.platform.module.system.repository.entity.dept.DeptEntity;
 import com.focela.platform.module.system.repository.entity.dept.PostEntity;
 import com.focela.platform.module.system.repository.entity.dept.UserPostEntity;
@@ -95,7 +95,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreatUser_success() {
         // 准备参数
-        UserSaveReqVO reqVO = randomPojo(UserSaveReqVO.class, o -> {
+        UserSaveRequest reqVO = randomPojo(UserSaveRequest.class, o -> {
             o.setSex(RandomUtil.randomEle(SexEnum.values()).getSex());
             o.setMobile(randomString());
             o.setPostIds(asSet(1L, 2L));
@@ -138,7 +138,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreatUser_max() {
         // 准备参数
-        UserSaveReqVO reqVO = randomPojo(UserSaveReqVO.class);
+        UserSaveRequest reqVO = randomPojo(UserSaveRequest.class);
         // mock 账户额度不足
         TenantEntity tenant = randomPojo(TenantEntity.class, o -> o.setAccountCount(-1));
         doNothing().when(tenantService).handleTenantInfo(argThat(handler -> {
@@ -158,7 +158,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         userPostMapper.insert(new UserPostEntity().setUserId(dbUser.getId()).setPostId(1L));
         userPostMapper.insert(new UserPostEntity().setUserId(dbUser.getId()).setPostId(2L));
         // 准备参数
-        UserSaveReqVO reqVO = randomPojo(UserSaveReqVO.class, o -> {
+        UserSaveRequest reqVO = randomPojo(UserSaveRequest.class, o -> {
             o.setId(dbUser.getId());
             o.setSex(RandomUtil.randomEle(SexEnum.values()).getSex());
             o.setMobile(randomString());
@@ -213,7 +213,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         userMapper.insert(dbUser);
         // 准备参数
         Long userId = dbUser.getId();
-        UserProfileUpdateReqVO reqVO = randomPojo(UserProfileUpdateReqVO.class, o -> {
+        UserProfileUpdateRequest reqVO = randomPojo(UserProfileUpdateRequest.class, o -> {
             o.setMobile(randomString());
             o.setSex(RandomUtil.randomEle(SexEnum.values()).getSex());
             o.setAvatar(randomURL());
@@ -233,7 +233,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         userMapper.insert(dbUser);
         // 准备参数
         Long userId = dbUser.getId();
-        UserProfileUpdatePasswordReqVO reqVO = randomPojo(UserProfileUpdatePasswordReqVO.class, o -> {
+        UserProfileUpdatePasswordRequest reqVO = randomPojo(UserProfileUpdatePasswordRequest.class, o -> {
             o.setOldPassword("tudou");
             o.setNewPassword("yuanma");
         });
@@ -333,7 +333,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         // mock 数据
         AdminUserEntity dbUser = initGetUserPageData();
         // 准备参数
-        UserPageReqVO reqVO = new UserPageReqVO();
+        UserPageRequest reqVO = new UserPageRequest();
         reqVO.setUsername("tu");
         reqVO.setMobile("1560");
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
@@ -414,7 +414,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testImportUserList_01() {
         // 准备参数
-        UserImportExcelVO importUser = randomPojo(UserImportExcelVO.class, o -> {
+        UserImportExcelDto importUser = randomPojo(UserImportExcelDto.class, o -> {
             o.setEmail(randomEmail());
             o.setMobile(randomMobile());
         });
@@ -422,7 +422,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         doThrow(new ServiceException(DEPT_NOT_FOUND)).when(deptService).validateDeptList(any());
 
         // 调用
-        UserImportRespVO respVO = userService.importUserList(newArrayList(importUser), true);
+        UserImportResponse respVO = userService.importUserList(newArrayList(importUser), true);
         // 断言
         assertEquals(0, respVO.getCreateUsernames().size());
         assertEquals(0, respVO.getUpdateUsernames().size());
@@ -436,7 +436,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testImportUserList_02() {
         // 准备参数
-        UserImportExcelVO importUser = randomPojo(UserImportExcelVO.class, o -> {
+        UserImportExcelDto importUser = randomPojo(UserImportExcelDto.class, o -> {
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // 保证 status 的范围
             o.setSex(randomEle(SexEnum.values()).getSex()); // 保证 sex 的范围
             o.setEmail(randomEmail());
@@ -452,7 +452,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         when(passwordEncoder.encode(eq("yudaoyuanma"))).thenReturn("java");
 
         // 调用
-        UserImportRespVO respVO = userService.importUserList(newArrayList(importUser), true);
+        UserImportResponse respVO = userService.importUserList(newArrayList(importUser), true);
         // 断言
         assertEquals(1, respVO.getCreateUsernames().size());
         AdminUserEntity user = userMapper.selectByUsername(respVO.getCreateUsernames().get(0));
@@ -471,7 +471,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         AdminUserEntity dbUser = randomAdminUserDO();
         userMapper.insert(dbUser);
         // 准备参数
-        UserImportExcelVO importUser = randomPojo(UserImportExcelVO.class, o -> {
+        UserImportExcelDto importUser = randomPojo(UserImportExcelDto.class, o -> {
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // 保证 status 的范围
             o.setSex(randomEle(SexEnum.values()).getSex()); // 保证 sex 的范围
             o.setUsername(dbUser.getUsername());
@@ -486,7 +486,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         when(deptService.getDept(eq(dept.getId()))).thenReturn(dept);
 
         // 调用
-        UserImportRespVO respVO = userService.importUserList(newArrayList(importUser), false);
+        UserImportResponse respVO = userService.importUserList(newArrayList(importUser), false);
         // 断言
         assertEquals(0, respVO.getCreateUsernames().size());
         assertEquals(0, respVO.getUpdateUsernames().size());
@@ -503,7 +503,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         AdminUserEntity dbUser = randomAdminUserDO();
         userMapper.insert(dbUser);
         // 准备参数
-        UserImportExcelVO importUser = randomPojo(UserImportExcelVO.class, o -> {
+        UserImportExcelDto importUser = randomPojo(UserImportExcelDto.class, o -> {
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // 保证 status 的范围
             o.setSex(randomEle(SexEnum.values()).getSex()); // 保证 sex 的范围
             o.setUsername(dbUser.getUsername());
@@ -518,7 +518,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         when(deptService.getDept(eq(dept.getId()))).thenReturn(dept);
 
         // 调用
-        UserImportRespVO respVO = userService.importUserList(newArrayList(importUser), true);
+        UserImportResponse respVO = userService.importUserList(newArrayList(importUser), true);
         // 断言
         assertEquals(0, respVO.getCreateUsernames().size());
         assertEquals(1, respVO.getUpdateUsernames().size());

@@ -5,7 +5,7 @@ import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.common.exception.enums.GlobalErrorCodeConstants;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
-import com.focela.platform.module.infra.controller.admin.logger.vo.apiaccesslog.ApiAccessLogPageReqVO;
+import com.focela.platform.module.infra.controller.admin.logger.dto.apiaccesslog.ApiAccessLogPageRequest;
 import com.focela.platform.module.infra.repository.entity.logger.ApiAccessLogEntity;
 import com.focela.platform.module.infra.repository.mapper.logger.ApiAccessLogMapper;
 import jakarta.annotation.Resource;
@@ -57,7 +57,7 @@ public class ApiAccessLogServiceImplTest extends BaseDbUnitTest {
         // 测试 resultCode 不匹配
         apiAccessLogMapper.insert(cloneIgnoreId(apiAccessLogDO, o -> o.setResultCode(2)));
         // 准备参数
-        ApiAccessLogPageReqVO reqVO = new ApiAccessLogPageReqVO();
+        ApiAccessLogPageRequest reqVO = new ApiAccessLogPageRequest();
         reqVO.setUserId(2233L);
         reqVO.setUserType(UserTypeEnum.ADMIN.getValue());
         reqVO.setApplicationName("yudao-test");

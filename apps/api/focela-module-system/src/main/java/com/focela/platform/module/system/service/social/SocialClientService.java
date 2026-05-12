@@ -6,8 +6,8 @@ import com.focela.platform.module.system.api.social.dto.SocialWxQrcodeReqDTO;
 import com.focela.platform.module.system.api.social.dto.SocialWxaOrderNotifyConfirmReceiveReqDTO;
 import com.focela.platform.module.system.api.social.dto.SocialWxaOrderUploadShippingInfoReqDTO;
 import com.focela.platform.module.system.api.social.dto.SocialWxaSubscribeMessageSendReqDTO;
-import com.focela.platform.module.system.controller.admin.socail.vo.client.SocialClientPageReqVO;
-import com.focela.platform.module.system.controller.admin.socail.vo.client.SocialClientSaveReqVO;
+import com.focela.platform.module.system.controller.admin.socail.dto.client.SocialClientPageRequest;
+import com.focela.platform.module.system.controller.admin.socail.dto.client.SocialClientSaveRequest;
 import com.focela.platform.module.system.repository.entity.social.SocialClientEntity;
 import com.focela.platform.module.system.enums.social.SocialTypeEnum;
 import jakarta.validation.Valid;
@@ -115,17 +115,17 @@ public interface SocialClientService {
     /**
      * 创建社交客户端
      *
-     * @param createReqVO 创建信息
+     * @param createRequest 创建信息
      * @return 编号
      */
-    Long createSocialClient(@Valid SocialClientSaveReqVO createReqVO);
+    Long createSocialClient(@Valid SocialClientSaveRequest createRequest);
 
     /**
      * 更新社交客户端
      *
-     * @param updateReqVO 更新信息
+     * @param updateRequest 更新信息
      */
-    void updateSocialClient(@Valid SocialClientSaveReqVO updateReqVO);
+    void updateSocialClient(@Valid SocialClientSaveRequest updateRequest);
 
     /**
      * 删除社交客户端
@@ -152,9 +152,9 @@ public interface SocialClientService {
     /**
      * 获得社交客户端分页
      *
-     * @param pageReqVO 分页查询
+     * @param pageRequest 分页查询
      * @return 社交客户端分页
      */
-    PageResult<SocialClientEntity> getSocialClientPage(SocialClientPageReqVO pageReqVO);
+    PageResult<SocialClientEntity> getSocialClientPage(SocialClientPageRequest pageRequest);
 
 }

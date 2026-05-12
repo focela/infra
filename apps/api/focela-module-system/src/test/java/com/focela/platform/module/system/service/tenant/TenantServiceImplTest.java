@@ -5,8 +5,8 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.tenant.config.TenantProperties;
 import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
-import com.focela.platform.module.system.controller.admin.tenant.vo.tenant.TenantPageReqVO;
-import com.focela.platform.module.system.controller.admin.tenant.vo.tenant.TenantSaveReqVO;
+import com.focela.platform.module.system.controller.admin.tenant.dto.tenant.TenantPageRequest;
+import com.focela.platform.module.system.controller.admin.tenant.dto.tenant.TenantSaveRequest;
 import com.focela.platform.module.system.repository.entity.permission.MenuEntity;
 import com.focela.platform.module.system.repository.entity.permission.RoleEntity;
 import com.focela.platform.module.system.repository.entity.tenant.TenantEntity;
@@ -152,7 +152,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
         }))).thenReturn(300L);
 
         // 准备参数
-        TenantSaveReqVO reqVO = randomPojo(TenantSaveReqVO.class, o -> {
+        TenantSaveRequest reqVO = randomPojo(TenantSaveRequest.class, o -> {
             o.setContactName("芋道");
             o.setContactMobile("15601691300");
             o.setPackageId(100L);
@@ -182,7 +182,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
         TenantEntity dbTenant = randomPojo(TenantEntity.class, o -> o.setStatus(randomCommonStatus()));
         tenantMapper.insert(dbTenant);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        TenantSaveReqVO reqVO = randomPojo(TenantSaveReqVO.class, o -> {
+        TenantSaveRequest reqVO = randomPojo(TenantSaveRequest.class, o -> {
             o.setId(dbTenant.getId()); // 设置更新的 ID
             o.setStatus(randomCommonStatus());
             o.setWebsites(singletonList(randomString()));
@@ -214,7 +214,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateTenant_notExists() {
         // 准备参数
-        TenantSaveReqVO reqVO = randomPojo(TenantSaveReqVO.class);
+        TenantSaveRequest reqVO = randomPojo(TenantSaveRequest.class);
 
         // 调用, 并断言异常
         assertServiceException(() -> tenantService.updateTenant(reqVO), TENANT_NOT_EXISTS);
@@ -226,7 +226,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
         TenantEntity dbTenant = randomPojo(TenantEntity.class, o -> o.setPackageId(PACKAGE_ID_SYSTEM));
         tenantMapper.insert(dbTenant);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        TenantSaveReqVO reqVO = randomPojo(TenantSaveReqVO.class, o -> {
+        TenantSaveRequest reqVO = randomPojo(TenantSaveRequest.class, o -> {
             o.setId(dbTenant.getId()); // 设置更新的 ID
         });
 
@@ -306,7 +306,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
         // 测试 createTime 不匹配
         tenantMapper.insert(cloneIgnoreId(dbTenant, o -> o.setCreateTime(buildTime(2021, 12, 12))));
         // 准备参数
-        TenantPageReqVO reqVO = new TenantPageReqVO();
+        TenantPageRequest reqVO = new TenantPageRequest();
         reqVO.setName("芋道");
         reqVO.setContactName("艿");
         reqVO.setContactMobile("1560");

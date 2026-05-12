@@ -4,8 +4,8 @@ import cn.hutool.core.collection.CollUtil;
 import com.focela.platform.framework.common.pojo.PageParam;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.infra.controller.admin.demo.demo03.erp.vo.Demo03StudentErpPageReqVO;
-import com.focela.platform.module.infra.controller.admin.demo.demo03.erp.vo.Demo03StudentErpSaveReqVO;
+import com.focela.platform.module.infra.controller.admin.demo.demo03.erp.dto.Demo03StudentErpPageRequest;
+import com.focela.platform.module.infra.controller.admin.demo.demo03.erp.dto.Demo03StudentErpSaveRequest;
 import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03CourseEntity;
 import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03GradeEntity;
 import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03StudentEntity;
@@ -39,20 +39,20 @@ public class Demo03StudentErpServiceImpl implements Demo03StudentErpService {
     private Demo03GradeErpMapper demo03GradeErpMapper;
 
     @Override
-    public Long createDemo03Student(Demo03StudentErpSaveReqVO createReqVO) {
+    public Long createDemo03Student(Demo03StudentErpSaveRequest createRequest) {
         // 插入
-        Demo03StudentEntity demo03Student = BeanUtils.toBean(createReqVO, Demo03StudentEntity.class);
+        Demo03StudentEntity demo03Student = BeanUtils.toBean(createRequest, Demo03StudentEntity.class);
         demo03StudentErpMapper.insert(demo03Student);
         // 返回
         return demo03Student.getId();
     }
 
     @Override
-    public void updateDemo03Student(Demo03StudentErpSaveReqVO updateReqVO) {
+    public void updateDemo03Student(Demo03StudentErpSaveRequest updateRequest) {
         // 校验存在
-        validateDemo03StudentExists(updateReqVO.getId());
+        validateDemo03StudentExists(updateRequest.getId());
         // 更新
-        Demo03StudentEntity updateObj = BeanUtils.toBean(updateReqVO, Demo03StudentEntity.class);
+        Demo03StudentEntity updateObj = BeanUtils.toBean(updateRequest, Demo03StudentEntity.class);
         demo03StudentErpMapper.updateById(updateObj);
     }
 
@@ -101,15 +101,15 @@ public class Demo03StudentErpServiceImpl implements Demo03StudentErpService {
     }
 
     @Override
-    public PageResult<Demo03StudentEntity> getDemo03StudentPage(Demo03StudentErpPageReqVO pageReqVO) {
-        return demo03StudentErpMapper.selectPage(pageReqVO);
+    public PageResult<Demo03StudentEntity> getDemo03StudentPage(Demo03StudentErpPageRequest pageRequest) {
+        return demo03StudentErpMapper.selectPage(pageRequest);
     }
 
     // ==================== 子表（学生课程） ====================
 
     @Override
-    public PageResult<Demo03CourseEntity> getDemo03CoursePage(PageParam pageReqVO, Long studentId) {
-        return demo03CourseErpMapper.selectPage(pageReqVO, studentId);
+    public PageResult<Demo03CourseEntity> getDemo03CoursePage(PageParam pageRequest, Long studentId) {
+        return demo03CourseErpMapper.selectPage(pageRequest, studentId);
     }
 
     @Override
@@ -161,8 +161,8 @@ public class Demo03StudentErpServiceImpl implements Demo03StudentErpService {
     // ==================== 子表（学生班级） ====================
 
     @Override
-    public PageResult<Demo03GradeEntity> getDemo03GradePage(PageParam pageReqVO, Long studentId) {
-        return demo03GradeErpMapper.selectPage(pageReqVO, studentId);
+    public PageResult<Demo03GradeEntity> getDemo03GradePage(PageParam pageRequest, Long studentId) {
+        return demo03GradeErpMapper.selectPage(pageRequest, studentId);
     }
 
     @Override

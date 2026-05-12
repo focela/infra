@@ -1,8 +1,8 @@
 package com.focela.platform.module.system.service.dept;
 
 import com.focela.platform.framework.common.util.collection.CollectionUtils;
-import com.focela.platform.module.system.controller.admin.dept.vo.dept.DeptListReqVO;
-import com.focela.platform.module.system.controller.admin.dept.vo.dept.DeptSaveReqVO;
+import com.focela.platform.module.system.controller.admin.dept.dto.dept.DeptListRequest;
+import com.focela.platform.module.system.controller.admin.dept.dto.dept.DeptSaveRequest;
 import com.focela.platform.module.system.repository.entity.dept.DeptEntity;
 
 import java.util.*;
@@ -17,17 +17,17 @@ public interface DeptService {
     /**
      * 创建部门
      *
-     * @param createReqVO 部门信息
+     * @param createRequest 部门信息
      * @return 部门编号
      */
-    Long createDept(DeptSaveReqVO createReqVO);
+    Long createDept(DeptSaveRequest createRequest);
 
     /**
      * 更新部门
      *
-     * @param updateReqVO 部门信息
+     * @param updateRequest 部门信息
      */
-    void updateDept(DeptSaveReqVO updateReqVO);
+    void updateDept(DeptSaveRequest updateRequest);
 
     /**
      * 删除部门
@@ -65,7 +65,7 @@ public interface DeptService {
      * @param reqVO 筛选条件请求 VO
      * @return 部门列表
      */
-    List<DeptEntity> getDeptList(DeptListReqVO reqVO);
+    List<DeptEntity> getDeptList(DeptListRequest reqVO);
 
     /**
      * 获得指定编号的部门 Map

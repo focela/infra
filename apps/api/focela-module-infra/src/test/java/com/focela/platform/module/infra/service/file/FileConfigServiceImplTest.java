@@ -5,8 +5,8 @@ import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.map.MapUtil;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
-import com.focela.platform.module.infra.controller.admin.file.vo.config.FileConfigPageReqVO;
-import com.focela.platform.module.infra.controller.admin.file.vo.config.FileConfigSaveReqVO;
+import com.focela.platform.module.infra.controller.admin.file.dto.config.FileConfigPageRequest;
+import com.focela.platform.module.infra.controller.admin.file.dto.config.FileConfigSaveRequest;
 import com.focela.platform.module.infra.repository.entity.file.FileConfigEntity;
 import com.focela.platform.module.infra.repository.mapper.file.FileConfigMapper;
 import com.focela.platform.module.infra.framework.file.core.client.FileClient;
@@ -63,7 +63,7 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         Map<String, Object> config = MapUtil.<String, Object>builder().put("basePath", "/yunai")
                 .put("domain", "https://www.iocoder.cn").build();
-        FileConfigSaveReqVO reqVO = randomPojo(FileConfigSaveReqVO.class,
+        FileConfigSaveRequest reqVO = randomPojo(FileConfigSaveRequest.class,
                 o -> o.setStorage(FileStorageEnum.LOCAL.getStorage()).setConfig(config))
                 .setId(null); // 避免 id 被赋值
 
@@ -88,7 +88,7 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
                 .setConfig(new LocalFileClientConfig().setBasePath("/yunai").setDomain("https://www.iocoder.cn")));
         fileConfigMapper.insert(dbFileConfig);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        FileConfigSaveReqVO reqVO = randomPojo(FileConfigSaveReqVO.class, o -> {
+        FileConfigSaveRequest reqVO = randomPojo(FileConfigSaveRequest.class, o -> {
             o.setId(dbFileConfig.getId()); // 设置更新的 ID
             o.setStorage(FileStorageEnum.LOCAL.getStorage());
             Map<String, Object> config = MapUtil.<String, Object>builder().put("basePath", "/yunai2")
@@ -110,7 +110,7 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateFileConfig_notExists() {
         // 准备参数
-        FileConfigSaveReqVO reqVO = randomPojo(FileConfigSaveReqVO.class);
+        FileConfigSaveRequest reqVO = randomPojo(FileConfigSaveRequest.class);
 
         // 调用, 并断言异常
         assertServiceException(() -> fileConfigService.updateFileConfig(reqVO), FILE_CONFIG_NOT_EXISTS);
@@ -190,7 +190,7 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
         // 测试 createTime 不匹配
         fileConfigMapper.insert(cloneIgnoreId(dbFileConfig, o -> o.setCreateTime(LocalDateTimeUtil.parse("2020-11-23", DatePattern.NORM_DATE_PATTERN))));
         // 准备参数
-        FileConfigPageReqVO reqVO = new FileConfigPageReqVO();
+        FileConfigPageRequest reqVO = new FileConfigPageRequest();
         reqVO.setName("芋道");
         reqVO.setStorage(FileStorageEnum.LOCAL.getStorage());
         reqVO.setCreateTime((new LocalDateTime[]{buildTime(2020, 1, 1),

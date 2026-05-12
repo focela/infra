@@ -3,8 +3,8 @@ package com.focela.platform.module.system.service.tenant;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
-import com.focela.platform.module.system.controller.admin.tenant.vo.packages.TenantPackagePageReqVO;
-import com.focela.platform.module.system.controller.admin.tenant.vo.packages.TenantPackageSaveReqVO;
+import com.focela.platform.module.system.controller.admin.tenant.dto.packages.TenantPackagePageRequest;
+import com.focela.platform.module.system.controller.admin.tenant.dto.packages.TenantPackageSaveRequest;
 import com.focela.platform.module.system.repository.entity.tenant.TenantEntity;
 import com.focela.platform.module.system.repository.entity.tenant.TenantPackageEntity;
 import com.focela.platform.module.system.repository.mapper.tenant.TenantPackageMapper;
@@ -48,7 +48,7 @@ public class TenantPackageServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateTenantPackage_success() {
         // 准备参数
-        TenantPackageSaveReqVO reqVO = randomPojo(TenantPackageSaveReqVO.class,
+        TenantPackageSaveRequest reqVO = randomPojo(TenantPackageSaveRequest.class,
                 o -> o.setStatus(randomCommonStatus()))
                 .setId(null); // 防止 id 被赋值
 
@@ -68,7 +68,7 @@ public class TenantPackageServiceImplTest extends BaseDbUnitTest {
                 o -> o.setStatus(randomCommonStatus()));
         tenantPackageMapper.insert(dbTenantPackage);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        TenantPackageSaveReqVO reqVO = randomPojo(TenantPackageSaveReqVO.class, o -> {
+        TenantPackageSaveRequest reqVO = randomPojo(TenantPackageSaveRequest.class, o -> {
             o.setId(dbTenantPackage.getId()); // 设置更新的 ID
             o.setStatus(randomCommonStatus());
         });
@@ -92,7 +92,7 @@ public class TenantPackageServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateTenantPackage_notExists() {
         // 准备参数
-        TenantPackageSaveReqVO reqVO = randomPojo(TenantPackageSaveReqVO.class);
+        TenantPackageSaveRequest reqVO = randomPojo(TenantPackageSaveRequest.class);
 
         // 调用, 并断言异常
         assertServiceException(() -> tenantPackageService.updateTenantPackage(reqVO), TENANT_PACKAGE_NOT_EXISTS);
@@ -156,7 +156,7 @@ public class TenantPackageServiceImplTest extends BaseDbUnitTest {
        // 测试 createTime 不匹配
        tenantPackageMapper.insert(cloneIgnoreId(dbTenantPackage, o -> o.setCreateTime(buildTime(2022, 11, 11))));
        // 准备参数
-       TenantPackagePageReqVO reqVO = new TenantPackagePageReqVO();
+       TenantPackagePageRequest reqVO = new TenantPackagePageRequest();
        reqVO.setName("芋道");
        reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
        reqVO.setRemark("源码");

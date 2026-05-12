@@ -3,8 +3,8 @@ package com.focela.platform.module.system.service.dept;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.util.object.ObjectUtils;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
-import com.focela.platform.module.system.controller.admin.dept.vo.dept.DeptListReqVO;
-import com.focela.platform.module.system.controller.admin.dept.vo.dept.DeptSaveReqVO;
+import com.focela.platform.module.system.controller.admin.dept.dto.dept.DeptListRequest;
+import com.focela.platform.module.system.controller.admin.dept.dto.dept.DeptSaveRequest;
 import com.focela.platform.module.system.repository.entity.dept.DeptEntity;
 import com.focela.platform.module.system.repository.mapper.dept.DeptMapper;
 import org.junit.jupiter.api.Test;
@@ -38,7 +38,7 @@ public class DeptServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateDept() {
         // 准备参数
-        DeptSaveReqVO reqVO = randomPojo(DeptSaveReqVO.class, o -> {
+        DeptSaveRequest reqVO = randomPojo(DeptSaveRequest.class, o -> {
             o.setId(null); // 防止 id 被设置
             o.setParentId(DeptEntity.PARENT_ID_ROOT);
             o.setStatus(randomCommonStatus());
@@ -59,7 +59,7 @@ public class DeptServiceImplTest extends BaseDbUnitTest {
         DeptEntity dbDeptDO = randomPojo(DeptEntity.class, o -> o.setStatus(randomCommonStatus()));
         deptMapper.insert(dbDeptDO);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        DeptSaveReqVO reqVO = randomPojo(DeptSaveReqVO.class, o -> {
+        DeptSaveRequest reqVO = randomPojo(DeptSaveRequest.class, o -> {
             // 设置更新的 ID
             o.setParentId(DeptEntity.PARENT_ID_ROOT);
             o.setId(dbDeptDO.getId());
@@ -231,7 +231,7 @@ public class DeptServiceImplTest extends BaseDbUnitTest {
         // 测试 status 不匹配
         deptMapper.insert(ObjectUtils.cloneIgnoreId(dept, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
         // 准备参数
-        DeptListReqVO reqVO = new DeptListReqVO();
+        DeptListRequest reqVO = new DeptListRequest();
         reqVO.setName("开");
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
 

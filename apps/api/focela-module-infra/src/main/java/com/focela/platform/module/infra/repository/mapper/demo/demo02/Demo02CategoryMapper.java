@@ -2,7 +2,7 @@ package com.focela.platform.module.infra.repository.mapper.demo.demo02;
 
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.module.infra.controller.admin.demo.demo02.vo.Demo02CategoryListReqVO;
+import com.focela.platform.module.infra.controller.admin.demo.demo02.dto.Demo02CategoryListRequest;
 import com.focela.platform.module.infra.repository.entity.demo.demo02.Demo02CategoryEntity;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -16,7 +16,7 @@ import java.util.List;
 @Mapper
 public interface Demo02CategoryMapper extends BaseMapperX<Demo02CategoryEntity> {
 
-    default List<Demo02CategoryEntity> selectList(Demo02CategoryListReqVO reqVO) {
+    default List<Demo02CategoryEntity> selectList(Demo02CategoryListRequest reqVO) {
         return selectList(new LambdaQueryWrapperX<Demo02CategoryEntity>()
                 .likeIfPresent(Demo02CategoryEntity::getName, reqVO.getName())
                 .eqIfPresent(Demo02CategoryEntity::getParentId, reqVO.getParentId())

@@ -6,7 +6,7 @@ import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.common.util.string.StrUtils;
 import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
 import com.focela.platform.framework.tenant.core.util.TenantUtils;
-import com.focela.platform.module.infra.controller.admin.logger.vo.apierrorlog.ApiErrorLogPageReqVO;
+import com.focela.platform.module.infra.controller.admin.logger.dto.apierrorlog.ApiErrorLogPageRequest;
 import com.focela.platform.module.infra.repository.entity.logger.ApiErrorLogEntity;
 import com.focela.platform.module.infra.repository.mapper.logger.ApiErrorLogMapper;
 import com.focela.platform.module.infra.enums.logger.ApiErrorLogProcessStatusEnum;
@@ -54,8 +54,8 @@ public class ApiErrorLogServiceImpl implements ApiErrorLogService {
     }
 
     @Override
-    public PageResult<ApiErrorLogEntity> getApiErrorLogPage(ApiErrorLogPageReqVO pageReqVO) {
-        return apiErrorLogMapper.selectPage(pageReqVO);
+    public PageResult<ApiErrorLogEntity> getApiErrorLogPage(ApiErrorLogPageRequest pageRequest) {
+        return apiErrorLogMapper.selectPage(pageRequest);
     }
 
     @Override

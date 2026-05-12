@@ -5,7 +5,7 @@ import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.collection.ArrayUtils;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
-import com.focela.platform.module.system.controller.admin.sms.vo.log.SmsLogPageReqVO;
+import com.focela.platform.module.system.controller.admin.sms.dto.log.SmsLogPageRequest;
 import com.focela.platform.module.system.repository.entity.sms.SmsLogEntity;
 import com.focela.platform.module.system.repository.entity.sms.SmsTemplateEntity;
 import com.focela.platform.module.system.repository.mapper.sms.SmsLogMapper;
@@ -67,7 +67,7 @@ public class SmsLogServiceImplTest extends BaseDbUnitTest {
         // 测试 receiveTime 不匹配
         smsLogMapper.insert(cloneIgnoreId(dbSmsLog, o -> o.setReceiveTime(buildTime(2021, 12, 12))));
         // 准备参数
-        SmsLogPageReqVO reqVO = new SmsLogPageReqVO();
+        SmsLogPageRequest reqVO = new SmsLogPageRequest();
         reqVO.setChannelId(1L);
         reqVO.setTemplateId(10L);
         reqVO.setMobile("156");

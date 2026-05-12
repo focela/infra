@@ -2,7 +2,7 @@ package com.focela.platform.module.infra.service.job;
 
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
-import com.focela.platform.module.infra.controller.admin.job.vo.log.JobLogPageReqVO;
+import com.focela.platform.module.infra.controller.admin.job.dto.log.JobLogPageRequest;
 import com.focela.platform.module.infra.repository.entity.job.JobLogEntity;
 import com.focela.platform.module.infra.repository.mapper.job.JobLogMapper;
 import com.focela.platform.module.infra.enums.job.JobLogStatusEnum;
@@ -154,7 +154,7 @@ public class JobLogServiceImplTest extends BaseDbUnitTest {
         // 测试 status 不匹配
         jobLogMapper.insert(cloneIgnoreId(dbJobLog, o -> o.setStatus(JobLogStatusEnum.FAILURE.getStatus())));
         // 准备参数
-        JobLogPageReqVO reqVo = new JobLogPageReqVO();
+        JobLogPageRequest reqVo = new JobLogPageRequest();
         reqVo.setJobId(dbJobLog.getJobId());
         reqVo.setHandlerName("单元");
         reqVo.setBeginTime(dbJobLog.getBeginTime());

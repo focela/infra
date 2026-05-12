@@ -6,9 +6,9 @@ import com.focela.platform.framework.common.pojo.PageParam;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.excel.core.util.ExcelUtils;
-import com.focela.platform.module.infra.controller.admin.demo.demo03.normal.vo.Demo03StudentNormalPageReqVO;
-import com.focela.platform.module.infra.controller.admin.demo.demo03.normal.vo.Demo03StudentNormalRespVO;
-import com.focela.platform.module.infra.controller.admin.demo.demo03.normal.vo.Demo03StudentNormalSaveReqVO;
+import com.focela.platform.module.infra.controller.admin.demo.demo03.normal.dto.Demo03StudentNormalPageRequest;
+import com.focela.platform.module.infra.controller.admin.demo.demo03.normal.dto.Demo03StudentNormalResponse;
+import com.focela.platform.module.infra.controller.admin.demo.demo03.normal.dto.Demo03StudentNormalSaveRequest;
 import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03CourseEntity;
 import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03GradeEntity;
 import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03StudentEntity;
@@ -41,15 +41,15 @@ public class Demo03StudentNormalController {
     @PostMapping("/create")
     @Operation(summary = "创建学生")
     @PreAuthorize("@ss.hasPermission('infra:demo03-student:create')")
-    public CommonResult<Long> createDemo03Student(@Valid @RequestBody Demo03StudentNormalSaveReqVO createReqVO) {
-        return success(demo03StudentNormalService.createDemo03Student(createReqVO));
+    public CommonResult<Long> createDemo03Student(@Valid @RequestBody Demo03StudentNormalSaveRequest createRequest) {
+        return success(demo03StudentNormalService.createDemo03Student(createRequest));
     }
 
     @PutMapping("/update")
     @Operation(summary = "更新学生")
     @PreAuthorize("@ss.hasPermission('infra:demo03-student:update')")
-    public CommonResult<Boolean> updateDemo03Student(@Valid @RequestBody Demo03StudentNormalSaveReqVO updateReqVO) {
-        demo03StudentNormalService.updateDemo03Student(updateReqVO);
+    public CommonResult<Boolean> updateDemo03Student(@Valid @RequestBody Demo03StudentNormalSaveRequest updateRequest) {
+        demo03StudentNormalService.updateDemo03Student(updateRequest);
         return success(true);
     }
 
@@ -75,30 +75,30 @@ public class Demo03StudentNormalController {
     @Operation(summary = "获得学生")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:demo03-student:query')")
-    public CommonResult<Demo03StudentNormalRespVO> getDemo03Student(@RequestParam("id") Long id) {
+    public CommonResult<Demo03StudentNormalResponse> getDemo03Student(@RequestParam("id") Long id) {
         Demo03StudentEntity demo03Student = demo03StudentNormalService.getDemo03Student(id);
-        return success(BeanUtils.toBean(demo03Student, Demo03StudentNormalRespVO.class));
+        return success(BeanUtils.toBean(demo03Student, Demo03StudentNormalResponse.class));
     }
 
     @GetMapping("/page")
     @Operation(summary = "获得学生分页")
     @PreAuthorize("@ss.hasPermission('infra:demo03-student:query')")
-    public CommonResult<PageResult<Demo03StudentNormalRespVO>> getDemo03StudentPage(@Valid Demo03StudentNormalPageReqVO pageReqVO) {
-        PageResult<Demo03StudentEntity> pageResult = demo03StudentNormalService.getDemo03StudentPage(pageReqVO);
-        return success(BeanUtils.toBean(pageResult, Demo03StudentNormalRespVO.class));
+    public CommonResult<PageResult<Demo03StudentNormalResponse>> getDemo03StudentPage(@Valid Demo03StudentNormalPageRequest pageRequest) {
+        PageResult<Demo03StudentEntity> pageResult = demo03StudentNormalService.getDemo03StudentPage(pageRequest);
+        return success(BeanUtils.toBean(pageResult, Demo03StudentNormalResponse.class));
     }
 
     @GetMapping("/export-excel")
     @Operation(summary = "导出学生 Excel")
     @PreAuthorize("@ss.hasPermission('infra:demo03-student:export')")
     @ApiAccessLog(operateType = EXPORT)
-    public void exportDemo03StudentExcel(@Valid Demo03StudentNormalPageReqVO pageReqVO,
+    public void exportDemo03StudentExcel(@Valid Demo03StudentNormalPageRequest pageRequest,
                                          HttpServletResponse response) throws IOException {
-        pageReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<Demo03StudentEntity> list = demo03StudentNormalService.getDemo03StudentPage(pageReqVO).getList();
+        pageRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
+        List<Demo03StudentEntity> list = demo03StudentNormalService.getDemo03StudentPage(pageRequest).getList();
         // 导出 Excel
-        ExcelUtils.write(response, "学生.xls", "数据", Demo03StudentNormalRespVO.class,
-                BeanUtils.toBean(list, Demo03StudentNormalRespVO.class));
+        ExcelUtils.write(response, "学生.xls", "数据", Demo03StudentNormalResponse.class,
+                BeanUtils.toBean(list, Demo03StudentNormalResponse.class));
     }
 
     // ==================== 子表（学生课程） ====================

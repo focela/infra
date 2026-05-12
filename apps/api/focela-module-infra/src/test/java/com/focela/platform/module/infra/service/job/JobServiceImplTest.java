@@ -4,8 +4,8 @@ import cn.hutool.extra.spring.SpringUtil;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.quartz.core.scheduler.SchedulerManager;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
-import com.focela.platform.module.infra.controller.admin.job.vo.job.JobPageReqVO;
-import com.focela.platform.module.infra.controller.admin.job.vo.job.JobSaveReqVO;
+import com.focela.platform.module.infra.controller.admin.job.dto.job.JobPageRequest;
+import com.focela.platform.module.infra.controller.admin.job.dto.job.JobSaveRequest;
 import com.focela.platform.module.infra.repository.entity.job.JobEntity;
 import com.focela.platform.module.infra.repository.mapper.job.JobMapper;
 import com.focela.platform.module.infra.enums.job.JobStatusEnum;
@@ -44,7 +44,7 @@ public class JobServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateJob_cronExpressionValid() {
         // 准备参数。Cron 表达式为 String 类型，默认随机字符串。
-        JobSaveReqVO reqVO = randomPojo(JobSaveReqVO.class);
+        JobSaveRequest reqVO = randomPojo(JobSaveRequest.class);
 
         // 调用，并断言异常
         assertServiceException(() -> jobService.createJob(reqVO), JOB_CRON_EXPRESSION_VALID);
@@ -53,7 +53,7 @@ public class JobServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateJob_jobHandlerExists() throws SchedulerException {
         // 准备参数 指定 Cron 表达式
-        JobSaveReqVO reqVO = randomPojo(JobSaveReqVO.class, o -> o.setCronExpression("0 0/1 * * * ? *"));
+        JobSaveRequest reqVO = randomPojo(JobSaveRequest.class, o -> o.setCronExpression("0 0/1 * * * ? *"));
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
             springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(reqVO.getHandlerName())))
                     .thenReturn(jobLogCleanJob);
@@ -68,7 +68,7 @@ public class JobServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateJob_success() throws SchedulerException {
         // 准备参数 指定 Cron 表达式
-        JobSaveReqVO reqVO = randomPojo(JobSaveReqVO.class, o -> o.setCronExpression("0 0/1 * * * ? *"))
+        JobSaveRequest reqVO = randomPojo(JobSaveRequest.class, o -> o.setCronExpression("0 0/1 * * * ? *"))
                 .setId(null);
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
             springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(reqVO.getHandlerName())))
@@ -91,7 +91,7 @@ public class JobServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateJob_jobNotExists(){
         // 准备参数
-        JobSaveReqVO reqVO = randomPojo(JobSaveReqVO.class, o -> o.setCronExpression("0 0/1 * * * ? *"));
+        JobSaveRequest reqVO = randomPojo(JobSaveRequest.class, o -> o.setCronExpression("0 0/1 * * * ? *"));
 
         // 调用，并断言异常
         assertServiceException(() -> jobService.updateJob(reqVO), JOB_NOT_EXISTS);
@@ -103,13 +103,13 @@ public class JobServiceImplTest extends BaseDbUnitTest {
         JobEntity job = randomPojo(JobEntity.class, o -> o.setStatus(JobStatusEnum.INIT.getStatus()));
         jobMapper.insert(job);
         // 准备参数
-        JobSaveReqVO updateReqVO = randomPojo(JobSaveReqVO.class, o -> {
+        JobSaveRequest updateRequest = randomPojo(JobSaveRequest.class, o -> {
             o.setId(job.getId());
             o.setCronExpression("0 0/1 * * * ? *");
         });
 
         // 调用，并断言异常
-        assertServiceException(() -> jobService.updateJob(updateReqVO),
+        assertServiceException(() -> jobService.updateJob(updateRequest),
                 JOB_UPDATE_ONLY_NORMAL_STATUS);
     }
 
@@ -119,22 +119,22 @@ public class JobServiceImplTest extends BaseDbUnitTest {
         JobEntity job = randomPojo(JobEntity.class, o -> o.setStatus(JobStatusEnum.NORMAL.getStatus()));
         jobMapper.insert(job);
         // 准备参数
-        JobSaveReqVO updateReqVO = randomPojo(JobSaveReqVO.class, o -> {
+        JobSaveRequest updateRequest = randomPojo(JobSaveRequest.class, o -> {
             o.setId(job.getId());
             o.setCronExpression("0 0/1 * * * ? *");
         });
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
-            springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(updateReqVO.getHandlerName())))
+            springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(updateRequest.getHandlerName())))
                     .thenReturn(jobLogCleanJob);
 
             // 调用
-            jobService.updateJob(updateReqVO);
+            jobService.updateJob(updateRequest);
             // 校验记录的属性是否正确
-            JobEntity updateJob = jobMapper.selectById(updateReqVO.getId());
-            assertPojoEquals(updateReqVO, updateJob);
+            JobEntity updateJob = jobMapper.selectById(updateRequest.getId());
+            assertPojoEquals(updateRequest, updateJob);
             // 校验调用
-            verify(schedulerManager).updateJob(eq(job.getHandlerName()), eq(updateReqVO.getHandlerParam()),
-                    eq(updateReqVO.getCronExpression()), eq(updateReqVO.getRetryCount()), eq(updateReqVO.getRetryInterval()));
+            verify(schedulerManager).updateJob(eq(job.getHandlerName()), eq(updateRequest.getHandlerParam()),
+                    eq(updateRequest.getCronExpression()), eq(updateRequest.getRetryCount()), eq(updateRequest.getRetryInterval()));
         }
     }
 
@@ -229,7 +229,7 @@ public class JobServiceImplTest extends BaseDbUnitTest {
         // 测试 handlerName 不匹配
         jobMapper.insert(cloneIgnoreId(dbJob, o -> o.setHandlerName(randomString())));
         // 准备参数
-        JobPageReqVO reqVo = new JobPageReqVO();
+        JobPageRequest reqVo = new JobPageRequest();
         reqVo.setName("定时");
         reqVo.setStatus(JobStatusEnum.INIT.getStatus());
         reqVo.setHandlerName("单元");

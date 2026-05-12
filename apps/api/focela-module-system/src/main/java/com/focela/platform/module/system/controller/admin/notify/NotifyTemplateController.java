@@ -4,10 +4,10 @@ import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.common.pojo.CommonResult;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.system.controller.admin.notify.vo.template.NotifyTemplatePageReqVO;
-import com.focela.platform.module.system.controller.admin.notify.vo.template.NotifyTemplateRespVO;
-import com.focela.platform.module.system.controller.admin.notify.vo.template.NotifyTemplateSaveReqVO;
-import com.focela.platform.module.system.controller.admin.notify.vo.template.NotifyTemplateSendReqVO;
+import com.focela.platform.module.system.controller.admin.notify.dto.template.NotifyTemplatePageRequest;
+import com.focela.platform.module.system.controller.admin.notify.dto.template.NotifyTemplateResponse;
+import com.focela.platform.module.system.controller.admin.notify.dto.template.NotifyTemplateSaveRequest;
+import com.focela.platform.module.system.controller.admin.notify.dto.template.NotifyTemplateSendRequest;
 import com.focela.platform.module.system.repository.entity.notify.NotifyTemplateEntity;
 import com.focela.platform.module.system.service.notify.NotifySendService;
 import com.focela.platform.module.system.service.notify.NotifyTemplateService;
@@ -39,15 +39,15 @@ public class NotifyTemplateController {
     @PostMapping("/create")
     @Operation(summary = "创建站内信模版")
     @PreAuthorize("@ss.hasPermission('system:notify-template:create')")
-    public CommonResult<Long> createNotifyTemplate(@Valid @RequestBody NotifyTemplateSaveReqVO createReqVO) {
-        return success(notifyTemplateService.createNotifyTemplate(createReqVO));
+    public CommonResult<Long> createNotifyTemplate(@Valid @RequestBody NotifyTemplateSaveRequest createRequest) {
+        return success(notifyTemplateService.createNotifyTemplate(createRequest));
     }
 
     @PutMapping("/update")
     @Operation(summary = "更新站内信模版")
     @PreAuthorize("@ss.hasPermission('system:notify-template:update')")
-    public CommonResult<Boolean> updateNotifyTemplate(@Valid @RequestBody NotifyTemplateSaveReqVO updateReqVO) {
-        notifyTemplateService.updateNotifyTemplate(updateReqVO);
+    public CommonResult<Boolean> updateNotifyTemplate(@Valid @RequestBody NotifyTemplateSaveRequest updateRequest) {
+        notifyTemplateService.updateNotifyTemplate(updateRequest);
         return success(true);
     }
 
@@ -73,29 +73,29 @@ public class NotifyTemplateController {
     @Operation(summary = "获得站内信模版")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:notify-template:query')")
-    public CommonResult<NotifyTemplateRespVO> getNotifyTemplate(@RequestParam("id") Long id) {
+    public CommonResult<NotifyTemplateResponse> getNotifyTemplate(@RequestParam("id") Long id) {
         NotifyTemplateEntity template = notifyTemplateService.getNotifyTemplate(id);
-        return success(BeanUtils.toBean(template, NotifyTemplateRespVO.class));
+        return success(BeanUtils.toBean(template, NotifyTemplateResponse.class));
     }
 
     @GetMapping("/page")
     @Operation(summary = "获得站内信模版分页")
     @PreAuthorize("@ss.hasPermission('system:notify-template:query')")
-    public CommonResult<PageResult<NotifyTemplateRespVO>> getNotifyTemplatePage(@Valid NotifyTemplatePageReqVO pageVO) {
+    public CommonResult<PageResult<NotifyTemplateResponse>> getNotifyTemplatePage(@Valid NotifyTemplatePageRequest pageVO) {
         PageResult<NotifyTemplateEntity> pageResult = notifyTemplateService.getNotifyTemplatePage(pageVO);
-        return success(BeanUtils.toBean(pageResult, NotifyTemplateRespVO.class));
+        return success(BeanUtils.toBean(pageResult, NotifyTemplateResponse.class));
     }
 
     @PostMapping("/send-notify")
     @Operation(summary = "发送站内信")
     @PreAuthorize("@ss.hasPermission('system:notify-template:send-notify')")
-    public CommonResult<Long> sendNotify(@Valid @RequestBody NotifyTemplateSendReqVO sendReqVO) {
-        if (UserTypeEnum.MEMBER.getValue().equals(sendReqVO.getUserType())) {
-            return success(notifySendService.sendSingleNotifyToMember(sendReqVO.getUserId(),
-                    sendReqVO.getTemplateCode(), sendReqVO.getTemplateParams()));
+    public CommonResult<Long> sendNotify(@Valid @RequestBody NotifyTemplateSendRequest sendRequest) {
+        if (UserTypeEnum.MEMBER.getValue().equals(sendRequest.getUserType())) {
+            return success(notifySendService.sendSingleNotifyToMember(sendRequest.getUserId(),
+                    sendRequest.getTemplateCode(), sendRequest.getTemplateParams()));
         } else {
-            return success(notifySendService.sendSingleNotifyToAdmin(sendReqVO.getUserId(),
-                    sendReqVO.getTemplateCode(), sendReqVO.getTemplateParams()));
+            return success(notifySendService.sendSingleNotifyToAdmin(sendRequest.getUserId(),
+                    sendRequest.getTemplateCode(), sendRequest.getTemplateParams()));
         }
     }
 }

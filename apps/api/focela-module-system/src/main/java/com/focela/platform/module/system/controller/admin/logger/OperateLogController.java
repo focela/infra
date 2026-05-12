@@ -7,8 +7,8 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.excel.core.util.ExcelUtils;
 import com.focela.platform.framework.translate.core.TranslateUtils;
-import com.focela.platform.module.system.controller.admin.logger.vo.operatelog.OperateLogPageReqVO;
-import com.focela.platform.module.system.controller.admin.logger.vo.operatelog.OperateLogRespVO;
+import com.focela.platform.module.system.controller.admin.logger.dto.operatelog.OperateLogPageRequest;
+import com.focela.platform.module.system.controller.admin.logger.dto.operatelog.OperateLogResponse;
 import com.focela.platform.module.system.repository.entity.logger.OperateLogEntity;
 import com.focela.platform.module.system.service.logger.OperateLogService;
 import com.fhs.core.trans.anno.TransMethodResult;
@@ -44,18 +44,18 @@ public class OperateLogController {
     @Operation(summary = "查看操作日志")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:operate-log:query')")
-    public CommonResult<OperateLogRespVO> getOperateLog(@RequestParam("id") Long id) {
+    public CommonResult<OperateLogResponse> getOperateLog(@RequestParam("id") Long id) {
         OperateLogEntity operateLog = operateLogService.getOperateLog(id);
-        return success(BeanUtils.toBean(operateLog, OperateLogRespVO.class));
+        return success(BeanUtils.toBean(operateLog, OperateLogResponse.class));
     }
 
     @GetMapping("/page")
     @Operation(summary = "查看操作日志分页列表")
     @PreAuthorize("@ss.hasPermission('system:operate-log:query')")
     @TransMethodResult
-    public CommonResult<PageResult<OperateLogRespVO>> pageOperateLog(@Valid OperateLogPageReqVO pageReqVO) {
-        PageResult<OperateLogEntity> pageResult = operateLogService.getOperateLogPage(pageReqVO);
-        return success(BeanUtils.toBean(pageResult, OperateLogRespVO.class));
+    public CommonResult<PageResult<OperateLogResponse>> pageOperateLog(@Valid OperateLogPageRequest pageRequest) {
+        PageResult<OperateLogEntity> pageResult = operateLogService.getOperateLogPage(pageRequest);
+        return success(BeanUtils.toBean(pageResult, OperateLogResponse.class));
     }
 
     @Operation(summary = "导出操作日志")
@@ -63,11 +63,11 @@ public class OperateLogController {
     @PreAuthorize("@ss.hasPermission('system:operate-log:export')")
     @TransMethodResult
     @ApiAccessLog(operateType = EXPORT)
-    public void exportOperateLog(HttpServletResponse response, @Valid OperateLogPageReqVO exportReqVO) throws IOException {
-        exportReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<OperateLogEntity> list = operateLogService.getOperateLogPage(exportReqVO).getList();
-        ExcelUtils.write(response, "操作日志.xls", "数据列表", OperateLogRespVO.class,
-                TranslateUtils.translate(BeanUtils.toBean(list, OperateLogRespVO.class)));
+    public void exportOperateLog(HttpServletResponse response, @Valid OperateLogPageRequest exportRequest) throws IOException {
+        exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
+        List<OperateLogEntity> list = operateLogService.getOperateLogPage(exportRequest).getList();
+        ExcelUtils.write(response, "操作日志.xls", "数据列表", OperateLogResponse.class,
+                TranslateUtils.translate(BeanUtils.toBean(list, OperateLogResponse.class)));
     }
 
 }

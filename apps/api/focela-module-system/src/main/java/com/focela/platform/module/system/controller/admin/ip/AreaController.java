@@ -6,7 +6,7 @@ import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.ip.core.Area;
 import com.focela.platform.framework.ip.core.utils.AreaUtils;
 import com.focela.platform.framework.ip.core.utils.IPUtils;
-import com.focela.platform.module.system.controller.admin.ip.vo.AreaNodeRespVO;
+import com.focela.platform.module.system.controller.admin.ip.dto.AreaNodeResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,10 +28,10 @@ public class AreaController {
 
     @GetMapping("/tree")
     @Operation(summary = "获得地区树")
-    public CommonResult<List<AreaNodeRespVO>> getAreaTree() {
+    public CommonResult<List<AreaNodeResponse>> getAreaTree() {
         Area area = AreaUtils.getArea(Area.ID_CHINA);
         Assert.notNull(area, "获取不到中国");
-        return success(BeanUtils.toBean(area.getChildren(), AreaNodeRespVO.class));
+        return success(BeanUtils.toBean(area.getChildren(), AreaNodeResponse.class));
     }
 
     @GetMapping("/get-by-ip")

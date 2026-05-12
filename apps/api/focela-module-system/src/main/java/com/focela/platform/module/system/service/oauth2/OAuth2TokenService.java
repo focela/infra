@@ -1,7 +1,7 @@
 package com.focela.platform.module.system.service.oauth2;
 
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.system.controller.admin.oauth2.vo.token.OAuth2AccessTokenPageReqVO;
+import com.focela.platform.module.system.controller.admin.oauth2.dto.token.OAuth2AccessTokenPageRequest;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2AccessTokenEntity;
 
 import java.util.List;
@@ -86,6 +86,6 @@ public interface OAuth2TokenService {
      * @param reqVO 请求
      * @return 访问令牌分页
      */
-    PageResult<OAuth2AccessTokenEntity> getAccessTokenPage(OAuth2AccessTokenPageReqVO reqVO);
+    PageResult<OAuth2AccessTokenEntity> getAccessTokenPage(OAuth2AccessTokenPageRequest reqVO);
 
 }

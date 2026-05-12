@@ -1,8 +1,8 @@
 package com.focela.platform.module.infra.service.demo.demo02;
 
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.infra.controller.admin.demo.demo02.vo.Demo02CategoryListReqVO;
-import com.focela.platform.module.infra.controller.admin.demo.demo02.vo.Demo02CategorySaveReqVO;
+import com.focela.platform.module.infra.controller.admin.demo.demo02.dto.Demo02CategoryListRequest;
+import com.focela.platform.module.infra.controller.admin.demo.demo02.dto.Demo02CategorySaveRequest;
 import com.focela.platform.module.infra.repository.entity.demo.demo02.Demo02CategoryEntity;
 import com.focela.platform.module.infra.repository.mapper.demo.demo02.Demo02CategoryMapper;
 import jakarta.annotation.Resource;
@@ -28,30 +28,30 @@ public class Demo02CategoryServiceImpl implements Demo02CategoryService {
     private Demo02CategoryMapper demo02CategoryMapper;
 
     @Override
-    public Long createDemo02Category(Demo02CategorySaveReqVO createReqVO) {
+    public Long createDemo02Category(Demo02CategorySaveRequest createRequest) {
         // 校验父级编号的有效性
-        validateParentDemo02Category(null, createReqVO.getParentId());
+        validateParentDemo02Category(null, createRequest.getParentId());
         // 校验名字的唯一性
-        validateDemo02CategoryNameUnique(null, createReqVO.getParentId(), createReqVO.getName());
+        validateDemo02CategoryNameUnique(null, createRequest.getParentId(), createRequest.getName());
 
         // 插入
-        Demo02CategoryEntity demo02Category = BeanUtils.toBean(createReqVO, Demo02CategoryEntity.class);
+        Demo02CategoryEntity demo02Category = BeanUtils.toBean(createRequest, Demo02CategoryEntity.class);
         demo02CategoryMapper.insert(demo02Category);
         // 返回
         return demo02Category.getId();
     }
 
     @Override
-    public void updateDemo02Category(Demo02CategorySaveReqVO updateReqVO) {
+    public void updateDemo02Category(Demo02CategorySaveRequest updateRequest) {
         // 校验存在
-        validateDemo02CategoryExists(updateReqVO.getId());
+        validateDemo02CategoryExists(updateRequest.getId());
         // 校验父级编号的有效性
-        validateParentDemo02Category(updateReqVO.getId(), updateReqVO.getParentId());
+        validateParentDemo02Category(updateRequest.getId(), updateRequest.getParentId());
         // 校验名字的唯一性
-        validateDemo02CategoryNameUnique(updateReqVO.getId(), updateReqVO.getParentId(), updateReqVO.getName());
+        validateDemo02CategoryNameUnique(updateRequest.getId(), updateRequest.getParentId(), updateRequest.getName());
 
         // 更新
-        Demo02CategoryEntity updateObj = BeanUtils.toBean(updateReqVO, Demo02CategoryEntity.class);
+        Demo02CategoryEntity updateObj = BeanUtils.toBean(updateRequest, Demo02CategoryEntity.class);
         demo02CategoryMapper.updateById(updateObj);
     }
 
@@ -127,8 +127,8 @@ public class Demo02CategoryServiceImpl implements Demo02CategoryService {
     }
 
     @Override
-    public List<Demo02CategoryEntity> getDemo02CategoryList(Demo02CategoryListReqVO listReqVO) {
-        return demo02CategoryMapper.selectList(listReqVO);
+    public List<Demo02CategoryEntity> getDemo02CategoryList(Demo02CategoryListRequest listRequest) {
+        return demo02CategoryMapper.selectList(listRequest);
     }
 
 }

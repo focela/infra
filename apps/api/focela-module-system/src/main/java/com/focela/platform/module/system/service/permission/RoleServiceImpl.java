@@ -9,8 +9,8 @@ import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.collection.CollectionUtils;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.system.controller.admin.permission.vo.role.RolePageReqVO;
-import com.focela.platform.module.system.controller.admin.permission.vo.role.RoleSaveReqVO;
+import com.focela.platform.module.system.controller.admin.permission.dto.role.RolePageRequest;
+import com.focela.platform.module.system.controller.admin.permission.dto.role.RoleSaveRequest;
 import com.focela.platform.module.system.repository.entity.permission.RoleEntity;
 import com.focela.platform.module.system.repository.mapper.permission.RoleMapper;
 import com.focela.platform.module.system.repository.redis.RedisKeyConstants;
@@ -55,14 +55,14 @@ public class RoleServiceImpl implements RoleService {
     @Transactional(rollbackFor = Exception.class)
     @LogRecord(type = SYSTEM_ROLE_TYPE, subType = SYSTEM_ROLE_CREATE_SUB_TYPE, bizNo = "{{#role.id}}",
             success = SYSTEM_ROLE_CREATE_SUCCESS)
-    public Long createRole(RoleSaveReqVO createReqVO, Integer type) {
+    public Long createRole(RoleSaveRequest createRequest, Integer type) {
         // 1. 校验角色
-        validateRoleDuplicate(createReqVO.getName(), createReqVO.getCode(), null);
+        validateRoleDuplicate(createRequest.getName(), createRequest.getCode(), null);
 
         // 2. 插入到数据库
-        RoleEntity role = BeanUtils.toBean(createReqVO, RoleEntity.class)
+        RoleEntity role = BeanUtils.toBean(createRequest, RoleEntity.class)
                 .setType(ObjectUtil.defaultIfNull(type, RoleTypeEnum.CUSTOM.getType()))
-                .setStatus(ObjUtil.defaultIfNull(createReqVO.getStatus(), CommonStatusEnum.ENABLE.getStatus()))
+                .setStatus(ObjUtil.defaultIfNull(createRequest.getStatus(), CommonStatusEnum.ENABLE.getStatus()))
                 .setDataScope(DataScopeEnum.ALL.getScope()); // 默认可查看所有数据。原因是，可能一些项目不需要项目权限
         roleMapper.insert(role);
 
@@ -72,21 +72,21 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    @CacheEvict(value = RedisKeyConstants.ROLE, key = "#updateReqVO.id")
-    @LogRecord(type = SYSTEM_ROLE_TYPE, subType = SYSTEM_ROLE_UPDATE_SUB_TYPE, bizNo = "{{#updateReqVO.id}}",
+    @CacheEvict(value = RedisKeyConstants.ROLE, key = "#updateRequest.id")
+    @LogRecord(type = SYSTEM_ROLE_TYPE, subType = SYSTEM_ROLE_UPDATE_SUB_TYPE, bizNo = "{{#updateRequest.id}}",
             success = SYSTEM_ROLE_UPDATE_SUCCESS)
-    public void updateRole(RoleSaveReqVO updateReqVO) {
+    public void updateRole(RoleSaveRequest updateRequest) {
         // 1.1 校验是否可以更新
-        RoleEntity role = validateRoleForUpdate(updateReqVO.getId());
+        RoleEntity role = validateRoleForUpdate(updateRequest.getId());
         // 1.2 校验角色的唯一字段是否重复
-        validateRoleDuplicate(updateReqVO.getName(), updateReqVO.getCode(), updateReqVO.getId());
+        validateRoleDuplicate(updateRequest.getName(), updateRequest.getCode(), updateRequest.getId());
 
         // 2. 更新到数据库
-        RoleEntity updateObj = BeanUtils.toBean(updateReqVO, RoleEntity.class);
+        RoleEntity updateObj = BeanUtils.toBean(updateRequest, RoleEntity.class);
         roleMapper.updateById(updateObj);
 
         // 3. 记录操作日志上下文
-        LogRecordContext.putVariable(DiffParseFunction.OLD_OBJECT, BeanUtils.toBean(role, RoleSaveReqVO.class));
+        LogRecordContext.putVariable(DiffParseFunction.OLD_OBJECT, BeanUtils.toBean(role, RoleSaveRequest.class));
         LogRecordContext.putVariable("role", role);
     }
 
@@ -226,7 +226,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public PageResult<RoleEntity> getRolePage(RolePageReqVO reqVO) {
+    public PageResult<RoleEntity> getRolePage(RolePageRequest reqVO) {
         return roleMapper.selectPage(reqVO);
     }
 

@@ -3,7 +3,7 @@ package com.focela.platform.module.system.repository.mapper.social;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.module.system.controller.admin.socail.vo.user.SocialUserPageReqVO;
+import com.focela.platform.module.system.controller.admin.socail.dto.user.SocialUserPageRequest;
 import com.focela.platform.module.system.repository.entity.social.SocialUserEntity;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -21,7 +21,7 @@ public interface SocialUserMapper extends BaseMapperX<SocialUserEntity> {
                 SocialUserEntity::getOpenid, openid);
     }
 
-    default PageResult<SocialUserEntity> selectPage(SocialUserPageReqVO reqVO) {
+    default PageResult<SocialUserEntity> selectPage(SocialUserPageRequest reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<SocialUserEntity>()
                 .eqIfPresent(SocialUserEntity::getType, reqVO.getType())
                 .likeIfPresent(SocialUserEntity::getNickname, reqVO.getNickname())

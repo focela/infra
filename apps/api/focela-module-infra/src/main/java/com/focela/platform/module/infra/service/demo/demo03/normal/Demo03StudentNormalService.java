@@ -1,8 +1,8 @@
 package com.focela.platform.module.infra.service.demo.demo03.normal;
 
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.infra.controller.admin.demo.demo03.normal.vo.Demo03StudentNormalPageReqVO;
-import com.focela.platform.module.infra.controller.admin.demo.demo03.normal.vo.Demo03StudentNormalSaveReqVO;
+import com.focela.platform.module.infra.controller.admin.demo.demo03.normal.dto.Demo03StudentNormalPageRequest;
+import com.focela.platform.module.infra.controller.admin.demo.demo03.normal.dto.Demo03StudentNormalSaveRequest;
 import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03CourseEntity;
 import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03GradeEntity;
 import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03StudentEntity;
@@ -20,17 +20,17 @@ public interface Demo03StudentNormalService {
     /**
      * 创建学生
      *
-     * @param createReqVO 创建信息
+     * @param createRequest 创建信息
      * @return 编号
      */
-    Long createDemo03Student(@Valid Demo03StudentNormalSaveReqVO createReqVO);
+    Long createDemo03Student(@Valid Demo03StudentNormalSaveRequest createRequest);
 
     /**
      * 更新学生
      *
-     * @param updateReqVO 更新信息
+     * @param updateRequest 更新信息
      */
-    void updateDemo03Student(@Valid Demo03StudentNormalSaveReqVO updateReqVO);
+    void updateDemo03Student(@Valid Demo03StudentNormalSaveRequest updateRequest);
 
     /**
      * 删除学生
@@ -57,10 +57,10 @@ public interface Demo03StudentNormalService {
     /**
      * 获得学生分页
      *
-     * @param pageReqVO 分页查询
+     * @param pageRequest 分页查询
      * @return 学生分页
      */
-    PageResult<Demo03StudentEntity> getDemo03StudentPage(Demo03StudentNormalPageReqVO pageReqVO);
+    PageResult<Demo03StudentEntity> getDemo03StudentPage(Demo03StudentNormalPageRequest pageRequest);
 
     // ==================== 子表（学生课程） ====================
 

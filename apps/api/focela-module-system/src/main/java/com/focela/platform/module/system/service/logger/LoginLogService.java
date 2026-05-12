@@ -2,7 +2,7 @@ package com.focela.platform.module.system.service.logger;
 
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.module.system.api.logger.dto.LoginLogCreateReqDTO;
-import com.focela.platform.module.system.controller.admin.logger.vo.loginlog.LoginLogPageReqVO;
+import com.focela.platform.module.system.controller.admin.logger.dto.loginlog.LoginLogPageRequest;
 import com.focela.platform.module.system.repository.entity.logger.LoginLogEntity;
 
 import jakarta.validation.Valid;
@@ -23,10 +23,10 @@ public interface LoginLogService {
     /**
      * 获得登录日志分页
      *
-     * @param pageReqVO 分页条件
+     * @param pageRequest 分页条件
      * @return 登录日志分页
      */
-    PageResult<LoginLogEntity> getLoginLogPage(LoginLogPageReqVO pageReqVO);
+    PageResult<LoginLogEntity> getLoginLogPage(LoginLogPageRequest pageRequest);
 
     /**
      * 创建登录日志

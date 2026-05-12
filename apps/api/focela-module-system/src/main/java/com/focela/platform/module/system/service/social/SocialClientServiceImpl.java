@@ -25,8 +25,8 @@ import com.focela.platform.module.system.api.social.dto.SocialWxQrcodeReqDTO;
 import com.focela.platform.module.system.api.social.dto.SocialWxaOrderNotifyConfirmReceiveReqDTO;
 import com.focela.platform.module.system.api.social.dto.SocialWxaOrderUploadShippingInfoReqDTO;
 import com.focela.platform.module.system.api.social.dto.SocialWxaSubscribeMessageSendReqDTO;
-import com.focela.platform.module.system.controller.admin.socail.vo.client.SocialClientPageReqVO;
-import com.focela.platform.module.system.controller.admin.socail.vo.client.SocialClientSaveReqVO;
+import com.focela.platform.module.system.controller.admin.socail.dto.client.SocialClientPageRequest;
+import com.focela.platform.module.system.controller.admin.socail.dto.client.SocialClientSaveRequest;
 import com.focela.platform.module.system.repository.entity.social.SocialClientEntity;
 import com.focela.platform.module.system.repository.mapper.social.SocialClientMapper;
 import com.focela.platform.module.system.repository.redis.RedisKeyConstants;
@@ -474,25 +474,25 @@ public class SocialClientServiceImpl implements SocialClientService {
     // =================== 客户端管理 ===================
 
     @Override
-    public Long createSocialClient(SocialClientSaveReqVO createReqVO) {
+    public Long createSocialClient(SocialClientSaveRequest createRequest) {
         // 校验重复
-        validateSocialClientUnique(null, createReqVO.getUserType(), createReqVO.getSocialType());
+        validateSocialClientUnique(null, createRequest.getUserType(), createRequest.getSocialType());
 
         // 插入
-        SocialClientEntity client = BeanUtils.toBean(createReqVO, SocialClientEntity.class);
+        SocialClientEntity client = BeanUtils.toBean(createRequest, SocialClientEntity.class);
         socialClientMapper.insert(client);
         return client.getId();
     }
 
     @Override
-    public void updateSocialClient(SocialClientSaveReqVO updateReqVO) {
+    public void updateSocialClient(SocialClientSaveRequest updateRequest) {
         // 校验存在
-        validateSocialClientExists(updateReqVO.getId());
+        validateSocialClientExists(updateRequest.getId());
         // 校验重复
-        validateSocialClientUnique(updateReqVO.getId(), updateReqVO.getUserType(), updateReqVO.getSocialType());
+        validateSocialClientUnique(updateRequest.getId(), updateRequest.getUserType(), updateRequest.getSocialType());
 
         // 更新
-        SocialClientEntity updateObj = BeanUtils.toBean(updateReqVO, SocialClientEntity.class);
+        SocialClientEntity updateObj = BeanUtils.toBean(updateRequest, SocialClientEntity.class);
         socialClientMapper.updateById(updateObj);
     }
 
@@ -541,8 +541,8 @@ public class SocialClientServiceImpl implements SocialClientService {
     }
 
     @Override
-    public PageResult<SocialClientEntity> getSocialClientPage(SocialClientPageReqVO pageReqVO) {
-        return socialClientMapper.selectPage(pageReqVO);
+    public PageResult<SocialClientEntity> getSocialClientPage(SocialClientPageRequest pageRequest) {
+        return socialClientMapper.selectPage(pageRequest);
     }
 
 }

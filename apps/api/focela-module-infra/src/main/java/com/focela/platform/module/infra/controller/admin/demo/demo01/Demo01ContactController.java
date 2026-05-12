@@ -6,9 +6,9 @@ import com.focela.platform.framework.common.pojo.PageParam;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.excel.core.util.ExcelUtils;
-import com.focela.platform.module.infra.controller.admin.demo.demo01.vo.Demo01ContactPageReqVO;
-import com.focela.platform.module.infra.controller.admin.demo.demo01.vo.Demo01ContactRespVO;
-import com.focela.platform.module.infra.controller.admin.demo.demo01.vo.Demo01ContactSaveReqVO;
+import com.focela.platform.module.infra.controller.admin.demo.demo01.dto.Demo01ContactPageRequest;
+import com.focela.platform.module.infra.controller.admin.demo.demo01.dto.Demo01ContactResponse;
+import com.focela.platform.module.infra.controller.admin.demo.demo01.dto.Demo01ContactSaveRequest;
 import com.focela.platform.module.infra.repository.entity.demo.demo01.Demo01ContactEntity;
 import com.focela.platform.module.infra.service.demo.demo01.Demo01ContactService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,15 +39,15 @@ public class Demo01ContactController {
     @PostMapping("/create")
     @Operation(summary = "创建示例联系人")
     @PreAuthorize("@ss.hasPermission('infra:demo01-contact:create')")
-    public CommonResult<Long> createDemo01Contact(@Valid @RequestBody Demo01ContactSaveReqVO createReqVO) {
-        return success(demo01ContactService.createDemo01Contact(createReqVO));
+    public CommonResult<Long> createDemo01Contact(@Valid @RequestBody Demo01ContactSaveRequest createRequest) {
+        return success(demo01ContactService.createDemo01Contact(createRequest));
     }
 
     @PutMapping("/update")
     @Operation(summary = "更新示例联系人")
     @PreAuthorize("@ss.hasPermission('infra:demo01-contact:update')")
-    public CommonResult<Boolean> updateDemo01Contact(@Valid @RequestBody Demo01ContactSaveReqVO updateReqVO) {
-        demo01ContactService.updateDemo01Contact(updateReqVO);
+    public CommonResult<Boolean> updateDemo01Contact(@Valid @RequestBody Demo01ContactSaveRequest updateRequest) {
+        demo01ContactService.updateDemo01Contact(updateRequest);
         return success(true);
     }
 
@@ -73,30 +73,30 @@ public class Demo01ContactController {
     @Operation(summary = "获得示例联系人")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:demo01-contact:query')")
-    public CommonResult<Demo01ContactRespVO> getDemo01Contact(@RequestParam("id") Long id) {
+    public CommonResult<Demo01ContactResponse> getDemo01Contact(@RequestParam("id") Long id) {
         Demo01ContactEntity demo01Contact = demo01ContactService.getDemo01Contact(id);
-        return success(BeanUtils.toBean(demo01Contact, Demo01ContactRespVO.class));
+        return success(BeanUtils.toBean(demo01Contact, Demo01ContactResponse.class));
     }
 
     @GetMapping("/page")
     @Operation(summary = "获得示例联系人分页")
     @PreAuthorize("@ss.hasPermission('infra:demo01-contact:query')")
-    public CommonResult<PageResult<Demo01ContactRespVO>> getDemo01ContactPage(@Valid Demo01ContactPageReqVO pageReqVO) {
-        PageResult<Demo01ContactEntity> pageResult = demo01ContactService.getDemo01ContactPage(pageReqVO);
-        return success(BeanUtils.toBean(pageResult, Demo01ContactRespVO.class));
+    public CommonResult<PageResult<Demo01ContactResponse>> getDemo01ContactPage(@Valid Demo01ContactPageRequest pageRequest) {
+        PageResult<Demo01ContactEntity> pageResult = demo01ContactService.getDemo01ContactPage(pageRequest);
+        return success(BeanUtils.toBean(pageResult, Demo01ContactResponse.class));
     }
 
     @GetMapping("/export-excel")
     @Operation(summary = "导出示例联系人 Excel")
     @PreAuthorize("@ss.hasPermission('infra:demo01-contact:export')")
     @ApiAccessLog(operateType = EXPORT)
-    public void exportDemo01ContactExcel(@Valid Demo01ContactPageReqVO pageReqVO,
+    public void exportDemo01ContactExcel(@Valid Demo01ContactPageRequest pageRequest,
                                          HttpServletResponse response) throws IOException {
-        pageReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<Demo01ContactEntity> list = demo01ContactService.getDemo01ContactPage(pageReqVO).getList();
+        pageRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
+        List<Demo01ContactEntity> list = demo01ContactService.getDemo01ContactPage(pageRequest).getList();
         // 导出 Excel
-        ExcelUtils.write(response, "示例联系人.xls", "数据", Demo01ContactRespVO.class,
-                BeanUtils.toBean(list, Demo01ContactRespVO.class));
+        ExcelUtils.write(response, "示例联系人.xls", "数据", Demo01ContactResponse.class,
+                BeanUtils.toBean(list, Demo01ContactResponse.class));
     }
 
 }

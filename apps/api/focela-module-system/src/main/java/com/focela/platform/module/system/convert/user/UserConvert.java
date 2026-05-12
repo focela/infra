@@ -3,12 +3,12 @@ package com.focela.platform.module.system.convert.user;
 import com.focela.platform.framework.common.util.collection.CollectionUtils;
 import com.focela.platform.framework.common.util.collection.MapUtils;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.system.controller.admin.dept.vo.dept.DeptSimpleRespVO;
-import com.focela.platform.module.system.controller.admin.dept.vo.post.PostSimpleRespVO;
-import com.focela.platform.module.system.controller.admin.permission.vo.role.RoleSimpleRespVO;
-import com.focela.platform.module.system.controller.admin.user.vo.profile.UserProfileRespVO;
-import com.focela.platform.module.system.controller.admin.user.vo.user.UserRespVO;
-import com.focela.platform.module.system.controller.admin.user.vo.user.UserSimpleRespVO;
+import com.focela.platform.module.system.controller.admin.dept.dto.dept.DeptSimpleResponse;
+import com.focela.platform.module.system.controller.admin.dept.dto.post.PostSimpleResponse;
+import com.focela.platform.module.system.controller.admin.permission.dto.role.RoleSimpleResponse;
+import com.focela.platform.module.system.controller.admin.user.dto.profile.UserProfileResponse;
+import com.focela.platform.module.system.controller.admin.user.dto.user.UserResponse;
+import com.focela.platform.module.system.controller.admin.user.dto.user.UserSimpleResponse;
 import com.focela.platform.module.system.repository.entity.dept.DeptEntity;
 import com.focela.platform.module.system.repository.entity.dept.PostEntity;
 import com.focela.platform.module.system.repository.entity.permission.RoleEntity;
@@ -24,32 +24,32 @@ public interface UserConvert {
 
     UserConvert INSTANCE = Mappers.getMapper(UserConvert.class);
 
-    default List<UserRespVO> convertList(List<AdminUserEntity> list, Map<Long, DeptEntity> deptMap) {
+    default List<UserResponse> convertList(List<AdminUserEntity> list, Map<Long, DeptEntity> deptMap) {
         return CollectionUtils.convertList(list, user -> convert(user, deptMap.get(user.getDeptId())));
     }
 
-    default UserRespVO convert(AdminUserEntity user, DeptEntity dept) {
-        UserRespVO userVO = BeanUtils.toBean(user, UserRespVO.class);
+    default UserResponse convert(AdminUserEntity user, DeptEntity dept) {
+        UserResponse userVO = BeanUtils.toBean(user, UserResponse.class);
         if (dept != null) {
             userVO.setDeptName(dept.getName());
         }
         return userVO;
     }
 
-    default List<UserSimpleRespVO> convertSimpleList(List<AdminUserEntity> list, Map<Long, DeptEntity> deptMap) {
+    default List<UserSimpleResponse> convertSimpleList(List<AdminUserEntity> list, Map<Long, DeptEntity> deptMap) {
         return CollectionUtils.convertList(list, user -> {
-            UserSimpleRespVO userVO = BeanUtils.toBean(user, UserSimpleRespVO.class);
+            UserSimpleResponse userVO = BeanUtils.toBean(user, UserSimpleResponse.class);
             MapUtils.findAndThen(deptMap, user.getDeptId(), dept -> userVO.setDeptName(dept.getName()));
             return userVO;
         });
     }
 
-    default UserProfileRespVO convert(AdminUserEntity user, List<RoleEntity> userRoles,
+    default UserProfileResponse convert(AdminUserEntity user, List<RoleEntity> userRoles,
                                       DeptEntity dept, List<PostEntity> posts) {
-        UserProfileRespVO userVO = BeanUtils.toBean(user, UserProfileRespVO.class);
-        userVO.setRoles(BeanUtils.toBean(userRoles, RoleSimpleRespVO.class));
-        userVO.setDept(BeanUtils.toBean(dept, DeptSimpleRespVO.class));
-        userVO.setPosts(BeanUtils.toBean(posts, PostSimpleRespVO.class));
+        UserProfileResponse userVO = BeanUtils.toBean(user, UserProfileResponse.class);
+        userVO.setRoles(BeanUtils.toBean(userRoles, RoleSimpleResponse.class));
+        userVO.setDept(BeanUtils.toBean(dept, DeptSimpleResponse.class));
+        userVO.setPosts(BeanUtils.toBean(posts, PostSimpleResponse.class));
         return userVO;
     }
 

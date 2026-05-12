@@ -2,8 +2,8 @@ package com.focela.platform.module.system.service.sms;
 
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.system.controller.admin.sms.vo.channel.SmsChannelPageReqVO;
-import com.focela.platform.module.system.controller.admin.sms.vo.channel.SmsChannelSaveReqVO;
+import com.focela.platform.module.system.controller.admin.sms.dto.channel.SmsChannelPageRequest;
+import com.focela.platform.module.system.controller.admin.sms.dto.channel.SmsChannelSaveRequest;
 import com.focela.platform.module.system.repository.entity.sms.SmsChannelEntity;
 import com.focela.platform.module.system.repository.mapper.sms.SmsChannelMapper;
 import com.focela.platform.module.system.framework.sms.core.client.SmsClient;
@@ -38,18 +38,18 @@ public class SmsChannelServiceImpl implements SmsChannelService {
     private SmsTemplateService smsTemplateService;
 
     @Override
-    public Long createSmsChannel(SmsChannelSaveReqVO createReqVO) {
-        SmsChannelEntity channel = BeanUtils.toBean(createReqVO, SmsChannelEntity.class);
+    public Long createSmsChannel(SmsChannelSaveRequest createRequest) {
+        SmsChannelEntity channel = BeanUtils.toBean(createRequest, SmsChannelEntity.class);
         smsChannelMapper.insert(channel);
         return channel.getId();
     }
 
     @Override
-    public void updateSmsChannel(SmsChannelSaveReqVO updateReqVO) {
+    public void updateSmsChannel(SmsChannelSaveRequest updateRequest) {
         // 校验存在
-        validateSmsChannelExists(updateReqVO.getId());
+        validateSmsChannelExists(updateRequest.getId());
         // 更新
-        SmsChannelEntity updateObj = BeanUtils.toBean(updateReqVO, SmsChannelEntity.class);
+        SmsChannelEntity updateObj = BeanUtils.toBean(updateRequest, SmsChannelEntity.class);
         smsChannelMapper.updateById(updateObj);
     }
 
@@ -97,8 +97,8 @@ public class SmsChannelServiceImpl implements SmsChannelService {
     }
 
     @Override
-    public PageResult<SmsChannelEntity> getSmsChannelPage(SmsChannelPageReqVO pageReqVO) {
-        return smsChannelMapper.selectPage(pageReqVO);
+    public PageResult<SmsChannelEntity> getSmsChannelPage(SmsChannelPageRequest pageRequest) {
+        return smsChannelMapper.selectPage(pageRequest);
     }
 
     @Override

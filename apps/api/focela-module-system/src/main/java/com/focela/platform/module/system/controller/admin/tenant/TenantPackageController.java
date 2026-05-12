@@ -4,10 +4,10 @@ import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.pojo.CommonResult;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.system.controller.admin.tenant.vo.packages.TenantPackagePageReqVO;
-import com.focela.platform.module.system.controller.admin.tenant.vo.packages.TenantPackageRespVO;
-import com.focela.platform.module.system.controller.admin.tenant.vo.packages.TenantPackageSaveReqVO;
-import com.focela.platform.module.system.controller.admin.tenant.vo.packages.TenantPackageSimpleRespVO;
+import com.focela.platform.module.system.controller.admin.tenant.dto.packages.TenantPackagePageRequest;
+import com.focela.platform.module.system.controller.admin.tenant.dto.packages.TenantPackageResponse;
+import com.focela.platform.module.system.controller.admin.tenant.dto.packages.TenantPackageSaveRequest;
+import com.focela.platform.module.system.controller.admin.tenant.dto.packages.TenantPackageSimpleResponse;
 import com.focela.platform.module.system.repository.entity.tenant.TenantPackageEntity;
 import com.focela.platform.module.system.service.tenant.TenantPackageService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,15 +35,15 @@ public class TenantPackageController {
     @PostMapping("/create")
     @Operation(summary = "创建租户套餐")
     @PreAuthorize("@ss.hasPermission('system:tenant-package:create')")
-    public CommonResult<Long> createTenantPackage(@Valid @RequestBody TenantPackageSaveReqVO createReqVO) {
-        return success(tenantPackageService.createTenantPackage(createReqVO));
+    public CommonResult<Long> createTenantPackage(@Valid @RequestBody TenantPackageSaveRequest createRequest) {
+        return success(tenantPackageService.createTenantPackage(createRequest));
     }
 
     @PutMapping("/update")
     @Operation(summary = "更新租户套餐")
     @PreAuthorize("@ss.hasPermission('system:tenant-package:update')")
-    public CommonResult<Boolean> updateTenantPackage(@Valid @RequestBody TenantPackageSaveReqVO updateReqVO) {
-        tenantPackageService.updateTenantPackage(updateReqVO);
+    public CommonResult<Boolean> updateTenantPackage(@Valid @RequestBody TenantPackageSaveRequest updateRequest) {
+        tenantPackageService.updateTenantPackage(updateRequest);
         return success(true);
     }
 
@@ -69,24 +69,24 @@ public class TenantPackageController {
     @Operation(summary = "获得租户套餐")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:tenant-package:query')")
-    public CommonResult<TenantPackageRespVO> getTenantPackage(@RequestParam("id") Long id) {
+    public CommonResult<TenantPackageResponse> getTenantPackage(@RequestParam("id") Long id) {
         TenantPackageEntity tenantPackage = tenantPackageService.getTenantPackage(id);
-        return success(BeanUtils.toBean(tenantPackage, TenantPackageRespVO.class));
+        return success(BeanUtils.toBean(tenantPackage, TenantPackageResponse.class));
     }
 
     @GetMapping("/page")
     @Operation(summary = "获得租户套餐分页")
     @PreAuthorize("@ss.hasPermission('system:tenant-package:query')")
-    public CommonResult<PageResult<TenantPackageRespVO>> getTenantPackagePage(@Valid TenantPackagePageReqVO pageVO) {
+    public CommonResult<PageResult<TenantPackageResponse>> getTenantPackagePage(@Valid TenantPackagePageRequest pageVO) {
         PageResult<TenantPackageEntity> pageResult = tenantPackageService.getTenantPackagePage(pageVO);
-        return success(BeanUtils.toBean(pageResult, TenantPackageRespVO.class));
+        return success(BeanUtils.toBean(pageResult, TenantPackageResponse.class));
     }
 
     @GetMapping({"/get-simple-list", "simple-list"})
     @Operation(summary = "获取租户套餐精简信息列表", description = "只包含被开启的租户套餐，主要用于前端的下拉选项")
-    public CommonResult<List<TenantPackageSimpleRespVO>> getTenantPackageList() {
+    public CommonResult<List<TenantPackageSimpleResponse>> getTenantPackageList() {
         List<TenantPackageEntity> list = tenantPackageService.getTenantPackageListByStatus(CommonStatusEnum.ENABLE.getStatus());
-        return success(BeanUtils.toBean(list, TenantPackageSimpleRespVO.class));
+        return success(BeanUtils.toBean(list, TenantPackageSimpleResponse.class));
     }
 
 }

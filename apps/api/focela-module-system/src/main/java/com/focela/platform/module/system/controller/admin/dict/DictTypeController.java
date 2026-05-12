@@ -6,10 +6,10 @@ import com.focela.platform.framework.common.pojo.PageParam;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.excel.core.util.ExcelUtils;
-import com.focela.platform.module.system.controller.admin.dict.vo.type.DictTypePageReqVO;
-import com.focela.platform.module.system.controller.admin.dict.vo.type.DictTypeRespVO;
-import com.focela.platform.module.system.controller.admin.dict.vo.type.DictTypeSaveReqVO;
-import com.focela.platform.module.system.controller.admin.dict.vo.type.DictTypeSimpleRespVO;
+import com.focela.platform.module.system.controller.admin.dict.dto.type.DictTypePageRequest;
+import com.focela.platform.module.system.controller.admin.dict.dto.type.DictTypeResponse;
+import com.focela.platform.module.system.controller.admin.dict.dto.type.DictTypeSaveRequest;
+import com.focela.platform.module.system.controller.admin.dict.dto.type.DictTypeSimpleResponse;
 import com.focela.platform.module.system.repository.entity.dict.DictTypeEntity;
 import com.focela.platform.module.system.service.dict.DictTypeService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,16 +40,16 @@ public class DictTypeController {
     @PostMapping("/create")
     @Operation(summary = "创建字典类型")
     @PreAuthorize("@ss.hasPermission('system:dict:create')")
-    public CommonResult<Long> createDictType(@Valid @RequestBody DictTypeSaveReqVO createReqVO) {
-        Long dictTypeId = dictTypeService.createDictType(createReqVO);
+    public CommonResult<Long> createDictType(@Valid @RequestBody DictTypeSaveRequest createRequest) {
+        Long dictTypeId = dictTypeService.createDictType(createRequest);
         return success(dictTypeId);
     }
 
     @PutMapping("/update")
     @Operation(summary = "修改字典类型")
     @PreAuthorize("@ss.hasPermission('system:dict:update')")
-    public CommonResult<Boolean> updateDictType(@Valid @RequestBody DictTypeSaveReqVO updateReqVO) {
-        dictTypeService.updateDictType(updateReqVO);
+    public CommonResult<Boolean> updateDictType(@Valid @RequestBody DictTypeSaveRequest updateRequest) {
+        dictTypeService.updateDictType(updateRequest);
         return success(true);
     }
 
@@ -74,38 +74,38 @@ public class DictTypeController {
     @GetMapping("/page")
     @Operation(summary = "获得字典类型的分页列表")
     @PreAuthorize("@ss.hasPermission('system:dict:query')")
-    public CommonResult<PageResult<DictTypeRespVO>> pageDictTypes(@Valid DictTypePageReqVO pageReqVO) {
-        PageResult<DictTypeEntity> pageResult = dictTypeService.getDictTypePage(pageReqVO);
-        return success(BeanUtils.toBean(pageResult, DictTypeRespVO.class));
+    public CommonResult<PageResult<DictTypeResponse>> pageDictTypes(@Valid DictTypePageRequest pageRequest) {
+        PageResult<DictTypeEntity> pageResult = dictTypeService.getDictTypePage(pageRequest);
+        return success(BeanUtils.toBean(pageResult, DictTypeResponse.class));
     }
 
     @Operation(summary = "/查询字典类型详细")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @GetMapping(value = "/get")
     @PreAuthorize("@ss.hasPermission('system:dict:query')")
-    public CommonResult<DictTypeRespVO> getDictType(@RequestParam("id") Long id) {
+    public CommonResult<DictTypeResponse> getDictType(@RequestParam("id") Long id) {
         DictTypeEntity dictType = dictTypeService.getDictType(id);
-        return success(BeanUtils.toBean(dictType, DictTypeRespVO.class));
+        return success(BeanUtils.toBean(dictType, DictTypeResponse.class));
     }
 
     @GetMapping(value = {"/list-all-simple", "simple-list"})
     @Operation(summary = "获得全部字典类型列表", description = "包括开启 + 禁用的字典类型，主要用于前端的下拉选项")
     // 无需添加权限认证，因为前端全局都需要
-    public CommonResult<List<DictTypeSimpleRespVO>> getSimpleDictTypeList() {
+    public CommonResult<List<DictTypeSimpleResponse>> getSimpleDictTypeList() {
         List<DictTypeEntity> list = dictTypeService.getDictTypeList();
-        return success(BeanUtils.toBean(list, DictTypeSimpleRespVO.class));
+        return success(BeanUtils.toBean(list, DictTypeSimpleResponse.class));
     }
 
     @Operation(summary = "导出数据类型")
     @GetMapping("/export-excel")
     @PreAuthorize("@ss.hasPermission('system:dict:query')")
     @ApiAccessLog(operateType = EXPORT)
-    public void export(HttpServletResponse response, @Valid DictTypePageReqVO exportReqVO) throws IOException {
-        exportReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<DictTypeEntity> list = dictTypeService.getDictTypePage(exportReqVO).getList();
+    public void export(HttpServletResponse response, @Valid DictTypePageRequest exportRequest) throws IOException {
+        exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
+        List<DictTypeEntity> list = dictTypeService.getDictTypePage(exportRequest).getList();
         // 导出
-        ExcelUtils.write(response, "字典类型.xls", "数据", DictTypeRespVO.class,
-                BeanUtils.toBean(list, DictTypeRespVO.class));
+        ExcelUtils.write(response, "字典类型.xls", "数据", DictTypeResponse.class,
+                BeanUtils.toBean(list, DictTypeResponse.class));
     }
 
 }

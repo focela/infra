@@ -8,9 +8,9 @@ import cn.hutool.crypto.digest.DigestUtil;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.http.HttpUtils;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.infra.controller.admin.file.vo.file.FileCreateReqVO;
-import com.focela.platform.module.infra.controller.admin.file.vo.file.FilePageReqVO;
-import com.focela.platform.module.infra.controller.admin.file.vo.file.FilePresignedUrlRespVO;
+import com.focela.platform.module.infra.controller.admin.file.dto.file.FileCreateRequest;
+import com.focela.platform.module.infra.controller.admin.file.dto.file.FilePageRequest;
+import com.focela.platform.module.infra.controller.admin.file.dto.file.FilePresignedUrlResponse;
 import com.focela.platform.module.infra.repository.entity.file.FileEntity;
 import com.focela.platform.module.infra.repository.mapper.file.FileMapper;
 import com.focela.platform.module.infra.framework.file.core.client.FileClient;
@@ -55,8 +55,8 @@ public class FileServiceImpl implements FileService {
     private FileMapper fileMapper;
 
     @Override
-    public PageResult<FileEntity> getFilePage(FilePageReqVO pageReqVO) {
-        return fileMapper.selectPage(pageReqVO);
+    public PageResult<FileEntity> getFilePage(FilePageRequest pageRequest) {
+        return fileMapper.selectPage(pageRequest);
     }
 
     @Override
@@ -126,7 +126,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     @SneakyThrows
-    public FilePresignedUrlRespVO presignPutUrl(String name, String directory) {
+    public FilePresignedUrlResponse presignPutUrl(String name, String directory) {
         // 1. 生成上传的 path，需要保证唯一
         String path = generateUploadPath(name, directory);
 
@@ -134,7 +134,7 @@ public class FileServiceImpl implements FileService {
         FileClient fileClient = fileConfigService.getMasterFileClient();
         String uploadUrl = fileClient.presignPutUrl(path);
         String visitUrl = fileClient.presignGetUrl(path, null);
-        return new FilePresignedUrlRespVO().setConfigId(fileClient.getId())
+        return new FilePresignedUrlResponse().setConfigId(fileClient.getId())
                 .setPath(path).setUploadUrl(uploadUrl).setUrl(visitUrl);
     }
 
@@ -145,9 +145,9 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public Long createFile(FileCreateReqVO createReqVO) {
-        createReqVO.setUrl(HttpUtils.removeUrlQuery(createReqVO.getUrl())); // 目的：移除私有桶情况下，URL 的签名参数
-        FileEntity file = BeanUtils.toBean(createReqVO, FileEntity.class);
+    public Long createFile(FileCreateRequest createRequest) {
+        createRequest.setUrl(HttpUtils.removeUrlQuery(createRequest.getUrl())); // 目的：移除私有桶情况下，URL 的签名参数
+        FileEntity file = BeanUtils.toBean(createRequest, FileEntity.class);
         fileMapper.insert(file);
         return file.getId();
     }

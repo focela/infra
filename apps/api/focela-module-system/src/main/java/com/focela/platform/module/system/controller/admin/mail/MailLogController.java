@@ -3,8 +3,8 @@ package com.focela.platform.module.system.controller.admin.mail;
 import com.focela.platform.framework.common.pojo.CommonResult;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.system.controller.admin.mail.vo.log.MailLogPageReqVO;
-import com.focela.platform.module.system.controller.admin.mail.vo.log.MailLogRespVO;
+import com.focela.platform.module.system.controller.admin.mail.dto.log.MailLogPageRequest;
+import com.focela.platform.module.system.controller.admin.mail.dto.log.MailLogResponse;
 import com.focela.platform.module.system.repository.entity.mail.MailLogEntity;
 import com.focela.platform.module.system.service.mail.MailLogService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,18 +32,18 @@ public class MailLogController {
     @GetMapping("/page")
     @Operation(summary = "获得邮箱日志分页")
     @PreAuthorize("@ss.hasPermission('system:mail-log:query')")
-    public CommonResult<PageResult<MailLogRespVO>> getMailLogPage(@Valid MailLogPageReqVO pageVO) {
+    public CommonResult<PageResult<MailLogResponse>> getMailLogPage(@Valid MailLogPageRequest pageVO) {
         PageResult<MailLogEntity> pageResult = mailLogService.getMailLogPage(pageVO);
-        return success(BeanUtils.toBean(pageResult, MailLogRespVO.class));
+        return success(BeanUtils.toBean(pageResult, MailLogResponse.class));
     }
 
     @GetMapping("/get")
     @Operation(summary = "获得邮箱日志")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:mail-log:query')")
-    public CommonResult<MailLogRespVO> getMailTemplate(@RequestParam("id") Long id) {
+    public CommonResult<MailLogResponse> getMailTemplate(@RequestParam("id") Long id) {
         MailLogEntity log = mailLogService.getMailLog(id);
-        return success(BeanUtils.toBean(log, MailLogRespVO.class));
+        return success(BeanUtils.toBean(log, MailLogResponse.class));
     }
 
 }

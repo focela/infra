@@ -6,8 +6,8 @@ import com.focela.platform.framework.common.pojo.PageParam;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.excel.core.util.ExcelUtils;
-import com.focela.platform.module.system.controller.admin.logger.vo.loginlog.LoginLogPageReqVO;
-import com.focela.platform.module.system.controller.admin.logger.vo.loginlog.LoginLogRespVO;
+import com.focela.platform.module.system.controller.admin.logger.dto.loginlog.LoginLogPageRequest;
+import com.focela.platform.module.system.controller.admin.logger.dto.loginlog.LoginLogResponse;
 import com.focela.platform.module.system.repository.entity.logger.LoginLogEntity;
 import com.focela.platform.module.system.service.logger.LoginLogService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,29 +39,29 @@ public class LoginLogController {
     @GetMapping("/get")
     @Operation(summary = "获得登录日志")
     @PreAuthorize("@ss.hasPermission('system:login-log:query')")
-    public CommonResult<LoginLogRespVO> getLoginLog(Long id) {
+    public CommonResult<LoginLogResponse> getLoginLog(Long id) {
         LoginLogEntity loginLog = loginLogService.getLoginLog(id);
-        return success(BeanUtils.toBean(loginLog, LoginLogRespVO.class));
+        return success(BeanUtils.toBean(loginLog, LoginLogResponse.class));
     }
 
     @GetMapping("/page")
     @Operation(summary = "获得登录日志分页列表")
     @PreAuthorize("@ss.hasPermission('system:login-log:query')")
-    public CommonResult<PageResult<LoginLogRespVO>> getLoginLogPage(@Valid LoginLogPageReqVO pageReqVO) {
-        PageResult<LoginLogEntity> pageResult = loginLogService.getLoginLogPage(pageReqVO);
-        return success(BeanUtils.toBean(pageResult, LoginLogRespVO.class));
+    public CommonResult<PageResult<LoginLogResponse>> getLoginLogPage(@Valid LoginLogPageRequest pageRequest) {
+        PageResult<LoginLogEntity> pageResult = loginLogService.getLoginLogPage(pageRequest);
+        return success(BeanUtils.toBean(pageResult, LoginLogResponse.class));
     }
 
     @GetMapping("/export-excel")
     @Operation(summary = "导出登录日志 Excel")
     @PreAuthorize("@ss.hasPermission('system:login-log:export')")
     @ApiAccessLog(operateType = EXPORT)
-    public void exportLoginLog(HttpServletResponse response, @Valid LoginLogPageReqVO exportReqVO) throws IOException {
-        exportReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<LoginLogEntity> list = loginLogService.getLoginLogPage(exportReqVO).getList();
+    public void exportLoginLog(HttpServletResponse response, @Valid LoginLogPageRequest exportRequest) throws IOException {
+        exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
+        List<LoginLogEntity> list = loginLogService.getLoginLogPage(exportRequest).getList();
         // 输出
-        ExcelUtils.write(response, "登录日志.xls", "数据列表", LoginLogRespVO.class,
-                BeanUtils.toBean(list, LoginLogRespVO.class));
+        ExcelUtils.write(response, "登录日志.xls", "数据列表", LoginLogResponse.class,
+                BeanUtils.toBean(list, LoginLogResponse.class));
     }
 
 }

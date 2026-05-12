@@ -3,10 +3,10 @@ package com.focela.platform.module.system.controller.admin.dept;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.pojo.CommonResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.system.controller.admin.dept.vo.dept.DeptListReqVO;
-import com.focela.platform.module.system.controller.admin.dept.vo.dept.DeptRespVO;
-import com.focela.platform.module.system.controller.admin.dept.vo.dept.DeptSaveReqVO;
-import com.focela.platform.module.system.controller.admin.dept.vo.dept.DeptSimpleRespVO;
+import com.focela.platform.module.system.controller.admin.dept.dto.dept.DeptListRequest;
+import com.focela.platform.module.system.controller.admin.dept.dto.dept.DeptResponse;
+import com.focela.platform.module.system.controller.admin.dept.dto.dept.DeptSaveRequest;
+import com.focela.platform.module.system.controller.admin.dept.dto.dept.DeptSimpleResponse;
 import com.focela.platform.module.system.repository.entity.dept.DeptEntity;
 import com.focela.platform.module.system.service.dept.DeptService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,16 +34,16 @@ public class DeptController {
     @PostMapping("create")
     @Operation(summary = "创建部门")
     @PreAuthorize("@ss.hasPermission('system:dept:create')")
-    public CommonResult<Long> createDept(@Valid @RequestBody DeptSaveReqVO createReqVO) {
-        Long deptId = deptService.createDept(createReqVO);
+    public CommonResult<Long> createDept(@Valid @RequestBody DeptSaveRequest createRequest) {
+        Long deptId = deptService.createDept(createRequest);
         return success(deptId);
     }
 
     @PutMapping("update")
     @Operation(summary = "更新部门")
     @PreAuthorize("@ss.hasPermission('system:dept:update')")
-    public CommonResult<Boolean> updateDept(@Valid @RequestBody DeptSaveReqVO updateReqVO) {
-        deptService.updateDept(updateReqVO);
+    public CommonResult<Boolean> updateDept(@Valid @RequestBody DeptSaveRequest updateRequest) {
+        deptService.updateDept(updateRequest);
         return success(true);
     }
 
@@ -68,26 +68,26 @@ public class DeptController {
     @GetMapping("/list")
     @Operation(summary = "获取部门列表")
     @PreAuthorize("@ss.hasPermission('system:dept:query')")
-    public CommonResult<List<DeptRespVO>> getDeptList(DeptListReqVO reqVO) {
+    public CommonResult<List<DeptResponse>> getDeptList(DeptListRequest reqVO) {
         List<DeptEntity> list = deptService.getDeptList(reqVO);
-        return success(BeanUtils.toBean(list, DeptRespVO.class));
+        return success(BeanUtils.toBean(list, DeptResponse.class));
     }
 
     @GetMapping(value = {"/list-all-simple", "/simple-list"})
     @Operation(summary = "获取部门精简信息列表", description = "只包含被开启的部门，主要用于前端的下拉选项")
-    public CommonResult<List<DeptSimpleRespVO>> getSimpleDeptList() {
+    public CommonResult<List<DeptSimpleResponse>> getSimpleDeptList() {
         List<DeptEntity> list = deptService.getDeptList(
-                new DeptListReqVO().setStatus(CommonStatusEnum.ENABLE.getStatus()));
-        return success(BeanUtils.toBean(list, DeptSimpleRespVO.class));
+                new DeptListRequest().setStatus(CommonStatusEnum.ENABLE.getStatus()));
+        return success(BeanUtils.toBean(list, DeptSimpleResponse.class));
     }
 
     @GetMapping("/get")
     @Operation(summary = "获得部门信息")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:dept:query')")
-    public CommonResult<DeptRespVO> getDept(@RequestParam("id") Long id) {
+    public CommonResult<DeptResponse> getDept(@RequestParam("id") Long id) {
         DeptEntity dept = deptService.getDept(id);
-        return success(BeanUtils.toBean(dept, DeptRespVO.class));
+        return success(BeanUtils.toBean(dept, DeptResponse.class));
     }
 
 }

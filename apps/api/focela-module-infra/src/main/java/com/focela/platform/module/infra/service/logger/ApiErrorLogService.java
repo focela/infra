@@ -2,7 +2,7 @@ package com.focela.platform.module.infra.service.logger;
 
 import com.focela.platform.framework.common.biz.infra.logger.dto.ApiErrorLogCreateReqDTO;
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.infra.controller.admin.logger.vo.apierrorlog.ApiErrorLogPageReqVO;
+import com.focela.platform.module.infra.controller.admin.logger.dto.apierrorlog.ApiErrorLogPageRequest;
 import com.focela.platform.module.infra.repository.entity.logger.ApiErrorLogEntity;
 
 /**
@@ -30,10 +30,10 @@ public interface ApiErrorLogService {
     /**
      * 获得 API 错误日志分页
      *
-     * @param pageReqVO 分页查询
+     * @param pageRequest 分页查询
      * @return API 错误日志分页
      */
-    PageResult<ApiErrorLogEntity> getApiErrorLogPage(ApiErrorLogPageReqVO pageReqVO);
+    PageResult<ApiErrorLogEntity> getApiErrorLogPage(ApiErrorLogPageRequest pageRequest);
 
     /**
      * 更新 API 错误日志已处理

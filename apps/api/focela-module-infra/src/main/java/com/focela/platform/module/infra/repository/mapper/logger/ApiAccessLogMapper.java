@@ -3,7 +3,7 @@ package com.focela.platform.module.infra.repository.mapper.logger;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.module.infra.controller.admin.logger.vo.apiaccesslog.ApiAccessLogPageReqVO;
+import com.focela.platform.module.infra.controller.admin.logger.dto.apiaccesslog.ApiAccessLogPageRequest;
 import com.focela.platform.module.infra.repository.entity.logger.ApiAccessLogEntity;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Mapper
 public interface ApiAccessLogMapper extends BaseMapperX<ApiAccessLogEntity> {
 
-    default PageResult<ApiAccessLogEntity> selectPage(ApiAccessLogPageReqVO reqVO) {
+    default PageResult<ApiAccessLogEntity> selectPage(ApiAccessLogPageRequest reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<ApiAccessLogEntity>()
                 .eqIfPresent(ApiAccessLogEntity::getUserId, reqVO.getUserId())
                 .eqIfPresent(ApiAccessLogEntity::getUserType, reqVO.getUserType())

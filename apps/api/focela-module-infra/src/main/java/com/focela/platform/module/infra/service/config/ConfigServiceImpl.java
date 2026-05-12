@@ -1,8 +1,8 @@
 package com.focela.platform.module.infra.service.config;
 
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.infra.controller.admin.config.vo.ConfigPageReqVO;
-import com.focela.platform.module.infra.controller.admin.config.vo.ConfigSaveReqVO;
+import com.focela.platform.module.infra.controller.admin.config.dto.ConfigPageRequest;
+import com.focela.platform.module.infra.controller.admin.config.dto.ConfigSaveRequest;
 import com.focela.platform.module.infra.convert.config.ConfigConvert;
 import com.focela.platform.module.infra.repository.entity.config.ConfigEntity;
 import com.focela.platform.module.infra.repository.mapper.config.ConfigMapper;
@@ -30,26 +30,26 @@ public class ConfigServiceImpl implements ConfigService {
     private ConfigMapper configMapper;
 
     @Override
-    public Long createConfig(ConfigSaveReqVO createReqVO) {
+    public Long createConfig(ConfigSaveRequest createRequest) {
         // 校验参数配置 key 的唯一性
-        validateConfigKeyUnique(null, createReqVO.getKey());
+        validateConfigKeyUnique(null, createRequest.getKey());
 
         // 插入参数配置
-        ConfigEntity config = ConfigConvert.INSTANCE.convert(createReqVO);
+        ConfigEntity config = ConfigConvert.INSTANCE.convert(createRequest);
         config.setType(ConfigTypeEnum.CUSTOM.getType());
         configMapper.insert(config);
         return config.getId();
     }
 
     @Override
-    public void updateConfig(ConfigSaveReqVO updateReqVO) {
+    public void updateConfig(ConfigSaveRequest updateRequest) {
         // 校验自己存在
-        validateConfigExists(updateReqVO.getId());
+        validateConfigExists(updateRequest.getId());
         // 校验参数配置 key 的唯一性
-        validateConfigKeyUnique(updateReqVO.getId(), updateReqVO.getKey());
+        validateConfigKeyUnique(updateRequest.getId(), updateRequest.getKey());
 
         // 更新参数配置
-        ConfigEntity updateObj = ConfigConvert.INSTANCE.convert(updateReqVO);
+        ConfigEntity updateObj = ConfigConvert.INSTANCE.convert(updateRequest);
         configMapper.updateById(updateObj);
     }
 
@@ -90,8 +90,8 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
     @Override
-    public PageResult<ConfigEntity> getConfigPage(ConfigPageReqVO pageReqVO) {
-        return configMapper.selectPage(pageReqVO);
+    public PageResult<ConfigEntity> getConfigPage(ConfigPageRequest pageRequest) {
+        return configMapper.selectPage(pageRequest);
     }
 
     @VisibleForTesting

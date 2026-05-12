@@ -6,7 +6,7 @@ import cn.hutool.crypto.symmetric.AES;
 import com.focela.platform.framework.mybatis.core.type.EncryptTypeHandler;
 import com.focela.platform.framework.mybatis.core.util.JdbcUtils;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
-import com.focela.platform.module.infra.controller.admin.db.vo.DataSourceConfigSaveReqVO;
+import com.focela.platform.module.infra.controller.admin.db.dto.DataSourceConfigSaveRequest;
 import com.focela.platform.module.infra.repository.entity.db.DataSourceConfigEntity;
 import com.focela.platform.module.infra.repository.mapper.db.DataSourceConfigMapper;
 import com.baomidou.dynamic.datasource.creator.DataSourceProperty;
@@ -72,7 +72,7 @@ public class DataSourceConfigServiceImplTest extends BaseDbUnitTest {
     public void testCreateDataSourceConfig_success() {
         try (MockedStatic<JdbcUtils> databaseUtilsMock = mockStatic(JdbcUtils.class)) {
             // 准备参数
-            DataSourceConfigSaveReqVO reqVO = randomPojo(DataSourceConfigSaveReqVO.class)
+            DataSourceConfigSaveRequest reqVO = randomPojo(DataSourceConfigSaveRequest.class)
                     .setId(null); // 避免 id 被设置
             // mock 方法
             databaseUtilsMock.when(() -> JdbcUtils.isConnectionOK(eq(reqVO.getUrl()),
@@ -95,7 +95,7 @@ public class DataSourceConfigServiceImplTest extends BaseDbUnitTest {
             DataSourceConfigEntity dbDataSourceConfig = randomPojo(DataSourceConfigEntity.class);
             dataSourceConfigMapper.insert(dbDataSourceConfig);// @Sql: 先插入出一条存在的数据
             // 准备参数
-            DataSourceConfigSaveReqVO reqVO = randomPojo(DataSourceConfigSaveReqVO.class, o -> {
+            DataSourceConfigSaveRequest reqVO = randomPojo(DataSourceConfigSaveRequest.class, o -> {
                 o.setId(dbDataSourceConfig.getId()); // 设置更新的 ID
             });
             // mock 方法
@@ -113,7 +113,7 @@ public class DataSourceConfigServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateDataSourceConfig_notExists() {
         // 准备参数
-        DataSourceConfigSaveReqVO reqVO = randomPojo(DataSourceConfigSaveReqVO.class);
+        DataSourceConfigSaveRequest reqVO = randomPojo(DataSourceConfigSaveRequest.class);
 
         // 调用, 并断言异常
         assertServiceException(() -> dataSourceConfigService.updateDataSourceConfig(reqVO), DATA_SOURCE_CONFIG_NOT_EXISTS);

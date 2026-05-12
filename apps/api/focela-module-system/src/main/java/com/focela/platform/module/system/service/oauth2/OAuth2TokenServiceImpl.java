@@ -14,7 +14,7 @@ import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.security.core.LoginUser;
 import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
 import com.focela.platform.framework.tenant.core.util.TenantUtils;
-import com.focela.platform.module.system.controller.admin.oauth2.vo.token.OAuth2AccessTokenPageReqVO;
+import com.focela.platform.module.system.controller.admin.oauth2.dto.token.OAuth2AccessTokenPageRequest;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2ClientEntity;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2RefreshTokenEntity;
@@ -170,7 +170,7 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
     }
 
     @Override
-    public PageResult<OAuth2AccessTokenEntity> getAccessTokenPage(OAuth2AccessTokenPageReqVO reqVO) {
+    public PageResult<OAuth2AccessTokenEntity> getAccessTokenPage(OAuth2AccessTokenPageRequest reqVO) {
         return oauth2AccessTokenMapper.selectPage(reqVO);
     }
 

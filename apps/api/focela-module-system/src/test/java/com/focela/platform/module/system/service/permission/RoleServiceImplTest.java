@@ -4,8 +4,8 @@ import cn.hutool.extra.spring.SpringUtil;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
-import com.focela.platform.module.system.controller.admin.permission.vo.role.RolePageReqVO;
-import com.focela.platform.module.system.controller.admin.permission.vo.role.RoleSaveReqVO;
+import com.focela.platform.module.system.controller.admin.permission.dto.role.RolePageRequest;
+import com.focela.platform.module.system.controller.admin.permission.dto.role.RoleSaveRequest;
 import com.focela.platform.module.system.repository.entity.permission.RoleEntity;
 import com.focela.platform.module.system.repository.mapper.permission.RoleMapper;
 import com.focela.platform.module.system.enums.permission.DataScopeEnum;
@@ -50,7 +50,7 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateRole() {
         // 准备参数
-        RoleSaveReqVO reqVO = randomPojo(RoleSaveReqVO.class)
+        RoleSaveRequest reqVO = randomPojo(RoleSaveRequest.class)
                 .setId(null)  // 防止 id 被赋值
                 .setStatus(randomCommonStatus());
 
@@ -70,7 +70,7 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
         roleMapper.insert(roleDO);
         // 准备参数
         Long id = roleDO.getId();
-        RoleSaveReqVO reqVO = randomPojo(RoleSaveReqVO.class, o -> o.setId(id)
+        RoleSaveRequest reqVO = randomPojo(RoleSaveRequest.class, o -> o.setId(id)
                 .setStatus(randomCommonStatus()));
 
         // 调用
@@ -289,7 +289,7 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
         // 测试 createTime 不匹配
         roleMapper.insert(cloneIgnoreId(dbRole, o -> o.setCreateTime(buildTime(2022, 2, 16))));
         // 准备参数
-        RolePageReqVO reqVO = new RolePageReqVO();
+        RolePageRequest reqVO = new RolePageRequest();
         reqVO.setName("土豆");
         reqVO.setCode("tu");
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());

@@ -4,8 +4,8 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.infra.controller.admin.demo.demo03.inner.vo.Demo03StudentInnerPageReqVO;
-import com.focela.platform.module.infra.controller.admin.demo.demo03.inner.vo.Demo03StudentInnerSaveReqVO;
+import com.focela.platform.module.infra.controller.admin.demo.demo03.inner.dto.Demo03StudentInnerPageRequest;
+import com.focela.platform.module.infra.controller.admin.demo.demo03.inner.dto.Demo03StudentInnerSaveRequest;
 import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03CourseEntity;
 import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03GradeEntity;
 import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03StudentEntity;
@@ -42,30 +42,30 @@ public class Demo03StudentInnerServiceImpl implements Demo03StudentInnerService 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long createDemo03Student(Demo03StudentInnerSaveReqVO createReqVO) {
+    public Long createDemo03Student(Demo03StudentInnerSaveRequest createRequest) {
         // 插入
-        Demo03StudentEntity demo03Student = BeanUtils.toBean(createReqVO, Demo03StudentEntity.class);
+        Demo03StudentEntity demo03Student = BeanUtils.toBean(createRequest, Demo03StudentEntity.class);
         demo03StudentInnerMapper.insert(demo03Student);
 
         // 插入子表
-        createDemo03CourseList(demo03Student.getId(), createReqVO.getDemo03Courses());
-        createDemo03Grade(demo03Student.getId(), createReqVO.getDemo03Grade());
+        createDemo03CourseList(demo03Student.getId(), createRequest.getDemo03Courses());
+        createDemo03Grade(demo03Student.getId(), createRequest.getDemo03Grade());
         // 返回
         return demo03Student.getId();
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateDemo03Student(Demo03StudentInnerSaveReqVO updateReqVO) {
+    public void updateDemo03Student(Demo03StudentInnerSaveRequest updateRequest) {
         // 校验存在
-        validateDemo03StudentExists(updateReqVO.getId());
+        validateDemo03StudentExists(updateRequest.getId());
         // 更新
-        Demo03StudentEntity updateObj = BeanUtils.toBean(updateReqVO, Demo03StudentEntity.class);
+        Demo03StudentEntity updateObj = BeanUtils.toBean(updateRequest, Demo03StudentEntity.class);
         demo03StudentInnerMapper.updateById(updateObj);
 
         // 更新子表
-        updateDemo03CourseList(updateReqVO.getId(), updateReqVO.getDemo03Courses());
-        updateDemo03Grade(updateReqVO.getId(), updateReqVO.getDemo03Grade());
+        updateDemo03CourseList(updateRequest.getId(), updateRequest.getDemo03Courses());
+        updateDemo03Grade(updateRequest.getId(), updateRequest.getDemo03Grade());
     }
 
     @Override
@@ -113,8 +113,8 @@ public class Demo03StudentInnerServiceImpl implements Demo03StudentInnerService 
     }
 
     @Override
-    public PageResult<Demo03StudentEntity> getDemo03StudentPage(Demo03StudentInnerPageReqVO pageReqVO) {
-        return demo03StudentInnerMapper.selectPage(pageReqVO);
+    public PageResult<Demo03StudentEntity> getDemo03StudentPage(Demo03StudentInnerPageRequest pageRequest) {
+        return demo03StudentInnerMapper.selectPage(pageRequest);
     }
 
     // ==================== 子表（学生课程） ====================

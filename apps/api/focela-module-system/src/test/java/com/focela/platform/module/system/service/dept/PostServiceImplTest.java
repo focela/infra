@@ -4,8 +4,8 @@ import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.collection.ArrayUtils;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
-import com.focela.platform.module.system.controller.admin.dept.vo.post.PostPageReqVO;
-import com.focela.platform.module.system.controller.admin.dept.vo.post.PostSaveReqVO;
+import com.focela.platform.module.system.controller.admin.dept.dto.post.PostPageRequest;
+import com.focela.platform.module.system.controller.admin.dept.dto.post.PostSaveRequest;
 import com.focela.platform.module.system.repository.entity.dept.PostEntity;
 import com.focela.platform.module.system.repository.mapper.dept.PostMapper;
 import org.junit.jupiter.api.Test;
@@ -42,7 +42,7 @@ public class PostServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreatePost_success() {
         // 准备参数
-        PostSaveReqVO reqVO = randomPojo(PostSaveReqVO.class,
+        PostSaveRequest reqVO = randomPojo(PostSaveRequest.class,
                 o -> o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()))
                 .setId(null); // 防止 id 被设置
         // 调用
@@ -61,7 +61,7 @@ public class PostServiceImplTest extends BaseDbUnitTest {
         PostEntity postDO = randomPostDO();
         postMapper.insert(postDO);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        PostSaveReqVO reqVO = randomPojo(PostSaveReqVO.class, o -> {
+        PostSaveRequest reqVO = randomPojo(PostSaveRequest.class, o -> {
             // 设置更新的 ID
             o.setId(postDO.getId());
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus());
@@ -102,7 +102,7 @@ public class PostServiceImplTest extends BaseDbUnitTest {
         PostEntity postDO = randomPostDO();
         postMapper.insert(postDO);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        PostSaveReqVO reqVO = randomPojo(PostSaveReqVO.class,
+        PostSaveRequest reqVO = randomPojo(PostSaveRequest.class,
             // 模拟 name 重复
             o -> o.setName(postDO.getName()));
         assertServiceException(() -> postService.createPost(reqVO), POST_NAME_DUPLICATE);
@@ -117,7 +117,7 @@ public class PostServiceImplTest extends BaseDbUnitTest {
         PostEntity codePostDO = randomPostDO();
         postMapper.insert(codePostDO);
         // 准备参数
-        PostSaveReqVO reqVO = randomPojo(PostSaveReqVO.class, o -> {
+        PostSaveRequest reqVO = randomPojo(PostSaveRequest.class, o -> {
             // 设置更新的 ID
             o.setId(postDO.getId());
             // 模拟 code 重复
@@ -141,7 +141,7 @@ public class PostServiceImplTest extends BaseDbUnitTest {
         // 测试 status 不匹配
         postMapper.insert(cloneIgnoreId(postDO, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
         // 准备参数
-        PostPageReqVO reqVO = new PostPageReqVO();
+        PostPageRequest reqVO = new PostPageRequest();
         reqVO.setName("码");
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
 

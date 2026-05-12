@@ -5,7 +5,7 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.ObjectUtils;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.framework.test.core.util.AssertUtils;
-import com.focela.platform.module.infra.controller.admin.file.vo.file.FilePageReqVO;
+import com.focela.platform.module.infra.controller.admin.file.dto.file.FilePageRequest;
 import com.focela.platform.module.infra.repository.entity.file.FileEntity;
 import com.focela.platform.module.infra.repository.mapper.file.FileMapper;
 import com.focela.platform.module.infra.framework.file.core.client.FileClient;
@@ -64,7 +64,7 @@ public class FileServiceImplTest extends BaseDbUnitTest {
             o.setCreateTime(buildTime(2020, 1, 15));
         }));
         // 准备参数
-        FilePageReqVO reqVO = new FilePageReqVO();
+        FilePageRequest reqVO = new FilePageRequest();
         reqVO.setPath("yunai");
         reqVO.setType("jp");
         reqVO.setCreateTime((new LocalDateTime[]{buildTime(2021, 1, 10), buildTime(2021, 1, 20)}));

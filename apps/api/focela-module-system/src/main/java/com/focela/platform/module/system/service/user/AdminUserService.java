@@ -3,13 +3,13 @@ package com.focela.platform.module.system.service.user;
 import cn.hutool.core.collection.CollUtil;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.collection.CollectionUtils;
-import com.focela.platform.module.system.controller.admin.auth.vo.AuthRegisterReqVO;
-import com.focela.platform.module.system.controller.admin.user.vo.profile.UserProfileUpdatePasswordReqVO;
-import com.focela.platform.module.system.controller.admin.user.vo.profile.UserProfileUpdateReqVO;
-import com.focela.platform.module.system.controller.admin.user.vo.user.UserImportExcelVO;
-import com.focela.platform.module.system.controller.admin.user.vo.user.UserImportRespVO;
-import com.focela.platform.module.system.controller.admin.user.vo.user.UserPageReqVO;
-import com.focela.platform.module.system.controller.admin.user.vo.user.UserSaveReqVO;
+import com.focela.platform.module.system.controller.admin.auth.dto.AuthRegisterRequest;
+import com.focela.platform.module.system.controller.admin.user.dto.profile.UserProfileUpdatePasswordRequest;
+import com.focela.platform.module.system.controller.admin.user.dto.profile.UserProfileUpdateRequest;
+import com.focela.platform.module.system.controller.admin.user.dto.user.UserImportExcelDto;
+import com.focela.platform.module.system.controller.admin.user.dto.user.UserImportResponse;
+import com.focela.platform.module.system.controller.admin.user.dto.user.UserPageRequest;
+import com.focela.platform.module.system.controller.admin.user.dto.user.UserSaveRequest;
 import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
 import jakarta.validation.Valid;
 
@@ -28,25 +28,25 @@ public interface AdminUserService {
     /**
      * 创建用户
      *
-     * @param createReqVO 用户信息
+     * @param createRequest 用户信息
      * @return 用户编号
      */
-    Long createUser(@Valid UserSaveReqVO createReqVO);
+    Long createUser(@Valid UserSaveRequest createRequest);
 
     /**
      * 注册用户
      *
-     * @param registerReqVO 用户信息
+     * @param registerRequest 用户信息
      * @return 用户编号
      */
-    Long registerUser(@Valid AuthRegisterReqVO registerReqVO);
+    Long registerUser(@Valid AuthRegisterRequest registerRequest);
 
     /**
      * 修改用户
      *
-     * @param updateReqVO 用户信息
+     * @param updateRequest 用户信息
      */
-    void updateUser(@Valid UserSaveReqVO updateReqVO);
+    void updateUser(@Valid UserSaveRequest updateRequest);
 
     /**
      * 更新用户的最后登陆信息
@@ -62,7 +62,7 @@ public interface AdminUserService {
      * @param id 用户编号
      * @param reqVO 用户个人信息
      */
-    void updateUserProfile(Long id, @Valid UserProfileUpdateReqVO reqVO);
+    void updateUserProfile(Long id, @Valid UserProfileUpdateRequest reqVO);
 
     /**
      * 修改用户个人密码
@@ -70,7 +70,7 @@ public interface AdminUserService {
      * @param id 用户编号
      * @param reqVO 更新用户个人密码
      */
-    void updateUserPassword(Long id, @Valid UserProfileUpdatePasswordReqVO reqVO);
+    void updateUserPassword(Long id, @Valid UserProfileUpdatePasswordRequest reqVO);
 
     /**
      * 修改密码
@@ -124,7 +124,7 @@ public interface AdminUserService {
      * @param reqVO 分页条件
      * @return 分页列表
      */
-    PageResult<AdminUserEntity> getUserPage(UserPageReqVO reqVO);
+    PageResult<AdminUserEntity> getUserPage(UserPageRequest reqVO);
 
     /**
      * 通过用户 ID 查询用户
@@ -195,7 +195,7 @@ public interface AdminUserService {
      * @param isUpdateSupport 是否支持更新
      * @return 导入结果
      */
-    UserImportRespVO importUserList(List<UserImportExcelVO> importUsers, boolean isUpdateSupport);
+    UserImportResponse importUserList(List<UserImportExcelDto> importUsers, boolean isUpdateSupport);
 
     /**
      * 获得指定状态的用户们

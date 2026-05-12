@@ -10,9 +10,9 @@ import com.focela.platform.framework.common.pojo.CommonResult;
 import com.focela.platform.framework.common.util.collection.SetUtils;
 import com.focela.platform.framework.common.util.object.ObjectUtils;
 import com.focela.platform.framework.test.core.ut.BaseMockitoUnitTest;
-import com.focela.platform.module.system.controller.admin.oauth2.vo.open.OAuth2OpenAccessTokenRespVO;
-import com.focela.platform.module.system.controller.admin.oauth2.vo.open.OAuth2OpenAuthorizeInfoRespVO;
-import com.focela.platform.module.system.controller.admin.oauth2.vo.open.OAuth2OpenCheckTokenRespVO;
+import com.focela.platform.module.system.controller.admin.oauth2.dto.open.OAuth2OpenAccessTokenResponse;
+import com.focela.platform.module.system.controller.admin.oauth2.dto.open.OAuth2OpenAuthorizeInfoResponse;
+import com.focela.platform.module.system.controller.admin.oauth2.dto.open.OAuth2OpenCheckTokenResponse;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2ApproveEntity;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2ClientEntity;
@@ -86,7 +86,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
                 eq(code), eq(redirectUri), eq(state))).thenReturn(accessTokenDO);
 
         // 调用
-        CommonResult<OAuth2OpenAccessTokenRespVO> result = oauth2OpenController.postAccessToken(request, granType,
+        CommonResult<OAuth2OpenAccessTokenResponse> result = oauth2OpenController.postAccessToken(request, granType,
                 code, redirectUri, state, null, null, null, null);
         // 断言
         assertEquals(0, result.getCode());
@@ -114,7 +114,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
                 eq(Lists.newArrayList("write", "read")))).thenReturn(accessTokenDO);
 
         // 调用
-        CommonResult<OAuth2OpenAccessTokenRespVO> result = oauth2OpenController.postAccessToken(request, granType,
+        CommonResult<OAuth2OpenAccessTokenResponse> result = oauth2OpenController.postAccessToken(request, granType,
                 null, null, null, username, password, scope, null);
         // 断言
         assertEquals(0, result.getCode());
@@ -140,7 +140,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
         when(oauth2GrantService.grantRefreshToken(eq(refreshToken), eq("test_client_id"))).thenReturn(accessTokenDO);
 
         // 调用
-        CommonResult<OAuth2OpenAccessTokenRespVO> result = oauth2OpenController.postAccessToken(request, granType,
+        CommonResult<OAuth2OpenAccessTokenResponse> result = oauth2OpenController.postAccessToken(request, granType,
                 null, null, null, null, password, null, refreshToken);
         // 断言
         assertEquals(0, result.getCode());
@@ -186,7 +186,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
         when(oauth2TokenService.checkAccessToken(eq(token))).thenReturn(accessTokenDO);
 
         // 调用
-        CommonResult<OAuth2OpenCheckTokenRespVO> result = oauth2OpenController.checkToken(request, token);
+        CommonResult<OAuth2OpenCheckTokenResponse> result = oauth2OpenController.checkToken(request, token);
         // 断言
         assertEquals(0, result.getCode());
         assertPojoEquals(accessTokenDO, result.getData());
@@ -207,7 +207,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
         when(oauth2ApproveService.getApproveList(isNull(), eq(UserTypeEnum.ADMIN.getValue()), eq(clientId))).thenReturn(approves);
 
         // 调用
-        CommonResult<OAuth2OpenAuthorizeInfoRespVO> result = oauth2OpenController.authorize(clientId);
+        CommonResult<OAuth2OpenAuthorizeInfoResponse> result = oauth2OpenController.authorize(clientId);
         // 断言
         assertEquals(0, result.getCode());
         assertPojoEquals(client, result.getData().getClient());

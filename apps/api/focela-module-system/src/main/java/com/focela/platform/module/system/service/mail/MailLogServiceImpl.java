@@ -2,7 +2,7 @@ package com.focela.platform.module.system.service.mail;
 
 import cn.hutool.core.collection.ListUtil;
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.system.controller.admin.mail.vo.log.MailLogPageReqVO;
+import com.focela.platform.module.system.controller.admin.mail.dto.log.MailLogPageRequest;
 import com.focela.platform.module.system.repository.entity.mail.MailAccountEntity;
 import com.focela.platform.module.system.repository.entity.mail.MailLogEntity;
 import com.focela.platform.module.system.repository.entity.mail.MailTemplateEntity;
@@ -31,7 +31,7 @@ public class MailLogServiceImpl implements MailLogService {
     private MailLogMapper mailLogMapper;
 
     @Override
-    public PageResult<MailLogEntity> getMailLogPage(MailLogPageReqVO pageVO) {
+    public PageResult<MailLogEntity> getMailLogPage(MailLogPageRequest pageVO) {
         return mailLogMapper.selectPage(pageVO);
     }
 

@@ -1,8 +1,8 @@
 package com.focela.platform.module.infra.service.demo.demo03.inner;
 
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.infra.controller.admin.demo.demo03.inner.vo.Demo03StudentInnerPageReqVO;
-import com.focela.platform.module.infra.controller.admin.demo.demo03.inner.vo.Demo03StudentInnerSaveReqVO;
+import com.focela.platform.module.infra.controller.admin.demo.demo03.inner.dto.Demo03StudentInnerPageRequest;
+import com.focela.platform.module.infra.controller.admin.demo.demo03.inner.dto.Demo03StudentInnerSaveRequest;
 import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03CourseEntity;
 import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03GradeEntity;
 import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03StudentEntity;
@@ -20,17 +20,17 @@ public interface Demo03StudentInnerService {
     /**
      * 创建学生
      *
-     * @param createReqVO 创建信息
+     * @param createRequest 创建信息
      * @return 编号
      */
-    Long createDemo03Student(@Valid Demo03StudentInnerSaveReqVO createReqVO);
+    Long createDemo03Student(@Valid Demo03StudentInnerSaveRequest createRequest);
 
     /**
      * 更新学生
      *
-     * @param updateReqVO 更新信息
+     * @param updateRequest 更新信息
      */
-    void updateDemo03Student(@Valid Demo03StudentInnerSaveReqVO updateReqVO);
+    void updateDemo03Student(@Valid Demo03StudentInnerSaveRequest updateRequest);
 
     /**
      * 删除学生
@@ -57,10 +57,10 @@ public interface Demo03StudentInnerService {
     /**
      * 获得学生分页
      *
-     * @param pageReqVO 分页查询
+     * @param pageRequest 分页查询
      * @return 学生分页
      */
-    PageResult<Demo03StudentEntity> getDemo03StudentPage(Demo03StudentInnerPageReqVO pageReqVO);
+    PageResult<Demo03StudentEntity> getDemo03StudentPage(Demo03StudentInnerPageRequest pageRequest);
 
     // ==================== 子表（学生课程） ====================
 

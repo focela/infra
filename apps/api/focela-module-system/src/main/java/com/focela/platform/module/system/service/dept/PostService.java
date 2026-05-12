@@ -1,8 +1,8 @@
 package com.focela.platform.module.system.service.dept;
 
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.system.controller.admin.dept.vo.post.PostPageReqVO;
-import com.focela.platform.module.system.controller.admin.dept.vo.post.PostSaveReqVO;
+import com.focela.platform.module.system.controller.admin.dept.dto.post.PostPageRequest;
+import com.focela.platform.module.system.controller.admin.dept.dto.post.PostSaveRequest;
 import com.focela.platform.module.system.repository.entity.dept.PostEntity;
 import org.springframework.lang.Nullable;
 
@@ -19,17 +19,17 @@ public interface PostService {
     /**
      * 创建岗位
      *
-     * @param createReqVO 岗位信息
+     * @param createRequest 岗位信息
      * @return 岗位编号
      */
-    Long createPost(PostSaveReqVO createReqVO);
+    Long createPost(PostSaveRequest createRequest);
 
     /**
      * 更新岗位
      *
-     * @param updateReqVO 岗位信息
+     * @param updateRequest 岗位信息
      */
-    void updatePost(PostSaveReqVO updateReqVO);
+    void updatePost(PostSaveRequest updateRequest);
 
     /**
      * 删除岗位信息
@@ -69,7 +69,7 @@ public interface PostService {
      * @param reqVO 分页条件
      * @return 部门分页列表
      */
-    PageResult<PostEntity> getPostPage(PostPageReqVO reqVO);
+    PageResult<PostEntity> getPostPage(PostPageRequest reqVO);
 
     /**
      * 获得岗位信息

@@ -8,8 +8,8 @@ import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.common.util.string.StrUtils;
-import com.focela.platform.module.system.controller.admin.oauth2.vo.client.OAuth2ClientPageReqVO;
-import com.focela.platform.module.system.controller.admin.oauth2.vo.client.OAuth2ClientSaveReqVO;
+import com.focela.platform.module.system.controller.admin.oauth2.dto.client.OAuth2ClientPageRequest;
+import com.focela.platform.module.system.controller.admin.oauth2.dto.client.OAuth2ClientSaveRequest;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2ClientEntity;
 import com.focela.platform.module.system.repository.mapper.oauth2.OAuth2ClientMapper;
 import com.focela.platform.module.system.repository.redis.RedisKeyConstants;
@@ -41,10 +41,10 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
     private OAuth2ClientMapper oauth2ClientMapper;
 
     @Override
-    public Long createOAuth2Client(OAuth2ClientSaveReqVO createReqVO) {
-        validateClientIdExists(null, createReqVO.getClientId());
+    public Long createOAuth2Client(OAuth2ClientSaveRequest createRequest) {
+        validateClientIdExists(null, createRequest.getClientId());
         // 插入
-        OAuth2ClientEntity client = BeanUtils.toBean(createReqVO, OAuth2ClientEntity.class);
+        OAuth2ClientEntity client = BeanUtils.toBean(createRequest, OAuth2ClientEntity.class);
         oauth2ClientMapper.insert(client);
         return client.getId();
     }
@@ -52,14 +52,14 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
     @Override
     @CacheEvict(cacheNames = RedisKeyConstants.OAUTH_CLIENT,
             allEntries = true) // allEntries 清空所有缓存，因为可能修改到 clientId 字段，不好清理
-    public void updateOAuth2Client(OAuth2ClientSaveReqVO updateReqVO) {
+    public void updateOAuth2Client(OAuth2ClientSaveRequest updateRequest) {
         // 校验存在
-        validateOAuth2ClientExists(updateReqVO.getId());
+        validateOAuth2ClientExists(updateRequest.getId());
         // 校验 Client 未被占用
-        validateClientIdExists(updateReqVO.getId(), updateReqVO.getClientId());
+        validateClientIdExists(updateRequest.getId(), updateRequest.getClientId());
 
         // 更新
-        OAuth2ClientEntity updateObj = BeanUtils.toBean(updateReqVO, OAuth2ClientEntity.class);
+        OAuth2ClientEntity updateObj = BeanUtils.toBean(updateRequest, OAuth2ClientEntity.class);
         oauth2ClientMapper.updateById(updateObj);
     }
 
@@ -114,8 +114,8 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
     }
 
     @Override
-    public PageResult<OAuth2ClientEntity> getOAuth2ClientPage(OAuth2ClientPageReqVO pageReqVO) {
-        return oauth2ClientMapper.selectPage(pageReqVO);
+    public PageResult<OAuth2ClientEntity> getOAuth2ClientPage(OAuth2ClientPageRequest pageRequest) {
+        return oauth2ClientMapper.selectPage(pageRequest);
     }
 
     @Override

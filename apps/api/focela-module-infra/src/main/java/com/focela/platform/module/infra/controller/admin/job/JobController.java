@@ -7,9 +7,9 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.excel.core.util.ExcelUtils;
 import com.focela.platform.framework.quartz.core.util.CronUtils;
-import com.focela.platform.module.infra.controller.admin.job.vo.job.JobPageReqVO;
-import com.focela.platform.module.infra.controller.admin.job.vo.job.JobRespVO;
-import com.focela.platform.module.infra.controller.admin.job.vo.job.JobSaveReqVO;
+import com.focela.platform.module.infra.controller.admin.job.dto.job.JobPageRequest;
+import com.focela.platform.module.infra.controller.admin.job.dto.job.JobResponse;
+import com.focela.platform.module.infra.controller.admin.job.dto.job.JobSaveRequest;
 import com.focela.platform.module.infra.repository.entity.job.JobEntity;
 import com.focela.platform.module.infra.service.job.JobService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,17 +44,17 @@ public class JobController {
     @PostMapping("/create")
     @Operation(summary = "创建定时任务")
     @PreAuthorize("@ss.hasPermission('infra:job:create')")
-    public CommonResult<Long> createJob(@Valid @RequestBody JobSaveReqVO createReqVO)
+    public CommonResult<Long> createJob(@Valid @RequestBody JobSaveRequest createRequest)
             throws SchedulerException {
-        return success(jobService.createJob(createReqVO));
+        return success(jobService.createJob(createRequest));
     }
 
     @PutMapping("/update")
     @Operation(summary = "更新定时任务")
     @PreAuthorize("@ss.hasPermission('infra:job:update')")
-    public CommonResult<Boolean> updateJob(@Valid @RequestBody JobSaveReqVO updateReqVO)
+    public CommonResult<Boolean> updateJob(@Valid @RequestBody JobSaveRequest updateRequest)
             throws SchedulerException {
-        jobService.updateJob(updateReqVO);
+        jobService.updateJob(updateRequest);
         return success(true);
     }
 
@@ -112,30 +112,30 @@ public class JobController {
     @Operation(summary = "获得定时任务")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:job:query')")
-    public CommonResult<JobRespVO> getJob(@RequestParam("id") Long id) {
+    public CommonResult<JobResponse> getJob(@RequestParam("id") Long id) {
         JobEntity job = jobService.getJob(id);
-        return success(BeanUtils.toBean(job, JobRespVO.class));
+        return success(BeanUtils.toBean(job, JobResponse.class));
     }
 
     @GetMapping("/page")
     @Operation(summary = "获得定时任务分页")
     @PreAuthorize("@ss.hasPermission('infra:job:query')")
-    public CommonResult<PageResult<JobRespVO>> getJobPage(@Valid JobPageReqVO pageVO) {
+    public CommonResult<PageResult<JobResponse>> getJobPage(@Valid JobPageRequest pageVO) {
         PageResult<JobEntity> pageResult = jobService.getJobPage(pageVO);
-        return success(BeanUtils.toBean(pageResult, JobRespVO.class));
+        return success(BeanUtils.toBean(pageResult, JobResponse.class));
     }
 
     @GetMapping("/export-excel")
     @Operation(summary = "导出定时任务 Excel")
     @PreAuthorize("@ss.hasPermission('infra:job:export')")
     @ApiAccessLog(operateType = EXPORT)
-    public void exportJobExcel(@Valid JobPageReqVO exportReqVO,
+    public void exportJobExcel(@Valid JobPageRequest exportRequest,
                                HttpServletResponse response) throws IOException {
-        exportReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<JobEntity> list = jobService.getJobPage(exportReqVO).getList();
+        exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
+        List<JobEntity> list = jobService.getJobPage(exportRequest).getList();
         // 导出 Excel
-        ExcelUtils.write(response, "定时任务.xls", "数据", JobRespVO.class,
-                BeanUtils.toBean(list, JobRespVO.class));
+        ExcelUtils.write(response, "定时任务.xls", "数据", JobResponse.class,
+                BeanUtils.toBean(list, JobResponse.class));
     }
 
     @GetMapping("/get_next_times")

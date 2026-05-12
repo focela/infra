@@ -6,8 +6,8 @@ import com.focela.platform.framework.common.pojo.PageParam;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.excel.core.util.ExcelUtils;
-import com.focela.platform.module.infra.controller.admin.job.vo.log.JobLogPageReqVO;
-import com.focela.platform.module.infra.controller.admin.job.vo.log.JobLogRespVO;
+import com.focela.platform.module.infra.controller.admin.job.dto.log.JobLogPageRequest;
+import com.focela.platform.module.infra.controller.admin.job.dto.log.JobLogResponse;
 import com.focela.platform.module.infra.repository.entity.job.JobLogEntity;
 import com.focela.platform.module.infra.service.job.JobLogService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,30 +42,30 @@ public class JobLogController {
     @Operation(summary = "获得定时任务日志")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:job:query')")
-    public CommonResult<JobLogRespVO> getJobLog(@RequestParam("id") Long id) {
+    public CommonResult<JobLogResponse> getJobLog(@RequestParam("id") Long id) {
         JobLogEntity jobLog = jobLogService.getJobLog(id);
-        return success(BeanUtils.toBean(jobLog, JobLogRespVO.class));
+        return success(BeanUtils.toBean(jobLog, JobLogResponse.class));
     }
 
     @GetMapping("/page")
     @Operation(summary = "获得定时任务日志分页")
     @PreAuthorize("@ss.hasPermission('infra:job:query')")
-    public CommonResult<PageResult<JobLogRespVO>> getJobLogPage(@Valid JobLogPageReqVO pageVO) {
+    public CommonResult<PageResult<JobLogResponse>> getJobLogPage(@Valid JobLogPageRequest pageVO) {
         PageResult<JobLogEntity> pageResult = jobLogService.getJobLogPage(pageVO);
-        return success(BeanUtils.toBean(pageResult, JobLogRespVO.class));
+        return success(BeanUtils.toBean(pageResult, JobLogResponse.class));
     }
 
     @GetMapping("/export-excel")
     @Operation(summary = "导出定时任务日志 Excel")
     @PreAuthorize("@ss.hasPermission('infra:job:export')")
     @ApiAccessLog(operateType = EXPORT)
-    public void exportJobLogExcel(@Valid JobLogPageReqVO exportReqVO,
+    public void exportJobLogExcel(@Valid JobLogPageRequest exportRequest,
                                   HttpServletResponse response) throws IOException {
-        exportReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<JobLogEntity> list = jobLogService.getJobLogPage(exportReqVO).getList();
+        exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
+        List<JobLogEntity> list = jobLogService.getJobLogPage(exportRequest).getList();
         // 导出 Excel
-        ExcelUtils.write(response, "任务日志.xls", "数据", JobLogRespVO.class,
-                BeanUtils.toBean(list, JobLogRespVO.class));
+        ExcelUtils.write(response, "任务日志.xls", "数据", JobLogResponse.class,
+                BeanUtils.toBean(list, JobLogResponse.class));
     }
 
 }

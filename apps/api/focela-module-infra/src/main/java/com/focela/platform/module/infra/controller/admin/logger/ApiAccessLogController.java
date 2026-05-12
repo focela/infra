@@ -6,8 +6,8 @@ import com.focela.platform.framework.common.pojo.PageParam;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.excel.core.util.ExcelUtils;
-import com.focela.platform.module.infra.controller.admin.logger.vo.apiaccesslog.ApiAccessLogPageReqVO;
-import com.focela.platform.module.infra.controller.admin.logger.vo.apiaccesslog.ApiAccessLogRespVO;
+import com.focela.platform.module.infra.controller.admin.logger.dto.apiaccesslog.ApiAccessLogPageRequest;
+import com.focela.platform.module.infra.controller.admin.logger.dto.apiaccesslog.ApiAccessLogResponse;
 import com.focela.platform.module.infra.repository.entity.logger.ApiAccessLogEntity;
 import com.focela.platform.module.infra.service.logger.ApiAccessLogService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,30 +42,30 @@ public class ApiAccessLogController {
     @Operation(summary = "获得 API 访问日志")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:api-access-log:query')")
-    public CommonResult<ApiAccessLogRespVO> getApiAccessLog(@RequestParam("id") Long id) {
+    public CommonResult<ApiAccessLogResponse> getApiAccessLog(@RequestParam("id") Long id) {
         ApiAccessLogEntity apiAccessLog = apiAccessLogService.getApiAccessLog(id);
-        return success(BeanUtils.toBean(apiAccessLog, ApiAccessLogRespVO.class));
+        return success(BeanUtils.toBean(apiAccessLog, ApiAccessLogResponse.class));
     }
 
     @GetMapping("/page")
     @Operation(summary = "获得API 访问日志分页")
     @PreAuthorize("@ss.hasPermission('infra:api-access-log:query')")
-    public CommonResult<PageResult<ApiAccessLogRespVO>> getApiAccessLogPage(@Valid ApiAccessLogPageReqVO pageReqVO) {
-        PageResult<ApiAccessLogEntity> pageResult = apiAccessLogService.getApiAccessLogPage(pageReqVO);
-        return success(BeanUtils.toBean(pageResult, ApiAccessLogRespVO.class));
+    public CommonResult<PageResult<ApiAccessLogResponse>> getApiAccessLogPage(@Valid ApiAccessLogPageRequest pageRequest) {
+        PageResult<ApiAccessLogEntity> pageResult = apiAccessLogService.getApiAccessLogPage(pageRequest);
+        return success(BeanUtils.toBean(pageResult, ApiAccessLogResponse.class));
     }
 
     @GetMapping("/export-excel")
     @Operation(summary = "导出API 访问日志 Excel")
     @PreAuthorize("@ss.hasPermission('infra:api-access-log:export')")
     @ApiAccessLog(operateType = EXPORT)
-    public void exportApiAccessLogExcel(@Valid ApiAccessLogPageReqVO exportReqVO,
+    public void exportApiAccessLogExcel(@Valid ApiAccessLogPageRequest exportRequest,
                                         HttpServletResponse response) throws IOException {
-        exportReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<ApiAccessLogEntity> list = apiAccessLogService.getApiAccessLogPage(exportReqVO).getList();
+        exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
+        List<ApiAccessLogEntity> list = apiAccessLogService.getApiAccessLogPage(exportRequest).getList();
         // 导出 Excel
-        ExcelUtils.write(response, "API 访问日志.xls", "数据", ApiAccessLogRespVO.class,
-                BeanUtils.toBean(list, ApiAccessLogRespVO.class));
+        ExcelUtils.write(response, "API 访问日志.xls", "数据", ApiAccessLogResponse.class,
+                BeanUtils.toBean(list, ApiAccessLogResponse.class));
     }
 
 }

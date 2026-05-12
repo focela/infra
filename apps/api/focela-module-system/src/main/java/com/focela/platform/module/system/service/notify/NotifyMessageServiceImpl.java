@@ -1,8 +1,8 @@
 package com.focela.platform.module.system.service.notify;
 
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.system.controller.admin.notify.vo.message.NotifyMessageMyPageReqVO;
-import com.focela.platform.module.system.controller.admin.notify.vo.message.NotifyMessagePageReqVO;
+import com.focela.platform.module.system.controller.admin.notify.dto.message.NotifyMessageMyPageRequest;
+import com.focela.platform.module.system.controller.admin.notify.dto.message.NotifyMessagePageRequest;
 import com.focela.platform.module.system.repository.entity.notify.NotifyMessageEntity;
 import com.focela.platform.module.system.repository.entity.notify.NotifyTemplateEntity;
 import com.focela.platform.module.system.repository.mapper.notify.NotifyMessageMapper;
@@ -38,13 +38,13 @@ public class NotifyMessageServiceImpl implements NotifyMessageService {
     }
 
     @Override
-    public PageResult<NotifyMessageEntity> getNotifyMessagePage(NotifyMessagePageReqVO pageReqVO) {
-        return notifyMessageMapper.selectPage(pageReqVO);
+    public PageResult<NotifyMessageEntity> getNotifyMessagePage(NotifyMessagePageRequest pageRequest) {
+        return notifyMessageMapper.selectPage(pageRequest);
     }
 
     @Override
-    public PageResult<NotifyMessageEntity> getMyMyNotifyMessagePage(NotifyMessageMyPageReqVO pageReqVO, Long userId, Integer userType) {
-        return notifyMessageMapper.selectPage(pageReqVO, userId, userType);
+    public PageResult<NotifyMessageEntity> getMyMyNotifyMessagePage(NotifyMessageMyPageRequest pageRequest, Long userId, Integer userType) {
+        return notifyMessageMapper.selectPage(pageRequest, userId, userType);
     }
 
     @Override

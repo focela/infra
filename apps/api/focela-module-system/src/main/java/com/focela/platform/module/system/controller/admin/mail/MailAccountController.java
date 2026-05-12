@@ -4,10 +4,10 @@ package com.focela.platform.module.system.controller.admin.mail;
 import com.focela.platform.framework.common.pojo.CommonResult;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.system.controller.admin.mail.vo.account.MailAccountPageReqVO;
-import com.focela.platform.module.system.controller.admin.mail.vo.account.MailAccountRespVO;
-import com.focela.platform.module.system.controller.admin.mail.vo.account.MailAccountSaveReqVO;
-import com.focela.platform.module.system.controller.admin.mail.vo.account.MailAccountSimpleRespVO;
+import com.focela.platform.module.system.controller.admin.mail.dto.account.MailAccountPageRequest;
+import com.focela.platform.module.system.controller.admin.mail.dto.account.MailAccountResponse;
+import com.focela.platform.module.system.controller.admin.mail.dto.account.MailAccountSaveRequest;
+import com.focela.platform.module.system.controller.admin.mail.dto.account.MailAccountSimpleResponse;
 import com.focela.platform.module.system.repository.entity.mail.MailAccountEntity;
 import com.focela.platform.module.system.service.mail.MailAccountService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,15 +33,15 @@ public class MailAccountController {
     @PostMapping("/create")
     @Operation(summary = "创建邮箱账号")
     @PreAuthorize("@ss.hasPermission('system:mail-account:create')")
-    public CommonResult<Long> createMailAccount(@Valid @RequestBody MailAccountSaveReqVO createReqVO) {
-        return success(mailAccountService.createMailAccount(createReqVO));
+    public CommonResult<Long> createMailAccount(@Valid @RequestBody MailAccountSaveRequest createRequest) {
+        return success(mailAccountService.createMailAccount(createRequest));
     }
 
     @PutMapping("/update")
     @Operation(summary = "修改邮箱账号")
     @PreAuthorize("@ss.hasPermission('system:mail-account:update')")
-    public CommonResult<Boolean> updateMailAccount(@Valid @RequestBody MailAccountSaveReqVO updateReqVO) {
-        mailAccountService.updateMailAccount(updateReqVO);
+    public CommonResult<Boolean> updateMailAccount(@Valid @RequestBody MailAccountSaveRequest updateRequest) {
+        mailAccountService.updateMailAccount(updateRequest);
         return success(true);
     }
 
@@ -67,24 +67,24 @@ public class MailAccountController {
     @Operation(summary = "获得邮箱账号")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:mail-account:query')")
-    public CommonResult<MailAccountRespVO> getMailAccount(@RequestParam("id") Long id) {
+    public CommonResult<MailAccountResponse> getMailAccount(@RequestParam("id") Long id) {
         MailAccountEntity account = mailAccountService.getMailAccount(id);
-        return success(BeanUtils.toBean(account, MailAccountRespVO.class));
+        return success(BeanUtils.toBean(account, MailAccountResponse.class));
     }
 
     @GetMapping("/page")
     @Operation(summary = "获得邮箱账号分页")
     @PreAuthorize("@ss.hasPermission('system:mail-account:query')")
-    public CommonResult<PageResult<MailAccountRespVO>> getMailAccountPage(@Valid MailAccountPageReqVO pageReqVO) {
-        PageResult<MailAccountEntity> pageResult = mailAccountService.getMailAccountPage(pageReqVO);
-        return success(BeanUtils.toBean(pageResult, MailAccountRespVO.class));
+    public CommonResult<PageResult<MailAccountResponse>> getMailAccountPage(@Valid MailAccountPageRequest pageRequest) {
+        PageResult<MailAccountEntity> pageResult = mailAccountService.getMailAccountPage(pageRequest);
+        return success(BeanUtils.toBean(pageResult, MailAccountResponse.class));
     }
 
     @GetMapping({"/list-all-simple", "simple-list"})
     @Operation(summary = "获得邮箱账号精简列表")
-    public CommonResult<List<MailAccountSimpleRespVO>> getSimpleMailAccountList() {
+    public CommonResult<List<MailAccountSimpleResponse>> getSimpleMailAccountList() {
         List<MailAccountEntity> list = mailAccountService.getMailAccountList();
-        return success(BeanUtils.toBean(list, MailAccountSimpleRespVO.class));
+        return success(BeanUtils.toBean(list, MailAccountSimpleResponse.class));
     }
 
 }

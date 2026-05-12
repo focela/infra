@@ -1,8 +1,8 @@
 package com.focela.platform.module.infra.service.demo.demo01;
 
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.infra.controller.admin.demo.demo01.vo.Demo01ContactPageReqVO;
-import com.focela.platform.module.infra.controller.admin.demo.demo01.vo.Demo01ContactSaveReqVO;
+import com.focela.platform.module.infra.controller.admin.demo.demo01.dto.Demo01ContactPageRequest;
+import com.focela.platform.module.infra.controller.admin.demo.demo01.dto.Demo01ContactSaveRequest;
 import com.focela.platform.module.infra.repository.entity.demo.demo01.Demo01ContactEntity;
 import jakarta.validation.Valid;
 
@@ -18,17 +18,17 @@ public interface Demo01ContactService {
     /**
      * 创建示例联系人
      *
-     * @param createReqVO 创建信息
+     * @param createRequest 创建信息
      * @return 编号
      */
-    Long createDemo01Contact(@Valid Demo01ContactSaveReqVO createReqVO);
+    Long createDemo01Contact(@Valid Demo01ContactSaveRequest createRequest);
 
     /**
      * 更新示例联系人
      *
-     * @param updateReqVO 更新信息
+     * @param updateRequest 更新信息
      */
-    void updateDemo01Contact(@Valid Demo01ContactSaveReqVO updateReqVO);
+    void updateDemo01Contact(@Valid Demo01ContactSaveRequest updateRequest);
 
     /**
      * 删除示例联系人
@@ -55,9 +55,9 @@ public interface Demo01ContactService {
     /**
      * 获得示例联系人分页
      *
-     * @param pageReqVO 分页查询
+     * @param pageRequest 分页查询
      * @return 示例联系人分页
      */
-    PageResult<Demo01ContactEntity> getDemo01ContactPage(Demo01ContactPageReqVO pageReqVO);
+    PageResult<Demo01ContactEntity> getDemo01ContactPage(Demo01ContactPageRequest pageRequest);
 
 }

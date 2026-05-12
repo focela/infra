@@ -32,7 +32,7 @@ Chuẩn hoá naming convention nội bộ từ **kiểu enterprise Trung Quốc*
 | `dataobject/` package | 1 framework base + 2 module | bao gồm trong 105 |
 | `vo/` package | 31 thư mục | **160 file** |
 | `*DO` class suffix | Tất cả DAO entity | ~50 class |
-| `*RespVO`, `*ReqVO`, `*PageReqVO`, `*SaveReqVO`, `*ExcelVO` | Tất cả controller DTO | ~150 class |
+| `*RespVO`, `*ReqVO`, `*PageRequest`, `*SaveRequest`, `*ExcelVO` | Tất cả controller DTO | ~150 class |
 | MyBatis `type-aliases-package` config refs | `dal.dataobject` path | 2 YAML |
 
 **Total impact:** ~265 file Java + 2 YAML + codegen template + cross-module reference
@@ -61,19 +61,19 @@ Chuẩn hoá naming convention nội bộ từ **kiểu enterprise Trung Quốc*
 | Hiện tại | Đề xuất | Lý do |
 |---|---|---|
 | `vo/` package | `dto/` package | Spring/Jakarta DTO convention |
-| `*ReqVO`, `*SaveReqVO`, `*PageReqVO` | `*Request` | REST API standard |
+| `*ReqVO`, `*SaveRequest`, `*PageRequest` | `*Request` | REST API standard |
 | `*RespVO` | `*Response` | REST API standard |
 | `*ExcelVO` | `*ExcelDto` hoặc giữ | Export Excel use case riêng |
 
 **Phân loại chi tiết Request:**
 - `*ReqVO` → `*Request` (generic request)
-- `*SaveReqVO` → `*SaveRequest` hoặc `*CreateRequest`/`*UpdateRequest` (tách create/update)
-- `*PageReqVO` → `*PageRequest` (pagination params)
+- `*SaveRequest` → `*SaveRequest` hoặc `*CreateRequest`/`*UpdateRequest` (tách create/update)
+- `*PageRequest` → `*PageRequest` (pagination params)
 
 **Khuyến nghị:** giữ pattern đơn giản — chỉ đổi suffix, không tách thêm:
 - `*ReqVO` → `*Request`
-- `*SaveReqVO` → `*SaveRequest`
-- `*PageReqVO` → `*PageRequest`
+- `*SaveRequest` → `*SaveRequest`
+- `*PageRequest` → `*PageRequest`
 - `*RespVO` → `*Response`
 - `*ExcelVO` → `*ExcelDto`
 
@@ -107,7 +107,7 @@ Chuẩn hoá naming convention nội bộ từ **kiểu enterprise Trung Quốc*
 
 ### Phase B2 — VO → DTO/Request/Response (rủi ro Trung bình)
 
-**Phạm vi:** Đổi `vo/` → `dto/`, `*ReqVO`/`*RespVO`/`*PageReqVO`/`*SaveReqVO` → suffix mới
+**Phạm vi:** Đổi `vo/` → `dto/`, `*ReqVO`/`*RespVO`/`*PageRequest`/`*SaveRequest` → suffix mới
 
 **Bước con:**
 1. `git mv` `vo/` → `dto/`
@@ -145,7 +145,7 @@ Chuẩn hoá naming convention nội bộ từ **kiểu enterprise Trung Quốc*
 | # | Quyết định | Options |
 |---|---|---|
 | Q1 | `*DO` đổi thành gì? | A. `*Entity` (khuyến nghị) / B. Bỏ suffix / C. Khác |
-| Q2 | `*ReqVO`/`*SaveReqVO` tách thành Create/Update riêng? | A. Giữ generic `*Request`/`*SaveRequest` (khuyến nghị) / B. Tách `*CreateRequest`/`*UpdateRequest` |
+| Q2 | `*ReqVO`/`*SaveRequest` tách thành Create/Update riêng? | A. Giữ generic `*Request`/`*SaveRequest` (khuyến nghị) / B. Tách `*CreateRequest`/`*UpdateRequest` |
 | Q3 | `*ExcelVO` đổi thành gì? | A. `*ExcelDto` / B. `*ExcelExport` / C. Giữ |
 | Q4 | Có gộp Phase B1 + B2 thành 1 commit lớn không? | A. Tách 2 commit (khuyến nghị — dễ revert) / B. Gộp |
 | Q5 | Branch chiến lược? | A. Tiếp `feature/SKF-1` (theo pattern hiện tại) / B. Tách `refactor/level-b-naming` |

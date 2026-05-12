@@ -12,9 +12,9 @@ import com.focela.platform.framework.datapermission.core.annotation.DataPermissi
 import com.focela.platform.framework.tenant.config.TenantProperties;
 import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
 import com.focela.platform.framework.tenant.core.util.TenantUtils;
-import com.focela.platform.module.system.controller.admin.permission.vo.role.RoleSaveReqVO;
-import com.focela.platform.module.system.controller.admin.tenant.vo.tenant.TenantPageReqVO;
-import com.focela.platform.module.system.controller.admin.tenant.vo.tenant.TenantSaveReqVO;
+import com.focela.platform.module.system.controller.admin.permission.dto.role.RoleSaveRequest;
+import com.focela.platform.module.system.controller.admin.tenant.dto.tenant.TenantPageRequest;
+import com.focela.platform.module.system.controller.admin.tenant.dto.tenant.TenantSaveRequest;
 import com.focela.platform.module.system.convert.tenant.TenantConvert;
 import com.focela.platform.module.system.repository.entity.permission.MenuEntity;
 import com.focela.platform.module.system.repository.entity.permission.RoleEntity;
@@ -97,32 +97,32 @@ public class TenantServiceImpl implements TenantService {
     @Override
     @DSTransactional // 多数据源，使用 @DSTransactional 保证本地事务，以及数据源的切换
     @DataPermission(enable = false) // 参见 https://gitee.com/zhijiantianya/ruoyi-vue-pro/pulls/1154 说明
-    public Long createTenant(TenantSaveReqVO createReqVO) {
+    public Long createTenant(TenantSaveRequest createRequest) {
         // 校验租户名称是否重复
-        validTenantNameDuplicate(createReqVO.getName(), null);
+        validTenantNameDuplicate(createRequest.getName(), null);
         // 校验租户域名是否重复
-        validTenantWebsiteDuplicate(createReqVO.getWebsites(), null);
+        validTenantWebsiteDuplicate(createRequest.getWebsites(), null);
         // 校验套餐被禁用
-        TenantPackageEntity tenantPackage = tenantPackageService.validTenantPackage(createReqVO.getPackageId());
+        TenantPackageEntity tenantPackage = tenantPackageService.validTenantPackage(createRequest.getPackageId());
 
         // 创建租户
-        TenantEntity tenant = BeanUtils.toBean(createReqVO, TenantEntity.class);
+        TenantEntity tenant = BeanUtils.toBean(createRequest, TenantEntity.class);
         tenantMapper.insert(tenant);
         // 创建租户的管理员
         TenantUtils.execute(tenant.getId(), () -> {
             // 创建角色
             Long roleId = createRole(tenantPackage);
             // 创建用户，并分配角色
-            Long userId = createUser(roleId, createReqVO);
+            Long userId = createUser(roleId, createRequest);
             // 修改租户的管理员
             tenantMapper.updateById(new TenantEntity().setId(tenant.getId()).setContactUserId(userId));
         });
         return tenant.getId();
     }
 
-    private Long createUser(Long roleId, TenantSaveReqVO createReqVO) {
+    private Long createUser(Long roleId, TenantSaveRequest createRequest) {
         // 创建用户
-        Long userId = userService.createUser(TenantConvert.INSTANCE.convert02(createReqVO));
+        Long userId = userService.createUser(TenantConvert.INSTANCE.convert02(createRequest));
         // 分配角色
         permissionService.assignUserRole(userId, singleton(roleId));
         return userId;
@@ -130,7 +130,7 @@ public class TenantServiceImpl implements TenantService {
 
     private Long createRole(TenantPackageEntity tenantPackage) {
         // 创建角色
-        RoleSaveReqVO reqVO = new RoleSaveReqVO();
+        RoleSaveRequest reqVO = new RoleSaveRequest();
         reqVO.setName(RoleCodeEnum.TENANT_ADMIN.getName()).setCode(RoleCodeEnum.TENANT_ADMIN.getCode())
                 .setSort(0).setRemark("系统自动生成");
         Long roleId = roleService.createRole(reqVO, RoleTypeEnum.SYSTEM.getType());
@@ -141,21 +141,21 @@ public class TenantServiceImpl implements TenantService {
 
     @Override
     @DSTransactional // 多数据源，使用 @DSTransactional 保证本地事务，以及数据源的切换
-    public void updateTenant(TenantSaveReqVO updateReqVO) {
+    public void updateTenant(TenantSaveRequest updateRequest) {
         // 校验存在
-        TenantEntity tenant = validateUpdateTenant(updateReqVO.getId());
+        TenantEntity tenant = validateUpdateTenant(updateRequest.getId());
         // 校验租户名称是否重复
-        validTenantNameDuplicate(updateReqVO.getName(), updateReqVO.getId());
+        validTenantNameDuplicate(updateRequest.getName(), updateRequest.getId());
         // 校验租户域名是否重复
-        validTenantWebsiteDuplicate(updateReqVO.getWebsites(), updateReqVO.getId());
+        validTenantWebsiteDuplicate(updateRequest.getWebsites(), updateRequest.getId());
         // 校验套餐被禁用
-        TenantPackageEntity tenantPackage = tenantPackageService.validTenantPackage(updateReqVO.getPackageId());
+        TenantPackageEntity tenantPackage = tenantPackageService.validTenantPackage(updateRequest.getPackageId());
 
         // 更新租户
-        TenantEntity updateObj = BeanUtils.toBean(updateReqVO, TenantEntity.class);
+        TenantEntity updateObj = BeanUtils.toBean(updateRequest, TenantEntity.class);
         tenantMapper.updateById(updateObj);
         // 如果套餐发生变化，则修改其角色的权限
-        if (ObjectUtil.notEqual(tenant.getPackageId(), updateReqVO.getPackageId())) {
+        if (ObjectUtil.notEqual(tenant.getPackageId(), updateRequest.getPackageId())) {
             updateTenantRoleMenu(tenant.getId(), tenantPackage.getMenuIds());
         }
     }
@@ -249,8 +249,8 @@ public class TenantServiceImpl implements TenantService {
     }
 
     @Override
-    public PageResult<TenantEntity> getTenantPage(TenantPageReqVO pageReqVO) {
-        return tenantMapper.selectPage(pageReqVO);
+    public PageResult<TenantEntity> getTenantPage(TenantPageRequest pageRequest) {
+        return tenantMapper.selectPage(pageRequest);
     }
 
     @Override

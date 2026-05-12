@@ -3,7 +3,7 @@ package com.focela.platform.module.system.repository.mapper.dept;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.module.system.controller.admin.dept.vo.post.PostPageReqVO;
+import com.focela.platform.module.system.controller.admin.dept.dto.post.PostPageRequest;
 import com.focela.platform.module.system.repository.entity.dept.PostEntity;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -19,7 +19,7 @@ public interface PostMapper extends BaseMapperX<PostEntity> {
                 .inIfPresent(PostEntity::getStatus, statuses));
     }
 
-    default PageResult<PostEntity> selectPage(PostPageReqVO reqVO) {
+    default PageResult<PostEntity> selectPage(PostPageRequest reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<PostEntity>()
                 .likeIfPresent(PostEntity::getCode, reqVO.getCode())
                 .likeIfPresent(PostEntity::getName, reqVO.getName())

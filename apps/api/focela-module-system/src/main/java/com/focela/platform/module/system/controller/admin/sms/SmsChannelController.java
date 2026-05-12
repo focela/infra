@@ -3,10 +3,10 @@ package com.focela.platform.module.system.controller.admin.sms;
 import com.focela.platform.framework.common.pojo.CommonResult;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.system.controller.admin.sms.vo.channel.SmsChannelPageReqVO;
-import com.focela.platform.module.system.controller.admin.sms.vo.channel.SmsChannelRespVO;
-import com.focela.platform.module.system.controller.admin.sms.vo.channel.SmsChannelSaveReqVO;
-import com.focela.platform.module.system.controller.admin.sms.vo.channel.SmsChannelSimpleRespVO;
+import com.focela.platform.module.system.controller.admin.sms.dto.channel.SmsChannelPageRequest;
+import com.focela.platform.module.system.controller.admin.sms.dto.channel.SmsChannelResponse;
+import com.focela.platform.module.system.controller.admin.sms.dto.channel.SmsChannelSaveRequest;
+import com.focela.platform.module.system.controller.admin.sms.dto.channel.SmsChannelSimpleResponse;
 import com.focela.platform.module.system.repository.entity.sms.SmsChannelEntity;
 import com.focela.platform.module.system.service.sms.SmsChannelService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,15 +33,15 @@ public class SmsChannelController {
     @PostMapping("/create")
     @Operation(summary = "创建短信渠道")
     @PreAuthorize("@ss.hasPermission('system:sms-channel:create')")
-    public CommonResult<Long> createSmsChannel(@Valid @RequestBody SmsChannelSaveReqVO createReqVO) {
-        return success(smsChannelService.createSmsChannel(createReqVO));
+    public CommonResult<Long> createSmsChannel(@Valid @RequestBody SmsChannelSaveRequest createRequest) {
+        return success(smsChannelService.createSmsChannel(createRequest));
     }
 
     @PutMapping("/update")
     @Operation(summary = "更新短信渠道")
     @PreAuthorize("@ss.hasPermission('system:sms-channel:update')")
-    public CommonResult<Boolean> updateSmsChannel(@Valid @RequestBody SmsChannelSaveReqVO updateReqVO) {
-        smsChannelService.updateSmsChannel(updateReqVO);
+    public CommonResult<Boolean> updateSmsChannel(@Valid @RequestBody SmsChannelSaveRequest updateRequest) {
+        smsChannelService.updateSmsChannel(updateRequest);
         return success(true);
     }
 
@@ -67,25 +67,25 @@ public class SmsChannelController {
     @Operation(summary = "获得短信渠道")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:sms-channel:query')")
-    public CommonResult<SmsChannelRespVO> getSmsChannel(@RequestParam("id") Long id) {
+    public CommonResult<SmsChannelResponse> getSmsChannel(@RequestParam("id") Long id) {
         SmsChannelEntity channel = smsChannelService.getSmsChannel(id);
-        return success(BeanUtils.toBean(channel, SmsChannelRespVO.class));
+        return success(BeanUtils.toBean(channel, SmsChannelResponse.class));
     }
 
     @GetMapping("/page")
     @Operation(summary = "获得短信渠道分页")
     @PreAuthorize("@ss.hasPermission('system:sms-channel:query')")
-    public CommonResult<PageResult<SmsChannelRespVO>> getSmsChannelPage(@Valid SmsChannelPageReqVO pageVO) {
+    public CommonResult<PageResult<SmsChannelResponse>> getSmsChannelPage(@Valid SmsChannelPageRequest pageVO) {
         PageResult<SmsChannelEntity> pageResult = smsChannelService.getSmsChannelPage(pageVO);
-        return success(BeanUtils.toBean(pageResult, SmsChannelRespVO.class));
+        return success(BeanUtils.toBean(pageResult, SmsChannelResponse.class));
     }
 
     @GetMapping({"/list-all-simple", "/simple-list"})
     @Operation(summary = "获得短信渠道精简列表", description = "包含被禁用的短信渠道")
-    public CommonResult<List<SmsChannelSimpleRespVO>> getSimpleSmsChannelList() {
+    public CommonResult<List<SmsChannelSimpleResponse>> getSimpleSmsChannelList() {
         List<SmsChannelEntity> list = smsChannelService.getSmsChannelList();
         list.sort(Comparator.comparing(SmsChannelEntity::getId));
-        return success(BeanUtils.toBean(list, SmsChannelSimpleRespVO.class));
+        return success(BeanUtils.toBean(list, SmsChannelSimpleResponse.class));
     }
 
 }

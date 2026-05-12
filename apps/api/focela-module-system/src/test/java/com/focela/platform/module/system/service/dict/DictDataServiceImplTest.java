@@ -4,8 +4,8 @@ import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.collection.ArrayUtils;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
-import com.focela.platform.module.system.controller.admin.dict.vo.data.DictDataPageReqVO;
-import com.focela.platform.module.system.controller.admin.dict.vo.data.DictDataSaveReqVO;
+import com.focela.platform.module.system.controller.admin.dict.dto.data.DictDataPageRequest;
+import com.focela.platform.module.system.controller.admin.dict.dto.data.DictDataSaveRequest;
 import com.focela.platform.module.system.repository.entity.dict.DictDataEntity;
 import com.focela.platform.module.system.repository.entity.dict.DictTypeEntity;
 import com.focela.platform.module.system.repository.mapper.dict.DictDataMapper;
@@ -81,7 +81,7 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
         // 测试 status 不匹配
         dictDataMapper.insert(cloneIgnoreId(dbDictData, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
         // 准备参数
-        DictDataPageReqVO reqVO = new DictDataPageReqVO();
+        DictDataPageRequest reqVO = new DictDataPageRequest();
         reqVO.setLabel("芋");
         reqVO.setDictType("yunai");
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
@@ -111,7 +111,7 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateDictData_success() {
         // 准备参数
-        DictDataSaveReqVO reqVO = randomPojo(DictDataSaveReqVO.class,
+        DictDataSaveRequest reqVO = randomPojo(DictDataSaveRequest.class,
                 o -> o.setStatus(randomCommonStatus()))
                 .setId(null); // 防止 id 被赋值
         // mock 方法
@@ -132,7 +132,7 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
         DictDataEntity dbDictData = randomDictDataDO();
         dictDataMapper.insert(dbDictData);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        DictDataSaveReqVO reqVO = randomPojo(DictDataSaveReqVO.class, o -> {
+        DictDataSaveRequest reqVO = randomPojo(DictDataSaveRequest.class, o -> {
             o.setId(dbDictData.getId()); // 设置更新的 ID
             o.setStatus(randomCommonStatus());
         });

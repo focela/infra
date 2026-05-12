@@ -5,8 +5,8 @@ import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.system.controller.admin.mail.vo.template.MailTemplatePageReqVO;
-import com.focela.platform.module.system.controller.admin.mail.vo.template.MailTemplateSaveReqVO;
+import com.focela.platform.module.system.controller.admin.mail.dto.template.MailTemplatePageRequest;
+import com.focela.platform.module.system.controller.admin.mail.dto.template.MailTemplateSaveRequest;
 import com.focela.platform.module.system.repository.entity.mail.MailTemplateEntity;
 import com.focela.platform.module.system.repository.mapper.mail.MailTemplateMapper;
 import com.focela.platform.module.system.repository.redis.RedisKeyConstants;
@@ -49,13 +49,13 @@ public class MailTemplateServiceImpl implements MailTemplateService {
     private MailTemplateMapper mailTemplateMapper;
 
     @Override
-    public Long createMailTemplate(MailTemplateSaveReqVO createReqVO) {
+    public Long createMailTemplate(MailTemplateSaveRequest createRequest) {
         // 校验 code 是否唯一
-        validateCodeUnique(null, createReqVO.getCode());
+        validateCodeUnique(null, createRequest.getCode());
 
         // 插入
-        MailTemplateEntity template = BeanUtils.toBean(createReqVO, MailTemplateEntity.class)
-                .setParams(parseTemplateTitleAndContentParams(createReqVO.getTitle(), createReqVO.getContent()));
+        MailTemplateEntity template = BeanUtils.toBean(createRequest, MailTemplateEntity.class)
+                .setParams(parseTemplateTitleAndContentParams(createRequest.getTitle(), createRequest.getContent()));
         mailTemplateMapper.insert(template);
         return template.getId();
     }
@@ -63,15 +63,15 @@ public class MailTemplateServiceImpl implements MailTemplateService {
     @Override
     @CacheEvict(cacheNames = RedisKeyConstants.MAIL_TEMPLATE,
             allEntries = true) // allEntries 清空所有缓存，因为可能修改到 code 字段，不好清理
-    public void updateMailTemplate(@Valid MailTemplateSaveReqVO updateReqVO) {
+    public void updateMailTemplate(@Valid MailTemplateSaveRequest updateRequest) {
         // 校验是否存在
-        validateMailTemplateExists(updateReqVO.getId());
+        validateMailTemplateExists(updateRequest.getId());
         // 校验 code 是否唯一
-        validateCodeUnique(updateReqVO.getId(),updateReqVO.getCode());
+        validateCodeUnique(updateRequest.getId(),updateRequest.getCode());
 
         // 更新
-        MailTemplateEntity updateObj = BeanUtils.toBean(updateReqVO, MailTemplateEntity.class)
-                .setParams(parseTemplateTitleAndContentParams(updateReqVO.getTitle(), updateReqVO.getContent()));
+        MailTemplateEntity updateObj = BeanUtils.toBean(updateRequest, MailTemplateEntity.class)
+                .setParams(parseTemplateTitleAndContentParams(updateRequest.getTitle(), updateRequest.getContent()));
         mailTemplateMapper.updateById(updateObj);
     }
 
@@ -122,8 +122,8 @@ public class MailTemplateServiceImpl implements MailTemplateService {
     }
 
     @Override
-    public PageResult<MailTemplateEntity> getMailTemplatePage(MailTemplatePageReqVO pageReqVO) {
-        return mailTemplateMapper.selectPage(pageReqVO);
+    public PageResult<MailTemplateEntity> getMailTemplatePage(MailTemplatePageRequest pageRequest) {
+        return mailTemplateMapper.selectPage(pageRequest);
     }
 
     @Override

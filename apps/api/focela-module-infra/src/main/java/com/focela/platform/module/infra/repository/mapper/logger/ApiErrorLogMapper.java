@@ -3,7 +3,7 @@ package com.focela.platform.module.infra.repository.mapper.logger;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.module.infra.controller.admin.logger.vo.apierrorlog.ApiErrorLogPageReqVO;
+import com.focela.platform.module.infra.controller.admin.logger.dto.apierrorlog.ApiErrorLogPageRequest;
 import com.focela.platform.module.infra.repository.entity.logger.ApiErrorLogEntity;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Mapper
 public interface ApiErrorLogMapper extends BaseMapperX<ApiErrorLogEntity> {
 
-    default PageResult<ApiErrorLogEntity> selectPage(ApiErrorLogPageReqVO reqVO) {
+    default PageResult<ApiErrorLogEntity> selectPage(ApiErrorLogPageRequest reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<ApiErrorLogEntity>()
                 .eqIfPresent(ApiErrorLogEntity::getUserId, reqVO.getUserId())
                 .eqIfPresent(ApiErrorLogEntity::getUserType, reqVO.getUserType())

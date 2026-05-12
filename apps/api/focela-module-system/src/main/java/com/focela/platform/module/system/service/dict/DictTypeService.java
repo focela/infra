@@ -1,8 +1,8 @@
 package com.focela.platform.module.system.service.dict;
 
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.system.controller.admin.dict.vo.type.DictTypePageReqVO;
-import com.focela.platform.module.system.controller.admin.dict.vo.type.DictTypeSaveReqVO;
+import com.focela.platform.module.system.controller.admin.dict.dto.type.DictTypePageRequest;
+import com.focela.platform.module.system.controller.admin.dict.dto.type.DictTypeSaveRequest;
 import com.focela.platform.module.system.repository.entity.dict.DictTypeEntity;
 
 import java.util.List;
@@ -17,17 +17,17 @@ public interface DictTypeService {
     /**
      * 创建字典类型
      *
-     * @param createReqVO 字典类型信息
+     * @param createRequest 字典类型信息
      * @return 字典类型编号
      */
-    Long createDictType(DictTypeSaveReqVO createReqVO);
+    Long createDictType(DictTypeSaveRequest createRequest);
 
     /**
      * 更新字典类型
      *
-     * @param updateReqVO 字典类型信息
+     * @param updateRequest 字典类型信息
      */
-    void updateDictType(DictTypeSaveReqVO updateReqVO);
+    void updateDictType(DictTypeSaveRequest updateRequest);
 
     /**
      * 删除字典类型
@@ -46,10 +46,10 @@ public interface DictTypeService {
     /**
      * 获得字典类型分页列表
      *
-     * @param pageReqVO 分页请求
+     * @param pageRequest 分页请求
      * @return 字典类型分页列表
      */
-    PageResult<DictTypeEntity> getDictTypePage(DictTypePageReqVO pageReqVO);
+    PageResult<DictTypeEntity> getDictTypePage(DictTypePageRequest pageRequest);
 
     /**
      * 获得字典类型详情

@@ -6,8 +6,8 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.collection.ArrayUtils;
 import com.focela.platform.framework.common.util.object.ObjectUtils;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
-import com.focela.platform.module.system.controller.admin.sms.vo.template.SmsTemplatePageReqVO;
-import com.focela.platform.module.system.controller.admin.sms.vo.template.SmsTemplateSaveReqVO;
+import com.focela.platform.module.system.controller.admin.sms.dto.template.SmsTemplatePageRequest;
+import com.focela.platform.module.system.controller.admin.sms.dto.template.SmsTemplateSaveRequest;
 import com.focela.platform.module.system.repository.entity.sms.SmsChannelEntity;
 import com.focela.platform.module.system.repository.entity.sms.SmsTemplateEntity;
 import com.focela.platform.module.system.repository.mapper.sms.SmsTemplateMapper;
@@ -79,7 +79,7 @@ public class SmsTemplateServiceImplTest extends BaseDbUnitTest {
     @SuppressWarnings("unchecked")
     public void testCreateSmsTemplate_success() throws Throwable {
         // 准备参数
-        SmsTemplateSaveReqVO reqVO = randomPojo(SmsTemplateSaveReqVO.class, o -> {
+        SmsTemplateSaveRequest reqVO = randomPojo(SmsTemplateSaveRequest.class, o -> {
             o.setContent("正在进行登录操作{operation}，您的验证码是{code}");
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // 保证 status 的范围
             o.setType(randomEle(SmsTemplateTypeEnum.values()).getType()); // 保证 type 的 范围
@@ -113,7 +113,7 @@ public class SmsTemplateServiceImplTest extends BaseDbUnitTest {
         SmsTemplateEntity dbSmsTemplate = randomSmsTemplateDO();
         smsTemplateMapper.insert(dbSmsTemplate);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        SmsTemplateSaveReqVO reqVO = randomPojo(SmsTemplateSaveReqVO.class, o -> {
+        SmsTemplateSaveRequest reqVO = randomPojo(SmsTemplateSaveRequest.class, o -> {
             o.setId(dbSmsTemplate.getId()); // 设置更新的 ID
             o.setContent("正在进行登录操作{operation}，您的验证码是{code}");
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // 保证 status 的范围
@@ -142,7 +142,7 @@ public class SmsTemplateServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateSmsTemplate_notExists() {
         // 准备参数
-        SmsTemplateSaveReqVO reqVO = randomPojo(SmsTemplateSaveReqVO.class);
+        SmsTemplateSaveRequest reqVO = randomPojo(SmsTemplateSaveRequest.class);
 
         // 调用, 并断言异常
         assertServiceException(() -> smsTemplateService.updateSmsTemplate(reqVO), SMS_TEMPLATE_NOT_EXISTS);
@@ -227,7 +227,7 @@ public class SmsTemplateServiceImplTest extends BaseDbUnitTest {
         // 测试 createTime 不匹配
         smsTemplateMapper.insert(ObjectUtils.cloneIgnoreId(dbSmsTemplate, o -> o.setCreateTime(buildTime(2021, 12, 12))));
         // 准备参数
-        SmsTemplatePageReqVO reqVO = new SmsTemplatePageReqVO();
+        SmsTemplatePageRequest reqVO = new SmsTemplatePageRequest();
         reqVO.setType(SmsTemplateTypeEnum.PROMOTION.getType());
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
         reqVO.setCode("tu");

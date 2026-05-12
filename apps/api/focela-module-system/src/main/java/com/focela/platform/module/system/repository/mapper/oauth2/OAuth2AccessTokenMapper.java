@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
 import com.focela.platform.framework.tenant.core.aop.TenantIgnore;
-import com.focela.platform.module.system.controller.admin.oauth2.vo.token.OAuth2AccessTokenPageReqVO;
+import com.focela.platform.module.system.controller.admin.oauth2.dto.token.OAuth2AccessTokenPageRequest;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2AccessTokenEntity;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -23,7 +23,7 @@ public interface OAuth2AccessTokenMapper extends BaseMapperX<OAuth2AccessTokenEn
         return selectList(OAuth2AccessTokenEntity::getRefreshToken, refreshToken);
     }
 
-    default PageResult<OAuth2AccessTokenEntity> selectPage(OAuth2AccessTokenPageReqVO reqVO) {
+    default PageResult<OAuth2AccessTokenEntity> selectPage(OAuth2AccessTokenPageRequest reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<OAuth2AccessTokenEntity>()
                 .eqIfPresent(OAuth2AccessTokenEntity::getUserId, reqVO.getUserId())
                 .eqIfPresent(OAuth2AccessTokenEntity::getUserType, reqVO.getUserType())

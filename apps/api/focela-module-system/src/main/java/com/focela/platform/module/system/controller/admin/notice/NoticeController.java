@@ -6,9 +6,9 @@ import com.focela.platform.framework.common.pojo.CommonResult;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.infra.api.websocket.WebSocketSenderApi;
-import com.focela.platform.module.system.controller.admin.notice.vo.NoticePageReqVO;
-import com.focela.platform.module.system.controller.admin.notice.vo.NoticeRespVO;
-import com.focela.platform.module.system.controller.admin.notice.vo.NoticeSaveReqVO;
+import com.focela.platform.module.system.controller.admin.notice.dto.NoticePageRequest;
+import com.focela.platform.module.system.controller.admin.notice.dto.NoticeResponse;
+import com.focela.platform.module.system.controller.admin.notice.dto.NoticeSaveRequest;
 import com.focela.platform.module.system.repository.entity.notice.NoticeEntity;
 import com.focela.platform.module.system.service.notice.NoticeService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,16 +39,16 @@ public class NoticeController {
     @PostMapping("/create")
     @Operation(summary = "创建通知公告")
     @PreAuthorize("@ss.hasPermission('system:notice:create')")
-    public CommonResult<Long> createNotice(@Valid @RequestBody NoticeSaveReqVO createReqVO) {
-        Long noticeId = noticeService.createNotice(createReqVO);
+    public CommonResult<Long> createNotice(@Valid @RequestBody NoticeSaveRequest createRequest) {
+        Long noticeId = noticeService.createNotice(createRequest);
         return success(noticeId);
     }
 
     @PutMapping("/update")
     @Operation(summary = "修改通知公告")
     @PreAuthorize("@ss.hasPermission('system:notice:update')")
-    public CommonResult<Boolean> updateNotice(@Valid @RequestBody NoticeSaveReqVO updateReqVO) {
-        noticeService.updateNotice(updateReqVO);
+    public CommonResult<Boolean> updateNotice(@Valid @RequestBody NoticeSaveRequest updateRequest) {
+        noticeService.updateNotice(updateRequest);
         return success(true);
     }
 
@@ -73,18 +73,18 @@ public class NoticeController {
     @GetMapping("/page")
     @Operation(summary = "获取通知公告列表")
     @PreAuthorize("@ss.hasPermission('system:notice:query')")
-    public CommonResult<PageResult<NoticeRespVO>> getNoticePage(@Validated NoticePageReqVO pageReqVO) {
-        PageResult<NoticeEntity> pageResult = noticeService.getNoticePage(pageReqVO);
-        return success(BeanUtils.toBean(pageResult, NoticeRespVO.class));
+    public CommonResult<PageResult<NoticeResponse>> getNoticePage(@Validated NoticePageRequest pageRequest) {
+        PageResult<NoticeEntity> pageResult = noticeService.getNoticePage(pageRequest);
+        return success(BeanUtils.toBean(pageResult, NoticeResponse.class));
     }
 
     @GetMapping("/get")
     @Operation(summary = "获得通知公告")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:notice:query')")
-    public CommonResult<NoticeRespVO> getNotice(@RequestParam("id") Long id) {
+    public CommonResult<NoticeResponse> getNotice(@RequestParam("id") Long id) {
         NoticeEntity notice = noticeService.getNotice(id);
-        return success(BeanUtils.toBean(notice, NoticeRespVO.class));
+        return success(BeanUtils.toBean(notice, NoticeResponse.class));
     }
 
     @PostMapping("/push")

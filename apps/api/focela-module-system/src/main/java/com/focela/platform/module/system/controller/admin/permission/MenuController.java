@@ -3,10 +3,10 @@ package com.focela.platform.module.system.controller.admin.permission;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.pojo.CommonResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.system.controller.admin.permission.vo.menu.MenuListReqVO;
-import com.focela.platform.module.system.controller.admin.permission.vo.menu.MenuRespVO;
-import com.focela.platform.module.system.controller.admin.permission.vo.menu.MenuSaveVO;
-import com.focela.platform.module.system.controller.admin.permission.vo.menu.MenuSimpleRespVO;
+import com.focela.platform.module.system.controller.admin.permission.dto.menu.MenuListRequest;
+import com.focela.platform.module.system.controller.admin.permission.dto.menu.MenuResponse;
+import com.focela.platform.module.system.controller.admin.permission.dto.menu.MenuSaveRequest;
+import com.focela.platform.module.system.controller.admin.permission.dto.menu.MenuSimpleResponse;
 import com.focela.platform.module.system.repository.entity.permission.MenuEntity;
 import com.focela.platform.module.system.service.permission.MenuService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,16 +35,16 @@ public class MenuController {
     @PostMapping("/create")
     @Operation(summary = "创建菜单")
     @PreAuthorize("@ss.hasPermission('system:menu:create')")
-    public CommonResult<Long> createMenu(@Valid @RequestBody MenuSaveVO createReqVO) {
-        Long menuId = menuService.createMenu(createReqVO);
+    public CommonResult<Long> createMenu(@Valid @RequestBody MenuSaveRequest createRequest) {
+        Long menuId = menuService.createMenu(createRequest);
         return success(menuId);
     }
 
     @PutMapping("/update")
     @Operation(summary = "修改菜单")
     @PreAuthorize("@ss.hasPermission('system:menu:update')")
-    public CommonResult<Boolean> updateMenu(@Valid @RequestBody MenuSaveVO updateReqVO) {
-        menuService.updateMenu(updateReqVO);
+    public CommonResult<Boolean> updateMenu(@Valid @RequestBody MenuSaveRequest updateRequest) {
+        menuService.updateMenu(updateRequest);
         return success(true);
     }
 
@@ -69,29 +69,29 @@ public class MenuController {
     @GetMapping("/list")
     @Operation(summary = "获取菜单列表", description = "用于【菜单管理】界面")
     @PreAuthorize("@ss.hasPermission('system:menu:query')")
-    public CommonResult<List<MenuRespVO>> getMenuList(MenuListReqVO reqVO) {
+    public CommonResult<List<MenuResponse>> getMenuList(MenuListRequest reqVO) {
         List<MenuEntity> list = menuService.getMenuList(reqVO);
         list.sort(Comparator.comparing(MenuEntity::getSort));
-        return success(BeanUtils.toBean(list, MenuRespVO.class));
+        return success(BeanUtils.toBean(list, MenuResponse.class));
     }
 
     @GetMapping({"/list-all-simple", "simple-list"})
     @Operation(summary = "获取菜单精简信息列表",
             description = "只包含被开启的菜单，用于【角色分配菜单】功能的选项。在多租户的场景下，会只返回租户所在套餐有的菜单")
-    public CommonResult<List<MenuSimpleRespVO>> getSimpleMenuList() {
+    public CommonResult<List<MenuSimpleResponse>> getSimpleMenuList() {
         List<MenuEntity> list = menuService.getMenuListByTenant(
-                new MenuListReqVO().setStatus(CommonStatusEnum.ENABLE.getStatus()));
+                new MenuListRequest().setStatus(CommonStatusEnum.ENABLE.getStatus()));
         list = menuService.filterDisableMenus(list);
         list.sort(Comparator.comparing(MenuEntity::getSort));
-        return success(BeanUtils.toBean(list, MenuSimpleRespVO.class));
+        return success(BeanUtils.toBean(list, MenuSimpleResponse.class));
     }
 
     @GetMapping("/get")
     @Operation(summary = "获取菜单信息")
     @PreAuthorize("@ss.hasPermission('system:menu:query')")
-    public CommonResult<MenuRespVO> getMenu(Long id) {
+    public CommonResult<MenuResponse> getMenu(Long id) {
         MenuEntity menu = menuService.getMenu(id);
-        return success(BeanUtils.toBean(menu, MenuRespVO.class));
+        return success(BeanUtils.toBean(menu, MenuResponse.class));
     }
 
 }

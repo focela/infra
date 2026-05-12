@@ -1,8 +1,8 @@
 package com.focela.platform.module.system.service.notice;
 
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.system.controller.admin.notice.vo.NoticePageReqVO;
-import com.focela.platform.module.system.controller.admin.notice.vo.NoticeSaveReqVO;
+import com.focela.platform.module.system.controller.admin.notice.dto.NoticePageRequest;
+import com.focela.platform.module.system.controller.admin.notice.dto.NoticeSaveRequest;
 import com.focela.platform.module.system.repository.entity.notice.NoticeEntity;
 
 import java.util.List;
@@ -15,17 +15,17 @@ public interface NoticeService {
     /**
      * 创建通知公告
      *
-     * @param createReqVO 通知公告
+     * @param createRequest 通知公告
      * @return 编号
      */
-    Long createNotice(NoticeSaveReqVO createReqVO);
+    Long createNotice(NoticeSaveRequest createRequest);
 
     /**
      * 更新通知公告
      *
      * @param reqVO 通知公告
      */
-    void updateNotice(NoticeSaveReqVO reqVO);
+    void updateNotice(NoticeSaveRequest reqVO);
 
     /**
      * 删除通知公告
@@ -47,7 +47,7 @@ public interface NoticeService {
      * @param reqVO 分页条件
      * @return 部门分页列表
      */
-    PageResult<NoticeEntity> getNoticePage(NoticePageReqVO reqVO);
+    PageResult<NoticeEntity> getNoticePage(NoticePageRequest reqVO);
 
     /**
      * 获得通知公告

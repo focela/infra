@@ -5,9 +5,9 @@ import com.focela.platform.framework.common.pojo.CommonResult;
 import com.focela.platform.framework.common.pojo.PageParam;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.excel.core.util.ExcelUtils;
-import com.focela.platform.module.infra.controller.admin.config.vo.ConfigPageReqVO;
-import com.focela.platform.module.infra.controller.admin.config.vo.ConfigRespVO;
-import com.focela.platform.module.infra.controller.admin.config.vo.ConfigSaveReqVO;
+import com.focela.platform.module.infra.controller.admin.config.dto.ConfigPageRequest;
+import com.focela.platform.module.infra.controller.admin.config.dto.ConfigResponse;
+import com.focela.platform.module.infra.controller.admin.config.dto.ConfigSaveRequest;
 import com.focela.platform.module.infra.convert.config.ConfigConvert;
 import com.focela.platform.module.infra.repository.entity.config.ConfigEntity;
 import com.focela.platform.module.infra.enums.ErrorCodeConstants;
@@ -41,15 +41,15 @@ public class ConfigController {
     @PostMapping("/create")
     @Operation(summary = "创建参数配置")
     @PreAuthorize("@ss.hasPermission('infra:config:create')")
-    public CommonResult<Long> createConfig(@Valid @RequestBody ConfigSaveReqVO createReqVO) {
-        return success(configService.createConfig(createReqVO));
+    public CommonResult<Long> createConfig(@Valid @RequestBody ConfigSaveRequest createRequest) {
+        return success(configService.createConfig(createRequest));
     }
 
     @PutMapping("/update")
     @Operation(summary = "修改参数配置")
     @PreAuthorize("@ss.hasPermission('infra:config:update')")
-    public CommonResult<Boolean> updateConfig(@Valid @RequestBody ConfigSaveReqVO updateReqVO) {
-        configService.updateConfig(updateReqVO);
+    public CommonResult<Boolean> updateConfig(@Valid @RequestBody ConfigSaveRequest updateRequest) {
+        configService.updateConfig(updateRequest);
         return success(true);
     }
 
@@ -75,7 +75,7 @@ public class ConfigController {
     @Operation(summary = "获得参数配置")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:config:query')")
-    public CommonResult<ConfigRespVO> getConfig(@RequestParam("id") Long id) {
+    public CommonResult<ConfigResponse> getConfig(@RequestParam("id") Long id) {
         return success(ConfigConvert.INSTANCE.convert(configService.getConfig(id)));
     }
 
@@ -96,8 +96,8 @@ public class ConfigController {
     @GetMapping("/page")
     @Operation(summary = "获取参数配置分页")
     @PreAuthorize("@ss.hasPermission('infra:config:query')")
-    public CommonResult<PageResult<ConfigRespVO>> getConfigPage(@Valid ConfigPageReqVO pageReqVO) {
-        PageResult<ConfigEntity> page = configService.getConfigPage(pageReqVO);
+    public CommonResult<PageResult<ConfigResponse>> getConfigPage(@Valid ConfigPageRequest pageRequest) {
+        PageResult<ConfigEntity> page = configService.getConfigPage(pageRequest);
         return success(ConfigConvert.INSTANCE.convertPage(page));
     }
 
@@ -105,12 +105,12 @@ public class ConfigController {
     @Operation(summary = "导出参数配置")
     @PreAuthorize("@ss.hasPermission('infra:config:export')")
     @ApiAccessLog(operateType = EXPORT)
-    public void exportConfig(ConfigPageReqVO exportReqVO,
+    public void exportConfig(ConfigPageRequest exportRequest,
                              HttpServletResponse response) throws IOException {
-        exportReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<ConfigEntity> list = configService.getConfigPage(exportReqVO).getList();
+        exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
+        List<ConfigEntity> list = configService.getConfigPage(exportRequest).getList();
         // 输出
-        ExcelUtils.write(response, "参数配置.xls", "数据", ConfigRespVO.class,
+        ExcelUtils.write(response, "参数配置.xls", "数据", ConfigResponse.class,
                 ConfigConvert.INSTANCE.convertList(list));
     }
 

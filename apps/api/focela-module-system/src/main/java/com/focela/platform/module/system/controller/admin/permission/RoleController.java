@@ -7,9 +7,9 @@ import com.focela.platform.framework.common.pojo.PageParam;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.excel.core.util.ExcelUtils;
-import com.focela.platform.module.system.controller.admin.permission.vo.role.RolePageReqVO;
-import com.focela.platform.module.system.controller.admin.permission.vo.role.RoleRespVO;
-import com.focela.platform.module.system.controller.admin.permission.vo.role.RoleSaveReqVO;
+import com.focela.platform.module.system.controller.admin.permission.dto.role.RolePageRequest;
+import com.focela.platform.module.system.controller.admin.permission.dto.role.RoleResponse;
+import com.focela.platform.module.system.controller.admin.permission.dto.role.RoleSaveRequest;
 import com.focela.platform.module.system.repository.entity.permission.RoleEntity;
 import com.focela.platform.module.system.service.permission.RoleService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,15 +42,15 @@ public class RoleController {
     @PostMapping("/create")
     @Operation(summary = "创建角色")
     @PreAuthorize("@ss.hasPermission('system:role:create')")
-    public CommonResult<Long> createRole(@Valid @RequestBody RoleSaveReqVO createReqVO) {
-        return success(roleService.createRole(createReqVO, null));
+    public CommonResult<Long> createRole(@Valid @RequestBody RoleSaveRequest createRequest) {
+        return success(roleService.createRole(createRequest, null));
     }
 
     @PutMapping("/update")
     @Operation(summary = "修改角色")
     @PreAuthorize("@ss.hasPermission('system:role:update')")
-    public CommonResult<Boolean> updateRole(@Valid @RequestBody RoleSaveReqVO updateReqVO) {
-        roleService.updateRole(updateReqVO);
+    public CommonResult<Boolean> updateRole(@Valid @RequestBody RoleSaveRequest updateRequest) {
+        roleService.updateRole(updateRequest);
         return success(true);
     }
 
@@ -75,37 +75,37 @@ public class RoleController {
     @GetMapping("/get")
     @Operation(summary = "获得角色信息")
     @PreAuthorize("@ss.hasPermission('system:role:query')")
-    public CommonResult<RoleRespVO> getRole(@RequestParam("id") Long id) {
+    public CommonResult<RoleResponse> getRole(@RequestParam("id") Long id) {
         RoleEntity role = roleService.getRole(id);
-        return success(BeanUtils.toBean(role, RoleRespVO.class));
+        return success(BeanUtils.toBean(role, RoleResponse.class));
     }
 
     @GetMapping("/page")
     @Operation(summary = "获得角色分页")
     @PreAuthorize("@ss.hasPermission('system:role:query')")
-    public CommonResult<PageResult<RoleRespVO>> getRolePage(RolePageReqVO pageReqVO) {
-        PageResult<RoleEntity> pageResult = roleService.getRolePage(pageReqVO);
-        return success(BeanUtils.toBean(pageResult, RoleRespVO.class));
+    public CommonResult<PageResult<RoleResponse>> getRolePage(RolePageRequest pageRequest) {
+        PageResult<RoleEntity> pageResult = roleService.getRolePage(pageRequest);
+        return success(BeanUtils.toBean(pageResult, RoleResponse.class));
     }
 
     @GetMapping({"/list-all-simple", "/simple-list"})
     @Operation(summary = "获取角色精简信息列表", description = "只包含被开启的角色，主要用于前端的下拉选项")
-    public CommonResult<List<RoleRespVO>> getSimpleRoleList() {
+    public CommonResult<List<RoleResponse>> getSimpleRoleList() {
         List<RoleEntity> list = roleService.getRoleListByStatus(singleton(CommonStatusEnum.ENABLE.getStatus()));
         list.sort(Comparator.comparing(RoleEntity::getSort));
-        return success(BeanUtils.toBean(list, RoleRespVO.class));
+        return success(BeanUtils.toBean(list, RoleResponse.class));
     }
 
     @GetMapping("/export-excel")
     @Operation(summary = "导出角色 Excel")
     @ApiAccessLog(operateType = EXPORT)
     @PreAuthorize("@ss.hasPermission('system:role:export')")
-    public void export(HttpServletResponse response, @Validated RolePageReqVO exportReqVO) throws IOException {
-        exportReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<RoleEntity> list = roleService.getRolePage(exportReqVO).getList();
+    public void export(HttpServletResponse response, @Validated RolePageRequest exportRequest) throws IOException {
+        exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
+        List<RoleEntity> list = roleService.getRolePage(exportRequest).getList();
         // 输出
-        ExcelUtils.write(response, "角色数据.xls", "数据", RoleRespVO.class,
-                BeanUtils.toBean(list, RoleRespVO.class));
+        ExcelUtils.write(response, "角色数据.xls", "数据", RoleResponse.class,
+                BeanUtils.toBean(list, RoleResponse.class));
     }
 
 }

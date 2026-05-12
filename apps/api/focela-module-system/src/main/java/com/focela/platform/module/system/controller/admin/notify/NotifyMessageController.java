@@ -5,9 +5,9 @@ import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.common.pojo.CommonResult;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.system.controller.admin.notify.vo.message.NotifyMessageMyPageReqVO;
-import com.focela.platform.module.system.controller.admin.notify.vo.message.NotifyMessagePageReqVO;
-import com.focela.platform.module.system.controller.admin.notify.vo.message.NotifyMessageRespVO;
+import com.focela.platform.module.system.controller.admin.notify.dto.message.NotifyMessageMyPageRequest;
+import com.focela.platform.module.system.controller.admin.notify.dto.message.NotifyMessagePageRequest;
+import com.focela.platform.module.system.controller.admin.notify.dto.message.NotifyMessageResponse;
 import com.focela.platform.module.system.repository.entity.notify.NotifyMessageEntity;
 import com.focela.platform.module.system.service.notify.NotifyMessageService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,27 +39,27 @@ public class NotifyMessageController {
     @Operation(summary = "获得站内信")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:notify-message:query')")
-    public CommonResult<NotifyMessageRespVO> getNotifyMessage(@RequestParam("id") Long id) {
+    public CommonResult<NotifyMessageResponse> getNotifyMessage(@RequestParam("id") Long id) {
         NotifyMessageEntity message = notifyMessageService.getNotifyMessage(id);
-        return success(BeanUtils.toBean(message, NotifyMessageRespVO.class));
+        return success(BeanUtils.toBean(message, NotifyMessageResponse.class));
     }
 
     @GetMapping("/page")
     @Operation(summary = "获得站内信分页")
     @PreAuthorize("@ss.hasPermission('system:notify-message:query')")
-    public CommonResult<PageResult<NotifyMessageRespVO>> getNotifyMessagePage(@Valid NotifyMessagePageReqVO pageVO) {
+    public CommonResult<PageResult<NotifyMessageResponse>> getNotifyMessagePage(@Valid NotifyMessagePageRequest pageVO) {
         PageResult<NotifyMessageEntity> pageResult = notifyMessageService.getNotifyMessagePage(pageVO);
-        return success(BeanUtils.toBean(pageResult, NotifyMessageRespVO.class));
+        return success(BeanUtils.toBean(pageResult, NotifyMessageResponse.class));
     }
 
     // ========== 查看自己的站内信 ==========
 
     @GetMapping("/my-page")
     @Operation(summary = "获得我的站内信分页")
-    public CommonResult<PageResult<NotifyMessageRespVO>> getMyMyNotifyMessagePage(@Valid NotifyMessageMyPageReqVO pageVO) {
+    public CommonResult<PageResult<NotifyMessageResponse>> getMyMyNotifyMessagePage(@Valid NotifyMessageMyPageRequest pageVO) {
         PageResult<NotifyMessageEntity> pageResult = notifyMessageService.getMyMyNotifyMessagePage(pageVO,
                 getLoginUserId(), UserTypeEnum.ADMIN.getValue());
-        return success(BeanUtils.toBean(pageResult, NotifyMessageRespVO.class));
+        return success(BeanUtils.toBean(pageResult, NotifyMessageResponse.class));
     }
 
     @PutMapping("/update-read")
@@ -80,11 +80,11 @@ public class NotifyMessageController {
     @GetMapping("/get-unread-list")
     @Operation(summary = "获取当前用户的最新站内信列表，默认 10 条")
     @Parameter(name = "size", description = "10")
-    public CommonResult<List<NotifyMessageRespVO>> getUnreadNotifyMessageList(
+    public CommonResult<List<NotifyMessageResponse>> getUnreadNotifyMessageList(
             @RequestParam(name = "size", defaultValue = "10") Integer size) {
         List<NotifyMessageEntity> list = notifyMessageService.getUnreadNotifyMessageList(
                 getLoginUserId(), UserTypeEnum.ADMIN.getValue(), size);
-        return success(BeanUtils.toBean(list, NotifyMessageRespVO.class));
+        return success(BeanUtils.toBean(list, NotifyMessageResponse.class));
     }
 
     @GetMapping("/get-unread-count")

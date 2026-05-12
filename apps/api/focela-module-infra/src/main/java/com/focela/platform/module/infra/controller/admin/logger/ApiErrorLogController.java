@@ -6,8 +6,8 @@ import com.focela.platform.framework.common.pojo.PageParam;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.framework.excel.core.util.ExcelUtils;
-import com.focela.platform.module.infra.controller.admin.logger.vo.apierrorlog.ApiErrorLogPageReqVO;
-import com.focela.platform.module.infra.controller.admin.logger.vo.apierrorlog.ApiErrorLogRespVO;
+import com.focela.platform.module.infra.controller.admin.logger.dto.apierrorlog.ApiErrorLogPageRequest;
+import com.focela.platform.module.infra.controller.admin.logger.dto.apierrorlog.ApiErrorLogResponse;
 import com.focela.platform.module.infra.repository.entity.logger.ApiErrorLogEntity;
 import com.focela.platform.module.infra.service.logger.ApiErrorLogService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -54,30 +54,30 @@ public class ApiErrorLogController {
     @Operation(summary = "获得 API 错误日志")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:api-error-log:query')")
-    public CommonResult<ApiErrorLogRespVO> getApiErrorLog(@RequestParam("id") Long id) {
+    public CommonResult<ApiErrorLogResponse> getApiErrorLog(@RequestParam("id") Long id) {
         ApiErrorLogEntity apiErrorLog = apiErrorLogService.getApiErrorLog(id);
-        return success(BeanUtils.toBean(apiErrorLog, ApiErrorLogRespVO.class));
+        return success(BeanUtils.toBean(apiErrorLog, ApiErrorLogResponse.class));
     }
 
     @GetMapping("/page")
     @Operation(summary = "获得 API 错误日志分页")
     @PreAuthorize("@ss.hasPermission('infra:api-error-log:query')")
-    public CommonResult<PageResult<ApiErrorLogRespVO>> getApiErrorLogPage(@Valid ApiErrorLogPageReqVO pageReqVO) {
-        PageResult<ApiErrorLogEntity> pageResult = apiErrorLogService.getApiErrorLogPage(pageReqVO);
-        return success(BeanUtils.toBean(pageResult, ApiErrorLogRespVO.class));
+    public CommonResult<PageResult<ApiErrorLogResponse>> getApiErrorLogPage(@Valid ApiErrorLogPageRequest pageRequest) {
+        PageResult<ApiErrorLogEntity> pageResult = apiErrorLogService.getApiErrorLogPage(pageRequest);
+        return success(BeanUtils.toBean(pageResult, ApiErrorLogResponse.class));
     }
 
     @GetMapping("/export-excel")
     @Operation(summary = "导出 API 错误日志 Excel")
     @PreAuthorize("@ss.hasPermission('infra:api-error-log:export')")
     @ApiAccessLog(operateType = EXPORT)
-    public void exportApiErrorLogExcel(@Valid ApiErrorLogPageReqVO exportReqVO,
+    public void exportApiErrorLogExcel(@Valid ApiErrorLogPageRequest exportRequest,
                                        HttpServletResponse response) throws IOException {
-        exportReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<ApiErrorLogEntity> list = apiErrorLogService.getApiErrorLogPage(exportReqVO).getList();
+        exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
+        List<ApiErrorLogEntity> list = apiErrorLogService.getApiErrorLogPage(exportRequest).getList();
         // 导出 Excel
-        ExcelUtils.write(response, "API 错误日志.xls", "数据", ApiErrorLogRespVO.class,
-                BeanUtils.toBean(list, ApiErrorLogRespVO.class));
+        ExcelUtils.write(response, "API 错误日志.xls", "数据", ApiErrorLogResponse.class,
+                BeanUtils.toBean(list, ApiErrorLogResponse.class));
     }
 
 }

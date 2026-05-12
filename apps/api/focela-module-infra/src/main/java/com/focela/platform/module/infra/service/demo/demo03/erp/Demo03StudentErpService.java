@@ -2,8 +2,8 @@ package com.focela.platform.module.infra.service.demo.demo03.erp;
 
 import com.focela.platform.framework.common.pojo.PageParam;
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.infra.controller.admin.demo.demo03.erp.vo.Demo03StudentErpPageReqVO;
-import com.focela.platform.module.infra.controller.admin.demo.demo03.erp.vo.Demo03StudentErpSaveReqVO;
+import com.focela.platform.module.infra.controller.admin.demo.demo03.erp.dto.Demo03StudentErpPageRequest;
+import com.focela.platform.module.infra.controller.admin.demo.demo03.erp.dto.Demo03StudentErpSaveRequest;
 import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03CourseEntity;
 import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03GradeEntity;
 import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03StudentEntity;
@@ -21,17 +21,17 @@ public interface Demo03StudentErpService {
     /**
      * 创建学生
      *
-     * @param createReqVO 创建信息
+     * @param createRequest 创建信息
      * @return 编号
      */
-    Long createDemo03Student(@Valid Demo03StudentErpSaveReqVO createReqVO);
+    Long createDemo03Student(@Valid Demo03StudentErpSaveRequest createRequest);
 
     /**
      * 更新学生
      *
-     * @param updateReqVO 更新信息
+     * @param updateRequest 更新信息
      */
-    void updateDemo03Student(@Valid Demo03StudentErpSaveReqVO updateReqVO);
+    void updateDemo03Student(@Valid Demo03StudentErpSaveRequest updateRequest);
 
     /**
      * 删除学生
@@ -58,21 +58,21 @@ public interface Demo03StudentErpService {
     /**
      * 获得学生分页
      *
-     * @param pageReqVO 分页查询
+     * @param pageRequest 分页查询
      * @return 学生分页
      */
-    PageResult<Demo03StudentEntity> getDemo03StudentPage(Demo03StudentErpPageReqVO pageReqVO);
+    PageResult<Demo03StudentEntity> getDemo03StudentPage(Demo03StudentErpPageRequest pageRequest);
 
     // ==================== 子表（学生课程） ====================
 
     /**
      * 获得学生课程分页
      *
-     * @param pageReqVO 分页查询
+     * @param pageRequest 分页查询
      * @param studentId 学生编号
      * @return 学生课程分页
      */
-    PageResult<Demo03CourseEntity> getDemo03CoursePage(PageParam pageReqVO, Long studentId);
+    PageResult<Demo03CourseEntity> getDemo03CoursePage(PageParam pageRequest, Long studentId);
 
     /**
      * 创建学生课程
@@ -116,11 +116,11 @@ public interface Demo03StudentErpService {
     /**
      * 获得学生班级分页
      *
-     * @param pageReqVO 分页查询
+     * @param pageRequest 分页查询
      * @param studentId 学生编号
      * @return 学生班级分页
      */
-    PageResult<Demo03GradeEntity> getDemo03GradePage(PageParam pageReqVO, Long studentId);
+    PageResult<Demo03GradeEntity> getDemo03GradePage(PageParam pageRequest, Long studentId);
 
     /**
      * 创建学生班级

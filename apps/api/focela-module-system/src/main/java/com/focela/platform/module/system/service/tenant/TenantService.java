@@ -2,8 +2,8 @@ package com.focela.platform.module.system.service.tenant;
 
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
-import com.focela.platform.module.system.controller.admin.tenant.vo.tenant.TenantPageReqVO;
-import com.focela.platform.module.system.controller.admin.tenant.vo.tenant.TenantSaveReqVO;
+import com.focela.platform.module.system.controller.admin.tenant.dto.tenant.TenantPageRequest;
+import com.focela.platform.module.system.controller.admin.tenant.dto.tenant.TenantSaveRequest;
 import com.focela.platform.module.system.repository.entity.tenant.TenantEntity;
 import com.focela.platform.module.system.service.tenant.handler.TenantInfoHandler;
 import com.focela.platform.module.system.service.tenant.handler.TenantMenuHandler;
@@ -22,17 +22,17 @@ public interface TenantService {
     /**
      * 创建租户
      *
-     * @param createReqVO 创建信息
+     * @param createRequest 创建信息
      * @return 编号
      */
-    Long createTenant(@Valid TenantSaveReqVO createReqVO);
+    Long createTenant(@Valid TenantSaveRequest createRequest);
 
     /**
      * 更新租户
      *
-     * @param updateReqVO 更新信息
+     * @param updateRequest 更新信息
      */
-    void updateTenant(@Valid TenantSaveReqVO updateReqVO);
+    void updateTenant(@Valid TenantSaveRequest updateRequest);
 
     /**
      * 更新租户的角色菜单
@@ -67,10 +67,10 @@ public interface TenantService {
     /**
      * 获得租户分页
      *
-     * @param pageReqVO 分页查询
+     * @param pageRequest 分页查询
      * @return 租户分页
      */
-    PageResult<TenantEntity> getTenantPage(TenantPageReqVO pageReqVO);
+    PageResult<TenantEntity> getTenantPage(TenantPageRequest pageRequest);
 
     /**
      * 获得名字对应的租户

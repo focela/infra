@@ -6,10 +6,10 @@ import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.system.api.sms.dto.code.SmsCodeSendReqDTO;
 import com.focela.platform.module.system.api.sms.dto.code.SmsCodeUseReqDTO;
 import com.focela.platform.module.system.api.social.dto.SocialUserBindReqDTO;
-import com.focela.platform.module.system.controller.admin.auth.vo.AuthPermissionInfoRespVO;
-import com.focela.platform.module.system.controller.admin.auth.vo.AuthSmsLoginReqVO;
-import com.focela.platform.module.system.controller.admin.auth.vo.AuthSmsSendReqVO;
-import com.focela.platform.module.system.controller.admin.auth.vo.AuthSocialLoginReqVO;
+import com.focela.platform.module.system.controller.admin.auth.dto.AuthPermissionInfoResponse;
+import com.focela.platform.module.system.controller.admin.auth.dto.AuthSmsLoginRequest;
+import com.focela.platform.module.system.controller.admin.auth.dto.AuthSmsSendRequest;
+import com.focela.platform.module.system.controller.admin.auth.dto.AuthSocialLoginRequest;
 import com.focela.platform.module.system.repository.entity.permission.MenuEntity;
 import com.focela.platform.module.system.repository.entity.permission.RoleEntity;
 import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
@@ -29,9 +29,9 @@ public interface AuthConvert {
 
     AuthConvert INSTANCE = Mappers.getMapper(AuthConvert.class);
 
-    default AuthPermissionInfoRespVO convert(AdminUserEntity user, List<RoleEntity> roleList, List<MenuEntity> menuList) {
-        return AuthPermissionInfoRespVO.builder()
-                .user(BeanUtils.toBean(user, AuthPermissionInfoRespVO.UserVO.class))
+    default AuthPermissionInfoResponse convert(AdminUserEntity user, List<RoleEntity> roleList, List<MenuEntity> menuList) {
+        return AuthPermissionInfoResponse.builder()
+                .user(BeanUtils.toBean(user, AuthPermissionInfoResponse.UserVO.class))
                 .roles(convertSet(roleList, RoleEntity::getCode))
                 // 权限标识信息
                 .permissions(convertSet(menuList, MenuEntity::getPermission))
@@ -46,7 +46,7 @@ public interface AuthConvert {
      * @param menuList 菜单列表
      * @return 菜单树
      */
-    default List<AuthPermissionInfoRespVO.MenuVO> buildMenuTree(List<MenuEntity> menuList) {
+    default List<AuthPermissionInfoResponse.MenuVO> buildMenuTree(List<MenuEntity> menuList) {
         if (CollUtil.isEmpty(menuList)) {
             return Collections.emptyList();
         }
@@ -57,13 +57,13 @@ public interface AuthConvert {
 
         // 构建菜单树
         // 使用 LinkedHashMap 的原因，是为了排序 。实际也可以用 Stream API ，就是太丑了。
-        Map<Long, AuthPermissionInfoRespVO.MenuVO> treeNodeMap = new LinkedHashMap<>();
+        Map<Long, AuthPermissionInfoResponse.MenuVO> treeNodeMap = new LinkedHashMap<>();
         menuList.forEach(menu -> treeNodeMap.put(menu.getId(),
-                BeanUtils.toBean(menu, AuthPermissionInfoRespVO.MenuVO.class)));
+                BeanUtils.toBean(menu, AuthPermissionInfoResponse.MenuVO.class)));
         // 处理父子关系
         treeNodeMap.values().stream().filter(node -> ObjUtil.notEqual(node.getParentId(), ID_ROOT)).forEach(childNode -> {
             // 获得父节点
-            AuthPermissionInfoRespVO.MenuVO parentNode = treeNodeMap.get(childNode.getParentId());
+            AuthPermissionInfoResponse.MenuVO parentNode = treeNodeMap.get(childNode.getParentId());
             if (parentNode == null) {
                 LoggerFactory.getLogger(getClass()).error("[buildRouterTree][resource({}) 找不到父资源({})]",
                         childNode.getId(), childNode.getParentId());
@@ -79,10 +79,10 @@ public interface AuthConvert {
         return filterList(treeNodeMap.values(), node -> ID_ROOT.equals(node.getParentId()));
     }
 
-    SocialUserBindReqDTO convert(Long userId, Integer userType, AuthSocialLoginReqVO reqVO);
+    SocialUserBindReqDTO convert(Long userId, Integer userType, AuthSocialLoginRequest reqVO);
 
-    SmsCodeSendReqDTO convert(AuthSmsSendReqVO reqVO);
+    SmsCodeSendReqDTO convert(AuthSmsSendRequest reqVO);
 
-    SmsCodeUseReqDTO convert(AuthSmsLoginReqVO reqVO, Integer scene, String usedIp);
+    SmsCodeUseReqDTO convert(AuthSmsLoginRequest reqVO, Integer scene, String usedIp);
 
 }

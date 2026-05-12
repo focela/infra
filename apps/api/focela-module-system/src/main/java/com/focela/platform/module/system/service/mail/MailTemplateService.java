@@ -1,8 +1,8 @@
 package com.focela.platform.module.system.service.mail;
 
 import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.module.system.controller.admin.mail.vo.template.MailTemplatePageReqVO;
-import com.focela.platform.module.system.controller.admin.mail.vo.template.MailTemplateSaveReqVO;
+import com.focela.platform.module.system.controller.admin.mail.dto.template.MailTemplatePageRequest;
+import com.focela.platform.module.system.controller.admin.mail.dto.template.MailTemplateSaveRequest;
 import com.focela.platform.module.system.repository.entity.mail.MailTemplateEntity;
 import jakarta.validation.Valid;
 
@@ -20,17 +20,17 @@ public interface MailTemplateService {
     /**
      * 邮件模版创建
      *
-     * @param createReqVO 邮件信息
+     * @param createRequest 邮件信息
      * @return 编号
      */
-    Long createMailTemplate(@Valid MailTemplateSaveReqVO createReqVO);
+    Long createMailTemplate(@Valid MailTemplateSaveRequest createRequest);
 
     /**
      * 邮件模版修改
      *
-     * @param updateReqVO 邮件信息
+     * @param updateRequest 邮件信息
      */
-    void updateMailTemplate(@Valid MailTemplateSaveReqVO updateReqVO);
+    void updateMailTemplate(@Valid MailTemplateSaveRequest updateRequest);
 
     /**
      * 邮件模版删除
@@ -57,10 +57,10 @@ public interface MailTemplateService {
     /**
      * 获取邮件模版分页
      *
-     * @param pageReqVO 模版信息
+     * @param pageRequest 模版信息
      * @return 邮件模版分页信息
      */
-    PageResult<MailTemplateEntity> getMailTemplatePage(MailTemplatePageReqVO pageReqVO);
+    PageResult<MailTemplateEntity> getMailTemplatePage(MailTemplatePageRequest pageRequest);
 
     /**
      * 获取邮件模板数组

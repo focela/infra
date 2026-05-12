@@ -2,8 +2,8 @@ package com.focela.platform.module.system.service.mail;
 
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.module.system.controller.admin.mail.vo.account.MailAccountPageReqVO;
-import com.focela.platform.module.system.controller.admin.mail.vo.account.MailAccountSaveReqVO;
+import com.focela.platform.module.system.controller.admin.mail.dto.account.MailAccountPageRequest;
+import com.focela.platform.module.system.controller.admin.mail.dto.account.MailAccountSaveRequest;
 import com.focela.platform.module.system.repository.entity.mail.MailAccountEntity;
 import com.focela.platform.module.system.repository.mapper.mail.MailAccountMapper;
 import com.focela.platform.module.system.repository.redis.RedisKeyConstants;
@@ -38,20 +38,20 @@ public class MailAccountServiceImpl implements MailAccountService {
     private MailTemplateService mailTemplateService;
 
     @Override
-    public Long createMailAccount(MailAccountSaveReqVO createReqVO) {
-        MailAccountEntity account = BeanUtils.toBean(createReqVO, MailAccountEntity.class);
+    public Long createMailAccount(MailAccountSaveRequest createRequest) {
+        MailAccountEntity account = BeanUtils.toBean(createRequest, MailAccountEntity.class);
         mailAccountMapper.insert(account);
         return account.getId();
     }
 
     @Override
-    @CacheEvict(value = RedisKeyConstants.MAIL_ACCOUNT, key = "#updateReqVO.id")
-    public void updateMailAccount(MailAccountSaveReqVO updateReqVO) {
+    @CacheEvict(value = RedisKeyConstants.MAIL_ACCOUNT, key = "#updateRequest.id")
+    public void updateMailAccount(MailAccountSaveRequest updateRequest) {
         // 校验是否存在
-        validateMailAccountExists(updateReqVO.getId());
+        validateMailAccountExists(updateRequest.getId());
 
         // 更新
-        MailAccountEntity updateObj = BeanUtils.toBean(updateReqVO, MailAccountEntity.class);
+        MailAccountEntity updateObj = BeanUtils.toBean(updateRequest, MailAccountEntity.class);
         mailAccountMapper.updateById(updateObj);
     }
 
@@ -102,8 +102,8 @@ public class MailAccountServiceImpl implements MailAccountService {
     }
 
     @Override
-    public PageResult<MailAccountEntity> getMailAccountPage(MailAccountPageReqVO pageReqVO) {
-        return mailAccountMapper.selectPage(pageReqVO);
+    public PageResult<MailAccountEntity> getMailAccountPage(MailAccountPageRequest pageRequest) {
+        return mailAccountMapper.selectPage(pageRequest);
     }
 
     @Override

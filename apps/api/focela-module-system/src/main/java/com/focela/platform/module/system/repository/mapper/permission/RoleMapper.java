@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.mybatis.core.entity.BaseEntity;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.module.system.controller.admin.permission.vo.role.RolePageReqVO;
+import com.focela.platform.module.system.controller.admin.permission.dto.role.RolePageRequest;
 import com.focela.platform.module.system.repository.entity.permission.RoleEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.lang.Nullable;
@@ -15,7 +15,7 @@ import java.util.List;
 @Mapper
 public interface RoleMapper extends BaseMapperX<RoleEntity> {
 
-    default PageResult<RoleEntity> selectPage(RolePageReqVO reqVO) {
+    default PageResult<RoleEntity> selectPage(RolePageRequest reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<RoleEntity>()
                 .likeIfPresent(RoleEntity::getName, reqVO.getName())
                 .likeIfPresent(RoleEntity::getCode, reqVO.getCode())
