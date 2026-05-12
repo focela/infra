@@ -17,8 +17,8 @@ import java.util.List;
 @Mapper
 public interface Demo03CourseErpMapper extends BaseMapperX<Demo03CourseEntity> {
 
-    default PageResult<Demo03CourseEntity> selectPage(PageParam reqVO, Long studentId) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<Demo03CourseEntity>()
+    default PageResult<Demo03CourseEntity> selectPage(PageParam request, Long studentId) {
+        return selectPage(request, new LambdaQueryWrapperX<Demo03CourseEntity>()
                 .eq(Demo03CourseEntity::getStudentId, studentId)
                 .orderByDesc(Demo03CourseEntity::getId));
     }

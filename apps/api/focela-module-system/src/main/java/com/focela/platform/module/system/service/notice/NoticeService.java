@@ -23,9 +23,9 @@ public interface NoticeService {
     /**
      * 更新通知公告
      *
-     * @param reqVO 通知公告
+     * @param request 通知公告
      */
-    void updateNotice(NoticeSaveRequest reqVO);
+    void updateNotice(NoticeSaveRequest request);
 
     /**
      * 删除通知公告
@@ -44,10 +44,10 @@ public interface NoticeService {
     /**
      * 获得通知公告分页列表
      *
-     * @param reqVO 分页条件
+     * @param request 分页条件
      * @return 部门分页列表
      */
-    PageResult<NoticeEntity> getNoticePage(NoticePageRequest reqVO);
+    PageResult<NoticeEntity> getNoticePage(NoticePageRequest request);
 
     /**
      * 获得通知公告

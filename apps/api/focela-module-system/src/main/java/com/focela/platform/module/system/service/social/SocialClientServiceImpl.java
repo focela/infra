@@ -290,20 +290,20 @@ public class SocialClientServiceImpl implements SocialClientService {
     }
 
     @Override
-    public byte[] getWxaQrcode(SocialWxQrcodeReqDTO reqVO) {
+    public byte[] getWxaQrcode(SocialWxQrcodeReqDTO request) {
         WxMaService service = getWxMaService(UserTypeEnum.MEMBER.getValue());
         try {
             return service.getQrcodeService().createWxaCodeUnlimitBytes(
-                    ObjUtil.defaultIfEmpty(reqVO.getScene(), SocialWxQrcodeReqDTO.SCENE),
-                    reqVO.getPath(),
-                    ObjUtil.defaultIfNull(reqVO.getCheckPath(), SocialWxQrcodeReqDTO.CHECK_PATH),
+                    ObjUtil.defaultIfEmpty(request.getScene(), SocialWxQrcodeReqDTO.SCENE),
+                    request.getPath(),
+                    ObjUtil.defaultIfNull(request.getCheckPath(), SocialWxQrcodeReqDTO.CHECK_PATH),
                     envVersion,
-                    ObjUtil.defaultIfNull(reqVO.getWidth(), SocialWxQrcodeReqDTO.WIDTH),
-                    ObjUtil.defaultIfNull(reqVO.getAutoColor(), SocialWxQrcodeReqDTO.AUTO_COLOR),
+                    ObjUtil.defaultIfNull(request.getWidth(), SocialWxQrcodeReqDTO.WIDTH),
+                    ObjUtil.defaultIfNull(request.getAutoColor(), SocialWxQrcodeReqDTO.AUTO_COLOR),
                     null,
-                    ObjUtil.defaultIfNull(reqVO.getHyaline(), SocialWxQrcodeReqDTO.HYALINE));
+                    ObjUtil.defaultIfNull(request.getHyaline(), SocialWxQrcodeReqDTO.HYALINE));
         } catch (WxErrorException e) {
-            log.error("[getWxQrcode][reqVO({}) 获得小程序码失败]", reqVO, e);
+            log.error("[getWxQrcode][request({}) 获得小程序码失败]", request, e);
             throw exception(SOCIAL_CLIENT_WEIXIN_MINI_APP_QRCODE_ERROR);
         }
     }
@@ -329,7 +329,7 @@ public class SocialClientServiceImpl implements SocialClientService {
             WxMaSubscribeService subscribeService = service.getSubscribeService();
             subscribeService.sendSubscribeMsg(buildMessageSendReqDTO(reqDTO, templateId, openId));
         } catch (WxErrorException e) {
-            log.error("[sendSubscribeMessage][reqVO({}) templateId({}) openId({}) 发送小程序订阅消息失败]", reqDTO, templateId, openId, e);
+            log.error("[sendSubscribeMessage][request({}) templateId({}) openId({}) 发送小程序订阅消息失败]", reqDTO, templateId, openId, e);
             throw exception(SOCIAL_CLIENT_WEIXIN_MINI_APP_SUBSCRIBE_MESSAGE_ERROR);
         }
     }

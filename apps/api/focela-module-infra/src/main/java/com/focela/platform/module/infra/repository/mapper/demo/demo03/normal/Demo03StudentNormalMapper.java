@@ -15,12 +15,12 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface Demo03StudentNormalMapper extends BaseMapperX<Demo03StudentEntity> {
 
-    default PageResult<Demo03StudentEntity> selectPage(Demo03StudentNormalPageRequest reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<Demo03StudentEntity>()
-                .likeIfPresent(Demo03StudentEntity::getName, reqVO.getName())
-                .eqIfPresent(Demo03StudentEntity::getSex, reqVO.getSex())
-                .eqIfPresent(Demo03StudentEntity::getDescription, reqVO.getDescription())
-                .betweenIfPresent(Demo03StudentEntity::getCreateTime, reqVO.getCreateTime())
+    default PageResult<Demo03StudentEntity> selectPage(Demo03StudentNormalPageRequest request) {
+        return selectPage(request, new LambdaQueryWrapperX<Demo03StudentEntity>()
+                .likeIfPresent(Demo03StudentEntity::getName, request.getName())
+                .eqIfPresent(Demo03StudentEntity::getSex, request.getSex())
+                .eqIfPresent(Demo03StudentEntity::getDescription, request.getDescription())
+                .betweenIfPresent(Demo03StudentEntity::getCreateTime, request.getCreateTime())
                 .orderByDesc(Demo03StudentEntity::getId));
     }
 

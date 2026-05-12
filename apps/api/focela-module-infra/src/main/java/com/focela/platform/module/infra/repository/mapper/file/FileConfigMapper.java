@@ -10,11 +10,11 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface FileConfigMapper extends BaseMapperX<FileConfigEntity> {
 
-    default PageResult<FileConfigEntity> selectPage(FileConfigPageRequest reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<FileConfigEntity>()
-                .likeIfPresent(FileConfigEntity::getName, reqVO.getName())
-                .eqIfPresent(FileConfigEntity::getStorage, reqVO.getStorage())
-                .betweenIfPresent(FileConfigEntity::getCreateTime, reqVO.getCreateTime())
+    default PageResult<FileConfigEntity> selectPage(FileConfigPageRequest request) {
+        return selectPage(request, new LambdaQueryWrapperX<FileConfigEntity>()
+                .likeIfPresent(FileConfigEntity::getName, request.getName())
+                .eqIfPresent(FileConfigEntity::getStorage, request.getStorage())
+                .betweenIfPresent(FileConfigEntity::getCreateTime, request.getCreateTime())
                 .orderByDesc(FileConfigEntity::getId));
     }
 

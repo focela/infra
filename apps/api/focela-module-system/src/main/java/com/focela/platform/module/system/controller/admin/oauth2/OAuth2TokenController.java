@@ -34,8 +34,8 @@ public class OAuth2TokenController {
     @GetMapping("/page")
     @Operation(summary = "获得访问令牌分页", description = "只返回有效期内的")
     @PreAuthorize("@ss.hasPermission('system:oauth2-token:page')")
-    public CommonResult<PageResult<OAuth2AccessTokenResponse>> getAccessTokenPage(@Valid OAuth2AccessTokenPageRequest reqVO) {
-        PageResult<OAuth2AccessTokenEntity> pageResult = oauth2TokenService.getAccessTokenPage(reqVO);
+    public CommonResult<PageResult<OAuth2AccessTokenResponse>> getAccessTokenPage(@Valid OAuth2AccessTokenPageRequest request) {
+        PageResult<OAuth2AccessTokenEntity> pageResult = oauth2TokenService.getAccessTokenPage(request);
         return success(BeanUtils.toBean(pageResult, OAuth2AccessTokenResponse.class));
     }
 

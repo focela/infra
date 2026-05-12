@@ -313,13 +313,13 @@ public class OAuth2TokenServiceImplTest extends BaseDbAndRedisUnitTest {
         // 测试 expireTime 不匹配
         oauth2AccessTokenMapper.insert(cloneIgnoreId(dbAccessToken, o -> o.setExpiresTime(LocalDateTimeUtil.now())));
         // 准备参数
-        OAuth2AccessTokenPageRequest reqVO = new OAuth2AccessTokenPageRequest();
-        reqVO.setUserId(10L);
-        reqVO.setUserType(1);
-        reqVO.setClientId("test");
+        OAuth2AccessTokenPageRequest request = new OAuth2AccessTokenPageRequest();
+        request.setUserId(10L);
+        request.setUserType(1);
+        request.setClientId("test");
 
         // 调用
-        PageResult<OAuth2AccessTokenEntity> pageResult = oauth2TokenService.getAccessTokenPage(reqVO);
+        PageResult<OAuth2AccessTokenEntity> pageResult = oauth2TokenService.getAccessTokenPage(request);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());

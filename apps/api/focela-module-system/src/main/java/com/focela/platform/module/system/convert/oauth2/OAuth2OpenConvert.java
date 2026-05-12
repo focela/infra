@@ -26,18 +26,18 @@ public interface OAuth2OpenConvert {
     OAuth2OpenConvert INSTANCE = Mappers.getMapper(OAuth2OpenConvert.class);
 
     default OAuth2OpenAccessTokenResponse convert(OAuth2AccessTokenEntity bean) {
-        OAuth2OpenAccessTokenResponse respVO = BeanUtils.toBean(bean, OAuth2OpenAccessTokenResponse.class);
-        respVO.setTokenType(SecurityFrameworkUtils.AUTHORIZATION_BEARER.toLowerCase());
-        respVO.setExpiresIn(OAuth2Utils.getExpiresIn(bean.getExpiresTime()));
-        respVO.setScope(OAuth2Utils.buildScopeStr(bean.getScopes()));
-        return respVO;
+        OAuth2OpenAccessTokenResponse response = BeanUtils.toBean(bean, OAuth2OpenAccessTokenResponse.class);
+        response.setTokenType(SecurityFrameworkUtils.AUTHORIZATION_BEARER.toLowerCase());
+        response.setExpiresIn(OAuth2Utils.getExpiresIn(bean.getExpiresTime()));
+        response.setScope(OAuth2Utils.buildScopeStr(bean.getScopes()));
+        return response;
     }
 
     default OAuth2OpenCheckTokenResponse convert2(OAuth2AccessTokenEntity bean) {
-        OAuth2OpenCheckTokenResponse respVO = BeanUtils.toBean(bean, OAuth2OpenCheckTokenResponse.class);
-        respVO.setExp(LocalDateTimeUtil.toEpochMilli(bean.getExpiresTime()) / 1000L);
-        respVO.setUserType(UserTypeEnum.ADMIN.getValue());
-        return respVO;
+        OAuth2OpenCheckTokenResponse response = BeanUtils.toBean(bean, OAuth2OpenCheckTokenResponse.class);
+        response.setExp(LocalDateTimeUtil.toEpochMilli(bean.getExpiresTime()) / 1000L);
+        response.setUserType(UserTypeEnum.ADMIN.getValue());
+        return response;
     }
 
     default OAuth2OpenAuthorizeInfoResponse convert(OAuth2ClientEntity client, List<OAuth2ApproveEntity> approves) {

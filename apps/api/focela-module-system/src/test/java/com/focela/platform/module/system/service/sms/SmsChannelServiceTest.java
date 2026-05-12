@@ -48,16 +48,16 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
     @Test
     public void testCreateSmsChannel_success() {
         // 准备参数
-        SmsChannelSaveRequest reqVO = randomPojo(SmsChannelSaveRequest.class, o -> o.setStatus(randomCommonStatus()))
+        SmsChannelSaveRequest request = randomPojo(SmsChannelSaveRequest.class, o -> o.setStatus(randomCommonStatus()))
                 .setId(null); // 防止 id 被赋值
 
         // 调用
-        Long smsChannelId = smsChannelService.createSmsChannel(reqVO);
+        Long smsChannelId = smsChannelService.createSmsChannel(request);
         // 断言
         assertNotNull(smsChannelId);
         // 校验记录的属性是否正确
         SmsChannelEntity smsChannel = smsChannelMapper.selectById(smsChannelId);
-        assertPojoEquals(reqVO, smsChannel, "id");
+        assertPojoEquals(request, smsChannel, "id");
     }
 
     @Test
@@ -66,26 +66,26 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
         SmsChannelEntity dbSmsChannel = randomPojo(SmsChannelEntity.class);
         smsChannelMapper.insert(dbSmsChannel);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        SmsChannelSaveRequest reqVO = randomPojo(SmsChannelSaveRequest.class, o -> {
+        SmsChannelSaveRequest request = randomPojo(SmsChannelSaveRequest.class, o -> {
             o.setId(dbSmsChannel.getId()); // 设置更新的 ID
             o.setStatus(randomCommonStatus());
             o.setCallbackUrl(randomString());
         });
 
         // 调用
-        smsChannelService.updateSmsChannel(reqVO);
+        smsChannelService.updateSmsChannel(request);
         // 校验是否更新正确
-        SmsChannelEntity smsChannel = smsChannelMapper.selectById(reqVO.getId()); // 获取最新的
-        assertPojoEquals(reqVO, smsChannel);
+        SmsChannelEntity smsChannel = smsChannelMapper.selectById(request.getId()); // 获取最新的
+        assertPojoEquals(request, smsChannel);
     }
 
     @Test
     public void testUpdateSmsChannel_notExists() {
         // 准备参数
-        SmsChannelSaveRequest reqVO = randomPojo(SmsChannelSaveRequest.class);
+        SmsChannelSaveRequest request = randomPojo(SmsChannelSaveRequest.class);
 
         // 调用, 并断言异常
-        assertServiceException(() -> smsChannelService.updateSmsChannel(reqVO), SMS_CHANNEL_NOT_EXISTS);
+        assertServiceException(() -> smsChannelService.updateSmsChannel(request), SMS_CHANNEL_NOT_EXISTS);
     }
 
     @Test
@@ -170,13 +170,13 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
        // 测试 createTime 不匹配
        smsChannelMapper.insert(cloneIgnoreId(dbSmsChannel, o -> o.setCreateTime(buildTime(2020, 11, 11))));
        // 准备参数
-       SmsChannelPageRequest reqVO = new SmsChannelPageRequest();
-       reqVO.setSignature("芋道");
-       reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
-       reqVO.setCreateTime(buildBetweenTime(2020, 12, 1, 2020, 12, 24));
+       SmsChannelPageRequest request = new SmsChannelPageRequest();
+       request.setSignature("芋道");
+       request.setStatus(CommonStatusEnum.ENABLE.getStatus());
+       request.setCreateTime(buildBetweenTime(2020, 12, 1, 2020, 12, 24));
 
        // 调用
-       PageResult<SmsChannelEntity> pageResult = smsChannelService.getSmsChannelPage(reqVO);
+       PageResult<SmsChannelEntity> pageResult = smsChannelService.getSmsChannelPage(request);
        // 断言
        assertEquals(1, pageResult.getTotal());
        assertEquals(1, pageResult.getList().size());

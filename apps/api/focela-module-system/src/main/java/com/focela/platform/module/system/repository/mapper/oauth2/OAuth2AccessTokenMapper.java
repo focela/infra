@@ -23,11 +23,11 @@ public interface OAuth2AccessTokenMapper extends BaseMapperX<OAuth2AccessTokenEn
         return selectList(OAuth2AccessTokenEntity::getRefreshToken, refreshToken);
     }
 
-    default PageResult<OAuth2AccessTokenEntity> selectPage(OAuth2AccessTokenPageRequest reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<OAuth2AccessTokenEntity>()
-                .eqIfPresent(OAuth2AccessTokenEntity::getUserId, reqVO.getUserId())
-                .eqIfPresent(OAuth2AccessTokenEntity::getUserType, reqVO.getUserType())
-                .likeIfPresent(OAuth2AccessTokenEntity::getClientId, reqVO.getClientId())
+    default PageResult<OAuth2AccessTokenEntity> selectPage(OAuth2AccessTokenPageRequest request) {
+        return selectPage(request, new LambdaQueryWrapperX<OAuth2AccessTokenEntity>()
+                .eqIfPresent(OAuth2AccessTokenEntity::getUserId, request.getUserId())
+                .eqIfPresent(OAuth2AccessTokenEntity::getUserType, request.getUserType())
+                .likeIfPresent(OAuth2AccessTokenEntity::getClientId, request.getClientId())
                 .gt(OAuth2AccessTokenEntity::getExpiresTime, LocalDateTime.now())
                 .orderByDesc(OAuth2AccessTokenEntity::getId));
     }

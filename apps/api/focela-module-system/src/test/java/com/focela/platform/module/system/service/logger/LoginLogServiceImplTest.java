@@ -48,14 +48,14 @@ public class LoginLogServiceImplTest extends BaseDbUnitTest {
         // 测试 createTime 不匹配
         loginLogMapper.insert(cloneIgnoreId(loginLogDO, o -> o.setCreateTime(buildTime(2021, 2, 6))));
         // 构造调用参数
-        LoginLogPageRequest reqVO = new LoginLogPageRequest();
-        reqVO.setUsername("wang");
-        reqVO.setUserIp("192.168.199");
-        reqVO.setStatus(true);
-        reqVO.setCreateTime(buildBetweenTime(2021, 3, 5, 2021, 3, 7));
+        LoginLogPageRequest request = new LoginLogPageRequest();
+        request.setUsername("wang");
+        request.setUserIp("192.168.199");
+        request.setStatus(true);
+        request.setCreateTime(buildBetweenTime(2021, 3, 5, 2021, 3, 7));
 
         // 调用
-        PageResult<LoginLogEntity> pageResult = loginLogService.getLoginLogPage(reqVO);
+        PageResult<LoginLogEntity> pageResult = loginLogService.getLoginLogPage(request);
         // 断言，只查到了一条符合条件的
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());

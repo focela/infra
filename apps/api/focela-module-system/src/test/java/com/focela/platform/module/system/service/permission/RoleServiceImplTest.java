@@ -50,15 +50,15 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateRole() {
         // 准备参数
-        RoleSaveRequest reqVO = randomPojo(RoleSaveRequest.class)
+        RoleSaveRequest request = randomPojo(RoleSaveRequest.class)
                 .setId(null)  // 防止 id 被赋值
                 .setStatus(randomCommonStatus());
 
         // 调用
-        Long roleId = roleService.createRole(reqVO, null);
+        Long roleId = roleService.createRole(request, null);
         // 断言
         RoleEntity roleDO = roleMapper.selectById(roleId);
-        assertPojoEquals(reqVO, roleDO, "id");
+        assertPojoEquals(request, roleDO, "id");
         assertEquals(RoleTypeEnum.CUSTOM.getType(), roleDO.getType());
         assertEquals(DataScopeEnum.ALL.getScope(), roleDO.getDataScope());
     }
@@ -70,14 +70,14 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
         roleMapper.insert(roleDO);
         // 准备参数
         Long id = roleDO.getId();
-        RoleSaveRequest reqVO = randomPojo(RoleSaveRequest.class, o -> o.setId(id)
+        RoleSaveRequest request = randomPojo(RoleSaveRequest.class, o -> o.setId(id)
                 .setStatus(randomCommonStatus()));
 
         // 调用
-        roleService.updateRole(reqVO);
+        roleService.updateRole(request);
         // 断言
         RoleEntity newRoleDO = roleMapper.selectById(id);
-        assertPojoEquals(reqVO, newRoleDO);
+        assertPojoEquals(request, newRoleDO);
     }
 
     @Test
@@ -289,14 +289,14 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
         // 测试 createTime 不匹配
         roleMapper.insert(cloneIgnoreId(dbRole, o -> o.setCreateTime(buildTime(2022, 2, 16))));
         // 准备参数
-        RolePageRequest reqVO = new RolePageRequest();
-        reqVO.setName("土豆");
-        reqVO.setCode("tu");
-        reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
-        reqVO.setCreateTime(buildBetweenTime(2022, 2, 1, 2022, 2, 12));
+        RolePageRequest request = new RolePageRequest();
+        request.setName("土豆");
+        request.setCode("tu");
+        request.setStatus(CommonStatusEnum.ENABLE.getStatus());
+        request.setCreateTime(buildBetweenTime(2022, 2, 1, 2022, 2, 12));
 
         // 调用
-        PageResult<RoleEntity> pageResult = roleService.getRolePage(reqVO);
+        PageResult<RoleEntity> pageResult = roleService.getRolePage(request);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());

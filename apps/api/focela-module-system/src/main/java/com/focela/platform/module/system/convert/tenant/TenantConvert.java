@@ -16,11 +16,11 @@ public interface TenantConvert {
     TenantConvert INSTANCE = Mappers.getMapper(TenantConvert.class);
 
     default UserSaveRequest convert02(TenantSaveRequest bean) {
-        UserSaveRequest reqVO = new UserSaveRequest();
-        reqVO.setUsername(bean.getUsername());
-        reqVO.setPassword(bean.getPassword());
-        reqVO.setNickname(bean.getContactName()).setMobile(bean.getContactMobile());
-        return reqVO;
+        UserSaveRequest request = new UserSaveRequest();
+        request.setUsername(bean.getUsername());
+        request.setPassword(bean.getPassword());
+        request.setNickname(bean.getContactName()).setMobile(bean.getContactMobile());
+        return request;
     }
 
 }

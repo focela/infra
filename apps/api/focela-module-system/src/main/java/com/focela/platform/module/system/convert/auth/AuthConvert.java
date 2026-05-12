@@ -79,10 +79,10 @@ public interface AuthConvert {
         return filterList(treeNodeMap.values(), node -> ID_ROOT.equals(node.getParentId()));
     }
 
-    SocialUserBindReqDTO convert(Long userId, Integer userType, AuthSocialLoginRequest reqVO);
+    SocialUserBindReqDTO convert(Long userId, Integer userType, AuthSocialLoginRequest request);
 
-    SmsCodeSendReqDTO convert(AuthSmsSendRequest reqVO);
+    SmsCodeSendReqDTO convert(AuthSmsSendRequest request);
 
-    SmsCodeUseReqDTO convert(AuthSmsLoginRequest reqVO, Integer scene, String usedIp);
+    SmsCodeUseReqDTO convert(AuthSmsLoginRequest request, Integer scene, String usedIp);
 
 }

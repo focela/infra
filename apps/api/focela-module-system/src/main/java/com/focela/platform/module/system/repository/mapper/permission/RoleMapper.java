@@ -15,12 +15,12 @@ import java.util.List;
 @Mapper
 public interface RoleMapper extends BaseMapperX<RoleEntity> {
 
-    default PageResult<RoleEntity> selectPage(RolePageRequest reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<RoleEntity>()
-                .likeIfPresent(RoleEntity::getName, reqVO.getName())
-                .likeIfPresent(RoleEntity::getCode, reqVO.getCode())
-                .eqIfPresent(RoleEntity::getStatus, reqVO.getStatus())
-                .betweenIfPresent(BaseEntity::getCreateTime, reqVO.getCreateTime())
+    default PageResult<RoleEntity> selectPage(RolePageRequest request) {
+        return selectPage(request, new LambdaQueryWrapperX<RoleEntity>()
+                .likeIfPresent(RoleEntity::getName, request.getName())
+                .likeIfPresent(RoleEntity::getCode, request.getCode())
+                .eqIfPresent(RoleEntity::getStatus, request.getStatus())
+                .betweenIfPresent(BaseEntity::getCreateTime, request.getCreateTime())
                 .orderByAsc(RoleEntity::getSort));
     }
 

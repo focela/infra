@@ -60,17 +60,17 @@ public interface AdminUserService {
      * 修改用户个人信息
      *
      * @param id 用户编号
-     * @param reqVO 用户个人信息
+     * @param request 用户个人信息
      */
-    void updateUserProfile(Long id, @Valid UserProfileUpdateRequest reqVO);
+    void updateUserProfile(Long id, @Valid UserProfileUpdateRequest request);
 
     /**
      * 修改用户个人密码
      *
      * @param id 用户编号
-     * @param reqVO 更新用户个人密码
+     * @param request 更新用户个人密码
      */
-    void updateUserPassword(Long id, @Valid UserProfileUpdatePasswordRequest reqVO);
+    void updateUserPassword(Long id, @Valid UserProfileUpdatePasswordRequest request);
 
     /**
      * 修改密码
@@ -121,10 +121,10 @@ public interface AdminUserService {
     /**
      * 获得用户分页列表
      *
-     * @param reqVO 分页条件
+     * @param request 分页条件
      * @return 分页列表
      */
-    PageResult<AdminUserEntity> getUserPage(UserPageRequest reqVO);
+    PageResult<AdminUserEntity> getUserPage(UserPageRequest request);
 
     /**
      * 通过用户 ID 查询用户

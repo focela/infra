@@ -59,18 +59,18 @@ public class ApiErrorLogServiceImplTest extends BaseDbUnitTest {
         // 测试 exceptionTime 不匹配：构造一个早期时间 2021-02-06 00:00:00
         apiErrorLogMapper.insert(cloneIgnoreId(apiErrorLogDO, o -> o.setExceptionTime(buildTime(2021, 2, 6))));
         // 测试 progressStatus 不匹配
-        apiErrorLogMapper.insert(cloneIgnoreId(apiErrorLogDO, logDO -> logDO.setProcessStatus(ApiErrorLogProcessStatusEnum.DONE.getStatus())));
+        apiErrorLogMapper.insert(cloneIgnoreId(apiErrorLogDO, logEntity -> logEntity.setProcessStatus(ApiErrorLogProcessStatusEnum.DONE.getStatus())));
         // 准备参数
-        ApiErrorLogPageRequest reqVO = new ApiErrorLogPageRequest();
-        reqVO.setUserId(2233L);
-        reqVO.setUserType(UserTypeEnum.ADMIN.getValue());
-        reqVO.setApplicationName("yudao-test");
-        reqVO.setRequestUrl("foo");
-        reqVO.setExceptionTime(buildBetweenTime(2021, 3, 1, 2021, 3, 31));
-        reqVO.setProcessStatus(ApiErrorLogProcessStatusEnum.INIT.getStatus());
+        ApiErrorLogPageRequest request = new ApiErrorLogPageRequest();
+        request.setUserId(2233L);
+        request.setUserType(UserTypeEnum.ADMIN.getValue());
+        request.setApplicationName("yudao-test");
+        request.setRequestUrl("foo");
+        request.setExceptionTime(buildBetweenTime(2021, 3, 1, 2021, 3, 31));
+        request.setProcessStatus(ApiErrorLogProcessStatusEnum.INIT.getStatus());
 
         // 调用
-        PageResult<ApiErrorLogEntity> pageResult = apiErrorLogService.getApiErrorLogPage(reqVO);
+        PageResult<ApiErrorLogEntity> pageResult = apiErrorLogService.getApiErrorLogPage(request);
         // 断言，只查到了一条符合条件的
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());

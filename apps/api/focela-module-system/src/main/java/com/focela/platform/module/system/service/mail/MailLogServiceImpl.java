@@ -45,9 +45,9 @@ public class MailLogServiceImpl implements MailLogService {
                               Collection<String> toMails, Collection<String> ccMails, Collection<String> bccMails,
                               MailAccountEntity account, MailTemplateEntity template,
                               String templateContent, Map<String, Object> templateParams, Boolean isSend) {
-        MailLogEntity.MailLogEntityBuilder logDOBuilder = MailLogEntity.builder();
+        MailLogEntity.MailLogEntityBuilder logEntityBuilder = MailLogEntity.builder();
         // 根据是否要发送，设置状态
-        logDOBuilder.sendStatus(Objects.equals(isSend, true) ? MailSendStatusEnum.INIT.getStatus()
+        logEntityBuilder.sendStatus(Objects.equals(isSend, true) ? MailSendStatusEnum.INIT.getStatus()
                 : MailSendStatusEnum.IGNORE.getStatus())
                 // 用户信息
                 .userId(userId).userType(userType)
@@ -58,9 +58,9 @@ public class MailLogServiceImpl implements MailLogService {
                 .templateTitle(template.getTitle()).templateContent(templateContent).templateParams(templateParams);
 
         // 插入数据库
-        MailLogEntity logDO = logDOBuilder.build();
-        mailLogMapper.insert(logDO);
-        return logDO.getId();
+        MailLogEntity logEntity = logEntityBuilder.build();
+        mailLogMapper.insert(logEntity);
+        return logEntity.getId();
     }
 
     @Override

@@ -70,10 +70,10 @@ public interface SocialClientService {
     /**
      * 获得小程序二维码
      *
-     * @param reqVO 请求信息
+     * @param request 请求信息
      * @return 小程序二维码
      */
-    byte[] getWxaQrcode(SocialWxQrcodeReqDTO reqVO);
+    byte[] getWxaQrcode(SocialWxQrcodeReqDTO request);
 
     /**
      * 获得微信小程订阅模板

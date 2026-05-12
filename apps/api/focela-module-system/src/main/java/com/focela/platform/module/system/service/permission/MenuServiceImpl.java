@@ -128,9 +128,9 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<MenuEntity> getMenuListByTenant(MenuListRequest reqVO) {
+    public List<MenuEntity> getMenuListByTenant(MenuListRequest request) {
         // 查询所有菜单，并过滤掉关闭的节点
-        List<MenuEntity> menus = getMenuList(reqVO);
+        List<MenuEntity> menus = getMenuList(request);
         // 开启多租户的情况下，需要过滤掉未开通的菜单
         tenantService.handleTenantMenu(menuIds -> menus.removeIf(menu -> !CollUtil.contains(menuIds, menu.getId())));
         return menus;
@@ -183,8 +183,8 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<MenuEntity> getMenuList(MenuListRequest reqVO) {
-        return menuMapper.selectList(reqVO);
+    public List<MenuEntity> getMenuList(MenuListRequest request) {
+        return menuMapper.selectList(request);
     }
 
     @Override

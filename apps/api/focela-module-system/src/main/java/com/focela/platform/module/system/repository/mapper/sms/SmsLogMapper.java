@@ -10,15 +10,15 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface SmsLogMapper extends BaseMapperX<SmsLogEntity> {
 
-    default PageResult<SmsLogEntity> selectPage(SmsLogPageRequest reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<SmsLogEntity>()
-                .eqIfPresent(SmsLogEntity::getChannelId, reqVO.getChannelId())
-                .eqIfPresent(SmsLogEntity::getTemplateId, reqVO.getTemplateId())
-                .likeIfPresent(SmsLogEntity::getMobile, reqVO.getMobile())
-                .eqIfPresent(SmsLogEntity::getSendStatus, reqVO.getSendStatus())
-                .betweenIfPresent(SmsLogEntity::getSendTime, reqVO.getSendTime())
-                .eqIfPresent(SmsLogEntity::getReceiveStatus, reqVO.getReceiveStatus())
-                .betweenIfPresent(SmsLogEntity::getReceiveTime, reqVO.getReceiveTime())
+    default PageResult<SmsLogEntity> selectPage(SmsLogPageRequest request) {
+        return selectPage(request, new LambdaQueryWrapperX<SmsLogEntity>()
+                .eqIfPresent(SmsLogEntity::getChannelId, request.getChannelId())
+                .eqIfPresent(SmsLogEntity::getTemplateId, request.getTemplateId())
+                .likeIfPresent(SmsLogEntity::getMobile, request.getMobile())
+                .eqIfPresent(SmsLogEntity::getSendStatus, request.getSendStatus())
+                .betweenIfPresent(SmsLogEntity::getSendTime, request.getSendTime())
+                .eqIfPresent(SmsLogEntity::getReceiveStatus, request.getReceiveStatus())
+                .betweenIfPresent(SmsLogEntity::getReceiveTime, request.getReceiveTime())
                 .orderByDesc(SmsLogEntity::getId));
     }
 

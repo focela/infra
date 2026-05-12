@@ -40,17 +40,17 @@ public class NotifyTemplateServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateNotifyTemplate_success() {
         // 准备参数
-        NotifyTemplateSaveRequest reqVO = randomPojo(NotifyTemplateSaveRequest.class,
+        NotifyTemplateSaveRequest request = randomPojo(NotifyTemplateSaveRequest.class,
                 o -> o.setStatus(randomCommonStatus()))
                 .setId(null); // 防止 id 被赋值
 
         // 调用
-        Long notifyTemplateId = notifyTemplateService.createNotifyTemplate(reqVO);
+        Long notifyTemplateId = notifyTemplateService.createNotifyTemplate(request);
         // 断言
         assertNotNull(notifyTemplateId);
         // 校验记录的属性是否正确
         NotifyTemplateEntity notifyTemplate = notifyTemplateMapper.selectById(notifyTemplateId);
-        assertPojoEquals(reqVO, notifyTemplate, "id");
+        assertPojoEquals(request, notifyTemplate, "id");
     }
 
     @Test
@@ -59,25 +59,25 @@ public class NotifyTemplateServiceImplTest extends BaseDbUnitTest {
         NotifyTemplateEntity dbNotifyTemplate = randomPojo(NotifyTemplateEntity.class);
         notifyTemplateMapper.insert(dbNotifyTemplate);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        NotifyTemplateSaveRequest reqVO = randomPojo(NotifyTemplateSaveRequest.class, o -> {
+        NotifyTemplateSaveRequest request = randomPojo(NotifyTemplateSaveRequest.class, o -> {
             o.setId(dbNotifyTemplate.getId()); // 设置更新的 ID
             o.setStatus(randomCommonStatus());
         });
 
         // 调用
-        notifyTemplateService.updateNotifyTemplate(reqVO);
+        notifyTemplateService.updateNotifyTemplate(request);
         // 校验是否更新正确
-        NotifyTemplateEntity notifyTemplate = notifyTemplateMapper.selectById(reqVO.getId()); // 获取最新的
-        assertPojoEquals(reqVO, notifyTemplate);
+        NotifyTemplateEntity notifyTemplate = notifyTemplateMapper.selectById(request.getId()); // 获取最新的
+        assertPojoEquals(request, notifyTemplate);
     }
 
     @Test
     public void testUpdateNotifyTemplate_notExists() {
         // 准备参数
-        NotifyTemplateSaveRequest reqVO = randomPojo(NotifyTemplateSaveRequest.class);
+        NotifyTemplateSaveRequest request = randomPojo(NotifyTemplateSaveRequest.class);
 
         // 调用, 并断言异常
-        assertServiceException(() -> notifyTemplateService.updateNotifyTemplate(reqVO), NOTIFY_TEMPLATE_NOT_EXISTS);
+        assertServiceException(() -> notifyTemplateService.updateNotifyTemplate(request), NOTIFY_TEMPLATE_NOT_EXISTS);
     }
 
     @Test
@@ -122,14 +122,14 @@ public class NotifyTemplateServiceImplTest extends BaseDbUnitTest {
         // 测试 createTime 不匹配
         notifyTemplateMapper.insert(cloneIgnoreId(dbNotifyTemplate, o -> o.setCreateTime(buildTime(2022, 1, 5))));
         // 准备参数
-        NotifyTemplatePageRequest reqVO = new NotifyTemplatePageRequest();
-        reqVO.setName("芋");
-        reqVO.setCode("est_01");
-        reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
-        reqVO.setCreateTime(buildBetweenTime(2022, 2, 1, 2022, 2, 5));
+        NotifyTemplatePageRequest request = new NotifyTemplatePageRequest();
+        request.setName("芋");
+        request.setCode("est_01");
+        request.setStatus(CommonStatusEnum.ENABLE.getStatus());
+        request.setCreateTime(buildBetweenTime(2022, 2, 1, 2022, 2, 5));
 
         // 调用
-        PageResult<NotifyTemplateEntity> pageResult = notifyTemplateService.getNotifyTemplatePage(reqVO);
+        PageResult<NotifyTemplateEntity> pageResult = notifyTemplateService.getNotifyTemplatePage(request);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());

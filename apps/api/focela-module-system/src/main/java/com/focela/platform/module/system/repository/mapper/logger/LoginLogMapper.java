@@ -11,18 +11,18 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface LoginLogMapper extends BaseMapperX<LoginLogEntity> {
 
-    default PageResult<LoginLogEntity> selectPage(LoginLogPageRequest reqVO) {
+    default PageResult<LoginLogEntity> selectPage(LoginLogPageRequest request) {
         LambdaQueryWrapperX<LoginLogEntity> query = new LambdaQueryWrapperX<LoginLogEntity>()
-                .likeIfPresent(LoginLogEntity::getUserIp, reqVO.getUserIp())
-                .likeIfPresent(LoginLogEntity::getUsername, reqVO.getUsername())
-                .betweenIfPresent(LoginLogEntity::getCreateTime, reqVO.getCreateTime());
-        if (Boolean.TRUE.equals(reqVO.getStatus())) {
+                .likeIfPresent(LoginLogEntity::getUserIp, request.getUserIp())
+                .likeIfPresent(LoginLogEntity::getUsername, request.getUsername())
+                .betweenIfPresent(LoginLogEntity::getCreateTime, request.getCreateTime());
+        if (Boolean.TRUE.equals(request.getStatus())) {
             query.eq(LoginLogEntity::getResult, LoginResultEnum.SUCCESS.getResult());
-        } else if (Boolean.FALSE.equals(reqVO.getStatus())) {
+        } else if (Boolean.FALSE.equals(request.getStatus())) {
             query.gt(LoginLogEntity::getResult, LoginResultEnum.SUCCESS.getResult());
         }
         query.orderByDesc(LoginLogEntity::getId); // 降序
-        return selectPage(reqVO, query);
+        return selectPage(request, query);
     }
 
 }

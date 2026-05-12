@@ -56,8 +56,8 @@ public class SocialClientApiImpl implements SocialClientApi {
     }
 
     @Override
-    public byte[] getWxaQrcode(SocialWxQrcodeReqDTO reqVO) {
-        return socialClientService.getWxaQrcode(reqVO);
+    public byte[] getWxaQrcode(SocialWxQrcodeReqDTO request) {
+        return socialClientService.getWxaQrcode(request);
     }
 
     @Override

@@ -19,14 +19,14 @@ import java.time.LocalDateTime;
 @Mapper
 public interface ApiErrorLogMapper extends BaseMapperX<ApiErrorLogEntity> {
 
-    default PageResult<ApiErrorLogEntity> selectPage(ApiErrorLogPageRequest reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<ApiErrorLogEntity>()
-                .eqIfPresent(ApiErrorLogEntity::getUserId, reqVO.getUserId())
-                .eqIfPresent(ApiErrorLogEntity::getUserType, reqVO.getUserType())
-                .eqIfPresent(ApiErrorLogEntity::getApplicationName, reqVO.getApplicationName())
-                .likeIfPresent(ApiErrorLogEntity::getRequestUrl, reqVO.getRequestUrl())
-                .betweenIfPresent(ApiErrorLogEntity::getExceptionTime, reqVO.getExceptionTime())
-                .eqIfPresent(ApiErrorLogEntity::getProcessStatus, reqVO.getProcessStatus())
+    default PageResult<ApiErrorLogEntity> selectPage(ApiErrorLogPageRequest request) {
+        return selectPage(request, new LambdaQueryWrapperX<ApiErrorLogEntity>()
+                .eqIfPresent(ApiErrorLogEntity::getUserId, request.getUserId())
+                .eqIfPresent(ApiErrorLogEntity::getUserType, request.getUserType())
+                .eqIfPresent(ApiErrorLogEntity::getApplicationName, request.getApplicationName())
+                .likeIfPresent(ApiErrorLogEntity::getRequestUrl, request.getRequestUrl())
+                .betweenIfPresent(ApiErrorLogEntity::getExceptionTime, request.getExceptionTime())
+                .eqIfPresent(ApiErrorLogEntity::getProcessStatus, request.getProcessStatus())
                 .orderByDesc(ApiErrorLogEntity::getId)
         );
     }

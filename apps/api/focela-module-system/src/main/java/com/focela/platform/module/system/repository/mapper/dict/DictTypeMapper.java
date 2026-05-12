@@ -14,12 +14,12 @@ import java.time.LocalDateTime;
 @Mapper
 public interface DictTypeMapper extends BaseMapperX<DictTypeEntity> {
 
-    default PageResult<DictTypeEntity> selectPage(DictTypePageRequest reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<DictTypeEntity>()
-                .likeIfPresent(DictTypeEntity::getName, reqVO.getName())
-                .likeIfPresent(DictTypeEntity::getType, reqVO.getType())
-                .eqIfPresent(DictTypeEntity::getStatus, reqVO.getStatus())
-                .betweenIfPresent(DictTypeEntity::getCreateTime, reqVO.getCreateTime())
+    default PageResult<DictTypeEntity> selectPage(DictTypePageRequest request) {
+        return selectPage(request, new LambdaQueryWrapperX<DictTypeEntity>()
+                .likeIfPresent(DictTypeEntity::getName, request.getName())
+                .likeIfPresent(DictTypeEntity::getType, request.getType())
+                .eqIfPresent(DictTypeEntity::getStatus, request.getStatus())
+                .betweenIfPresent(DictTypeEntity::getCreateTime, request.getCreateTime())
                 .orderByDesc(DictTypeEntity::getId));
     }
 

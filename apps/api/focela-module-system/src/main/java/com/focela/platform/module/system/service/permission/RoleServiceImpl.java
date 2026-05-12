@@ -226,8 +226,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public PageResult<RoleEntity> getRolePage(RolePageRequest reqVO) {
-        return roleMapper.selectPage(reqVO);
+    public PageResult<RoleEntity> getRolePage(RolePageRequest request) {
+        return roleMapper.selectPage(request);
     }
 
     @Override

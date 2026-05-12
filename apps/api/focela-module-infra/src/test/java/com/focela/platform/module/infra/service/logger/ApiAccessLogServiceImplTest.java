@@ -57,17 +57,17 @@ public class ApiAccessLogServiceImplTest extends BaseDbUnitTest {
         // 测试 resultCode 不匹配
         apiAccessLogMapper.insert(cloneIgnoreId(apiAccessLogDO, o -> o.setResultCode(2)));
         // 准备参数
-        ApiAccessLogPageRequest reqVO = new ApiAccessLogPageRequest();
-        reqVO.setUserId(2233L);
-        reqVO.setUserType(UserTypeEnum.ADMIN.getValue());
-        reqVO.setApplicationName("yudao-test");
-        reqVO.setRequestUrl("foo");
-        reqVO.setBeginTime(buildBetweenTime(2021, 3, 13, 2021, 3, 13));
-        reqVO.setDuration(1000);
-        reqVO.setResultCode(GlobalErrorCodeConstants.SUCCESS.getCode());
+        ApiAccessLogPageRequest request = new ApiAccessLogPageRequest();
+        request.setUserId(2233L);
+        request.setUserType(UserTypeEnum.ADMIN.getValue());
+        request.setApplicationName("yudao-test");
+        request.setRequestUrl("foo");
+        request.setBeginTime(buildBetweenTime(2021, 3, 13, 2021, 3, 13));
+        request.setDuration(1000);
+        request.setResultCode(GlobalErrorCodeConstants.SUCCESS.getCode());
 
         // 调用
-        PageResult<ApiAccessLogEntity> pageResult = apiAccessLogService.getApiAccessLogPage(reqVO);
+        PageResult<ApiAccessLogEntity> pageResult = apiAccessLogService.getApiAccessLogPage(request);
         // 断言，只查到了一条符合条件的
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());

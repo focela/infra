@@ -56,8 +56,8 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public PageResult<NoticeEntity> getNoticePage(NoticePageRequest reqVO) {
-        return noticeMapper.selectPage(reqVO);
+    public PageResult<NoticeEntity> getNoticePage(NoticePageRequest request) {
+        return noticeMapper.selectPage(request);
     }
 
     @Override

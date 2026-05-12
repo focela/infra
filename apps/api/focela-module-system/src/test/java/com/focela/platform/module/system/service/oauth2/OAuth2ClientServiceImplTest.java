@@ -41,17 +41,17 @@ public class OAuth2ClientServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateOAuth2Client_success() {
         // 准备参数
-        OAuth2ClientSaveRequest reqVO = randomPojo(OAuth2ClientSaveRequest.class,
+        OAuth2ClientSaveRequest request = randomPojo(OAuth2ClientSaveRequest.class,
                 o -> o.setLogo(randomString()))
                 .setId(null); // 防止 id 被赋值
 
         // 调用
-        Long oauth2ClientId = oauth2ClientService.createOAuth2Client(reqVO);
+        Long oauth2ClientId = oauth2ClientService.createOAuth2Client(request);
         // 断言
         assertNotNull(oauth2ClientId);
         // 校验记录的属性是否正确
         OAuth2ClientEntity oAuth2Client = oauth2ClientMapper.selectById(oauth2ClientId);
-        assertPojoEquals(reqVO, oAuth2Client, "id");
+        assertPojoEquals(request, oAuth2Client, "id");
     }
 
     @Test
@@ -60,25 +60,25 @@ public class OAuth2ClientServiceImplTest extends BaseDbUnitTest {
         OAuth2ClientEntity dbOAuth2Client = randomPojo(OAuth2ClientEntity.class);
         oauth2ClientMapper.insert(dbOAuth2Client);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        OAuth2ClientSaveRequest reqVO = randomPojo(OAuth2ClientSaveRequest.class, o -> {
+        OAuth2ClientSaveRequest request = randomPojo(OAuth2ClientSaveRequest.class, o -> {
             o.setId(dbOAuth2Client.getId()); // 设置更新的 ID
             o.setLogo(randomString());
         });
 
         // 调用
-        oauth2ClientService.updateOAuth2Client(reqVO);
+        oauth2ClientService.updateOAuth2Client(request);
         // 校验是否更新正确
-        OAuth2ClientEntity oAuth2Client = oauth2ClientMapper.selectById(reqVO.getId()); // 获取最新的
-        assertPojoEquals(reqVO, oAuth2Client);
+        OAuth2ClientEntity oAuth2Client = oauth2ClientMapper.selectById(request.getId()); // 获取最新的
+        assertPojoEquals(request, oAuth2Client);
     }
 
     @Test
     public void testUpdateOAuth2Client_notExists() {
         // 准备参数
-        OAuth2ClientSaveRequest reqVO = randomPojo(OAuth2ClientSaveRequest.class);
+        OAuth2ClientSaveRequest request = randomPojo(OAuth2ClientSaveRequest.class);
 
         // 调用, 并断言异常
-        assertServiceException(() -> oauth2ClientService.updateOAuth2Client(reqVO), OAUTH2_CLIENT_NOT_EXISTS);
+        assertServiceException(() -> oauth2ClientService.updateOAuth2Client(request), OAUTH2_CLIENT_NOT_EXISTS);
     }
 
     @Test
@@ -168,12 +168,12 @@ public class OAuth2ClientServiceImplTest extends BaseDbUnitTest {
         // 测试 status 不匹配
         oauth2ClientMapper.insert(cloneIgnoreId(dbOAuth2Client, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
         // 准备参数
-        OAuth2ClientPageRequest reqVO = new OAuth2ClientPageRequest();
-        reqVO.setName("龙");
-        reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+        OAuth2ClientPageRequest request = new OAuth2ClientPageRequest();
+        request.setName("龙");
+        request.setStatus(CommonStatusEnum.ENABLE.getStatus());
 
         // 调用
-        PageResult<OAuth2ClientEntity> pageResult = oauth2ClientService.getOAuth2ClientPage(reqVO);
+        PageResult<OAuth2ClientEntity> pageResult = oauth2ClientService.getOAuth2ClientPage(request);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());

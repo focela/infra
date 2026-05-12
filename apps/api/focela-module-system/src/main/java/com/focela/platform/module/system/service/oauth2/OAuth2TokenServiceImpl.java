@@ -170,8 +170,8 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
     }
 
     @Override
-    public PageResult<OAuth2AccessTokenEntity> getAccessTokenPage(OAuth2AccessTokenPageRequest reqVO) {
-        return oauth2AccessTokenMapper.selectPage(reqVO);
+    public PageResult<OAuth2AccessTokenEntity> getAccessTokenPage(OAuth2AccessTokenPageRequest request) {
+        return oauth2AccessTokenMapper.selectPage(request);
     }
 
     private OAuth2AccessTokenEntity createOAuth2AccessToken(OAuth2RefreshTokenEntity refreshTokenDO, OAuth2ClientEntity clientDO) {

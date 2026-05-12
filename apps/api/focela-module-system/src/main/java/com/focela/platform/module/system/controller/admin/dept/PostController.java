@@ -103,9 +103,9 @@ public class PostController {
     @Operation(summary = "岗位管理")
     @PreAuthorize("@ss.hasPermission('system:post:export')")
     @ApiAccessLog(operateType = EXPORT)
-    public void export(HttpServletResponse response, @Validated PostPageRequest reqVO) throws IOException {
-        reqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<PostEntity> list = postService.getPostPage(reqVO).getList();
+    public void export(HttpServletResponse response, @Validated PostPageRequest request) throws IOException {
+        request.setPageSize(PageParam.PAGE_SIZE_NONE);
+        List<PostEntity> list = postService.getPostPage(request).getList();
         // 输出
         ExcelUtils.write(response, "岗位数据.xls", "岗位列表", PostResponse.class,
                 BeanUtils.toBean(list, PostResponse.class));

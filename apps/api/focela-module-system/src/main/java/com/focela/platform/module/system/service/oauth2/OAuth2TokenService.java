@@ -83,9 +83,9 @@ public interface OAuth2TokenService {
     /**
      * 获得访问令牌分页
      *
-     * @param reqVO 请求
+     * @param request 请求
      * @return 访问令牌分页
      */
-    PageResult<OAuth2AccessTokenEntity> getAccessTokenPage(OAuth2AccessTokenPageRequest reqVO);
+    PageResult<OAuth2AccessTokenEntity> getAccessTokenPage(OAuth2AccessTokenPageRequest request);
 
 }

@@ -178,8 +178,8 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public List<DeptEntity> getDeptList(DeptListRequest reqVO) {
-        List<DeptEntity> list = deptMapper.selectList(reqVO);
+    public List<DeptEntity> getDeptList(DeptListRequest request) {
+        List<DeptEntity> list = deptMapper.selectList(request);
         list.sort(Comparator.comparing(DeptEntity::getSort));
         return list;
     }

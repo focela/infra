@@ -37,17 +37,17 @@ public class SocialUserController {
 
     @PostMapping("/bind")
     @Operation(summary = "社交绑定，使用 code 授权码")
-    public CommonResult<Boolean> socialBind(@RequestBody @Valid SocialUserBindRequest reqVO) {
-        socialUserService.bindSocialUser(new SocialUserBindReqDTO().setSocialType(reqVO.getType())
-                        .setCode(reqVO.getCode()).setState(reqVO.getState())
+    public CommonResult<Boolean> socialBind(@RequestBody @Valid SocialUserBindRequest request) {
+        socialUserService.bindSocialUser(new SocialUserBindReqDTO().setSocialType(request.getType())
+                        .setCode(request.getCode()).setState(request.getState())
                         .setUserId(getLoginUserId()).setUserType(UserTypeEnum.ADMIN.getValue()));
         return CommonResult.success(true);
     }
 
     @DeleteMapping("/unbind")
     @Operation(summary = "取消社交绑定")
-    public CommonResult<Boolean> socialUnbind(@RequestBody SocialUserUnbindRequest reqVO) {
-        socialUserService.unbindSocialUser(getLoginUserId(), UserTypeEnum.ADMIN.getValue(), reqVO.getType(), reqVO.getOpenid());
+    public CommonResult<Boolean> socialUnbind(@RequestBody SocialUserUnbindRequest request) {
+        socialUserService.unbindSocialUser(getLoginUserId(), UserTypeEnum.ADMIN.getValue(), request.getType(), request.getOpenid());
         return CommonResult.success(true);
     }
 

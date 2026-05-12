@@ -12,12 +12,12 @@ import java.util.List;
 @Mapper
 public interface TenantPackageMapper extends BaseMapperX<TenantPackageEntity> {
 
-    default PageResult<TenantPackageEntity> selectPage(TenantPackagePageRequest reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<TenantPackageEntity>()
-                .likeIfPresent(TenantPackageEntity::getName, reqVO.getName())
-                .eqIfPresent(TenantPackageEntity::getStatus, reqVO.getStatus())
-                .likeIfPresent(TenantPackageEntity::getRemark, reqVO.getRemark())
-                .betweenIfPresent(TenantPackageEntity::getCreateTime, reqVO.getCreateTime())
+    default PageResult<TenantPackageEntity> selectPage(TenantPackagePageRequest request) {
+        return selectPage(request, new LambdaQueryWrapperX<TenantPackageEntity>()
+                .likeIfPresent(TenantPackageEntity::getName, request.getName())
+                .eqIfPresent(TenantPackageEntity::getStatus, request.getStatus())
+                .likeIfPresent(TenantPackageEntity::getRemark, request.getRemark())
+                .betweenIfPresent(TenantPackageEntity::getCreateTime, request.getCreateTime())
                 .orderByDesc(TenantPackageEntity::getId));
     }
 

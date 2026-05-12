@@ -29,13 +29,13 @@ public class OperateLogServiceImplTest extends BaseDbUnitTest {
 
     @Test
     public void testCreateOperateLog() {
-        OperateLogCreateReqDTO reqVO = RandomUtils.randomPojo(OperateLogCreateReqDTO.class);
+        OperateLogCreateReqDTO request = RandomUtils.randomPojo(OperateLogCreateReqDTO.class);
 
         // 调研
-        operateLogServiceImpl.createOperateLog(reqVO);
+        operateLogServiceImpl.createOperateLog(request);
         // 断言
         OperateLogEntity operateLogDO = operateLogMapper.selectOne(null);
-        assertPojoEquals(reqVO, operateLogDO);
+        assertPojoEquals(request, operateLogDO);
     }
 
     @Test
@@ -64,16 +64,16 @@ public class OperateLogServiceImplTest extends BaseDbUnitTest {
         operateLogMapper.insert(cloneIgnoreId(operateLogDO, o -> o.setCreateTime(buildTime(2021, 2, 6))));
 
         // 构造调用参数
-        OperateLogPageRequest reqVO = new OperateLogPageRequest();
-        reqVO.setUserId(2048L);
-        reqVO.setBizId(999L);
-        reqVO.setType("订");
-        reqVO.setSubType("订单");
-        reqVO.setAction("用户信息");
-        reqVO.setCreateTime(buildBetweenTime(2021, 3, 5, 2021, 3, 7));
+        OperateLogPageRequest request = new OperateLogPageRequest();
+        request.setUserId(2048L);
+        request.setBizId(999L);
+        request.setType("订");
+        request.setSubType("订单");
+        request.setAction("用户信息");
+        request.setCreateTime(buildBetweenTime(2021, 3, 5, 2021, 3, 7));
 
         // 调用
-        PageResult<OperateLogEntity> pageResult = operateLogServiceImpl.getOperateLogPage(reqVO);
+        PageResult<OperateLogEntity> pageResult = operateLogServiceImpl.getOperateLogPage(request);
         // 断言，只查到了一条符合条件的
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());

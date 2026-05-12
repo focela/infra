@@ -62,10 +62,10 @@ public interface DeptService {
     /**
      * 筛选部门列表
      *
-     * @param reqVO 筛选条件请求 VO
+     * @param request 筛选条件请求 VO
      * @return 部门列表
      */
-    List<DeptEntity> getDeptList(DeptListRequest reqVO);
+    List<DeptEntity> getDeptList(DeptListRequest request);
 
     /**
      * 获得指定编号的部门 Map

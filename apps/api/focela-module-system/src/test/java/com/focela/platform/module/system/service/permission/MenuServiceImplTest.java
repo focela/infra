@@ -53,16 +53,16 @@ public class MenuServiceImplTest extends BaseDbUnitTest {
         menuMapper.insert(menuDO);
         Long parentId = menuDO.getId();
         // 准备参数
-        MenuSaveRequest reqVO = randomPojo(MenuSaveRequest.class, o -> {
+        MenuSaveRequest request = randomPojo(MenuSaveRequest.class, o -> {
             o.setParentId(parentId);
             o.setName("testSonName");
             o.setType(MenuTypeEnum.MENU.getType());
         }).setId(null); // 防止 id 被赋值
-        Long menuId = menuService.createMenu(reqVO);
+        Long menuId = menuService.createMenu(request);
 
         // 校验记录的属性是否正确
         MenuEntity dbMenu = menuMapper.selectById(menuId);
-        assertPojoEquals(reqVO, dbMenu, "id");
+        assertPojoEquals(request, dbMenu, "id");
     }
 
     @Test
@@ -71,7 +71,7 @@ public class MenuServiceImplTest extends BaseDbUnitTest {
         MenuEntity sonMenuDO = createParentAndSonMenu();
         Long sonId = sonMenuDO.getId();
         // 准备参数
-        MenuSaveRequest reqVO = randomPojo(MenuSaveRequest.class, o -> {
+        MenuSaveRequest request = randomPojo(MenuSaveRequest.class, o -> {
             o.setId(sonId);
             o.setName("testSonName"); // 修改名字
             o.setParentId(sonMenuDO.getParentId());
@@ -79,18 +79,18 @@ public class MenuServiceImplTest extends BaseDbUnitTest {
         });
 
         // 调用
-        menuService.updateMenu(reqVO);
+        menuService.updateMenu(request);
         // 校验记录的属性是否正确
         MenuEntity dbMenu = menuMapper.selectById(sonId);
-        assertPojoEquals(reqVO, dbMenu);
+        assertPojoEquals(request, dbMenu);
     }
 
     @Test
     public void testUpdateMenu_sonIdNotExist() {
         // 准备参数
-        MenuSaveRequest reqVO = randomPojo(MenuSaveRequest.class);
+        MenuSaveRequest request = randomPojo(MenuSaveRequest.class);
         // 调用，并断言异常
-        assertServiceException(() -> menuService.updateMenu(reqVO), MENU_NOT_EXISTS);
+        assertServiceException(() -> menuService.updateMenu(request), MENU_NOT_EXISTS);
     }
 
     @Test
@@ -153,10 +153,10 @@ public class MenuServiceImplTest extends BaseDbUnitTest {
         // 测试 name 不匹配
         menuMapper.insert(cloneIgnoreId(menuDO, o -> o.setName("艿")));
         // 准备参数
-        MenuListRequest reqVO = new MenuListRequest().setName("芋").setStatus(CommonStatusEnum.ENABLE.getStatus());
+        MenuListRequest request = new MenuListRequest().setName("芋").setStatus(CommonStatusEnum.ENABLE.getStatus());
 
         // 调用
-        List<MenuEntity> result = menuService.getMenuList(reqVO);
+        List<MenuEntity> result = menuService.getMenuList(request);
         // 断言
         assertEquals(1, result.size());
         assertPojoEquals(menuDO, result.get(0));
@@ -178,10 +178,10 @@ public class MenuServiceImplTest extends BaseDbUnitTest {
             return true;
         }));
         // 准备参数
-        MenuListRequest reqVO = new MenuListRequest().setStatus(CommonStatusEnum.ENABLE.getStatus());
+        MenuListRequest request = new MenuListRequest().setStatus(CommonStatusEnum.ENABLE.getStatus());
 
         // 调用
-        List<MenuEntity> result = menuService.getMenuListByTenant(reqVO);
+        List<MenuEntity> result = menuService.getMenuListByTenant(request);
         // 断言
         assertEquals(1, result.size());
         assertPojoEquals(menu100, result.get(0));

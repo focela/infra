@@ -44,57 +44,57 @@ public class JobServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateJob_cronExpressionValid() {
         // 准备参数。Cron 表达式为 String 类型，默认随机字符串。
-        JobSaveRequest reqVO = randomPojo(JobSaveRequest.class);
+        JobSaveRequest request = randomPojo(JobSaveRequest.class);
 
         // 调用，并断言异常
-        assertServiceException(() -> jobService.createJob(reqVO), JOB_CRON_EXPRESSION_VALID);
+        assertServiceException(() -> jobService.createJob(request), JOB_CRON_EXPRESSION_VALID);
     }
 
     @Test
     public void testCreateJob_jobHandlerExists() throws SchedulerException {
         // 准备参数 指定 Cron 表达式
-        JobSaveRequest reqVO = randomPojo(JobSaveRequest.class, o -> o.setCronExpression("0 0/1 * * * ? *"));
+        JobSaveRequest request = randomPojo(JobSaveRequest.class, o -> o.setCronExpression("0 0/1 * * * ? *"));
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
-            springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(reqVO.getHandlerName())))
+            springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(request.getHandlerName())))
                     .thenReturn(jobLogCleanJob);
 
             // 调用
-            jobService.createJob(reqVO);
+            jobService.createJob(request);
             // 调用，并断言异常
-            assertServiceException(() -> jobService.createJob(reqVO), JOB_HANDLER_EXISTS);
+            assertServiceException(() -> jobService.createJob(request), JOB_HANDLER_EXISTS);
         }
     }
 
     @Test
     public void testCreateJob_success() throws SchedulerException {
         // 准备参数 指定 Cron 表达式
-        JobSaveRequest reqVO = randomPojo(JobSaveRequest.class, o -> o.setCronExpression("0 0/1 * * * ? *"))
+        JobSaveRequest request = randomPojo(JobSaveRequest.class, o -> o.setCronExpression("0 0/1 * * * ? *"))
                 .setId(null);
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
-            springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(reqVO.getHandlerName())))
+            springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(request.getHandlerName())))
                     .thenReturn(jobLogCleanJob);
 
             // 调用
-            Long jobId = jobService.createJob(reqVO);
+            Long jobId = jobService.createJob(request);
             // 断言
             assertNotNull(jobId);
             // 校验记录的属性是否正确
             JobEntity job = jobMapper.selectById(jobId);
-            assertPojoEquals(reqVO, job, "id");
+            assertPojoEquals(request, job, "id");
             assertEquals(JobStatusEnum.NORMAL.getStatus(), job.getStatus());
             // 校验调用
             verify(schedulerManager).addJob(eq(job.getId()), eq(job.getHandlerName()), eq(job.getHandlerParam()),
-                    eq(job.getCronExpression()), eq(reqVO.getRetryCount()), eq(reqVO.getRetryInterval()));
+                    eq(job.getCronExpression()), eq(request.getRetryCount()), eq(request.getRetryInterval()));
         }
     }
 
     @Test
     public void testUpdateJob_jobNotExists(){
         // 准备参数
-        JobSaveRequest reqVO = randomPojo(JobSaveRequest.class, o -> o.setCronExpression("0 0/1 * * * ? *"));
+        JobSaveRequest request = randomPojo(JobSaveRequest.class, o -> o.setCronExpression("0 0/1 * * * ? *"));
 
         // 调用，并断言异常
-        assertServiceException(() -> jobService.updateJob(reqVO), JOB_NOT_EXISTS);
+        assertServiceException(() -> jobService.updateJob(request), JOB_NOT_EXISTS);
     }
 
     @Test

@@ -37,16 +37,16 @@ public class ConfigServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateConfig_success() {
         // 准备参数
-        ConfigSaveRequest reqVO = randomPojo(ConfigSaveRequest.class)
+        ConfigSaveRequest request = randomPojo(ConfigSaveRequest.class)
                 .setId(null); // 防止 id 被赋值，导致唯一性校验失败
 
         // 调用
-        Long configId = configService.createConfig(reqVO);
+        Long configId = configService.createConfig(request);
         // 断言
         assertNotNull(configId);
         // 校验记录的属性是否正确
         ConfigEntity config = configMapper.selectById(configId);
-        assertPojoEquals(reqVO, config, "id");
+        assertPojoEquals(request, config, "id");
         assertEquals(ConfigTypeEnum.CUSTOM.getType(), config.getType());
     }
 
@@ -56,15 +56,15 @@ public class ConfigServiceImplTest extends BaseDbUnitTest {
         ConfigEntity dbConfig = randomConfigDO();
         configMapper.insert(dbConfig);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        ConfigSaveRequest reqVO = randomPojo(ConfigSaveRequest.class, o -> {
+        ConfigSaveRequest request = randomPojo(ConfigSaveRequest.class, o -> {
             o.setId(dbConfig.getId()); // 设置更新的 ID
         });
 
         // 调用
-        configService.updateConfig(reqVO);
+        configService.updateConfig(request);
         // 校验是否更新正确
-        ConfigEntity config = configMapper.selectById(reqVO.getId()); // 获取最新的
-        assertPojoEquals(reqVO, config);
+        ConfigEntity config = configMapper.selectById(request.getId()); // 获取最新的
+        assertPojoEquals(request, config);
     }
 
     @Test
@@ -162,14 +162,14 @@ public class ConfigServiceImplTest extends BaseDbUnitTest {
         // 测试 createTime 不匹配
         configMapper.insert(cloneIgnoreId(dbConfig, o -> o.setCreateTime(buildTime(2021, 1, 1))));
         // 准备参数
-        ConfigPageRequest reqVO = new ConfigPageRequest();
-        reqVO.setName("艿");
-        reqVO.setKey("nai");
-        reqVO.setType(ConfigTypeEnum.SYSTEM.getType());
-        reqVO.setCreateTime(buildBetweenTime(2021, 1, 15, 2021, 2, 15));
+        ConfigPageRequest request = new ConfigPageRequest();
+        request.setName("艿");
+        request.setKey("nai");
+        request.setType(ConfigTypeEnum.SYSTEM.getType());
+        request.setCreateTime(buildBetweenTime(2021, 1, 15, 2021, 2, 15));
 
         // 调用
-        PageResult<ConfigEntity> pageResult = configService.getConfigPage(reqVO);
+        PageResult<ConfigEntity> pageResult = configService.getConfigPage(request);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());

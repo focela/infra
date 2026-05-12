@@ -14,15 +14,15 @@ public interface SmsTemplateMapper extends BaseMapperX<SmsTemplateEntity> {
         return selectOne(SmsTemplateEntity::getCode, code);
     }
 
-    default PageResult<SmsTemplateEntity> selectPage(SmsTemplatePageRequest reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<SmsTemplateEntity>()
-                .eqIfPresent(SmsTemplateEntity::getType, reqVO.getType())
-                .eqIfPresent(SmsTemplateEntity::getStatus, reqVO.getStatus())
-                .likeIfPresent(SmsTemplateEntity::getCode, reqVO.getCode())
-                .likeIfPresent(SmsTemplateEntity::getContent, reqVO.getContent())
-                .likeIfPresent(SmsTemplateEntity::getApiTemplateId, reqVO.getApiTemplateId())
-                .eqIfPresent(SmsTemplateEntity::getChannelId, reqVO.getChannelId())
-                .betweenIfPresent(SmsTemplateEntity::getCreateTime, reqVO.getCreateTime())
+    default PageResult<SmsTemplateEntity> selectPage(SmsTemplatePageRequest request) {
+        return selectPage(request, new LambdaQueryWrapperX<SmsTemplateEntity>()
+                .eqIfPresent(SmsTemplateEntity::getType, request.getType())
+                .eqIfPresent(SmsTemplateEntity::getStatus, request.getStatus())
+                .likeIfPresent(SmsTemplateEntity::getCode, request.getCode())
+                .likeIfPresent(SmsTemplateEntity::getContent, request.getContent())
+                .likeIfPresent(SmsTemplateEntity::getApiTemplateId, request.getApiTemplateId())
+                .eqIfPresent(SmsTemplateEntity::getChannelId, request.getChannelId())
+                .betweenIfPresent(SmsTemplateEntity::getCreateTime, request.getCreateTime())
                 .orderByDesc(SmsTemplateEntity::getId));
     }
 

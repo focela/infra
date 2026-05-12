@@ -271,14 +271,14 @@ public class SocialUserServiceImplTest extends BaseDbUnitTest {
         // 测试 createTime 不匹配
         socialUserMapper.insert(cloneIgnoreId(dbSocialUser, o -> o.setCreateTime(buildTime(2020, 1, 21))));
         // 准备参数
-        SocialUserPageRequest reqVO = new SocialUserPageRequest();
-        reqVO.setType(SocialTypeEnum.GITEE.getType());
-        reqVO.setNickname("芋");
-        reqVO.setOpenid("yudao");
-        reqVO.setCreateTime(buildBetweenTime(2020, 1, 10, 2020, 1, 20));
+        SocialUserPageRequest request = new SocialUserPageRequest();
+        request.setType(SocialTypeEnum.GITEE.getType());
+        request.setNickname("芋");
+        request.setOpenid("yudao");
+        request.setCreateTime(buildBetweenTime(2020, 1, 10, 2020, 1, 20));
 
         // 调用
-        PageResult<SocialUserEntity> pageResult = socialUserService.getSocialUserPage(reqVO);
+        PageResult<SocialUserEntity> pageResult = socialUserService.getSocialUserPage(request);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());

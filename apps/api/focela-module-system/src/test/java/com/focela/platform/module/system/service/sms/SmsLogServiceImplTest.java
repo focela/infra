@@ -67,17 +67,17 @@ public class SmsLogServiceImplTest extends BaseDbUnitTest {
         // 测试 receiveTime 不匹配
         smsLogMapper.insert(cloneIgnoreId(dbSmsLog, o -> o.setReceiveTime(buildTime(2021, 12, 12))));
         // 准备参数
-        SmsLogPageRequest reqVO = new SmsLogPageRequest();
-        reqVO.setChannelId(1L);
-        reqVO.setTemplateId(10L);
-        reqVO.setMobile("156");
-        reqVO.setSendStatus(SmsSendStatusEnum.INIT.getStatus());
-        reqVO.setSendTime(buildBetweenTime(2020, 11, 1, 2020, 11, 30));
-        reqVO.setReceiveStatus(SmsReceiveStatusEnum.INIT.getStatus());
-        reqVO.setReceiveTime(buildBetweenTime(2021, 11, 1, 2021, 11, 30));
+        SmsLogPageRequest request = new SmsLogPageRequest();
+        request.setChannelId(1L);
+        request.setTemplateId(10L);
+        request.setMobile("156");
+        request.setSendStatus(SmsSendStatusEnum.INIT.getStatus());
+        request.setSendTime(buildBetweenTime(2020, 11, 1, 2020, 11, 30));
+        request.setReceiveStatus(SmsReceiveStatusEnum.INIT.getStatus());
+        request.setReceiveTime(buildBetweenTime(2021, 11, 1, 2021, 11, 30));
 
         // 调用
-        PageResult<SmsLogEntity> pageResult = smsLogService.getSmsLogPage(reqVO);
+        PageResult<SmsLogEntity> pageResult = smsLogService.getSmsLogPage(request);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
@@ -101,20 +101,20 @@ public class SmsLogServiceImplTest extends BaseDbUnitTest {
         Long logId = smsLogService.createSmsLog(mobile, userId, userType, isSend,
                 templateDO, templateContent, templateParams);
         // 断言
-        SmsLogEntity logDO = smsLogMapper.selectById(logId);
+        SmsLogEntity logEntity = smsLogMapper.selectById(logId);
         assertEquals(isSend ? SmsSendStatusEnum.INIT.getStatus() : SmsSendStatusEnum.IGNORE.getStatus(),
-                logDO.getSendStatus());
-        assertEquals(mobile, logDO.getMobile());
-        assertEquals(userType, logDO.getUserType());
-        assertEquals(userId, logDO.getUserId());
-        assertEquals(templateDO.getId(), logDO.getTemplateId());
-        assertEquals(templateDO.getCode(), logDO.getTemplateCode());
-        assertEquals(templateDO.getType(), logDO.getTemplateType());
-        assertEquals(templateDO.getChannelId(), logDO.getChannelId());
-        assertEquals(templateDO.getChannelCode(), logDO.getChannelCode());
-        assertEquals(templateContent, logDO.getTemplateContent());
-        assertEquals(templateParams, logDO.getTemplateParams());
-        assertEquals(SmsReceiveStatusEnum.INIT.getStatus(), logDO.getReceiveStatus());
+                logEntity.getSendStatus());
+        assertEquals(mobile, logEntity.getMobile());
+        assertEquals(userType, logEntity.getUserType());
+        assertEquals(userId, logEntity.getUserId());
+        assertEquals(templateDO.getId(), logEntity.getTemplateId());
+        assertEquals(templateDO.getCode(), logEntity.getTemplateCode());
+        assertEquals(templateDO.getType(), logEntity.getTemplateType());
+        assertEquals(templateDO.getChannelId(), logEntity.getChannelId());
+        assertEquals(templateDO.getChannelCode(), logEntity.getChannelCode());
+        assertEquals(templateContent, logEntity.getTemplateContent());
+        assertEquals(templateParams, logEntity.getTemplateParams());
+        assertEquals(SmsReceiveStatusEnum.INIT.getStatus(), logEntity.getReceiveStatus());
     }
 
     @Test

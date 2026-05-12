@@ -12,10 +12,10 @@ import java.util.List;
 @Mapper
 public interface DeptMapper extends BaseMapperX<DeptEntity> {
 
-    default List<DeptEntity> selectList(DeptListRequest reqVO) {
+    default List<DeptEntity> selectList(DeptListRequest request) {
         return selectList(new LambdaQueryWrapperX<DeptEntity>()
-                .likeIfPresent(DeptEntity::getName, reqVO.getName())
-                .eqIfPresent(DeptEntity::getStatus, reqVO.getStatus()));
+                .likeIfPresent(DeptEntity::getName, request.getName())
+                .eqIfPresent(DeptEntity::getStatus, request.getStatus()));
     }
 
     default DeptEntity selectByParentIdAndName(Long parentId, String name) {

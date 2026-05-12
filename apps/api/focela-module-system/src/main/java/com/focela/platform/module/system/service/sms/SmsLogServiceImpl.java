@@ -47,9 +47,9 @@ public class SmsLogServiceImpl implements SmsLogService {
         logBuilder.receiveStatus(SmsReceiveStatusEnum.INIT.getStatus());
 
         // 插入数据库
-        SmsLogEntity logDO = logBuilder.build();
-        smsLogMapper.insert(logDO);
-        return logDO.getId();
+        SmsLogEntity logEntity = logBuilder.build();
+        smsLogMapper.insert(logEntity);
+        return logEntity.getId();
     }
 
     @Override

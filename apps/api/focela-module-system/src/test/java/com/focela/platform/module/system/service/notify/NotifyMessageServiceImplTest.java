@@ -91,15 +91,15 @@ public class NotifyMessageServiceImplTest extends BaseDbUnitTest {
        // 测试 createTime 不匹配
        notifyMessageMapper.insert(cloneIgnoreId(dbNotifyMessage, o -> o.setCreateTime(buildTime(2022, 2, 1))));
        // 准备参数
-       NotifyMessagePageRequest reqVO = new NotifyMessagePageRequest();
-       reqVO.setUserId(1L);
-       reqVO.setUserType(UserTypeEnum.ADMIN.getValue());
-       reqVO.setTemplateCode("est_01");
-       reqVO.setTemplateType(10);
-       reqVO.setCreateTime(buildBetweenTime(2022, 1, 1, 2022, 1, 10));
+       NotifyMessagePageRequest request = new NotifyMessagePageRequest();
+       request.setUserId(1L);
+       request.setUserType(UserTypeEnum.ADMIN.getValue());
+       request.setTemplateCode("est_01");
+       request.setTemplateType(10);
+       request.setCreateTime(buildBetweenTime(2022, 1, 1, 2022, 1, 10));
 
        // 调用
-       PageResult<NotifyMessageEntity> pageResult = notifyMessageService.getNotifyMessagePage(reqVO);
+       PageResult<NotifyMessageEntity> pageResult = notifyMessageService.getNotifyMessagePage(request);
        // 断言
        assertEquals(1, pageResult.getTotal());
        assertEquals(1, pageResult.getList().size());
@@ -142,12 +142,12 @@ public class NotifyMessageServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         Long userId = 1L;
         Integer userType = UserTypeEnum.ADMIN.getValue();
-        NotifyMessageMyPageRequest reqVO = new NotifyMessageMyPageRequest();
-        reqVO.setReadStatus(true);
-        reqVO.setCreateTime(buildBetweenTime(2022, 1, 1, 2022, 1, 10));
+        NotifyMessageMyPageRequest request = new NotifyMessageMyPageRequest();
+        request.setReadStatus(true);
+        request.setCreateTime(buildBetweenTime(2022, 1, 1, 2022, 1, 10));
 
         // 调用
-        PageResult<NotifyMessageEntity> pageResult = notifyMessageService.getMyMyNotifyMessagePage(reqVO, userId, userType);
+        PageResult<NotifyMessageEntity> pageResult = notifyMessageService.getMyMyNotifyMessagePage(request, userId, userType);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());

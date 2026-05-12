@@ -1,8 +1,8 @@
 # Refactor Plan — Mức B: Chuẩn hoá Naming Convention
 
-> Status: **DRAFT — chờ duyệt**
-> Branch dự kiến: `feature/SKF-1` (tiếp tục) hoặc tách `refactor/level-b-naming`
-> Tiền điều kiện: Mức A rebrand đã merge / verify (đã đạt)
+> Status: **EXECUTED** (B1 + B2 + B3 hoàn tất trên `feature/SKF-1`)
+> Commits: B1 `17d1d61`, B2 `80f8354`, B3 (pending push)
+> Verification: `mvn test` 457 run, 456 pass (1 pre-existing timezone failure)
 
 ---
 

@@ -38,19 +38,19 @@ public class DeptServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateDept() {
         // 准备参数
-        DeptSaveRequest reqVO = randomPojo(DeptSaveRequest.class, o -> {
+        DeptSaveRequest request = randomPojo(DeptSaveRequest.class, o -> {
             o.setId(null); // 防止 id 被设置
             o.setParentId(DeptEntity.PARENT_ID_ROOT);
             o.setStatus(randomCommonStatus());
         });
 
         // 调用
-        Long deptId = deptService.createDept(reqVO);
+        Long deptId = deptService.createDept(request);
         // 断言
         assertNotNull(deptId);
         // 校验记录的属性是否正确
         DeptEntity deptDO = deptMapper.selectById(deptId);
-        assertPojoEquals(reqVO, deptDO, "id");
+        assertPojoEquals(request, deptDO, "id");
     }
 
     @Test
@@ -59,7 +59,7 @@ public class DeptServiceImplTest extends BaseDbUnitTest {
         DeptEntity dbDeptDO = randomPojo(DeptEntity.class, o -> o.setStatus(randomCommonStatus()));
         deptMapper.insert(dbDeptDO);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        DeptSaveRequest reqVO = randomPojo(DeptSaveRequest.class, o -> {
+        DeptSaveRequest request = randomPojo(DeptSaveRequest.class, o -> {
             // 设置更新的 ID
             o.setParentId(DeptEntity.PARENT_ID_ROOT);
             o.setId(dbDeptDO.getId());
@@ -67,10 +67,10 @@ public class DeptServiceImplTest extends BaseDbUnitTest {
         });
 
         // 调用
-        deptService.updateDept(reqVO);
+        deptService.updateDept(request);
         // 校验是否更新正确
-        DeptEntity deptDO = deptMapper.selectById(reqVO.getId()); // 获取最新的
-        assertPojoEquals(reqVO, deptDO);
+        DeptEntity deptDO = deptMapper.selectById(request.getId()); // 获取最新的
+        assertPojoEquals(request, deptDO);
     }
 
     @Test
@@ -231,12 +231,12 @@ public class DeptServiceImplTest extends BaseDbUnitTest {
         // 测试 status 不匹配
         deptMapper.insert(ObjectUtils.cloneIgnoreId(dept, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
         // 准备参数
-        DeptListRequest reqVO = new DeptListRequest();
-        reqVO.setName("开");
-        reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+        DeptListRequest request = new DeptListRequest();
+        request.setName("开");
+        request.setStatus(CommonStatusEnum.ENABLE.getStatus());
 
         // 调用
-        List<DeptEntity> sysDeptDOS = deptService.getDeptList(reqVO);
+        List<DeptEntity> sysDeptDOS = deptService.getDeptList(request);
         // 断言
         assertEquals(1, sysDeptDOS.size());
         assertPojoEquals(dept, sysDeptDOS.get(0));

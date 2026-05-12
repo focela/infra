@@ -16,11 +16,11 @@ import java.util.List;
 @Mapper
 public interface Demo02CategoryMapper extends BaseMapperX<Demo02CategoryEntity> {
 
-    default List<Demo02CategoryEntity> selectList(Demo02CategoryListRequest reqVO) {
+    default List<Demo02CategoryEntity> selectList(Demo02CategoryListRequest request) {
         return selectList(new LambdaQueryWrapperX<Demo02CategoryEntity>()
-                .likeIfPresent(Demo02CategoryEntity::getName, reqVO.getName())
-                .eqIfPresent(Demo02CategoryEntity::getParentId, reqVO.getParentId())
-                .betweenIfPresent(Demo02CategoryEntity::getCreateTime, reqVO.getCreateTime())
+                .likeIfPresent(Demo02CategoryEntity::getName, request.getName())
+                .eqIfPresent(Demo02CategoryEntity::getParentId, request.getParentId())
+                .betweenIfPresent(Demo02CategoryEntity::getCreateTime, request.getCreateTime())
                 .orderByDesc(Demo02CategoryEntity::getId));
     }
 

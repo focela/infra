@@ -66,10 +66,10 @@ public interface PostService {
     /**
      * 获得岗位分页列表
      *
-     * @param reqVO 分页条件
+     * @param request 分页条件
      * @return 部门分页列表
      */
-    PageResult<PostEntity> getPostPage(PostPageRequest reqVO);
+    PageResult<PostEntity> getPostPage(PostPageRequest request);
 
     /**
      * 获得岗位信息

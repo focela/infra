@@ -15,13 +15,13 @@ public interface SocialClientMapper extends BaseMapperX<SocialClientEntity> {
                 SocialClientEntity::getUserType, userType);
     }
 
-    default PageResult<SocialClientEntity> selectPage(SocialClientPageRequest reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<SocialClientEntity>()
-                .likeIfPresent(SocialClientEntity::getName, reqVO.getName())
-                .eqIfPresent(SocialClientEntity::getSocialType, reqVO.getSocialType())
-                .eqIfPresent(SocialClientEntity::getUserType, reqVO.getUserType())
-                .likeIfPresent(SocialClientEntity::getClientId, reqVO.getClientId())
-                .eqIfPresent(SocialClientEntity::getStatus, reqVO.getStatus())
+    default PageResult<SocialClientEntity> selectPage(SocialClientPageRequest request) {
+        return selectPage(request, new LambdaQueryWrapperX<SocialClientEntity>()
+                .likeIfPresent(SocialClientEntity::getName, request.getName())
+                .eqIfPresent(SocialClientEntity::getSocialType, request.getSocialType())
+                .eqIfPresent(SocialClientEntity::getUserType, request.getUserType())
+                .likeIfPresent(SocialClientEntity::getClientId, request.getClientId())
+                .eqIfPresent(SocialClientEntity::getStatus, request.getStatus())
                 .orderByDesc(SocialClientEntity::getId));
     }
 

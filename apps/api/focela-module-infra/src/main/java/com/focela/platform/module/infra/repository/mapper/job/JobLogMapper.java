@@ -19,13 +19,13 @@ import java.time.LocalDateTime;
 @Mapper
 public interface JobLogMapper extends BaseMapperX<JobLogEntity> {
 
-    default PageResult<JobLogEntity> selectPage(JobLogPageRequest reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<JobLogEntity>()
-                .eqIfPresent(JobLogEntity::getJobId, reqVO.getJobId())
-                .likeIfPresent(JobLogEntity::getHandlerName, reqVO.getHandlerName())
-                .geIfPresent(JobLogEntity::getBeginTime, reqVO.getBeginTime())
-                .leIfPresent(JobLogEntity::getEndTime, reqVO.getEndTime())
-                .eqIfPresent(JobLogEntity::getStatus, reqVO.getStatus())
+    default PageResult<JobLogEntity> selectPage(JobLogPageRequest request) {
+        return selectPage(request, new LambdaQueryWrapperX<JobLogEntity>()
+                .eqIfPresent(JobLogEntity::getJobId, request.getJobId())
+                .likeIfPresent(JobLogEntity::getHandlerName, request.getHandlerName())
+                .geIfPresent(JobLogEntity::getBeginTime, request.getBeginTime())
+                .leIfPresent(JobLogEntity::getEndTime, request.getEndTime())
+                .eqIfPresent(JobLogEntity::getStatus, request.getStatus())
                 .orderByDesc(JobLogEntity::getId) // ID 倒序
         );
     }

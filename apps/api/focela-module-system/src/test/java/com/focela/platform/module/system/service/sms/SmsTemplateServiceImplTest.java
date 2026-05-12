@@ -79,29 +79,29 @@ public class SmsTemplateServiceImplTest extends BaseDbUnitTest {
     @SuppressWarnings("unchecked")
     public void testCreateSmsTemplate_success() throws Throwable {
         // 准备参数
-        SmsTemplateSaveRequest reqVO = randomPojo(SmsTemplateSaveRequest.class, o -> {
+        SmsTemplateSaveRequest request = randomPojo(SmsTemplateSaveRequest.class, o -> {
             o.setContent("正在进行登录操作{operation}，您的验证码是{code}");
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // 保证 status 的范围
             o.setType(randomEle(SmsTemplateTypeEnum.values()).getType()); // 保证 type 的 范围
         }).setId(null); // 防止 id 被赋值
         // mock Channel 的方法
         SmsChannelEntity channelDO = randomPojo(SmsChannelEntity.class, o -> {
-            o.setId(reqVO.getChannelId());
+            o.setId(request.getChannelId());
             o.setStatus(CommonStatusEnum.ENABLE.getStatus()); // 保证 status 开启，创建必须处于这个状态
         });
         when(smsChannelService.getSmsChannel(eq(channelDO.getId()))).thenReturn(channelDO);
         // mock 获得 API 短信模板成功
-        when(smsChannelService.getSmsClient(eq(reqVO.getChannelId()))).thenReturn(smsClient);
-        when(smsClient.getSmsTemplate(eq(reqVO.getApiTemplateId()))).thenReturn(
+        when(smsChannelService.getSmsClient(eq(request.getChannelId()))).thenReturn(smsClient);
+        when(smsClient.getSmsTemplate(eq(request.getApiTemplateId()))).thenReturn(
                 randomPojo(SmsTemplateRespDTO.class, o -> o.setAuditStatus(SmsTemplateAuditStatusEnum.SUCCESS.getStatus())));
 
         // 调用
-        Long smsTemplateId = smsTemplateService.createSmsTemplate(reqVO);
+        Long smsTemplateId = smsTemplateService.createSmsTemplate(request);
         // 断言
         assertNotNull(smsTemplateId);
         // 校验记录的属性是否正确
         SmsTemplateEntity smsTemplate = smsTemplateMapper.selectById(smsTemplateId);
-        assertPojoEquals(reqVO, smsTemplate, "id");
+        assertPojoEquals(request, smsTemplate, "id");
         assertEquals(Lists.newArrayList("operation", "code"), smsTemplate.getParams());
         assertEquals(channelDO.getCode(), smsTemplate.getChannelCode());
     }
@@ -113,7 +113,7 @@ public class SmsTemplateServiceImplTest extends BaseDbUnitTest {
         SmsTemplateEntity dbSmsTemplate = randomSmsTemplateDO();
         smsTemplateMapper.insert(dbSmsTemplate);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        SmsTemplateSaveRequest reqVO = randomPojo(SmsTemplateSaveRequest.class, o -> {
+        SmsTemplateSaveRequest request = randomPojo(SmsTemplateSaveRequest.class, o -> {
             o.setId(dbSmsTemplate.getId()); // 设置更新的 ID
             o.setContent("正在进行登录操作{operation}，您的验证码是{code}");
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // 保证 status 的范围
@@ -121,20 +121,20 @@ public class SmsTemplateServiceImplTest extends BaseDbUnitTest {
         });
         // mock 方法
         SmsChannelEntity channelDO = randomPojo(SmsChannelEntity.class, o -> {
-            o.setId(reqVO.getChannelId());
+            o.setId(request.getChannelId());
             o.setStatus(CommonStatusEnum.ENABLE.getStatus()); // 保证 status 开启，创建必须处于这个状态
         });
         when(smsChannelService.getSmsChannel(eq(channelDO.getId()))).thenReturn(channelDO);
         // mock 获得 API 短信模板成功
-        when(smsChannelService.getSmsClient(eq(reqVO.getChannelId()))).thenReturn(smsClient);
-        when(smsClient.getSmsTemplate(eq(reqVO.getApiTemplateId()))).thenReturn(
+        when(smsChannelService.getSmsClient(eq(request.getChannelId()))).thenReturn(smsClient);
+        when(smsClient.getSmsTemplate(eq(request.getApiTemplateId()))).thenReturn(
                 randomPojo(SmsTemplateRespDTO.class, o -> o.setAuditStatus(SmsTemplateAuditStatusEnum.SUCCESS.getStatus())));
 
         // 调用
-        smsTemplateService.updateSmsTemplate(reqVO);
+        smsTemplateService.updateSmsTemplate(request);
         // 校验是否更新正确
-        SmsTemplateEntity smsTemplate = smsTemplateMapper.selectById(reqVO.getId()); // 获取最新的
-        assertPojoEquals(reqVO, smsTemplate);
+        SmsTemplateEntity smsTemplate = smsTemplateMapper.selectById(request.getId()); // 获取最新的
+        assertPojoEquals(request, smsTemplate);
         assertEquals(Lists.newArrayList("operation", "code"), smsTemplate.getParams());
         assertEquals(channelDO.getCode(), smsTemplate.getChannelCode());
     }
@@ -142,10 +142,10 @@ public class SmsTemplateServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateSmsTemplate_notExists() {
         // 准备参数
-        SmsTemplateSaveRequest reqVO = randomPojo(SmsTemplateSaveRequest.class);
+        SmsTemplateSaveRequest request = randomPojo(SmsTemplateSaveRequest.class);
 
         // 调用, 并断言异常
-        assertServiceException(() -> smsTemplateService.updateSmsTemplate(reqVO), SMS_TEMPLATE_NOT_EXISTS);
+        assertServiceException(() -> smsTemplateService.updateSmsTemplate(request), SMS_TEMPLATE_NOT_EXISTS);
     }
 
     @Test
@@ -227,17 +227,17 @@ public class SmsTemplateServiceImplTest extends BaseDbUnitTest {
         // 测试 createTime 不匹配
         smsTemplateMapper.insert(ObjectUtils.cloneIgnoreId(dbSmsTemplate, o -> o.setCreateTime(buildTime(2021, 12, 12))));
         // 准备参数
-        SmsTemplatePageRequest reqVO = new SmsTemplatePageRequest();
-        reqVO.setType(SmsTemplateTypeEnum.PROMOTION.getType());
-        reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
-        reqVO.setCode("tu");
-        reqVO.setContent("芋道");
-        reqVO.setApiTemplateId("yu");
-        reqVO.setChannelId(1L);
-        reqVO.setCreateTime(buildBetweenTime(2021, 11, 1, 2021, 12, 1));
+        SmsTemplatePageRequest request = new SmsTemplatePageRequest();
+        request.setType(SmsTemplateTypeEnum.PROMOTION.getType());
+        request.setStatus(CommonStatusEnum.ENABLE.getStatus());
+        request.setCode("tu");
+        request.setContent("芋道");
+        request.setApiTemplateId("yu");
+        request.setChannelId(1L);
+        request.setCreateTime(buildBetweenTime(2021, 11, 1, 2021, 12, 1));
 
         // 调用
-        PageResult<SmsTemplateEntity> pageResult = smsTemplateService.getSmsTemplatePage(reqVO);
+        PageResult<SmsTemplateEntity> pageResult = smsTemplateService.getSmsTemplatePage(request);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());

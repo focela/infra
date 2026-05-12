@@ -48,17 +48,17 @@ public class TenantPackageServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateTenantPackage_success() {
         // 准备参数
-        TenantPackageSaveRequest reqVO = randomPojo(TenantPackageSaveRequest.class,
+        TenantPackageSaveRequest request = randomPojo(TenantPackageSaveRequest.class,
                 o -> o.setStatus(randomCommonStatus()))
                 .setId(null); // 防止 id 被赋值
 
         // 调用
-        Long tenantPackageId = tenantPackageService.createTenantPackage(reqVO);
+        Long tenantPackageId = tenantPackageService.createTenantPackage(request);
         // 断言
         assertNotNull(tenantPackageId);
         // 校验记录的属性是否正确
         TenantPackageEntity tenantPackage = tenantPackageMapper.selectById(tenantPackageId);
-        assertPojoEquals(reqVO, tenantPackage, "id");
+        assertPojoEquals(request, tenantPackage, "id");
     }
 
     @Test
@@ -68,34 +68,34 @@ public class TenantPackageServiceImplTest extends BaseDbUnitTest {
                 o -> o.setStatus(randomCommonStatus()));
         tenantPackageMapper.insert(dbTenantPackage);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        TenantPackageSaveRequest reqVO = randomPojo(TenantPackageSaveRequest.class, o -> {
+        TenantPackageSaveRequest request = randomPojo(TenantPackageSaveRequest.class, o -> {
             o.setId(dbTenantPackage.getId()); // 设置更新的 ID
             o.setStatus(randomCommonStatus());
         });
         // mock 方法
         Long tenantId01 = randomLongId();
         Long tenantId02 = randomLongId();
-        when(tenantService.getTenantListByPackageId(eq(reqVO.getId()))).thenReturn(
+        when(tenantService.getTenantListByPackageId(eq(request.getId()))).thenReturn(
                 asList(randomPojo(TenantEntity.class, o -> o.setId(tenantId01)),
                         randomPojo(TenantEntity.class, o -> o.setId(tenantId02))));
 
         // 调用
-        tenantPackageService.updateTenantPackage(reqVO);
+        tenantPackageService.updateTenantPackage(request);
         // 校验是否更新正确
-        TenantPackageEntity tenantPackage = tenantPackageMapper.selectById(reqVO.getId()); // 获取最新的
-        assertPojoEquals(reqVO, tenantPackage);
+        TenantPackageEntity tenantPackage = tenantPackageMapper.selectById(request.getId()); // 获取最新的
+        assertPojoEquals(request, tenantPackage);
         // 校验调用租户的菜单
-        verify(tenantService).updateTenantRoleMenu(eq(tenantId01), eq(reqVO.getMenuIds()));
-        verify(tenantService).updateTenantRoleMenu(eq(tenantId02), eq(reqVO.getMenuIds()));
+        verify(tenantService).updateTenantRoleMenu(eq(tenantId01), eq(request.getMenuIds()));
+        verify(tenantService).updateTenantRoleMenu(eq(tenantId02), eq(request.getMenuIds()));
     }
 
     @Test
     public void testUpdateTenantPackage_notExists() {
         // 准备参数
-        TenantPackageSaveRequest reqVO = randomPojo(TenantPackageSaveRequest.class);
+        TenantPackageSaveRequest request = randomPojo(TenantPackageSaveRequest.class);
 
         // 调用, 并断言异常
-        assertServiceException(() -> tenantPackageService.updateTenantPackage(reqVO), TENANT_PACKAGE_NOT_EXISTS);
+        assertServiceException(() -> tenantPackageService.updateTenantPackage(request), TENANT_PACKAGE_NOT_EXISTS);
     }
 
     @Test
@@ -156,14 +156,14 @@ public class TenantPackageServiceImplTest extends BaseDbUnitTest {
        // 测试 createTime 不匹配
        tenantPackageMapper.insert(cloneIgnoreId(dbTenantPackage, o -> o.setCreateTime(buildTime(2022, 11, 11))));
        // 准备参数
-       TenantPackagePageRequest reqVO = new TenantPackagePageRequest();
-       reqVO.setName("芋道");
-       reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
-       reqVO.setRemark("源码");
-       reqVO.setCreateTime(buildBetweenTime(2022, 10, 9, 2022, 10, 11));
+       TenantPackagePageRequest request = new TenantPackagePageRequest();
+       request.setName("芋道");
+       request.setStatus(CommonStatusEnum.ENABLE.getStatus());
+       request.setRemark("源码");
+       request.setCreateTime(buildBetweenTime(2022, 10, 9, 2022, 10, 11));
 
        // 调用
-       PageResult<TenantPackageEntity> pageResult = tenantPackageService.getTenantPackagePage(reqVO);
+       PageResult<TenantPackageEntity> pageResult = tenantPackageService.getTenantPackagePage(request);
        // 断言
        assertEquals(1, pageResult.getTotal());
        assertEquals(1, pageResult.getList().size());

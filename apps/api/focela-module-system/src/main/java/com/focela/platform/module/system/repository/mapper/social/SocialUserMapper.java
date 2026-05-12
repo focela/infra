@@ -21,12 +21,12 @@ public interface SocialUserMapper extends BaseMapperX<SocialUserEntity> {
                 SocialUserEntity::getOpenid, openid);
     }
 
-    default PageResult<SocialUserEntity> selectPage(SocialUserPageRequest reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<SocialUserEntity>()
-                .eqIfPresent(SocialUserEntity::getType, reqVO.getType())
-                .likeIfPresent(SocialUserEntity::getNickname, reqVO.getNickname())
-                .likeIfPresent(SocialUserEntity::getOpenid, reqVO.getOpenid())
-                .betweenIfPresent(SocialUserEntity::getCreateTime, reqVO.getCreateTime())
+    default PageResult<SocialUserEntity> selectPage(SocialUserPageRequest request) {
+        return selectPage(request, new LambdaQueryWrapperX<SocialUserEntity>()
+                .eqIfPresent(SocialUserEntity::getType, request.getType())
+                .likeIfPresent(SocialUserEntity::getNickname, request.getNickname())
+                .likeIfPresent(SocialUserEntity::getOpenid, request.getOpenid())
+                .betweenIfPresent(SocialUserEntity::getCreateTime, request.getCreateTime())
                 .orderByDesc(SocialUserEntity::getId));
     }
 

@@ -10,11 +10,11 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface SmsChannelMapper extends BaseMapperX<SmsChannelEntity> {
 
-    default PageResult<SmsChannelEntity> selectPage(SmsChannelPageRequest reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<SmsChannelEntity>()
-                .likeIfPresent(SmsChannelEntity::getSignature, reqVO.getSignature())
-                .eqIfPresent(SmsChannelEntity::getStatus, reqVO.getStatus())
-                .betweenIfPresent(SmsChannelEntity::getCreateTime, reqVO.getCreateTime())
+    default PageResult<SmsChannelEntity> selectPage(SmsChannelPageRequest request) {
+        return selectPage(request, new LambdaQueryWrapperX<SmsChannelEntity>()
+                .likeIfPresent(SmsChannelEntity::getSignature, request.getSignature())
+                .eqIfPresent(SmsChannelEntity::getStatus, request.getStatus())
+                .betweenIfPresent(SmsChannelEntity::getCreateTime, request.getCreateTime())
                 .orderByDesc(SmsChannelEntity::getId));
     }
 

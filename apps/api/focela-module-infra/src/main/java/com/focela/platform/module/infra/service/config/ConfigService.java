@@ -63,9 +63,9 @@ public interface ConfigService {
     /**
      * 获得参数配置分页列表
      *
-     * @param reqVO 分页条件
+     * @param request 分页条件
      * @return 分页列表
      */
-    PageResult<ConfigEntity> getConfigPage(ConfigPageRequest reqVO);
+    PageResult<ConfigEntity> getConfigPage(ConfigPageRequest request);
 
 }

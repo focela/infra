@@ -19,11 +19,11 @@ public interface PostMapper extends BaseMapperX<PostEntity> {
                 .inIfPresent(PostEntity::getStatus, statuses));
     }
 
-    default PageResult<PostEntity> selectPage(PostPageRequest reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<PostEntity>()
-                .likeIfPresent(PostEntity::getCode, reqVO.getCode())
-                .likeIfPresent(PostEntity::getName, reqVO.getName())
-                .eqIfPresent(PostEntity::getStatus, reqVO.getStatus())
+    default PageResult<PostEntity> selectPage(PostPageRequest request) {
+        return selectPage(request, new LambdaQueryWrapperX<PostEntity>()
+                .likeIfPresent(PostEntity::getCode, request.getCode())
+                .likeIfPresent(PostEntity::getName, request.getName())
+                .eqIfPresent(PostEntity::getStatus, request.getStatus())
                 .orderByDesc(PostEntity::getId));
     }
 

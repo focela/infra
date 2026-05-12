@@ -171,17 +171,17 @@ public class MailLogServiceImplTest extends BaseDbUnitTest {
        // 测试 sendTime 不匹配
        mailLogMapper.insert(cloneIgnoreId(dbMailLog, o -> o.setSendTime(buildTime(2023, 3, 10))));
        // 准备参数
-       MailLogPageRequest reqVO = new MailLogPageRequest();
-       reqVO.setUserId(1L);
-       reqVO.setUserType(UserTypeEnum.ADMIN.getValue());
-//       reqVO.setToMail("768@qq.com");
-       reqVO.setAccountId(10L);
-       reqVO.setTemplateId(100L);
-       reqVO.setSendStatus(MailSendStatusEnum.INIT.getStatus());
-       reqVO.setSendTime((buildBetweenTime(2023, 2, 1, 2023, 2, 15)));
+       MailLogPageRequest request = new MailLogPageRequest();
+       request.setUserId(1L);
+       request.setUserType(UserTypeEnum.ADMIN.getValue());
+//       request.setToMail("768@qq.com");
+       request.setAccountId(10L);
+       request.setTemplateId(100L);
+       request.setSendStatus(MailSendStatusEnum.INIT.getStatus());
+       request.setSendTime((buildBetweenTime(2023, 2, 1, 2023, 2, 15)));
 
        // 调用
-       PageResult<MailLogEntity> pageResult = mailLogService.getMailLogPage(reqVO);
+       PageResult<MailLogEntity> pageResult = mailLogService.getMailLogPage(request);
        // 断言
        assertEquals(1, pageResult.getTotal());
        assertEquals(1, pageResult.getList().size());

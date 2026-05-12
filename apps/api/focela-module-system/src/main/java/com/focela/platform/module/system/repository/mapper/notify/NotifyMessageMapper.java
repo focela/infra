@@ -16,20 +16,20 @@ import java.util.List;
 @Mapper
 public interface NotifyMessageMapper extends BaseMapperX<NotifyMessageEntity> {
 
-    default PageResult<NotifyMessageEntity> selectPage(NotifyMessagePageRequest reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<NotifyMessageEntity>()
-                .eqIfPresent(NotifyMessageEntity::getUserId, reqVO.getUserId())
-                .eqIfPresent(NotifyMessageEntity::getUserType, reqVO.getUserType())
-                .likeIfPresent(NotifyMessageEntity::getTemplateCode, reqVO.getTemplateCode())
-                .eqIfPresent(NotifyMessageEntity::getTemplateType, reqVO.getTemplateType())
-                .betweenIfPresent(NotifyMessageEntity::getCreateTime, reqVO.getCreateTime())
+    default PageResult<NotifyMessageEntity> selectPage(NotifyMessagePageRequest request) {
+        return selectPage(request, new LambdaQueryWrapperX<NotifyMessageEntity>()
+                .eqIfPresent(NotifyMessageEntity::getUserId, request.getUserId())
+                .eqIfPresent(NotifyMessageEntity::getUserType, request.getUserType())
+                .likeIfPresent(NotifyMessageEntity::getTemplateCode, request.getTemplateCode())
+                .eqIfPresent(NotifyMessageEntity::getTemplateType, request.getTemplateType())
+                .betweenIfPresent(NotifyMessageEntity::getCreateTime, request.getCreateTime())
                 .orderByDesc(NotifyMessageEntity::getId));
     }
 
-    default PageResult<NotifyMessageEntity> selectPage(NotifyMessageMyPageRequest reqVO, Long userId, Integer userType) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<NotifyMessageEntity>()
-                .eqIfPresent(NotifyMessageEntity::getReadStatus, reqVO.getReadStatus())
-                .betweenIfPresent(NotifyMessageEntity::getCreateTime, reqVO.getCreateTime())
+    default PageResult<NotifyMessageEntity> selectPage(NotifyMessageMyPageRequest request, Long userId, Integer userType) {
+        return selectPage(request, new LambdaQueryWrapperX<NotifyMessageEntity>()
+                .eqIfPresent(NotifyMessageEntity::getReadStatus, request.getReadStatus())
+                .betweenIfPresent(NotifyMessageEntity::getCreateTime, request.getCreateTime())
                 .eq(NotifyMessageEntity::getUserId, userId)
                 .eq(NotifyMessageEntity::getUserType, userType)
                 .orderByDesc(NotifyMessageEntity::getId));

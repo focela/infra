@@ -66,8 +66,8 @@ public class AuthController {
     @PostMapping("/login")
     @PermitAll
     @Operation(summary = "使用账号密码登录")
-    public CommonResult<AuthLoginResponse> login(@RequestBody @Valid AuthLoginRequest reqVO) {
-        return success(authService.login(reqVO));
+    public CommonResult<AuthLoginResponse> login(@RequestBody @Valid AuthLoginRequest request) {
+        return success(authService.login(request));
     }
 
     @PostMapping("/logout")
@@ -130,24 +130,24 @@ public class AuthController {
     @PermitAll
     @Operation(summary = "使用短信验证码登录")
     // 可按需开启限流：https://github.com/YunaiV/ruoyi-vue-pro/issues/851
-    // @RateLimiter(time = 60, count = 6, keyResolver = ExpressionRateLimiterKeyResolver.class, keyArg = "#reqVO.mobile")
-    public CommonResult<AuthLoginResponse> smsLogin(@RequestBody @Valid AuthSmsLoginRequest reqVO) {
-        return success(authService.smsLogin(reqVO));
+    // @RateLimiter(time = 60, count = 6, keyResolver = ExpressionRateLimiterKeyResolver.class, keyArg = "#request.mobile")
+    public CommonResult<AuthLoginResponse> smsLogin(@RequestBody @Valid AuthSmsLoginRequest request) {
+        return success(authService.smsLogin(request));
     }
 
     @PostMapping("/send-sms-code")
     @PermitAll
     @Operation(summary = "发送手机验证码")
-    public CommonResult<Boolean> sendLoginSmsCode(@RequestBody @Valid AuthSmsSendRequest reqVO) {
-        authService.sendSmsCode(reqVO);
+    public CommonResult<Boolean> sendLoginSmsCode(@RequestBody @Valid AuthSmsSendRequest request) {
+        authService.sendSmsCode(request);
         return success(true);
     }
 
     @PostMapping("/reset-password")
     @PermitAll
     @Operation(summary = "重置密码")
-    public CommonResult<Boolean> resetPassword(@RequestBody @Valid AuthResetPasswordRequest reqVO) {
-        authService.resetPassword(reqVO);
+    public CommonResult<Boolean> resetPassword(@RequestBody @Valid AuthResetPasswordRequest request) {
+        authService.resetPassword(request);
         return success(true);
     }
 
@@ -169,8 +169,8 @@ public class AuthController {
     @PostMapping("/social-login")
     @PermitAll
     @Operation(summary = "社交快捷登录，使用 code 授权码", description = "适合未登录的用户，但是社交账号已绑定用户")
-    public CommonResult<AuthLoginResponse> socialQuickLogin(@RequestBody @Valid AuthSocialLoginRequest reqVO) {
-        return success(authService.socialLogin(reqVO));
+    public CommonResult<AuthLoginResponse> socialQuickLogin(@RequestBody @Valid AuthSocialLoginRequest request) {
+        return success(authService.socialLogin(request));
     }
 
 }

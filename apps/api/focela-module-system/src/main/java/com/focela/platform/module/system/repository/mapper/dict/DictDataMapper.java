@@ -32,11 +32,11 @@ public interface DictDataMapper extends BaseMapperX<DictDataEntity> {
         return selectCount(DictDataEntity::getDictType, dictType);
     }
 
-    default PageResult<DictDataEntity> selectPage(DictDataPageRequest reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<DictDataEntity>()
-                .likeIfPresent(DictDataEntity::getLabel, reqVO.getLabel())
-                .eqIfPresent(DictDataEntity::getDictType, reqVO.getDictType())
-                .eqIfPresent(DictDataEntity::getStatus, reqVO.getStatus())
+    default PageResult<DictDataEntity> selectPage(DictDataPageRequest request) {
+        return selectPage(request, new LambdaQueryWrapperX<DictDataEntity>()
+                .likeIfPresent(DictDataEntity::getLabel, request.getLabel())
+                .eqIfPresent(DictDataEntity::getDictType, request.getDictType())
+                .eqIfPresent(DictDataEntity::getStatus, request.getStatus())
                 .orderByDesc(Arrays.asList(DictDataEntity::getDictType, DictDataEntity::getSort)));
     }
 

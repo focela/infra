@@ -95,7 +95,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreatUser_success() {
         // 准备参数
-        UserSaveRequest reqVO = randomPojo(UserSaveRequest.class, o -> {
+        UserSaveRequest request = randomPojo(UserSaveRequest.class, o -> {
             o.setSex(RandomUtil.randomEle(SexEnum.values()).getSex());
             o.setMobile(randomString());
             o.setPostIds(asSet(1L, 2L));
@@ -108,25 +108,25 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         }));
         // mock deptService 的方法
         DeptEntity dept = randomPojo(DeptEntity.class, o -> {
-            o.setId(reqVO.getDeptId());
+            o.setId(request.getDeptId());
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
         when(deptService.getDept(eq(dept.getId()))).thenReturn(dept);
         // mock postService 的方法
-        List<PostEntity> posts = CollectionUtils.convertList(reqVO.getPostIds(), postId ->
+        List<PostEntity> posts = CollectionUtils.convertList(request.getPostIds(), postId ->
                 randomPojo(PostEntity.class, o -> {
                     o.setId(postId);
                     o.setStatus(CommonStatusEnum.ENABLE.getStatus());
                 }));
-        when(postService.getPostList(eq(reqVO.getPostIds()), isNull())).thenReturn(posts);
+        when(postService.getPostList(eq(request.getPostIds()), isNull())).thenReturn(posts);
         // mock passwordEncoder 的方法
-        when(passwordEncoder.encode(eq(reqVO.getPassword()))).thenReturn("yudaoyuanma");
+        when(passwordEncoder.encode(eq(request.getPassword()))).thenReturn("yudaoyuanma");
 
         // 调用
-        Long userId = userService.createUser(reqVO);
+        Long userId = userService.createUser(request);
         // 断言
         AdminUserEntity user = userMapper.selectById(userId);
-        assertPojoEquals(reqVO, user, "password", "id");
+        assertPojoEquals(request, user, "password", "id");
         assertEquals("yudaoyuanma", user.getPassword());
         assertEquals(CommonStatusEnum.ENABLE.getStatus(), user.getStatus());
         // 断言关联岗位
@@ -138,7 +138,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreatUser_max() {
         // 准备参数
-        UserSaveRequest reqVO = randomPojo(UserSaveRequest.class);
+        UserSaveRequest request = randomPojo(UserSaveRequest.class);
         // mock 账户额度不足
         TenantEntity tenant = randomPojo(TenantEntity.class, o -> o.setAccountCount(-1));
         doNothing().when(tenantService).handleTenantInfo(argThat(handler -> {
@@ -147,7 +147,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         }));
 
         // 调用，并断言异常
-        assertServiceException(() -> userService.createUser(reqVO), USER_COUNT_MAX, -1);
+        assertServiceException(() -> userService.createUser(request), USER_COUNT_MAX, -1);
     }
 
     @Test
@@ -158,7 +158,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         userPostMapper.insert(new UserPostEntity().setUserId(dbUser.getId()).setPostId(1L));
         userPostMapper.insert(new UserPostEntity().setUserId(dbUser.getId()).setPostId(2L));
         // 准备参数
-        UserSaveRequest reqVO = randomPojo(UserSaveRequest.class, o -> {
+        UserSaveRequest request = randomPojo(UserSaveRequest.class, o -> {
             o.setId(dbUser.getId());
             o.setSex(RandomUtil.randomEle(SexEnum.values()).getSex());
             o.setMobile(randomString());
@@ -166,23 +166,23 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         });
         // mock deptService 的方法
         DeptEntity dept = randomPojo(DeptEntity.class, o -> {
-            o.setId(reqVO.getDeptId());
+            o.setId(request.getDeptId());
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
         when(deptService.getDept(eq(dept.getId()))).thenReturn(dept);
         // mock postService 的方法
-        List<PostEntity> posts = CollectionUtils.convertList(reqVO.getPostIds(), postId ->
+        List<PostEntity> posts = CollectionUtils.convertList(request.getPostIds(), postId ->
                 randomPojo(PostEntity.class, o -> {
                     o.setId(postId);
                     o.setStatus(CommonStatusEnum.ENABLE.getStatus());
                 }));
-        when(postService.getPostList(eq(reqVO.getPostIds()), isNull())).thenReturn(posts);
+        when(postService.getPostList(eq(request.getPostIds()), isNull())).thenReturn(posts);
 
         // 调用
-        userService.updateUser(reqVO);
+        userService.updateUser(request);
         // 断言
-        AdminUserEntity user = userMapper.selectById(reqVO.getId());
-        assertPojoEquals(reqVO, user, "password");
+        AdminUserEntity user = userMapper.selectById(request.getId());
+        assertPojoEquals(request, user, "password");
         // 断言关联岗位
         List<UserPostEntity> userPosts = userPostMapper.selectListByUserId(user.getId());
         assertEquals(2L, userPosts.get(0).getPostId());
@@ -213,17 +213,17 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         userMapper.insert(dbUser);
         // 准备参数
         Long userId = dbUser.getId();
-        UserProfileUpdateRequest reqVO = randomPojo(UserProfileUpdateRequest.class, o -> {
+        UserProfileUpdateRequest request = randomPojo(UserProfileUpdateRequest.class, o -> {
             o.setMobile(randomString());
             o.setSex(RandomUtil.randomEle(SexEnum.values()).getSex());
             o.setAvatar(randomURL());
         });
 
         // 调用
-        userService.updateUserProfile(userId, reqVO);
+        userService.updateUserProfile(userId, request);
         // 断言
         AdminUserEntity user = userMapper.selectById(userId);
-        assertPojoEquals(reqVO, user);
+        assertPojoEquals(request, user);
     }
 
     @Test
@@ -233,17 +233,17 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         userMapper.insert(dbUser);
         // 准备参数
         Long userId = dbUser.getId();
-        UserProfileUpdatePasswordRequest reqVO = randomPojo(UserProfileUpdatePasswordRequest.class, o -> {
+        UserProfileUpdatePasswordRequest request = randomPojo(UserProfileUpdatePasswordRequest.class, o -> {
             o.setOldPassword("tudou");
             o.setNewPassword("yuanma");
         });
         // mock 方法
         when(passwordEncoder.encode(anyString())).then(
                 (Answer<String>) invocationOnMock -> "encode:" + invocationOnMock.getArgument(0));
-        when(passwordEncoder.matches(eq(reqVO.getOldPassword()), eq(dbUser.getPassword()))).thenReturn(true);
+        when(passwordEncoder.matches(eq(request.getOldPassword()), eq(dbUser.getPassword()))).thenReturn(true);
 
         // 调用
-        userService.updateUserPassword(userId, reqVO);
+        userService.updateUserPassword(userId, request);
         // 断言
         AdminUserEntity user = userMapper.selectById(userId);
         assertEquals("encode:yuanma", user.getPassword());
@@ -333,18 +333,18 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         // mock 数据
         AdminUserEntity dbUser = initGetUserPageData();
         // 准备参数
-        UserPageRequest reqVO = new UserPageRequest();
-        reqVO.setUsername("tu");
-        reqVO.setMobile("1560");
-        reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
-        reqVO.setCreateTime(buildBetweenTime(2020, 12, 1, 2020, 12, 24));
-        reqVO.setDeptId(1L); // 其中，1L 是 2L 的父部门
+        UserPageRequest request = new UserPageRequest();
+        request.setUsername("tu");
+        request.setMobile("1560");
+        request.setStatus(CommonStatusEnum.ENABLE.getStatus());
+        request.setCreateTime(buildBetweenTime(2020, 12, 1, 2020, 12, 24));
+        request.setDeptId(1L); // 其中，1L 是 2L 的父部门
         // mock 方法
         List<DeptEntity> deptList = newArrayList(randomPojo(DeptEntity.class, o -> o.setId(2L)));
-        when(deptService.getChildDeptList(eq(reqVO.getDeptId()))).thenReturn(deptList);
+        when(deptService.getChildDeptList(eq(request.getDeptId()))).thenReturn(deptList);
 
         // 调用
-        PageResult<AdminUserEntity> pageResult = userService.getUserPage(reqVO);
+        PageResult<AdminUserEntity> pageResult = userService.getUserPage(request);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
@@ -422,12 +422,12 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         doThrow(new ServiceException(DEPT_NOT_FOUND)).when(deptService).validateDeptList(any());
 
         // 调用
-        UserImportResponse respVO = userService.importUserList(newArrayList(importUser), true);
+        UserImportResponse response = userService.importUserList(newArrayList(importUser), true);
         // 断言
-        assertEquals(0, respVO.getCreateUsernames().size());
-        assertEquals(0, respVO.getUpdateUsernames().size());
-        assertEquals(1, respVO.getFailureUsernames().size());
-        assertEquals(DEPT_NOT_FOUND.getMsg(), respVO.getFailureUsernames().get(importUser.getUsername()));
+        assertEquals(0, response.getCreateUsernames().size());
+        assertEquals(0, response.getUpdateUsernames().size());
+        assertEquals(1, response.getFailureUsernames().size());
+        assertEquals(DEPT_NOT_FOUND.getMsg(), response.getFailureUsernames().get(importUser.getUsername()));
     }
 
     /**
@@ -452,14 +452,14 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         when(passwordEncoder.encode(eq("yudaoyuanma"))).thenReturn("java");
 
         // 调用
-        UserImportResponse respVO = userService.importUserList(newArrayList(importUser), true);
+        UserImportResponse response = userService.importUserList(newArrayList(importUser), true);
         // 断言
-        assertEquals(1, respVO.getCreateUsernames().size());
-        AdminUserEntity user = userMapper.selectByUsername(respVO.getCreateUsernames().get(0));
+        assertEquals(1, response.getCreateUsernames().size());
+        AdminUserEntity user = userMapper.selectByUsername(response.getCreateUsernames().get(0));
         assertPojoEquals(importUser, user);
         assertEquals("java", user.getPassword());
-        assertEquals(0, respVO.getUpdateUsernames().size());
-        assertEquals(0, respVO.getFailureUsernames().size());
+        assertEquals(0, response.getUpdateUsernames().size());
+        assertEquals(0, response.getFailureUsernames().size());
     }
 
     /**
@@ -486,12 +486,12 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         when(deptService.getDept(eq(dept.getId()))).thenReturn(dept);
 
         // 调用
-        UserImportResponse respVO = userService.importUserList(newArrayList(importUser), false);
+        UserImportResponse response = userService.importUserList(newArrayList(importUser), false);
         // 断言
-        assertEquals(0, respVO.getCreateUsernames().size());
-        assertEquals(0, respVO.getUpdateUsernames().size());
-        assertEquals(1, respVO.getFailureUsernames().size());
-        assertEquals(USER_USERNAME_EXISTS.getMsg(), respVO.getFailureUsernames().get(importUser.getUsername()));
+        assertEquals(0, response.getCreateUsernames().size());
+        assertEquals(0, response.getUpdateUsernames().size());
+        assertEquals(1, response.getFailureUsernames().size());
+        assertEquals(USER_USERNAME_EXISTS.getMsg(), response.getFailureUsernames().get(importUser.getUsername()));
     }
 
     /**
@@ -518,13 +518,13 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         when(deptService.getDept(eq(dept.getId()))).thenReturn(dept);
 
         // 调用
-        UserImportResponse respVO = userService.importUserList(newArrayList(importUser), true);
+        UserImportResponse response = userService.importUserList(newArrayList(importUser), true);
         // 断言
-        assertEquals(0, respVO.getCreateUsernames().size());
-        assertEquals(1, respVO.getUpdateUsernames().size());
-        AdminUserEntity user = userMapper.selectByUsername(respVO.getUpdateUsernames().get(0));
+        assertEquals(0, response.getCreateUsernames().size());
+        assertEquals(1, response.getUpdateUsernames().size());
+        AdminUserEntity user = userMapper.selectByUsername(response.getUpdateUsernames().get(0));
         assertPojoEquals(importUser, user);
-        assertEquals(0, respVO.getFailureUsernames().size());
+        assertEquals(0, response.getFailureUsernames().size());
     }
 
     @Test
@@ -721,10 +721,10 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidateUserList_success() {
         // mock 数据
-        AdminUserEntity userDO = randomAdminUserDO().setStatus(CommonStatusEnum.ENABLE.getStatus());
-        userMapper.insert(userDO);
+        AdminUserEntity userEntity = randomAdminUserDO().setStatus(CommonStatusEnum.ENABLE.getStatus());
+        userMapper.insert(userEntity);
         // 准备参数
-        List<Long> ids = singletonList(userDO.getId());
+        List<Long> ids = singletonList(userEntity.getId());
 
         // 调用，无需断言
         userService.validateUserList(ids);
@@ -742,14 +742,14 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidateUserList_notEnable() {
         // mock 数据
-        AdminUserEntity userDO = randomAdminUserDO().setStatus(CommonStatusEnum.DISABLE.getStatus());
-        userMapper.insert(userDO);
+        AdminUserEntity userEntity = randomAdminUserDO().setStatus(CommonStatusEnum.DISABLE.getStatus());
+        userMapper.insert(userEntity);
         // 准备参数
-        List<Long> ids = singletonList(userDO.getId());
+        List<Long> ids = singletonList(userEntity.getId());
 
         // 调用, 并断言异常
         assertServiceException(() -> userService.validateUserList(ids), USER_IS_DISABLE,
-                userDO.getNickname());
+                userEntity.getNickname());
     }
 
     // ========== 随机对象 ==========

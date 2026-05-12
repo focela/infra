@@ -164,8 +164,8 @@ public class AdminUserServiceImpl implements AdminUserService {
         LogRecordContext.putVariable("user", oldUser);
     }
 
-    private void updateUserPost(UserSaveRequest reqVO, AdminUserEntity updateObj) {
-        Long userId = reqVO.getId();
+    private void updateUserPost(UserSaveRequest request, AdminUserEntity updateObj) {
+        Long userId = request.getId();
         Set<Long> dbPostIds = convertSet(userPostMapper.selectListByUserId(userId), UserPostEntity::getPostId);
         // 计算新增和删除的岗位编号
         Set<Long> postIds = CollUtil.emptyIfNull(updateObj.getPostIds());
@@ -187,22 +187,22 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    public void updateUserProfile(Long id, UserProfileUpdateRequest reqVO) {
+    public void updateUserProfile(Long id, UserProfileUpdateRequest request) {
         // 校验正确性
         validateUserExists(id);
-        validateEmailUnique(id, reqVO.getEmail());
-        validateMobileUnique(id, reqVO.getMobile());
+        validateEmailUnique(id, request.getEmail());
+        validateMobileUnique(id, request.getMobile());
         // 执行更新
-        userMapper.updateById(BeanUtils.toBean(reqVO, AdminUserEntity.class).setId(id));
+        userMapper.updateById(BeanUtils.toBean(request, AdminUserEntity.class).setId(id));
     }
 
     @Override
-    public void updateUserPassword(Long id, UserProfileUpdatePasswordRequest reqVO) {
+    public void updateUserPassword(Long id, UserProfileUpdatePasswordRequest request) {
         // 校验旧密码密码
-        validateOldPassword(id, reqVO.getOldPassword());
+        validateOldPassword(id, request.getOldPassword());
         // 执行更新
         AdminUserEntity updateObj = new AdminUserEntity().setId(id);
-        updateObj.setPassword(encodePassword(reqVO.getNewPassword())); // 加密密码
+        updateObj.setPassword(encodePassword(request.getNewPassword())); // 加密密码
         userMapper.updateById(updateObj);
     }
 
@@ -283,18 +283,18 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    public PageResult<AdminUserEntity> getUserPage(UserPageRequest reqVO) {
+    public PageResult<AdminUserEntity> getUserPage(UserPageRequest request) {
         // 如果有角色编号，查询角色对应的用户编号
         Set<Long> userIds = null;
-        if (reqVO.getRoleId() != null) {
-            userIds = permissionService.getUserRoleIdListByRoleId(singleton(reqVO.getRoleId()));
+        if (request.getRoleId() != null) {
+            userIds = permissionService.getUserRoleIdListByRoleId(singleton(request.getRoleId()));
             if (CollUtil.isEmpty(userIds)) {
                 return PageResult.empty();
             }
         }
 
         // 分页查询
-        return userMapper.selectPage(reqVO, getDeptCondition(reqVO.getDeptId()), userIds);
+        return userMapper.selectPage(request, getDeptCondition(request.getDeptId()), userIds);
     }
 
     @Override
@@ -486,7 +486,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         }
 
         // 2. 遍历，逐个创建 or 更新
-        UserImportResponse respVO = UserImportResponse.builder().createUsernames(new ArrayList<>())
+        UserImportResponse response = UserImportResponse.builder().createUsernames(new ArrayList<>())
                 .updateUsernames(new ArrayList<>()).failureUsernames(new LinkedHashMap<>()).build();
         AtomicInteger index = new AtomicInteger(1);
         importUsers.forEach(importUser -> {
@@ -496,7 +496,7 @@ public class AdminUserServiceImpl implements AdminUserService {
                 ValidationUtils.validate(BeanUtils.toBean(importUser, UserSaveRequest.class).setPassword(initPassword));
             } catch (ConstraintViolationException ex) {
                 String key = StrUtil.blankToDefault(importUser.getUsername(), "第 " + currentIndex + " 行");
-                respVO.getFailureUsernames().put(key, ex.getMessage());
+                response.getFailureUsernames().put(key, ex.getMessage());
                 return;
             }
             // 2.1.2 校验，判断是否有不符合的原因
@@ -504,7 +504,7 @@ public class AdminUserServiceImpl implements AdminUserService {
                 validateUserForCreateOrUpdate(null, null, importUser.getMobile(), importUser.getEmail(),
                         importUser.getDeptId(), null);
             } catch (ServiceException ex) {
-                respVO.getFailureUsernames().put(importUser.getUsername(), ex.getMessage());
+                response.getFailureUsernames().put(importUser.getUsername(), ex.getMessage());
                 return;
             }
 
@@ -513,20 +513,20 @@ public class AdminUserServiceImpl implements AdminUserService {
             if (existUser == null) {
                 userMapper.insert(BeanUtils.toBean(importUser, AdminUserEntity.class)
                         .setPassword(encodePassword(initPassword)).setPostIds(new HashSet<>())); // 设置默认密码及空岗位编号数组
-                respVO.getCreateUsernames().add(importUser.getUsername());
+                response.getCreateUsernames().add(importUser.getUsername());
                 return;
             }
             // 2.2.2 如果存在，判断是否允许更新
             if (!isUpdateSupport) {
-                respVO.getFailureUsernames().put(importUser.getUsername(), USER_USERNAME_EXISTS.getMsg());
+                response.getFailureUsernames().put(importUser.getUsername(), USER_USERNAME_EXISTS.getMsg());
                 return;
             }
             AdminUserEntity updateUser = BeanUtils.toBean(importUser, AdminUserEntity.class);
             updateUser.setId(existUser.getId());
             userMapper.updateById(updateUser);
-            respVO.getUpdateUsernames().add(importUser.getUsername());
+            response.getUpdateUsernames().add(importUser.getUsername());
         });
-        return respVO;
+        return response;
     }
 
     @Override

@@ -58,14 +58,14 @@ public class DictTypeServiceImplTest extends BaseDbUnitTest {
        // 测试 createTime 不匹配
        dictTypeMapper.insert(cloneIgnoreId(dbDictType, o -> o.setCreateTime(buildTime(2021, 1, 1))));
        // 准备参数
-       DictTypePageRequest reqVO = new DictTypePageRequest();
-       reqVO.setName("nai");
-       reqVO.setType("艿");
-       reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
-       reqVO.setCreateTime(buildBetweenTime(2021, 1, 10, 2021, 1, 20));
+       DictTypePageRequest request = new DictTypePageRequest();
+       request.setName("nai");
+       request.setType("艿");
+       request.setStatus(CommonStatusEnum.ENABLE.getStatus());
+       request.setCreateTime(buildBetweenTime(2021, 1, 10, 2021, 1, 20));
 
        // 调用
-       PageResult<DictTypeEntity> pageResult = dictTypeService.getDictTypePage(reqVO);
+       PageResult<DictTypeEntity> pageResult = dictTypeService.getDictTypePage(request);
        // 断言
        assertEquals(1, pageResult.getTotal());
        assertEquals(1, pageResult.getList().size());
@@ -105,17 +105,17 @@ public class DictTypeServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateDictType_success() {
         // 准备参数
-        DictTypeSaveRequest reqVO = randomPojo(DictTypeSaveRequest.class,
+        DictTypeSaveRequest request = randomPojo(DictTypeSaveRequest.class,
                 o -> o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()))
                 .setId(null); // 避免 id 被赋值
 
         // 调用
-        Long dictTypeId = dictTypeService.createDictType(reqVO);
+        Long dictTypeId = dictTypeService.createDictType(request);
         // 断言
         assertNotNull(dictTypeId);
         // 校验记录的属性是否正确
         DictTypeEntity dictType = dictTypeMapper.selectById(dictTypeId);
-        assertPojoEquals(reqVO, dictType, "id");
+        assertPojoEquals(request, dictType, "id");
     }
 
     @Test
@@ -124,16 +124,16 @@ public class DictTypeServiceImplTest extends BaseDbUnitTest {
         DictTypeEntity dbDictType = randomDictTypeDO();
         dictTypeMapper.insert(dbDictType);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        DictTypeSaveRequest reqVO = randomPojo(DictTypeSaveRequest.class, o -> {
+        DictTypeSaveRequest request = randomPojo(DictTypeSaveRequest.class, o -> {
             o.setId(dbDictType.getId()); // 设置更新的 ID
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus());
         });
 
         // 调用
-        dictTypeService.updateDictType(reqVO);
+        dictTypeService.updateDictType(request);
         // 校验是否更新正确
-        DictTypeEntity dictType = dictTypeMapper.selectById(reqVO.getId()); // 获取最新的
-        assertPojoEquals(reqVO, dictType);
+        DictTypeEntity dictType = dictTypeMapper.selectById(request.getId()); // 获取最新的
+        assertPojoEquals(request, dictType);
     }
 
     @Test

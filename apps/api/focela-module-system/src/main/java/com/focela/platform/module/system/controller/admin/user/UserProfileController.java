@@ -64,15 +64,15 @@ public class UserProfileController {
 
     @PutMapping("/update")
     @Operation(summary = "修改用户个人信息")
-    public CommonResult<Boolean> updateUserProfile(@Valid @RequestBody UserProfileUpdateRequest reqVO) {
-        userService.updateUserProfile(getLoginUserId(), reqVO);
+    public CommonResult<Boolean> updateUserProfile(@Valid @RequestBody UserProfileUpdateRequest request) {
+        userService.updateUserProfile(getLoginUserId(), request);
         return success(true);
     }
 
     @PutMapping("/update-password")
     @Operation(summary = "修改用户个人密码")
-    public CommonResult<Boolean> updateUserProfilePassword(@Valid @RequestBody UserProfileUpdatePasswordRequest reqVO) {
-        userService.updateUserPassword(getLoginUserId(), reqVO);
+    public CommonResult<Boolean> updateUserProfilePassword(@Valid @RequestBody UserProfileUpdatePasswordRequest request) {
+        userService.updateUserPassword(getLoginUserId(), request);
         return success(true);
     }
 

@@ -63,17 +63,17 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         Map<String, Object> config = MapUtil.<String, Object>builder().put("basePath", "/yunai")
                 .put("domain", "https://www.iocoder.cn").build();
-        FileConfigSaveRequest reqVO = randomPojo(FileConfigSaveRequest.class,
+        FileConfigSaveRequest request = randomPojo(FileConfigSaveRequest.class,
                 o -> o.setStorage(FileStorageEnum.LOCAL.getStorage()).setConfig(config))
                 .setId(null); // 避免 id 被赋值
 
         // 调用
-        Long fileConfigId = fileConfigService.createFileConfig(reqVO);
+        Long fileConfigId = fileConfigService.createFileConfig(request);
         // 断言
         assertNotNull(fileConfigId);
         // 校验记录的属性是否正确
         FileConfigEntity fileConfig = fileConfigMapper.selectById(fileConfigId);
-        assertPojoEquals(reqVO, fileConfig, "id", "config");
+        assertPojoEquals(request, fileConfig, "id", "config");
         assertFalse(fileConfig.getMaster());
         assertEquals("/yunai", ((LocalFileClientConfig) fileConfig.getConfig()).getBasePath());
         assertEquals("https://www.iocoder.cn", ((LocalFileClientConfig) fileConfig.getConfig()).getDomain());
@@ -88,7 +88,7 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
                 .setConfig(new LocalFileClientConfig().setBasePath("/yunai").setDomain("https://www.iocoder.cn")));
         fileConfigMapper.insert(dbFileConfig);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        FileConfigSaveRequest reqVO = randomPojo(FileConfigSaveRequest.class, o -> {
+        FileConfigSaveRequest request = randomPojo(FileConfigSaveRequest.class, o -> {
             o.setId(dbFileConfig.getId()); // 设置更新的 ID
             o.setStorage(FileStorageEnum.LOCAL.getStorage());
             Map<String, Object> config = MapUtil.<String, Object>builder().put("basePath", "/yunai2")
@@ -97,10 +97,10 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
         });
 
         // 调用
-        fileConfigService.updateFileConfig(reqVO);
+        fileConfigService.updateFileConfig(request);
         // 校验是否更新正确
-        FileConfigEntity fileConfig = fileConfigMapper.selectById(reqVO.getId()); // 获取最新的
-        assertPojoEquals(reqVO, fileConfig, "config");
+        FileConfigEntity fileConfig = fileConfigMapper.selectById(request.getId()); // 获取最新的
+        assertPojoEquals(request, fileConfig, "config");
         assertEquals("/yunai2", ((LocalFileClientConfig) fileConfig.getConfig()).getBasePath());
         assertEquals("https://doc.iocoder.cn", ((LocalFileClientConfig) fileConfig.getConfig()).getDomain());
         // 验证 cache
@@ -110,10 +110,10 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateFileConfig_notExists() {
         // 准备参数
-        FileConfigSaveRequest reqVO = randomPojo(FileConfigSaveRequest.class);
+        FileConfigSaveRequest request = randomPojo(FileConfigSaveRequest.class);
 
         // 调用, 并断言异常
-        assertServiceException(() -> fileConfigService.updateFileConfig(reqVO), FILE_CONFIG_NOT_EXISTS);
+        assertServiceException(() -> fileConfigService.updateFileConfig(request), FILE_CONFIG_NOT_EXISTS);
     }
 
     @Test
@@ -190,14 +190,14 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
         // 测试 createTime 不匹配
         fileConfigMapper.insert(cloneIgnoreId(dbFileConfig, o -> o.setCreateTime(LocalDateTimeUtil.parse("2020-11-23", DatePattern.NORM_DATE_PATTERN))));
         // 准备参数
-        FileConfigPageRequest reqVO = new FileConfigPageRequest();
-        reqVO.setName("芋道");
-        reqVO.setStorage(FileStorageEnum.LOCAL.getStorage());
-        reqVO.setCreateTime((new LocalDateTime[]{buildTime(2020, 1, 1),
+        FileConfigPageRequest request = new FileConfigPageRequest();
+        request.setName("芋道");
+        request.setStorage(FileStorageEnum.LOCAL.getStorage());
+        request.setCreateTime((new LocalDateTime[]{buildTime(2020, 1, 1),
                 buildTime(2020, 1, 24)}));
 
         // 调用
-        PageResult<FileConfigEntity> pageResult = fileConfigService.getFileConfigPage(reqVO);
+        PageResult<FileConfigEntity> pageResult = fileConfigService.getFileConfigPage(request);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());

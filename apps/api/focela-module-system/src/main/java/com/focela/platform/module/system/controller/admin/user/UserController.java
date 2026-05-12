@@ -49,16 +49,16 @@ public class UserController {
     @PostMapping("/create")
     @Operation(summary = "新增用户")
     @PreAuthorize("@ss.hasPermission('system:user:create')")
-    public CommonResult<Long> createUser(@Valid @RequestBody UserSaveRequest reqVO) {
-        Long id = userService.createUser(reqVO);
+    public CommonResult<Long> createUser(@Valid @RequestBody UserSaveRequest request) {
+        Long id = userService.createUser(request);
         return success(id);
     }
 
     @PutMapping("update")
     @Operation(summary = "修改用户")
     @PreAuthorize("@ss.hasPermission('system:user:update')")
-    public CommonResult<Boolean> updateUser(@Valid @RequestBody UserSaveRequest reqVO) {
-        userService.updateUser(reqVO);
+    public CommonResult<Boolean> updateUser(@Valid @RequestBody UserSaveRequest request) {
+        userService.updateUser(request);
         return success(true);
     }
 
@@ -83,16 +83,16 @@ public class UserController {
     @PutMapping("/update-password")
     @Operation(summary = "重置用户密码")
     @PreAuthorize("@ss.hasPermission('system:user:update-password')")
-    public CommonResult<Boolean> updateUserPassword(@Valid @RequestBody UserUpdatePasswordRequest reqVO) {
-        userService.updateUserPassword(reqVO.getId(), reqVO.getPassword());
+    public CommonResult<Boolean> updateUserPassword(@Valid @RequestBody UserUpdatePasswordRequest request) {
+        userService.updateUserPassword(request.getId(), request.getPassword());
         return success(true);
     }
 
     @PutMapping("/update-status")
     @Operation(summary = "修改用户状态")
     @PreAuthorize("@ss.hasPermission('system:user:update')")
-    public CommonResult<Boolean> updateUserStatus(@Valid @RequestBody UserUpdateStatusRequest reqVO) {
-        userService.updateUserStatus(reqVO.getId(), reqVO.getStatus());
+    public CommonResult<Boolean> updateUserStatus(@Valid @RequestBody UserUpdateStatusRequest request) {
+        userService.updateUserStatus(request.getId(), request.getStatus());
         return success(true);
     }
 

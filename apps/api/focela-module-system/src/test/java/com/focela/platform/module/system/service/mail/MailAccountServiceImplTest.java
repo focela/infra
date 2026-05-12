@@ -42,16 +42,16 @@ public class MailAccountServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateMailAccount_success() {
         // 准备参数
-        MailAccountSaveRequest reqVO = randomPojo(MailAccountSaveRequest.class, o -> o.setMail(randomEmail()))
+        MailAccountSaveRequest request = randomPojo(MailAccountSaveRequest.class, o -> o.setMail(randomEmail()))
                 .setId(null); // 防止 id 被赋值
 
         // 调用
-        Long mailAccountId = mailAccountService.createMailAccount(reqVO);
+        Long mailAccountId = mailAccountService.createMailAccount(request);
         // 断言
         assertNotNull(mailAccountId);
         // 校验记录的属性是否正确
         MailAccountEntity mailAccount = mailAccountMapper.selectById(mailAccountId);
-        assertPojoEquals(reqVO, mailAccount, "id");
+        assertPojoEquals(request, mailAccount, "id");
     }
 
     @Test
@@ -60,25 +60,25 @@ public class MailAccountServiceImplTest extends BaseDbUnitTest {
         MailAccountEntity dbMailAccount = randomPojo(MailAccountEntity.class);
         mailAccountMapper.insert(dbMailAccount);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        MailAccountSaveRequest reqVO = randomPojo(MailAccountSaveRequest.class, o -> {
+        MailAccountSaveRequest request = randomPojo(MailAccountSaveRequest.class, o -> {
             o.setId(dbMailAccount.getId()); // 设置更新的 ID
             o.setMail(randomEmail());
         });
 
         // 调用
-        mailAccountService.updateMailAccount(reqVO);
+        mailAccountService.updateMailAccount(request);
         // 校验是否更新正确
-        MailAccountEntity mailAccount = mailAccountMapper.selectById(reqVO.getId()); // 获取最新的
-        assertPojoEquals(reqVO, mailAccount);
+        MailAccountEntity mailAccount = mailAccountMapper.selectById(request.getId()); // 获取最新的
+        assertPojoEquals(request, mailAccount);
     }
 
     @Test
     public void testUpdateMailAccount_notExists() {
         // 准备参数
-        MailAccountSaveRequest reqVO = randomPojo(MailAccountSaveRequest.class);
+        MailAccountSaveRequest request = randomPojo(MailAccountSaveRequest.class);
 
         // 调用, 并断言异常
-        assertServiceException(() -> mailAccountService.updateMailAccount(reqVO), MAIL_ACCOUNT_NOT_EXISTS);
+        assertServiceException(() -> mailAccountService.updateMailAccount(request), MAIL_ACCOUNT_NOT_EXISTS);
     }
 
     @Test
@@ -133,12 +133,12 @@ public class MailAccountServiceImplTest extends BaseDbUnitTest {
         // 测试 username 不匹配
         mailAccountMapper.insert(cloneIgnoreId(dbMailAccount, o -> o.setUsername("tudou")));
         // 准备参数
-        MailAccountPageRequest reqVO = new MailAccountPageRequest();
-        reqVO.setMail("768");
-        reqVO.setUsername("yu");
+        MailAccountPageRequest request = new MailAccountPageRequest();
+        request.setMail("768");
+        request.setUsername("yu");
 
         // 调用
-        PageResult<MailAccountEntity> pageResult = mailAccountService.getMailAccountPage(reqVO);
+        PageResult<MailAccountEntity> pageResult = mailAccountService.getMailAccountPage(request);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());

@@ -15,11 +15,11 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface Demo01ContactMapper extends BaseMapperX<Demo01ContactEntity> {
 
-    default PageResult<Demo01ContactEntity> selectPage(Demo01ContactPageRequest reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<Demo01ContactEntity>()
-                .likeIfPresent(Demo01ContactEntity::getName, reqVO.getName())
-                .eqIfPresent(Demo01ContactEntity::getSex, reqVO.getSex())
-                .betweenIfPresent(Demo01ContactEntity::getCreateTime, reqVO.getCreateTime())
+    default PageResult<Demo01ContactEntity> selectPage(Demo01ContactPageRequest request) {
+        return selectPage(request, new LambdaQueryWrapperX<Demo01ContactEntity>()
+                .likeIfPresent(Demo01ContactEntity::getName, request.getName())
+                .eqIfPresent(Demo01ContactEntity::getSex, request.getSex())
+                .betweenIfPresent(Demo01ContactEntity::getCreateTime, request.getCreateTime())
                 .orderByDesc(Demo01ContactEntity::getId));
     }
 

@@ -100,53 +100,53 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     @Override
     @DataPermission(enable = false)
-    public AuthLoginResponse login(AuthLoginRequest reqVO) {
+    public AuthLoginResponse login(AuthLoginRequest request) {
         // 校验验证码
-        validateCaptcha(reqVO);
+        validateCaptcha(request);
 
         // 使用账号密码，进行登录
-        AdminUserEntity user = authenticate(reqVO.getUsername(), reqVO.getPassword());
+        AdminUserEntity user = authenticate(request.getUsername(), request.getPassword());
 
         // 如果 socialType 非空，说明需要绑定社交用户
-        if (reqVO.getSocialType() != null) {
+        if (request.getSocialType() != null) {
             socialUserService.bindSocialUser(new SocialUserBindReqDTO(user.getId(), getUserType().getValue(),
-                    reqVO.getSocialType(), reqVO.getSocialCode(), reqVO.getSocialState()));
+                    request.getSocialType(), request.getSocialCode(), request.getSocialState()));
         }
         // 创建 Token 令牌，记录登录日志
-        return createTokenAfterLoginSuccess(user.getId(), reqVO.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME);
+        return createTokenAfterLoginSuccess(user.getId(), request.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME);
     }
 
     @Override
-    public void sendSmsCode(AuthSmsSendRequest reqVO) {
+    public void sendSmsCode(AuthSmsSendRequest request) {
         // 如果是重置密码场景，需要校验图形验证码是否正确
-        if (Objects.equals(SmsSceneEnum.ADMIN_MEMBER_RESET_PASSWORD.getScene(), reqVO.getScene())) {
-            ResponseModel response = doValidateCaptcha(reqVO);
+        if (Objects.equals(SmsSceneEnum.ADMIN_MEMBER_RESET_PASSWORD.getScene(), request.getScene())) {
+            ResponseModel response = doValidateCaptcha(request);
             if (!response.isSuccess()) {
                 throw exception(AUTH_REGISTER_CAPTCHA_CODE_ERROR, response.getRepMsg());
             }
         }
 
         // 登录场景，验证是否存在
-        if (userService.getUserByMobile(reqVO.getMobile()) == null) {
+        if (userService.getUserByMobile(request.getMobile()) == null) {
             throw exception(AUTH_MOBILE_NOT_EXISTS);
         }
         // 发送验证码
-        smsCodeApi.sendSmsCode(AuthConvert.INSTANCE.convert(reqVO).setCreateIp(getClientIP()));
+        smsCodeApi.sendSmsCode(AuthConvert.INSTANCE.convert(request).setCreateIp(getClientIP()));
     }
 
     @Override
-    public AuthLoginResponse smsLogin(AuthSmsLoginRequest reqVO) {
+    public AuthLoginResponse smsLogin(AuthSmsLoginRequest request) {
         // 校验验证码
-        smsCodeApi.useSmsCode(AuthConvert.INSTANCE.convert(reqVO, SmsSceneEnum.ADMIN_MEMBER_LOGIN.getScene(), getClientIP()));
+        smsCodeApi.useSmsCode(AuthConvert.INSTANCE.convert(request, SmsSceneEnum.ADMIN_MEMBER_LOGIN.getScene(), getClientIP()));
 
         // 获得用户信息
-        AdminUserEntity user = userService.getUserByMobile(reqVO.getMobile());
+        AdminUserEntity user = userService.getUserByMobile(request.getMobile());
         if (user == null) {
             throw exception(USER_NOT_EXISTS);
         }
 
         // 创建 Token 令牌，记录登录日志
-        return createTokenAfterLoginSuccess(user.getId(), reqVO.getMobile(), LoginLogTypeEnum.LOGIN_MOBILE);
+        return createTokenAfterLoginSuccess(user.getId(), request.getMobile(), LoginLogTypeEnum.LOGIN_MOBILE);
     }
 
     private void createLoginLog(Long userId, String username,
@@ -169,10 +169,10 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     }
 
     @Override
-    public AuthLoginResponse socialLogin(AuthSocialLoginRequest reqVO) {
+    public AuthLoginResponse socialLogin(AuthSocialLoginRequest request) {
         // 使用 code 授权码，进行登录。然后，获得到绑定的用户编号
-        SocialUserRespDTO socialUser = socialUserService.getSocialUserByCode(UserTypeEnum.ADMIN.getValue(), reqVO.getType(),
-                reqVO.getCode(), reqVO.getState());
+        SocialUserRespDTO socialUser = socialUserService.getSocialUserByCode(UserTypeEnum.ADMIN.getValue(), request.getType(),
+                request.getCode(), request.getState());
         if (socialUser == null || socialUser.getUserId() == null) {
             throw exception(AUTH_THIRD_LOGIN_NOT_BIND);
         }
@@ -188,24 +188,24 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     }
 
     @VisibleForTesting
-    void validateCaptcha(AuthLoginRequest reqVO) {
-        ResponseModel response = doValidateCaptcha(reqVO);
+    void validateCaptcha(AuthLoginRequest request) {
+        ResponseModel response = doValidateCaptcha(request);
         // 校验验证码
         if (!response.isSuccess()) {
             // 创建登录失败日志（验证码不正确)
-            createLoginLog(null, reqVO.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME, LoginResultEnum.CAPTCHA_CODE_ERROR);
+            createLoginLog(null, request.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME, LoginResultEnum.CAPTCHA_CODE_ERROR);
             throw exception(AUTH_LOGIN_CAPTCHA_CODE_ERROR, response.getRepMsg());
         }
     }
 
-    private ResponseModel doValidateCaptcha(CaptchaVerificationRequest reqVO) {
+    private ResponseModel doValidateCaptcha(CaptchaVerificationRequest request) {
         // 如果验证码关闭，则不进行校验
         if (!captchaEnable) {
             return ResponseModel.success();
         }
-        ValidationUtils.validate(validator, reqVO, CaptchaVerificationRequest.CodeEnableGroup.class);
+        ValidationUtils.validate(validator, request, CaptchaVerificationRequest.CodeEnableGroup.class);
         CaptchaVO captchaVO = new CaptchaVO();
-        captchaVO.setCaptchaVerification(reqVO.getCaptchaVerification());
+        captchaVO.setCaptchaVerification(request.getCaptchaVerification());
         return captchaService.verification(captchaVO);
     }
 
@@ -278,8 +278,8 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     }
 
     @VisibleForTesting
-    void validateCaptcha(AuthRegisterRequest reqVO) {
-        ResponseModel response = doValidateCaptcha(reqVO);
+    void validateCaptcha(AuthRegisterRequest request) {
+        ResponseModel response = doValidateCaptcha(request);
         // 验证不通过
         if (!response.isSuccess()) {
             throw exception(AUTH_REGISTER_CAPTCHA_CODE_ERROR, response.getRepMsg());
@@ -288,19 +288,19 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void resetPassword(AuthResetPasswordRequest reqVO) {
-        AdminUserEntity userByMobile = userService.getUserByMobile(reqVO.getMobile());
+    public void resetPassword(AuthResetPasswordRequest request) {
+        AdminUserEntity userByMobile = userService.getUserByMobile(request.getMobile());
         if (userByMobile == null) {
             throw exception(USER_MOBILE_NOT_EXISTS);
         }
 
         smsCodeApi.useSmsCode(new SmsCodeUseReqDTO()
-                .setCode(reqVO.getCode())
-                .setMobile(reqVO.getMobile())
+                .setCode(request.getCode())
+                .setMobile(request.getMobile())
                 .setScene(SmsSceneEnum.ADMIN_MEMBER_RESET_PASSWORD.getScene())
                 .setUsedIp(getClientIP())
         );
 
-        userService.updateUserPassword(userByMobile.getId(), reqVO.getPassword());
+        userService.updateUserPassword(userByMobile.getId(), request.getPassword());
     }
 }

@@ -72,19 +72,19 @@ public class DataSourceConfigServiceImplTest extends BaseDbUnitTest {
     public void testCreateDataSourceConfig_success() {
         try (MockedStatic<JdbcUtils> databaseUtilsMock = mockStatic(JdbcUtils.class)) {
             // 准备参数
-            DataSourceConfigSaveRequest reqVO = randomPojo(DataSourceConfigSaveRequest.class)
+            DataSourceConfigSaveRequest request = randomPojo(DataSourceConfigSaveRequest.class)
                     .setId(null); // 避免 id 被设置
             // mock 方法
-            databaseUtilsMock.when(() -> JdbcUtils.isConnectionOK(eq(reqVO.getUrl()),
-                    eq(reqVO.getUsername()), eq(reqVO.getPassword()))).thenReturn(true);
+            databaseUtilsMock.when(() -> JdbcUtils.isConnectionOK(eq(request.getUrl()),
+                    eq(request.getUsername()), eq(request.getPassword()))).thenReturn(true);
 
             // 调用
-            Long dataSourceConfigId = dataSourceConfigService.createDataSourceConfig(reqVO);
+            Long dataSourceConfigId = dataSourceConfigService.createDataSourceConfig(request);
             // 断言
             assertNotNull(dataSourceConfigId);
             // 校验记录的属性是否正确
             DataSourceConfigEntity dataSourceConfig = dataSourceConfigMapper.selectById(dataSourceConfigId);
-            assertPojoEquals(reqVO, dataSourceConfig, "id");
+            assertPojoEquals(request, dataSourceConfig, "id");
         }
     }
 
@@ -95,28 +95,28 @@ public class DataSourceConfigServiceImplTest extends BaseDbUnitTest {
             DataSourceConfigEntity dbDataSourceConfig = randomPojo(DataSourceConfigEntity.class);
             dataSourceConfigMapper.insert(dbDataSourceConfig);// @Sql: 先插入出一条存在的数据
             // 准备参数
-            DataSourceConfigSaveRequest reqVO = randomPojo(DataSourceConfigSaveRequest.class, o -> {
+            DataSourceConfigSaveRequest request = randomPojo(DataSourceConfigSaveRequest.class, o -> {
                 o.setId(dbDataSourceConfig.getId()); // 设置更新的 ID
             });
             // mock 方法
-            databaseUtilsMock.when(() -> JdbcUtils.isConnectionOK(eq(reqVO.getUrl()),
-                    eq(reqVO.getUsername()), eq(reqVO.getPassword()))).thenReturn(true);
+            databaseUtilsMock.when(() -> JdbcUtils.isConnectionOK(eq(request.getUrl()),
+                    eq(request.getUsername()), eq(request.getPassword()))).thenReturn(true);
 
             // 调用
-            dataSourceConfigService.updateDataSourceConfig(reqVO);
+            dataSourceConfigService.updateDataSourceConfig(request);
             // 校验是否更新正确
-            DataSourceConfigEntity dataSourceConfig = dataSourceConfigMapper.selectById(reqVO.getId()); // 获取最新的
-            assertPojoEquals(reqVO, dataSourceConfig);
+            DataSourceConfigEntity dataSourceConfig = dataSourceConfigMapper.selectById(request.getId()); // 获取最新的
+            assertPojoEquals(request, dataSourceConfig);
         }
     }
 
     @Test
     public void testUpdateDataSourceConfig_notExists() {
         // 准备参数
-        DataSourceConfigSaveRequest reqVO = randomPojo(DataSourceConfigSaveRequest.class);
+        DataSourceConfigSaveRequest request = randomPojo(DataSourceConfigSaveRequest.class);
 
         // 调用, 并断言异常
-        assertServiceException(() -> dataSourceConfigService.updateDataSourceConfig(reqVO), DATA_SOURCE_CONFIG_NOT_EXISTS);
+        assertServiceException(() -> dataSourceConfigService.updateDataSourceConfig(request), DATA_SOURCE_CONFIG_NOT_EXISTS);
     }
 
     @Test

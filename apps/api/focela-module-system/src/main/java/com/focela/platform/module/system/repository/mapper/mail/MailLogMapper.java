@@ -12,16 +12,16 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface MailLogMapper extends BaseMapperX<MailLogEntity> {
 
-    default PageResult<MailLogEntity> selectPage(MailLogPageRequest reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<MailLogEntity>()
-                .eqIfPresent(MailLogEntity::getUserId, reqVO.getUserId())
-                .eqIfPresent(MailLogEntity::getUserType, reqVO.getUserType())
-                .eqIfPresent(MailLogEntity::getAccountId, reqVO.getAccountId())
-                .eqIfPresent(MailLogEntity::getTemplateId, reqVO.getTemplateId())
-                .eqIfPresent(MailLogEntity::getSendStatus, reqVO.getSendStatus())
-                .betweenIfPresent(MailLogEntity::getSendTime, reqVO.getSendTime())
-                .apply(StrUtil.isNotBlank(reqVO.getToMail()),
-                        MyBatisUtils.findInSet("to_mails", reqVO.getToMail()))
+    default PageResult<MailLogEntity> selectPage(MailLogPageRequest request) {
+        return selectPage(request, new LambdaQueryWrapperX<MailLogEntity>()
+                .eqIfPresent(MailLogEntity::getUserId, request.getUserId())
+                .eqIfPresent(MailLogEntity::getUserType, request.getUserType())
+                .eqIfPresent(MailLogEntity::getAccountId, request.getAccountId())
+                .eqIfPresent(MailLogEntity::getTemplateId, request.getTemplateId())
+                .eqIfPresent(MailLogEntity::getSendStatus, request.getSendStatus())
+                .betweenIfPresent(MailLogEntity::getSendTime, request.getSendTime())
+                .apply(StrUtil.isNotBlank(request.getToMail()),
+                        MyBatisUtils.findInSet("to_mails", request.getToMail()))
                 .orderByDesc(MailLogEntity::getId));
     }
 

@@ -33,11 +33,11 @@ public class JobLogServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateJobLog() {
         // 准备参数
-        JobLogEntity reqVO = randomPojo(JobLogEntity.class, o -> o.setExecuteIndex(1));
+        JobLogEntity request = randomPojo(JobLogEntity.class, o -> o.setExecuteIndex(1));
 
         // 调用
-        Long id = jobLogService.createJobLog(reqVO.getJobId(), reqVO.getBeginTime(),
-                reqVO.getHandlerName(), reqVO.getHandlerParam(), reqVO.getExecuteIndex());
+        Long id = jobLogService.createJobLog(request.getJobId(), request.getBeginTime(),
+                request.getHandlerName(), request.getHandlerParam(), request.getExecuteIndex());
         // 断言
         assertNotNull(id);
         // 校验记录的属性是否正确

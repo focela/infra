@@ -19,11 +19,11 @@ public interface JobMapper extends BaseMapperX<JobEntity> {
         return selectOne(JobEntity::getHandlerName, handlerName);
     }
 
-    default PageResult<JobEntity> selectPage(JobPageRequest reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<JobEntity>()
-                .likeIfPresent(JobEntity::getName, reqVO.getName())
-                .eqIfPresent(JobEntity::getStatus, reqVO.getStatus())
-                .likeIfPresent(JobEntity::getHandlerName, reqVO.getHandlerName())
+    default PageResult<JobEntity> selectPage(JobPageRequest request) {
+        return selectPage(request, new LambdaQueryWrapperX<JobEntity>()
+                .likeIfPresent(JobEntity::getName, request.getName())
+                .eqIfPresent(JobEntity::getStatus, request.getStatus())
+                .likeIfPresent(JobEntity::getHandlerName, request.getHandlerName())
                 .orderByDesc(JobEntity::getId));
     }
 

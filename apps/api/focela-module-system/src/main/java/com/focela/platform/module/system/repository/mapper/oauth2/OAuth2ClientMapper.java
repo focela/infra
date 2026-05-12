@@ -16,10 +16,10 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface OAuth2ClientMapper extends BaseMapperX<OAuth2ClientEntity> {
 
-    default PageResult<OAuth2ClientEntity> selectPage(OAuth2ClientPageRequest reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<OAuth2ClientEntity>()
-                .likeIfPresent(OAuth2ClientEntity::getName, reqVO.getName())
-                .eqIfPresent(OAuth2ClientEntity::getStatus, reqVO.getStatus())
+    default PageResult<OAuth2ClientEntity> selectPage(OAuth2ClientPageRequest request) {
+        return selectPage(request, new LambdaQueryWrapperX<OAuth2ClientEntity>()
+                .likeIfPresent(OAuth2ClientEntity::getName, request.getName())
+                .eqIfPresent(OAuth2ClientEntity::getStatus, request.getStatus())
                 .orderByDesc(OAuth2ClientEntity::getId));
     }
 

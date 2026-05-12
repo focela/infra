@@ -54,10 +54,10 @@ public interface MenuService {
      * 基于租户，筛选菜单列表
      * 注意，如果是系统租户，返回的还是全菜单
      *
-     * @param reqVO 筛选条件请求 VO
+     * @param request 筛选条件请求 VO
      * @return 菜单列表
      */
-    List<MenuEntity> getMenuListByTenant(MenuListRequest reqVO);
+    List<MenuEntity> getMenuListByTenant(MenuListRequest request);
 
     /**
      * 过滤掉关闭的菜单及其子菜单
@@ -70,10 +70,10 @@ public interface MenuService {
     /**
      * 筛选菜单列表
      *
-     * @param reqVO 筛选条件请求 VO
+     * @param request 筛选条件请求 VO
      * @return 菜单列表
      */
-    List<MenuEntity> getMenuList(MenuListRequest reqVO);
+    List<MenuEntity> getMenuList(MenuListRequest request);
 
     /**
      * 获得权限对应的菜单编号数组

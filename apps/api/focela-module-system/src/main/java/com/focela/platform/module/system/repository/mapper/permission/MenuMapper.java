@@ -19,10 +19,10 @@ public interface MenuMapper extends BaseMapperX<MenuEntity> {
         return selectCount(MenuEntity::getParentId, parentId);
     }
 
-    default List<MenuEntity> selectList(MenuListRequest reqVO) {
+    default List<MenuEntity> selectList(MenuListRequest request) {
         return selectList(new LambdaQueryWrapperX<MenuEntity>()
-                .likeIfPresent(MenuEntity::getName, reqVO.getName())
-                .eqIfPresent(MenuEntity::getStatus, reqVO.getStatus()));
+                .likeIfPresent(MenuEntity::getName, request.getName())
+                .eqIfPresent(MenuEntity::getStatus, request.getStatus()));
     }
 
     default List<MenuEntity> selectListByPermission(String permission) {

@@ -14,16 +14,16 @@ public interface RedisConvert {
     RedisConvert INSTANCE = Mappers.getMapper(RedisConvert.class);
 
     default RedisMonitorResponse build(Properties info, Long dbSize, Properties commandStats) {
-        RedisMonitorResponse respVO = RedisMonitorResponse.builder().info(info).dbSize(dbSize)
+        RedisMonitorResponse response = RedisMonitorResponse.builder().info(info).dbSize(dbSize)
                 .commandStats(new ArrayList<>(commandStats.size())).build();
         commandStats.forEach((key, value) -> {
-            respVO.getCommandStats().add(RedisMonitorResponse.CommandStat.builder()
+            response.getCommandStats().add(RedisMonitorResponse.CommandStat.builder()
                     .command(StrUtil.subAfter((String) key, "cmdstat_", false))
                     .calls(Long.valueOf(StrUtil.subBetween((String) value, "calls=", ",")))
                     .usec(Long.valueOf(StrUtil.subBetween((String) value, "usec=", ",")))
                     .build());
         });
-        return respVO;
+        return response;
     }
 
 }

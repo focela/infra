@@ -152,7 +152,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
         }))).thenReturn(300L);
 
         // 准备参数
-        TenantSaveRequest reqVO = randomPojo(TenantSaveRequest.class, o -> {
+        TenantSaveRequest request = randomPojo(TenantSaveRequest.class, o -> {
             o.setContactName("芋道");
             o.setContactMobile("15601691300");
             o.setPackageId(100L);
@@ -163,12 +163,12 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
         }).setId(null); // 设置为 null，方便后面校验
 
         // 调用
-        Long tenantId = tenantService.createTenant(reqVO);
+        Long tenantId = tenantService.createTenant(request);
         // 断言
         assertNotNull(tenantId);
         // 校验记录的属性是否正确
         TenantEntity tenant = tenantMapper.selectById(tenantId);
-        assertPojoEquals(reqVO, tenant, "id");
+        assertPojoEquals(request, tenant, "id");
         assertEquals(300L, tenant.getContactUserId());
         // verify 分配权限
         verify(permissionService).assignRoleMenu(eq(200L), same(tenantPackage.getMenuIds()));
@@ -182,7 +182,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
         TenantEntity dbTenant = randomPojo(TenantEntity.class, o -> o.setStatus(randomCommonStatus()));
         tenantMapper.insert(dbTenant);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        TenantSaveRequest reqVO = randomPojo(TenantSaveRequest.class, o -> {
+        TenantSaveRequest request = randomPojo(TenantSaveRequest.class, o -> {
             o.setId(dbTenant.getId()); // 设置更新的 ID
             o.setStatus(randomCommonStatus());
             o.setWebsites(singletonList(randomString()));
@@ -191,7 +191,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
         // mock 套餐
         TenantPackageEntity tenantPackage = randomPojo(TenantPackageEntity.class,
                 o -> o.setMenuIds(asSet(200L, 201L)));
-        when(tenantPackageService.validTenantPackage(eq(reqVO.getPackageId()))).thenReturn(tenantPackage);
+        when(tenantPackageService.validTenantPackage(eq(request.getPackageId()))).thenReturn(tenantPackage);
         // mock 所有角色
         RoleEntity role100 = randomPojo(RoleEntity.class, o -> o.setId(100L).setCode(RoleCodeEnum.TENANT_ADMIN.getCode()));
         role100.setTenantId(dbTenant.getId());
@@ -202,10 +202,10 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
         when(permissionService.getRoleMenuListByRoleId(eq(101L))).thenReturn(asSet(201L, 202L));
 
         // 调用
-        tenantService.updateTenant(reqVO);
+        tenantService.updateTenant(request);
         // 校验是否更新正确
-        TenantEntity tenant = tenantMapper.selectById(reqVO.getId()); // 获取最新的
-        assertPojoEquals(reqVO, tenant);
+        TenantEntity tenant = tenantMapper.selectById(request.getId()); // 获取最新的
+        assertPojoEquals(request, tenant);
         // verify 设置角色权限
         verify(permissionService).assignRoleMenu(eq(100L), eq(asSet(200L, 201L)));
         verify(permissionService).assignRoleMenu(eq(101L), eq(asSet(201L)));
@@ -214,10 +214,10 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateTenant_notExists() {
         // 准备参数
-        TenantSaveRequest reqVO = randomPojo(TenantSaveRequest.class);
+        TenantSaveRequest request = randomPojo(TenantSaveRequest.class);
 
         // 调用, 并断言异常
-        assertServiceException(() -> tenantService.updateTenant(reqVO), TENANT_NOT_EXISTS);
+        assertServiceException(() -> tenantService.updateTenant(request), TENANT_NOT_EXISTS);
     }
 
     @Test
@@ -226,12 +226,12 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
         TenantEntity dbTenant = randomPojo(TenantEntity.class, o -> o.setPackageId(PACKAGE_ID_SYSTEM));
         tenantMapper.insert(dbTenant);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        TenantSaveRequest reqVO = randomPojo(TenantSaveRequest.class, o -> {
+        TenantSaveRequest request = randomPojo(TenantSaveRequest.class, o -> {
             o.setId(dbTenant.getId()); // 设置更新的 ID
         });
 
         // 调用，校验业务异常
-        assertServiceException(() -> tenantService.updateTenant(reqVO), TENANT_CAN_NOT_UPDATE_SYSTEM);
+        assertServiceException(() -> tenantService.updateTenant(request), TENANT_CAN_NOT_UPDATE_SYSTEM);
     }
 
     @Test
@@ -306,15 +306,15 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
         // 测试 createTime 不匹配
         tenantMapper.insert(cloneIgnoreId(dbTenant, o -> o.setCreateTime(buildTime(2021, 12, 12))));
         // 准备参数
-        TenantPageRequest reqVO = new TenantPageRequest();
-        reqVO.setName("芋道");
-        reqVO.setContactName("艿");
-        reqVO.setContactMobile("1560");
-        reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
-        reqVO.setCreateTime(buildBetweenTime(2020, 12, 1, 2020, 12, 24));
+        TenantPageRequest request = new TenantPageRequest();
+        request.setName("芋道");
+        request.setContactName("艿");
+        request.setContactMobile("1560");
+        request.setStatus(CommonStatusEnum.ENABLE.getStatus());
+        request.setCreateTime(buildBetweenTime(2020, 12, 1, 2020, 12, 24));
 
         // 调用
-        PageResult<TenantEntity> pageResult = tenantService.getTenantPage(reqVO);
+        PageResult<TenantEntity> pageResult = tenantService.getTenantPage(request);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());

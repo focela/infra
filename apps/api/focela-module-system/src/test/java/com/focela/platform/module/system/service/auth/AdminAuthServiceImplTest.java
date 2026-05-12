@@ -149,7 +149,7 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testLogin_success() {
         // 准备参数
-        AuthLoginRequest reqVO = randomPojo(AuthLoginRequest.class, o ->
+        AuthLoginRequest request = randomPojo(AuthLoginRequest.class, o ->
                 o.setUsername("test_username").setPassword("test_password")
                         .setSocialType(randomEle(SocialTypeEnum.values()).getType()));
 
@@ -168,7 +168,7 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
                 .thenReturn(accessTokenDO);
 
         // 调用，并校验
-        AuthLoginResponse loginResponse = authService.login(reqVO);
+        AuthLoginResponse loginResponse = authService.login(request);
         assertPojoEquals(accessTokenDO, loginResponse);
         // 校验调用参数
         verify(loginLogService).createLoginLog(
@@ -178,7 +178,7 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
         );
         verify(socialUserService).bindSocialUser(eq(new SocialUserBindReqDTO(
                 user.getId(), UserTypeEnum.ADMIN.getValue(),
-                reqVO.getSocialType(), reqVO.getSocialCode(), reqVO.getSocialState())));
+                request.getSocialType(), request.getSocialCode(), request.getSocialState())));
     }
 
     @Test
@@ -186,13 +186,13 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         String mobile = randomString();
         Integer scene = SmsSceneEnum.ADMIN_MEMBER_LOGIN.getScene();
-        AuthSmsSendRequest reqVO = new AuthSmsSendRequest(mobile, scene);
+        AuthSmsSendRequest request = new AuthSmsSendRequest(mobile, scene);
         // mock 方法（用户信息）
         AdminUserEntity user = randomPojo(AdminUserEntity.class);
         when(userService.getUserByMobile(eq(mobile))).thenReturn(user);
 
         // 调用
-        authService.sendSmsCode(reqVO);
+        authService.sendSmsCode(request);
         // 断言
         verify(smsCodeApi).sendSmsCode(argThat(sendReqDTO -> {
             assertEquals(mobile, sendReqDTO.getMobile());
@@ -206,7 +206,7 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         String mobile = randomString();
         String code = randomString();
-        AuthSmsLoginRequest reqVO = new AuthSmsLoginRequest(mobile, code);
+        AuthSmsLoginRequest request = new AuthSmsLoginRequest(mobile, code);
         // mock 方法（验证码）
         doNothing().when(smsCodeApi).useSmsCode((argThat(smsCodeUseReqDTO -> {
             assertEquals(mobile, smsCodeUseReqDTO.getMobile());
@@ -224,7 +224,7 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
                 .thenReturn(accessTokenDO);
 
         // 调用，并断言
-        AuthLoginResponse loginResponse = authService.smsLogin(reqVO);
+        AuthLoginResponse loginResponse = authService.smsLogin(request);
         assertPojoEquals(accessTokenDO, loginResponse);
         // 断言调用
         verify(loginLogService).createLoginLog(
@@ -237,11 +237,11 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testSocialLogin_success() {
         // 准备参数
-        AuthSocialLoginRequest reqVO = randomPojo(AuthSocialLoginRequest.class);
+        AuthSocialLoginRequest request = randomPojo(AuthSocialLoginRequest.class);
         // mock 方法（绑定的用户编号）
         Long userId = 1L;
-        when(socialUserService.getSocialUserByCode(eq(UserTypeEnum.ADMIN.getValue()), eq(reqVO.getType()),
-                eq(reqVO.getCode()), eq(reqVO.getState()))).thenReturn(new SocialUserRespDTO(randomString(), randomString(), randomString(), userId));
+        when(socialUserService.getSocialUserByCode(eq(UserTypeEnum.ADMIN.getValue()), eq(request.getType()),
+                eq(request.getCode()), eq(request.getState()))).thenReturn(new SocialUserRespDTO(randomString(), randomString(), randomString(), userId));
         // mock（用户）
         AdminUserEntity user = randomPojo(AdminUserEntity.class, o -> o.setId(userId));
         when(userService.getUser(eq(userId))).thenReturn(user);
@@ -252,7 +252,7 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
                 .thenReturn(accessTokenDO);
 
         // 调用，并断言
-        AuthLoginResponse loginResponse = authService.socialLogin(reqVO);
+        AuthLoginResponse loginResponse = authService.socialLogin(request);
         assertPojoEquals(accessTokenDO, loginResponse);
         // 断言调用
         verify(loginLogService).createLoginLog(
@@ -265,43 +265,43 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidateCaptcha_successWithEnable() {
         // 准备参数
-        AuthLoginRequest reqVO = randomPojo(AuthLoginRequest.class);
+        AuthLoginRequest request = randomPojo(AuthLoginRequest.class);
 
         // mock 验证通过
         when(captchaService.verification(argThat(captchaVO -> {
-            assertEquals(reqVO.getCaptchaVerification(), captchaVO.getCaptchaVerification());
+            assertEquals(request.getCaptchaVerification(), captchaVO.getCaptchaVerification());
             return true;
         }))).thenReturn(ResponseModel.success());
 
         // 调用，无需断言
-        authService.validateCaptcha(reqVO);
+        authService.validateCaptcha(request);
     }
 
     @Test
     public void testValidateCaptcha_successWithDisable() {
         // 准备参数
-        AuthLoginRequest reqVO = randomPojo(AuthLoginRequest.class);
+        AuthLoginRequest request = randomPojo(AuthLoginRequest.class);
 
         // mock 验证码关闭
         authService.setCaptchaEnable(false);
 
         // 调用，无需断言
-        authService.validateCaptcha(reqVO);
+        authService.validateCaptcha(request);
     }
 
     @Test
     public void testCaptcha_fail() {
         // 准备参数
-        AuthLoginRequest reqVO = randomPojo(AuthLoginRequest.class);
+        AuthLoginRequest request = randomPojo(AuthLoginRequest.class);
 
         // mock 验证通过
         when(captchaService.verification(argThat(captchaVO -> {
-            assertEquals(reqVO.getCaptchaVerification(), captchaVO.getCaptchaVerification());
+            assertEquals(request.getCaptchaVerification(), captchaVO.getCaptchaVerification());
             return true;
         }))).thenReturn(ResponseModel.errorMsg("就是不对"));
 
         // 调用, 并断言异常
-        assertServiceException(() -> authService.validateCaptcha(reqVO), AUTH_LOGIN_CAPTCHA_CODE_ERROR, "就是不对");
+        assertServiceException(() -> authService.validateCaptcha(request), AUTH_LOGIN_CAPTCHA_CODE_ERROR, "就是不对");
         // 校验调用参数
         verify(loginLogService).createLoginLog(
                 argThat(o -> o.getLogType().equals(LoginLogTypeEnum.LOGIN_USERNAME.getType())

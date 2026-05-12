@@ -68,8 +68,8 @@ public class DeptController {
     @GetMapping("/list")
     @Operation(summary = "获取部门列表")
     @PreAuthorize("@ss.hasPermission('system:dept:query')")
-    public CommonResult<List<DeptResponse>> getDeptList(DeptListRequest reqVO) {
-        List<DeptEntity> list = deptService.getDeptList(reqVO);
+    public CommonResult<List<DeptResponse>> getDeptList(DeptListRequest request) {
+        List<DeptEntity> list = deptService.getDeptList(request);
         return success(BeanUtils.toBean(list, DeptResponse.class));
     }
 

@@ -81,13 +81,13 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
         // 测试 status 不匹配
         dictDataMapper.insert(cloneIgnoreId(dbDictData, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
         // 准备参数
-        DictDataPageRequest reqVO = new DictDataPageRequest();
-        reqVO.setLabel("芋");
-        reqVO.setDictType("yunai");
-        reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+        DictDataPageRequest request = new DictDataPageRequest();
+        request.setLabel("芋");
+        request.setDictType("yunai");
+        request.setStatus(CommonStatusEnum.ENABLE.getStatus());
 
         // 调用
-        PageResult<DictDataEntity> pageResult = dictDataService.getDictDataPage(reqVO);
+        PageResult<DictDataEntity> pageResult = dictDataService.getDictDataPage(request);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
@@ -111,19 +111,19 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateDictData_success() {
         // 准备参数
-        DictDataSaveRequest reqVO = randomPojo(DictDataSaveRequest.class,
+        DictDataSaveRequest request = randomPojo(DictDataSaveRequest.class,
                 o -> o.setStatus(randomCommonStatus()))
                 .setId(null); // 防止 id 被赋值
         // mock 方法
-        when(dictTypeService.getDictType(eq(reqVO.getDictType()))).thenReturn(randomDictTypeDO(reqVO.getDictType()));
+        when(dictTypeService.getDictType(eq(request.getDictType()))).thenReturn(randomDictTypeDO(request.getDictType()));
 
         // 调用
-        Long dictDataId = dictDataService.createDictData(reqVO);
+        Long dictDataId = dictDataService.createDictData(request);
         // 断言
         assertNotNull(dictDataId);
         // 校验记录的属性是否正确
         DictDataEntity dictData = dictDataMapper.selectById(dictDataId);
-        assertPojoEquals(reqVO, dictData, "id");
+        assertPojoEquals(request, dictData, "id");
     }
 
     @Test
@@ -132,18 +132,18 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
         DictDataEntity dbDictData = randomDictDataDO();
         dictDataMapper.insert(dbDictData);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        DictDataSaveRequest reqVO = randomPojo(DictDataSaveRequest.class, o -> {
+        DictDataSaveRequest request = randomPojo(DictDataSaveRequest.class, o -> {
             o.setId(dbDictData.getId()); // 设置更新的 ID
             o.setStatus(randomCommonStatus());
         });
         // mock 方法，字典类型
-        when(dictTypeService.getDictType(eq(reqVO.getDictType()))).thenReturn(randomDictTypeDO(reqVO.getDictType()));
+        when(dictTypeService.getDictType(eq(request.getDictType()))).thenReturn(randomDictTypeDO(request.getDictType()));
 
         // 调用
-        dictDataService.updateDictData(reqVO);
+        dictDataService.updateDictData(request);
         // 校验是否更新正确
-        DictDataEntity dictData = dictDataMapper.selectById(reqVO.getId()); // 获取最新的
-        assertPojoEquals(reqVO, dictData);
+        DictDataEntity dictData = dictDataMapper.selectById(request.getId()); // 获取最新的
+        assertPojoEquals(request, dictData);
     }
 
     @Test

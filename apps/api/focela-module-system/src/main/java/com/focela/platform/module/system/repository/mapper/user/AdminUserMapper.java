@@ -25,12 +25,12 @@ public interface AdminUserMapper extends BaseMapperX<AdminUserEntity> {
         return selectOne(AdminUserEntity::getMobile, mobile);
     }
 
-    default PageResult<AdminUserEntity> selectPage(UserPageRequest reqVO, Collection<Long> deptIds, Collection<Long> userIds) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<AdminUserEntity>()
-                .likeIfPresent(AdminUserEntity::getUsername, reqVO.getUsername())
-                .likeIfPresent(AdminUserEntity::getMobile, reqVO.getMobile())
-                .eqIfPresent(AdminUserEntity::getStatus, reqVO.getStatus())
-                .betweenIfPresent(AdminUserEntity::getCreateTime, reqVO.getCreateTime())
+    default PageResult<AdminUserEntity> selectPage(UserPageRequest request, Collection<Long> deptIds, Collection<Long> userIds) {
+        return selectPage(request, new LambdaQueryWrapperX<AdminUserEntity>()
+                .likeIfPresent(AdminUserEntity::getUsername, request.getUsername())
+                .likeIfPresent(AdminUserEntity::getMobile, request.getMobile())
+                .eqIfPresent(AdminUserEntity::getStatus, request.getStatus())
+                .betweenIfPresent(AdminUserEntity::getCreateTime, request.getCreateTime())
                 .inIfPresent(AdminUserEntity::getDeptId, deptIds)
                 .inIfPresent(AdminUserEntity::getId, userIds)
                 .orderByDesc(AdminUserEntity::getId));

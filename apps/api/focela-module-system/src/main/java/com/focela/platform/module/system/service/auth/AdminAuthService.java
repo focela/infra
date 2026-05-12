@@ -26,10 +26,10 @@ public interface AdminAuthService {
     /**
      * 账号登录
      *
-     * @param reqVO 登录信息
+     * @param request 登录信息
      * @return 登录结果
      */
-    AuthLoginResponse login(@Valid AuthLoginRequest reqVO);
+    AuthLoginResponse login(@Valid AuthLoginRequest request);
 
     /**
      * 基于 token 退出登录
@@ -42,25 +42,25 @@ public interface AdminAuthService {
     /**
      * 短信验证码发送
      *
-     * @param reqVO 发送请求
+     * @param request 发送请求
      */
-    void sendSmsCode(AuthSmsSendRequest reqVO);
+    void sendSmsCode(AuthSmsSendRequest request);
 
     /**
      * 短信登录
      *
-     * @param reqVO 登录信息
+     * @param request 登录信息
      * @return 登录结果
      */
-    AuthLoginResponse smsLogin(AuthSmsLoginRequest reqVO);
+    AuthLoginResponse smsLogin(AuthSmsLoginRequest request);
 
     /**
      * 社交快捷登录，使用 code 授权码
      *
-     * @param reqVO 登录信息
+     * @param request 登录信息
      * @return 登录结果
      */
-    AuthLoginResponse socialLogin(@Valid AuthSocialLoginRequest reqVO);
+    AuthLoginResponse socialLogin(@Valid AuthSocialLoginRequest request);
 
     /**
      * 刷新访问令牌
@@ -81,8 +81,8 @@ public interface AdminAuthService {
     /**
      * 重置密码
      *
-     * @param reqVO 验证码信息
+     * @param request 验证码信息
      */
-    void resetPassword(AuthResetPasswordRequest reqVO);
+    void resetPassword(AuthResetPasswordRequest request);
 
 }

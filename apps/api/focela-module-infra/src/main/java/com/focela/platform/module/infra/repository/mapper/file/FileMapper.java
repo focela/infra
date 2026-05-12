@@ -15,11 +15,11 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface FileMapper extends BaseMapperX<FileEntity> {
 
-    default PageResult<FileEntity> selectPage(FilePageRequest reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<FileEntity>()
-                .likeIfPresent(FileEntity::getPath, reqVO.getPath())
-                .likeIfPresent(FileEntity::getType, reqVO.getType())
-                .betweenIfPresent(FileEntity::getCreateTime, reqVO.getCreateTime())
+    default PageResult<FileEntity> selectPage(FilePageRequest request) {
+        return selectPage(request, new LambdaQueryWrapperX<FileEntity>()
+                .likeIfPresent(FileEntity::getPath, request.getPath())
+                .likeIfPresent(FileEntity::getType, request.getType())
+                .betweenIfPresent(FileEntity::getCreateTime, request.getCreateTime())
                 .orderByDesc(FileEntity::getId));
     }
 

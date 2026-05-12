@@ -130,10 +130,10 @@ public class TenantServiceImpl implements TenantService {
 
     private Long createRole(TenantPackageEntity tenantPackage) {
         // 创建角色
-        RoleSaveRequest reqVO = new RoleSaveRequest();
-        reqVO.setName(RoleCodeEnum.TENANT_ADMIN.getName()).setCode(RoleCodeEnum.TENANT_ADMIN.getCode())
+        RoleSaveRequest request = new RoleSaveRequest();
+        request.setName(RoleCodeEnum.TENANT_ADMIN.getName()).setCode(RoleCodeEnum.TENANT_ADMIN.getCode())
                 .setSort(0).setRemark("系统自动生成");
-        Long roleId = roleService.createRole(reqVO, RoleTypeEnum.SYSTEM.getType());
+        Long roleId = roleService.createRole(request, RoleTypeEnum.SYSTEM.getType());
         // 分配权限
         permissionService.assignRoleMenu(roleId, tenantPackage.getMenuIds());
         return roleId;

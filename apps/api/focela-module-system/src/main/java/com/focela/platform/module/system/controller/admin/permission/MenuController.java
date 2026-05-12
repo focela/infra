@@ -69,8 +69,8 @@ public class MenuController {
     @GetMapping("/list")
     @Operation(summary = "获取菜单列表", description = "用于【菜单管理】界面")
     @PreAuthorize("@ss.hasPermission('system:menu:query')")
-    public CommonResult<List<MenuResponse>> getMenuList(MenuListRequest reqVO) {
-        List<MenuEntity> list = menuService.getMenuList(reqVO);
+    public CommonResult<List<MenuResponse>> getMenuList(MenuListRequest request) {
+        List<MenuEntity> list = menuService.getMenuList(request);
         list.sort(Comparator.comparing(MenuEntity::getSort));
         return success(BeanUtils.toBean(list, MenuResponse.class));
     }

@@ -10,10 +10,10 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface NoticeMapper extends BaseMapperX<NoticeEntity> {
 
-    default PageResult<NoticeEntity> selectPage(NoticePageRequest reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<NoticeEntity>()
-                .likeIfPresent(NoticeEntity::getTitle, reqVO.getTitle())
-                .eqIfPresent(NoticeEntity::getStatus, reqVO.getStatus())
+    default PageResult<NoticeEntity> selectPage(NoticePageRequest request) {
+        return selectPage(request, new LambdaQueryWrapperX<NoticeEntity>()
+                .likeIfPresent(NoticeEntity::getTitle, request.getTitle())
+                .eqIfPresent(NoticeEntity::getStatus, request.getStatus())
                 .orderByDesc(NoticeEntity::getId));
     }
 

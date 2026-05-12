@@ -13,13 +13,13 @@ import java.util.List;
 @Mapper
 public interface TenantMapper extends BaseMapperX<TenantEntity> {
 
-    default PageResult<TenantEntity> selectPage(TenantPageRequest reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<TenantEntity>()
-                .likeIfPresent(TenantEntity::getName, reqVO.getName())
-                .likeIfPresent(TenantEntity::getContactName, reqVO.getContactName())
-                .likeIfPresent(TenantEntity::getContactMobile, reqVO.getContactMobile())
-                .eqIfPresent(TenantEntity::getStatus, reqVO.getStatus())
-                .betweenIfPresent(TenantEntity::getCreateTime, reqVO.getCreateTime())
+    default PageResult<TenantEntity> selectPage(TenantPageRequest request) {
+        return selectPage(request, new LambdaQueryWrapperX<TenantEntity>()
+                .likeIfPresent(TenantEntity::getName, request.getName())
+                .likeIfPresent(TenantEntity::getContactName, request.getContactName())
+                .likeIfPresent(TenantEntity::getContactMobile, request.getContactMobile())
+                .eqIfPresent(TenantEntity::getStatus, request.getStatus())
+                .betweenIfPresent(TenantEntity::getCreateTime, request.getCreateTime())
                 .orderByDesc(TenantEntity::getId));
     }
 

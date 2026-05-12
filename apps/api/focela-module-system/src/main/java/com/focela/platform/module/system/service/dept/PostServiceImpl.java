@@ -127,8 +127,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PageResult<PostEntity> getPostPage(PostPageRequest reqVO) {
-        return postMapper.selectPage(reqVO);
+    public PageResult<PostEntity> getPostPage(PostPageRequest request) {
+        return postMapper.selectPage(request);
     }
 
     @Override

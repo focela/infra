@@ -350,19 +350,19 @@ public class SocialClientServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateSocialClient_success() {
         // 准备参数
-        SocialClientSaveRequest reqVO = randomPojo(SocialClientSaveRequest.class,
+        SocialClientSaveRequest request = randomPojo(SocialClientSaveRequest.class,
                 o -> o.setSocialType(randomEle(SocialTypeEnum.values()).getType())
                         .setUserType(randomEle(UserTypeEnum.values()).getValue())
                         .setStatus(randomCommonStatus()))
                 .setId(null); // 防止 id 被赋值
 
         // 调用
-        Long socialClientId = socialClientService.createSocialClient(reqVO);
+        Long socialClientId = socialClientService.createSocialClient(request);
         // 断言
         assertNotNull(socialClientId);
         // 校验记录的属性是否正确
         SocialClientEntity socialClient = socialClientMapper.selectById(socialClientId);
-        assertPojoEquals(reqVO, socialClient, "id");
+        assertPojoEquals(request, socialClient, "id");
     }
 
     @Test
@@ -371,7 +371,7 @@ public class SocialClientServiceImplTest extends BaseDbUnitTest {
         SocialClientEntity dbSocialClient = randomPojo(SocialClientEntity.class);
         socialClientMapper.insert(dbSocialClient);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        SocialClientSaveRequest reqVO = randomPojo(SocialClientSaveRequest.class, o -> {
+        SocialClientSaveRequest request = randomPojo(SocialClientSaveRequest.class, o -> {
             o.setId(dbSocialClient.getId()); // 设置更新的 ID
             o.setSocialType(randomEle(SocialTypeEnum.values()).getType())
                     .setUserType(randomEle(UserTypeEnum.values()).getValue())
@@ -379,19 +379,19 @@ public class SocialClientServiceImplTest extends BaseDbUnitTest {
         });
 
         // 调用
-        socialClientService.updateSocialClient(reqVO);
+        socialClientService.updateSocialClient(request);
         // 校验是否更新正确
-        SocialClientEntity socialClient = socialClientMapper.selectById(reqVO.getId()); // 获取最新的
-        assertPojoEquals(reqVO, socialClient);
+        SocialClientEntity socialClient = socialClientMapper.selectById(request.getId()); // 获取最新的
+        assertPojoEquals(request, socialClient);
     }
 
     @Test
     public void testUpdateSocialClient_notExists() {
         // 准备参数
-        SocialClientSaveRequest reqVO = randomPojo(SocialClientSaveRequest.class);
+        SocialClientSaveRequest request = randomPojo(SocialClientSaveRequest.class);
 
         // 调用, 并断言异常
-        assertServiceException(() -> socialClientService.updateSocialClient(reqVO), SOCIAL_CLIENT_NOT_EXISTS);
+        assertServiceException(() -> socialClientService.updateSocialClient(request), SOCIAL_CLIENT_NOT_EXISTS);
     }
 
     @Test
@@ -453,15 +453,15 @@ public class SocialClientServiceImplTest extends BaseDbUnitTest {
         // 测试 status 不匹配
         socialClientMapper.insert(cloneIgnoreId(dbSocialClient, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
         // 准备参数
-        SocialClientPageRequest reqVO = new SocialClientPageRequest();
-        reqVO.setName("芋");
-        reqVO.setSocialType(SocialTypeEnum.GITEE.getType());
-        reqVO.setUserType(UserTypeEnum.ADMIN.getValue());
-        reqVO.setClientId("yu");
-        reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+        SocialClientPageRequest request = new SocialClientPageRequest();
+        request.setName("芋");
+        request.setSocialType(SocialTypeEnum.GITEE.getType());
+        request.setUserType(UserTypeEnum.ADMIN.getValue());
+        request.setClientId("yu");
+        request.setStatus(CommonStatusEnum.ENABLE.getStatus());
 
         // 调用
-        PageResult<SocialClientEntity> pageResult = socialClientService.getSocialClientPage(reqVO);
+        PageResult<SocialClientEntity> pageResult = socialClientService.getSocialClientPage(request);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());

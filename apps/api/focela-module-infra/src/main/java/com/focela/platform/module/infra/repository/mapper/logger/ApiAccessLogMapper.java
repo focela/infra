@@ -19,15 +19,15 @@ import java.time.LocalDateTime;
 @Mapper
 public interface ApiAccessLogMapper extends BaseMapperX<ApiAccessLogEntity> {
 
-    default PageResult<ApiAccessLogEntity> selectPage(ApiAccessLogPageRequest reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<ApiAccessLogEntity>()
-                .eqIfPresent(ApiAccessLogEntity::getUserId, reqVO.getUserId())
-                .eqIfPresent(ApiAccessLogEntity::getUserType, reqVO.getUserType())
-                .eqIfPresent(ApiAccessLogEntity::getApplicationName, reqVO.getApplicationName())
-                .likeIfPresent(ApiAccessLogEntity::getRequestUrl, reqVO.getRequestUrl())
-                .betweenIfPresent(ApiAccessLogEntity::getBeginTime, reqVO.getBeginTime())
-                .geIfPresent(ApiAccessLogEntity::getDuration, reqVO.getDuration())
-                .eqIfPresent(ApiAccessLogEntity::getResultCode, reqVO.getResultCode())
+    default PageResult<ApiAccessLogEntity> selectPage(ApiAccessLogPageRequest request) {
+        return selectPage(request, new LambdaQueryWrapperX<ApiAccessLogEntity>()
+                .eqIfPresent(ApiAccessLogEntity::getUserId, request.getUserId())
+                .eqIfPresent(ApiAccessLogEntity::getUserType, request.getUserType())
+                .eqIfPresent(ApiAccessLogEntity::getApplicationName, request.getApplicationName())
+                .likeIfPresent(ApiAccessLogEntity::getRequestUrl, request.getRequestUrl())
+                .betweenIfPresent(ApiAccessLogEntity::getBeginTime, request.getBeginTime())
+                .geIfPresent(ApiAccessLogEntity::getDuration, request.getDuration())
+                .eqIfPresent(ApiAccessLogEntity::getResultCode, request.getResultCode())
                 .orderByDesc(ApiAccessLogEntity::getId)
         );
     }

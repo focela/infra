@@ -14,12 +14,12 @@ public interface NotifyTemplateMapper extends BaseMapperX<NotifyTemplateEntity> 
         return selectOne(NotifyTemplateEntity::getCode, code);
     }
 
-    default PageResult<NotifyTemplateEntity> selectPage(NotifyTemplatePageRequest reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<NotifyTemplateEntity>()
-                .likeIfPresent(NotifyTemplateEntity::getCode, reqVO.getCode())
-                .likeIfPresent(NotifyTemplateEntity::getName, reqVO.getName())
-                .eqIfPresent(NotifyTemplateEntity::getStatus, reqVO.getStatus())
-                .betweenIfPresent(NotifyTemplateEntity::getCreateTime, reqVO.getCreateTime())
+    default PageResult<NotifyTemplateEntity> selectPage(NotifyTemplatePageRequest request) {
+        return selectPage(request, new LambdaQueryWrapperX<NotifyTemplateEntity>()
+                .likeIfPresent(NotifyTemplateEntity::getCode, request.getCode())
+                .likeIfPresent(NotifyTemplateEntity::getName, request.getName())
+                .eqIfPresent(NotifyTemplateEntity::getStatus, request.getStatus())
+                .betweenIfPresent(NotifyTemplateEntity::getCreateTime, request.getCreateTime())
                 .orderByDesc(NotifyTemplateEntity::getId));
     }
 

@@ -42,17 +42,17 @@ public class PostServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreatePost_success() {
         // 准备参数
-        PostSaveRequest reqVO = randomPojo(PostSaveRequest.class,
+        PostSaveRequest request = randomPojo(PostSaveRequest.class,
                 o -> o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()))
                 .setId(null); // 防止 id 被设置
         // 调用
-        Long postId = postService.createPost(reqVO);
+        Long postId = postService.createPost(request);
 
         // 断言
         assertNotNull(postId);
         // 校验记录的属性是否正确
         PostEntity post = postMapper.selectById(postId);
-        assertPojoEquals(reqVO, post, "id");
+        assertPojoEquals(request, post, "id");
     }
 
     @Test
@@ -61,17 +61,17 @@ public class PostServiceImplTest extends BaseDbUnitTest {
         PostEntity postDO = randomPostDO();
         postMapper.insert(postDO);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        PostSaveRequest reqVO = randomPojo(PostSaveRequest.class, o -> {
+        PostSaveRequest request = randomPojo(PostSaveRequest.class, o -> {
             // 设置更新的 ID
             o.setId(postDO.getId());
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus());
         });
 
         // 调用
-        postService.updatePost(reqVO);
+        postService.updatePost(request);
         // 校验是否更新正确
-        PostEntity post = postMapper.selectById(reqVO.getId());
-        assertPojoEquals(reqVO, post);
+        PostEntity post = postMapper.selectById(request.getId());
+        assertPojoEquals(request, post);
     }
 
     @Test
@@ -102,10 +102,10 @@ public class PostServiceImplTest extends BaseDbUnitTest {
         PostEntity postDO = randomPostDO();
         postMapper.insert(postDO);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        PostSaveRequest reqVO = randomPojo(PostSaveRequest.class,
+        PostSaveRequest request = randomPojo(PostSaveRequest.class,
             // 模拟 name 重复
             o -> o.setName(postDO.getName()));
-        assertServiceException(() -> postService.createPost(reqVO), POST_NAME_DUPLICATE);
+        assertServiceException(() -> postService.createPost(request), POST_NAME_DUPLICATE);
     }
 
     @Test
@@ -117,7 +117,7 @@ public class PostServiceImplTest extends BaseDbUnitTest {
         PostEntity codePostDO = randomPostDO();
         postMapper.insert(codePostDO);
         // 准备参数
-        PostSaveRequest reqVO = randomPojo(PostSaveRequest.class, o -> {
+        PostSaveRequest request = randomPojo(PostSaveRequest.class, o -> {
             // 设置更新的 ID
             o.setId(postDO.getId());
             // 模拟 code 重复
@@ -125,7 +125,7 @@ public class PostServiceImplTest extends BaseDbUnitTest {
         });
 
         // 调用, 并断言异常
-        assertServiceException(() -> postService.updatePost(reqVO), POST_CODE_DUPLICATE);
+        assertServiceException(() -> postService.updatePost(request), POST_CODE_DUPLICATE);
     }
 
     @Test
@@ -141,12 +141,12 @@ public class PostServiceImplTest extends BaseDbUnitTest {
         // 测试 status 不匹配
         postMapper.insert(cloneIgnoreId(postDO, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
         // 准备参数
-        PostPageRequest reqVO = new PostPageRequest();
-        reqVO.setName("码");
-        reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+        PostPageRequest request = new PostPageRequest();
+        request.setName("码");
+        request.setStatus(CommonStatusEnum.ENABLE.getStatus());
 
         // 调用
-        PageResult<PostEntity> pageResult = postService.getPostPage(reqVO);
+        PageResult<PostEntity> pageResult = postService.getPostPage(request);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());

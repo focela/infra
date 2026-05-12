@@ -71,10 +71,10 @@ public class OAuth2UserController {
     @PutMapping("/update")
     @Operation(summary = "更新用户基本信息")
     @PreAuthorize("@ss.hasScope('user.write')")
-    public CommonResult<Boolean> updateUserInfo(@Valid @RequestBody OAuth2UserUpdateRequest reqVO) {
+    public CommonResult<Boolean> updateUserInfo(@Valid @RequestBody OAuth2UserUpdateRequest request) {
         // 这里将 UserProfileUpdateRequest =》UserProfileUpdateRequest 对象，实现接口的复用。
         // 主要是，AdminUserService 没有自己的 BO 对象，所以复用只能这么做
-        userService.updateUserProfile(getLoginUserId(), BeanUtils.toBean(reqVO, UserProfileUpdateRequest.class));
+        userService.updateUserProfile(getLoginUserId(), BeanUtils.toBean(request, UserProfileUpdateRequest.class));
         return success(true);
     }
 

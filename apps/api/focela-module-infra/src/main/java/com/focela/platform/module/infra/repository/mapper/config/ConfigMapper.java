@@ -14,12 +14,12 @@ public interface ConfigMapper extends BaseMapperX<ConfigEntity> {
         return selectOne(ConfigEntity::getConfigKey, key);
     }
 
-    default PageResult<ConfigEntity> selectPage(ConfigPageRequest reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<ConfigEntity>()
-                .likeIfPresent(ConfigEntity::getName, reqVO.getName())
-                .likeIfPresent(ConfigEntity::getConfigKey, reqVO.getKey())
-                .eqIfPresent(ConfigEntity::getType, reqVO.getType())
-                .betweenIfPresent(ConfigEntity::getCreateTime, reqVO.getCreateTime())
+    default PageResult<ConfigEntity> selectPage(ConfigPageRequest request) {
+        return selectPage(request, new LambdaQueryWrapperX<ConfigEntity>()
+                .likeIfPresent(ConfigEntity::getName, request.getName())
+                .likeIfPresent(ConfigEntity::getConfigKey, request.getKey())
+                .eqIfPresent(ConfigEntity::getType, request.getType())
+                .betweenIfPresent(ConfigEntity::getCreateTime, request.getCreateTime())
                 .orderByDesc(ConfigEntity::getId));
     }
 

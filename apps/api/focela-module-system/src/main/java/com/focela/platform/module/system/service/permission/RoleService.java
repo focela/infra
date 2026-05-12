@@ -106,10 +106,10 @@ public interface RoleService {
     /**
      * 获得角色分页
      *
-     * @param reqVO 角色分页查询
+     * @param request 角色分页查询
      * @return 角色分页结果
      */
-    PageResult<RoleEntity> getRolePage(RolePageRequest reqVO);
+    PageResult<RoleEntity> getRolePage(RolePageRequest request);
 
     /**
      * 判断角色编号数组中，是否有管理员

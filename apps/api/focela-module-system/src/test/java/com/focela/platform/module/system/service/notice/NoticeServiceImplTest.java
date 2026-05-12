@@ -42,12 +42,12 @@ class NoticeServiceImplTest extends BaseDbUnitTest {
         // 测试 status 不匹配
         noticeMapper.insert(cloneIgnoreId(dbNotice, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
         // 准备参数
-        NoticePageRequest reqVO = new NoticePageRequest();
-        reqVO.setTitle("尼古拉斯赵四来啦！");
-        reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+        NoticePageRequest request = new NoticePageRequest();
+        request.setTitle("尼古拉斯赵四来啦！");
+        request.setStatus(CommonStatusEnum.ENABLE.getStatus());
 
         // 调用
-        PageResult<NoticeEntity> pageResult = noticeService.getNoticePage(reqVO);
+        PageResult<NoticeEntity> pageResult = noticeService.getNoticePage(request);
         // 验证查询结果经过筛选
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
@@ -71,15 +71,15 @@ class NoticeServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateNotice_success() {
         // 准备参数
-        NoticeSaveRequest reqVO = randomPojo(NoticeSaveRequest.class)
+        NoticeSaveRequest request = randomPojo(NoticeSaveRequest.class)
                 .setId(null); // 避免 id 被赋值
 
         // 调用
-        Long noticeId = noticeService.createNotice(reqVO);
+        Long noticeId = noticeService.createNotice(request);
         // 校验插入属性是否正确
         assertNotNull(noticeId);
         NoticeEntity notice = noticeMapper.selectById(noticeId);
-        assertPojoEquals(reqVO, notice, "id");
+        assertPojoEquals(request, notice, "id");
     }
 
     @Test
@@ -89,13 +89,13 @@ class NoticeServiceImplTest extends BaseDbUnitTest {
         noticeMapper.insert(dbNoticeDO);
 
         // 准备更新参数
-        NoticeSaveRequest reqVO = randomPojo(NoticeSaveRequest.class, o -> o.setId(dbNoticeDO.getId()));
+        NoticeSaveRequest request = randomPojo(NoticeSaveRequest.class, o -> o.setId(dbNoticeDO.getId()));
 
         // 更新
-        noticeService.updateNotice(reqVO);
+        noticeService.updateNotice(request);
         // 检验是否更新成功
-        NoticeEntity notice = noticeMapper.selectById(reqVO.getId());
-        assertPojoEquals(reqVO, notice);
+        NoticeEntity notice = noticeMapper.selectById(request.getId());
+        assertPojoEquals(request, notice);
     }
 
     @Test

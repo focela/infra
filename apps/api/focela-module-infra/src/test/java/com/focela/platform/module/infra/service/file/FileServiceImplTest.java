@@ -64,13 +64,13 @@ public class FileServiceImplTest extends BaseDbUnitTest {
             o.setCreateTime(buildTime(2020, 1, 15));
         }));
         // 准备参数
-        FilePageRequest reqVO = new FilePageRequest();
-        reqVO.setPath("yunai");
-        reqVO.setType("jp");
-        reqVO.setCreateTime((new LocalDateTime[]{buildTime(2021, 1, 10), buildTime(2021, 1, 20)}));
+        FilePageRequest request = new FilePageRequest();
+        request.setPath("yunai");
+        request.setType("jp");
+        request.setCreateTime((new LocalDateTime[]{buildTime(2021, 1, 10), buildTime(2021, 1, 20)}));
 
         // 调用
-        PageResult<FileEntity> pageResult = fileService.getFilePage(reqVO);
+        PageResult<FileEntity> pageResult = fileService.getFilePage(request);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());

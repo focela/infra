@@ -46,20 +46,20 @@ public class PermissionController {
     @PostMapping("/assign-role-menu")
     @Operation(summary = "赋予角色菜单")
     @PreAuthorize("@ss.hasPermission('system:permission:assign-role-menu')")
-    public CommonResult<Boolean> assignRoleMenu(@Validated @RequestBody PermissionAssignRoleMenuRequest reqVO) {
+    public CommonResult<Boolean> assignRoleMenu(@Validated @RequestBody PermissionAssignRoleMenuRequest request) {
         // 开启多租户的情况下，需要过滤掉未开通的菜单
-        tenantService.handleTenantMenu(menuIds -> reqVO.getMenuIds().removeIf(menuId -> !CollUtil.contains(menuIds, menuId)));
+        tenantService.handleTenantMenu(menuIds -> request.getMenuIds().removeIf(menuId -> !CollUtil.contains(menuIds, menuId)));
 
         // 执行菜单的分配
-        permissionService.assignRoleMenu(reqVO.getRoleId(), reqVO.getMenuIds());
+        permissionService.assignRoleMenu(request.getRoleId(), request.getMenuIds());
         return success(true);
     }
 
     @PostMapping("/assign-role-data-scope")
     @Operation(summary = "赋予角色数据权限")
     @PreAuthorize("@ss.hasPermission('system:permission:assign-role-data-scope')")
-    public CommonResult<Boolean> assignRoleDataScope(@Valid @RequestBody PermissionAssignRoleDataScopeRequest reqVO) {
-        permissionService.assignRoleDataScope(reqVO.getRoleId(), reqVO.getDataScope(), reqVO.getDataScopeDeptIds());
+    public CommonResult<Boolean> assignRoleDataScope(@Valid @RequestBody PermissionAssignRoleDataScopeRequest request) {
+        permissionService.assignRoleDataScope(request.getRoleId(), request.getDataScope(), request.getDataScopeDeptIds());
         return success(true);
     }
 
@@ -74,8 +74,8 @@ public class PermissionController {
     @Operation(summary = "赋予用户角色")
     @PostMapping("/assign-user-role")
     @PreAuthorize("@ss.hasPermission('system:permission:assign-user-role')")
-    public CommonResult<Boolean> assignUserRole(@Validated @RequestBody PermissionAssignUserRoleRequest reqVO) {
-        permissionService.assignUserRole(reqVO.getUserId(), reqVO.getRoleIds());
+    public CommonResult<Boolean> assignUserRole(@Validated @RequestBody PermissionAssignUserRoleRequest request) {
+        permissionService.assignUserRole(request.getUserId(), request.getRoleIds());
         return success(true);
     }
 

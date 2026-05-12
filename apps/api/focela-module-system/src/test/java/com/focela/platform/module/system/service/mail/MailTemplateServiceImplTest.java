@@ -42,16 +42,16 @@ public class MailTemplateServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateMailTemplate_success() {
         // 准备参数
-        MailTemplateSaveRequest reqVO = randomPojo(MailTemplateSaveRequest.class)
+        MailTemplateSaveRequest request = randomPojo(MailTemplateSaveRequest.class)
                 .setId(null); // 防止 id 被赋值
 
         // 调用
-        Long mailTemplateId = mailTemplateService.createMailTemplate(reqVO);
+        Long mailTemplateId = mailTemplateService.createMailTemplate(request);
         // 断言
         assertNotNull(mailTemplateId);
         // 校验记录的属性是否正确
         MailTemplateEntity mailTemplate = mailTemplateMapper.selectById(mailTemplateId);
-        assertPojoEquals(reqVO, mailTemplate, "id");
+        assertPojoEquals(request, mailTemplate, "id");
     }
 
     @Test
@@ -60,24 +60,24 @@ public class MailTemplateServiceImplTest extends BaseDbUnitTest {
         MailTemplateEntity dbMailTemplate = randomPojo(MailTemplateEntity.class);
         mailTemplateMapper.insert(dbMailTemplate);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        MailTemplateSaveRequest reqVO = randomPojo(MailTemplateSaveRequest.class, o -> {
+        MailTemplateSaveRequest request = randomPojo(MailTemplateSaveRequest.class, o -> {
             o.setId(dbMailTemplate.getId()); // 设置更新的 ID
         });
 
         // 调用
-        mailTemplateService.updateMailTemplate(reqVO);
+        mailTemplateService.updateMailTemplate(request);
         // 校验是否更新正确
-        MailTemplateEntity mailTemplate = mailTemplateMapper.selectById(reqVO.getId()); // 获取最新的
-        assertPojoEquals(reqVO, mailTemplate);
+        MailTemplateEntity mailTemplate = mailTemplateMapper.selectById(request.getId()); // 获取最新的
+        assertPojoEquals(request, mailTemplate);
     }
 
     @Test
     public void testUpdateMailTemplate_notExists() {
         // 准备参数
-        MailTemplateSaveRequest reqVO = randomPojo(MailTemplateSaveRequest.class);
+        MailTemplateSaveRequest request = randomPojo(MailTemplateSaveRequest.class);
 
         // 调用, 并断言异常
-        assertServiceException(() -> mailTemplateService.updateMailTemplate(reqVO), MAIL_TEMPLATE_NOT_EXISTS);
+        assertServiceException(() -> mailTemplateService.updateMailTemplate(request), MAIL_TEMPLATE_NOT_EXISTS);
     }
 
     @Test
@@ -125,15 +125,15 @@ public class MailTemplateServiceImplTest extends BaseDbUnitTest {
         // 测试 createTime 不匹配
         mailTemplateMapper.insert(cloneIgnoreId(dbMailTemplate, o -> o.setCreateTime(buildTime(2023, 1, 5))));
         // 准备参数
-        MailTemplatePageRequest reqVO = new MailTemplatePageRequest();
-        reqVO.setName("源");
-        reqVO.setCode("est_01");
-        reqVO.setAccountId(1L);
-        reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
-        reqVO.setCreateTime(buildBetweenTime(2023, 2, 1, 2023, 2, 5));
+        MailTemplatePageRequest request = new MailTemplatePageRequest();
+        request.setName("源");
+        request.setCode("est_01");
+        request.setAccountId(1L);
+        request.setStatus(CommonStatusEnum.ENABLE.getStatus());
+        request.setCreateTime(buildBetweenTime(2023, 2, 1, 2023, 2, 5));
 
         // 调用
-        PageResult<MailTemplateEntity> pageResult = mailTemplateService.getMailTemplatePage(reqVO);
+        PageResult<MailTemplateEntity> pageResult = mailTemplateService.getMailTemplatePage(request);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
