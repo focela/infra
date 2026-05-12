@@ -1,0 +1,114 @@
+package com.focela.platform.module.system.service.mail;
+
+import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.framework.common.utils.object.BeanUtils;
+import com.focela.platform.module.system.controller.admin.mail.dto.account.MailAccountPageRequest;
+import com.focela.platform.module.system.controller.admin.mail.dto.account.MailAccountSaveRequest;
+import com.focela.platform.module.system.repository.entity.mail.MailAccountEntity;
+import com.focela.platform.module.system.repository.mapper.mail.MailAccountMapper;
+import com.focela.platform.module.system.repository.redis.RedisKeyConstants;
+import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
+
+import java.util.List;
+
+import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
+import static com.focela.platform.module.system.enums.ErrorCodeConstants.MAIL_ACCOUNT_NOT_EXISTS;
+import static com.focela.platform.module.system.enums.ErrorCodeConstants.MAIL_ACCOUNT_RELATE_TEMPLATE_EXISTS;
+
+/**
+ * 邮箱账号 Service 实现类
+ *
+ * @author wangjingyi
+ * @since 2022-03-21
+ */
+@Service
+@Validated
+@Slf4j
+public class DefaultMailAccountService implements MailAccountService {
+
+    @Resource
+    private MailAccountMapper mailAccountMapper;
+
+    @Resource
+    private MailTemplateService mailTemplateService;
+
+    @Override
+    public Long createMailAccount(MailAccountSaveRequest createRequest) {
+        MailAccountEntity account = BeanUtils.toBean(createRequest, MailAccountEntity.class);
+        mailAccountMapper.insert(account);
+        return account.getId();
+    }
+
+    @Override
+    @CacheEvict(value = RedisKeyConstants.MAIL_ACCOUNT, key = "#updateRequest.id")
+    public void updateMailAccount(MailAccountSaveRequest updateRequest) {
+        // 校验是否存在
+        validateMailAccountExists(updateRequest.getId());
+
+        // 更新
+        MailAccountEntity updateObj = BeanUtils.toBean(updateRequest, MailAccountEntity.class);
+        mailAccountMapper.updateById(updateObj);
+    }
+
+    @Override
+    @CacheEvict(value = RedisKeyConstants.MAIL_ACCOUNT, key = "#id")
+    public void deleteMailAccount(Long id) {
+        // 校验是否存在账号
+        validateMailAccountExists(id);
+        // 校验是否存在关联模版
+        if (mailTemplateService.getMailTemplateCountByAccountId(id) > 0) {
+            throw exception(MAIL_ACCOUNT_RELATE_TEMPLATE_EXISTS);
+        }
+
+        // 删除
+        mailAccountMapper.deleteById(id);
+    }
+
+    @Override
+    @CacheEvict(value = RedisKeyConstants.MAIL_ACCOUNT,
+            allEntries = true) // allEntries 清空所有缓存，因为 Spring Cache 不支持按照 ids 批量删除
+    public void deleteMailAccountList(List<Long> ids) {
+        // 1. 校验是否存在关联模版
+        for (Long id : ids) {
+            if (mailTemplateService.getMailTemplateCountByAccountId(id) > 0) {
+                throw exception(MAIL_ACCOUNT_RELATE_TEMPLATE_EXISTS);
+            }
+        }
+
+        // 2. 批量删除
+        mailAccountMapper.deleteByIds(ids);
+    }
+
+    private void validateMailAccountExists(Long id) {
+        if (mailAccountMapper.selectById(id) == null) {
+            throw exception(MAIL_ACCOUNT_NOT_EXISTS);
+        }
+    }
+
+    @Override
+    public MailAccountEntity getMailAccount(Long id) {
+        return mailAccountMapper.selectById(id);
+    }
+
+    @Override
+    @Cacheable(value = RedisKeyConstants.MAIL_ACCOUNT, key = "#id", unless = "#result == null")
+    public MailAccountEntity getMailAccountFromCache(Long id) {
+        return getMailAccount(id);
+    }
+
+    @Override
+    public PageResult<MailAccountEntity> getMailAccountPage(MailAccountPageRequest pageRequest) {
+        return mailAccountMapper.selectPage(pageRequest);
+    }
+
+    @Override
+    public List<MailAccountEntity> getMailAccountList() {
+        return mailAccountMapper.selectList();
+    }
+
+}

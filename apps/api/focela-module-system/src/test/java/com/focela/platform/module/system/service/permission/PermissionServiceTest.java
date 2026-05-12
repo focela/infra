@@ -37,11 +37,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-@Import({PermissionServiceImpl.class})
+@Import({DefaultPermissionService.class})
 public class PermissionServiceTest extends BaseDbUnitTest {
 
     @Resource
-    private PermissionServiceImpl permissionService;
+    private DefaultPermissionService permissionService;
 
     @Resource
     private RoleMenuMapper roleMenuMapper;
@@ -60,7 +60,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     @Test
     public void testHasAnyPermissions_superAdmin() {
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
-            springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(PermissionServiceImpl.class)))
+            springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(DefaultPermissionService.class)))
                     .thenReturn(permissionService);
 
             // 准备参数
@@ -82,7 +82,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     @Test
     public void testHasAnyPermissions_normal() {
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
-            springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(PermissionServiceImpl.class)))
+            springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(DefaultPermissionService.class)))
                     .thenReturn(permissionService);
 
             // 准备参数
@@ -107,7 +107,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     @Test
     public void testHasAnyRoles() {
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
-            springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(PermissionServiceImpl.class)))
+            springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(DefaultPermissionService.class)))
                     .thenReturn(permissionService);
 
             // 准备参数
@@ -349,7 +349,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetEnableUserRoleListByUserIdFromCache() {
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
-            springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(PermissionServiceImpl.class)))
+            springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(DefaultPermissionService.class)))
                     .thenReturn(permissionService);
 
             // 准备参数
@@ -390,7 +390,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetDeptDataPermission_All() {
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
-            springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(PermissionServiceImpl.class)))
+            springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(DefaultPermissionService.class)))
                     .thenReturn(permissionService);
 
             // 准备参数
@@ -414,7 +414,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetDeptDataPermission_DeptCustom() {
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
-            springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(PermissionServiceImpl.class)))
+            springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(DefaultPermissionService.class)))
                     .thenReturn(permissionService);
 
             // 准备参数
@@ -443,7 +443,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetDeptDataPermission_DeptOnly() {
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
-            springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(PermissionServiceImpl.class)))
+            springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(DefaultPermissionService.class)))
                     .thenReturn(permissionService);
 
             // 准备参数
@@ -471,7 +471,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetDeptDataPermission_DeptAndChild() {
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
-            springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(PermissionServiceImpl.class)))
+            springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(DefaultPermissionService.class)))
                     .thenReturn(permissionService);
 
             // 准备参数
@@ -503,7 +503,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetDeptDataPermission_Self() {
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
-            springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(PermissionServiceImpl.class)))
+            springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(DefaultPermissionService.class)))
                     .thenReturn(permissionService);
 
             // 准备参数

@@ -1,6 +1,6 @@
 package com.focela.platform.framework.operatelog.config;
 
-import com.focela.platform.framework.operatelog.core.service.LogRecordServiceImpl;
+import com.focela.platform.framework.operatelog.core.service.DefaultLogRecordService;
 import com.mzt.logapi.service.ILogRecordService;
 import com.mzt.logapi.starter.annotation.EnableLogRecord;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +20,8 @@ public class FocelaOperateLogConfiguration {
 
     @Bean
     @Primary
-    public ILogRecordService iLogRecordServiceImpl() {
-        return new LogRecordServiceImpl();
+    public ILogRecordService DefaultiLogRecordService() {
+        return new DefaultLogRecordService();
     }
 
 }

@@ -1,1 +1,1 @@
-com.focela.platform.module.system.framework.captcha.core.PictureWordCaptchaServiceImpl
+com.focela.platform.module.system.framework.captcha.core.DefaultPictureWordCaptchaService

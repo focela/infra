@@ -15,7 +15,7 @@ import com.focela.platform.framework.tenant.core.mq.rocketmq.TenantRocketMQIniti
 import com.focela.platform.framework.tenant.core.redis.TenantRedisCacheManager;
 import com.focela.platform.framework.tenant.core.security.TenantSecurityWebFilter;
 import com.focela.platform.framework.tenant.core.service.TenantFrameworkService;
-import com.focela.platform.framework.tenant.core.service.TenantFrameworkServiceImpl;
+import com.focela.platform.framework.tenant.core.service.DefaultTenantFrameworkService;
 import com.focela.platform.framework.tenant.core.web.TenantContextWebFilter;
 import com.focela.platform.framework.tenant.core.web.TenantVisitContextInterceptor;
 import com.focela.platform.framework.web.config.WebProperties;
@@ -58,7 +58,7 @@ public class FocelaTenantAutoConfiguration {
 
     @Bean
     public TenantFrameworkService tenantFrameworkService(TenantCommonApi tenantApi) {
-        return new TenantFrameworkServiceImpl(tenantApi);
+        return new DefaultTenantFrameworkService(tenantApi);
     }
 
     // ========== AOP ==========

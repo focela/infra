@@ -31,11 +31,11 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@Import(SmsChannelServiceImpl.class)
+@Import(DefaultSmsChannelService.class)
 public class SmsChannelServiceTest extends BaseDbUnitTest {
 
     @Resource
-    private SmsChannelServiceImpl smsChannelService;
+    private DefaultSmsChannelService smsChannelService;
 
     @Resource
     private SmsChannelMapper smsChannelMapper;

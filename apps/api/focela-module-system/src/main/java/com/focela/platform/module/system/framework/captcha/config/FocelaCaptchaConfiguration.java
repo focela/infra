@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.framework.captcha.config;
 
-import com.focela.platform.module.system.framework.captcha.core.RedisCaptchaServiceImpl;
+import com.focela.platform.module.system.framework.captcha.core.DefaultRedisCaptchaService;
 import com.anji.captcha.config.AjCaptchaAutoConfiguration;
 import com.anji.captcha.properties.AjCaptchaProperties;
 import com.anji.captcha.service.CaptchaCacheService;
@@ -25,8 +25,8 @@ public class FocelaCaptchaConfiguration {
     public CaptchaCacheService captchaCacheService(AjCaptchaProperties config,
                                                    StringRedisTemplate stringRedisTemplate) {
         CaptchaCacheService captchaCacheService = CaptchaServiceFactory.getCache(config.getCacheType().name());
-        if (captchaCacheService instanceof RedisCaptchaServiceImpl) {
-            ((RedisCaptchaServiceImpl) captchaCacheService).setStringRedisTemplate(stringRedisTemplate);
+        if (captchaCacheService instanceof DefaultRedisCaptchaService) {
+            ((DefaultRedisCaptchaService) captchaCacheService).setStringRedisTemplate(stringRedisTemplate);
         }
         return captchaCacheService;
     }

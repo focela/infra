@@ -7,7 +7,7 @@ import com.focela.platform.framework.security.core.filter.TokenAuthenticationFil
 import com.focela.platform.framework.security.core.handler.AccessDeniedHandlerImpl;
 import com.focela.platform.framework.security.core.handler.AuthenticationEntryPointImpl;
 import com.focela.platform.framework.security.core.service.SecurityFrameworkService;
-import com.focela.platform.framework.security.core.service.SecurityFrameworkServiceImpl;
+import com.focela.platform.framework.security.core.service.DefaultSecurityFrameworkService;
 import com.focela.platform.framework.web.core.handler.GlobalExceptionHandler;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
@@ -75,7 +75,7 @@ public class FocelaSecurityAutoConfiguration {
 
     @Bean("ss") // 使用 Spring Security 的缩写，方便使用
     public SecurityFrameworkService securityFrameworkService(PermissionCommonApi permissionApi) {
-        return new SecurityFrameworkServiceImpl(permissionApi);
+        return new DefaultSecurityFrameworkService(permissionApi);
     }
 
     /**
