@@ -212,7 +212,7 @@ spring:
               url: http://127.0.0.1:8089
               sse-endpoint: /sse
         annotation-scanner:
-          enabled: false # TODO @芋艿：有 bug https://github.com/spring-projects/spring-ai/issues/4917 需要官方修复
+          enabled: false # TODO:  有 bug https://github.com/spring-projects/spring-ai/issues/4917 需要官方修复
 
 focela:
   ai:

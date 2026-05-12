@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author 芋道源码
  */
-public class SmsClientTests {
+public class SmsClientTest {
 
     // ========== 阿里云 ==========
 
