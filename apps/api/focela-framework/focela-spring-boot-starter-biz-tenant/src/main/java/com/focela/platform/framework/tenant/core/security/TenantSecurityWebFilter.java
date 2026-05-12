@@ -2,10 +2,10 @@ package com.focela.platform.framework.tenant.core.security;
 
 import cn.hutool.core.collection.CollUtil;
 import com.focela.platform.framework.common.exception.enums.GlobalErrorCodeConstants;
-import com.focela.platform.framework.common.pojo.CommonResult;
-import com.focela.platform.framework.common.util.servlet.ServletUtils;
+import com.focela.platform.framework.common.model.CommonResult;
+import com.focela.platform.framework.common.utils.servlet.ServletUtils;
 import com.focela.platform.framework.security.core.LoginUser;
-import com.focela.platform.framework.security.core.util.SecurityFrameworkUtils;
+import com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils;
 import com.focela.platform.framework.tenant.config.TenantProperties;
 import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
 import com.focela.platform.framework.tenant.core.service.TenantFrameworkService;

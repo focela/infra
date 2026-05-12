@@ -5,16 +5,16 @@ import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.common.biz.infra.logger.ApiErrorLogCommonApi;
-import com.focela.platform.framework.common.biz.infra.logger.dto.ApiErrorLogCreateReqDTO;
+import com.focela.platform.framework.common.business.infra.logger.ApiErrorLogCommonApi;
+import com.focela.platform.framework.common.business.infra.logger.dto.ApiErrorLogCreateReqDTO;
 import com.focela.platform.framework.common.exception.ServiceException;
-import com.focela.platform.framework.common.exception.util.ServiceExceptionUtil;
-import com.focela.platform.framework.common.pojo.CommonResult;
-import com.focela.platform.framework.common.util.collection.SetUtils;
-import com.focela.platform.framework.common.util.json.JsonUtils;
-import com.focela.platform.framework.common.util.monitor.TracerUtils;
-import com.focela.platform.framework.common.util.servlet.ServletUtils;
-import com.focela.platform.framework.web.core.util.WebFrameworkUtils;
+import com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils;
+import com.focela.platform.framework.common.model.CommonResult;
+import com.focela.platform.framework.common.utils.collection.SetUtils;
+import com.focela.platform.framework.common.utils.json.JsonUtils;
+import com.focela.platform.framework.common.utils.monitor.TracerUtils;
+import com.focela.platform.framework.common.utils.servlet.ServletUtils;
+import com.focela.platform.framework.web.core.utils.WebFrameworkUtils;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -302,7 +302,7 @@ public class GlobalExceptionHandler {
             try {
                 StackTraceElement[] stackTraces = ex.getStackTrace();
                 for (StackTraceElement stackTrace : stackTraces) {
-                    if (ObjUtil.notEqual(stackTrace.getClassName(), ServiceExceptionUtil.class.getName())) {
+                    if (ObjUtil.notEqual(stackTrace.getClassName(), ServiceExceptionUtils.class.getName())) {
                         log.warn("[serviceExceptionHandler]\n\t{}", stackTrace);
                         break;
                     }

@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.repository.mapper.user;
 
-import com.focela.platform.framework.common.pojo.PageResult;
+import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
 import com.focela.platform.module.system.controller.admin.user.dto.user.UserPageRequest;

@@ -1,7 +1,7 @@
 package com.focela.platform.module.infra.service.db;
 
-import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.framework.mybatis.core.util.JdbcUtils;
+import com.focela.platform.framework.common.utils.object.BeanUtils;
+import com.focela.platform.framework.mybatis.core.utils.JdbcUtils;
 import com.focela.platform.module.infra.controller.admin.db.dto.DataSourceConfigSaveRequest;
 import com.focela.platform.module.infra.repository.entity.db.DataSourceConfigEntity;
 import com.focela.platform.module.infra.repository.mapper.db.DataSourceConfigMapper;
@@ -14,7 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import java.util.List;
 import java.util.Objects;
 
-import static com.focela.platform.framework.common.exception.util.ServiceExceptionUtil.exception;
+import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.module.infra.enums.ErrorCodeConstants.DATA_SOURCE_CONFIG_NOT_EXISTS;
 import static com.focela.platform.module.infra.enums.ErrorCodeConstants.DATA_SOURCE_CONFIG_NOT_OK;
 

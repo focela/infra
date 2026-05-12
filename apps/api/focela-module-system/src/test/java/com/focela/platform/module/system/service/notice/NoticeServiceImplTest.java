@@ -1,8 +1,8 @@
 package com.focela.platform.module.system.service.notice;
 
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
+import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
 import com.focela.platform.module.system.controller.admin.notice.dto.NoticePageRequest;
 import com.focela.platform.module.system.controller.admin.notice.dto.NoticeSaveRequest;
 import com.focela.platform.module.system.repository.entity.notice.NoticeEntity;
@@ -12,11 +12,11 @@ import org.springframework.context.annotation.Import;
 
 import jakarta.annotation.Resource;
 
-import static com.focela.platform.framework.common.util.object.ObjectUtils.cloneIgnoreId;
-import static com.focela.platform.framework.test.core.util.AssertUtils.assertPojoEquals;
-import static com.focela.platform.framework.test.core.util.AssertUtils.assertServiceException;
-import static com.focela.platform.framework.test.core.util.RandomUtils.randomLongId;
-import static com.focela.platform.framework.test.core.util.RandomUtils.randomPojo;
+import static com.focela.platform.framework.common.utils.object.ObjectUtils.cloneIgnoreId;
+import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPojoEquals;
+import static com.focela.platform.framework.test.core.utils.AssertUtils.assertServiceException;
+import static com.focela.platform.framework.test.core.utils.RandomUtils.randomLongId;
+import static com.focela.platform.framework.test.core.utils.RandomUtils.randomPojo;
 import static com.focela.platform.module.system.enums.ErrorCodeConstants.NOTICE_NOT_FOUND;
 import static org.junit.jupiter.api.Assertions.*;
 

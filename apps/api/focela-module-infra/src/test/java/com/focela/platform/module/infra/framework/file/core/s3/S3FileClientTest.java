@@ -2,7 +2,7 @@ package com.focela.platform.module.infra.framework.file.core.s3;
 
 import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.util.IdUtil;
-import com.focela.platform.framework.common.util.validation.ValidationUtils;
+import com.focela.platform.framework.common.utils.validation.ValidationUtils;
 import com.focela.platform.module.infra.framework.file.core.client.s3.S3FileClient;
 import com.focela.platform.module.infra.framework.file.core.client.s3.S3FileClientConfig;
 import jakarta.validation.Validation;

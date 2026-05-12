@@ -1,9 +1,9 @@
 package com.focela.platform.module.system.controller.admin.sms.dto.log;
 
-import com.focela.platform.framework.excel.core.annotations.DictFormat;
-import com.focela.platform.framework.excel.core.convert.DictConvert;
-import com.focela.platform.framework.excel.core.convert.JsonConvert;
-import com.focela.platform.module.system.enums.DictTypeConstants;
+import com.focela.platform.framework.excel.core.annotations.DictionaryFormat;
+import com.focela.platform.framework.excel.core.converter.DictionaryConverter;
+import com.focela.platform.framework.excel.core.converter.JsonConverter;
+import com.focela.platform.module.system.enums.DictionaryTypeConstants;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -38,8 +38,8 @@ public class SmsLogResponse {
     private String templateCode;
 
     @Schema(description = "短信类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @ExcelProperty(value = "短信类型", converter = DictConvert.class)
-    @DictFormat(DictTypeConstants.SMS_TEMPLATE_TYPE)
+    @ExcelProperty(value = "短信类型", converter = DictionaryConverter.class)
+    @DictionaryFormat(DictionaryTypeConstants.SMS_TEMPLATE_TYPE)
     private Integer templateType;
 
     @Schema(description = "短信内容", requiredMode = Schema.RequiredMode.REQUIRED, example = "你好，你的验证码是 1024")
@@ -47,7 +47,7 @@ public class SmsLogResponse {
     private String templateContent;
 
     @Schema(description = "短信参数", requiredMode = Schema.RequiredMode.REQUIRED, example = "name,code")
-    @ExcelProperty(value = "短信参数", converter = JsonConvert.class)
+    @ExcelProperty(value = "短信参数", converter = JsonConverter.class)
     private Map<String, Object> templateParams;
 
     @Schema(description = "短信 API 的模板编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "SMS_207945135")
@@ -63,13 +63,13 @@ public class SmsLogResponse {
     private Long userId;
 
     @Schema(description = "用户类型", example = "1")
-    @ExcelProperty(value = "用户类型", converter = DictConvert.class)
-    @DictFormat(DictTypeConstants.USER_TYPE)
+    @ExcelProperty(value = "用户类型", converter = DictionaryConverter.class)
+    @DictionaryFormat(DictionaryTypeConstants.USER_TYPE)
     private Integer userType;
 
     @Schema(description = "发送状态", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @ExcelProperty(value = "发送状态", converter = DictConvert.class)
-    @DictFormat(DictTypeConstants.SMS_SEND_STATUS)
+    @ExcelProperty(value = "发送状态", converter = DictionaryConverter.class)
+    @DictionaryFormat(DictionaryTypeConstants.SMS_SEND_STATUS)
     private Integer sendStatus;
 
     @Schema(description = "发送时间")
@@ -93,8 +93,8 @@ public class SmsLogResponse {
     private String apiSerialNo;
 
     @Schema(description = "接收状态", requiredMode = Schema.RequiredMode.REQUIRED, example = "0")
-    @ExcelProperty(value = "接收状态", converter = DictConvert.class)
-    @DictFormat(DictTypeConstants.SMS_RECEIVE_STATUS)
+    @ExcelProperty(value = "接收状态", converter = DictionaryConverter.class)
+    @DictionaryFormat(DictionaryTypeConstants.SMS_RECEIVE_STATUS)
     private Integer receiveStatus;
 
     @Schema(description = "接收时间")

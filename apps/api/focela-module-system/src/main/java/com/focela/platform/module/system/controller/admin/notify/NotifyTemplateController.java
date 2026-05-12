@@ -1,9 +1,9 @@
 package com.focela.platform.module.system.controller.admin.notify;
 
 import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.common.pojo.CommonResult;
-import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.framework.common.util.object.BeanUtils;
+import com.focela.platform.framework.common.model.CommonResult;
+import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.notify.dto.template.NotifyTemplatePageRequest;
 import com.focela.platform.module.system.controller.admin.notify.dto.template.NotifyTemplateResponse;
 import com.focela.platform.module.system.controller.admin.notify.dto.template.NotifyTemplateSaveRequest;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.focela.platform.framework.common.pojo.CommonResult.success;
+import static com.focela.platform.framework.common.model.CommonResult.success;
 
 @Tag(name = "管理后台 - 站内信模版")
 @RestController

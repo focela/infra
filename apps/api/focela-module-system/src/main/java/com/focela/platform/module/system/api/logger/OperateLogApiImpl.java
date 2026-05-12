@@ -1,8 +1,8 @@
 package com.focela.platform.module.system.api.logger;
 
-import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.framework.common.biz.system.logger.dto.OperateLogCreateReqDTO;
+import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.framework.common.utils.object.BeanUtils;
+import com.focela.platform.framework.common.business.system.logger.dto.OperateLogCreateReqDTO;
 import com.focela.platform.module.system.api.logger.dto.OperateLogPageReqDTO;
 import com.focela.platform.module.system.api.logger.dto.OperateLogRespDTO;
 import com.focela.platform.module.system.repository.entity.logger.OperateLogEntity;

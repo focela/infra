@@ -2,8 +2,8 @@ package com.focela.platform.framework.websocket.core.security;
 
 import com.focela.platform.framework.security.core.LoginUser;
 import com.focela.platform.framework.security.core.filter.TokenAuthenticationFilter;
-import com.focela.platform.framework.security.core.util.SecurityFrameworkUtils;
-import com.focela.platform.framework.websocket.core.util.WebSocketFrameworkUtils;
+import com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils;
+import com.focela.platform.framework.websocket.core.utils.WebSocketFrameworkUtils;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.socket.WebSocketHandler;

@@ -2,7 +2,7 @@ package com.focela.platform.framework.idempotent.core.aop;
 
 import com.focela.platform.framework.common.exception.ServiceException;
 import com.focela.platform.framework.common.exception.enums.GlobalErrorCodeConstants;
-import com.focela.platform.framework.common.util.collection.CollectionUtils;
+import com.focela.platform.framework.common.utils.collection.CollectionUtils;
 import com.focela.platform.framework.idempotent.core.annotation.Idempotent;
 import com.focela.platform.framework.idempotent.core.keyresolver.IdempotentKeyResolver;
 import com.focela.platform.framework.idempotent.core.redis.IdempotentRedisDAO;

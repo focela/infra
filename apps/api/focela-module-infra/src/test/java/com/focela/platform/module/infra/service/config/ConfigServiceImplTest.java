@@ -1,9 +1,9 @@
 package com.focela.platform.module.infra.service.config;
 
-import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.framework.common.util.collection.ArrayUtils;
-import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
-import com.focela.platform.framework.test.core.util.RandomUtils;
+import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.framework.common.utils.collection.ArrayUtils;
+import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
+import com.focela.platform.framework.test.core.utils.RandomUtils;
 import com.focela.platform.module.infra.controller.admin.config.dto.ConfigPageRequest;
 import com.focela.platform.module.infra.controller.admin.config.dto.ConfigSaveRequest;
 import com.focela.platform.module.infra.repository.entity.config.ConfigEntity;
@@ -16,12 +16,12 @@ import jakarta.annotation.Resource;
 import java.util.function.Consumer;
 
 import static cn.hutool.core.util.RandomUtil.randomEle;
-import static com.focela.platform.framework.common.util.date.LocalDateTimeUtils.buildBetweenTime;
-import static com.focela.platform.framework.common.util.date.LocalDateTimeUtils.buildTime;
-import static com.focela.platform.framework.common.util.object.ObjectUtils.cloneIgnoreId;
-import static com.focela.platform.framework.test.core.util.AssertUtils.assertPojoEquals;
-import static com.focela.platform.framework.test.core.util.AssertUtils.assertServiceException;
-import static com.focela.platform.framework.test.core.util.RandomUtils.*;
+import static com.focela.platform.framework.common.utils.date.LocalDateTimeUtils.buildBetweenTime;
+import static com.focela.platform.framework.common.utils.date.LocalDateTimeUtils.buildTime;
+import static com.focela.platform.framework.common.utils.object.ObjectUtils.cloneIgnoreId;
+import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPojoEquals;
+import static com.focela.platform.framework.test.core.utils.AssertUtils.assertServiceException;
+import static com.focela.platform.framework.test.core.utils.RandomUtils.*;
 import static com.focela.platform.module.infra.enums.ErrorCodeConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 

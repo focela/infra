@@ -1,8 +1,8 @@
 package com.focela.platform.module.system.controller.app.ip;
 
 import cn.hutool.core.lang.Assert;
-import com.focela.platform.framework.common.pojo.CommonResult;
-import com.focela.platform.framework.common.util.object.BeanUtils;
+import com.focela.platform.framework.common.model.CommonResult;
+import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.framework.ip.core.Area;
 import com.focela.platform.framework.ip.core.utils.AreaUtils;
 import com.focela.platform.module.system.controller.app.ip.dto.AppAreaNodeResponse;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static com.focela.platform.framework.common.pojo.CommonResult.success;
+import static com.focela.platform.framework.common.model.CommonResult.success;
 
 @Tag(name = "用户 App - 地区")
 @RestController

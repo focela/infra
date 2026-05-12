@@ -2,10 +2,10 @@ package com.focela.platform.module.system.service.permission;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.focela.platform.framework.common.biz.system.permission.dto.DeptDataPermissionRespDTO;
+import com.focela.platform.framework.common.business.system.permission.dto.DepartmentDataPermissionRespDTO;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
-import com.focela.platform.module.system.repository.entity.dept.DeptEntity;
+import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
+import com.focela.platform.module.system.repository.entity.department.DepartmentEntity;
 import com.focela.platform.module.system.repository.entity.permission.MenuEntity;
 import com.focela.platform.module.system.repository.entity.permission.RoleEntity;
 import com.focela.platform.module.system.repository.entity.permission.RoleMenuEntity;
@@ -14,7 +14,7 @@ import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
 import com.focela.platform.module.system.repository.mapper.permission.RoleMenuMapper;
 import com.focela.platform.module.system.repository.mapper.permission.UserRoleMapper;
 import com.focela.platform.module.system.enums.permission.DataScopeEnum;
-import com.focela.platform.module.system.service.dept.DeptService;
+import com.focela.platform.module.system.service.department.DepartmentService;
 import com.focela.platform.module.system.service.user.AdminUserService;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
@@ -27,10 +27,10 @@ import java.util.List;
 import java.util.Set;
 
 import static cn.hutool.core.collection.ListUtil.toList;
-import static com.focela.platform.framework.common.util.collection.SetUtils.asSet;
-import static com.focela.platform.framework.test.core.util.AssertUtils.assertPojoEquals;
-import static com.focela.platform.framework.test.core.util.RandomUtils.randomLongId;
-import static com.focela.platform.framework.test.core.util.RandomUtils.randomPojo;
+import static com.focela.platform.framework.common.utils.collection.SetUtils.asSet;
+import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPojoEquals;
+import static com.focela.platform.framework.test.core.utils.RandomUtils.randomLongId;
+import static com.focela.platform.framework.test.core.utils.RandomUtils.randomPojo;
 import static java.util.Collections.singleton;
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.*;
@@ -53,7 +53,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     @MockitoBean
     private MenuService menuService;
     @MockitoBean
-    private DeptService deptService;
+    private DepartmentService deptService;
     @MockitoBean
     private AdminUserService userService;
 
@@ -403,7 +403,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
             when(roleService.getRoleListFromCache(eq(singleton(2L)))).thenReturn(toList(roleDO));
 
             // 调用
-            DeptDataPermissionRespDTO result = permissionService.getDeptDataPermission(userId);
+            DepartmentDataPermissionRespDTO result = permissionService.getDeptDataPermission(userId);
             // 断言
             assertTrue(result.getAll());
             assertFalse(result.getSelf());
@@ -430,7 +430,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
                     null, null); // 最后返回 null 的目的，看看会不会重复调用
 
             // 调用
-            DeptDataPermissionRespDTO result = permissionService.getDeptDataPermission(userId);
+            DepartmentDataPermissionRespDTO result = permissionService.getDeptDataPermission(userId);
             // 断言
             assertFalse(result.getAll());
             assertFalse(result.getSelf());
@@ -459,7 +459,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
                     null, null); // 最后返回 null 的目的，看看会不会重复调用
 
             // 调用
-            DeptDataPermissionRespDTO result = permissionService.getDeptDataPermission(userId);
+            DepartmentDataPermissionRespDTO result = permissionService.getDeptDataPermission(userId);
             // 断言
             assertFalse(result.getAll());
             assertFalse(result.getSelf());
@@ -486,11 +486,11 @@ public class PermissionServiceTest extends BaseDbUnitTest {
             when(userService.getUser(eq(1L))).thenReturn(new AdminUserEntity().setDeptId(3L),
                     null, null); // 最后返回 null 的目的，看看会不会重复调用
             // mock 方法（部门)
-            DeptEntity deptDO = randomPojo(DeptEntity.class);
+            DepartmentEntity deptDO = randomPojo(DepartmentEntity.class);
             when(deptService.getChildDeptIdListFromCache(eq(3L))).thenReturn(singleton(deptDO.getId()));
 
             // 调用
-            DeptDataPermissionRespDTO result = permissionService.getDeptDataPermission(userId);
+            DepartmentDataPermissionRespDTO result = permissionService.getDeptDataPermission(userId);
             // 断言
             assertFalse(result.getAll());
             assertFalse(result.getSelf());
@@ -516,7 +516,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
             when(roleService.getRoleListFromCache(eq(singleton(2L)))).thenReturn(toList(roleDO));
 
             // 调用
-            DeptDataPermissionRespDTO result = permissionService.getDeptDataPermission(userId);
+            DepartmentDataPermissionRespDTO result = permissionService.getDeptDataPermission(userId);
             // 断言
             assertFalse(result.getAll());
             assertTrue(result.getSelf());

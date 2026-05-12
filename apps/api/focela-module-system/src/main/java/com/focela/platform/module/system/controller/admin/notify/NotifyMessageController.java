@@ -2,9 +2,9 @@ package com.focela.platform.module.system.controller.admin.notify;
 
 import com.focela.platform.framework.apilog.core.annotation.ApiAccessLog;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.common.pojo.CommonResult;
-import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.framework.common.util.object.BeanUtils;
+import com.focela.platform.framework.common.model.CommonResult;
+import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.notify.dto.message.NotifyMessageMyPageRequest;
 import com.focela.platform.module.system.controller.admin.notify.dto.message.NotifyMessagePageRequest;
 import com.focela.platform.module.system.controller.admin.notify.dto.message.NotifyMessageResponse;
@@ -21,8 +21,8 @@ import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import java.util.List;
 
-import static com.focela.platform.framework.common.pojo.CommonResult.success;
-import static com.focela.platform.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
+import static com.focela.platform.framework.common.model.CommonResult.success;
+import static com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils.getLoginUserId;
 
 @Tag(name = "管理后台 - 我的站内信")
 @RestController

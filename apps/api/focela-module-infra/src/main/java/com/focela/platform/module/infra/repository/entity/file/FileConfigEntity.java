@@ -1,7 +1,7 @@
 package com.focela.platform.module.infra.repository.entity.file;
 
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.common.util.json.JsonUtils;
+import com.focela.platform.framework.common.utils.json.JsonUtils;
 import com.focela.platform.framework.mybatis.core.entity.BaseEntity;
 import com.focela.platform.framework.tenant.core.aop.TenantIgnore;
 import com.focela.platform.module.infra.framework.file.core.client.FileClientConfig;

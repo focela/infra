@@ -2,7 +2,7 @@ package com.focela.platform.framework.ratelimiter.core.keyresolver.impl;
 
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.system.SystemUtil;
-import com.focela.platform.framework.common.util.string.StrUtils;
+import com.focela.platform.framework.common.utils.string.StrUtils;
 import com.focela.platform.framework.ratelimiter.core.annotation.RateLimiter;
 import com.focela.platform.framework.ratelimiter.core.keyresolver.RateLimiterKeyResolver;
 import org.aspectj.lang.JoinPoint;

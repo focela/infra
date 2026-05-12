@@ -1,7 +1,7 @@
 package com.focela.platform.module.system.controller.admin.oauth2.dto.client;
 
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.common.util.json.JsonUtils;
+import com.focela.platform.framework.common.utils.json.JsonUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import org.hibernate.validator.constraints.URL;

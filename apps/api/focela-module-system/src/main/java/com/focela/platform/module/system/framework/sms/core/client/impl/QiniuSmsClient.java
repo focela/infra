@@ -10,7 +10,7 @@ import cn.hutool.crypto.digest.HmacAlgorithm;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.focela.platform.framework.common.core.KeyValue;
-import com.focela.platform.framework.common.util.http.HttpUtils;
+import com.focela.platform.framework.common.utils.http.HttpUtils;
 import com.focela.platform.module.system.framework.sms.core.client.dto.SmsReceiveRespDTO;
 import com.focela.platform.module.system.framework.sms.core.client.dto.SmsSendRespDTO;
 import com.focela.platform.module.system.framework.sms.core.client.dto.SmsTemplateRespDTO;
@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.*;
 import java.util.function.Function;
 
-import static com.focela.platform.framework.common.util.collection.CollectionUtils.convertList;
+import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertList;
 
 /**
  * 七牛云短信客户端的实现类

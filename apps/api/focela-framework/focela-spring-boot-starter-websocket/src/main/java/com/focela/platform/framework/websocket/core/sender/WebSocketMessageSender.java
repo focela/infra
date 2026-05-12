@@ -1,6 +1,6 @@
 package com.focela.platform.framework.websocket.core.sender;
 
-import com.focela.platform.framework.common.util.json.JsonUtils;
+import com.focela.platform.framework.common.utils.json.JsonUtils;
 
 /**
  * WebSocket 消息的发送器接口

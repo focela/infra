@@ -3,10 +3,10 @@ package com.focela.platform.module.system.service.user;
 import cn.hutool.core.util.RandomUtil;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.exception.ServiceException;
-import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.framework.common.util.collection.ArrayUtils;
-import com.focela.platform.framework.common.util.collection.CollectionUtils;
-import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
+import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.framework.common.utils.collection.ArrayUtils;
+import com.focela.platform.framework.common.utils.collection.CollectionUtils;
+import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
 import com.focela.platform.module.infra.api.config.ConfigApi;
 import com.focela.platform.module.infra.api.file.FileApi;
 import com.focela.platform.module.system.controller.admin.user.dto.profile.UserProfileUpdatePasswordRequest;
@@ -15,16 +15,16 @@ import com.focela.platform.module.system.controller.admin.user.dto.user.UserImpo
 import com.focela.platform.module.system.controller.admin.user.dto.user.UserImportResponse;
 import com.focela.platform.module.system.controller.admin.user.dto.user.UserPageRequest;
 import com.focela.platform.module.system.controller.admin.user.dto.user.UserSaveRequest;
-import com.focela.platform.module.system.repository.entity.dept.DeptEntity;
-import com.focela.platform.module.system.repository.entity.dept.PostEntity;
-import com.focela.platform.module.system.repository.entity.dept.UserPostEntity;
+import com.focela.platform.module.system.repository.entity.department.DepartmentEntity;
+import com.focela.platform.module.system.repository.entity.department.PostEntity;
+import com.focela.platform.module.system.repository.entity.department.UserPostEntity;
 import com.focela.platform.module.system.repository.entity.tenant.TenantEntity;
 import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
-import com.focela.platform.module.system.repository.mapper.dept.UserPostMapper;
+import com.focela.platform.module.system.repository.mapper.department.UserPostMapper;
 import com.focela.platform.module.system.repository.mapper.user.AdminUserMapper;
 import com.focela.platform.module.system.enums.common.SexEnum;
-import com.focela.platform.module.system.service.dept.DeptService;
-import com.focela.platform.module.system.service.dept.PostService;
+import com.focela.platform.module.system.service.department.DepartmentService;
+import com.focela.platform.module.system.service.department.PostService;
 import com.focela.platform.module.system.service.oauth2.OAuth2TokenService;
 import com.focela.platform.module.system.service.permission.PermissionService;
 import com.focela.platform.module.system.service.tenant.TenantService;
@@ -42,13 +42,13 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import static cn.hutool.core.util.RandomUtil.randomEle;
-import static com.focela.platform.framework.common.util.collection.SetUtils.asSet;
-import static com.focela.platform.framework.common.util.date.LocalDateTimeUtils.buildBetweenTime;
-import static com.focela.platform.framework.common.util.date.LocalDateTimeUtils.buildTime;
-import static com.focela.platform.framework.common.util.object.ObjectUtils.cloneIgnoreId;
-import static com.focela.platform.framework.test.core.util.AssertUtils.assertPojoEquals;
-import static com.focela.platform.framework.test.core.util.AssertUtils.assertServiceException;
-import static com.focela.platform.framework.test.core.util.RandomUtils.*;
+import static com.focela.platform.framework.common.utils.collection.SetUtils.asSet;
+import static com.focela.platform.framework.common.utils.date.LocalDateTimeUtils.buildBetweenTime;
+import static com.focela.platform.framework.common.utils.date.LocalDateTimeUtils.buildTime;
+import static com.focela.platform.framework.common.utils.object.ObjectUtils.cloneIgnoreId;
+import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPojoEquals;
+import static com.focela.platform.framework.test.core.utils.AssertUtils.assertServiceException;
+import static com.focela.platform.framework.test.core.utils.RandomUtils.*;
 import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
 import static com.focela.platform.module.system.service.user.AdminUserServiceImpl.USER_INIT_PASSWORD_KEY;
 import static java.util.Collections.singleton;
@@ -70,7 +70,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
     private UserPostMapper userPostMapper;
 
     @MockitoBean
-    private DeptService deptService;
+    private DepartmentService deptService;
     @MockitoBean
     private PostService postService;
     @MockitoBean
@@ -107,7 +107,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
             return true;
         }));
         // mock deptService 的方法
-        DeptEntity dept = randomPojo(DeptEntity.class, o -> {
+        DepartmentEntity dept = randomPojo(DepartmentEntity.class, o -> {
             o.setId(request.getDeptId());
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
@@ -165,7 +165,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
             o.setPostIds(asSet(2L, 3L));
         });
         // mock deptService 的方法
-        DeptEntity dept = randomPojo(DeptEntity.class, o -> {
+        DepartmentEntity dept = randomPojo(DepartmentEntity.class, o -> {
             o.setId(request.getDeptId());
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
@@ -340,7 +340,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         request.setCreateTime(buildBetweenTime(2020, 12, 1, 2020, 12, 24));
         request.setDeptId(1L); // 其中，1L 是 2L 的父部门
         // mock 方法
-        List<DeptEntity> deptList = newArrayList(randomPojo(DeptEntity.class, o -> o.setId(2L)));
+        List<DepartmentEntity> deptList = newArrayList(randomPojo(DepartmentEntity.class, o -> o.setId(2L)));
         when(deptService.getChildDeptList(eq(request.getDeptId()))).thenReturn(deptList);
 
         // 调用
@@ -443,7 +443,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
             o.setMobile(randomMobile());
         });
         // mock deptService 的方法
-        DeptEntity dept = randomPojo(DeptEntity.class, o -> {
+        DepartmentEntity dept = randomPojo(DepartmentEntity.class, o -> {
             o.setId(importUser.getDeptId());
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
@@ -479,7 +479,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
             o.setMobile(randomMobile());
         });
         // mock deptService 的方法
-        DeptEntity dept = randomPojo(DeptEntity.class, o -> {
+        DepartmentEntity dept = randomPojo(DepartmentEntity.class, o -> {
             o.setId(importUser.getDeptId());
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
@@ -511,7 +511,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
             o.setMobile(randomMobile());
         });
         // mock deptService 的方法
-        DeptEntity dept = randomPojo(DeptEntity.class, o -> {
+        DepartmentEntity dept = randomPojo(DepartmentEntity.class, o -> {
             o.setId(importUser.getDeptId());
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });

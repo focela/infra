@@ -3,7 +3,7 @@ package com.focela.platform.framework.websocket.core.session;
 import cn.hutool.core.collection.CollUtil;
 import com.focela.platform.framework.security.core.LoginUser;
 import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
-import com.focela.platform.framework.websocket.core.util.WebSocketFrameworkUtils;
+import com.focela.platform.framework.websocket.core.utils.WebSocketFrameworkUtils;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.util.ArrayList;

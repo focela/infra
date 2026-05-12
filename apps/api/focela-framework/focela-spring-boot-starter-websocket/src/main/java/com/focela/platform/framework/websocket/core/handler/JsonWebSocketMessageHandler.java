@@ -2,11 +2,11 @@ package com.focela.platform.framework.websocket.core.handler;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.TypeUtil;
-import com.focela.platform.framework.common.util.json.JsonUtils;
-import com.focela.platform.framework.tenant.core.util.TenantUtils;
+import com.focela.platform.framework.common.utils.json.JsonUtils;
+import com.focela.platform.framework.tenant.core.utils.TenantUtils;
 import com.focela.platform.framework.websocket.core.listener.WebSocketMessageListener;
 import com.focela.platform.framework.websocket.core.message.JsonWebSocketMessage;
-import com.focela.platform.framework.websocket.core.util.WebSocketFrameworkUtils;
+import com.focela.platform.framework.websocket.core.utils.WebSocketFrameworkUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketHandler;

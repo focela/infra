@@ -1,6 +1,6 @@
 package com.focela.platform.framework.desensitize.core.regex.handler;
 
-import com.focela.platform.framework.common.util.spring.SpringExpressionUtils;
+import com.focela.platform.framework.common.utils.spring.SpringExpressionUtils;
 import com.focela.platform.framework.desensitize.core.base.handler.DesensitizationHandler;
 
 import java.lang.annotation.Annotation;

@@ -1,7 +1,7 @@
 package com.focela.platform.framework.web.core.handler;
 
-import com.focela.platform.framework.common.pojo.CommonResult;
-import com.focela.platform.framework.web.core.util.WebFrameworkUtils;
+import com.focela.platform.framework.common.model.CommonResult;
+import com.focela.platform.framework.web.core.utils.WebFrameworkUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.ServerHttpRequest;

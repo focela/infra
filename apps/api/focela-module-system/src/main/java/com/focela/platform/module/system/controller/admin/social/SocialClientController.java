@@ -1,8 +1,8 @@
 package com.focela.platform.module.system.controller.admin.social;
 
-import com.focela.platform.framework.common.pojo.CommonResult;
-import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.framework.common.util.object.BeanUtils;
+import com.focela.platform.framework.common.model.CommonResult;
+import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.system.api.social.SocialClientApi;
 import com.focela.platform.module.system.api.social.dto.SocialWxaSubscribeMessageSendReqDTO;
 import com.focela.platform.module.system.controller.admin.social.dto.client.SocialClientPageRequest;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.focela.platform.framework.common.pojo.CommonResult.success;
+import static com.focela.platform.framework.common.model.CommonResult.success;
 
 @Tag(name = "管理后台 - 社交客户端")
 @RestController

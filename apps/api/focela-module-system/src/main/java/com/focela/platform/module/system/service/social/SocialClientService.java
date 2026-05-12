@@ -1,7 +1,7 @@
 package com.focela.platform.module.system.service.social;
 
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
-import com.focela.platform.framework.common.pojo.PageResult;
+import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.module.system.api.social.dto.SocialWxQrcodeReqDTO;
 import com.focela.platform.module.system.api.social.dto.SocialWxaOrderNotifyConfirmReceiveReqDTO;
 import com.focela.platform.module.system.api.social.dto.SocialWxaOrderUploadShippingInfoReqDTO;

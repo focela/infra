@@ -1,8 +1,8 @@
 package com.focela.platform.framework.mybatis.config;
 
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.common.util.collection.SetUtils;
-import com.focela.platform.framework.mybatis.core.util.JdbcUtils;
+import com.focela.platform.framework.common.utils.collection.SetUtils;
+import com.focela.platform.framework.mybatis.core.utils.JdbcUtils;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
 import lombok.extern.slf4j.Slf4j;

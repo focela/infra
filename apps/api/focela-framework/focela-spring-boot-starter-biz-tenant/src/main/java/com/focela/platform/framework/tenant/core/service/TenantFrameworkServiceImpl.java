@@ -1,8 +1,8 @@
 package com.focela.platform.framework.tenant.core.service;
 
-import com.focela.platform.framework.common.biz.system.tenant.TenantCommonApi;
+import com.focela.platform.framework.common.business.system.tenant.TenantCommonApi;
 import com.focela.platform.framework.common.exception.ServiceException;
-import com.focela.platform.framework.common.util.cache.CacheUtils;
+import com.focela.platform.framework.common.utils.cache.CacheUtils;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import lombok.RequiredArgsConstructor;

@@ -1,9 +1,9 @@
 package com.focela.platform.module.system.controller.admin.user.dto.user;
 
 import cn.idev.excel.annotation.ExcelProperty;
-import com.focela.platform.framework.excel.core.annotations.DictFormat;
-import com.focela.platform.framework.excel.core.convert.DictConvert;
-import com.focela.platform.module.system.enums.DictTypeConstants;
+import com.focela.platform.framework.excel.core.annotations.DictionaryFormat;
+import com.focela.platform.framework.excel.core.converter.DictionaryConverter;
+import com.focela.platform.module.system.enums.DictionaryTypeConstants;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,12 +33,12 @@ public class UserImportExcelDto {
     @ExcelProperty("手机号码")
     private String mobile;
 
-    @ExcelProperty(value = "用户性别", converter = DictConvert.class)
-    @DictFormat(DictTypeConstants.USER_SEX)
+    @ExcelProperty(value = "用户性别", converter = DictionaryConverter.class)
+    @DictionaryFormat(DictionaryTypeConstants.USER_SEX)
     private Integer sex;
 
-    @ExcelProperty(value = "账号状态", converter = DictConvert.class)
-    @DictFormat(DictTypeConstants.COMMON_STATUS)
+    @ExcelProperty(value = "账号状态", converter = DictionaryConverter.class)
+    @DictionaryFormat(DictionaryTypeConstants.COMMON_STATUS)
     private Integer status;
 
 }

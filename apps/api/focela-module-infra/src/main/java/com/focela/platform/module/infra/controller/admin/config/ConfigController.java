@@ -1,14 +1,14 @@
 package com.focela.platform.module.infra.controller.admin.config;
 
 import com.focela.platform.framework.apilog.core.annotation.ApiAccessLog;
-import com.focela.platform.framework.common.pojo.CommonResult;
-import com.focela.platform.framework.common.pojo.PageParam;
-import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.framework.excel.core.util.ExcelUtils;
+import com.focela.platform.framework.common.model.CommonResult;
+import com.focela.platform.framework.common.model.PageParam;
+import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.framework.excel.core.utils.ExcelUtils;
 import com.focela.platform.module.infra.controller.admin.config.dto.ConfigPageRequest;
 import com.focela.platform.module.infra.controller.admin.config.dto.ConfigResponse;
 import com.focela.platform.module.infra.controller.admin.config.dto.ConfigSaveRequest;
-import com.focela.platform.module.infra.convert.config.ConfigConvert;
+import com.focela.platform.module.infra.converter.config.ConfigConverter;
 import com.focela.platform.module.infra.repository.entity.config.ConfigEntity;
 import com.focela.platform.module.infra.enums.ErrorCodeConstants;
 import com.focela.platform.module.infra.service.config.ConfigService;
@@ -26,8 +26,8 @@ import java.io.IOException;
 import java.util.List;
 
 import static com.focela.platform.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
-import static com.focela.platform.framework.common.exception.util.ServiceExceptionUtil.exception;
-import static com.focela.platform.framework.common.pojo.CommonResult.success;
+import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
+import static com.focela.platform.framework.common.model.CommonResult.success;
 
 @Tag(name = "管理后台 - 参数配置")
 @RestController
@@ -76,7 +76,7 @@ public class ConfigController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('infra:config:query')")
     public CommonResult<ConfigResponse> getConfig(@RequestParam("id") Long id) {
-        return success(ConfigConvert.INSTANCE.convert(configService.getConfig(id)));
+        return success(ConfigConverter.INSTANCE.convert(configService.getConfig(id)));
     }
 
     @GetMapping(value = "/get-value-by-key")
@@ -98,7 +98,7 @@ public class ConfigController {
     @PreAuthorize("@ss.hasPermission('infra:config:query')")
     public CommonResult<PageResult<ConfigResponse>> getConfigPage(@Valid ConfigPageRequest pageRequest) {
         PageResult<ConfigEntity> page = configService.getConfigPage(pageRequest);
-        return success(ConfigConvert.INSTANCE.convertPage(page));
+        return success(ConfigConverter.INSTANCE.convertPage(page));
     }
 
     @GetMapping("/export-excel")
@@ -111,7 +111,7 @@ public class ConfigController {
         List<ConfigEntity> list = configService.getConfigPage(exportRequest).getList();
         // 输出
         ExcelUtils.write(response, "参数配置.xls", "数据", ConfigResponse.class,
-                ConfigConvert.INSTANCE.convertList(list));
+                ConfigConverter.INSTANCE.convertList(list));
     }
 
 }

@@ -5,8 +5,8 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.framework.common.util.object.BeanUtils;
+import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.sms.dto.template.SmsTemplatePageRequest;
 import com.focela.platform.module.system.controller.admin.sms.dto.template.SmsTemplateSaveRequest;
 import com.focela.platform.module.system.repository.entity.sms.SmsChannelEntity;
@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-import static com.focela.platform.framework.common.exception.util.ServiceExceptionUtil.exception;
+import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
 
 /**

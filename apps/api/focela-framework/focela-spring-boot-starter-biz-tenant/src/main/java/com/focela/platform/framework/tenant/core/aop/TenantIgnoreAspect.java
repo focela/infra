@@ -1,8 +1,8 @@
 package com.focela.platform.framework.tenant.core.aop;
 
-import com.focela.platform.framework.common.util.spring.SpringExpressionUtils;
+import com.focela.platform.framework.common.utils.spring.SpringExpressionUtils;
 import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
-import com.focela.platform.framework.tenant.core.util.TenantUtils;
+import com.focela.platform.framework.tenant.core.utils.TenantUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

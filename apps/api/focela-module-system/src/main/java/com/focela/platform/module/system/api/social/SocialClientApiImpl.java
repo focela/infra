@@ -4,7 +4,7 @@ import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.common.util.object.BeanUtils;
+import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.system.api.social.dto.*;
 import com.focela.platform.module.system.enums.social.SocialTypeEnum;
 import com.focela.platform.module.system.service.social.SocialClientService;
@@ -19,7 +19,7 @@ import org.springframework.validation.annotation.Validated;
 import java.util.List;
 
 import static cn.hutool.core.collection.CollUtil.findOne;
-import static com.focela.platform.framework.common.util.collection.CollectionUtils.convertList;
+import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertList;
 
 /**
  * 社交应用的 API 实现类

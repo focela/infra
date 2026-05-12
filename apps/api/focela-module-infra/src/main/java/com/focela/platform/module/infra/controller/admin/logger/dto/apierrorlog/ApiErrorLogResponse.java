@@ -1,8 +1,8 @@
 package com.focela.platform.module.infra.controller.admin.logger.dto.apierrorlog;
 
-import com.focela.platform.framework.excel.core.annotations.DictFormat;
-import com.focela.platform.framework.excel.core.convert.DictConvert;
-import com.focela.platform.module.infra.enums.DictTypeConstants;
+import com.focela.platform.framework.excel.core.annotations.DictionaryFormat;
+import com.focela.platform.framework.excel.core.converter.DictionaryConverter;
+import com.focela.platform.module.infra.enums.DictionaryTypeConstants;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -28,8 +28,8 @@ public class ApiErrorLogResponse {
     private Long userId;
 
     @Schema(description = "用户类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @ExcelProperty(value = "用户类型", converter = DictConvert.class)
-    @DictFormat(DictTypeConstants.USER_TYPE)
+    @ExcelProperty(value = "用户类型", converter = DictionaryConverter.class)
+    @DictionaryFormat(DictionaryTypeConstants.USER_TYPE)
     private Integer userType;
 
     @Schema(description = "应用名", requiredMode = Schema.RequiredMode.REQUIRED, example = "dashboard")
@@ -93,8 +93,8 @@ public class ApiErrorLogResponse {
     private Integer exceptionLineNumber;
 
     @Schema(description = "处理状态", requiredMode = Schema.RequiredMode.REQUIRED, example = "0")
-    @ExcelProperty(value = "处理状态", converter = DictConvert.class)
-    @DictFormat(DictTypeConstants.API_ERROR_LOG_PROCESS_STATUS)
+    @ExcelProperty(value = "处理状态", converter = DictionaryConverter.class)
+    @DictionaryFormat(DictionaryTypeConstants.API_ERROR_LOG_PROCESS_STATUS)
     private Integer processStatus;
 
     @Schema(description = "处理时间", requiredMode = Schema.RequiredMode.REQUIRED)

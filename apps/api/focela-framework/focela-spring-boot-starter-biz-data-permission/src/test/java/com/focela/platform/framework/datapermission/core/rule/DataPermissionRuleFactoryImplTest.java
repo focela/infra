@@ -2,7 +2,7 @@ package com.focela.platform.framework.datapermission.core.rule;
 
 import com.focela.platform.framework.datapermission.core.annotation.DataPermission;
 import com.focela.platform.framework.datapermission.core.aop.DataPermissionContextHolder;
-import com.focela.platform.framework.test.core.ut.BaseMockitoUnitTest;
+import com.focela.platform.framework.test.core.support.BaseMockitoUnitTest;
 import net.sf.jsqlparser.expression.Alias;
 import net.sf.jsqlparser.expression.Expression;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import static com.focela.platform.framework.test.core.util.RandomUtils.randomString;
+import static com.focela.platform.framework.test.core.utils.RandomUtils.randomString;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**

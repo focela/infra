@@ -1,7 +1,7 @@
 package com.focela.platform.module.infra.controller.admin.db;
 
-import com.focela.platform.framework.common.pojo.CommonResult;
-import com.focela.platform.framework.common.util.object.BeanUtils;
+import com.focela.platform.framework.common.model.CommonResult;
+import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.infra.controller.admin.db.dto.DataSourceConfigResponse;
 import com.focela.platform.module.infra.controller.admin.db.dto.DataSourceConfigSaveRequest;
 import com.focela.platform.module.infra.repository.entity.db.DataSourceConfigEntity;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.focela.platform.framework.common.pojo.CommonResult.success;
+import static com.focela.platform.framework.common.model.CommonResult.success;
 
 @Tag(name = "管理后台 - 数据源配置")
 @RestController

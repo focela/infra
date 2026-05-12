@@ -3,7 +3,7 @@ package com.focela.platform.module.infra.websocket;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.websocket.core.listener.WebSocketMessageListener;
 import com.focela.platform.framework.websocket.core.sender.WebSocketMessageSender;
-import com.focela.platform.framework.websocket.core.util.WebSocketFrameworkUtils;
+import com.focela.platform.framework.websocket.core.utils.WebSocketFrameworkUtils;
 import com.focela.platform.module.infra.websocket.message.DemoReceiveMessage;
 import com.focela.platform.module.infra.websocket.message.DemoSendMessage;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package com.focela.platform.module.system.service.mail;
 
-import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.framework.common.util.object.BeanUtils;
+import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.mail.dto.account.MailAccountPageRequest;
 import com.focela.platform.module.system.controller.admin.mail.dto.account.MailAccountSaveRequest;
 import com.focela.platform.module.system.repository.entity.mail.MailAccountEntity;
@@ -16,7 +16,7 @@ import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
-import static com.focela.platform.framework.common.exception.util.ServiceExceptionUtil.exception;
+import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.module.system.enums.ErrorCodeConstants.MAIL_ACCOUNT_NOT_EXISTS;
 import static com.focela.platform.module.system.enums.ErrorCodeConstants.MAIL_ACCOUNT_RELATE_TEMPLATE_EXISTS;
 

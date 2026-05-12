@@ -1,8 +1,8 @@
 package com.focela.platform.module.infra.controller.admin.redis;
 
-import com.focela.platform.framework.common.pojo.CommonResult;
+import com.focela.platform.framework.common.model.CommonResult;
 import com.focela.platform.module.infra.controller.admin.redis.dto.RedisMonitorResponse;
-import com.focela.platform.module.infra.convert.redis.RedisConvert;
+import com.focela.platform.module.infra.converter.redis.RedisConverter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Properties;
 
-import static com.focela.platform.framework.common.pojo.CommonResult.success;
+import static com.focela.platform.framework.common.model.CommonResult.success;
 
 @Tag(name = "管理后台 - Redis 监控")
 @RestController
@@ -37,7 +37,7 @@ public class RedisController {
                 RedisCallback<Properties>) connection -> connection.serverCommands().info("commandstats"));
         assert commandStats != null; // 断言，避免警告
         // 拼接结果返回
-        return success(RedisConvert.INSTANCE.build(info, dbSize, commandStats));
+        return success(RedisConverter.INSTANCE.build(info, dbSize, commandStats));
     }
 
 }

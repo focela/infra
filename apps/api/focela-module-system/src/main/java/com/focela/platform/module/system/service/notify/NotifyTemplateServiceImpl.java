@@ -2,8 +2,8 @@ package com.focela.platform.module.system.service.notify;
 
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.framework.common.util.object.BeanUtils;
+import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.notify.dto.template.NotifyTemplatePageRequest;
 import com.focela.platform.module.system.controller.admin.notify.dto.template.NotifyTemplateSaveRequest;
 import com.focela.platform.module.system.repository.entity.notify.NotifyTemplateEntity;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import static com.focela.platform.framework.common.exception.util.ServiceExceptionUtil.exception;
+import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.module.system.enums.ErrorCodeConstants.NOTIFY_TEMPLATE_CODE_DUPLICATE;
 import static com.focela.platform.module.system.enums.ErrorCodeConstants.NOTIFY_TEMPLATE_NOT_EXISTS;
 

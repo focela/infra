@@ -1,10 +1,10 @@
 package com.focela.platform.module.system.service.tenant;
 
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.pojo.PageResult;
+import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.tenant.config.TenantProperties;
 import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
-import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
+import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
 import com.focela.platform.module.system.controller.admin.tenant.dto.tenant.TenantPageRequest;
 import com.focela.platform.module.system.controller.admin.tenant.dto.tenant.TenantSaveRequest;
 import com.focela.platform.module.system.repository.entity.permission.MenuEntity;
@@ -32,13 +32,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static com.focela.platform.framework.common.util.collection.SetUtils.asSet;
-import static com.focela.platform.framework.common.util.date.LocalDateTimeUtils.buildBetweenTime;
-import static com.focela.platform.framework.common.util.date.LocalDateTimeUtils.buildTime;
-import static com.focela.platform.framework.common.util.object.ObjectUtils.cloneIgnoreId;
-import static com.focela.platform.framework.test.core.util.AssertUtils.assertPojoEquals;
-import static com.focela.platform.framework.test.core.util.AssertUtils.assertServiceException;
-import static com.focela.platform.framework.test.core.util.RandomUtils.*;
+import static com.focela.platform.framework.common.utils.collection.SetUtils.asSet;
+import static com.focela.platform.framework.common.utils.date.LocalDateTimeUtils.buildBetweenTime;
+import static com.focela.platform.framework.common.utils.date.LocalDateTimeUtils.buildTime;
+import static com.focela.platform.framework.common.utils.object.ObjectUtils.cloneIgnoreId;
+import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPojoEquals;
+import static com.focela.platform.framework.test.core.utils.AssertUtils.assertServiceException;
+import static com.focela.platform.framework.test.core.utils.RandomUtils.*;
 import static com.focela.platform.module.system.repository.entity.tenant.TenantEntity.PACKAGE_ID_SYSTEM;
 import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
 import static java.util.Arrays.asList;

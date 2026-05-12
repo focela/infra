@@ -2,7 +2,7 @@ package com.focela.platform.framework.datapermission.core.aop;
 
 import cn.hutool.core.collection.CollUtil;
 import com.focela.platform.framework.datapermission.core.annotation.DataPermission;
-import com.focela.platform.framework.test.core.ut.BaseMockitoUnitTest;
+import com.focela.platform.framework.test.core.support.BaseMockitoUnitTest;
 import org.aopalliance.intercept.MethodInvocation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

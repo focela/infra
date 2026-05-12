@@ -1,9 +1,9 @@
 package com.focela.platform.framework.jackson.config;
 
-import com.focela.platform.framework.common.util.json.JsonUtils;
-import com.focela.platform.framework.common.util.json.databind.NumberSerializer;
-import com.focela.platform.framework.common.util.json.databind.TimestampLocalDateTimeDeserializer;
-import com.focela.platform.framework.common.util.json.databind.TimestampLocalDateTimeSerializer;
+import com.focela.platform.framework.common.utils.json.JsonUtils;
+import com.focela.platform.framework.common.utils.json.databind.NumberSerializer;
+import com.focela.platform.framework.common.utils.json.databind.TimestampLocalDateTimeDeserializer;
+import com.focela.platform.framework.common.utils.json.databind.TimestampLocalDateTimeSerializer;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;

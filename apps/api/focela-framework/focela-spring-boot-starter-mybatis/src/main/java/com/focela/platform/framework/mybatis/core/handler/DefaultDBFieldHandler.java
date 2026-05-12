@@ -1,7 +1,7 @@
 package com.focela.platform.framework.mybatis.core.handler;
 
 import com.focela.platform.framework.mybatis.core.entity.BaseEntity;
-import com.focela.platform.framework.security.core.util.SecurityFrameworkUtils;
+import com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;
 

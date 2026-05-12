@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.service.sms;
 
-import com.focela.platform.framework.common.pojo.PageResult;
+import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.module.system.controller.admin.sms.dto.template.SmsTemplatePageRequest;
 import com.focela.platform.module.system.controller.admin.sms.dto.template.SmsTemplateSaveRequest;
 import com.focela.platform.module.system.repository.entity.sms.SmsTemplateEntity;

@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.focela.platform.framework.web.core.util.WebFrameworkUtils.HEADER_TENANT_ID;
+import static com.focela.platform.framework.web.core.utils.WebFrameworkUtils.HEADER_TENANT_ID;
 
 /**
  * Swagger 自动配置类，基于 OpenAPI + Springdoc 实现。

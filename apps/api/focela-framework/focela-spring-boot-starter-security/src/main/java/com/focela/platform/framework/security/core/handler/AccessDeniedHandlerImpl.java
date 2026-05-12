@@ -1,9 +1,9 @@
 package com.focela.platform.framework.security.core.handler;
 
 import com.focela.platform.framework.common.exception.enums.GlobalErrorCodeConstants;
-import com.focela.platform.framework.common.pojo.CommonResult;
-import com.focela.platform.framework.security.core.util.SecurityFrameworkUtils;
-import com.focela.platform.framework.common.util.servlet.ServletUtils;
+import com.focela.platform.framework.common.model.CommonResult;
+import com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils;
+import com.focela.platform.framework.common.utils.servlet.ServletUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

@@ -1,9 +1,9 @@
 package com.focela.platform.module.system.controller.admin.social;
 
 import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.common.pojo.CommonResult;
-import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.framework.common.util.object.BeanUtils;
+import com.focela.platform.framework.common.model.CommonResult;
+import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.system.api.social.dto.SocialUserBindReqDTO;
 import com.focela.platform.module.system.controller.admin.social.dto.user.SocialUserBindRequest;
 import com.focela.platform.module.system.controller.admin.social.dto.user.SocialUserPageRequest;
@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.focela.platform.framework.common.pojo.CommonResult.success;
-import static com.focela.platform.framework.common.util.collection.CollectionUtils.convertList;
-import static com.focela.platform.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
+import static com.focela.platform.framework.common.model.CommonResult.success;
+import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertList;
+import static com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils.getLoginUserId;
 
 @Tag(name = "管理后台 - 社交用户")
 @RestController

@@ -12,7 +12,7 @@ import jakarta.annotation.Resource;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.focela.platform.framework.common.exception.util.ServiceExceptionUtil.exception;
+import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
 
 /**

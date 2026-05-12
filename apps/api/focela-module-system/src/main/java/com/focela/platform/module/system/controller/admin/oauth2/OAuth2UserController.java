@@ -1,16 +1,16 @@
 package com.focela.platform.module.system.controller.admin.oauth2;
 
 import cn.hutool.core.collection.CollUtil;
-import com.focela.platform.framework.common.pojo.CommonResult;
-import com.focela.platform.framework.common.util.object.BeanUtils;
+import com.focela.platform.framework.common.model.CommonResult;
+import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.oauth2.dto.user.OAuth2UserInfoResponse;
 import com.focela.platform.module.system.controller.admin.oauth2.dto.user.OAuth2UserUpdateRequest;
 import com.focela.platform.module.system.controller.admin.user.dto.profile.UserProfileUpdateRequest;
-import com.focela.platform.module.system.repository.entity.dept.DeptEntity;
-import com.focela.platform.module.system.repository.entity.dept.PostEntity;
+import com.focela.platform.module.system.repository.entity.department.DepartmentEntity;
+import com.focela.platform.module.system.repository.entity.department.PostEntity;
 import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
-import com.focela.platform.module.system.service.dept.DeptService;
-import com.focela.platform.module.system.service.dept.PostService;
+import com.focela.platform.module.system.service.department.DepartmentService;
+import com.focela.platform.module.system.service.department.PostService;
 import com.focela.platform.module.system.service.user.AdminUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,8 +23,8 @@ import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import java.util.List;
 
-import static com.focela.platform.framework.common.pojo.CommonResult.success;
-import static com.focela.platform.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
+import static com.focela.platform.framework.common.model.CommonResult.success;
+import static com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils.getLoginUserId;
 
 /**
  * 提供给外部应用调用为主
@@ -44,7 +44,7 @@ public class OAuth2UserController {
     @Resource
     private AdminUserService userService;
     @Resource
-    private DeptService deptService;
+    private DepartmentService deptService;
     @Resource
     private PostService postService;
 
@@ -57,8 +57,8 @@ public class OAuth2UserController {
         OAuth2UserInfoResponse resp = BeanUtils.toBean(user, OAuth2UserInfoResponse.class);
         // 获得部门信息
         if (user.getDeptId() != null) {
-            DeptEntity dept = deptService.getDept(user.getDeptId());
-            resp.setDept(BeanUtils.toBean(dept, OAuth2UserInfoResponse.Dept.class));
+            DepartmentEntity dept = deptService.getDept(user.getDeptId());
+            resp.setDept(BeanUtils.toBean(dept, OAuth2UserInfoResponse.Department.class));
         }
         // 获得岗位信息
         if (CollUtil.isNotEmpty(user.getPostIds())) {

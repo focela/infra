@@ -5,13 +5,13 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.common.pojo.CommonResult;
-import com.focela.platform.framework.common.util.http.HttpUtils;
-import com.focela.platform.framework.common.util.json.JsonUtils;
+import com.focela.platform.framework.common.model.CommonResult;
+import com.focela.platform.framework.common.utils.http.HttpUtils;
+import com.focela.platform.framework.common.utils.json.JsonUtils;
 import com.focela.platform.module.system.controller.admin.oauth2.dto.open.OAuth2OpenAccessTokenResponse;
 import com.focela.platform.module.system.controller.admin.oauth2.dto.open.OAuth2OpenAuthorizeInfoResponse;
 import com.focela.platform.module.system.controller.admin.oauth2.dto.open.OAuth2OpenCheckTokenResponse;
-import com.focela.platform.module.system.convert.oauth2.OAuth2OpenConvert;
+import com.focela.platform.module.system.converter.oauth2.OAuth2OpenConverter;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2ApproveEntity;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2ClientEntity;
@@ -20,7 +20,7 @@ import com.focela.platform.module.system.service.oauth2.OAuth2ApproveService;
 import com.focela.platform.module.system.service.oauth2.OAuth2ClientService;
 import com.focela.platform.module.system.service.oauth2.OAuth2GrantService;
 import com.focela.platform.module.system.service.oauth2.OAuth2TokenService;
-import com.focela.platform.module.system.util.oauth2.OAuth2Utils;
+import com.focela.platform.module.system.utils.oauth2.OAuth2Utils;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -37,10 +37,10 @@ import java.util.List;
 import java.util.Map;
 
 import static com.focela.platform.framework.common.exception.enums.GlobalErrorCodeConstants.BAD_REQUEST;
-import static com.focela.platform.framework.common.exception.util.ServiceExceptionUtil.exception0;
-import static com.focela.platform.framework.common.pojo.CommonResult.success;
-import static com.focela.platform.framework.common.util.collection.CollectionUtils.convertList;
-import static com.focela.platform.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
+import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception0;
+import static com.focela.platform.framework.common.model.CommonResult.success;
+import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertList;
+import static com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils.getLoginUserId;
 
 /**
  * 提供给外部应用调用为主
@@ -138,7 +138,7 @@ public class OAuth2OpenController {
                 throw new IllegalArgumentException("未知授权类型：" + grantType);
         }
         Assert.notNull(accessTokenDO, "访问令牌不能为空"); // 防御性检查
-        return success(OAuth2OpenConvert.INSTANCE.convert(accessTokenDO));
+        return success(OAuth2OpenConverter.INSTANCE.convert(accessTokenDO));
     }
 
     @DeleteMapping("/token")
@@ -173,7 +173,7 @@ public class OAuth2OpenController {
         // 校验令牌
         OAuth2AccessTokenEntity accessTokenDO = oauth2TokenService.checkAccessToken(token);
         Assert.notNull(accessTokenDO, "访问令牌不能为空"); // 防御性检查
-        return success(OAuth2OpenConvert.INSTANCE.convert2(accessTokenDO));
+        return success(OAuth2OpenConverter.INSTANCE.convert2(accessTokenDO));
     }
 
     /**
@@ -190,7 +190,7 @@ public class OAuth2OpenController {
         // 2. 获得用户已经授权的信息
         List<OAuth2ApproveEntity> approves = oauth2ApproveService.getApproveList(getLoginUserId(), getUserType(), clientId);
         // 拼接返回
-        return success(OAuth2OpenConvert.INSTANCE.convert(client, approves));
+        return success(OAuth2OpenConverter.INSTANCE.convert(client, approves));
     }
 
     /**

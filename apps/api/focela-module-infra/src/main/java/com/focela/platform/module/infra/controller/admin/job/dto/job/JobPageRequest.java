@@ -1,6 +1,6 @@
 package com.focela.platform.module.infra.controller.admin.job.dto.job;
 
-import com.focela.platform.framework.common.pojo.PageParam;
+import com.focela.platform.framework.common.model.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

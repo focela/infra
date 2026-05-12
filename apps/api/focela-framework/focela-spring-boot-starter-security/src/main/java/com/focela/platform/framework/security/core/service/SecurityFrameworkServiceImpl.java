@@ -1,15 +1,15 @@
 package com.focela.platform.framework.security.core.service;
 
 import cn.hutool.core.collection.CollUtil;
-import com.focela.platform.framework.common.biz.system.permission.PermissionCommonApi;
+import com.focela.platform.framework.common.business.system.permission.PermissionCommonApi;
 import com.focela.platform.framework.security.core.LoginUser;
-import com.focela.platform.framework.security.core.util.SecurityFrameworkUtils;
+import com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils;
 import lombok.AllArgsConstructor;
 
 import java.util.Arrays;
 
-import static com.focela.platform.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
-import static com.focela.platform.framework.security.core.util.SecurityFrameworkUtils.skipPermissionCheck;
+import static com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils.getLoginUserId;
+import static com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils.skipPermissionCheck;
 
 /**
  * 默认的 {@link SecurityFrameworkService} 实现类

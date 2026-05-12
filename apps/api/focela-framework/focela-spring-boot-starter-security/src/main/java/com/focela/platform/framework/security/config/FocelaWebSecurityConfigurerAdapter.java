@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.focela.platform.framework.common.util.collection.CollectionUtils.convertList;
+import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertList;
 
 /**
  * 自定义的 Spring Security 配置适配器实现

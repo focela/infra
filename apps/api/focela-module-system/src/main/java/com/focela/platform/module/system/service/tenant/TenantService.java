@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.service.tenant;
 
-import com.focela.platform.framework.common.pojo.PageResult;
+import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
 import com.focela.platform.module.system.controller.admin.tenant.dto.tenant.TenantPageRequest;
 import com.focela.platform.module.system.controller.admin.tenant.dto.tenant.TenantSaveRequest;

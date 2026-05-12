@@ -1,8 +1,8 @@
 package com.focela.platform.module.infra.controller.admin.job.dto.log;
 
-import com.focela.platform.framework.excel.core.annotations.DictFormat;
-import com.focela.platform.framework.excel.core.convert.DictConvert;
-import com.focela.platform.module.infra.enums.DictTypeConstants;
+import com.focela.platform.framework.excel.core.annotations.DictionaryFormat;
+import com.focela.platform.framework.excel.core.converter.DictionaryConverter;
+import com.focela.platform.module.infra.enums.DictionaryTypeConstants;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -48,8 +48,8 @@ public class JobLogResponse {
     private Integer duration;
 
     @Schema(description = "任务状态，参见 JobLogStatusEnum 枚举", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @ExcelProperty(value = "任务状态", converter = DictConvert.class)
-    @DictFormat(DictTypeConstants.JOB_LOG_STATUS)
+    @ExcelProperty(value = "任务状态", converter = DictionaryConverter.class)
+    @DictionaryFormat(DictionaryTypeConstants.JOB_LOG_STATUS)
     private Integer status;
 
     @Schema(description = "结果数据", example = "执行成功")

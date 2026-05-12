@@ -4,7 +4,7 @@ import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.text.csv.CsvRow;
 import cn.hutool.core.text.csv.CsvUtil;
-import com.focela.platform.framework.common.util.object.ObjectUtils;
+import com.focela.platform.framework.common.utils.object.ObjectUtils;
 import com.focela.platform.framework.ip.core.Area;
 import com.focela.platform.framework.ip.core.enums.AreaTypeEnum;
 import lombok.NonNull;
@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import static com.focela.platform.framework.common.util.collection.CollectionUtils.convertList;
-import static com.focela.platform.framework.common.util.collection.CollectionUtils.findFirst;
+import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertList;
+import static com.focela.platform.framework.common.utils.collection.CollectionUtils.findFirst;
 
 /**
  * 区域工具类

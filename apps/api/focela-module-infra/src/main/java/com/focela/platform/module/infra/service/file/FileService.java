@@ -1,6 +1,6 @@
 package com.focela.platform.module.infra.service.file;
 
-import com.focela.platform.framework.common.pojo.PageResult;
+import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.module.infra.controller.admin.file.dto.file.FileCreateRequest;
 import com.focela.platform.module.infra.controller.admin.file.dto.file.FilePageRequest;
 import com.focela.platform.module.infra.controller.admin.file.dto.file.FilePresignedUrlResponse;

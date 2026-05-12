@@ -1,9 +1,9 @@
 package com.focela.platform.module.infra.controller.admin.demo.demo02;
 
 import com.focela.platform.framework.apilog.core.annotation.ApiAccessLog;
-import com.focela.platform.framework.common.pojo.CommonResult;
-import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.framework.excel.core.util.ExcelUtils;
+import com.focela.platform.framework.common.model.CommonResult;
+import com.focela.platform.framework.common.utils.object.BeanUtils;
+import com.focela.platform.framework.excel.core.utils.ExcelUtils;
 import com.focela.platform.module.infra.controller.admin.demo.demo02.dto.Demo02CategoryListRequest;
 import com.focela.platform.module.infra.controller.admin.demo.demo02.dto.Demo02CategoryResponse;
 import com.focela.platform.module.infra.controller.admin.demo.demo02.dto.Demo02CategorySaveRequest;
@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static com.focela.platform.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
-import static com.focela.platform.framework.common.pojo.CommonResult.success;
+import static com.focela.platform.framework.common.model.CommonResult.success;
 
 @Tag(name = "管理后台 - 示例分类")
 @RestController

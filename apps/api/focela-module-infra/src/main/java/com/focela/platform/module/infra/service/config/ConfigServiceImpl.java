@@ -1,9 +1,9 @@
 package com.focela.platform.module.infra.service.config;
 
-import com.focela.platform.framework.common.pojo.PageResult;
+import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.module.infra.controller.admin.config.dto.ConfigPageRequest;
 import com.focela.platform.module.infra.controller.admin.config.dto.ConfigSaveRequest;
-import com.focela.platform.module.infra.convert.config.ConfigConvert;
+import com.focela.platform.module.infra.converter.config.ConfigConverter;
 import com.focela.platform.module.infra.repository.entity.config.ConfigEntity;
 import com.focela.platform.module.infra.repository.mapper.config.ConfigMapper;
 import com.focela.platform.module.infra.enums.config.ConfigTypeEnum;
@@ -15,7 +15,7 @@ import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
-import static com.focela.platform.framework.common.exception.util.ServiceExceptionUtil.exception;
+import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.module.infra.enums.ErrorCodeConstants.*;
 
 /**
@@ -35,7 +35,7 @@ public class ConfigServiceImpl implements ConfigService {
         validateConfigKeyUnique(null, createRequest.getKey());
 
         // 插入参数配置
-        ConfigEntity config = ConfigConvert.INSTANCE.convert(createRequest);
+        ConfigEntity config = ConfigConverter.INSTANCE.convert(createRequest);
         config.setType(ConfigTypeEnum.CUSTOM.getType());
         configMapper.insert(config);
         return config.getId();
@@ -49,7 +49,7 @@ public class ConfigServiceImpl implements ConfigService {
         validateConfigKeyUnique(updateRequest.getId(), updateRequest.getKey());
 
         // 更新参数配置
-        ConfigEntity updateObj = ConfigConvert.INSTANCE.convert(updateRequest);
+        ConfigEntity updateObj = ConfigConverter.INSTANCE.convert(updateRequest);
         configMapper.updateById(updateObj);
     }
 

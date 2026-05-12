@@ -1,8 +1,8 @@
 package com.focela.platform.module.system.framework.sms.core.client.impl;
 
 import com.focela.platform.framework.common.core.KeyValue;
-import com.focela.platform.framework.common.util.http.HttpUtils;
-import com.focela.platform.framework.test.core.ut.BaseMockitoUnitTest;
+import com.focela.platform.framework.common.utils.http.HttpUtils;
+import com.focela.platform.framework.test.core.support.BaseMockitoUnitTest;
 import com.focela.platform.module.system.framework.sms.core.client.dto.SmsReceiveRespDTO;
 import com.focela.platform.module.system.framework.sms.core.client.dto.SmsSendRespDTO;
 import com.focela.platform.module.system.framework.sms.core.property.SmsChannelProperties;
@@ -15,7 +15,7 @@ import org.mockito.MockedStatic;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.focela.platform.framework.test.core.util.RandomUtils.*;
+import static com.focela.platform.framework.test.core.utils.RandomUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.ArgumentMatchers.anyString;

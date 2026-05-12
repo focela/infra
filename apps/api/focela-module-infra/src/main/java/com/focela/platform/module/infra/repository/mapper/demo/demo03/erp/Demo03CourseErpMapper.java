@@ -1,7 +1,7 @@
 package com.focela.platform.module.infra.repository.mapper.demo.demo03.erp;
 
-import com.focela.platform.framework.common.pojo.PageParam;
-import com.focela.platform.framework.common.pojo.PageResult;
+import com.focela.platform.framework.common.model.PageParam;
+import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
 import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03CourseEntity;

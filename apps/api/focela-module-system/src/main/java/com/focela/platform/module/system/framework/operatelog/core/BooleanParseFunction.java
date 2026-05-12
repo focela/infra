@@ -1,8 +1,8 @@
 package com.focela.platform.module.system.framework.operatelog.core;
 
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.dict.core.DictFrameworkUtils;
-import com.focela.platform.module.infra.enums.DictTypeConstants;
+import com.focela.platform.framework.dictionary.core.DictionaryFrameworkUtils;
+import com.focela.platform.module.infra.enums.DictionaryTypeConstants;
 import com.mzt.logapi.service.IParseFunction;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -33,7 +33,7 @@ public class BooleanParseFunction implements IParseFunction {
         if (StrUtil.isEmptyIfStr(value)) {
             return "";
         }
-        return DictFrameworkUtils.parseDictDataLabel(DictTypeConstants.BOOLEAN_STRING, value.toString());
+        return DictionaryFrameworkUtils.parseDictDataLabel(DictionaryTypeConstants.BOOLEAN_STRING, value.toString());
     }
 
 }

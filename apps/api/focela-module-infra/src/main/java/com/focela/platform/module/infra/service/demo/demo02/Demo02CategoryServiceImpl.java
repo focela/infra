@@ -1,6 +1,6 @@
 package com.focela.platform.module.infra.service.demo.demo02;
 
-import com.focela.platform.framework.common.util.object.BeanUtils;
+import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.infra.controller.admin.demo.demo02.dto.Demo02CategoryListRequest;
 import com.focela.platform.module.infra.controller.admin.demo.demo02.dto.Demo02CategorySaveRequest;
 import com.focela.platform.module.infra.repository.entity.demo.demo02.Demo02CategoryEntity;
@@ -12,7 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import java.util.List;
 import java.util.Objects;
 
-import static com.focela.platform.framework.common.exception.util.ServiceExceptionUtil.exception;
+import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.module.infra.enums.ErrorCodeConstants.*;
 
 /**

@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.api.user;
 
-import com.focela.platform.framework.common.util.collection.CollectionUtils;
+import com.focela.platform.framework.common.utils.collection.CollectionUtils;
 import com.focela.platform.module.system.api.user.dto.AdminUserRespDTO;
 
 import java.util.Collection;

@@ -3,7 +3,7 @@ package com.focela.platform.framework.datapermission.core.db;
 import cn.hutool.core.collection.CollUtil;
 import com.focela.platform.framework.datapermission.core.rule.DataPermissionRule;
 import com.focela.platform.framework.datapermission.core.rule.DataPermissionRuleFactory;
-import com.focela.platform.framework.mybatis.core.util.MyBatisUtils;
+import com.focela.platform.framework.mybatis.core.utils.MyBatisUtils;
 import com.baomidou.mybatisplus.extension.plugins.handler.MultiDataPermissionHandler;
 import lombok.RequiredArgsConstructor;
 import net.sf.jsqlparser.expression.Expression;
@@ -12,7 +12,7 @@ import net.sf.jsqlparser.schema.Table;
 
 import java.util.List;
 
-import static com.focela.platform.framework.security.core.util.SecurityFrameworkUtils.skipPermissionCheck;
+import static com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils.skipPermissionCheck;
 
 /**
  * 基于 {@link DataPermissionRule} 的数据权限处理器

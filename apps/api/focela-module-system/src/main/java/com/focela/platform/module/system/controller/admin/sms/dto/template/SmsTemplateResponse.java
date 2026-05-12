@@ -1,8 +1,8 @@
 package com.focela.platform.module.system.controller.admin.sms.dto.template;
 
-import com.focela.platform.framework.excel.core.annotations.DictFormat;
-import com.focela.platform.framework.excel.core.convert.DictConvert;
-import com.focela.platform.module.system.enums.DictTypeConstants;
+import com.focela.platform.framework.excel.core.annotations.DictionaryFormat;
+import com.focela.platform.framework.excel.core.converter.DictionaryConverter;
+import com.focela.platform.module.system.enums.DictionaryTypeConstants;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -21,13 +21,13 @@ public class SmsTemplateResponse {
     private Long id;
 
     @Schema(description = "短信类型，参见 SmsTemplateTypeEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @ExcelProperty(value = "短信签名", converter = DictConvert.class)
-    @DictFormat(DictTypeConstants.SMS_TEMPLATE_TYPE)
+    @ExcelProperty(value = "短信签名", converter = DictionaryConverter.class)
+    @DictionaryFormat(DictionaryTypeConstants.SMS_TEMPLATE_TYPE)
     private Integer type;
 
     @Schema(description = "开启状态，参见 CommonStatusEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @ExcelProperty(value = "开启状态", converter = DictConvert.class)
-    @DictFormat(DictTypeConstants.COMMON_STATUS)
+    @ExcelProperty(value = "开启状态", converter = DictionaryConverter.class)
+    @DictionaryFormat(DictionaryTypeConstants.COMMON_STATUS)
     private Integer status;
 
     @Schema(description = "模板编码", requiredMode = Schema.RequiredMode.REQUIRED, example = "test_01")
@@ -58,8 +58,8 @@ public class SmsTemplateResponse {
     private Long channelId;
 
     @Schema(description = "短信渠道编码", requiredMode = Schema.RequiredMode.REQUIRED, example = "ALIYUN")
-    @ExcelProperty(value = "短信渠道编码", converter = DictConvert.class)
-    @DictFormat(DictTypeConstants.SMS_CHANNEL_CODE)
+    @ExcelProperty(value = "短信渠道编码", converter = DictionaryConverter.class)
+    @DictionaryFormat(DictionaryTypeConstants.SMS_CHANNEL_CODE)
     private String channelCode;
 
     @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)

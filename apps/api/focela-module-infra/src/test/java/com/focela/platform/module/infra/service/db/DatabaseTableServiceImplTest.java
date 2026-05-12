@@ -1,6 +1,6 @@
 package com.focela.platform.module.infra.service.db;
 
-import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
+import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
 import com.focela.platform.module.infra.repository.entity.db.DataSourceConfigEntity;
 import com.baomidou.mybatisplus.generator.config.po.TableField;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
@@ -13,7 +13,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.List;
 
-import static com.focela.platform.framework.test.core.util.RandomUtils.randomLongId;
+import static com.focela.platform.framework.test.core.utils.RandomUtils.randomLongId;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;

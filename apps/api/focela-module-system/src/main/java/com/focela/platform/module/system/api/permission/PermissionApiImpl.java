@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.api.permission;
 
-import com.focela.platform.framework.common.biz.system.permission.dto.DeptDataPermissionRespDTO;
+import com.focela.platform.framework.common.business.system.permission.dto.DepartmentDataPermissionRespDTO;
 import com.focela.platform.module.system.service.permission.PermissionService;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +35,7 @@ public class PermissionApiImpl implements PermissionApi {
     }
 
     @Override
-    public DeptDataPermissionRespDTO getDeptDataPermission(Long userId) {
+    public DepartmentDataPermissionRespDTO getDeptDataPermission(Long userId) {
         return permissionService.getDeptDataPermission(userId);
     }
 

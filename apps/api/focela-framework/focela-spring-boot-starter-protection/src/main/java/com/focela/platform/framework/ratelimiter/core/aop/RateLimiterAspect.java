@@ -3,7 +3,7 @@ package com.focela.platform.framework.ratelimiter.core.aop;
 import cn.hutool.core.util.StrUtil;
 import com.focela.platform.framework.common.exception.ServiceException;
 import com.focela.platform.framework.common.exception.enums.GlobalErrorCodeConstants;
-import com.focela.platform.framework.common.util.collection.CollectionUtils;
+import com.focela.platform.framework.common.utils.collection.CollectionUtils;
 import com.focela.platform.framework.ratelimiter.core.annotation.RateLimiter;
 import com.focela.platform.framework.ratelimiter.core.keyresolver.RateLimiterKeyResolver;
 import com.focela.platform.framework.ratelimiter.core.redis.RateLimiterRedisDAO;

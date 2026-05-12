@@ -3,10 +3,10 @@ package com.focela.platform.module.system.service.auth;
 import cn.hutool.core.util.ObjectUtil;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.common.util.monitor.TracerUtils;
-import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.framework.common.util.servlet.ServletUtils;
-import com.focela.platform.framework.common.util.validation.ValidationUtils;
+import com.focela.platform.framework.common.utils.monitor.TracerUtils;
+import com.focela.platform.framework.common.utils.object.BeanUtils;
+import com.focela.platform.framework.common.utils.servlet.ServletUtils;
+import com.focela.platform.framework.common.utils.validation.ValidationUtils;
 import com.focela.platform.framework.datapermission.core.annotation.DataPermission;
 import com.focela.platform.module.system.api.logger.dto.LoginLogCreateReqDTO;
 import com.focela.platform.module.system.api.sms.SmsCodeApi;
@@ -14,7 +14,7 @@ import com.focela.platform.module.system.api.sms.dto.code.SmsCodeUseReqDTO;
 import com.focela.platform.module.system.api.social.dto.SocialUserBindReqDTO;
 import com.focela.platform.module.system.api.social.dto.SocialUserRespDTO;
 import com.focela.platform.module.system.controller.admin.auth.dto.*;
-import com.focela.platform.module.system.convert.auth.AuthConvert;
+import com.focela.platform.module.system.converter.auth.AuthConverter;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
 import com.focela.platform.module.system.enums.logger.LoginLogTypeEnum;
@@ -40,8 +40,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
-import static com.focela.platform.framework.common.exception.util.ServiceExceptionUtil.exception;
-import static com.focela.platform.framework.common.util.servlet.ServletUtils.getClientIP;
+import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
+import static com.focela.platform.framework.common.utils.servlet.ServletUtils.getClientIP;
 import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
 
 /**
@@ -131,13 +131,13 @@ public class AdminAuthServiceImpl implements AdminAuthService {
             throw exception(AUTH_MOBILE_NOT_EXISTS);
         }
         // 发送验证码
-        smsCodeApi.sendSmsCode(AuthConvert.INSTANCE.convert(request).setCreateIp(getClientIP()));
+        smsCodeApi.sendSmsCode(AuthConverter.INSTANCE.convert(request).setCreateIp(getClientIP()));
     }
 
     @Override
     public AuthLoginResponse smsLogin(AuthSmsLoginRequest request) {
         // 校验验证码
-        smsCodeApi.useSmsCode(AuthConvert.INSTANCE.convert(request, SmsSceneEnum.ADMIN_MEMBER_LOGIN.getScene(), getClientIP()));
+        smsCodeApi.useSmsCode(AuthConverter.INSTANCE.convert(request, SmsSceneEnum.ADMIN_MEMBER_LOGIN.getScene(), getClientIP()));
 
         // 获得用户信息
         AdminUserEntity user = userService.getUserByMobile(request.getMobile());

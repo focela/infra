@@ -1,8 +1,8 @@
 package com.focela.platform.module.system.controller.admin.permission.dto.role;
 
-import com.focela.platform.framework.excel.core.annotations.DictFormat;
-import com.focela.platform.framework.excel.core.convert.DictConvert;
-import com.focela.platform.module.system.enums.DictTypeConstants;
+import com.focela.platform.framework.excel.core.annotations.DictionaryFormat;
+import com.focela.platform.framework.excel.core.converter.DictionaryConverter;
+import com.focela.platform.module.system.enums.DictionaryTypeConstants;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -35,8 +35,8 @@ public class RoleResponse {
     private Integer sort;
 
     @Schema(description = "状态，参见 CommonStatusEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @ExcelProperty(value = "角色状态", converter = DictConvert.class)
-    @DictFormat(DictTypeConstants.COMMON_STATUS)
+    @ExcelProperty(value = "角色状态", converter = DictionaryConverter.class)
+    @DictionaryFormat(DictionaryTypeConstants.COMMON_STATUS)
     private Integer status;
 
     @Schema(description = "角色类型，参见 RoleTypeEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
@@ -46,8 +46,8 @@ public class RoleResponse {
     private String remark;
 
     @Schema(description = "数据范围，参见 DataScopeEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @ExcelProperty(value = "数据范围", converter = DictConvert.class)
-    @DictFormat(DictTypeConstants.DATA_SCOPE)
+    @ExcelProperty(value = "数据范围", converter = DictionaryConverter.class)
+    @DictionaryFormat(DictionaryTypeConstants.DATA_SCOPE)
     private Integer dataScope;
 
     @Schema(description = "数据范围(指定部门数组)", example = "1")

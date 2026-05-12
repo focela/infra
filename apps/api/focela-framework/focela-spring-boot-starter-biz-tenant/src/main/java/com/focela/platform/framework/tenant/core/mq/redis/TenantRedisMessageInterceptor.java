@@ -5,7 +5,7 @@ import com.focela.platform.framework.mq.redis.core.interceptor.RedisMessageInter
 import com.focela.platform.framework.mq.redis.core.message.AbstractRedisMessage;
 import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
 
-import static com.focela.platform.framework.web.core.util.WebFrameworkUtils.HEADER_TENANT_ID;
+import static com.focela.platform.framework.web.core.utils.WebFrameworkUtils.HEADER_TENANT_ID;
 
 /**
  * 多租户 {@link AbstractRedisMessage} 拦截器

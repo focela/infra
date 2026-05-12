@@ -1,6 +1,6 @@
 package com.focela.platform.framework.desensitize.core;
 
-import com.focela.platform.framework.common.util.json.JsonUtils;
+import com.focela.platform.framework.common.utils.json.JsonUtils;
 import com.focela.platform.framework.desensitize.core.annotation.Address;
 import com.focela.platform.framework.desensitize.core.regex.annotation.EmailDesensitize;
 import com.focela.platform.framework.desensitize.core.regex.annotation.RegexDesensitize;

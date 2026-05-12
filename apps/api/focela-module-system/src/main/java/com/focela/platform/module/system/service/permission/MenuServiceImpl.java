@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.util.object.BeanUtils;
+import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.permission.dto.menu.MenuListRequest;
 import com.focela.platform.module.system.controller.admin.permission.dto.menu.MenuSaveRequest;
 import com.focela.platform.module.system.repository.entity.permission.MenuEntity;
@@ -24,9 +24,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
-import static com.focela.platform.framework.common.exception.util.ServiceExceptionUtil.exception;
-import static com.focela.platform.framework.common.util.collection.CollectionUtils.convertList;
-import static com.focela.platform.framework.common.util.collection.CollectionUtils.convertMap;
+import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
+import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertList;
+import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertMap;
 import static com.focela.platform.module.system.repository.entity.permission.MenuEntity.ID_ROOT;
 import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
 

@@ -7,7 +7,7 @@ import com.focela.platform.module.infra.framework.file.core.client.local.LocalFi
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static com.focela.platform.framework.test.core.util.RandomUtils.randomString;
+import static com.focela.platform.framework.test.core.utils.RandomUtils.randomString;
 
 public class LocalFileClientTest {
 

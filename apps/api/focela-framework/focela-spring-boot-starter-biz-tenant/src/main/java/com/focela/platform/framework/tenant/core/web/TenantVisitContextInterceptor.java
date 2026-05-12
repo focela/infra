@@ -4,17 +4,17 @@ import cn.hutool.core.util.ObjUtil;
 import com.focela.platform.framework.common.exception.enums.GlobalErrorCodeConstants;
 import com.focela.platform.framework.security.core.LoginUser;
 import com.focela.platform.framework.security.core.service.SecurityFrameworkService;
-import com.focela.platform.framework.security.core.util.SecurityFrameworkUtils;
+import com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils;
 import com.focela.platform.framework.tenant.config.TenantProperties;
 import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
-import com.focela.platform.framework.web.core.util.WebFrameworkUtils;
+import com.focela.platform.framework.web.core.utils.WebFrameworkUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import static com.focela.platform.framework.common.exception.util.ServiceExceptionUtil.exception0;
+import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception0;
 
 @RequiredArgsConstructor
 @Slf4j

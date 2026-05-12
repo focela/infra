@@ -5,7 +5,7 @@ import com.focela.platform.framework.datapermission.core.db.DataPermissionRuleHa
 import com.focela.platform.framework.datapermission.core.rule.DataPermissionRule;
 import com.focela.platform.framework.datapermission.core.rule.DataPermissionRuleFactory;
 import com.focela.platform.framework.datapermission.core.rule.DataPermissionRuleFactoryImpl;
-import com.focela.platform.framework.mybatis.core.util.MyBatisUtils;
+import com.focela.platform.framework.mybatis.core.utils.MyBatisUtils;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.DataPermissionInterceptor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;

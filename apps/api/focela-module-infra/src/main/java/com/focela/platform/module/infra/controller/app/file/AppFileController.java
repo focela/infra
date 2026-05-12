@@ -1,7 +1,7 @@
 package com.focela.platform.module.infra.controller.app.file;
 
 import cn.hutool.core.io.IoUtil;
-import com.focela.platform.framework.common.pojo.CommonResult;
+import com.focela.platform.framework.common.model.CommonResult;
 import com.focela.platform.module.infra.controller.admin.file.dto.file.FileCreateRequest;
 import com.focela.platform.module.infra.controller.admin.file.dto.file.FilePresignedUrlResponse;
 import com.focela.platform.module.infra.controller.app.file.dto.AppFileUploadRequest;
@@ -19,7 +19,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import static com.focela.platform.framework.common.pojo.CommonResult.success;
+import static com.focela.platform.framework.common.model.CommonResult.success;
 
 @Tag(name = "用户 App - 文件存储")
 @RestController

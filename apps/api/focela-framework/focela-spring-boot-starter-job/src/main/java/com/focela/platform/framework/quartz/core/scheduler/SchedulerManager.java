@@ -5,7 +5,7 @@ import com.focela.platform.framework.quartz.core.handler.JobHandlerInvoker;
 import org.quartz.*;
 
 import static com.focela.platform.framework.common.exception.enums.GlobalErrorCodeConstants.NOT_IMPLEMENTED;
-import static com.focela.platform.framework.common.exception.util.ServiceExceptionUtil.exception0;
+import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception0;
 
 /**
  * {@link org.quartz.Scheduler} 的管理器，负责创建任务

@@ -1,8 +1,8 @@
 package com.focela.platform.module.infra.service.demo.demo01;
 
 import cn.hutool.core.collection.CollUtil;
-import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.framework.common.util.object.BeanUtils;
+import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.infra.controller.admin.demo.demo01.dto.Demo01ContactPageRequest;
 import com.focela.platform.module.infra.controller.admin.demo.demo01.dto.Demo01ContactSaveRequest;
 import com.focela.platform.module.infra.repository.entity.demo.demo01.Demo01ContactEntity;
@@ -13,7 +13,7 @@ import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
-import static com.focela.platform.framework.common.exception.util.ServiceExceptionUtil.exception;
+import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.module.infra.enums.ErrorCodeConstants.DEMO01_CONTACT_NOT_EXISTS;
 
 /**

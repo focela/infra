@@ -2,7 +2,7 @@ package com.focela.platform.module.system.controller.admin.user.dto.user;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.focela.platform.framework.common.validation.Mobile;
-import com.focela.platform.module.system.framework.operatelog.core.DeptParseFunction;
+import com.focela.platform.module.system.framework.operatelog.core.DepartmentParseFunction;
 import com.focela.platform.module.system.framework.operatelog.core.PostParseFunction;
 import com.focela.platform.module.system.framework.operatelog.core.SexParseFunction;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -38,7 +38,7 @@ public class UserSaveRequest {
     private String remark;
 
     @Schema(description = "部门编号", example = "我是一个用户")
-    @DiffLogField(name = "部门", function = DeptParseFunction.NAME)
+    @DiffLogField(name = "部门", function = DepartmentParseFunction.NAME)
     private Long deptId;
 
     @Schema(description = "岗位编号数组", example = "1")

@@ -36,7 +36,7 @@ public class OAuth2UserInfoResponse {
     /**
      * 所在部门
      */
-    private Dept dept;
+    private Department dept;
 
     /**
      * 所属岗位数组
@@ -45,7 +45,7 @@ public class OAuth2UserInfoResponse {
 
     @Schema(description = "部门")
     @Data
-    public static class Dept {
+    public static class Department {
 
         @Schema(description = "部门编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
         private Long id;

@@ -1,6 +1,6 @@
 package com.focela.platform.framework.tracer.core.filter;
 
-import com.focela.platform.framework.common.util.monitor.TracerUtils;
+import com.focela.platform.framework.common.utils.monitor.TracerUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import jakarta.servlet.FilterChain;

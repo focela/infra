@@ -7,7 +7,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.poi.excel.ExcelUtil;
 import com.focela.platform.framework.common.core.KeyValue;
-import com.focela.platform.framework.dict.core.DictFrameworkUtils;
+import com.focela.platform.framework.dictionary.core.DictionaryFrameworkUtils;
 import com.focela.platform.framework.excel.core.annotations.ExcelColumnSelect;
 import com.focela.platform.framework.excel.core.function.ExcelColumnSelectFunction;
 import cn.idev.excel.annotation.ExcelIgnore;
@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.focela.platform.framework.common.util.collection.CollectionUtils.convertList;
+import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertList;
 
 /**
  * 基于固定 sheet 实现下拉框
@@ -112,7 +112,7 @@ public class SelectSheetWriteHandler implements SheetWriteHandler {
 
         // 情况一：使用 dictType 获得下拉数据
         if (StrUtil.isNotEmpty(dictType)) { // 情况一： 字典数据 （默认）
-            selectMap.put(colIndex, DictFrameworkUtils.getDictDataLabelList(dictType));
+            selectMap.put(colIndex, DictionaryFrameworkUtils.getDictDataLabelList(dictType));
             return;
         }
 

@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.enums.permission;
 
-import com.focela.platform.framework.common.util.object.ObjectUtils;
+import com.focela.platform.framework.common.utils.object.ObjectUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

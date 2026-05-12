@@ -3,16 +3,16 @@ package com.focela.platform.module.system.controller.admin.user;
 import cn.hutool.core.collection.CollUtil;
 import com.focela.platform.framework.apilog.core.annotation.ApiAccessLog;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.pojo.CommonResult;
-import com.focela.platform.framework.common.pojo.PageParam;
-import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.framework.excel.core.util.ExcelUtils;
+import com.focela.platform.framework.common.model.CommonResult;
+import com.focela.platform.framework.common.model.PageParam;
+import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.framework.excel.core.utils.ExcelUtils;
 import com.focela.platform.module.system.controller.admin.user.dto.user.*;
-import com.focela.platform.module.system.convert.user.UserConvert;
-import com.focela.platform.module.system.repository.entity.dept.DeptEntity;
+import com.focela.platform.module.system.converter.user.UserConverter;
+import com.focela.platform.module.system.repository.entity.department.DepartmentEntity;
 import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
 import com.focela.platform.module.system.enums.common.SexEnum;
-import com.focela.platform.module.system.service.dept.DeptService;
+import com.focela.platform.module.system.service.department.DepartmentService;
 import com.focela.platform.module.system.service.user.AdminUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -32,8 +32,8 @@ import java.util.List;
 import java.util.Map;
 
 import static com.focela.platform.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
-import static com.focela.platform.framework.common.pojo.CommonResult.success;
-import static com.focela.platform.framework.common.util.collection.CollectionUtils.convertList;
+import static com.focela.platform.framework.common.model.CommonResult.success;
+import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertList;
 
 @Tag(name = "管理后台 - 用户")
 @RestController
@@ -44,7 +44,7 @@ public class UserController {
     @Resource
     private AdminUserService userService;
     @Resource
-    private DeptService deptService;
+    private DepartmentService deptService;
 
     @PostMapping("/create")
     @Operation(summary = "新增用户")
@@ -106,9 +106,9 @@ public class UserController {
             return success(new PageResult<>(pageResult.getTotal()));
         }
         // 拼接数据
-        Map<Long, DeptEntity> deptMap = deptService.getDeptMap(
+        Map<Long, DepartmentEntity> deptMap = deptService.getDeptMap(
                 convertList(pageResult.getList(), AdminUserEntity::getDeptId));
-        return success(new PageResult<>(UserConvert.INSTANCE.convertList(pageResult.getList(), deptMap),
+        return success(new PageResult<>(UserConverter.INSTANCE.convertList(pageResult.getList(), deptMap),
                 pageResult.getTotal()));
     }
 
@@ -117,9 +117,9 @@ public class UserController {
     public CommonResult<List<UserSimpleResponse>> getSimpleUserList() {
         List<AdminUserEntity> list = userService.getUserListByStatus(CommonStatusEnum.ENABLE.getStatus());
         // 拼接数据
-        Map<Long, DeptEntity> deptMap = deptService.getDeptMap(
+        Map<Long, DepartmentEntity> deptMap = deptService.getDeptMap(
                 convertList(list, AdminUserEntity::getDeptId));
-        return success(UserConvert.INSTANCE.convertSimpleList(list, deptMap));
+        return success(UserConverter.INSTANCE.convertSimpleList(list, deptMap));
     }
 
     @GetMapping("/get")
@@ -132,8 +132,8 @@ public class UserController {
             return success(null);
         }
         // 拼接数据
-        DeptEntity dept = deptService.getDept(user.getDeptId());
-        return success(UserConvert.INSTANCE.convert(user, dept));
+        DepartmentEntity dept = deptService.getDept(user.getDeptId());
+        return success(UserConverter.INSTANCE.convert(user, dept));
     }
 
     @GetMapping("/export-excel")
@@ -145,10 +145,10 @@ public class UserController {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
         List<AdminUserEntity> list = userService.getUserPage(exportRequest).getList();
         // 输出 Excel
-        Map<Long, DeptEntity> deptMap = deptService.getDeptMap(
+        Map<Long, DepartmentEntity> deptMap = deptService.getDeptMap(
                 convertList(list, AdminUserEntity::getDeptId));
         ExcelUtils.write(response, "用户数据.xls", "数据", UserResponse.class,
-                UserConvert.INSTANCE.convertList(list, deptMap));
+                UserConverter.INSTANCE.convertList(list, deptMap));
     }
 
     @GetMapping("/get-import-template")

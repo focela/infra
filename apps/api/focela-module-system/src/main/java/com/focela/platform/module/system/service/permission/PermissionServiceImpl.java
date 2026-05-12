@@ -5,9 +5,9 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.util.collection.CollectionUtils;
+import com.focela.platform.framework.common.utils.collection.CollectionUtils;
 import com.focela.platform.framework.datapermission.core.annotation.DataPermission;
-import com.focela.platform.framework.common.biz.system.permission.dto.DeptDataPermissionRespDTO;
+import com.focela.platform.framework.common.business.system.permission.dto.DepartmentDataPermissionRespDTO;
 import com.focela.platform.module.system.repository.entity.permission.MenuEntity;
 import com.focela.platform.module.system.repository.entity.permission.RoleEntity;
 import com.focela.platform.module.system.repository.entity.permission.RoleMenuEntity;
@@ -16,7 +16,7 @@ import com.focela.platform.module.system.repository.mapper.permission.RoleMenuMa
 import com.focela.platform.module.system.repository.mapper.permission.UserRoleMapper;
 import com.focela.platform.module.system.repository.redis.RedisKeyConstants;
 import com.focela.platform.module.system.enums.permission.DataScopeEnum;
-import com.focela.platform.module.system.service.dept.DeptService;
+import com.focela.platform.module.system.service.department.DepartmentService;
 import com.focela.platform.module.system.service.user.AdminUserService;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.google.common.annotations.VisibleForTesting;
@@ -33,8 +33,8 @@ import jakarta.annotation.Resource;
 import java.util.*;
 import java.util.function.Supplier;
 
-import static com.focela.platform.framework.common.util.collection.CollectionUtils.convertSet;
-import static com.focela.platform.framework.common.util.json.JsonUtils.toJsonString;
+import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertSet;
+import static com.focela.platform.framework.common.utils.json.JsonUtils.toJsonString;
 
 /**
  * 权限 Service 实现类
@@ -55,7 +55,7 @@ public class PermissionServiceImpl implements PermissionService {
     @Resource
     private MenuService menuService;
     @Resource
-    private DeptService deptService;
+    private DepartmentService deptService;
     @Resource
     private AdminUserService userService;
 
@@ -274,12 +274,12 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     @DataPermission(enable = false) // 关闭数据权限，不然就会出现递归获取数据权限的问题
-    public DeptDataPermissionRespDTO getDeptDataPermission(Long userId) {
+    public DepartmentDataPermissionRespDTO getDeptDataPermission(Long userId) {
         // 获得用户的角色
         List<RoleEntity> roles = getEnableUserRoleListByUserIdFromCache(userId);
 
         // 如果角色为空，则只能查看自己
-        DeptDataPermissionRespDTO result = new DeptDataPermissionRespDTO();
+        DepartmentDataPermissionRespDTO result = new DepartmentDataPermissionRespDTO();
         if (CollUtil.isEmpty(roles)) {
             result.setSelf(true);
             return result;

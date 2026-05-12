@@ -1,7 +1,7 @@
 package com.focela.platform.module.system.service.oauth2;
 
 import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.test.core.ut.BaseMockitoUnitTest;
+import com.focela.platform.framework.test.core.support.BaseMockitoUnitTest;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2CodeEntity;
 import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
@@ -14,8 +14,8 @@ import org.mockito.Mock;
 import java.util.List;
 
 import static cn.hutool.core.util.RandomUtil.randomEle;
-import static com.focela.platform.framework.test.core.util.AssertUtils.assertPojoEquals;
-import static com.focela.platform.framework.test.core.util.RandomUtils.*;
+import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPojoEquals;
+import static com.focela.platform.framework.test.core.utils.RandomUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;

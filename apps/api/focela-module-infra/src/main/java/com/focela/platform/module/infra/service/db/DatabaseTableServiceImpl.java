@@ -3,7 +3,7 @@ package com.focela.platform.module.infra.service.db;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.mybatis.core.util.JdbcUtils;
+import com.focela.platform.framework.mybatis.core.utils.JdbcUtils;
 import com.focela.platform.module.infra.repository.entity.db.DataSourceConfigEntity;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.baomidou.mybatisplus.generator.config.GlobalConfig;

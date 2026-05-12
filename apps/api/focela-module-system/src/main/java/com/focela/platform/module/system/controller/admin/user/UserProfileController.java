@@ -1,18 +1,18 @@
 package com.focela.platform.module.system.controller.admin.user;
 
 import cn.hutool.core.collection.CollUtil;
-import com.focela.platform.framework.common.pojo.CommonResult;
+import com.focela.platform.framework.common.model.CommonResult;
 import com.focela.platform.framework.datapermission.core.annotation.DataPermission;
 import com.focela.platform.module.system.controller.admin.user.dto.profile.UserProfileResponse;
 import com.focela.platform.module.system.controller.admin.user.dto.profile.UserProfileUpdatePasswordRequest;
 import com.focela.platform.module.system.controller.admin.user.dto.profile.UserProfileUpdateRequest;
-import com.focela.platform.module.system.convert.user.UserConvert;
-import com.focela.platform.module.system.repository.entity.dept.DeptEntity;
-import com.focela.platform.module.system.repository.entity.dept.PostEntity;
+import com.focela.platform.module.system.converter.user.UserConverter;
+import com.focela.platform.module.system.repository.entity.department.DepartmentEntity;
+import com.focela.platform.module.system.repository.entity.department.PostEntity;
 import com.focela.platform.module.system.repository.entity.permission.RoleEntity;
 import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
-import com.focela.platform.module.system.service.dept.DeptService;
-import com.focela.platform.module.system.service.dept.PostService;
+import com.focela.platform.module.system.service.department.DepartmentService;
+import com.focela.platform.module.system.service.department.PostService;
 import com.focela.platform.module.system.service.permission.PermissionService;
 import com.focela.platform.module.system.service.permission.RoleService;
 import com.focela.platform.module.system.service.user.AdminUserService;
@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.focela.platform.framework.common.pojo.CommonResult.success;
-import static com.focela.platform.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
+import static com.focela.platform.framework.common.model.CommonResult.success;
+import static com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils.getLoginUserId;
 
 @Tag(name = "管理后台 - 用户个人中心")
 @RestController
@@ -39,7 +39,7 @@ public class UserProfileController {
     @Resource
     private AdminUserService userService;
     @Resource
-    private DeptService deptService;
+    private DepartmentService deptService;
     @Resource
     private PostService postService;
     @Resource
@@ -56,10 +56,10 @@ public class UserProfileController {
         // 获得用户角色
         List<RoleEntity> userRoles = roleService.getRoleListFromCache(permissionService.getUserRoleIdListByUserId(user.getId()));
         // 获得部门信息
-        DeptEntity dept = user.getDeptId() != null ? deptService.getDept(user.getDeptId()) : null;
+        DepartmentEntity dept = user.getDeptId() != null ? deptService.getDept(user.getDeptId()) : null;
         // 获得岗位信息
         List<PostEntity> posts = CollUtil.isNotEmpty(user.getPostIds()) ? postService.getPostList(user.getPostIds()) : null;
-        return success(UserConvert.INSTANCE.convert(user, userRoles, dept, posts));
+        return success(UserConverter.INSTANCE.convert(user, userRoles, dept, posts));
     }
 
     @PutMapping("/update")

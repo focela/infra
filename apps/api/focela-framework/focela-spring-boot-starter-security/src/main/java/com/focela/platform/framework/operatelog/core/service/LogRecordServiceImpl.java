@@ -1,11 +1,11 @@
 package com.focela.platform.framework.operatelog.core.service;
 
-import com.focela.platform.framework.common.biz.system.logger.OperateLogCommonApi;
-import com.focela.platform.framework.common.biz.system.logger.dto.OperateLogCreateReqDTO;
-import com.focela.platform.framework.common.util.monitor.TracerUtils;
-import com.focela.platform.framework.common.util.servlet.ServletUtils;
+import com.focela.platform.framework.common.business.system.logger.OperateLogCommonApi;
+import com.focela.platform.framework.common.business.system.logger.dto.OperateLogCreateReqDTO;
+import com.focela.platform.framework.common.utils.monitor.TracerUtils;
+import com.focela.platform.framework.common.utils.servlet.ServletUtils;
 import com.focela.platform.framework.security.core.LoginUser;
-import com.focela.platform.framework.security.core.util.SecurityFrameworkUtils;
+import com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils;
 import com.mzt.logapi.beans.LogRecord;
 import com.mzt.logapi.service.ILogRecordService;
 import jakarta.annotation.Resource;

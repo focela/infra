@@ -2,12 +2,12 @@ package com.focela.platform.module.infra.service.file;
 
 import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.util.IdUtil;
-import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.framework.common.util.json.JsonUtils;
-import com.focela.platform.framework.common.util.validation.ValidationUtils;
+import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.framework.common.utils.json.JsonUtils;
+import com.focela.platform.framework.common.utils.validation.ValidationUtils;
 import com.focela.platform.module.infra.controller.admin.file.dto.config.FileConfigPageRequest;
 import com.focela.platform.module.infra.controller.admin.file.dto.config.FileConfigSaveRequest;
-import com.focela.platform.module.infra.convert.file.FileConfigConvert;
+import com.focela.platform.module.infra.converter.file.FileConfigConverter;
 import com.focela.platform.module.infra.repository.entity.file.FileConfigEntity;
 import com.focela.platform.module.infra.repository.mapper.file.FileConfigMapper;
 import com.focela.platform.module.infra.framework.file.core.client.FileClient;
@@ -29,8 +29,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.focela.platform.framework.common.exception.util.ServiceExceptionUtil.exception;
-import static com.focela.platform.framework.common.util.cache.CacheUtils.buildAsyncReloadingCache;
+import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
+import static com.focela.platform.framework.common.utils.cache.CacheUtils.buildAsyncReloadingCache;
 import static com.focela.platform.module.infra.enums.ErrorCodeConstants.FILE_CONFIG_DELETE_FAIL_MASTER;
 import static com.focela.platform.module.infra.enums.ErrorCodeConstants.FILE_CONFIG_NOT_EXISTS;
 
@@ -76,7 +76,7 @@ public class FileConfigServiceImpl implements FileConfigService {
 
     @Override
     public Long createFileConfig(FileConfigSaveRequest createRequest) {
-        FileConfigEntity fileConfig = FileConfigConvert.INSTANCE.convert(createRequest)
+        FileConfigEntity fileConfig = FileConfigConverter.INSTANCE.convert(createRequest)
                 .setConfig(parseClientConfig(createRequest.getStorage(), createRequest.getConfig()))
                 .setMaster(false); // 默认非 master
         fileConfigMapper.insert(fileConfig);
@@ -88,7 +88,7 @@ public class FileConfigServiceImpl implements FileConfigService {
         // 校验存在
         FileConfigEntity config = validateFileConfigExists(updateRequest.getId());
         // 更新
-        FileConfigEntity updateObj = FileConfigConvert.INSTANCE.convert(updateRequest)
+        FileConfigEntity updateObj = FileConfigConverter.INSTANCE.convert(updateRequest)
                 .setConfig(parseClientConfig(config.getStorage(), updateRequest.getConfig()));
         fileConfigMapper.updateById(updateObj);
 

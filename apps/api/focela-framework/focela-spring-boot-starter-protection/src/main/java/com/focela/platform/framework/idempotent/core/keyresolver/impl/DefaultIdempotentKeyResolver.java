@@ -1,7 +1,7 @@
 package com.focela.platform.framework.idempotent.core.keyresolver.impl;
 
 import cn.hutool.crypto.SecureUtil;
-import com.focela.platform.framework.common.util.string.StrUtils;
+import com.focela.platform.framework.common.utils.string.StrUtils;
 import com.focela.platform.framework.idempotent.core.annotation.Idempotent;
 import com.focela.platform.framework.idempotent.core.keyresolver.IdempotentKeyResolver;
 import org.aspectj.lang.JoinPoint;

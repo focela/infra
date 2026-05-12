@@ -22,7 +22,7 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 
 import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
-import com.focela.platform.framework.tenant.core.util.TenantUtils;
+import com.focela.platform.framework.tenant.core.utils.TenantUtils;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.ParameterNameDiscoverer;
@@ -32,7 +32,7 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.HandlerMethod;
 import org.springframework.util.ObjectUtils;
 
-import static com.focela.platform.framework.web.core.util.WebFrameworkUtils.HEADER_TENANT_ID;
+import static com.focela.platform.framework.web.core.utils.WebFrameworkUtils.HEADER_TENANT_ID;
 
 /**
  * Extension of {@link HandlerMethod} that invokes the underlying method with

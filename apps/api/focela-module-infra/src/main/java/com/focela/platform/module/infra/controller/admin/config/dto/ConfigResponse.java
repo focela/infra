@@ -1,8 +1,8 @@
 package com.focela.platform.module.infra.controller.admin.config.dto;
 
-import com.focela.platform.framework.excel.core.annotations.DictFormat;
-import com.focela.platform.framework.excel.core.convert.DictConvert;
-import com.focela.platform.module.infra.enums.DictTypeConstants;
+import com.focela.platform.framework.excel.core.annotations.DictionaryFormat;
+import com.focela.platform.framework.excel.core.converter.DictionaryConverter;
+import com.focela.platform.module.infra.enums.DictionaryTypeConstants;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -36,13 +36,13 @@ public class ConfigResponse {
     private String value;
 
     @Schema(description = "参数类型，参见 SysConfigTypeEnum 枚举", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @ExcelProperty(value = "参数类型", converter = DictConvert.class)
-    @DictFormat(DictTypeConstants.CONFIG_TYPE)
+    @ExcelProperty(value = "参数类型", converter = DictionaryConverter.class)
+    @DictionaryFormat(DictionaryTypeConstants.CONFIG_TYPE)
     private Integer type;
 
     @Schema(description = "是否可见", requiredMode = Schema.RequiredMode.REQUIRED, example = "true")
-    @ExcelProperty(value = "是否可见", converter = DictConvert.class)
-    @DictFormat(DictTypeConstants.BOOLEAN_STRING)
+    @ExcelProperty(value = "是否可见", converter = DictionaryConverter.class)
+    @DictionaryFormat(DictionaryTypeConstants.BOOLEAN_STRING)
     private Boolean visible;
 
     @Schema(description = "备注", example = "备注一下很帅气！")

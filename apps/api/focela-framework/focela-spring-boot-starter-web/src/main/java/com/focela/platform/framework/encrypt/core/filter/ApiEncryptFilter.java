@@ -6,9 +6,9 @@ import cn.hutool.crypto.asymmetric.AsymmetricDecryptor;
 import cn.hutool.crypto.asymmetric.AsymmetricEncryptor;
 import cn.hutool.crypto.symmetric.SymmetricDecryptor;
 import cn.hutool.crypto.symmetric.SymmetricEncryptor;
-import com.focela.platform.framework.common.pojo.CommonResult;
-import com.focela.platform.framework.common.util.object.ObjectUtils;
-import com.focela.platform.framework.common.util.servlet.ServletUtils;
+import com.focela.platform.framework.common.model.CommonResult;
+import com.focela.platform.framework.common.utils.object.ObjectUtils;
+import com.focela.platform.framework.common.utils.servlet.ServletUtils;
 import com.focela.platform.framework.encrypt.config.ApiEncryptProperties;
 import com.focela.platform.framework.encrypt.core.annotation.ApiEncrypt;
 import com.focela.platform.framework.web.config.WebProperties;
@@ -27,7 +27,7 @@ import org.springframework.web.util.ServletRequestPathUtils;
 
 import java.io.IOException;
 
-import static com.focela.platform.framework.common.exception.util.ServiceExceptionUtil.invalidParamException;
+import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.invalidParamException;
 
 /**
  * API 加密过滤器，处理 {@link ApiEncrypt} 注解。

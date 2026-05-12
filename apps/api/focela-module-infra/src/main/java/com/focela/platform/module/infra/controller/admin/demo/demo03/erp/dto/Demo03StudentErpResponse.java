@@ -1,7 +1,7 @@
 package com.focela.platform.module.infra.controller.admin.demo.demo03.erp.dto;
 
-import com.focela.platform.framework.excel.core.annotations.DictFormat;
-import com.focela.platform.framework.excel.core.convert.DictConvert;
+import com.focela.platform.framework.excel.core.annotations.DictionaryFormat;
+import com.focela.platform.framework.excel.core.converter.DictionaryConverter;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -23,8 +23,8 @@ public class Demo03StudentErpResponse {
     private String name;
 
     @Schema(description = "性别", requiredMode = Schema.RequiredMode.REQUIRED)
-    @ExcelProperty(value = "性别", converter = DictConvert.class)
-    @DictFormat("system_user_sex") // TODO 代码优化：建议设置到对应的 DictTypeConstants 枚举类中
+    @ExcelProperty(value = "性别", converter = DictionaryConverter.class)
+    @DictionaryFormat("system_user_sex") // TODO 代码优化：建议设置到对应的 DictionaryTypeConstants 枚举类中
     private Integer sex;
 
     @Schema(description = "出生日期", requiredMode = Schema.RequiredMode.REQUIRED)

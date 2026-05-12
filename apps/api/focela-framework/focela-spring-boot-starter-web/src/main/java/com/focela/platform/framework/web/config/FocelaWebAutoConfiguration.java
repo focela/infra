@@ -1,13 +1,13 @@
 package com.focela.platform.framework.web.config;
 
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.common.biz.infra.logger.ApiErrorLogCommonApi;
+import com.focela.platform.framework.common.business.infra.logger.ApiErrorLogCommonApi;
 import com.focela.platform.framework.common.enums.WebFilterOrderEnum;
 import com.focela.platform.framework.web.core.filter.CacheRequestBodyFilter;
 import com.focela.platform.framework.web.core.filter.DemoFilter;
 import com.focela.platform.framework.web.core.handler.GlobalExceptionHandler;
 import com.focela.platform.framework.web.core.handler.GlobalResponseBodyHandler;
-import com.focela.platform.framework.web.core.util.WebFrameworkUtils;
+import com.focela.platform.framework.web.core.utils.WebFrameworkUtils;
 import com.google.common.collect.Maps;
 import jakarta.servlet.Filter;
 import org.springframework.beans.factory.annotation.Value;

@@ -10,7 +10,7 @@ import org.springframework.messaging.handler.invocation.InvocableHandlerMethod;
 
 import java.util.List;
 
-import static com.focela.platform.framework.web.core.util.WebFrameworkUtils.HEADER_TENANT_ID;
+import static com.focela.platform.framework.web.core.utils.WebFrameworkUtils.HEADER_TENANT_ID;
 
 /**
  * RocketMQ 消息队列的多租户 {@link ConsumeMessageHook} 实现类

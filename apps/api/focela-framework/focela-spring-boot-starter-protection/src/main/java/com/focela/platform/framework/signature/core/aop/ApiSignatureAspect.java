@@ -8,7 +8,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.focela.platform.framework.common.exception.ServiceException;
 import com.focela.platform.framework.common.exception.enums.GlobalErrorCodeConstants;
-import com.focela.platform.framework.common.util.servlet.ServletUtils;
+import com.focela.platform.framework.common.utils.servlet.ServletUtils;
 import com.focela.platform.framework.signature.core.annotation.ApiSignature;
 import com.focela.platform.framework.signature.core.redis.ApiSignatureRedisDAO;
 import jakarta.servlet.http.HttpServletRequest;

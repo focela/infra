@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.api.logger.dto;
 
-import com.focela.platform.framework.common.pojo.PageParam;
+import com.focela.platform.framework.common.model.PageParam;
 import lombok.Data;
 
 /**

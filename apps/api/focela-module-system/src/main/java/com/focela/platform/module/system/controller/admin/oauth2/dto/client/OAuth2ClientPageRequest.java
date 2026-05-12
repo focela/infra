@@ -2,7 +2,7 @@ package com.focela.platform.module.system.controller.admin.oauth2.dto.client;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
-import com.focela.platform.framework.common.pojo.PageParam;
+import com.focela.platform.framework.common.model.PageParam;
 
 @Schema(description = "管理后台 - OAuth2 客户端分页 Request VO")
 @Data

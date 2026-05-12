@@ -1,8 +1,8 @@
 package com.focela.platform.framework.datapermission.config;
 
-import com.focela.platform.framework.common.biz.system.permission.PermissionCommonApi;
-import com.focela.platform.framework.datapermission.core.rule.dept.DeptDataPermissionRule;
-import com.focela.platform.framework.datapermission.core.rule.dept.DeptDataPermissionRuleCustomizer;
+import com.focela.platform.framework.common.business.system.permission.PermissionCommonApi;
+import com.focela.platform.framework.datapermission.core.rule.department.DepartmentDataPermissionRule;
+import com.focela.platform.framework.datapermission.core.rule.department.DepartmentDataPermissionRuleCustomizer;
 import com.focela.platform.framework.security.core.LoginUser;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -18,14 +18,14 @@ import java.util.List;
  */
 @AutoConfiguration
 @ConditionalOnClass(LoginUser.class)
-@ConditionalOnBean(value = {DeptDataPermissionRuleCustomizer.class})
+@ConditionalOnBean(value = {DepartmentDataPermissionRuleCustomizer.class})
 public class FocelaDeptDataPermissionAutoConfiguration {
 
     @Bean
-    public DeptDataPermissionRule deptDataPermissionRule(PermissionCommonApi permissionApi,
-                                                         List<DeptDataPermissionRuleCustomizer> customizers) {
-        // 创建 DeptDataPermissionRule 对象
-        DeptDataPermissionRule rule = new DeptDataPermissionRule(permissionApi);
+    public DepartmentDataPermissionRule deptDataPermissionRule(PermissionCommonApi permissionApi,
+                                                         List<DepartmentDataPermissionRuleCustomizer> customizers) {
+        // 创建 DepartmentDataPermissionRule 对象
+        DepartmentDataPermissionRule rule = new DepartmentDataPermissionRule(permissionApi);
         // 补全表配置
         customizers.forEach(customizer -> customizer.customize(rule));
         return rule;

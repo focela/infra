@@ -1,8 +1,8 @@
 package com.focela.platform.module.system.controller.admin.sms;
 
-import com.focela.platform.framework.common.pojo.CommonResult;
-import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.framework.common.util.object.BeanUtils;
+import com.focela.platform.framework.common.model.CommonResult;
+import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.sms.dto.channel.SmsChannelPageRequest;
 import com.focela.platform.module.system.controller.admin.sms.dto.channel.SmsChannelResponse;
 import com.focela.platform.module.system.controller.admin.sms.dto.channel.SmsChannelSaveRequest;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Comparator;
 import java.util.List;
 
-import static com.focela.platform.framework.common.pojo.CommonResult.success;
+import static com.focela.platform.framework.common.model.CommonResult.success;
 
 @Tag(name = "管理后台 - 短信渠道")
 @RestController

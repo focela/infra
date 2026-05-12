@@ -1,6 +1,6 @@
 package com.focela.platform.framework.mybatis.core.query;
 
-import com.focela.platform.framework.mybatis.core.util.JdbcUtils;
+import com.focela.platform.framework.mybatis.core.utils.JdbcUtils;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;

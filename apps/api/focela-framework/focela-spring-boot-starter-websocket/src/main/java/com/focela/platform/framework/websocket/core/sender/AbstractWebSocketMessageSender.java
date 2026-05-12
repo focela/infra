@@ -2,7 +2,7 @@ package com.focela.platform.framework.websocket.core.sender;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.common.util.json.JsonUtils;
+import com.focela.platform.framework.common.utils.json.JsonUtils;
 import com.focela.platform.framework.websocket.core.message.JsonWebSocketMessage;
 import com.focela.platform.framework.websocket.core.session.WebSocketSessionManager;
 import lombok.RequiredArgsConstructor;

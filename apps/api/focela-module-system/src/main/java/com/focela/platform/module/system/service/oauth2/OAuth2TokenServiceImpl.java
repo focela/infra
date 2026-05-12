@@ -8,12 +8,12 @@ import cn.hutool.core.util.StrUtil;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.common.exception.ServiceException;
 import com.focela.platform.framework.common.exception.enums.GlobalErrorCodeConstants;
-import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.framework.common.util.date.DateUtils;
-import com.focela.platform.framework.common.util.object.BeanUtils;
+import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.framework.common.utils.date.DateUtils;
+import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.framework.security.core.LoginUser;
 import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
-import com.focela.platform.framework.tenant.core.util.TenantUtils;
+import com.focela.platform.framework.tenant.core.utils.TenantUtils;
 import com.focela.platform.module.system.controller.admin.oauth2.dto.token.OAuth2AccessTokenPageRequest;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2ClientEntity;
@@ -33,8 +33,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static com.focela.platform.framework.common.exception.util.ServiceExceptionUtil.exception0;
-import static com.focela.platform.framework.common.util.collection.CollectionUtils.convertSet;
+import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception0;
+import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertSet;
 
 /**
  * OAuth2.0 Token Service 实现类

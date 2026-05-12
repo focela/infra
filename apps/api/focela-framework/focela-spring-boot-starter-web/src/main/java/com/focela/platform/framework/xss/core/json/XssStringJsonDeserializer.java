@@ -1,6 +1,6 @@
 package com.focela.platform.framework.xss.core.json;
 
-import com.focela.platform.framework.common.util.servlet.ServletUtils;
+import com.focela.platform.framework.common.utils.servlet.ServletUtils;
 import com.focela.platform.framework.xss.config.XssProperties;
 import com.focela.platform.framework.xss.core.clean.XssCleaner;
 import com.fasterxml.jackson.core.JsonParser;

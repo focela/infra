@@ -4,18 +4,18 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjectUtil;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.framework.common.util.collection.CollectionUtils;
-import com.focela.platform.framework.common.util.date.DateUtils;
-import com.focela.platform.framework.common.util.object.BeanUtils;
+import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.framework.common.utils.collection.CollectionUtils;
+import com.focela.platform.framework.common.utils.date.DateUtils;
+import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.framework.datapermission.core.annotation.DataPermission;
 import com.focela.platform.framework.tenant.config.TenantProperties;
 import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
-import com.focela.platform.framework.tenant.core.util.TenantUtils;
+import com.focela.platform.framework.tenant.core.utils.TenantUtils;
 import com.focela.platform.module.system.controller.admin.permission.dto.role.RoleSaveRequest;
 import com.focela.platform.module.system.controller.admin.tenant.dto.tenant.TenantPageRequest;
 import com.focela.platform.module.system.controller.admin.tenant.dto.tenant.TenantSaveRequest;
-import com.focela.platform.module.system.convert.tenant.TenantConvert;
+import com.focela.platform.module.system.converter.tenant.TenantConverter;
 import com.focela.platform.module.system.repository.entity.permission.MenuEntity;
 import com.focela.platform.module.system.repository.entity.permission.RoleEntity;
 import com.focela.platform.module.system.repository.entity.tenant.TenantEntity;
@@ -41,7 +41,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import static com.focela.platform.framework.common.exception.util.ServiceExceptionUtil.exception;
+import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
 import static java.util.Collections.singleton;
 
@@ -122,7 +122,7 @@ public class TenantServiceImpl implements TenantService {
 
     private Long createUser(Long roleId, TenantSaveRequest createRequest) {
         // 创建用户
-        Long userId = userService.createUser(TenantConvert.INSTANCE.convert02(createRequest));
+        Long userId = userService.createUser(TenantConverter.INSTANCE.convert02(createRequest));
         // 分配角色
         permissionService.assignUserRole(userId, singleton(roleId));
         return userId;

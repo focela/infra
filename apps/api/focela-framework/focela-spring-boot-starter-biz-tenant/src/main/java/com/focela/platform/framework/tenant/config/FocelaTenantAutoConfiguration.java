@@ -1,8 +1,8 @@
 package com.focela.platform.framework.tenant.config;
 
-import com.focela.platform.framework.common.biz.system.tenant.TenantCommonApi;
+import com.focela.platform.framework.common.business.system.tenant.TenantCommonApi;
 import com.focela.platform.framework.common.enums.WebFilterOrderEnum;
-import com.focela.platform.framework.mybatis.core.util.MyBatisUtils;
+import com.focela.platform.framework.mybatis.core.utils.MyBatisUtils;
 import com.focela.platform.framework.redis.config.FocelaCacheProperties;
 import com.focela.platform.framework.security.core.service.SecurityFrameworkService;
 import com.focela.platform.framework.tenant.core.aop.TenantIgnore;
@@ -46,7 +46,7 @@ import org.springframework.web.util.pattern.PathPattern;
 
 import java.util.*;
 
-import static com.focela.platform.framework.common.util.collection.CollectionUtils.convertList;
+import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertList;
 
 @AutoConfiguration
 @ConditionalOnProperty(prefix = "focela.tenant", value = "enable", matchIfMissing = true) // 允许使用 yudao.tenant.enable=false 禁用多租户

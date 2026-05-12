@@ -3,8 +3,8 @@ package com.focela.platform.module.system.service.tenant;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.framework.common.util.object.BeanUtils;
+import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.tenant.dto.packages.TenantPackagePageRequest;
 import com.focela.platform.module.system.controller.admin.tenant.dto.packages.TenantPackageSaveRequest;
 import com.focela.platform.module.system.repository.entity.tenant.TenantEntity;
@@ -19,7 +19,7 @@ import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
-import static com.focela.platform.framework.common.exception.util.ServiceExceptionUtil.exception;
+import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
 
 /**

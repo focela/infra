@@ -9,16 +9,16 @@ import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.focela.platform.framework.apilog.core.annotation.ApiAccessLog;
 import com.focela.platform.framework.apilog.core.enums.OperateTypeEnum;
-import com.focela.platform.framework.common.biz.infra.logger.ApiAccessLogCommonApi;
-import com.focela.platform.framework.common.biz.infra.logger.dto.ApiAccessLogCreateReqDTO;
+import com.focela.platform.framework.common.business.infra.logger.ApiAccessLogCommonApi;
+import com.focela.platform.framework.common.business.infra.logger.dto.ApiAccessLogCreateReqDTO;
 import com.focela.platform.framework.common.exception.enums.GlobalErrorCodeConstants;
-import com.focela.platform.framework.common.pojo.CommonResult;
-import com.focela.platform.framework.common.util.json.JsonUtils;
-import com.focela.platform.framework.common.util.monitor.TracerUtils;
-import com.focela.platform.framework.common.util.servlet.ServletUtils;
+import com.focela.platform.framework.common.model.CommonResult;
+import com.focela.platform.framework.common.utils.json.JsonUtils;
+import com.focela.platform.framework.common.utils.monitor.TracerUtils;
+import com.focela.platform.framework.common.utils.servlet.ServletUtils;
 import com.focela.platform.framework.web.config.WebProperties;
 import com.focela.platform.framework.web.core.filter.ApiRequestFilter;
-import com.focela.platform.framework.web.core.util.WebFrameworkUtils;
+import com.focela.platform.framework.web.core.utils.WebFrameworkUtils;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,7 +37,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import static com.focela.platform.framework.apilog.core.interceptor.ApiAccessLogInterceptor.ATTRIBUTE_HANDLER_METHOD;
-import static com.focela.platform.framework.common.util.json.JsonUtils.toJsonString;
+import static com.focela.platform.framework.common.utils.json.JsonUtils.toJsonString;
 
 /**
  * API 访问日志 Filter

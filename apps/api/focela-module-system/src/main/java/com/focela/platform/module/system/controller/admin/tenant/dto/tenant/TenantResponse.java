@@ -2,9 +2,9 @@ package com.focela.platform.module.system.controller.admin.tenant.dto.tenant;
 
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
-import com.focela.platform.framework.excel.core.annotations.DictFormat;
-import com.focela.platform.framework.excel.core.convert.DictConvert;
-import com.focela.platform.module.system.enums.DictTypeConstants;
+import com.focela.platform.framework.excel.core.annotations.DictionaryFormat;
+import com.focela.platform.framework.excel.core.converter.DictionaryConverter;
+import com.focela.platform.module.system.enums.DictionaryTypeConstants;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -33,8 +33,8 @@ public class TenantResponse {
     private String contactMobile;
 
     @Schema(description = "租户状态", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @ExcelProperty(value = "状态", converter = DictConvert.class)
-    @DictFormat(DictTypeConstants.COMMON_STATUS)
+    @ExcelProperty(value = "状态", converter = DictionaryConverter.class)
+    @DictionaryFormat(DictionaryTypeConstants.COMMON_STATUS)
     private Integer status;
 
     @Schema(description = "绑定域名数组", example = "https://www.iocoder.cn")

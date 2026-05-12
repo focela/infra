@@ -26,8 +26,8 @@ public class FocelaTracerAutoConfiguration {
 
     // TODO @芋艿：skywalking 不兼容最新的 opentracing 版本。同时，opentracing 也停止了维护，尬住了！后续换 opentelemetry 即可！
 //    @Bean
-//    public BizTraceAspect bizTracingAop() {
-//        return new BizTraceAspect(tracer());
+//    public BusinessTraceAspect bizTracingAop() {
+//        return new BusinessTraceAspect(tracer());
 //    }
 //
 //    @Bean

@@ -1,8 +1,8 @@
 package com.focela.platform.module.system.framework.datapermission.config;
 
-import com.focela.platform.module.system.repository.entity.dept.DeptEntity;
+import com.focela.platform.module.system.repository.entity.department.DepartmentEntity;
 import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
-import com.focela.platform.framework.datapermission.core.rule.dept.DeptDataPermissionRuleCustomizer;
+import com.focela.platform.framework.datapermission.core.rule.department.DepartmentDataPermissionRuleCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,11 +15,11 @@ import org.springframework.context.annotation.Configuration;
 public class DataPermissionConfiguration {
 
     @Bean
-    public DeptDataPermissionRuleCustomizer sysDeptDataPermissionRuleCustomizer() {
+    public DepartmentDataPermissionRuleCustomizer sysDeptDataPermissionRuleCustomizer() {
         return rule -> {
             // dept
             rule.addDeptColumn(AdminUserEntity.class);
-            rule.addDeptColumn(DeptEntity.class, "id");
+            rule.addDeptColumn(DepartmentEntity.class, "id");
             // user
             rule.addUserColumn(AdminUserEntity.class, "id");
         };

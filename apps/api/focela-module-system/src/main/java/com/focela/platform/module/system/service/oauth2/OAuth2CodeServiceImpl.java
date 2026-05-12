@@ -1,7 +1,7 @@
 package com.focela.platform.module.system.service.oauth2;
 
 import cn.hutool.core.util.IdUtil;
-import com.focela.platform.framework.common.util.date.DateUtils;
+import com.focela.platform.framework.common.utils.date.DateUtils;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2CodeEntity;
 import com.focela.platform.module.system.repository.mapper.oauth2.OAuth2CodeMapper;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.focela.platform.framework.common.exception.util.ServiceExceptionUtil.exception;
+import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.module.system.enums.ErrorCodeConstants.OAUTH2_CODE_EXPIRE;
 import static com.focela.platform.module.system.enums.ErrorCodeConstants.OAUTH2_CODE_NOT_EXISTS;
 

@@ -1,11 +1,11 @@
 package com.focela.platform.module.infra.service.logger;
 
-import com.focela.platform.framework.common.biz.infra.logger.dto.ApiAccessLogCreateReqDTO;
-import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.framework.common.util.string.StrUtils;
+import com.focela.platform.framework.common.business.infra.logger.dto.ApiAccessLogCreateReqDTO;
+import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.framework.common.utils.object.BeanUtils;
+import com.focela.platform.framework.common.utils.string.StrUtils;
 import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
-import com.focela.platform.framework.tenant.core.util.TenantUtils;
+import com.focela.platform.framework.tenant.core.utils.TenantUtils;
 import com.focela.platform.module.infra.controller.admin.logger.dto.apiaccesslog.ApiAccessLogPageRequest;
 import com.focela.platform.module.infra.repository.entity.logger.ApiAccessLogEntity;
 import com.focela.platform.module.infra.repository.mapper.logger.ApiAccessLogMapper;

@@ -1,10 +1,10 @@
 package com.focela.platform.module.system.controller.admin.logger.dto.operatelog;
 
-import com.focela.platform.framework.excel.core.annotations.DictFormat;
+import com.focela.platform.framework.excel.core.annotations.DictionaryFormat;
 import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
-import com.focela.platform.module.system.enums.DictTypeConstants;
+import com.focela.platform.module.system.enums.DictionaryTypeConstants;
 import com.fhs.core.trans.anno.Trans;
 import com.fhs.core.trans.constant.TransType;
 import com.fhs.core.trans.vo.VO;
@@ -35,7 +35,7 @@ public class OperateLogResponse implements VO {
 
     @Schema(description = "用户类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "1", implementation = Integer.class)
     @ExcelProperty("用户类型")
-    @DictFormat(DictTypeConstants.USER_TYPE)
+    @DictionaryFormat(DictionaryTypeConstants.USER_TYPE)
     private Integer userType;
 
     @Schema(description = "操作模块类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "订单")

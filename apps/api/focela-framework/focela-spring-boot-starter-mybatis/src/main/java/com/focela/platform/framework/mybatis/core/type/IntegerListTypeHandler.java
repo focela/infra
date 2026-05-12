@@ -1,7 +1,7 @@
 package com.focela.platform.framework.mybatis.core.type;
 
 import cn.hutool.core.collection.CollUtil;
-import com.focela.platform.framework.common.util.string.StrUtils;
+import com.focela.platform.framework.common.utils.string.StrUtils;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedJdbcTypes;
 import org.apache.ibatis.type.MappedTypes;

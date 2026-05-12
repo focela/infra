@@ -2,13 +2,13 @@ package com.focela.platform.module.system.api.user;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjUtil;
-import com.focela.platform.framework.common.util.object.BeanUtils;
+import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.framework.datapermission.core.annotation.DataPermission;
-import com.focela.platform.framework.datapermission.core.util.DataPermissionUtils;
+import com.focela.platform.framework.datapermission.core.utils.DataPermissionUtils;
 import com.focela.platform.module.system.api.user.dto.AdminUserRespDTO;
-import com.focela.platform.module.system.repository.entity.dept.DeptEntity;
+import com.focela.platform.module.system.repository.entity.department.DepartmentEntity;
 import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
-import com.focela.platform.module.system.service.dept.DeptService;
+import com.focela.platform.module.system.service.department.DepartmentService;
 import com.focela.platform.module.system.service.user.AdminUserService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import static com.focela.platform.framework.common.util.collection.CollectionUtils.convertSet;
+import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertSet;
 
 /**
  * Admin 用户 API 实现类
@@ -31,7 +31,7 @@ public class AdminUserApiImpl implements AdminUserApi {
     @Resource
     private AdminUserService userService;
     @Resource
-    private DeptService deptService;
+    private DepartmentService deptService;
 
     @Override
     @DataPermission(enable = false) // 忽略数据权限，避免因为过滤，导致无法查询用户。类似：https://github.com/YunaiV/ruoyi-vue-pro/issues/1051
@@ -43,15 +43,15 @@ public class AdminUserApiImpl implements AdminUserApi {
     @Override
     public List<AdminUserRespDTO> getUserListBySubordinate(Long id) {
         // 1.1 获取用户负责的部门
-        List<DeptEntity> depts = deptService.getDeptListByLeaderUserId(id);
+        List<DepartmentEntity> depts = deptService.getDeptListByLeaderUserId(id);
         if (CollUtil.isEmpty(depts)) {
             return Collections.emptyList();
         }
         // 1.2 获取所有子部门
-        Set<Long> deptIds = convertSet(depts, DeptEntity::getId);
-        List<DeptEntity> childDeptList = deptService.getChildDeptList(deptIds);
+        Set<Long> deptIds = convertSet(depts, DepartmentEntity::getId);
+        List<DepartmentEntity> childDeptList = deptService.getChildDeptList(deptIds);
         if (CollUtil.isNotEmpty(childDeptList)) {
-            deptIds.addAll(convertSet(childDeptList, DeptEntity::getId));
+            deptIds.addAll(convertSet(childDeptList, DepartmentEntity::getId));
         }
 
         // 2. 获取部门对应的用户信息

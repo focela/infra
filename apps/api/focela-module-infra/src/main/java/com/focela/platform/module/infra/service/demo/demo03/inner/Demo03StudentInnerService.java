@@ -1,6 +1,6 @@
 package com.focela.platform.module.infra.service.demo.demo03.inner;
 
-import com.focela.platform.framework.common.pojo.PageResult;
+import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.module.infra.controller.admin.demo.demo03.inner.dto.Demo03StudentInnerPageRequest;
 import com.focela.platform.module.infra.controller.admin.demo.demo03.inner.dto.Demo03StudentInnerSaveRequest;
 import com.focela.platform.module.infra.repository.entity.demo.demo03.Demo03CourseEntity;

@@ -1,9 +1,9 @@
 package com.focela.platform.framework.web.core.filter;
 
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.common.pojo.CommonResult;
-import com.focela.platform.framework.common.util.servlet.ServletUtils;
-import com.focela.platform.framework.web.core.util.WebFrameworkUtils;
+import com.focela.platform.framework.common.model.CommonResult;
+import com.focela.platform.framework.common.utils.servlet.ServletUtils;
+import com.focela.platform.framework.web.core.utils.WebFrameworkUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import jakarta.servlet.FilterChain;

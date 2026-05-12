@@ -7,11 +7,11 @@ import cn.hutool.core.util.StrUtil;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.common.exception.ServiceException;
-import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.framework.common.util.collection.CollectionUtils;
-import com.focela.platform.framework.common.util.object.BeanUtils;
-import com.focela.platform.framework.common.util.validation.ValidationUtils;
-import com.focela.platform.framework.datapermission.core.util.DataPermissionUtils;
+import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.framework.common.utils.collection.CollectionUtils;
+import com.focela.platform.framework.common.utils.object.BeanUtils;
+import com.focela.platform.framework.common.utils.validation.ValidationUtils;
+import com.focela.platform.framework.datapermission.core.utils.DataPermissionUtils;
 import com.focela.platform.module.infra.api.config.ConfigApi;
 import com.focela.platform.module.system.controller.admin.auth.dto.AuthRegisterRequest;
 import com.focela.platform.module.system.controller.admin.user.dto.profile.UserProfileUpdatePasswordRequest;
@@ -20,13 +20,13 @@ import com.focela.platform.module.system.controller.admin.user.dto.user.UserImpo
 import com.focela.platform.module.system.controller.admin.user.dto.user.UserImportResponse;
 import com.focela.platform.module.system.controller.admin.user.dto.user.UserPageRequest;
 import com.focela.platform.module.system.controller.admin.user.dto.user.UserSaveRequest;
-import com.focela.platform.module.system.repository.entity.dept.DeptEntity;
-import com.focela.platform.module.system.repository.entity.dept.UserPostEntity;
+import com.focela.platform.module.system.repository.entity.department.DepartmentEntity;
+import com.focela.platform.module.system.repository.entity.department.UserPostEntity;
 import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
-import com.focela.platform.module.system.repository.mapper.dept.UserPostMapper;
+import com.focela.platform.module.system.repository.mapper.department.UserPostMapper;
 import com.focela.platform.module.system.repository.mapper.user.AdminUserMapper;
-import com.focela.platform.module.system.service.dept.DeptService;
-import com.focela.platform.module.system.service.dept.PostService;
+import com.focela.platform.module.system.service.department.DepartmentService;
+import com.focela.platform.module.system.service.department.PostService;
 import com.focela.platform.module.system.service.oauth2.OAuth2TokenService;
 import com.focela.platform.module.system.service.permission.PermissionService;
 import com.focela.platform.module.system.service.tenant.TenantService;
@@ -46,8 +46,8 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.focela.platform.framework.common.exception.util.ServiceExceptionUtil.exception;
-import static com.focela.platform.framework.common.util.collection.CollectionUtils.*;
+import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
+import static com.focela.platform.framework.common.utils.collection.CollectionUtils.*;
 import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
 import static com.focela.platform.module.system.enums.LogRecordConstants.*;
 
@@ -68,7 +68,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     private AdminUserMapper userMapper;
 
     @Resource
-    private DeptService deptService;
+    private DepartmentService deptService;
     @Resource
     private PostService postService;
     @Resource
@@ -365,7 +365,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         if (deptId == null) {
             return Collections.emptySet();
         }
-        Set<Long> deptIds = convertSet(deptService.getChildDeptList(deptId), DeptEntity::getId);
+        Set<Long> deptIds = convertSet(deptService.getChildDeptList(deptId), DepartmentEntity::getId);
         deptIds.add(deptId); // 包括自身
         return deptIds;
     }

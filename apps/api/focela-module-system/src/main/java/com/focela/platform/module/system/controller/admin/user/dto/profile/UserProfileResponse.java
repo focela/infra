@@ -1,7 +1,7 @@
 package com.focela.platform.module.system.controller.admin.user.dto.profile;
 
-import com.focela.platform.module.system.controller.admin.dept.dto.dept.DeptSimpleResponse;
-import com.focela.platform.module.system.controller.admin.dept.dto.post.PostSimpleResponse;
+import com.focela.platform.module.system.controller.admin.department.dto.dept.DepartmentSimpleResponse;
+import com.focela.platform.module.system.controller.admin.department.dto.post.PostSimpleResponse;
 import com.focela.platform.module.system.controller.admin.permission.dto.role.RoleSimpleResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -50,7 +50,7 @@ public class UserProfileResponse {
     /**
      * 所在部门
      */
-    private DeptSimpleResponse dept;
+    private DepartmentSimpleResponse dept;
     /**
      * 所属岗位数组
      */

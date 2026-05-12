@@ -4,12 +4,12 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.common.pojo.CommonResult;
+import com.focela.platform.framework.common.model.CommonResult;
 import com.focela.platform.framework.datapermission.core.annotation.DataPermission;
 import com.focela.platform.framework.security.config.SecurityProperties;
-import com.focela.platform.framework.security.core.util.SecurityFrameworkUtils;
+import com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils;
 import com.focela.platform.module.system.controller.admin.auth.dto.*;
-import com.focela.platform.module.system.convert.auth.AuthConvert;
+import com.focela.platform.module.system.converter.auth.AuthConverter;
 import com.focela.platform.module.system.repository.entity.permission.MenuEntity;
 import com.focela.platform.module.system.repository.entity.permission.RoleEntity;
 import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
@@ -36,9 +36,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import static com.focela.platform.framework.common.pojo.CommonResult.success;
-import static com.focela.platform.framework.common.util.collection.CollectionUtils.convertSet;
-import static com.focela.platform.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
+import static com.focela.platform.framework.common.model.CommonResult.success;
+import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertSet;
+import static com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils.getLoginUserId;
 
 @Tag(name = "管理后台 - 认证")
 @RestController
@@ -103,7 +103,7 @@ public class AuthController {
         // 1.2 获得角色列表
         Set<Long> roleIds = permissionService.getUserRoleIdListByUserId(getLoginUserId());
         if (CollUtil.isEmpty(roleIds)) {
-            return success(AuthConvert.INSTANCE.convert(user, Collections.emptyList(), Collections.emptyList()));
+            return success(AuthConverter.INSTANCE.convert(user, Collections.emptyList(), Collections.emptyList()));
         }
         List<RoleEntity> roles = roleService.getRoleList(roleIds);
         roles.removeIf(role -> !CommonStatusEnum.ENABLE.getStatus().equals(role.getStatus())); // 移除禁用的角色
@@ -114,7 +114,7 @@ public class AuthController {
         menuList = menuService.filterDisableMenus(menuList);
 
         // 2. 拼接结果返回
-        return success(AuthConvert.INSTANCE.convert(user, roles, menuList));
+        return success(AuthConverter.INSTANCE.convert(user, roles, menuList));
     }
 
     @PostMapping("/register")

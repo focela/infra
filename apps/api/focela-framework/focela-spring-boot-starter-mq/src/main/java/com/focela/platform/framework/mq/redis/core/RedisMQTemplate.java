@@ -1,6 +1,6 @@
 package com.focela.platform.framework.mq.redis.core;
 
-import com.focela.platform.framework.common.util.json.JsonUtils;
+import com.focela.platform.framework.common.utils.json.JsonUtils;
 import com.focela.platform.framework.mq.redis.core.interceptor.RedisMessageInterceptor;
 import com.focela.platform.framework.mq.redis.core.message.AbstractRedisMessage;
 import com.focela.platform.framework.mq.redis.core.pubsub.AbstractRedisChannelMessage;

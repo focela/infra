@@ -1,12 +1,12 @@
 package com.focela.platform.framework.mybatis.core.mapper;
 
 import cn.hutool.core.collection.CollUtil;
-import com.focela.platform.framework.common.pojo.PageParam;
-import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.framework.common.pojo.SortablePageParam;
-import com.focela.platform.framework.common.pojo.SortingField;
-import com.focela.platform.framework.mybatis.core.util.JdbcUtils;
-import com.focela.platform.framework.mybatis.core.util.MyBatisUtils;
+import com.focela.platform.framework.common.model.PageParam;
+import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.framework.common.model.SortablePageParam;
+import com.focela.platform.framework.common.model.SortingField;
+import com.focela.platform.framework.mybatis.core.utils.JdbcUtils;
+import com.focela.platform.framework.mybatis.core.utils.MyBatisUtils;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;

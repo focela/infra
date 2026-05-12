@@ -1,8 +1,8 @@
 package com.focela.platform.module.system.controller.admin.logger.dto.loginlog;
 
-import com.focela.platform.framework.excel.core.annotations.DictFormat;
-import com.focela.platform.framework.excel.core.convert.DictConvert;
-import com.focela.platform.module.system.enums.DictTypeConstants;
+import com.focela.platform.framework.excel.core.annotations.DictionaryFormat;
+import com.focela.platform.framework.excel.core.converter.DictionaryConverter;
+import com.focela.platform.module.system.enums.DictionaryTypeConstants;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -20,8 +20,8 @@ public class LoginLogResponse {
     private Long id;
 
     @Schema(description = "日志类型，参见 LoginLogTypeEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @ExcelProperty(value = "日志类型", converter = DictConvert.class)
-    @DictFormat(DictTypeConstants.LOGIN_TYPE)
+    @ExcelProperty(value = "日志类型", converter = DictionaryConverter.class)
+    @DictionaryFormat(DictionaryTypeConstants.LOGIN_TYPE)
     private Integer logType;
 
     @Schema(description = "用户编号", example = "666")
@@ -38,8 +38,8 @@ public class LoginLogResponse {
     private String username;
 
     @Schema(description = "登录结果，参见 LoginResultEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @ExcelProperty(value = "登录结果", converter = DictConvert.class)
-    @DictFormat(DictTypeConstants.LOGIN_RESULT)
+    @ExcelProperty(value = "登录结果", converter = DictionaryConverter.class)
+    @DictionaryFormat(DictionaryTypeConstants.LOGIN_RESULT)
     private Integer result;
 
     @Schema(description = "用户 IP", requiredMode = Schema.RequiredMode.REQUIRED, example = "127.0.0.1")

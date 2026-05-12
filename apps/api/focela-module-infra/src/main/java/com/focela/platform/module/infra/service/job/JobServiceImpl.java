@@ -1,11 +1,11 @@
 package com.focela.platform.module.infra.service.job;
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.focela.platform.framework.common.pojo.PageResult;
-import com.focela.platform.framework.common.util.object.BeanUtils;
+import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.framework.quartz.core.handler.JobHandler;
 import com.focela.platform.framework.quartz.core.scheduler.SchedulerManager;
-import com.focela.platform.framework.quartz.core.util.CronUtils;
+import com.focela.platform.framework.quartz.core.utils.CronUtils;
 import com.focela.platform.module.infra.controller.admin.job.dto.job.JobPageRequest;
 import com.focela.platform.module.infra.controller.admin.job.dto.job.JobSaveRequest;
 import com.focela.platform.module.infra.repository.entity.job.JobEntity;
@@ -22,8 +22,8 @@ import org.springframework.validation.annotation.Validated;
 import java.util.List;
 import java.util.Objects;
 
-import static com.focela.platform.framework.common.exception.util.ServiceExceptionUtil.exception;
-import static com.focela.platform.framework.common.util.collection.CollectionUtils.containsAny;
+import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
+import static com.focela.platform.framework.common.utils.collection.CollectionUtils.containsAny;
 import static com.focela.platform.module.infra.enums.ErrorCodeConstants.*;
 
 /**

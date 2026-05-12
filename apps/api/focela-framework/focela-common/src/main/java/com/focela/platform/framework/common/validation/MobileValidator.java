@@ -1,7 +1,7 @@
 package com.focela.platform.framework.common.validation;
 
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.common.util.validation.ValidationUtils;
+import com.focela.platform.framework.common.utils.validation.ValidationUtils;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

@@ -1,6 +1,6 @@
 package com.focela.platform.framework.web.core.filter;
 
-import com.focela.platform.framework.common.util.servlet.ServletUtils;
+import com.focela.platform.framework.common.utils.servlet.ServletUtils;
 import jakarta.servlet.ReadListener;
 import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.http.HttpServletRequest;

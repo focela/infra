@@ -1,7 +1,7 @@
 package com.focela.platform.framework.tenant.core.web;
 
 import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
-import com.focela.platform.framework.web.core.util.WebFrameworkUtils;
+import com.focela.platform.framework.web.core.utils.WebFrameworkUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import jakarta.servlet.FilterChain;

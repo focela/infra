@@ -17,8 +17,8 @@ import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 
 import static cn.hutool.core.util.RandomUtil.randomInt;
-import static com.focela.platform.framework.common.exception.util.ServiceExceptionUtil.exception;
-import static com.focela.platform.framework.common.util.date.DateUtils.isToday;
+import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
+import static com.focela.platform.framework.common.utils.date.DateUtils.isToday;
 import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
 
 /**
