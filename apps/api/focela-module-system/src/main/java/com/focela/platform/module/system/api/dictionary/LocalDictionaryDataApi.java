@@ -16,7 +16,7 @@ import java.util.List;
  * @author 芋道源码
  */
 @Service
-public class DictionaryDataApiImpl implements DictionaryDataApi {
+public class LocalDictionaryDataApi implements DictionaryDataApi {
 
     @Resource
     private DictionaryDataService dictDataService;

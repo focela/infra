@@ -17,7 +17,7 @@ import jakarta.annotation.Resource;
  * @author 芋道源码
  */
 @Service
-public class OAuth2TokenApiImpl implements OAuth2TokenCommonApi {
+public class LocalOAuth2TokenApi implements OAuth2TokenCommonApi {
 
     @Resource
     private OAuth2TokenService oauth2TokenService;

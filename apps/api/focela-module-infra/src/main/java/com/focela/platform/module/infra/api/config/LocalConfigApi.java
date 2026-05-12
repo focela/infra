@@ -13,7 +13,7 @@ import org.springframework.validation.annotation.Validated;
  */
 @Service
 @Validated
-public class ConfigApiImpl implements ConfigApi {
+public class LocalConfigApi implements ConfigApi {
 
     @Resource
     private ConfigService configService;

@@ -16,7 +16,7 @@ import jakarta.annotation.Resource;
  */
 @Service
 @Validated
-public class SmsCodeApiImpl implements SmsCodeApi {
+public class LocalSmsCodeApi implements SmsCodeApi {
 
     @Resource
     private SmsCodeService smsCodeService;

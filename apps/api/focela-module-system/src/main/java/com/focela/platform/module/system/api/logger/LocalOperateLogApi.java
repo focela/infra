@@ -19,7 +19,7 @@ import org.springframework.validation.annotation.Validated;
  */
 @Service
 @Validated
-public class OperateLogApiImpl implements OperateLogApi {
+public class LocalOperateLogApi implements OperateLogApi {
 
     @Resource
     private OperateLogService operateLogService;

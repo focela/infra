@@ -16,7 +16,7 @@ import java.util.List;
  * @author 芋道源码
  */
 @Service
-public class PostApiImpl implements PostApi {
+public class LocalPostApi implements PostApi {
 
     @Resource
     private PostService postService;

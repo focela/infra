@@ -13,7 +13,7 @@ import java.util.List;
  * @author 芋道源码
  */
 @Service
-public class TenantApiImpl implements TenantCommonApi {
+public class LocalTenantApi implements TenantCommonApi {
 
     @Resource
     private TenantService tenantService;

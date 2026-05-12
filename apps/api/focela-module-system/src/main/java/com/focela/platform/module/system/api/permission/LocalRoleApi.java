@@ -12,7 +12,7 @@ import java.util.Collection;
  * @author 芋道源码
  */
 @Service
-public class RoleApiImpl implements RoleApi {
+public class LocalRoleApi implements RoleApi {
 
     @Resource
     private RoleService roleService;

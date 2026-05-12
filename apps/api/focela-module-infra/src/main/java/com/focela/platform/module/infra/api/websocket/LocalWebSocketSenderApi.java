@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * @author 芋道源码
  */
 @Component
-public class WebSocketSenderApiImpl implements WebSocketSenderApi {
+public class LocalWebSocketSenderApi implements WebSocketSenderApi {
 
     @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
     @Autowired(required = false) // 由于 yudao.websocket.enable 配置项，可以关闭 WebSocket 的功能，所以这里只能不强制注入

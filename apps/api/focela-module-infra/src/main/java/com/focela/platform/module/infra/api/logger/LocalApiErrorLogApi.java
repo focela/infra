@@ -15,7 +15,7 @@ import jakarta.annotation.Resource;
  */
 @Service
 @Validated
-public class ApiErrorLogApiImpl implements ApiErrorLogCommonApi {
+public class LocalApiErrorLogApi implements ApiErrorLogCommonApi {
 
     @Resource
     private ApiErrorLogService apiErrorLogService;

@@ -29,7 +29,7 @@ import static com.focela.platform.framework.common.utils.collection.CollectionUt
 @Service
 @Validated
 @Slf4j
-public class SocialClientApiImpl implements SocialClientApi {
+public class LocalSocialClientApi implements SocialClientApi {
 
     @Resource
     private SocialClientService socialClientService;

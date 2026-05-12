@@ -14,7 +14,7 @@ import jakarta.annotation.Resource;
  */
 @Service
 @Validated
-public class MailSendApiImpl implements MailSendApi {
+public class LocalMailSendApi implements MailSendApi {
 
     @Resource
     private MailSendService mailSendService;

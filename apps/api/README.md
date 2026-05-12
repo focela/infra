@@ -36,7 +36,7 @@ Base Java package: `com.focela.platform.*`
 
 ```
 com.focela.platform.module.<bounded-context>/
-├── api/                  # Cross-module RPC contracts (XxxApi + XxxApiImpl)
+├── api/                  # Cross-module RPC contracts (XxxApi + LocalXxxApi)
 ├── controller/
 │   ├── admin/            # Admin Web API (/admin-api/...)
 │   └── app/              # Mobile/App API (/app-api/...)
@@ -60,7 +60,7 @@ com.focela.platform.module.<bounded-context>/
 | Mapper (MyBatis) | `UserMapper extends BaseMapperX<UserEntity>` |
 | Service interface | `UserService` |
 | Service impl | `DefaultUserService implements UserService` |
-| Cross-module API | `UserApi` + `UserApiImpl` |
+| Cross-module API | `UserApi` + `LocalUserApi` |
 | Request DTO | `UserSaveRequest`, `UserPageRequest`, `UserListRequest` |
 | Response DTO | `UserResponse`, `UserSimpleResponse` |
 | Converter | `UserConverter` (MapStruct) |
@@ -133,7 +133,7 @@ Current test baseline: **457 run, 456 pass, 1 timezone-dependent failure** (`Def
 |---|---|
 | Monorepo `apps/api/` | Future-proof for additional apps (`apps/web/`, `apps/worker/`) |
 | Layered (controller → service → repository) | Inherited from yudao baseline; pragmatic, not feature-first |
-| `*Api` interface + `*ApiImpl` | Cross-module contract, microservice-ready (Dubbo / OpenFeign pattern) |
+| `*Api` interface + `Local*Api` impl | Cross-module contract. `Local*` prefix signals same-JVM implementation; a future `Remote*Api` can sit alongside when modules move to RPC. |
 | `*Service` + `Default*Service` | Spring convention (`DefaultListableBeanFactory`); avoids `*Impl` smell while keeping interface for AOP/mocking |
 | MyBatis-Plus over JPA | Yudao baseline; better fit for legacy PostgreSQL schema |
 | `focela.*` config prefix | Single namespace for application properties |

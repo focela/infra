@@ -14,7 +14,7 @@ import java.util.Set;
  * @author 芋道源码
  */
 @Service
-public class PermissionApiImpl implements PermissionApi {
+public class LocalPermissionApi implements PermissionApi {
 
     @Resource
     private PermissionService permissionService;

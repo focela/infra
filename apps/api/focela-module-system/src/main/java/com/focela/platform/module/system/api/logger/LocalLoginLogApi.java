@@ -14,7 +14,7 @@ import jakarta.annotation.Resource;
  */
 @Service
 @Validated
-public class LoginLogApiImpl implements LoginLogApi {
+public class LocalLoginLogApi implements LoginLogApi {
 
     @Resource
     private LoginLogService loginLogService;

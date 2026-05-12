@@ -12,7 +12,7 @@ import jakarta.annotation.Resource;
  * @author xrcoder
  */
 @Service
-public class NotifyMessageSendApiImpl implements NotifyMessageSendApi {
+public class LocalNotifyMessageSendApi implements NotifyMessageSendApi {
 
     @Resource
     private NotifySendService notifySendService;

@@ -14,7 +14,7 @@ import org.springframework.validation.annotation.Validated;
  */
 @Service
 @Validated
-public class ApiAccessLogApiImpl implements ApiAccessLogCommonApi {
+public class LocalApiAccessLogApi implements ApiAccessLogCommonApi {
 
     @Resource
     private ApiAccessLogService apiAccessLogService;

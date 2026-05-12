@@ -12,7 +12,7 @@ import org.springframework.validation.annotation.Validated;
  */
 @Service
 @Validated
-public class FileApiImpl implements FileApi {
+public class LocalFileApi implements FileApi {
 
     @Resource
     private FileService fileService;

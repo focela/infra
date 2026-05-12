@@ -26,7 +26,7 @@ import static com.focela.platform.framework.common.utils.collection.CollectionUt
  * @author 芋道源码
  */
 @Service
-public class AdminUserApiImpl implements AdminUserApi {
+public class LocalAdminUserApi implements AdminUserApi {
 
     @Resource
     private AdminUserService userService;

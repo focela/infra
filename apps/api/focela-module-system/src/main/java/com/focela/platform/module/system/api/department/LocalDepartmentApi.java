@@ -16,7 +16,7 @@ import java.util.List;
  * @author 芋道源码
  */
 @Service
-public class DepartmentApiImpl implements DepartmentApi {
+public class LocalDepartmentApi implements DepartmentApi {
 
     @Resource
     private DepartmentService deptService;

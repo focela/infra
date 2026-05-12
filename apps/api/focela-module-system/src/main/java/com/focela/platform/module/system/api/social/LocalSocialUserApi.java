@@ -16,7 +16,7 @@ import jakarta.annotation.Resource;
  */
 @Service
 @Validated
-public class SocialUserApiImpl implements SocialUserApi {
+public class LocalSocialUserApi implements SocialUserApi {
 
     @Resource
     private SocialUserService socialUserService;
