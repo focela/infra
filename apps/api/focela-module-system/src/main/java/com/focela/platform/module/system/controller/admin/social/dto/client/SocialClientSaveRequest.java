@@ -17,25 +17,25 @@ public class SocialClientSaveRequest {
     private Long id;
 
     @Schema(description = "Application name", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudaomall")
-    @NotNull(message = "应用名不能为空")
+    @NotNull(message = "application name must not be blank")
     private String name;
 
     @Schema(description = "Social platform type", requiredMode = Schema.RequiredMode.REQUIRED, example = "31")
-    @NotNull(message = "社交平台的类型不能为空")
+    @NotNull(message = "social platform type must not be blank")
     @InEnum(SocialTypeEnum.class)
     private Integer socialType;
 
     @Schema(description = "User type", requiredMode = Schema.RequiredMode.REQUIRED, example = "2")
-    @NotNull(message = "用户类型不能为空")
+    @NotNull(message = "user type must not be blank")
     @InEnum(UserTypeEnum.class)
     private Integer userType;
 
     @Schema(description = "Client ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "wwd411c69a39ad2e54")
-    @NotNull(message = "客户端编号不能为空")
+    @NotNull(message = "client ID must not be blank")
     private String clientId;
 
     @Schema(description = "Client secret", requiredMode = Schema.RequiredMode.REQUIRED, example = "peter")
-    @NotNull(message = "客户端密钥不能为空")
+    @NotNull(message = "client secret must not be blank")
     private String clientSecret;
 
     @Schema(description = "Web application agent ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "2000045")
@@ -45,7 +45,7 @@ public class SocialClientSaveRequest {
     private String publicKey;
 
     @Schema(description = "Status", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @NotNull(message = "状态不能为空")
+    @NotNull(message = "status must not be blank")
     @InEnum(CommonStatusEnum.class)
     private Integer status;
 

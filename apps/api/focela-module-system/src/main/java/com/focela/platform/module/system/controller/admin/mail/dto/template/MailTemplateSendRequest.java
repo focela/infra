@@ -13,7 +13,7 @@ import java.util.Map;
 public class MailTemplateSendRequest {
 
     @Schema(description = "receive email", requiredMode = Schema.RequiredMode.REQUIRED, example = "[user1@example.com, user2@example.com]")
-    @NotEmpty(message = "接收邮箱不能为空")
+    @NotEmpty(message = "receive email must not be blank")
     private List<String> toMails;
 
     @Schema(description = "CC", requiredMode = Schema.RequiredMode.REQUIRED, example = "[user3@example.com, user4@example.com]")
@@ -23,7 +23,7 @@ public class MailTemplateSendRequest {
     private List<String> bccMails;
 
     @Schema(description = "Template code", requiredMode = Schema.RequiredMode.REQUIRED, example = "test_01")
-    @NotNull(message = "模板编码不能为空")
+    @NotNull(message = "template code must not be blank")
     private String templateCode;
 
     @Schema(description = "Template params")

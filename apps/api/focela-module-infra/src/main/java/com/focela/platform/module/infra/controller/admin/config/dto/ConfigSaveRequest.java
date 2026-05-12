@@ -15,27 +15,27 @@ public class ConfigSaveRequest {
     private Long id;
 
     @Schema(description = "param group", requiredMode = Schema.RequiredMode.REQUIRED, example = "biz")
-    @NotEmpty(message = "参数分组不能为空")
-    @Size(max = 50, message = "参数名称不能超过 50 个字符")
+    @NotEmpty(message = "参数minute 组must not be blank")
+    @Size(max = 50, message = "param name 称must not exceed 50 characters")
     private String category;
 
     @Schema(description = "Param name", requiredMode = Schema.RequiredMode.REQUIRED, example = "database name")
-    @NotBlank(message = "参数名称不能为空")
-    @Size(max = 100, message = "参数名称不能超过 100 个字符")
+    @NotBlank(message = "param name 称must not be blank")
+    @Size(max = 100, message = "param name 称must not exceed 100 characters")
     private String name;
 
     @Schema(description = "Param key", requiredMode = Schema.RequiredMode.REQUIRED, example = "yunai.db.username")
-    @NotBlank(message = "参数键名长度不能为空")
-    @Size(max = 100, message = "参数键名长度不能超过 100 个字符")
+    @NotBlank(message = "param key length must not be blank")
+    @Size(max = 100, message = "param key length must not exceed 100 characters")
     private String key;
 
     @Schema(description = "Param value", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-    @NotBlank(message = "参数键值不能为空")
-    @Size(max = 500, message = "参数键值长度不能超过 500 个字符")
+    @NotBlank(message = "param value must not be blank")
+    @Size(max = 500, message = "param value length must not exceed 500 characters")
     private String value;
 
     @Schema(description = "Visible", requiredMode = Schema.RequiredMode.REQUIRED, example = "true")
-    @NotNull(message = "是否可见不能为空")
+    @NotNull(message = "is 否见must not be blank")
     private Boolean visible;
 
     @Schema(description = "Remarks", example = "remarks one next very cool!")

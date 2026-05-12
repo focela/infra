@@ -42,7 +42,7 @@ public class JobResponse {
     private String cronExpression;
 
     @Schema(description = "Retry count", requiredMode = Schema.RequiredMode.REQUIRED, example = "3")
-    @NotNull(message = "重试次数不能为空")
+    @NotNull(message = "retry count must not be blank")
     private Integer retryCount;
 
     @Schema(description = "Retry interval", requiredMode = Schema.RequiredMode.REQUIRED, example = "1000")

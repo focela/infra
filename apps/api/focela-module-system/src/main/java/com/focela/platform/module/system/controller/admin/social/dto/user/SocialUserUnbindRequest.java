@@ -20,11 +20,11 @@ public class SocialUserUnbindRequest {
 
     @Schema(description = "Social platform type, see UserSocialTypeEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "10")
     @InEnum(SocialTypeEnum.class)
-    @NotNull(message = "社交平台的类型不能为空")
+    @NotNull(message = "social platform type must not be blank")
     private Integer type;
 
     @Schema(description = "social user openid", requiredMode = Schema.RequiredMode.REQUIRED, example = "IPRmJ0wvBptiPIlGEZiPewGwiEiE")
-    @NotEmpty(message = "社交用户的 openid 不能为空")
+    @NotEmpty(message = "social user openid must not be blank")
     private String openid;
 
 }

@@ -22,7 +22,7 @@ public class SmsSendConsumer {
     @EventListener
     @Async // Spring Event 默认在 Producer 发送的线程，通过 @Async 实现异步
     public void onMessage(SmsSendMessage message) {
-        log.info("[onMessage][消息内容({})]", message);
+        log.info("[onMessage][message content ({})]", message);
         smsSendService.doSendSms(message);
     }
 

@@ -37,7 +37,7 @@ public interface FileApi {
      * @param type 文件的 MIME 类型，允许空
      * @return 文件路径
      */
-    String createFile(@NotEmpty(message = "文件内容不能为空") byte[] content,
+    String createFile(@NotEmpty(message = "file content must not be blank") byte[] content,
                       String name, String directory, String type);
 
     /**
@@ -47,7 +47,7 @@ public interface FileApi {
      * @param expirationSeconds 访问有效期，单位秒
      * @return 文件预签名地址
      */
-    String presignGetUrl(@NotEmpty(message = "URL 不能为空") String url,
+    String presignGetUrl(@NotEmpty(message = "URL must not be blank") String url,
                          Integer expirationSeconds);
 
 }

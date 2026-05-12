@@ -39,7 +39,7 @@ public class DictionaryFrameworkUtils {
 
     public static void init(DictionaryDataCommonApi dictDataApi) {
         DictionaryFrameworkUtils.dictDataApi = dictDataApi;
-        log.info("[init][初始化 DictionaryFrameworkUtils 成功]");
+        log.info("[init][init DictionaryFrameworkUtils success]");
     }
 
     public static void clearCache() {

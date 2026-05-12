@@ -322,7 +322,7 @@ public class DefaultPermissionService implements PermissionService {
                 continue;
             }
             // 未知情况，error log 即可
-            log.error("[getDeptDataPermission][LoginUser({}) role({}) 无法处理]", userId, toJsonString(result));
+            log.error("[getDeptDataPermission][LoginUser({}) role({}) cannot process]", userId, toJsonString(result));
         }
         return result;
     }

@@ -53,7 +53,7 @@ public interface SmsSendService {
 
     default void sendBatchSms(List<String> mobiles, List<Long> userIds, Integer userType,
                               String templateCode, Map<String, Object> templateParams) {
-        throw new UnsupportedOperationException("暂时不支持该操作，感兴趣可以实现该功能哟！");
+        throw new UnsupportedOperationException("temporarily not supported this operation, if interested can implement this feature!");
     }
 
     /**

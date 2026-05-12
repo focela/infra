@@ -54,7 +54,7 @@ public class FocelaRedisMQConsumerAutoConfiguration {
         listeners.forEach(listener -> {
             listener.setRedisMQTemplate(redisMQTemplate);
             container.addMessageListener(listener, new ChannelTopic(listener.getChannel()));
-            log.info("[redisMessageListenerContainer][注册 Channel({}) 对应的监听器({})]",
+            log.info("[redisMessageListenerContainer][register Channel({}) corresponding listener ({})]",
                     listener.getChannel(), listener.getClass().getName());
         });
         return container;
@@ -107,7 +107,7 @@ public class FocelaRedisMQConsumerAutoConfiguration {
         // 第二步，注册监听器，消费对应的 Stream 主题
         String consumerName = buildConsumerName();
         listeners.parallelStream().forEach(listener -> {
-            log.info("[redisStreamMessageListenerContainer][开始注册 StreamKey({}) 对应的监听器({})]",
+            log.info("[redisStreamMessageListenerContainer][start register StreamKey({}) corresponding listener ({})]",
                     listener.getStreamKey(), listener.getClass().getName());
             // 创建 listener 对应的消费者分组
             try {
@@ -126,7 +126,7 @@ public class FocelaRedisMQConsumerAutoConfiguration {
                     .autoAcknowledge(false) // 不自动 ack
                     .cancelOnError(throwable -> false); // 默认配置，发生异常就取消消费，显然不符合预期；因此，我们设置为 false
             container.register(builder.build(), listener);
-            log.info("[redisStreamMessageListenerContainer][完成注册 StreamKey({}) 对应的监听器({})]",
+            log.info("[redisStreamMessageListenerContainer][complete register StreamKey({}) corresponding listener ({})]",
                     listener.getStreamKey(), listener.getClass().getName());
         });
         return container;
@@ -152,7 +152,7 @@ public class FocelaRedisMQConsumerAutoConfiguration {
         // 校验最低版本必须大于等于 5.0.0
         int majorVersion = Integer.parseInt(StrUtil.subBefore(version, '.', false));
         if (majorVersion < 5) {
-            throw new IllegalStateException(StrUtil.format("您当前的 Redis 版本为 {}，小于最低要求的 5.0.0 版本！" +
+            throw new IllegalStateException(StrUtil.format("您when before Redis 版本is {}, 小于most 低要求 5.0.0 版本!" +
                     "请参考 {} 文档进行安装。", version, DocumentEnum.REDIS_INSTALL.getUrl()));
         }
     }

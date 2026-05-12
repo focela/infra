@@ -15,22 +15,22 @@ public class SmsSendMessage {
     /**
      * 短信日志编号
      */
-    @NotNull(message = "短信日志编号不能为空")
+    @NotNull(message = "SMS log ID must not be blank")
     private Long logId;
     /**
      * 手机号
      */
-    @NotNull(message = "手机号不能为空")
+    @NotNull(message = "mobile number must not be blank")
     private String mobile;
     /**
      * 短信渠道编号
      */
-    @NotNull(message = "短信渠道编号不能为空")
+    @NotNull(message = "SMS channel ID must not be blank")
     private Long channelId;
     /**
      * 短信 API 的模板编号
      */
-    @NotNull(message = "短信 API 的模板编号不能为空")
+    @NotNull(message = "SMS API template ID must not be blank")
     private String apiTemplateId;
     /**
      * 短信模板参数

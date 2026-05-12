@@ -12,7 +12,7 @@ import java.util.Set;
 public class PermissionAssignUserRoleRequest {
 
     @Schema(description = "User ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @NotNull(message = "用户编号不能为空")
+    @NotNull(message = "user ID must not be blank")
     private Long userId;
 
     @Schema(description = "role ID list", example = "1,3,5")

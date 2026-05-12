@@ -11,13 +11,13 @@ import jakarta.validation.constraints.NotEmpty;
 public class UserProfileUpdatePasswordRequest {
 
     @Schema(description = "old password", requiredMode = Schema.RequiredMode.REQUIRED, example = "123456")
-    @NotEmpty(message = "旧密码不能为空")
-    @Length(min = 4, max = 16, message = "密码长度为 4-16 位")
+    @NotEmpty(message = "旧password must not be blank")
+    @Length(min = 4, max = 16, message = "password length must be 4-16 characters")
     private String oldPassword;
 
     @Schema(description = "new password", requiredMode = Schema.RequiredMode.REQUIRED, example = "654321")
-    @NotEmpty(message = "新密码不能为空")
-    @Length(min = 4, max = 16, message = "密码长度为 4-16 位")
+    @NotEmpty(message = "新password must not be blank")
+    @Length(min = 4, max = 16, message = "password length must be 4-16 characters")
     private String newPassword;
 
 }

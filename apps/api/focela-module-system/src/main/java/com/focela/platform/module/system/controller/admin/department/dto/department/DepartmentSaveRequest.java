@@ -18,32 +18,32 @@ public class DepartmentSaveRequest {
     private Long id;
 
     @Schema(description = "Department name", requiredMode = Schema.RequiredMode.REQUIRED, example = "Acme")
-    @NotBlank(message = "部门名称不能为空")
-    @Size(max = 30, message = "部门名称长度不能超过 30 个字符")
+    @NotBlank(message = "department name must not be blank")
+    @Size(max = 30, message = "department name length must not exceed 30 characters")
     private String name;
 
     @Schema(description = "Parent department ID", example = "1024")
     private Long parentId;
 
     @Schema(description = "Display order", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-    @NotNull(message = "显示顺序不能为空")
+    @NotNull(message = "display order must not be blank")
     private Integer sort;
 
     @Schema(description = "Owner user ID", example = "2048")
     private Long leaderUserId;
 
     @Schema(description = "Contact phone", example = "15601691000")
-    @Size(max = 11, message = "联系电话长度不能超过11个字符")
+    @Size(max = 11, message = "contact 电话length must not exceed 11characters")
     private String phone;
 
     @Schema(description = "Email", example = "user@example.com")
-    @Email(message = "邮箱格式不正确")
-    @Size(max = 50, message = "邮箱长度不能超过 50 个字符")
+    @Email(message = "email format is invalid")
+    @Size(max = 50, message = "email length must not exceed 50 characters")
     private String email;
 
     @Schema(description = "Status, see CommonStatusEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @NotNull(message = "状态不能为空")
-    @InEnum(value = CommonStatusEnum.class, message = "修改状态必须是 {value}")
+    @NotNull(message = "status must not be blank")
+    @InEnum(value = CommonStatusEnum.class, message = "update status must be {value}")
     private Integer status;
 
 }

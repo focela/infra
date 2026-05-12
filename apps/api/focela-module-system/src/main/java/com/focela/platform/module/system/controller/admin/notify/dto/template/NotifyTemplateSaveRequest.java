@@ -16,28 +16,28 @@ public class NotifyTemplateSaveRequest {
     private Long id;
 
     @Schema(description = "Template name", requiredMode = Schema.RequiredMode.REQUIRED, example = "test template")
-    @NotEmpty(message = "模版名称不能为空")
+    @NotEmpty(message = "template name must not be blank")
     private String name;
 
     @Schema(description = "Template code", requiredMode = Schema.RequiredMode.REQUIRED, example = "SEND_TEST")
-    @NotNull(message = "模版编码不能为空")
+    @NotNull(message = "template code must not be blank")
     private String code;
 
     @Schema(description = "Template type (system_notify_template_type dictionary)", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @NotNull(message = "模版类型不能为空")
+    @NotNull(message = "template type must not be blank")
     private Integer type;
 
     @Schema(description = "Sender name", requiredMode = Schema.RequiredMode.REQUIRED, example = "potato")
-    @NotEmpty(message = "发送人名称不能为空")
+    @NotEmpty(message = "sender name must not be blank")
     private String nickname;
 
     @Schema(description = "Template content", requiredMode = Schema.RequiredMode.REQUIRED, example = "I am template content")
-    @NotEmpty(message = "模版内容不能为空")
+    @NotEmpty(message = "template content must not be blank")
     private String content;
 
     @Schema(description = "Status, see CommonStatusEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @NotNull(message = "状态不能为空")
-    @InEnum(value = CommonStatusEnum.class, message = "状态必须是 {value}")
+    @NotNull(message = "status must not be blank")
+    @InEnum(value = CommonStatusEnum.class, message = "status must be {value}")
     private Integer status;
 
     @Schema(description = "Remarks", example = "I am remarks")

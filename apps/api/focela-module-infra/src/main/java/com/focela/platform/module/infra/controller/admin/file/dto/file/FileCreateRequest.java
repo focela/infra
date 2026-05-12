@@ -8,19 +8,19 @@ import lombok.Data;
 @Data
 public class FileCreateRequest {
 
-    @NotNull(message = "文件配置编号不能为空")
+    @NotNull(message = "file config ID must not be blank")
     @Schema(description = "file config ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "11")
     private Long configId;
 
-    @NotNull(message = "文件路径不能为空")
+    @NotNull(message = "file path must not be blank")
     @Schema(description = "File path", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela.jpg")
     private String path;
 
-    @NotNull(message = "原文件名不能为空")
+    @NotNull(message = "original filename must not be blank")
     @Schema(description = "Original filename", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela.jpg")
     private String name;
 
-    @NotNull(message = "文件 URL不能为空")
+    @NotNull(message = "file URLmust not be blank")
     @Schema(description = "File URL", requiredMode = Schema.RequiredMode.REQUIRED, example = "https://www.example.com/sample.jpg")
     private String url;
 

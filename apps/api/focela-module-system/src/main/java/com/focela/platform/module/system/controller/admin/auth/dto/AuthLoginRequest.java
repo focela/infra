@@ -22,14 +22,14 @@ import jakarta.validation.constraints.Pattern;
 public class AuthLoginRequest extends CaptchaVerificationRequest {
 
     @Schema(description = "account", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudaoyuanma")
-    @NotEmpty(message = "登录账号不能为空")
-    @Length(min = 4, max = 30, message = "账号长度为 4-30 位")
-    @Pattern(regexp = "^[a-zA-Z0-9]{4,30}$", message = "账号格式为数字以及字母")
+    @NotEmpty(message = "login account must not be blank")
+    @Length(min = 4, max = 30, message = "account length must be 4-30 characters")
+    @Pattern(regexp = "^[a-zA-Z0-9]{4,30}$", message = "account format is digit 以及letter")
     private String username;
 
     @Schema(description = "Password", requiredMode = Schema.RequiredMode.REQUIRED, example = "buzhidao")
-    @NotEmpty(message = "密码不能为空")
-    @Length(min = 4, max = 16, message = "密码长度为 4-16 位")
+    @NotEmpty(message = "password must not be blank")
+    @Length(min = 4, max = 16, message = "password length must be 4-16 characters")
     private String password;
 
     // ========== 绑定社交登录时，需要传递如下参数 ==========
@@ -44,12 +44,12 @@ public class AuthLoginRequest extends CaptchaVerificationRequest {
     @Schema(description = "state", requiredMode = Schema.RequiredMode.REQUIRED, example = "9b2ffbc1-7425-4155-9894-9d5c08541d62")
     private String socialState;
 
-    @AssertTrue(message = "授权码不能为空")
+    @AssertTrue(message = "authorization code must not be blank")
     public boolean isSocialCodeValid() {
         return socialType == null || StrUtil.isNotEmpty(socialCode);
     }
 
-    @AssertTrue(message = "授权 state 不能为空")
+    @AssertTrue(message = "authorize state must not be blank")
     public boolean isSocialState() {
         return socialType == null || StrUtil.isNotEmpty(socialState);
     }

@@ -36,7 +36,7 @@ public class AppTenantController {
     @Operation(summary = "Get tenant info by domain", description = "by user domain, get tenant info")
     @Parameter(name = "website", description = "Domain", required = true, example = "www.example.com")
     public CommonResult<AppTenantResponse> getTenantByWebsite(
-            @RequestParam("website") @Pattern(regexp = "^[a-zA-Z0-9.-]+$", message = "网站域名格式不正确") String website) {
+            @RequestParam("website") @Pattern(regexp = "^[a-zA-Z0-9.-]+$", message = "website domain format is invalid") String website) {
         TenantEntity tenant = tenantService.getTenantByWebsite(website);
         if (tenant == null || CommonStatusEnum.isDisable(tenant.getStatus())) {
             return success(null);

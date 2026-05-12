@@ -19,12 +19,12 @@ public class DictionaryConverter implements Converter<Object> {
 
     @Override
     public Class<?> supportJavaTypeKey() {
-        throw new UnsupportedOperationException("暂不支持，也不需要");
+        throw new UnsupportedOperationException("not supported yet, and not needed");
     }
 
     @Override
     public CellDataTypeEnum supportExcelTypeKey() {
-        throw new UnsupportedOperationException("暂不支持，也不需要");
+        throw new UnsupportedOperationException("not supported yet, and not needed");
     }
 
     @Override
@@ -35,7 +35,7 @@ public class DictionaryConverter implements Converter<Object> {
         String label = readCellData.getStringValue();
         String value = DictionaryFrameworkUtils.parseDictDataValue(type, label);
         if (value == null) {
-            log.error("[convertToJavaData][type({}) 解析不掉 label({})]", type, label);
+            log.error("[convertToJavaData][type({}) cannot parse label({})]", type, label);
             return null;
         }
         // 将 String 的 value 转换成对应的属性
@@ -56,7 +56,7 @@ public class DictionaryConverter implements Converter<Object> {
         String value = String.valueOf(object);
         String label = DictionaryFrameworkUtils.parseDictDataLabel(type, value);
         if (label == null) {
-            log.error("[convertToExcelData][type({}) 转换不了 label({})]", type, value);
+            log.error("[convertToExcelData][type({}) 转换not label({})]", type, value);
             return new WriteCellData<>("");
         }
         // 生成 Excel 小表格

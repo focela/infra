@@ -44,7 +44,7 @@ public class DefaultNotifySendService implements NotifySendService {
         // 校验模版
         NotifyTemplateEntity template = validateNotifyTemplate(templateCode);
         if (Objects.equals(template.getStatus(), CommonStatusEnum.DISABLE.getStatus())) {
-            log.info("[sendSingleNotify][模版({})已经关闭，无法给用户({}/{})发送]", templateCode, userId, userType);
+            log.info("[sendSingleNotify][template ({})is closed, cannot to user ({}/{})send]", templateCode, userId, userType);
             return null;
         }
         // 校验参数

@@ -71,7 +71,7 @@ public class FocelaJacksonAutoConfiguration {
     @SuppressWarnings("InstantiationOfUtilityClass")
     public JsonUtils jsonUtils(ObjectMapper objectMapper) {
         JsonUtils.init(objectMapper);
-        log.debug("[init][初始化 JsonUtils 成功]");
+        log.debug("[init][init JsonUtils success]");
         return new JsonUtils();
     }
 

@@ -17,27 +17,27 @@ public class DictionaryDataSaveRequest {
     private Long id;
 
     @Schema(description = "Display order", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-    @NotNull(message = "显示顺序不能为空")
+    @NotNull(message = "display order must not be blank")
     private Integer sort;
 
     @Schema(description = "Dictionary label", requiredMode = Schema.RequiredMode.REQUIRED, example = "Acme")
-    @NotBlank(message = "字典标签不能为空")
-    @Size(max = 100, message = "字典标签长度不能超过100个字符")
+    @NotBlank(message = "dictionary label must not be blank")
+    @Size(max = 100, message = "dictionary label length must not exceed 100characters")
     private String label;
 
     @Schema(description = "Dictionary value", requiredMode = Schema.RequiredMode.REQUIRED, example = "sample")
-    @NotBlank(message = "字典键值不能为空")
-    @Size(max = 100, message = "字典键值长度不能超过100个字符")
+    @NotBlank(message = "dictionary 键值must not be blank")
+    @Size(max = 100, message = "dictionary 键值length must not exceed 100characters")
     private String value;
 
     @Schema(description = "Dictionary type", requiredMode = Schema.RequiredMode.REQUIRED, example = "sys_common_sex")
-    @NotBlank(message = "字典类型不能为空")
-    @Size(max = 100, message = "字典类型长度不能超过100个字符")
+    @NotBlank(message = "dictionary type must not be blank")
+    @Size(max = 100, message = "dictionary type length must not exceed 100characters")
     private String dictType;
 
     @Schema(description = "Status, see CommonStatusEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @NotNull(message = "状态不能为空")
-    @InEnum(value = CommonStatusEnum.class, message = "修改状态必须是 {value}")
+    @NotNull(message = "status must not be blank")
+    @InEnum(value = CommonStatusEnum.class, message = "update status must be {value}")
     private Integer status;
 
     @Schema(description = "Color type (default/primary/success/info/warning/danger)", example = "default")

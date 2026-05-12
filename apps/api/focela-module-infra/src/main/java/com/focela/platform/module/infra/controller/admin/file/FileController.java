@@ -109,7 +109,7 @@ public class FileController {
         // 获取请求的路径
         String path = StrUtil.subAfter(request.getRequestURI(), "/get/", false);
         if (StrUtil.isEmpty(path)) {
-            throw new IllegalArgumentException("结尾的 path 路径必须传递");
+            throw new IllegalArgumentException("结尾 path path is required");
         }
         // 解码，解决中文路径的问题
         // https://gitee.com/zhijiantianya/ruoyi-vue-pro/pulls/807/
@@ -119,7 +119,7 @@ public class FileController {
         // 读取内容
         byte[] content = fileService.getFileContent(configId, path);
         if (content == null) {
-            log.warn("[getFileContent][configId({}) path({}) 文件不存在]", configId, path);
+            log.warn("[getFileContent][configId({}) path({}) file does not exist]", configId, path);
             response.setStatus(HttpStatus.NOT_FOUND.value());
             return;
         }

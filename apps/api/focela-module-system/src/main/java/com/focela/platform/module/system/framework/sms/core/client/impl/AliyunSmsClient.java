@@ -98,7 +98,7 @@ public class AliyunSmsClient extends AbstractSmsClient {
         // 2.1 请求失败
         String code = response.getStr("Code");
         if (ObjectUtil.notEqual(code, RESPONSE_CODE_SUCCESS)) {
-            log.error("[getSmsTemplate][模版编号({}) 响应不正确({})]", apiTemplateId, response);
+            log.error("[getSmsTemplate][template ID ({}) invalid response ({})]", apiTemplateId, response);
             return null;
         }
         // 2.2 请求成功
@@ -116,7 +116,7 @@ public class AliyunSmsClient extends AbstractSmsClient {
             case 0: return SmsTemplateAuditStatusEnum.CHECKING.getStatus();
             case 1: return SmsTemplateAuditStatusEnum.SUCCESS.getStatus();
             case 2: return SmsTemplateAuditStatusEnum.FAIL.getStatus();
-            default: throw new IllegalArgumentException(String.format("未知审核状态(%d)", templateStatus));
+            default: throw new IllegalArgumentException(String.format("unknown approval status (%d)", templateStatus));
         }
     }
 

@@ -19,11 +19,11 @@ public interface JobLogFrameworkService {
      * @param executeIndex    第几次执行
      * @return Job 日志的编号
      */
-    Long createJobLog(@NotNull(message = "任务编号不能为空") Long jobId,
-                      @NotNull(message = "开始时间") LocalDateTime beginTime,
-                      @NotEmpty(message = "Job 处理器的名字不能为空") String jobHandlerName,
+    Long createJobLog(@NotNull(message = "任务ID must not be blank") Long jobId,
+                      @NotNull(message = "start time") LocalDateTime beginTime,
+                      @NotEmpty(message = "Job handler 名字must not be blank") String jobHandlerName,
                       String jobHandlerParam,
-                      @NotNull(message = "第几次执行不能为空") Integer executeIndex);
+                      @NotNull(message = "第几 times execute must not be blank") Integer executeIndex);
 
     /**
      * 更新 Job 日志的执行结果
@@ -34,8 +34,8 @@ public interface JobLogFrameworkService {
      * @param success  是否成功
      * @param result   成功数据
      */
-    void updateJobLogResultAsync(@NotNull(message = "日志编号不能为空") Long logId,
-                                 @NotNull(message = "结束时间不能为空") LocalDateTime endTime,
-                                 @NotNull(message = "运行时长不能为空") Integer duration,
+    void updateJobLogResultAsync(@NotNull(message = "log ID must not be blank") Long logId,
+                                 @NotNull(message = "end time must not be blank") LocalDateTime endTime,
+                                 @NotNull(message = "运line when 长must not be blank") Integer duration,
                                  boolean success, String result);
 }

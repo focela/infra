@@ -35,7 +35,7 @@ public class AdminUserParseFunction implements IParseFunction {
         // 获取用户信息
         AdminUserEntity user = adminUserService.getUser(Convert.toLong(value));
         if (user == null) {
-            log.warn("[apply][获取用户{{}}为空", value);
+            log.warn("[apply][get user {{}}is empty", value);
             return "";
         }
         // 返回格式 芋道源码(13888888888)

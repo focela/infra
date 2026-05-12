@@ -72,7 +72,7 @@ public class TenantSecurityWebFilter extends ApiRequestFilter {
                 TenantContextHolder.setTenantId(tenantId);
             // 如果传递了租户编号，则进行比对租户编号，避免越权问题
             } else if (!Objects.equals(user.getTenantId(), TenantContextHolder.getTenantId())) {
-                log.error("[doFilterInternal][租户({}) User({}/{}) 越权访问租户({}) URL({}/{})]",
+                log.error("[doFilterInternal][tenant ({}) User({}/{}) 越权访问tenant ({}) URL({}/{})]",
                         user.getTenantId(), user.getId(), user.getUserType(),
                         TenantContextHolder.getTenantId(), request.getRequestURI(), request.getMethod());
                 ServletUtils.writeJSON(response, CommonResult.error(GlobalErrorCodeConstants.FORBIDDEN.getCode(),
@@ -85,7 +85,7 @@ public class TenantSecurityWebFilter extends ApiRequestFilter {
         if (!isIgnoreUrl(request)) {
             // 2. 如果请求未带租户的编号，不允许访问。
             if (tenantId == null) {
-                log.error("[doFilterInternal][URL({}/{}) 未传递租户编号]", request.getRequestURI(), request.getMethod());
+                log.error("[doFilterInternal][URL({}/{}) not 传递tenant ID]", request.getRequestURI(), request.getMethod());
                 ServletUtils.writeJSON(response, CommonResult.error(GlobalErrorCodeConstants.BAD_REQUEST.getCode(),
                         "请求的租户标识未传递，请进行排查"));
                 return;

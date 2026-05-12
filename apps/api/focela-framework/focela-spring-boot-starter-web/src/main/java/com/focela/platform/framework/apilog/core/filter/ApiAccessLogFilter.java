@@ -91,7 +91,7 @@ public class ApiAccessLogFilter extends ApiRequestFilter {
             }
             apiAccessLogApi.createApiAccessLogAsync(accessLog);
         } catch (Throwable th) {
-            log.error("[createApiAccessLog][url({}) log({}) 发生异常]", request.getRequestURI(), toJsonString(accessLog), th);
+            log.error("[createApiAccessLog][url({}) log({}) 发生exception]", request.getRequestURI(), toJsonString(accessLog), th);
         }
     }
 
@@ -201,7 +201,7 @@ public class ApiAccessLogFilter extends ApiRequestFilter {
             return JsonUtils.toJsonString(rootNode);
         } catch (Exception e) {
             // 脱敏失败的情况下，直接忽略异常，避免影响用户请求
-            log.error("[sanitizeJson][脱敏({}) 发生异常]", jsonString, e);
+            log.error("[sanitizeJson][desensitize ({}) 发生exception]", jsonString, e);
             return jsonString;
         }
     }
@@ -217,7 +217,7 @@ public class ApiAccessLogFilter extends ApiRequestFilter {
             return JsonUtils.toJsonString(rootNode);
         } catch (Exception e) {
             // 脱敏失败的情况下，直接忽略异常，避免影响用户请求
-            log.error("[sanitizeJson][脱敏({}) 发生异常]", jsonString, e);
+            log.error("[sanitizeJson][desensitize ({}) 发生exception]", jsonString, e);
             return jsonString;
         }
     }

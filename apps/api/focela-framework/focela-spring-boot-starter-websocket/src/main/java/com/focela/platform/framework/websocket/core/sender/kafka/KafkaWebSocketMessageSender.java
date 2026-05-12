@@ -58,7 +58,7 @@ public class KafkaWebSocketMessageSender extends AbstractWebSocketMessageSender 
         try {
             kafkaTemplate.send(topic, mqMessage).get();
         } catch (InterruptedException | ExecutionException e) {
-            log.error("[sendKafkaMessage][发送消息({}) 到 Kafka 失败]", mqMessage, e);
+            log.error("[sendKafkaMessage][send message ({}) to Kafka failed]", mqMessage, e);
         }
     }
 

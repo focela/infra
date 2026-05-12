@@ -18,23 +18,23 @@ public class SmsCodeUseReqDTO {
      * 手机号
      */
     @Mobile
-    @NotEmpty(message = "手机号不能为空")
+    @NotEmpty(message = "mobile number must not be blank")
     private String mobile;
     /**
      * 发送场景
      */
-    @NotNull(message = "发送场景不能为空")
+    @NotNull(message = "send scenario must not be blank")
     @InEnum(SmsSceneEnum.class)
     private Integer scene;
     /**
      * 验证码
      */
-    @NotEmpty(message = "验证码")
+    @NotEmpty(message = "CAPTCHA")
     private String code;
     /**
      * 使用 IP
      */
-    @NotEmpty(message = "使用 IP 不能为空")
+    @NotEmpty(message = "use IP must not be blank")
     private String usedIp;
 
 }

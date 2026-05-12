@@ -55,17 +55,17 @@ public class JsonWebSocketMessageHandler extends TextWebSocketHandler {
         try {
             JsonWebSocketMessage jsonMessage = JsonUtils.parseObject(message.getPayload(), JsonWebSocketMessage.class);
             if (jsonMessage == null) {
-                log.error("[handleTextMessage][session({}) message({}) 解析为空]", session.getId(), message.getPayload());
+                log.error("[handleTextMessage][session({}) message({}) parse is empty]", session.getId(), message.getPayload());
                 return;
             }
             if (StrUtil.isEmpty(jsonMessage.getType())) {
-                log.error("[handleTextMessage][session({}) message({}) 类型为空]", session.getId(), message.getPayload());
+                log.error("[handleTextMessage][session({}) message({}) type is empty]", session.getId(), message.getPayload());
                 return;
             }
             // 2.2 获得对应的 WebSocketMessageListener
             WebSocketMessageListener<Object> messageListener = listeners.get(jsonMessage.getType());
             if (messageListener == null) {
-                log.error("[handleTextMessage][session({}) message({}) 监听器为空]", session.getId(), message.getPayload());
+                log.error("[handleTextMessage][session({}) message({}) listener is empty]", session.getId(), message.getPayload());
                 return;
             }
             // 2.3 处理消息
@@ -74,7 +74,7 @@ public class JsonWebSocketMessageHandler extends TextWebSocketHandler {
             Long tenantId = WebSocketFrameworkUtils.getTenantId(session);
             TenantUtils.execute(tenantId, () -> messageListener.onMessage(session, messageObj));
         } catch (Throwable ex) {
-            log.error("[handleTextMessage][session({}) message({}) 处理异常]", session.getId(), message.getPayload());
+            log.error("[handleTextMessage][session({}) message({}) process exception]", session.getId(), message.getPayload());
         }
     }
 

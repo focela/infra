@@ -151,7 +151,7 @@ public class DefaultJobService implements JobService {
             if (Objects.equals(job.getStatus(), JobStatusEnum.STOP.getStatus())) {
                 schedulerManager.pauseJob(job.getHandlerName());
             }
-            log.info("[syncJob][id({}) handlerName({}) 同步完成]", job.getId(), job.getHandlerName());
+            log.info("[syncJob][id({}) handlerName({}) sync complete]", job.getId(), job.getHandlerName());
         }
     }
 

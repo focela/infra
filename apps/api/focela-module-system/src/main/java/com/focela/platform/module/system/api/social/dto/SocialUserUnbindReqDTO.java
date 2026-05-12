@@ -21,26 +21,26 @@ public class SocialUserUnbindReqDTO {
     /**
      * 用户编号
      */
-    @NotNull(message = "用户编号不能为空")
+    @NotNull(message = "user ID must not be blank")
     private Long userId;
     /**
      * 用户类型
      */
     @InEnum(UserTypeEnum.class)
-    @NotNull(message = "用户类型不能为空")
+    @NotNull(message = "user type must not be blank")
     private Integer userType;
 
     /**
      * 社交平台的类型
      */
     @InEnum(SocialTypeEnum.class)
-    @NotNull(message = "社交平台的类型不能为空")
+    @NotNull(message = "social platform type must not be blank")
     private Integer socialType;
 
     /**
      * 社交平台的 openid
      */
-    @NotEmpty(message = "社交平台的 openid 不能为空")
+    @NotEmpty(message = "social platform openid must not be blank")
     private String openid;
 
 }

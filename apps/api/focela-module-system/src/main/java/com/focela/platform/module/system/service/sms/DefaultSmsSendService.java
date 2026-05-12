@@ -165,7 +165,7 @@ public class DefaultSmsSendService implements SmsSendService {
                     sendResponse.getApiCode(), sendResponse.getApiMsg(),
                     sendResponse.getApiRequestId(), sendResponse.getSerialNo());
         } catch (Throwable ex) {
-            log.error("[doSendSms][发送短信异常，日志编号({})]", message.getLogId(), ex);
+            log.error("[doSendSms][send SMS exception, log ID ({})]", message.getLogId(), ex);
             smsLogService.updateSmsSendResult(message.getLogId(), false,
                     "EXCEPTION", ExceptionUtil.getRootCauseMessage(ex), null, null);
         }

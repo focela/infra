@@ -12,15 +12,15 @@ import java.util.Map;
 public class NotifyTemplateSendRequest {
 
     @Schema(description = "user id", requiredMode = Schema.RequiredMode.REQUIRED, example = "01")
-    @NotNull(message = "用户id不能为空")
+    @NotNull(message = "user idmust not be blank")
     private Long userId;
 
     @Schema(description = "User type", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @NotNull(message = "用户类型不能为空")
+    @NotNull(message = "user type must not be blank")
     private Integer userType;
 
     @Schema(description = "Template code", requiredMode = Schema.RequiredMode.REQUIRED, example = "01")
-    @NotEmpty(message = "模板编码不能为空")
+    @NotEmpty(message = "template code must not be blank")
     private String templateCode;
 
     @Schema(description = "Template params")

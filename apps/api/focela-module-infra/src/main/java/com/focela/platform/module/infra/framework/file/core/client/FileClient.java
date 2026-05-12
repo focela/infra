@@ -47,7 +47,7 @@ public interface FileClient {
      * @return 文件预签名地址
      */
     default String presignPutUrl(String path) {
-        throw new UnsupportedOperationException("不支持的操作");
+        throw new UnsupportedOperationException("unsupported operation");
     }
 
     /**
@@ -58,7 +58,7 @@ public interface FileClient {
      * @return 文件预签名地址
      */
     default String presignGetUrl(String url, Integer expirationSeconds) {
-        throw new UnsupportedOperationException("不支持的操作");
+        throw new UnsupportedOperationException("unsupported operation");
     }
 
 }

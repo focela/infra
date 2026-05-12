@@ -17,17 +17,17 @@ public class PostSaveRequest {
     private Long id;
 
     @Schema(description = "Post name", requiredMode = Schema.RequiredMode.REQUIRED, example = "little potato")
-    @NotBlank(message = "岗位名称不能为空")
-    @Size(max = 50, message = "岗位名称长度不能超过 50 个字符")
+    @NotBlank(message = "post name must not be blank")
+    @Size(max = 50, message = "post name length must not exceed 50 characters")
     private String name;
 
     @Schema(description = "Post code", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
-    @NotBlank(message = "岗位编码不能为空")
-    @Size(max = 64, message = "岗位编码长度不能超过64个字符")
+    @NotBlank(message = "post code must not be blank")
+    @Size(max = 64, message = "post code length must not exceed 64characters")
     private String code;
 
     @Schema(description = "Display order", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-    @NotNull(message = "显示顺序不能为空")
+    @NotNull(message = "display order must not be blank")
     private Integer sort;
 
     @Schema(description = "Status", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")

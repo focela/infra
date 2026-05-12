@@ -54,7 +54,7 @@ public class ServiceExceptionUtils {
         for (l = 0; l < params.length; l++) {
             j = messagePattern.indexOf("{}", i);
             if (j == -1) {
-                log.error("[doFormat][参数过多：错误码({})|错误内容({})|参数({})", code, messagePattern, params);
+                log.error("[doFormat][参数多: error code ({})|error content ({})|参数({})", code, messagePattern, params);
                 if (i == 0) {
                     return messagePattern;
                 } else {
@@ -68,7 +68,7 @@ public class ServiceExceptionUtils {
             }
         }
         if (messagePattern.indexOf("{}", i) != -1) {
-            log.error("[doFormat][参数过少：错误码({})|错误内容({})|参数({})", code, messagePattern, params);
+            log.error("[doFormat][参数少: error code ({})|error content ({})|参数({})", code, messagePattern, params);
         }
         sbuf.append(messagePattern.substring(i));
         return sbuf.toString();

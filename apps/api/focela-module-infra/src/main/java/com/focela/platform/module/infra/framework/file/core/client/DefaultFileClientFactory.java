@@ -24,7 +24,7 @@ public class DefaultFileClientFactory implements FileClientFactory {
     public FileClient getFileClient(Long configId) {
         AbstractFileClient<?> client = clients.get(configId);
         if (client == null) {
-            log.error("[getFileClient][配置编号({}) 找不到客户端]", configId);
+            log.error("[getFileClient][config ID ({}) cannot find client]", configId);
         }
         return client;
     }
@@ -46,7 +46,7 @@ public class DefaultFileClientFactory implements FileClientFactory {
     private <Config extends FileClientConfig> AbstractFileClient<Config> createFileClient(
             Long configId, Integer storage, Config config) {
         FileStorageEnum storageEnum = FileStorageEnum.getByStorage(storage);
-        Assert.notNull(storageEnum, String.format("文件配置(%s) 为空", storageEnum));
+        Assert.notNull(storageEnum, String.format("file config (%s) is empty", storageEnum));
         // 创建客户端
         return (AbstractFileClient<Config>) ReflectUtil.newInstance(storageEnum.getClientClass(), configId, config);
     }

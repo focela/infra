@@ -20,12 +20,12 @@ import jakarta.validation.constraints.NotNull;
 public class AuthSmsSendRequest extends CaptchaVerificationRequest {
 
     @Schema(description = "Mobile number", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudaoyuanma")
-    @NotEmpty(message = "手机号不能为空")
+    @NotEmpty(message = "mobile number must not be blank")
     @Mobile
     private String mobile;
 
     @Schema(description = "SMS scenario", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @NotNull(message = "发送场景不能为空")
+    @NotNull(message = "send scenario must not be blank")
     @InEnum(SmsSceneEnum.class)
     private Integer scene;
 

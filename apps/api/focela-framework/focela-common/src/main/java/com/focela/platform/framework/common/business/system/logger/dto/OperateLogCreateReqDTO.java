@@ -22,35 +22,35 @@ public class OperateLogCreateReqDTO {
      *
      * 关联 MemberUserDO 的 id 属性，或者 AdminUserEntity 的 id 属性
      */
-    @NotNull(message = "用户编号不能为空")
+    @NotNull(message = "user ID must not be blank")
     private Long userId;
     /**
      * 用户类型
      *
      * 关联 {@link  UserTypeEnum}
      */
-    @NotNull(message = "用户类型不能为空")
+    @NotNull(message = "user type must not be blank")
     private Integer userType;
     /**
      * 操作模块类型
      */
-    @NotEmpty(message = "操作模块类型不能为空")
+    @NotEmpty(message = "operation 模block type must not be blank")
     private String type;
     /**
      * 操作名
      */
-    @NotEmpty(message = "操作名不能为空")
+    @NotEmpty(message = "operation 名must not be blank")
     private String subType;
     /**
      * 操作模块业务编号
      */
-    @NotNull(message = "操作模块业务编号不能为空")
+    @NotNull(message = "operation 模block 业务ID must not be blank")
     private Long bizId;
     /**
      * 操作内容，记录整个操作的明细
      * 例如说，修改编号为 1 的用户信息，将性别从男改成女，将姓名从芋道改成源码。
      */
-    @NotEmpty(message = "操作内容不能为空")
+    @NotEmpty(message = "operation content must not be blank")
     private String action;
     /**
      * 拓展字段，有些复杂的业务，需要记录一些字段 ( JSON 格式 )
@@ -61,22 +61,22 @@ public class OperateLogCreateReqDTO {
     /**
      * 请求方法名
      */
-    @NotEmpty(message = "请求方法名不能为空")
+    @NotEmpty(message = "HTTP method must not be blank")
     private String requestMethod;
     /**
      * 请求地址
      */
-    @NotEmpty(message = "请求地址不能为空")
+    @NotEmpty(message = "request URL must not be blank")
     private String requestUrl;
     /**
      * 用户 IP
      */
-    @NotEmpty(message = "用户 IP 不能为空")
+    @NotEmpty(message = "user IP must not be blank")
     private String userIp;
     /**
      * 浏览器 UA
      */
-    @NotEmpty(message = "浏览器 UA 不能为空")
+    @NotEmpty(message = "user agent must not be blank")
     private String userAgent;
 
 }

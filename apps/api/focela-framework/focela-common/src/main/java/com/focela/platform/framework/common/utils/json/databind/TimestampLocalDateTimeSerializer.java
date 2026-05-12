@@ -47,7 +47,7 @@ public class TimestampLocalDateTimeSerializer extends JsonSerializer<LocalDateTi
                         gen.writeString(formatter.format(value));
                         return;
                     } catch (Exception ex) {
-                        log.warn("[serialize][({}#{}) 使用 JsonFormat pattern 失败，尝试使用默认的 Long 时间戳]",
+                        log.warn("[serialize][({}#{}) use JsonFormat pattern failed, 尝试use 默认 Long time 戳]",
                                 clazz.getName(), fieldName, ex);
                     }
                 }

@@ -46,7 +46,7 @@ public class IdempotentAspect {
         boolean success = idempotentRedisDAO.setIfAbsent(key, idempotent.timeout(), idempotent.timeUnit());
         // 锁定失败，抛出异常
         if (!success) {
-            log.info("[aroundPointCut][方法({}) 参数({}) 存在重复请求]", joinPoint.getSignature().toString(), joinPoint.getArgs());
+            log.info("[aroundPointCut][方法({}) 参数({}) exists 重复request]", joinPoint.getSignature().toString(), joinPoint.getArgs());
             throw new ServiceException(GlobalErrorCodeConstants.REPEATED_REQUESTS.getCode(), idempotent.message());
         }
 

@@ -58,7 +58,7 @@ public class SftpFileClient extends AbstractFileClient<SftpFileClientConfig> {
         sftp.mkDirs(dir); // 需要创建父目录，不然会报错
         boolean success = sftp.upload(filePath, file);
         if (!success) {
-            throw new JschRuntimeException(StrUtil.format("上传文件到目标目录 ({}) 失败", filePath));
+            throw new JschRuntimeException(StrUtil.format("upload file to target directory ({}) failed", filePath));
         }
         // 拼接返回路径
         return super.formatFileUrl(config.getDomain(), path);

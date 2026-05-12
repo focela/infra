@@ -25,7 +25,7 @@ public abstract class AbstractSmsClient implements SmsClient {
      * 初始化
      */
     public final void init() {
-        log.debug("[init][配置({}) 初始化完成]", properties);
+        log.debug("[init][config ({}) init complete]", properties);
     }
 
     public final void refresh(SmsChannelProperties properties) {
@@ -33,7 +33,7 @@ public abstract class AbstractSmsClient implements SmsClient {
         if (properties.equals(this.properties)) {
             return;
         }
-        log.info("[refresh][配置({})发生变化，重新初始化]", properties);
+        log.info("[refresh][config ({})changed, re-init]", properties);
         this.properties = properties;
         // 初始化
         this.init();

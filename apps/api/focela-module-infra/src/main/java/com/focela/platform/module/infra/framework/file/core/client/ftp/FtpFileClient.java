@@ -51,7 +51,7 @@ public class FtpFileClient extends AbstractFileClient<FtpFileClientConfig> {
         reconnectIfTimeout();
         boolean success = ftp.upload(dir, fileName, new ByteArrayInputStream(content)); // 不需要主动创建目录，ftp 内部已经处理（见源码）
         if (!success) {
-            throw new FtpException(StrUtil.format("上传文件到目标目录 ({}) 失败", filePath));
+            throw new FtpException(StrUtil.format("upload file to target directory ({}) failed", filePath));
         }
         // 拼接返回路径
         return super.formatFileUrl(config.getDomain(), path);

@@ -12,19 +12,19 @@ public class DataSourceConfigSaveRequest {
     private Long id;
 
     @Schema(description = "Datasource name", requiredMode = Schema.RequiredMode.REQUIRED, example = "test")
-    @NotNull(message = "数据源名称不能为空")
+    @NotNull(message = "datasource name must not be blank")
     private String name;
 
     @Schema(description = "Datasource URL", requiredMode = Schema.RequiredMode.REQUIRED, example = "jdbc:mysql://127.0.0.1:3306/ruoyi-vue-pro")
-    @NotNull(message = "数据源连接不能为空")
+    @NotNull(message = "datasource 连接must not be blank")
     private String url;
 
     @Schema(description = "Username", requiredMode = Schema.RequiredMode.REQUIRED, example = "root")
-    @NotNull(message = "用户名不能为空")
+    @NotNull(message = "username must not be blank")
     private String username;
 
     @Schema(description = "Password", requiredMode = Schema.RequiredMode.REQUIRED, example = "123456")
-    @NotNull(message = "密码不能为空")
+    @NotNull(message = "password must not be blank")
     private String password;
 
 }

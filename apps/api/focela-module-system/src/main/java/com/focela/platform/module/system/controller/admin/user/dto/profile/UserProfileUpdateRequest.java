@@ -14,23 +14,23 @@ import org.hibernate.validator.constraints.URL;
 public class UserProfileUpdateRequest {
 
     @Schema(description = "Nickname", example = "Alice")
-    @Size(max = 30, message = "用户昵称长度不能超过 30 个字符")
+    @Size(max = 30, message = "user nickname length must not exceed 30 characters")
     private String nickname;
 
     @Schema(description = "Email", example = "user@example.com")
-    @Email(message = "邮箱格式不正确")
-    @Size(max = 50, message = "邮箱长度不能超过 50 个字符")
+    @Email(message = "email format is invalid")
+    @Size(max = 50, message = "email length must not exceed 50 characters")
     private String email;
 
     @Schema(description = "Mobile number", example = "15601691300")
-    @Length(min = 11, max = 11, message = "手机号长度必须 11 位")
+    @Length(min = 11, max = 11, message = "mobile number length must 11 characters")
     private String mobile;
 
     @Schema(description = "Gender, see SexEnum", example = "1")
     private Integer sex;
 
     @Schema(description = "role avatar", example = "https://www.example.com/1.png")
-    @URL(message = "头像地址格式不正确")
+    @URL(message = "avatar address format is invalid")
     private String avatar;
 
 }

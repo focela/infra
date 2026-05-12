@@ -61,7 +61,7 @@ public class IdTypeEnvironmentPostProcessor implements EnvironmentPostProcessor 
         try {
             return StrUtil.isNotBlank(value) ? IdType.valueOf(value) : IdType.NONE;
         } catch (IllegalArgumentException ex) {
-            log.error("[getIdType][无法解析 id-type 配置值({})]", value, ex);
+            log.error("[getIdType][cannot parse id-type config 值({})]", value, ex);
             return IdType.NONE;
         }
     }
@@ -70,7 +70,7 @@ public class IdTypeEnvironmentPostProcessor implements EnvironmentPostProcessor 
         Map<String, Object> map = new HashMap<>();
         map.put(ID_TYPE_KEY, idType);
         environment.getPropertySources().addFirst(new MapPropertySource("mybatisPlusIdType", map));
-        log.info("[setIdType][修改 MyBatis Plus 的 idType 为({})]", idType);
+        log.info("[setIdType][update MyBatis Plus idType is ({})]", idType);
     }
 
     public void setJobStoreDriverIfPresent(ConfigurableEnvironment environment, DbType dbType) {

@@ -83,7 +83,7 @@ public class JobHandlerInvoker extends QuartzJobBean {
         try {
             jobLogFrameworkService.updateJobLogResultAsync(jobLogId, endTime, (int) LocalDateTimeUtil.between(startTime, endTime).toMillis(), success, data);
         } catch (Exception ex) {
-            log.error("[executeInternal][Job({}) logId({}) 记录执行日志失败({}/{})]",
+            log.error("[executeInternal][Job({}) logId({}) 记录execute log failed ({}/{})]",
                     executionContext.getJobDetail().getKey(), jobLogId, success, data);
         }
     }

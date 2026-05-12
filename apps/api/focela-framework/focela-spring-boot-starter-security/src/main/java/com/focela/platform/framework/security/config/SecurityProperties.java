@@ -17,26 +17,26 @@ public class SecurityProperties {
     /**
      * HTTP 请求时，访问令牌的请求 Header
      */
-    @NotEmpty(message = "Token Header 不能为空")
+    @NotEmpty(message = "Token Header must not be blank")
     private String tokenHeader = "Authorization";
     /**
      * HTTP 请求时，访问令牌的请求参数
      *
      * 初始目的：解决 WebSocket 无法通过 header 传参，只能通过 token 参数拼接
      */
-    @NotEmpty(message = "Token Parameter 不能为空")
+    @NotEmpty(message = "Token Parameter must not be blank")
     private String tokenParameter = "token";
 
     /**
      * mock 模式的开关
      */
-    @NotNull(message = "mock 模式的开关不能为空")
+    @NotNull(message = "mock 模式 开关must not be blank")
     private Boolean mockEnable = false;
     /**
      * mock 模式的密钥
      * 一定要配置密钥，保证安全性
      */
-    @NotEmpty(message = "mock 模式的密钥不能为空") // 这里设置了一个默认值，因为实际上只有 mockEnable 为 true 时才需要配置。
+    @NotEmpty(message = "mock 模式 secret must not be blank") // 这里设置了一个默认值，因为实际上只有 mockEnable 为 true 时才需要配置。
     private String mockSecret = "test";
 
     /**

@@ -46,7 +46,7 @@ public class TenantJobAspect {
                     Object result = joinPoint.proceed();
                     results.put(tenantId, StrUtil.toStringOrEmpty(result));
                 } catch (Throwable e) {
-                    log.error("[execute][租户({}) 执行 Job 发生异常", tenantId, e);
+                    log.error("[execute][tenant ({}) execute Job 发生exception", tenantId, e);
                     results.put(tenantId, ExceptionUtil.getRootCauseMessage(e));
                 }
             });

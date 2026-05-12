@@ -200,14 +200,14 @@ public class DefaultTenantService implements TenantService {
                 // 如果是租户管理员，重新分配其权限为租户套餐的权限
                 if (Objects.equals(role.getCode(), RoleCodeEnum.TENANT_ADMIN.getCode())) {
                     permissionService.assignRoleMenu(role.getId(), menuIds);
-                    log.info("[updateTenantRoleMenu][租户管理员({}/{}) 的权限修改为({})]", role.getId(), role.getTenantId(), menuIds);
+                    log.info("[updateTenantRoleMenu][tenant admin ({}/{}) permission update is ({})]", role.getId(), role.getTenantId(), menuIds);
                     return;
                 }
                 // 如果是其他角色，则去掉超过套餐的权限
                 Set<Long> roleMenuIds = permissionService.getRoleMenuListByRoleId(role.getId());
                 roleMenuIds = CollUtil.intersectionDistinct(roleMenuIds, menuIds);
                 permissionService.assignRoleMenu(role.getId(), roleMenuIds);
-                log.info("[updateTenantRoleMenu][角色({}/{}) 的权限修改为({})]", role.getId(), role.getTenantId(), roleMenuIds);
+                log.info("[updateTenantRoleMenu][role ({}/{}) permission update is ({})]", role.getId(), role.getTenantId(), roleMenuIds);
             });
         });
     }

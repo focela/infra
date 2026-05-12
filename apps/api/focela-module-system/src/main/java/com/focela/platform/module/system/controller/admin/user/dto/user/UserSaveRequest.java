@@ -22,14 +22,14 @@ public class UserSaveRequest {
     private Long id;
 
     @Schema(description = "Username", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
-    @NotBlank(message = "用户账号不能为空")
-    @Pattern(regexp = "^[a-zA-Z0-9]{4,30}$", message = "用户账号由 数字、字母 组成")
-    @Size(min = 4, max = 30, message = "用户账号长度为 4-30 个字符")
+    @NotBlank(message = "user account must not be blank")
+    @Pattern(regexp = "^[a-zA-Z0-9]{4,30}$", message = "user account consists of digit, letter consists of")
+    @Size(min = 4, max = 30, message = "user account length must be 4-30 characters")
     @DiffLogField(name = "Username")
     private String username;
 
     @Schema(description = "Nickname", requiredMode = Schema.RequiredMode.REQUIRED, example = "Alice")
-    @Size(max = 30, message = "用户昵称长度不能超过30个字符")
+    @Size(max = 30, message = "user nickname length must not exceed 30characters")
     @DiffLogField(name = "Nickname")
     private String nickname;
 
@@ -46,8 +46,8 @@ public class UserSaveRequest {
     private Set<Long> postIds;
 
     @Schema(description = "Email", example = "user@example.com")
-    @Email(message = "邮箱格式不正确")
-    @Size(max = 50, message = "邮箱长度不能超过 50 个字符")
+    @Email(message = "email format is invalid")
+    @Size(max = 50, message = "email length must not exceed 50 characters")
     @DiffLogField(name = "Email")
     private String email;
 
@@ -67,10 +67,10 @@ public class UserSaveRequest {
     // ========== 仅【创建】时，需要传递的字段 ==========
 
     @Schema(description = "Password", requiredMode = Schema.RequiredMode.REQUIRED, example = "123456")
-    @Length(min = 4, max = 16, message = "密码长度为 4-16 位")
+    @Length(min = 4, max = 16, message = "password length must be 4-16 characters")
     private String password;
 
-    @AssertTrue(message = "密码不能为空")
+    @AssertTrue(message = "password must not be blank")
     @JsonIgnore
     public boolean isPasswordValid() {
         return id != null // 修改时，不需要传递

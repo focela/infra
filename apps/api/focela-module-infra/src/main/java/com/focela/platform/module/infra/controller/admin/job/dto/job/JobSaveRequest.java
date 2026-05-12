@@ -13,26 +13,26 @@ public class JobSaveRequest {
     private Long id;
 
     @Schema(description = "Job name", requiredMode = Schema.RequiredMode.REQUIRED, example = "test job")
-    @NotEmpty(message = "任务名称不能为空")
+    @NotEmpty(message = "任务name must not be blank")
     private String name;
 
     @Schema(description = "Handler name", requiredMode = Schema.RequiredMode.REQUIRED, example = "sysUserSessionTimeoutJob")
-    @NotEmpty(message = "处理器的名字不能为空")
+    @NotEmpty(message = "handler 名字must not be blank")
     private String handlerName;
 
     @Schema(description = "Handler params", example = "yudao")
     private String handlerParam;
 
     @Schema(description = "CRON expression", requiredMode = Schema.RequiredMode.REQUIRED, example = "0/10 * * * * ? *")
-    @NotEmpty(message = "CRON 表达式不能为空")
+    @NotEmpty(message = "CRON table 达式must not be blank")
     private String cronExpression;
 
     @Schema(description = "Retry count", requiredMode = Schema.RequiredMode.REQUIRED, example = "3")
-    @NotNull(message = "重试次数不能为空")
+    @NotNull(message = "retry count must not be blank")
     private Integer retryCount;
 
     @Schema(description = "Retry interval", requiredMode = Schema.RequiredMode.REQUIRED, example = "1000")
-    @NotNull(message = "重试间隔不能为空")
+    @NotNull(message = "retry interval must not be blank")
     private Integer retryInterval;
 
     @Schema(description = "Monitor timeout", example = "1000")

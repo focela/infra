@@ -63,7 +63,7 @@ public abstract class AbstractWebSocketMessageSender implements WebSocketMessage
         }
         if (CollUtil.isEmpty(sessions)) {
             if (log.isDebugEnabled()) {
-                log.debug("[send][sessionId({}) userType({}) userId({}) messageType({}) messageContent({}) 未匹配到会话]",
+                log.debug("[send][sessionId({}) userType({}) userId({}) messageType({}) messageContent({}) not matches to session]",
                         sessionId, userType, userId, messageType, messageContent);
             }
         }
@@ -84,19 +84,19 @@ public abstract class AbstractWebSocketMessageSender implements WebSocketMessage
         sessions.forEach(session -> {
             // 1. 各种校验，保证 Session 可以被发送
             if (session == null) {
-                log.error("[doSend][session 为空, message({})]", message);
+                log.error("[doSend][session is empty, message({})]", message);
                 return;
             }
             if (!session.isOpen()) {
-                log.error("[doSend][session({}) 已关闭, message({})]", session.getId(), message);
+                log.error("[doSend][session({}) is closed, message({})]", session.getId(), message);
                 return;
             }
             // 2. 执行发送
             try {
                 session.sendMessage(new TextMessage(payload));
-                log.info("[doSend][session({}) 发送消息成功，message({})]", session.getId(), message);
+                log.info("[doSend][session({}) send message success, message({})]", session.getId(), message);
             } catch (IOException ex) {
-                log.error("[doSend][session({}) 发送消息失败，message({})]", session.getId(), message, ex);
+                log.error("[doSend][session({}) send message failed, message({})]", session.getId(), message, ex);
             }
         });
     }

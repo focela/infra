@@ -98,7 +98,7 @@ public class FileConfigEntity extends BaseEntity {
                 case "S3FileClientConfig":
                     return JsonUtils.parseObject2(json, S3FileClientConfig.class);
                 default:
-                    throw new IllegalArgumentException("未知的 FileClientConfig 类型：" + json);
+                    throw new IllegalArgumentException("unknown FileClientConfig type:" + json);
             }
         }
 

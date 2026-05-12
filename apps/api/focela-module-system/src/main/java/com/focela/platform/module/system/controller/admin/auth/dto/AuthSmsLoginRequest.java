@@ -17,12 +17,12 @@ import jakarta.validation.constraints.NotEmpty;
 public class AuthSmsLoginRequest {
 
     @Schema(description = "Mobile number", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudaoyuanma")
-    @NotEmpty(message = "手机号不能为空")
+    @NotEmpty(message = "mobile number must not be blank")
     @Mobile
     private String mobile;
 
     @Schema(description = "SMS CAPTCHA", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-    @NotEmpty(message = "验证码不能为空")
+    @NotEmpty(message = "CAPTCHA must not be blank")
     private String code;
 
 }

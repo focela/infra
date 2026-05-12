@@ -228,7 +228,7 @@ public class DefaultOAuth2TokenService implements OAuth2TokenService {
             // 注意：目前 Member 暂时不读取，可以按需实现
             return Collections.emptyMap();
         }
-        throw new IllegalArgumentException("未知用户类型：" + userType);
+        throw new IllegalArgumentException("unknown user type:" + userType);
     }
 
     private static String generateAccessToken() {

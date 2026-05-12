@@ -38,7 +38,7 @@ public class ProjectReactor {
     public static void main(String[] args) {
         long start = System.currentTimeMillis();
         String projectBaseDir = getProjectBaseDir();
-        log.info("[main][原项目路劲改地址 ({})]", projectBaseDir);
+        log.info("[main][原project path change address ({})]", projectBaseDir);
 
         // ========== 配置，需要你手动修改 ==========
         String groupIdNew = "cn.star.gg";
@@ -46,22 +46,22 @@ public class ProjectReactor {
         String packageNameNew = "cn.start.pp";
         String titleNew = "土豆管理系统";
         String projectBaseDirNew = projectBaseDir + "-new"; // 一键改名后，“新”项目所在的目录
-        log.info("[main][检测新项目目录 ({})是否存在]", projectBaseDirNew);
+        log.info("[main][检测新project directory ({})is 否exists]", projectBaseDirNew);
         if (FileUtil.exist(projectBaseDirNew)) {
-            log.error("[main][新项目目录检测 ({})已存在，请更改新的目录！程序退出]", projectBaseDirNew);
+            log.error("[main][新project directory 检测 ({})already exists, please more change 新 directory! 程序logout]", projectBaseDirNew);
             return;
         }
         // 如果新目录中存在 PACKAGE_NAME，ARTIFACT_ID 等关键字，路径会被替换，导致生成的文件不在预期目录
         if (StrUtil.containsAny(projectBaseDirNew, PACKAGE_NAME, ARTIFACT_ID, StrUtil.upperFirst(ARTIFACT_ID))) {
-            log.error("[main][新项目目录 `projectBaseDirNew` 检测 ({}) 存在冲突名称「{}」或者「{}」，请更改新的目录！程序退出]",
+            log.error("[main][新project directory `projectBaseDirNew` 检测 ({}) exists 冲突name 「{}」or 「{}」, please more change 新 directory! 程序logout]",
                     projectBaseDirNew, PACKAGE_NAME, ARTIFACT_ID);
             return;
         }
-        log.info("[main][完成新项目目录检测，新项目路径地址 ({})]", projectBaseDirNew);
+        log.info("[main][complete 新project directory 检测, 新project path address ({})]", projectBaseDirNew);
         // 获得需要复制的文件
-        log.info("[main][开始获得需要重写的文件，预计需要 10-20 秒]");
+        log.info("[main][start get requires 重写 file, 预计requires 10-20 second]");
         Collection<File> files = listFiles(projectBaseDir);
-        log.info("[main][需要重写的文件数量：{}，预计需要 15-30 秒]", files.size());
+        log.info("[main][requires 重写 file count: {}, 预计requires 15-30 second]", files.size());
         // 写入文件
         files.forEach(file -> {
             // 如果是白名单的文件类型，不进行重写，直接拷贝
@@ -74,13 +74,13 @@ public class ProjectReactor {
             String content = replaceFileContent(file, groupIdNew, artifactIdNew, packageNameNew, titleNew);
             writeFile(file, content, projectBaseDir, projectBaseDirNew, packageNameNew, artifactIdNew);
         });
-        log.info("[main][重写完成]共耗时：{} 秒", (System.currentTimeMillis() - start) / 1000);
+        log.info("[main][重写complete]共elapsed: {} second", (System.currentTimeMillis() - start) / 1000);
     }
 
     private static String getProjectBaseDir() {
         String baseDir = System.getProperty("user.dir");
         if (StrUtil.isEmpty(baseDir)) {
-            throw new NullPointerException("项目基础路径不存在");
+            throw new NullPointerException("project base path does not exist");
         }
         return baseDir;
     }

@@ -20,7 +20,7 @@ public class DictionaryTypePageRequest extends PageParam {
     private String name;
 
     @Schema(description = "Dictionary type (fuzzy match)", example = "sys_common_sex")
-    @Size(max = 100, message = "字典类型类型长度不能超过100个字符")
+    @Size(max = 100, message = "dictionary type type length must not exceed 100characters")
     private String type;
 
     @Schema(description = "Display status, see CommonStatusEnum", example = "1")

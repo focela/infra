@@ -26,18 +26,18 @@ public class ApiAccessLogCreateReqDTO {
     /**
      * 应用名
      */
-    @NotNull(message = "应用名不能为空")
+    @NotNull(message = "application name must not be blank")
     private String applicationName;
 
     /**
      * 请求方法名
      */
-    @NotNull(message = "http 请求方法不能为空")
+    @NotNull(message = "HTTP method must not be blank")
     private String requestMethod;
     /**
      * 访问地址
      */
-    @NotNull(message = "访问地址不能为空")
+    @NotNull(message = "access URL must not be blank")
     private String requestUrl;
     /**
      * 请求参数
@@ -50,12 +50,12 @@ public class ApiAccessLogCreateReqDTO {
     /**
      * 用户 IP
      */
-    @NotNull(message = "ip 不能为空")
+    @NotNull(message = "ip must not be blank")
     private String userIp;
     /**
      * 浏览器 UA
      */
-    @NotNull(message = "User-Agent 不能为空")
+    @NotNull(message = "User-Agent must not be blank")
     private String userAgent;
 
     /**
@@ -76,22 +76,22 @@ public class ApiAccessLogCreateReqDTO {
     /**
      * 开始请求时间
      */
-    @NotNull(message = "开始请求时间不能为空")
+    @NotNull(message = "start request time must not be blank")
     private LocalDateTime beginTime;
     /**
      * 结束请求时间
      */
-    @NotNull(message = "结束请求时间不能为空")
+    @NotNull(message = "end request time must not be blank")
     private LocalDateTime endTime;
     /**
      * 执行时长，单位：毫秒
      */
-    @NotNull(message = "执行时长不能为空")
+    @NotNull(message = "execution duration must not be blank")
     private Integer duration;
     /**
      * 结果码
      */
-    @NotNull(message = "错误码不能为空")
+    @NotNull(message = "error code must not be blank")
     private Integer resultCode;
     /**
      * 结果提示

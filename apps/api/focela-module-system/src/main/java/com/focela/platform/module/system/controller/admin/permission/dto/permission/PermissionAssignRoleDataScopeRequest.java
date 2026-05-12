@@ -14,12 +14,12 @@ import java.util.Set;
 public class PermissionAssignRoleDataScopeRequest {
 
     @Schema(description = "Role ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @NotNull(message = "角色编号不能为空")
+    @NotNull(message = "role ID must not be blank")
     private Long roleId;
 
     @Schema(description = "Data scope, see DataScopeEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @NotNull(message = "数据范围不能为空")
-    @InEnum(value = DataScopeEnum.class, message = "数据范围必须是 {value}")
+    @NotNull(message = "data scope must not be blank")
+    @InEnum(value = DataScopeEnum.class, message = "data scope must be {value}")
     private Integer dataScope;
 
     @Schema(description = "department ID list, only has scope type as DEPT_CUSTOM when, this field is required", example = "1,3,5")

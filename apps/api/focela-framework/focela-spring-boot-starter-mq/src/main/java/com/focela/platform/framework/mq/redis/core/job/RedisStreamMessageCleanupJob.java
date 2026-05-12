@@ -43,7 +43,7 @@ public class RedisStreamMessageCleanupJob {
             try {
                 execute();
             } catch (Exception ex) {
-                log.error("[cleanup][执行异常]", ex);
+                log.error("[cleanup][execute exception]", ex);
             } finally {
                 lock.unlock();
             }
@@ -60,10 +60,10 @@ public class RedisStreamMessageCleanupJob {
                 // 使用 XTRIM 命令清理消息，只保留最近的 MAX_LEN 条消息
                 Long trimCount = ops.trim(listener.getStreamKey(), MAX_COUNT, true);
                 if (trimCount != null && trimCount > 0) {
-                    log.info("[execute][Stream({}) 清理消息数量({})]", listener.getStreamKey(), trimCount);
+                    log.info("[execute][Stream({}) clean message count ({})]", listener.getStreamKey(), trimCount);
                 }
             } catch (Exception ex) {
-                log.error("[execute][Stream({}) 清理异常]", listener.getStreamKey(), ex);
+                log.error("[execute][Stream({}) clean exception]", listener.getStreamKey(), ex);
             }
         });
     }

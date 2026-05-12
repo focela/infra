@@ -33,9 +33,9 @@ public class IPUtils {
             long now = System.currentTimeMillis();
             byte[] bytes = ResourceUtil.readBytes("ip2region.xdb");
             SEARCHER = Searcher.newWithBuffer(bytes);
-            log.info("启动加载 IPUtils 成功，耗时 ({}) 毫秒", System.currentTimeMillis() - now);
+            log.info("init load IPUtils success, elapsed ({}) millisecond", System.currentTimeMillis() - now);
         } catch (Exception e) {
-            throw new RuntimeException("IPUtils 初始化失败", e);
+            throw new RuntimeException("IPUtils init failed", e);
         }
     }
 

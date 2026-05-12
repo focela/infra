@@ -41,7 +41,7 @@ public class DefaultLogRecordService implements ILogRecordService {
             operateLogApi.createOperateLogAsync(reqDTO);
         } catch (Throwable ex) {
             // 由于 @Async 异步调用，这里打印下日志，更容易跟进
-            log.error("[record][url({}) log({}) 发生异常]", reqDTO.getRequestUrl(), reqDTO, ex);
+            log.error("[record][url({}) log({}) 发生exception]", reqDTO.getRequestUrl(), reqDTO, ex);
         }
     }
 
@@ -78,12 +78,12 @@ public class DefaultLogRecordService implements ILogRecordService {
 
     @Override
     public List<LogRecord> queryLog(String bizNo, String type) {
-        throw new UnsupportedOperationException("使用 OperateLogApi 进行操作日志的查询");
+        throw new UnsupportedOperationException("use OperateLogApi for operation log query");
     }
 
     @Override
     public List<LogRecord> queryLogByBizNo(String bizNo, String type, String subType) {
-        throw new UnsupportedOperationException("使用 OperateLogApi 进行操作日志的查询");
+        throw new UnsupportedOperationException("use OperateLogApi for operation log query");
     }
 
 }

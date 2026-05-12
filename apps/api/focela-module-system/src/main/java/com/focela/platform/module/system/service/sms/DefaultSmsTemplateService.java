@@ -171,7 +171,7 @@ public class DefaultSmsTemplateService implements SmsTemplateService {
     void validateApiTemplate(Long channelId, String apiTemplateId) {
         // 获得短信模板
         SmsClient smsClient = smsChannelService.getSmsClient(channelId);
-        Assert.notNull(smsClient, String.format("短信客户端(%d) 不存在", channelId));
+        Assert.notNull(smsClient, String.format("SMS client (%d) does not exist", channelId));
         SmsTemplateRespDTO template;
         try {
             template = smsClient.getSmsTemplate(apiTemplateId);
@@ -189,7 +189,7 @@ public class DefaultSmsTemplateService implements SmsTemplateService {
             throw exception(SMS_TEMPLATE_API_AUDIT_FAIL, template.getAuditReason());
         }
         Assert.equals(template.getAuditStatus(), SmsTemplateAuditStatusEnum.SUCCESS.getStatus(),
-                String.format("短信模板(%s) 审核状态(%d) 不正确", apiTemplateId, template.getAuditStatus()));
+                String.format("SMS template (%s) approval status (%d) is invalid", apiTemplateId, template.getAuditStatus()));
     }
 
     @Override

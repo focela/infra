@@ -76,7 +76,7 @@ public class FocelaMybatisAutoConfiguration {
             }
         }
         // 找不到合适的 IKeyGenerator 实现类
-        throw new IllegalArgumentException(StrUtil.format("DbType{} 找不到合适的 IKeyGenerator 实现类", dbType));
+        throw new IllegalArgumentException(StrUtil.format("DbType{} cannot find suitable IKeyGenerator implementation 类", dbType));
     }
 
     @Bean // 特殊：返回结果使用 Object 而不用 JacksonTypeHandler 的原因，避免因为 JacksonTypeHandler 被 mybatis 全局使用！

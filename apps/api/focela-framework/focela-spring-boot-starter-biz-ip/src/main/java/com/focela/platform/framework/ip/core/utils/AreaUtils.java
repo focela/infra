@@ -60,9 +60,9 @@ public class AreaUtils {
                 area.setParent(parent);
                 parent.getChildren().add(area);
             }
-            log.info("启动加载 AreaUtils 成功，耗时 ({}) 毫秒", System.currentTimeMillis() - now);
+            log.info("init load AreaUtils success, elapsed ({}) millisecond", System.currentTimeMillis() - now);
         } catch (Exception e) {
-            throw new RuntimeException("AreaUtils 初始化失败", e);
+            throw new RuntimeException("AreaUtils init failed", e);
         }
     }
 

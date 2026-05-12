@@ -12,7 +12,7 @@ import java.util.Set;
 public class PermissionAssignRoleMenuRequest {
 
     @Schema(description = "Role ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @NotNull(message = "角色编号不能为空")
+    @NotNull(message = "role ID must not be blank")
     private Long roleId;
 
     @Schema(description = "menu ID list", example = "1,3,5")

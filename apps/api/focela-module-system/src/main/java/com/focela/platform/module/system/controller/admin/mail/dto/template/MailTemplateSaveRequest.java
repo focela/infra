@@ -14,30 +14,30 @@ public class MailTemplateSaveRequest {
     private Long id;
 
     @Schema(description = "Template name", requiredMode = Schema.RequiredMode.REQUIRED, example = "test name")
-    @NotNull(message = "名称不能为空")
+    @NotNull(message = "name must not be blank")
     private String name;
 
     @Schema(description = "Template ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "test")
-    @NotNull(message = "模版编号不能为空")
+    @NotNull(message = "template ID must not be blank")
     private String code;
 
     @Schema(description = "Sender email account ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @NotNull(message = "发送的邮箱账号编号不能为空")
+    @NotNull(message = "send email account ID must not be blank")
     private Long accountId;
 
     @Schema(description = "Sender name", example = "Bob")
     private String nickname;
 
     @Schema(description = "Title", requiredMode = Schema.RequiredMode.REQUIRED, example = "register success")
-    @NotEmpty(message = "标题不能为空")
+    @NotEmpty(message = "title must not be blank")
     private String title;
 
     @Schema(description = "Content", requiredMode = Schema.RequiredMode.REQUIRED, example = "hello, register success")
-    @NotEmpty(message = "内容不能为空")
+    @NotEmpty(message = "content must not be blank")
     private String content;
 
     @Schema(description = "Status, see CommonStatusEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @NotNull(message = "状态不能为空")
+    @NotNull(message = "status must not be blank")
     private Integer status;
 
     @Schema(description = "Remarks", example = "Ultraman")

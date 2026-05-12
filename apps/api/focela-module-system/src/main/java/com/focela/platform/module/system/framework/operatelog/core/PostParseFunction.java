@@ -35,7 +35,7 @@ public class PostParseFunction implements IParseFunction {
         // 获取岗位信息
         PostEntity post = postService.getPost(Convert.toLong(value));
         if (post == null) {
-            log.warn("[apply][获取岗位{{}}为空", value);
+            log.warn("[apply][get post {{}}is empty", value);
             return "";
         }
         return post.getName();

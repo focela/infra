@@ -15,17 +15,17 @@ public class DictionaryTypeSaveRequest {
     private Long id;
 
     @Schema(description = "Dictionary name", requiredMode = Schema.RequiredMode.REQUIRED, example = "gender")
-    @NotBlank(message = "字典名称不能为空")
-    @Size(max = 100, message = "字典类型名称长度不能超过100个字符")
+    @NotBlank(message = "dictionary name must not be blank")
+    @Size(max = 100, message = "dictionary type name length must not exceed 100characters")
     private String name;
 
     @Schema(description = "Dictionary type", requiredMode = Schema.RequiredMode.REQUIRED, example = "sys_common_sex")
-    @NotNull(message = "字典类型不能为空")
-    @Size(max = 100, message = "字典类型类型长度不能超过 100 个字符")
+    @NotNull(message = "dictionary type must not be blank")
+    @Size(max = 100, message = "dictionary type type length must not exceed 100 characters")
     private String type;
 
     @Schema(description = "Status, see CommonStatusEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @NotNull(message = "状态不能为空")
+    @NotNull(message = "status must not be blank")
     private Integer status;
 
     @Schema(description = "Remarks", example = "happy remarks")

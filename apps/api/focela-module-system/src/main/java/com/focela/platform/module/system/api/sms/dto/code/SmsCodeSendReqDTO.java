@@ -18,18 +18,18 @@ public class SmsCodeSendReqDTO {
      * 手机号
      */
     @Mobile
-    @NotEmpty(message = "手机号不能为空")
+    @NotEmpty(message = "mobile number must not be blank")
     private String mobile;
     /**
      * 发送场景
      */
-    @NotNull(message = "发送场景不能为空")
+    @NotNull(message = "send scenario must not be blank")
     @InEnum(SmsSceneEnum.class)
     private Integer scene;
     /**
      * 发送 IP
      */
-    @NotEmpty(message = "发送 IP 不能为空")
+    @NotEmpty(message = "send IP must not be blank")
     private String createIp;
 
 }

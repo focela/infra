@@ -17,19 +17,19 @@ public class TenantPackageSaveRequest {
     private Long id;
 
     @Schema(description = "Package name", requiredMode = Schema.RequiredMode.REQUIRED, example = "VIP")
-    @NotEmpty(message = "套餐名不能为空")
+    @NotEmpty(message = "package name must not be blank")
     private String name;
 
     @Schema(description = "Status, see CommonStatusEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @NotNull(message = "状态不能为空")
-    @InEnum(value = CommonStatusEnum.class, message = "状态必须是 {value}")
+    @NotNull(message = "status must not be blank")
+    @InEnum(value = CommonStatusEnum.class, message = "status must be {value}")
     private Integer status;
 
     @Schema(description = "Remarks", example = "good")
     private String remark;
 
     @Schema(description = "Related menu ID", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "关联的菜单编号不能为空")
+    @NotNull(message = "related menu ID must not be blank")
     private Set<Long> menuIds;
 
 }

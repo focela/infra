@@ -41,7 +41,7 @@ public class DebugDingTalkSmsClient extends AbstractSmsClient {
         String url = buildUrl("robot/send");
         Map<String, Object> params = new HashMap<>();
         params.put("msgtype", "text");
-        String content = String.format("【模拟短信】\n手机号：%s\n短信日志编号：%d\n模板参数：%s",
+        String content = String.format("[mock SMS]\nmobile number: %s\nSMS log ID: %d\ntemplate 参数: %s",
                 mobile, sendLogId, MapUtils.convertMap(templateParams));
         params.put("text", MapUtil.builder().put("content", content).build());
         // 执行请求
@@ -77,7 +77,7 @@ public class DebugDingTalkSmsClient extends AbstractSmsClient {
 
     @Override
     public List<SmsReceiveRespDTO> parseSmsReceiveStatus(String text) {
-        throw new UnsupportedOperationException("模拟短信客户端，暂时无需解析回调");
+        throw new UnsupportedOperationException("mock SMS client, temporarily no need to parse callback");
     }
 
     @Override

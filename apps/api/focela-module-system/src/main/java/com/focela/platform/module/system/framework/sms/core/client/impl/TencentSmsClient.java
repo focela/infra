@@ -148,7 +148,7 @@ public class TencentSmsClient extends AbstractSmsClient {
             case 1: return SmsTemplateAuditStatusEnum.CHECKING.getStatus();
             case 0: return SmsTemplateAuditStatusEnum.SUCCESS.getStatus();
             case -1: return SmsTemplateAuditStatusEnum.FAIL.getStatus();
-            default: throw new IllegalArgumentException(String.format("未知审核状态(%d)", templateStatus));
+            default: throw new IllegalArgumentException(String.format("unknown approval status (%d)", templateStatus));
         }
     }
 

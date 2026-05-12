@@ -26,7 +26,7 @@ public class RoleResponse {
     private String name;
 
     @Schema(description = "Role code", requiredMode = Schema.RequiredMode.REQUIRED, example = "admin")
-    @NotBlank(message = "角色标志不能为空")
+    @NotBlank(message = "role code must not be blank")
     @ExcelProperty("角色标志")
     private String code;
 

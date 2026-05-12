@@ -43,7 +43,7 @@ public class ApiSignatureAspect {
         }
 
         // 2. 验证不通过，抛出异常
-        log.error("[beforePointCut][方法{} 参数({}) 签名失败]", joinPoint.getSignature().toString(),
+        log.error("[beforePointCut][方法{} 参数({}) signature failed]", joinPoint.getSignature().toString(),
                 joinPoint.getArgs());
         throw new ServiceException(BAD_REQUEST.getCode(),
                 StrUtil.blankToDefault(signature.message(), BAD_REQUEST.getMsg()));
@@ -71,7 +71,7 @@ public class ApiSignatureAspect {
         String nonce = request.getHeader(signature.nonce());
         if (BooleanUtil.isFalse(signatureRedisDAO.setNonce(appId, nonce, signature.timeout() * 2, signature.timeUnit()))) {
             String timestamp = request.getHeader(signature.timestamp());
-            log.info("[verifySignature][appId({}) timestamp({}) nonce({}) sign({}) 存在重复请求]", appId, timestamp, nonce, clientSignature);
+            log.info("[verifySignature][appId({}) timestamp({}) nonce({}) sign({}) exists 重复request]", appId, timestamp, nonce, clientSignature);
             throw new ServiceException(GlobalErrorCodeConstants.REPEATED_REQUESTS.getCode(), "存在重复请求");
         }
         return true;

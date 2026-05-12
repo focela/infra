@@ -15,12 +15,12 @@ public class NoticeSaveRequest {
     private Long id;
 
     @Schema(description = "Notice title", requiredMode = Schema.RequiredMode.REQUIRED, example = "XiaoBo master")
-    @NotBlank(message = "公告标题不能为空")
-    @Size(max = 50, message = "公告标题不能超过50个字符")
+    @NotBlank(message = "notice title must not be blank")
+    @Size(max = 50, message = "notice title must not exceed 50characters")
     private String title;
 
     @Schema(description = "Notice type", requiredMode = Schema.RequiredMode.REQUIRED, example = "XiaoBo master")
-    @NotNull(message = "公告类型不能为空")
+    @NotNull(message = "notice type must not be blank")
     private Integer type;
 
     @Schema(description = "Notice content", requiredMode = Schema.RequiredMode.REQUIRED, example = "Acme")

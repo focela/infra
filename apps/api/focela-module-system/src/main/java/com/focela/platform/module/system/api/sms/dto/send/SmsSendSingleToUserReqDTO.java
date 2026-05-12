@@ -24,7 +24,7 @@ public class SmsSendSingleToUserReqDTO {
     /**
      * 短信模板编号
      */
-    @NotEmpty(message = "短信模板编号不能为空")
+    @NotEmpty(message = "SMS template ID must not be blank")
     private String templateCode;
     /**
      * 短信模板参数

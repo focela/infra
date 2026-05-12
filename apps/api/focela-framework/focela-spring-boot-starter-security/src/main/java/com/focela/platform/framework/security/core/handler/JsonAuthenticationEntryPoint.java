@@ -25,7 +25,7 @@ public class JsonAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) {
-        log.debug("[commence][访问 URL({}) 时，没有登录]", request.getRequestURI(), e);
+        log.debug("[commence][访问 URL({}) when, no login]", request.getRequestURI(), e);
         // 返回 401
         ServletUtils.writeJSON(response, CommonResult.error(UNAUTHORIZED));
     }

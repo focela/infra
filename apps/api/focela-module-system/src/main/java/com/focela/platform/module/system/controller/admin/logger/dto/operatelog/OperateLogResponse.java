@@ -57,7 +57,7 @@ public class OperateLogResponse implements VO {
     private String extra;
 
     @Schema(description = "HTTP method", requiredMode = Schema.RequiredMode.REQUIRED, example = "GET")
-    @NotEmpty(message = "请求方法名不能为空")
+    @NotEmpty(message = "HTTP method must not be blank")
     private String requestMethod;
 
     @Schema(description = "Request URL", requiredMode = Schema.RequiredMode.REQUIRED, example = "/xxx/yyy")

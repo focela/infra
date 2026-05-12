@@ -48,7 +48,7 @@ public class RedisPendingMessageResendJob {
             try {
                 execute();
             } catch (Exception ex) {
-                log.error("[messageResend][执行异常]", ex);
+                log.error("[messageResend][execute exception]", ex);
             } finally {
                 lock.unlock();
             }
@@ -67,7 +67,7 @@ public class RedisPendingMessageResendJob {
             // 每个消费者的 pending 队列消息数量
             Map<String, Long> pendingMessagesPerConsumer = pendingMessagesSummary.getPendingMessagesPerConsumer();
             pendingMessagesPerConsumer.forEach((consumerName, pendingMessageCount) -> {
-                log.info("[processPendingMessage][消费者({}) 消息数量({})]", consumerName, pendingMessageCount);
+                log.info("[processPendingMessage][消费者({}) message count ({})]", consumerName, pendingMessageCount);
                 // 每个消费者的 pending消息的详情信息
                 PendingMessages pendingMessages = ops.pending(listener.getStreamKey(), Consumer.from(listener.getGroup(), consumerName), Range.unbounded(), pendingMessageCount);
                 if (pendingMessages.isEmpty()) {
@@ -91,7 +91,7 @@ public class RedisPendingMessageResendJob {
                             .withStreamKey(listener.getStreamKey()));
                     // ack 消息消费完成
                     redisTemplate.getRedisTemplate().opsForStream().acknowledge(listener.getGroup(), records.get(0));
-                    log.info("[processPendingMessage][消息({})重新投递成功]", records.get(0).getId());
+                    log.info("[processPendingMessage][message ({})re- 投递success]", records.get(0).getId());
                 });
             });
         });

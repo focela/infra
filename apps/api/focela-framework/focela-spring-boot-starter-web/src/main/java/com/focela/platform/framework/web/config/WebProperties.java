@@ -16,12 +16,12 @@ import jakarta.validation.constraints.NotNull;
 @Data
 public class WebProperties {
 
-    @NotNull(message = "APP API 不能为空")
+    @NotNull(message = "APP API must not be blank")
     private Api appApi = new Api("/app-api", "**.controller.app.**");
-    @NotNull(message = "Admin API 不能为空")
+    @NotNull(message = "Admin API must not be blank")
     private Api adminApi = new Api("/admin-api", "**.controller.admin.**");
 
-    @NotNull(message = "Admin UI 不能为空")
+    @NotNull(message = "Admin UI must not be blank")
     private Ui adminUi;
 
     @Data
@@ -39,7 +39,7 @@ public class WebProperties {
          *
          * @see FocelaWebAutoConfiguration#configurePathMatch(PathMatchConfigurer)
          */
-        @NotEmpty(message = "API 前缀不能为空")
+        @NotEmpty(message = "API prefix must not be blank")
         private String prefix;
 
         /**
@@ -47,7 +47,7 @@ public class WebProperties {
          *
          * 主要目的是，给该 Controller 设置指定的 {@link #prefix}
          */
-        @NotEmpty(message = "Controller 所在包不能为空")
+        @NotEmpty(message = "Controller package must not be blank")
         private String controller;
 
     }

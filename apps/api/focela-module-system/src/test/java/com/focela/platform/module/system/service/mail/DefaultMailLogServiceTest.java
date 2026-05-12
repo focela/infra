@@ -112,7 +112,7 @@ public class DefaultMailLogServiceTest extends BaseDbUnitTest {
         mailLogMapper.insert(log);
         // 准备参数
         Long logId = log.getId();
-        Exception exception = new NullPointerException("测试异常");
+        Exception exception = new NullPointerException("test exception");
 
         // 调用
         mailLogService.updateMailSendResult(logId, null, exception);

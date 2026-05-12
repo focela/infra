@@ -15,13 +15,13 @@ public class NotifySendSingleToUserReqDTO {
     /**
      * 用户编号
      */
-    @NotNull(message = "用户编号不能为空")
+    @NotNull(message = "user ID must not be blank")
     private Long userId;
 
     /**
      * 站内信模板编号
      */
-    @NotEmpty(message = "站内信模板编号不能为空")
+    @NotEmpty(message = "notify message template ID must not be blank")
     private String templateCode;
 
     /**

@@ -15,35 +15,35 @@ public class SftpFileClientConfig implements FileClientConfig {
     /**
      * 基础路径
      */
-    @NotEmpty(message = "基础路径不能为空")
+    @NotEmpty(message = "base path must not be blank")
     private String basePath;
 
     /**
      * 自定义域名
      */
-    @NotEmpty(message = "domain 不能为空")
-    @URL(message = "domain 必须是 URL 格式")
+    @NotEmpty(message = "domain must not be blank")
+    @URL(message = "domain must be URL format")
     private String domain;
 
     /**
      * 主机地址
      */
-    @NotEmpty(message = "host 不能为空")
+    @NotEmpty(message = "host must not be blank")
     private String host;
     /**
      * 主机端口
      */
-    @NotNull(message = "port 不能为空")
+    @NotNull(message = "port must not be blank")
     private Integer port;
     /**
      * 用户名
      */
-    @NotEmpty(message = "用户名不能为空")
+    @NotEmpty(message = "username must not be blank")
     private String username;
     /**
      * 密码
      */
-    @NotEmpty(message = "密码不能为空")
+    @NotEmpty(message = "password must not be blank")
     private String password;
 
 }

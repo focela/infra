@@ -15,15 +15,15 @@ import jakarta.validation.constraints.Size;
 public class DictionaryDataPageRequest extends PageParam {
 
     @Schema(description = "Dictionary label", example = "Acme")
-    @Size(max = 100, message = "字典标签长度不能超过100个字符")
+    @Size(max = 100, message = "dictionary label length must not exceed 100characters")
     private String label;
 
     @Schema(description = "Dictionary type (fuzzy match)", example = "sys_common_sex")
-    @Size(max = 100, message = "字典类型类型长度不能超过100个字符")
+    @Size(max = 100, message = "dictionary type type length must not exceed 100characters")
     private String dictType;
 
     @Schema(description = "Display status, see CommonStatusEnum", example = "1")
-    @InEnum(value = CommonStatusEnum.class, message = "修改状态必须是 {value}")
+    @InEnum(value = CommonStatusEnum.class, message = "update status must be {value}")
     private Integer status;
 
 }

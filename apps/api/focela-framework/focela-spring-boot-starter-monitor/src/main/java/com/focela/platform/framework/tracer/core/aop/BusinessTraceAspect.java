@@ -68,7 +68,7 @@ public class BusinessTraceAspect {
             span.setTag(BusinessTrace.TYPE_TAG, MapUtil.getStr(result, trace.type()));
             span.setTag(BusinessTrace.ID_TAG, MapUtil.getStr(result, trace.id()));
         } catch (Exception ex) {
-            log.error("[setBizTag][解析 bizType 与 bizId 发生异常]", ex);
+            log.error("[setBizTag][parse bizType 与 bizId 发生exception]", ex);
         }
     }
 

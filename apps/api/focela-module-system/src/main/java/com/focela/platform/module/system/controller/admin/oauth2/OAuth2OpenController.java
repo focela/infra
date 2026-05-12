@@ -133,7 +133,7 @@ public class OAuth2OpenController {
                 accessTokenDO = oauth2GrantService.grantRefreshToken(refreshToken, client.getClientId());
                 break;
             default:
-                throw new IllegalArgumentException("未知授权类型：" + grantType);
+                throw new IllegalArgumentException("unknown authorize type:" + grantType);
         }
         Assert.notNull(accessTokenDO, "访问令牌不能为空"); // 防御性检查
         return success(OAuth2OpenConverter.INSTANCE.convert(accessTokenDO));

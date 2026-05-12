@@ -13,13 +13,13 @@ import org.springframework.web.multipart.MultipartFile;
 public class AppFileUploadRequest {
 
     @Schema(description = "File attachments", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "文件附件不能为空")
+    @NotNull(message = "file attachments must not be blank")
     private MultipartFile file;
 
     @Schema(description = "File directory", example = "XXX/YYY")
     private String directory;
 
-    @AssertTrue(message = "文件目录不正确")
+    @AssertTrue(message = "file directory is invalid")
     @JsonIgnore
     public boolean isDirectoryValid() {
         return FileUploadRequest.isDirectoryValid(directory);

@@ -26,79 +26,79 @@ public class ApiErrorLogCreateReqDTO {
     /**
      * 应用名
      */
-    @NotNull(message = "应用名不能为空")
+    @NotNull(message = "application name must not be blank")
     private String applicationName;
 
     /**
      * 请求方法名
      */
-    @NotNull(message = "http 请求方法不能为空")
+    @NotNull(message = "HTTP method must not be blank")
     private String requestMethod;
     /**
      * 访问地址
      */
-    @NotNull(message = "访问地址不能为空")
+    @NotNull(message = "access URL must not be blank")
     private String requestUrl;
     /**
      * 请求参数
      */
-    @NotNull(message = "请求参数不能为空")
+    @NotNull(message = "request param must not be blank")
     private String requestParams;
     /**
      * 用户 IP
      */
-    @NotNull(message = "ip 不能为空")
+    @NotNull(message = "ip must not be blank")
     private String userIp;
     /**
      * 浏览器 UA
      */
-    @NotNull(message = "User-Agent 不能为空")
+    @NotNull(message = "User-Agent must not be blank")
     private String userAgent;
 
     /**
      * 异常时间
      */
-    @NotNull(message = "异常时间不能为空")
+    @NotNull(message = "exception time must not be blank")
     private LocalDateTime exceptionTime;
     /**
      * 异常名
      */
-    @NotNull(message = "异常名不能为空")
+    @NotNull(message = "exception name must not be blank")
     private String exceptionName;
     /**
      * 异常发生的类全名
      */
-    @NotNull(message = "异常发生的类全名不能为空")
+    @NotNull(message = "exception class FQN must not be blank")
     private String exceptionClassName;
     /**
      * 异常发生的类文件
      */
-    @NotNull(message = "异常发生的类文件不能为空")
+    @NotNull(message = "exception class file must not be blank")
     private String exceptionFileName;
     /**
      * 异常发生的方法名
      */
-    @NotNull(message = "异常发生的方法名不能为空")
+    @NotNull(message = "exception method name must not be blank")
     private String exceptionMethodName;
     /**
      * 异常发生的方法所在行
      */
-    @NotNull(message = "异常发生的方法所在行不能为空")
+    @NotNull(message = "exception line must not be blank")
     private Integer exceptionLineNumber;
     /**
      * 异常的栈轨迹异常的栈轨迹
      */
-    @NotNull(message = "异常的栈轨迹不能为空")
+    @NotNull(message = "exception 栈轨迹must not be blank")
     private String exceptionStackTrace;
     /**
      * 异常导致的根消息
      */
-    @NotNull(message = "异常导致的根消息不能为空")
+    @NotNull(message = "root exception message must not be blank")
     private String exceptionRootCauseMessage;
     /**
      * 异常导致的消息
      */
-    @NotNull(message = "异常导致的消息不能为空")
+    @NotNull(message = "exception message must not be blank")
     private String exceptionMessage;
 
 

@@ -103,8 +103,8 @@ public class DepartmentDataPermissionRule implements DataPermissionRule {
         if (deptDataPermission == null) {
             deptDataPermission = permissionApi.getDeptDataPermission(loginUser.getId());
             if (deptDataPermission == null) {
-                log.error("[getExpression][LoginUser({}) 获取数据权限为 null]", JsonUtils.toJsonString(loginUser));
-                throw new NullPointerException(String.format("LoginUser(%d) Table(%s/%s) 未返回数据权限",
+                log.error("[getExpression][LoginUser({}) get data permission is null]", JsonUtils.toJsonString(loginUser));
+                throw new NullPointerException(String.format("LoginUser(%d) Table(%s/%s) did not return data permission",
                         loginUser.getId(), tableName, tableAlias.getName()));
             }
             // 添加到上下文中，避免重复计算
@@ -127,9 +127,9 @@ public class DepartmentDataPermissionRule implements DataPermissionRule {
         Expression userExpression = buildUserExpression(tableName, tableAlias, deptDataPermission.getSelf(), loginUser.getId());
         if (deptExpression == null && userExpression == null) {
             // TODO 芋艿：获得不到条件的时候，暂时不抛出异常，而是不返回数据
-            log.warn("[getExpression][LoginUser({}) Table({}/{}) DepartmentDataPermission({}) 构建的条件为空]",
+            log.warn("[getExpression][LoginUser({}) Table({}/{}) DepartmentDataPermission({}) build item item is empty]",
                     JsonUtils.toJsonString(loginUser), tableName, tableAlias, JsonUtils.toJsonString(deptDataPermission));
-//            throw new NullPointerException(String.format("LoginUser(%d) Table(%s/%s) 构建的条件为空",
+//            throw new NullPointerException(String.format("LoginUser(%d) Table(%s/%s) build item item is empty",
 //                    loginUser.getId(), tableName, tableAlias.getName()));
             return new EqualsTo(null, null); // WHERE null = null，可以保证返回的数据为空
         }

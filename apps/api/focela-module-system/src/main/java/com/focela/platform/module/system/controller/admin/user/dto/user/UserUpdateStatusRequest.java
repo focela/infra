@@ -13,12 +13,12 @@ import lombok.Data;
 public class UserUpdateStatusRequest {
 
     @Schema(description = "User ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-    @NotNull(message = "角色编号不能为空")
+    @NotNull(message = "role ID must not be blank")
     private Long id;
 
     @Schema(description = "Status, see CommonStatusEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @NotNull(message = "状态不能为空")
-    @InEnum(value = CommonStatusEnum.class, message = "修改状态必须是 {value}")
+    @NotNull(message = "status must not be blank")
+    @InEnum(value = CommonStatusEnum.class, message = "update status must be {value}")
     @InDictionary(type = DictionaryTypeConstants.COMMON_STATUS)
     private Integer status;
 

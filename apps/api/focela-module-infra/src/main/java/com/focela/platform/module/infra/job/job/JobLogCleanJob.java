@@ -31,8 +31,8 @@ public class JobLogCleanJob implements JobHandler {
     @TenantIgnore
     public String execute(String param) {
         Integer count = jobLogService.cleanJobLog(JOB_CLEAN_RETAIN_DAY, DELETE_LIMIT);
-        log.info("[execute][定时执行清理定时任务日志数量 ({}) 个]", count);
-        return String.format("定时执行清理定时任务日志数量 %s 个", count);
+        log.info("[execute][定when clean 定when job log count ({})]", count);
+        return String.format("定when clean 定when job log count %s", count);
     }
 
 }
