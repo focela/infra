@@ -1,13 +1,13 @@
-package com.focela.platform.module.system.controller.admin.socail;
+package com.focela.platform.module.system.controller.admin.social;
 
 import com.focela.platform.framework.common.pojo.CommonResult;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.system.api.social.SocialClientApi;
 import com.focela.platform.module.system.api.social.dto.SocialWxaSubscribeMessageSendReqDTO;
-import com.focela.platform.module.system.controller.admin.socail.dto.client.SocialClientPageRequest;
-import com.focela.platform.module.system.controller.admin.socail.dto.client.SocialClientResponse;
-import com.focela.platform.module.system.controller.admin.socail.dto.client.SocialClientSaveRequest;
+import com.focela.platform.module.system.controller.admin.social.dto.client.SocialClientPageRequest;
+import com.focela.platform.module.system.controller.admin.social.dto.client.SocialClientResponse;
+import com.focela.platform.module.system.controller.admin.social.dto.client.SocialClientSaveRequest;
 import com.focela.platform.module.system.repository.entity.social.SocialClientEntity;
 import com.focela.platform.module.system.service.social.SocialClientService;
 import io.swagger.v3.oas.annotations.Operation;

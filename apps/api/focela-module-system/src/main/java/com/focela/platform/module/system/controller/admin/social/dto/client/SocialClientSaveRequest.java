@@ -1,4 +1,4 @@
-package com.focela.platform.module.system.controller.admin.socail.dto.client;
+package com.focela.platform.module.system.controller.admin.social.dto.client;
 
 import cn.hutool.core.util.StrUtil;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;

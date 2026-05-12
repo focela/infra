@@ -1,4 +1,4 @@
-package com.focela.platform.module.system.controller.admin.socail.dto.user;
+package com.focela.platform.module.system.controller.admin.social.dto.user;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

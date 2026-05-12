@@ -1,4 +1,4 @@
-package com.focela.platform.module.system.controller.admin.socail.dto.client;
+package com.focela.platform.module.system.controller.admin.social.dto.client;
 
 import com.focela.platform.framework.common.pojo.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;

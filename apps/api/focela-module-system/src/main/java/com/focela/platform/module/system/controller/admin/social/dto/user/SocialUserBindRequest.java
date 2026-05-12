@@ -1,4 +1,4 @@
-package com.focela.platform.module.system.controller.admin.socail.dto.user;
+package com.focela.platform.module.system.controller.admin.social.dto.user;
 
 import com.focela.platform.module.system.enums.social.SocialTypeEnum;
 import com.focela.platform.framework.common.validation.InEnum;

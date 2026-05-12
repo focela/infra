@@ -3,7 +3,7 @@ package com.focela.platform.module.system.repository.mapper.social;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.module.system.controller.admin.socail.dto.client.SocialClientPageRequest;
+import com.focela.platform.module.system.controller.admin.social.dto.client.SocialClientPageRequest;
 import com.focela.platform.module.system.repository.entity.social.SocialClientEntity;
 import org.apache.ibatis.annotations.Mapper;
 

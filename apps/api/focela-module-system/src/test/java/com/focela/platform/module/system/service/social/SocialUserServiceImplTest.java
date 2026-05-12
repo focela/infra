@@ -5,7 +5,7 @@ import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.test.core.ut.BaseDbUnitTest;
 import com.focela.platform.module.system.api.social.dto.SocialUserBindReqDTO;
 import com.focela.platform.module.system.api.social.dto.SocialUserRespDTO;
-import com.focela.platform.module.system.controller.admin.socail.dto.user.SocialUserPageRequest;
+import com.focela.platform.module.system.controller.admin.social.dto.user.SocialUserPageRequest;
 import com.focela.platform.module.system.repository.entity.social.SocialUserBindEntity;
 import com.focela.platform.module.system.repository.entity.social.SocialUserEntity;
 import com.focela.platform.module.system.repository.mapper.social.SocialUserBindMapper;

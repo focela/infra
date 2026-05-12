@@ -1,14 +1,14 @@
-package com.focela.platform.module.system.controller.admin.socail;
+package com.focela.platform.module.system.controller.admin.social;
 
 import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.common.pojo.CommonResult;
 import com.focela.platform.framework.common.pojo.PageResult;
 import com.focela.platform.framework.common.util.object.BeanUtils;
 import com.focela.platform.module.system.api.social.dto.SocialUserBindReqDTO;
-import com.focela.platform.module.system.controller.admin.socail.dto.user.SocialUserBindRequest;
-import com.focela.platform.module.system.controller.admin.socail.dto.user.SocialUserPageRequest;
-import com.focela.platform.module.system.controller.admin.socail.dto.user.SocialUserResponse;
-import com.focela.platform.module.system.controller.admin.socail.dto.user.SocialUserUnbindRequest;
+import com.focela.platform.module.system.controller.admin.social.dto.user.SocialUserBindRequest;
+import com.focela.platform.module.system.controller.admin.social.dto.user.SocialUserPageRequest;
+import com.focela.platform.module.system.controller.admin.social.dto.user.SocialUserResponse;
+import com.focela.platform.module.system.controller.admin.social.dto.user.SocialUserUnbindRequest;
 import com.focela.platform.module.system.repository.entity.social.SocialUserEntity;
 import com.focela.platform.module.system.service.social.SocialUserService;
 import io.swagger.v3.oas.annotations.Operation;
