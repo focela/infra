@@ -23,22 +23,12 @@
     <dependencies>
         <dependency>
             <groupId>com.focela.platform</groupId>
-            <artifactId>focela-module-system-api</artifactId>
+            <artifactId>focela-module-system</artifactId>
             <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>com.focela.platform</groupId>
-            <artifactId>focela-module-system-biz</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.focela.platform</groupId>
-            <artifactId>focela-module-infra-api</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.focela.platform</groupId>
-            <artifactId>focela-module-infra-biz</artifactId>
+            <artifactId>focela-module-infra</artifactId>
             <version>${revision}</version>
         </dependency>
 
