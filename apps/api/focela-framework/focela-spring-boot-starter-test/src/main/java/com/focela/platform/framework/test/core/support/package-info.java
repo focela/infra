@@ -1,4 +1,4 @@
 /**
- * 提供单元测试 Unit Test 的基类
+ * Test base classes and DB/Redis support.
  */
 package com.focela.platform.framework.test.core.support;

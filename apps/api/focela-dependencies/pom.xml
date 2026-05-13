@@ -112,17 +112,17 @@
             </dependency>
             <dependency>
                 <groupId>com.focela.platform</groupId>
-                <artifactId>focela-spring-boot-starter-biz-tenant</artifactId>
+                <artifactId>focela-spring-boot-starter-tenant</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.focela.platform</groupId>
-                <artifactId>focela-spring-boot-starter-biz-data-permission</artifactId>
+                <artifactId>focela-spring-boot-starter-data-permission</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.focela.platform</groupId>
-                <artifactId>focela-spring-boot-starter-biz-ip</artifactId>
+                <artifactId>focela-spring-boot-starter-ip</artifactId>
                 <version>${revision}</version>
             </dependency>
 

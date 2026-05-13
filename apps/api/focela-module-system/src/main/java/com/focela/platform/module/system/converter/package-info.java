@@ -1,6 +1,4 @@
 /**
- * 提供 POJO 类的实体转换
- *
- * 目前使用 MapStruct 框架
+ * MapStruct converters of the system module.
  */
 package com.focela.platform.module.system.converter;

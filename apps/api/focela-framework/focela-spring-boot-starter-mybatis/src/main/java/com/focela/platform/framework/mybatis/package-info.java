@@ -1,4 +1,4 @@
 /**
- * 使用 MyBatis Plus 提升使用 MyBatis 的开发效率
+ * MyBatis-Plus starter.
  */
 package com.focela.platform.framework.mybatis;

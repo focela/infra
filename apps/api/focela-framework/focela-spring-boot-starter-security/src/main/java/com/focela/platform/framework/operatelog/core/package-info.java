@@ -1,4 +1,4 @@
 /**
- * 占位，无特殊作用
+ * Operate-log core wiring.
  */
 package com.focela.platform.framework.operatelog.core;

@@ -1,4 +1,4 @@
 /**
- * 基于 FastExcel 实现 Excel 相关的操作
+ * Excel import/export starter.
  */
 package com.focela.platform.framework.excel;

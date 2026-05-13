@@ -1,4 +1,4 @@
 /**
- * 特殊：用于 framework 下，starter 需要调用 biz 业务模块的接口定义！
+ * Cross-module business contracts shared between modules (logger, dictionary, OAuth2, etc.).
  */
 package com.focela.platform.framework.common.business;

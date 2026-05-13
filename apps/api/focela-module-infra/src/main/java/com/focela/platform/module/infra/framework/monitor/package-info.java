@@ -1,4 +1,4 @@
 /**
- * 使用 Spring Boot Admin 实现简单的监控平台
+ * Monitoring integration for the infra module.
  */
 package com.focela.platform.module.infra.framework.monitor;

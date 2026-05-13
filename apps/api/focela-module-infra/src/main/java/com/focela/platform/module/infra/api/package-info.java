@@ -1,4 +1,4 @@
 /**
- * infra API 包，定义并实现提供给其它模块的 API
+ * Public API contracts of the infra module exposed to other modules (interfaces + DTOs).
  */
 package com.focela.platform.module.infra.api;

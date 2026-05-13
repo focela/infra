@@ -1,4 +1,4 @@
 /**
- * 占位
+ * Internal enums of the infra module.
  */
 package com.focela.platform.module.infra.enums;

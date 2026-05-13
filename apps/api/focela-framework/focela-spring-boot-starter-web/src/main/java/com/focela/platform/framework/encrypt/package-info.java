@@ -1,4 +1,4 @@
 /**
- * HTTP API 加密组件：支持 Request 和 Response 的加密、解密
+ * API encrypt/decrypt starter.
  */
 package com.focela.platform.framework.encrypt;

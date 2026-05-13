@@ -1,4 +1,4 @@
 /**
- * 针对 infra 模块的 api 包
+ * Cross-module contracts for the infra module.
  */
 package com.focela.platform.framework.common.business.infra;

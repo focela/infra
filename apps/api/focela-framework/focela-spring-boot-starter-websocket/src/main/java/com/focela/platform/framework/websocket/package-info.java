@@ -1,4 +1,4 @@
 /**
- * WebSocket 框架，支持多节点的广播
+ * WebSocket starter.
  */
 package com.focela.platform.framework.websocket;

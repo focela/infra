@@ -1,4 +1,4 @@
 /**
- * 针对 SpringMVC 的基础封装
+ * Web starter: filters, global exception handler, response wrapper.
  */
 package com.focela.platform.framework.web;

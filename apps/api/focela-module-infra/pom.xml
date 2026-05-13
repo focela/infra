@@ -22,7 +22,7 @@
         <!-- 业务组件 -->
         <dependency>
             <groupId>com.focela.platform</groupId>
-            <artifactId>focela-spring-boot-starter-biz-tenant</artifactId>
+            <artifactId>focela-spring-boot-starter-tenant</artifactId>
         </dependency>
 
         <!-- Web 相关 -->

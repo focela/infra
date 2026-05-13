@@ -25,9 +25,9 @@
         <module>focela-spring-boot-starter-excel</module>
         <module>focela-spring-boot-starter-test</module>
 
-        <module>focela-spring-boot-starter-biz-tenant</module>
-        <module>focela-spring-boot-starter-biz-data-permission</module>
-        <module>focela-spring-boot-starter-biz-ip</module>
+        <module>focela-spring-boot-starter-tenant</module>
+        <module>focela-spring-boot-starter-data-permission</module>
+        <module>focela-spring-boot-starter-ip</module>
     </modules>
 
     <artifactId>focela-framework</artifactId>

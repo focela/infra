@@ -1,6 +1,4 @@
 /**
- * 字典数据模块，提供 {@link com.focela.platform.framework.dictionary.core.DictionaryFrameworkUtils} 工具类
- *
- * 通过将字典缓存在内存中，保证性能
+ * Dictionary lookup starter.
  */
 package com.focela.platform.framework.dictionary;

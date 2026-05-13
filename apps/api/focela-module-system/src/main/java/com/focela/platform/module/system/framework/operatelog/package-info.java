@@ -1,4 +1,4 @@
 /**
- * 占位文件，避免文件夹缩进
+ * Operate-log handlers for the system module.
  */
 package com.focela.platform.module.system.framework.operatelog;

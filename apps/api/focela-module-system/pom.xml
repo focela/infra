@@ -27,15 +27,15 @@
         <!-- 业务组件 -->
         <dependency>
             <groupId>com.focela.platform</groupId>
-            <artifactId>focela-spring-boot-starter-biz-data-permission</artifactId>
+            <artifactId>focela-spring-boot-starter-data-permission</artifactId>
         </dependency>
         <dependency>
             <groupId>com.focela.platform</groupId>
-            <artifactId>focela-spring-boot-starter-biz-tenant</artifactId>
+            <artifactId>focela-spring-boot-starter-tenant</artifactId>
         </dependency>
         <dependency>
             <groupId>com.focela.platform</groupId>
-            <artifactId>focela-spring-boot-starter-biz-ip</artifactId>
+            <artifactId>focela-spring-boot-starter-ip</artifactId>
         </dependency>
 
         <!-- Web 相关 -->

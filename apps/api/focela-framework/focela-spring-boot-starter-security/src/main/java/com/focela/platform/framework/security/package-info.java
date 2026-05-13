@@ -1,5 +1,4 @@
 /**
- * 基于 Spring Security 框架
- * 实现安全认证功能
+ * Spring Security starter.
  */
 package com.focela.platform.framework.security;

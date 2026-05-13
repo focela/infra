@@ -1,4 +1,4 @@
 /**
- * 消息队列的生产者
+ * Message-queue producers of the infra module.
  */
 package com.focela.platform.module.infra.mq.producer;

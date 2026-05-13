@@ -1,4 +1,4 @@
 /**
- * 使用 SkyWalking 组件，作为链路追踪、日志中心。
+ * Distributed tracing starter.
  */
 package com.focela.platform.framework.tracer;

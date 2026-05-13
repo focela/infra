@@ -65,7 +65,7 @@
                 因为广播某个类型的用户时候，需要根据租户过滤下，避免广播到别的租户！
             -->
             <groupId>com.focela.platform</groupId>
-            <artifactId>focela-spring-boot-starter-biz-tenant</artifactId>
+            <artifactId>focela-spring-boot-starter-tenant</artifactId>
             <scope>provided</scope>
         </dependency>
     </dependencies>

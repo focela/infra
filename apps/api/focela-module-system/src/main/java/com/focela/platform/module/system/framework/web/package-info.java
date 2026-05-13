@@ -1,4 +1,4 @@
 /**
- * system 模块的 web 配置
+ * Web-layer Spring configuration for the system module.
  */
 package com.focela.platform.module.system.framework.web;

@@ -1,4 +1,4 @@
 /**
- * 属于 infra 模块的 framework 封装
+ * Module-internal Spring configuration and integration adapters for the infra module.
  */
 package com.focela.platform.module.infra.framework;

@@ -1,4 +1,4 @@
 /**
- * 消息队列，基于 RabbitMQ 提供
+ * RabbitMQ integration.
  */
 package com.focela.platform.framework.mq.rabbitmq;

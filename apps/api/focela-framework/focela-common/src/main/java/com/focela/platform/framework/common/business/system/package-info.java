@@ -1,4 +1,4 @@
 /**
- * 针对 system 模块的 api 包
+ * Cross-module contracts for the system module.
  */
 package com.focela.platform.framework.common.business.system;

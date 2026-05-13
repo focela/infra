@@ -59,7 +59,7 @@
 
         <dependency>
             <groupId>com.focela.platform</groupId>
-            <artifactId>focela-spring-boot-starter-biz-ip</artifactId>
+            <artifactId>focela-spring-boot-starter-ip</artifactId>
             <optional>true</optional> <!-- 设置为 optional，只有在 AreaConverter 的时候使用 -->
         </dependency>
 

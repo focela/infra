@@ -1,4 +1,4 @@
 /**
- * infra 模块的 web 配置
+ * Web-layer Spring configuration for the infra module.
  */
 package com.focela.platform.module.infra.framework.web;
