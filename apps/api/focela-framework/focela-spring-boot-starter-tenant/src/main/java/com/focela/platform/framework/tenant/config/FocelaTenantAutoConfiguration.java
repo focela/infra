@@ -1,6 +1,6 @@
 package com.focela.platform.framework.tenant.config;
 
-import com.focela.platform.framework.common.business.system.tenant.TenantCommonApi;
+import com.focela.platform.framework.common.contract.system.tenant.TenantCommonApi;
 import com.focela.platform.framework.common.enums.WebFilterOrderEnum;
 import com.focela.platform.framework.mybatis.core.utils.MyBatisUtils;
 import com.focela.platform.framework.redis.config.FocelaCacheProperties;

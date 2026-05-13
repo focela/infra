@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.api.permission;
 
-import com.focela.platform.framework.common.business.system.permission.dto.DepartmentDataPermissionRpcResponse;
+import com.focela.platform.framework.common.contract.system.permission.dto.DepartmentDataPermissionRpcResponse;
 import com.focela.platform.module.system.service.permission.PermissionService;
 import org.springframework.stereotype.Service;
 

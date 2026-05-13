@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.service.permission;
 
-import com.focela.platform.framework.common.business.system.permission.dto.DepartmentDataPermissionRpcResponse;
+import com.focela.platform.framework.common.contract.system.permission.dto.DepartmentDataPermissionRpcResponse;
 
 import java.util.Collection;
 import java.util.Set;

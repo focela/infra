@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.api.permission;
 
-import com.focela.platform.framework.common.business.system.permission.PermissionCommonApi;
+import com.focela.platform.framework.common.contract.system.permission.PermissionCommonApi;
 
 import java.util.Collection;
 import java.util.Set;

@@ -2,7 +2,7 @@ package com.focela.platform.module.system.service.permission;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.focela.platform.framework.common.business.system.permission.dto.DepartmentDataPermissionRpcResponse;
+import com.focela.platform.framework.common.contract.system.permission.dto.DepartmentDataPermissionRpcResponse;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
 import com.focela.platform.module.system.entity.department.DepartmentEntity;

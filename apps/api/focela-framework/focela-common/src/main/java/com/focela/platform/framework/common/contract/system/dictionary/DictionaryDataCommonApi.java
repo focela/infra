@@ -1,0 +1,20 @@
+package com.focela.platform.framework.common.contract.system.dictionary;
+
+import com.focela.platform.framework.common.contract.system.dictionary.dto.DictionaryDataRpcResponse;
+
+import java.util.List;
+
+/**
+ * 字典数据 API 接口
+ */
+public interface DictionaryDataCommonApi {
+
+    /**
+     * 获得指定字典类型的字典数据列表
+     *
+     * @param dictType 字典类型
+     * @return 字典数据列表
+     */
+    List<DictionaryDataRpcResponse> getDictDataList(String dictType);
+
+}

@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.api.logger;
 
-import com.focela.platform.framework.common.business.system.logger.OperateLogCommonApi;
+import com.focela.platform.framework.common.contract.system.logger.OperateLogCommonApi;
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.module.system.api.logger.dto.OperateLogPageRpcRequest;
 import com.focela.platform.module.system.api.logger.dto.OperateLogRpcResponse;

@@ -1,6 +1,6 @@
 package com.focela.platform.module.infra.service.logger;
 
-import com.focela.platform.framework.common.business.infra.logger.dto.ApiErrorLogCreateRpcRequest;
+import com.focela.platform.framework.common.contract.infra.logger.dto.ApiErrorLogCreateRpcRequest;
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.module.infra.controller.admin.logger.dto.apierrorlog.ApiErrorLogPageRequest;
 import com.focela.platform.module.infra.entity.logger.ApiErrorLogEntity;

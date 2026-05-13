@@ -1,7 +1,7 @@
 package com.focela.platform.framework.web.config;
 
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.common.business.infra.logger.ApiErrorLogCommonApi;
+import com.focela.platform.framework.common.contract.infra.logger.ApiErrorLogCommonApi;
 import com.focela.platform.framework.common.enums.WebFilterOrderEnum;
 import com.focela.platform.framework.web.core.filter.CacheRequestBodyFilter;
 import com.focela.platform.framework.web.core.handler.GlobalExceptionHandler;

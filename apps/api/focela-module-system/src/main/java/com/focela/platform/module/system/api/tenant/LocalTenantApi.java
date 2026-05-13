@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.api.tenant;
 
-import com.focela.platform.framework.common.business.system.tenant.TenantCommonApi;
+import com.focela.platform.framework.common.contract.system.tenant.TenantCommonApi;
 import com.focela.platform.module.system.service.tenant.TenantService;
 import org.springframework.stereotype.Service;
 

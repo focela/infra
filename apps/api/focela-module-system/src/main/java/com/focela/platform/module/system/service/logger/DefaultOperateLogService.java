@@ -2,7 +2,7 @@ package com.focela.platform.module.system.service.logger;
 
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.common.utils.object.BeanUtils;
-import com.focela.platform.framework.common.business.system.logger.dto.OperateLogCreateRpcRequest;
+import com.focela.platform.framework.common.contract.system.logger.dto.OperateLogCreateRpcRequest;
 import com.focela.platform.module.system.api.logger.dto.OperateLogPageRpcRequest;
 import com.focela.platform.module.system.controller.admin.logger.dto.operatelog.OperateLogPageRequest;
 import com.focela.platform.module.system.entity.logger.OperateLogEntity;

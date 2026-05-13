@@ -1,9 +1,9 @@
 package com.focela.platform.framework.dictionary.core;
 
 import cn.hutool.core.collection.CollUtil;
-import com.focela.platform.framework.common.business.system.dictionary.DictionaryDataCommonApi;
+import com.focela.platform.framework.common.contract.system.dictionary.DictionaryDataCommonApi;
 import com.focela.platform.framework.common.utils.cache.CacheUtils;
-import com.focela.platform.framework.common.business.system.dictionary.dto.DictionaryDataRpcResponse;
+import com.focela.platform.framework.common.contract.system.dictionary.dto.DictionaryDataRpcResponse;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import lombok.SneakyThrows;
