@@ -14,7 +14,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockedStatic;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 import static com.focela.platform.framework.test.core.utils.RandomUtils.*;
@@ -101,7 +103,10 @@ public class QiniuSmsClientTest extends BaseMockitoUnitTest {
     @Test
     public void testParseSmsReceiveStatus() {
         // 准备参数
-        String text = "{\"items\":[{\"mobile\":\"18881234567\",\"message_id\":\"10135515063508004167\",\"status\":\"DELIVRD\",\"delivrd_at\":1724591666,\"error\":\"DELIVRD\",\"seq\":\"123\"}]}";
+        long deliveredAt = 1724591666L;
+        String text = "{\"items\":[{\"mobile\":\"18881234567\",\"message_id\":\"10135515063508004167\",\"status\":\"DELIVRD\",\"delivrd_at\":" + deliveredAt + ",\"error\":\"DELIVRD\",\"seq\":\"123\"}]}";
+        LocalDateTime expectedReceiveTime = LocalDateTime.ofInstant(
+                Instant.ofEpochSecond(deliveredAt), ZoneId.systemDefault());
         // 调用
         List<SmsReceiveRpcResponse> statuses = smsClient.parseSmsReceiveStatus(text);
         // 断言
@@ -109,7 +114,7 @@ public class QiniuSmsClientTest extends BaseMockitoUnitTest {
         SmsReceiveRpcResponse status = statuses.get(0);
         assertTrue(status.getSuccess());
         assertEquals("DELIVRD", status.getErrorMsg());
-        assertEquals(LocalDateTime.of(2024, 8, 25, 21, 14, 26), status.getReceiveTime());
+        assertEquals(expectedReceiveTime, status.getReceiveTime());
         assertEquals("18881234567", status.getMobile());
         assertEquals("10135515063508004167", status.getSerialNo());
         assertEquals(123, status.getLogId());
