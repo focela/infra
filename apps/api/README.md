@@ -36,20 +36,23 @@ Base Java package: `com.focela.platform.*`
 
 ```
 com.focela.platform.module.<bounded-context>/
-├── api/                  # Cross-module RPC contracts (XxxApi + LocalXxxApi)
+├── api/                  # Module-side RPC surface (XxxApi + LocalXxxApi); cross-module
+│                         # contracts live in framework/common/contract/ as XxxContractApi
+├── config/               # Module-specific Spring config and integration code
+├── constants/            # Compile-time constants (ErrorCodeConstants, …)
 ├── controller/
 │   ├── admin/            # Admin Web API (/admin-api/...)
 │   └── app/              # Mobile/App API (/app-api/...)
-│       └── <feature>/dto/  # Request/Response DTOs
+│       └── <feature>/dto/  # Request/Response DTOs (one folder per feature, no extra nesting)
 ├── converter/            # MapStruct converters (XxxConverter)
-├── enums/                # Enum types
-├── framework/            # Module-specific framework code
+├── entity/               # MyBatis entities (XxxEntity extends BaseEntity)
+├── enums/                # Enum types only (constants live in constants/)
+├── job/                  # Scheduled jobs
+├── mq/                   # Message queue producers/consumers
 ├── repository/
-│   ├── entity/           # MyBatis entities (XxxEntity extends BaseEntity)
 │   ├── mapper/           # MyBatis Mapper interfaces (XxxMapper)
 │   └── redis/            # Redis DAOs
-├── service/              # Business services (XxxService + DefaultXxxService)
-└── utils/                # Module utilities
+└── service/              # Business services (XxxService + DefaultXxxService)
 ```
 
 ## Naming conventions
@@ -60,11 +63,15 @@ com.focela.platform.module.<bounded-context>/
 | Mapper (MyBatis) | `UserMapper extends BaseMapperX<UserEntity>` |
 | Service interface | `UserService` |
 | Service impl | `DefaultUserService implements UserService` |
-| Cross-module API | `UserApi` + `LocalUserApi` |
-| Request DTO | `UserSaveRequest`, `UserPageRequest`, `UserListRequest` |
-| Response DTO | `UserResponse`, `UserSimpleResponse` |
+| Cross-module contract (framework/common/contract/) | `OperateLogContractApi`, `PermissionContractApi` |
+| Module-side API (module/api/) | `UserApi`, `OperateLogApi extends OperateLogContractApi` |
+| API impl (same JVM) | `LocalUserApi implements UserApi` |
+| HTTP Request DTO (controller) | `UserSaveRequest`, `UserPageRequest`, `UserListRequest` |
+| HTTP Response DTO (controller) | `UserResponse`, `UserSimpleResponse` |
+| Cross-module RPC Request DTO | `OperateLogCreateRpcRequest`, `MailSendSingleToUserRpcRequest` |
+| Cross-module RPC Response DTO | `UserRpcResponse`, `OperateLogRpcResponse` |
 | Converter | `UserConverter` (MapStruct) |
-| Excel DTO | `UserImportExcelDto` |
+| Excel row | `UserImportExcel` |
 | Configuration class | `FocelaXxxAutoConfiguration` |
 | Spring contract impl | Behavior-based name — e.g. `JsonAccessDeniedHandler` |
 
@@ -125,7 +132,7 @@ API serves on `http://127.0.0.1:48080`. Admin endpoints under `/admin-api/...`, 
 ./mvnw -f pom.xml test                        # Full test suite (uses H2)
 ```
 
-Current test baseline: **457 run, 456 pass, 1 timezone-dependent failure** (`DefaultQiniuSmsClientTest.testParseSmsReceiveStatus` — see [open gaps](#open-gaps)).
+Current test baseline: **580 run, 0 failures, 0 errors, 19 skipped** — full suite green on any host timezone.
 
 ## Architecture decisions
 
@@ -133,7 +140,7 @@ Current test baseline: **457 run, 456 pass, 1 timezone-dependent failure** (`Def
 |---|---|
 | Monorepo `apps/api/` | Future-proof for additional apps (`apps/web/`, `apps/worker/`) |
 | Layered (controller → service → repository) | Inherited from yudao baseline; pragmatic, not feature-first |
-| `*Api` interface + `Local*Api` impl | Cross-module contract. `Local*` prefix signals same-JVM implementation; a future `Remote*Api` can sit alongside when modules move to RPC. |
+| `*ContractApi` (in framework/common/contract/) + `*Api` (module-side) + `Local*Api` impl | Three-tier cross-module API: `*ContractApi` defines the shared contract, the module-side `*Api` extends it to add module-internal methods, and `Local*` signals same-JVM implementation. A future `Remote*Api` can sit alongside when modules move to RPC. DTO suffix `*RpcRequest`/`*RpcResponse` for cross-module payloads to keep them separate from HTTP `*Request`/`*Response`. |
 | `*Service` + `Default*Service` | Spring convention (`DefaultListableBeanFactory`); avoids `*Impl` smell while keeping interface for AOP/mocking |
 | MyBatis-Plus over JPA | Yudao baseline; better fit for legacy PostgreSQL schema |
 | `focela.*` config prefix | Single namespace for application properties |
@@ -144,7 +151,6 @@ Current test baseline: **457 run, 456 pass, 1 timezone-dependent failure** (`Def
 |---|---|---|
 | No Flyway/Liquibase schema migration | Schema drift between H2 (test) and PostgreSQL (prod); manual provisioning | `docs/REFACTOR_PLAN_LEVEL_B.md` (Mức C+) |
 | Chinese comments throughout | Onboarding friction for non-CN devs | — |
-| `QiniuSmsClientTest` timezone hardcoded | Test fails outside Asia/Shanghai (UTC+8) | Tracked separately |
 | No CI/CD | Manual gate only | Postponed |
 
 ## Useful URLs
