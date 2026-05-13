@@ -2,7 +2,7 @@ package com.focela.platform.module.infra.controller.admin.logger.dto.apiaccesslo
 
 import com.focela.platform.framework.excel.core.annotations.DictionaryFormat;
 import com.focela.platform.framework.excel.core.converter.DictionaryConverter;
-import com.focela.platform.module.infra.enums.DictionaryTypeConstants;
+import com.focela.platform.module.infra.constants.DictionaryTypeConstants;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;

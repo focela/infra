@@ -22,8 +22,8 @@ import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPo
 import static com.focela.platform.framework.test.core.utils.AssertUtils.assertServiceException;
 import static com.focela.platform.framework.test.core.utils.RandomUtils.randomLongId;
 import static com.focela.platform.framework.test.core.utils.RandomUtils.randomPojo;
-import static com.focela.platform.module.infra.enums.ErrorCodeConstants.API_ERROR_LOG_NOT_FOUND;
-import static com.focela.platform.module.infra.enums.ErrorCodeConstants.API_ERROR_LOG_PROCESSED;
+import static com.focela.platform.module.infra.constants.ErrorCodeConstants.API_ERROR_LOG_NOT_FOUND;
+import static com.focela.platform.module.infra.constants.ErrorCodeConstants.API_ERROR_LOG_PROCESSED;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 

@@ -25,7 +25,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
+import static com.focela.platform.module.system.constants.ErrorCodeConstants.*;
 
 /**
  * OAuth2.0 Client Service 实现类

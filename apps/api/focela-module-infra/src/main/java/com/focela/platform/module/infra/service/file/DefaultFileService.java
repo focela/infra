@@ -8,9 +8,9 @@ import cn.hutool.crypto.digest.DigestUtil;
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.common.utils.http.HttpUtils;
 import com.focela.platform.framework.common.utils.object.BeanUtils;
-import com.focela.platform.module.infra.controller.admin.file.dto.file.FileCreateRequest;
-import com.focela.platform.module.infra.controller.admin.file.dto.file.FilePageRequest;
-import com.focela.platform.module.infra.controller.admin.file.dto.file.FilePresignedUrlResponse;
+import com.focela.platform.module.infra.controller.admin.file.dto.FileCreateRequest;
+import com.focela.platform.module.infra.controller.admin.file.dto.FilePageRequest;
+import com.focela.platform.module.infra.controller.admin.file.dto.FilePresignedUrlResponse;
 import com.focela.platform.module.infra.entity.file.FileEntity;
 import com.focela.platform.module.infra.repository.mapper.file.FileMapper;
 import com.focela.platform.module.infra.config.file.core.client.FileClient;
@@ -24,7 +24,7 @@ import java.util.List;
 
 import static cn.hutool.core.date.DatePattern.PURE_DATE_PATTERN;
 import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.module.infra.enums.ErrorCodeConstants.FILE_NOT_EXISTS;
+import static com.focela.platform.module.infra.constants.ErrorCodeConstants.FILE_NOT_EXISTS;
 
 /**
  * 文件 Service 实现类

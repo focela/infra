@@ -16,10 +16,10 @@ import com.focela.platform.module.infra.api.config.ConfigApi;
 import com.focela.platform.module.system.controller.admin.auth.dto.AuthRegisterRequest;
 import com.focela.platform.module.system.controller.admin.user.dto.profile.UserProfileUpdatePasswordRequest;
 import com.focela.platform.module.system.controller.admin.user.dto.profile.UserProfileUpdateRequest;
-import com.focela.platform.module.system.controller.admin.user.dto.user.UserImportExcelDto;
-import com.focela.platform.module.system.controller.admin.user.dto.user.UserImportResponse;
-import com.focela.platform.module.system.controller.admin.user.dto.user.UserPageRequest;
-import com.focela.platform.module.system.controller.admin.user.dto.user.UserSaveRequest;
+import com.focela.platform.module.system.controller.admin.user.dto.UserImportExcelDto;
+import com.focela.platform.module.system.controller.admin.user.dto.UserImportResponse;
+import com.focela.platform.module.system.controller.admin.user.dto.UserPageRequest;
+import com.focela.platform.module.system.controller.admin.user.dto.UserSaveRequest;
 import com.focela.platform.module.system.entity.department.DepartmentEntity;
 import com.focela.platform.module.system.entity.department.UserPostEntity;
 import com.focela.platform.module.system.entity.user.AdminUserEntity;
@@ -48,8 +48,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.framework.common.utils.collection.CollectionUtils.*;
-import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
-import static com.focela.platform.module.system.enums.LogRecordConstants.*;
+import static com.focela.platform.module.system.constants.ErrorCodeConstants.*;
+import static com.focela.platform.module.system.constants.LogRecordConstants.*;
 
 /**
  * 后台用户 Service 实现类

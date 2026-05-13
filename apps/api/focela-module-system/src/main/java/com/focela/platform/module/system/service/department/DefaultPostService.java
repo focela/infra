@@ -19,7 +19,7 @@ import java.util.Map;
 
 import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertMap;
-import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
+import static com.focela.platform.module.system.constants.ErrorCodeConstants.*;
 
 /**
  * 岗位 Service 实现类

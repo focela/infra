@@ -28,7 +28,7 @@ import static com.focela.platform.framework.common.exception.utils.ServiceExcept
 import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertList;
 import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertMap;
 import static com.focela.platform.module.system.entity.permission.MenuEntity.ID_ROOT;
-import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
+import static com.focela.platform.module.system.constants.ErrorCodeConstants.*;
 
 /**
  * 菜单 Service 实现

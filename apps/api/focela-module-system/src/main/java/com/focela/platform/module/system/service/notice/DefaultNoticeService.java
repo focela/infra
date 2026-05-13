@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.module.system.enums.ErrorCodeConstants.NOTICE_NOT_FOUND;
+import static com.focela.platform.module.system.constants.ErrorCodeConstants.NOTICE_NOT_FOUND;
 
 /**
  * 通知公告 Service 实现类

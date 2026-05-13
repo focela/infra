@@ -13,8 +13,8 @@ import com.focela.platform.framework.tenant.config.TenantProperties;
 import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
 import com.focela.platform.framework.tenant.core.utils.TenantUtils;
 import com.focela.platform.module.system.controller.admin.permission.dto.role.RoleSaveRequest;
-import com.focela.platform.module.system.controller.admin.tenant.dto.tenant.TenantPageRequest;
-import com.focela.platform.module.system.controller.admin.tenant.dto.tenant.TenantSaveRequest;
+import com.focela.platform.module.system.controller.admin.tenant.dto.TenantPageRequest;
+import com.focela.platform.module.system.controller.admin.tenant.dto.TenantSaveRequest;
 import com.focela.platform.module.system.converter.tenant.TenantConverter;
 import com.focela.platform.module.system.entity.permission.MenuEntity;
 import com.focela.platform.module.system.entity.permission.RoleEntity;
@@ -42,7 +42,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
+import static com.focela.platform.module.system.constants.ErrorCodeConstants.*;
 import static java.util.Collections.singleton;
 
 /**

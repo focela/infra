@@ -4,7 +4,7 @@ import com.focela.platform.framework.excel.core.annotations.DictionaryFormat;
 import com.focela.platform.module.system.entity.user.AdminUserEntity;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
-import com.focela.platform.module.system.enums.DictionaryTypeConstants;
+import com.focela.platform.module.system.constants.DictionaryTypeConstants;
 import com.fhs.core.trans.anno.Trans;
 import com.fhs.core.trans.constant.TransType;
 import com.fhs.core.trans.vo.VO;

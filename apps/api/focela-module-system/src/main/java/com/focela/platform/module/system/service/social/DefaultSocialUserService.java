@@ -26,7 +26,7 @@ import java.util.List;
 import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertSet;
 import static com.focela.platform.framework.common.utils.json.JsonUtils.toJsonString;
-import static com.focela.platform.module.system.enums.ErrorCodeConstants.SOCIAL_USER_NOT_FOUND;
+import static com.focela.platform.module.system.constants.ErrorCodeConstants.SOCIAL_USER_NOT_FOUND;
 
 /**
  * 社交用户 Service 实现类

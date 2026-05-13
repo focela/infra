@@ -19,7 +19,7 @@ import com.focela.platform.module.system.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.module.system.entity.user.AdminUserEntity;
 import com.focela.platform.module.system.enums.logger.LoginLogTypeEnum;
 import com.focela.platform.module.system.enums.logger.LoginResultEnum;
-import com.focela.platform.module.system.enums.oauth2.OAuth2ClientConstants;
+import com.focela.platform.module.system.constants.oauth2.OAuth2ClientConstants;
 import com.focela.platform.module.system.enums.sms.SmsSceneEnum;
 import com.focela.platform.module.system.service.logger.LoginLogService;
 import com.focela.platform.module.system.service.member.MemberService;
@@ -42,7 +42,7 @@ import java.util.Objects;
 
 import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.framework.common.utils.servlet.ServletUtils.getClientIP;
-import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
+import static com.focela.platform.module.system.constants.ErrorCodeConstants.*;
 
 /**
  * Auth Service 实现类

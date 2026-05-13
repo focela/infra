@@ -1,0 +1,58 @@
+package com.focela.platform.module.infra.service.database;
+
+import com.focela.platform.module.infra.controller.admin.database.dto.DataSourceConfigSaveRequest;
+import com.focela.platform.module.infra.entity.database.DataSourceConfigEntity;
+import jakarta.validation.Valid;
+
+import java.util.List;
+
+/**
+ * 数据源配置 Service 接口
+ */
+public interface DataSourceConfigService {
+
+    /**
+     * 创建数据源配置
+     *
+     * @param createRequest 创建信息
+     * @return 编号
+     */
+    Long createDataSourceConfig(@Valid DataSourceConfigSaveRequest createRequest);
+
+    /**
+     * 更新数据源配置
+     *
+     * @param updateRequest 更新信息
+     */
+    void updateDataSourceConfig(@Valid DataSourceConfigSaveRequest updateRequest);
+
+    /**
+     * 删除数据源配置
+     *
+     * @param id 编号
+     */
+    void deleteDataSourceConfig(Long id);
+
+    /**
+     * 批量删除数据源配置
+     *
+     * @param ids 编号列表
+     */
+    void deleteDataSourceConfigList(List<Long> ids);
+
+    /**
+     * 获得数据源配置
+     *
+     * @param id 编号
+     * @return 数据源配置
+     */
+    DataSourceConfigEntity getDataSourceConfig(Long id);
+
+    /**
+     * 获得数据源配置列表
+     *
+     * @return 数据源配置列表
+     */
+    List<DataSourceConfigEntity> getDataSourceConfigList();
+
+}

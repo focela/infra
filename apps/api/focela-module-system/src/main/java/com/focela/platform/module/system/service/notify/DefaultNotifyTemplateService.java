@@ -22,8 +22,8 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.module.system.enums.ErrorCodeConstants.NOTIFY_TEMPLATE_CODE_DUPLICATE;
-import static com.focela.platform.module.system.enums.ErrorCodeConstants.NOTIFY_TEMPLATE_NOT_EXISTS;
+import static com.focela.platform.module.system.constants.ErrorCodeConstants.NOTIFY_TEMPLATE_CODE_DUPLICATE;
+import static com.focela.platform.module.system.constants.ErrorCodeConstants.NOTIFY_TEMPLATE_NOT_EXISTS;
 
 /**
  * 站内信模版 Service 实现类

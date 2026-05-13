@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.module.system.enums.ErrorCodeConstants.SMS_CHANNEL_HAS_CHILDREN;
-import static com.focela.platform.module.system.enums.ErrorCodeConstants.SMS_CHANNEL_NOT_EXISTS;
+import static com.focela.platform.module.system.constants.ErrorCodeConstants.SMS_CHANNEL_HAS_CHILDREN;
+import static com.focela.platform.module.system.constants.ErrorCodeConstants.SMS_CHANNEL_NOT_EXISTS;
 
 /**
  * 短信渠道 Service 实现类

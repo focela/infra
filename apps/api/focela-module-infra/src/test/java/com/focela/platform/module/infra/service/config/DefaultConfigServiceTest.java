@@ -22,7 +22,7 @@ import static com.focela.platform.framework.common.utils.object.ObjectUtils.clon
 import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPojoEquals;
 import static com.focela.platform.framework.test.core.utils.AssertUtils.assertServiceException;
 import static com.focela.platform.framework.test.core.utils.RandomUtils.*;
-import static com.focela.platform.module.infra.enums.ErrorCodeConstants.*;
+import static com.focela.platform.module.infra.constants.ErrorCodeConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Import(DefaultConfigService.class)

@@ -7,7 +7,7 @@ import com.focela.platform.framework.common.model.CommonResult;
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.framework.tenant.core.aop.TenantIgnore;
-import com.focela.platform.module.infra.controller.admin.file.dto.file.*;
+import com.focela.platform.module.infra.controller.admin.file.dto.*;
 import com.focela.platform.module.infra.entity.file.FileEntity;
 import com.focela.platform.module.infra.service.file.FileService;
 import io.swagger.v3.oas.annotations.Operation;

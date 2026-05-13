@@ -1,6 +1,6 @@
 package com.focela.platform.module.infra.controller.app.file.dto;
 
-import com.focela.platform.module.infra.controller.admin.file.dto.file.FileUploadRequest;
+import com.focela.platform.module.infra.controller.admin.file.dto.FileUploadRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.AssertTrue;

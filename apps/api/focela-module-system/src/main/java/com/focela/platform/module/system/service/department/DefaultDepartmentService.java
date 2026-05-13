@@ -22,7 +22,7 @@ import java.util.*;
 
 import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertSet;
-import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
+import static com.focela.platform.module.system.constants.ErrorCodeConstants.*;
 
 /**
  * 部门 Service 实现类

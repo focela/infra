@@ -2,9 +2,9 @@ package com.focela.platform.module.system.controller.admin.permission;
 
 import cn.hutool.core.collection.CollUtil;
 import com.focela.platform.framework.common.model.CommonResult;
-import com.focela.platform.module.system.controller.admin.permission.dto.permission.PermissionAssignRoleDataScopeRequest;
-import com.focela.platform.module.system.controller.admin.permission.dto.permission.PermissionAssignRoleMenuRequest;
-import com.focela.platform.module.system.controller.admin.permission.dto.permission.PermissionAssignUserRoleRequest;
+import com.focela.platform.module.system.controller.admin.permission.dto.PermissionAssignRoleDataScopeRequest;
+import com.focela.platform.module.system.controller.admin.permission.dto.PermissionAssignRoleMenuRequest;
+import com.focela.platform.module.system.controller.admin.permission.dto.PermissionAssignUserRoleRequest;
 import com.focela.platform.module.system.service.permission.PermissionService;
 import com.focela.platform.module.system.service.tenant.TenantService;
 import io.swagger.v3.oas.annotations.tags.Tag;

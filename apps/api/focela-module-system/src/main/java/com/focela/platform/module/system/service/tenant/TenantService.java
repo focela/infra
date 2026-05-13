@@ -2,8 +2,8 @@ package com.focela.platform.module.system.service.tenant;
 
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
-import com.focela.platform.module.system.controller.admin.tenant.dto.tenant.TenantPageRequest;
-import com.focela.platform.module.system.controller.admin.tenant.dto.tenant.TenantSaveRequest;
+import com.focela.platform.module.system.controller.admin.tenant.dto.TenantPageRequest;
+import com.focela.platform.module.system.controller.admin.tenant.dto.TenantSaveRequest;
 import com.focela.platform.module.system.entity.tenant.TenantEntity;
 import com.focela.platform.module.system.service.tenant.handler.TenantInfoHandler;
 import com.focela.platform.module.system.service.tenant.handler.TenantMenuHandler;

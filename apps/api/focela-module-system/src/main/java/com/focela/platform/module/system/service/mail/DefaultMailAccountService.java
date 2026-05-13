@@ -17,8 +17,8 @@ import org.springframework.validation.annotation.Validated;
 import java.util.List;
 
 import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.module.system.enums.ErrorCodeConstants.MAIL_ACCOUNT_NOT_EXISTS;
-import static com.focela.platform.module.system.enums.ErrorCodeConstants.MAIL_ACCOUNT_RELATE_TEMPLATE_EXISTS;
+import static com.focela.platform.module.system.constants.ErrorCodeConstants.MAIL_ACCOUNT_NOT_EXISTS;
+import static com.focela.platform.module.system.constants.ErrorCodeConstants.MAIL_ACCOUNT_RELATE_TEMPLATE_EXISTS;
 
 /**
  * 邮箱账号 Service 实现类

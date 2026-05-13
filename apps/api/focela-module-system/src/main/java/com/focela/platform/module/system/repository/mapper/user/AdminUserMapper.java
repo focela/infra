@@ -3,7 +3,7 @@ package com.focela.platform.module.system.repository.mapper.user;
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.module.system.controller.admin.user.dto.user.UserPageRequest;
+import com.focela.platform.module.system.controller.admin.user.dto.UserPageRequest;
 import com.focela.platform.module.system.entity.user.AdminUserEntity;
 import org.apache.ibatis.annotations.Mapper;
 

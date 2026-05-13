@@ -16,7 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import java.util.List;
 
 import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.module.infra.enums.ErrorCodeConstants.*;
+import static com.focela.platform.module.infra.constants.ErrorCodeConstants.*;
 
 /**
  * 参数配置 Service 实现类

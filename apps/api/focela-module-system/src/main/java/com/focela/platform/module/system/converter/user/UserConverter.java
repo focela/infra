@@ -7,8 +7,8 @@ import com.focela.platform.module.system.controller.admin.department.dto.dept.De
 import com.focela.platform.module.system.controller.admin.department.dto.post.PostSimpleResponse;
 import com.focela.platform.module.system.controller.admin.permission.dto.role.RoleSimpleResponse;
 import com.focela.platform.module.system.controller.admin.user.dto.profile.UserProfileResponse;
-import com.focela.platform.module.system.controller.admin.user.dto.user.UserResponse;
-import com.focela.platform.module.system.controller.admin.user.dto.user.UserSimpleResponse;
+import com.focela.platform.module.system.controller.admin.user.dto.UserResponse;
+import com.focela.platform.module.system.controller.admin.user.dto.UserSimpleResponse;
 import com.focela.platform.module.system.entity.department.DepartmentEntity;
 import com.focela.platform.module.system.entity.department.PostEntity;
 import com.focela.platform.module.system.entity.permission.RoleEntity;

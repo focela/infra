@@ -7,7 +7,7 @@ import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.module.system.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.module.system.entity.oauth2.OAuth2CodeEntity;
 import com.focela.platform.module.system.entity.user.AdminUserEntity;
-import com.focela.platform.module.system.enums.ErrorCodeConstants;
+import com.focela.platform.module.system.constants.ErrorCodeConstants;
 import com.focela.platform.module.system.service.auth.AdminAuthService;
 import org.springframework.stereotype.Service;
 

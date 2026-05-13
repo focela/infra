@@ -17,8 +17,8 @@ import java.util.List;
 import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPojoEquals;
 import static com.focela.platform.framework.test.core.utils.AssertUtils.assertServiceException;
 import static com.focela.platform.framework.test.core.utils.RandomUtils.*;
-import static com.focela.platform.module.system.enums.ErrorCodeConstants.OAUTH2_CODE_EXPIRE;
-import static com.focela.platform.module.system.enums.ErrorCodeConstants.OAUTH2_CODE_NOT_EXISTS;
+import static com.focela.platform.module.system.constants.ErrorCodeConstants.OAUTH2_CODE_EXPIRE;
+import static com.focela.platform.module.system.constants.ErrorCodeConstants.OAUTH2_CODE_NOT_EXISTS;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**

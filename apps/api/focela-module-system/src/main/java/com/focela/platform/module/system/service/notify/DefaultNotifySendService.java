@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
+import static com.focela.platform.module.system.constants.ErrorCodeConstants.*;
 
 /**
  * 站内信发送 Service 实现类

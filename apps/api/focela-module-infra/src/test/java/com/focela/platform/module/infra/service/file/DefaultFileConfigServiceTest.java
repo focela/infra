@@ -33,8 +33,8 @@ import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPo
 import static com.focela.platform.framework.test.core.utils.AssertUtils.assertServiceException;
 import static com.focela.platform.framework.test.core.utils.RandomUtils.randomLongId;
 import static com.focela.platform.framework.test.core.utils.RandomUtils.randomPojo;
-import static com.focela.platform.module.infra.enums.ErrorCodeConstants.FILE_CONFIG_DELETE_FAIL_MASTER;
-import static com.focela.platform.module.infra.enums.ErrorCodeConstants.FILE_CONFIG_NOT_EXISTS;
+import static com.focela.platform.module.infra.constants.ErrorCodeConstants.FILE_CONFIG_DELETE_FAIL_MASTER;
+import static com.focela.platform.module.infra.constants.ErrorCodeConstants.FILE_CONFIG_NOT_EXISTS;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;

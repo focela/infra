@@ -19,8 +19,8 @@ import java.time.LocalDateTime;
 
 import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.module.infra.entity.logger.ApiErrorLogEntity.REQUEST_PARAMS_MAX_LENGTH;
-import static com.focela.platform.module.infra.enums.ErrorCodeConstants.API_ERROR_LOG_NOT_FOUND;
-import static com.focela.platform.module.infra.enums.ErrorCodeConstants.API_ERROR_LOG_PROCESSED;
+import static com.focela.platform.module.infra.constants.ErrorCodeConstants.API_ERROR_LOG_NOT_FOUND;
+import static com.focela.platform.module.infra.constants.ErrorCodeConstants.API_ERROR_LOG_PROCESSED;
 
 /**
  * API 错误日志 Service 实现类

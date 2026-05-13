@@ -1,7 +1,7 @@
 package com.focela.platform.module.system.converter.tenant;
 
-import com.focela.platform.module.system.controller.admin.tenant.dto.tenant.TenantSaveRequest;
-import com.focela.platform.module.system.controller.admin.user.dto.user.UserSaveRequest;
+import com.focela.platform.module.system.controller.admin.tenant.dto.TenantSaveRequest;
+import com.focela.platform.module.system.controller.admin.user.dto.UserSaveRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

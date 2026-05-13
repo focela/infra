@@ -1,8 +1,8 @@
 package com.focela.platform.module.infra.service.job;
 
 import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.module.infra.controller.admin.job.dto.job.JobPageRequest;
-import com.focela.platform.module.infra.controller.admin.job.dto.job.JobSaveRequest;
+import com.focela.platform.module.infra.controller.admin.job.dto.JobPageRequest;
+import com.focela.platform.module.infra.controller.admin.job.dto.JobSaveRequest;
 import com.focela.platform.module.infra.entity.job.JobEntity;
 import jakarta.validation.Valid;
 import org.quartz.SchedulerException;

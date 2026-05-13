@@ -26,8 +26,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.module.system.enums.ErrorCodeConstants.MAIL_TEMPLATE_CODE_EXISTS;
-import static com.focela.platform.module.system.enums.ErrorCodeConstants.MAIL_TEMPLATE_NOT_EXISTS;
+import static com.focela.platform.module.system.constants.ErrorCodeConstants.MAIL_TEMPLATE_CODE_EXISTS;
+import static com.focela.platform.module.system.constants.ErrorCodeConstants.MAIL_TEMPLATE_NOT_EXISTS;
 
 /**
  * 邮箱模版 Service 实现类

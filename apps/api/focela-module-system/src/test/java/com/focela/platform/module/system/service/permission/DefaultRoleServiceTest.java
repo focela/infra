@@ -27,7 +27,7 @@ import static com.focela.platform.framework.common.utils.object.ObjectUtils.clon
 import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPojoEquals;
 import static com.focela.platform.framework.test.core.utils.AssertUtils.assertServiceException;
 import static com.focela.platform.framework.test.core.utils.RandomUtils.*;
-import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
+import static com.focela.platform.module.system.constants.ErrorCodeConstants.*;
 import static java.util.Collections.singleton;
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.*;

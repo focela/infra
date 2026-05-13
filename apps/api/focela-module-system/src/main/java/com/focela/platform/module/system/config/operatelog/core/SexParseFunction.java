@@ -2,7 +2,7 @@ package com.focela.platform.module.system.config.operatelog.core;
 
 import cn.hutool.core.util.StrUtil;
 import com.focela.platform.framework.dictionary.core.DictionaryFrameworkUtils;
-import com.focela.platform.module.system.enums.DictionaryTypeConstants;
+import com.focela.platform.module.system.constants.DictionaryTypeConstants;
 import com.mzt.logapi.service.IParseFunction;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

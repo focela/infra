@@ -29,7 +29,7 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
+import static com.focela.platform.module.system.constants.ErrorCodeConstants.*;
 
 /**
  * 短信模板 Service 实现类

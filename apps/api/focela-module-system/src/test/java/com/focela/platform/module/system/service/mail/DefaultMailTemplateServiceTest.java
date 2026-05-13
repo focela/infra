@@ -22,7 +22,7 @@ import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPo
 import static com.focela.platform.framework.test.core.utils.AssertUtils.assertServiceException;
 import static com.focela.platform.framework.test.core.utils.RandomUtils.randomLongId;
 import static com.focela.platform.framework.test.core.utils.RandomUtils.randomPojo;
-import static com.focela.platform.module.system.enums.ErrorCodeConstants.MAIL_TEMPLATE_NOT_EXISTS;
+import static com.focela.platform.module.system.constants.ErrorCodeConstants.MAIL_TEMPLATE_NOT_EXISTS;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**

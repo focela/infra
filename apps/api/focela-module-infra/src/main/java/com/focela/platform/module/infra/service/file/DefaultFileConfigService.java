@@ -31,8 +31,8 @@ import java.util.Objects;
 
 import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.framework.common.utils.cache.CacheUtils.buildAsyncReloadingCache;
-import static com.focela.platform.module.infra.enums.ErrorCodeConstants.FILE_CONFIG_DELETE_FAIL_MASTER;
-import static com.focela.platform.module.infra.enums.ErrorCodeConstants.FILE_CONFIG_NOT_EXISTS;
+import static com.focela.platform.module.infra.constants.ErrorCodeConstants.FILE_CONFIG_DELETE_FAIL_MASTER;
+import static com.focela.platform.module.infra.constants.ErrorCodeConstants.FILE_CONFIG_NOT_EXISTS;
 
 /**
  * 文件配置 Service 实现类
