@@ -1,13 +1,13 @@
-package com.focela.platform.module.system.framework.sms.core.client.impl;
+package com.focela.platform.module.system.config.sms.core.client.impl;
 
 import com.focela.platform.framework.common.core.KeyValue;
 import com.focela.platform.framework.common.utils.http.HttpUtils;
 import com.focela.platform.framework.test.core.support.BaseMockitoUnitTest;
-import com.focela.platform.module.system.framework.sms.core.client.dto.SmsReceiveRespDTO;
-import com.focela.platform.module.system.framework.sms.core.client.dto.SmsSendRespDTO;
-import com.focela.platform.module.system.framework.sms.core.client.dto.SmsTemplateRespDTO;
-import com.focela.platform.module.system.framework.sms.core.enums.SmsTemplateAuditStatusEnum;
-import com.focela.platform.module.system.framework.sms.core.property.SmsChannelProperties;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsReceiveRespDTO;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsSendRespDTO;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsTemplateRespDTO;
+import com.focela.platform.module.system.config.sms.core.enums.SmsTemplateAuditStatusEnum;
+import com.focela.platform.module.system.config.sms.core.property.SmsChannelProperties;
 import com.google.common.collect.Lists;
 
 import org.junit.jupiter.api.Test;

@@ -11,7 +11,7 @@ import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.social.dto.client.SocialClientPageRequest;
 import com.focela.platform.module.system.controller.admin.social.dto.client.SocialClientSaveRequest;
 import com.focela.platform.module.system.enums.social.SocialTypeEnum;
-import com.focela.platform.module.system.framework.justauth.core.AuthRequestFactory;
+import com.focela.platform.module.system.config.justauth.core.AuthRequestFactory;
 import com.focela.platform.module.system.repository.entity.social.SocialClientEntity;
 import com.focela.platform.module.system.repository.mapper.social.SocialClientMapper;
 import com.google.common.annotations.VisibleForTesting;

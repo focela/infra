@@ -8,7 +8,7 @@ import com.focela.platform.framework.test.core.utils.AssertUtils;
 import com.focela.platform.module.infra.controller.admin.file.dto.file.FilePageRequest;
 import com.focela.platform.module.infra.repository.entity.file.FileEntity;
 import com.focela.platform.module.infra.repository.mapper.file.FileMapper;
-import com.focela.platform.module.infra.framework.file.core.client.FileClient;
+import com.focela.platform.module.infra.config.file.core.client.FileClient;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

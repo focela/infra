@@ -3,7 +3,7 @@ package com.focela.platform.module.system.repository.entity.sms;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.mybatis.core.entity.BaseEntity;
 import com.focela.platform.framework.tenant.core.aop.TenantIgnore;
-import com.focela.platform.module.system.framework.sms.core.enums.SmsChannelEnum;
+import com.focela.platform.module.system.config.sms.core.enums.SmsChannelEnum;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;

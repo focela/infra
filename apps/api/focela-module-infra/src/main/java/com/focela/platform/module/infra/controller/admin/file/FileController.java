@@ -31,7 +31,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static com.focela.platform.framework.common.model.CommonResult.success;
-import static com.focela.platform.module.infra.framework.file.core.utils.FileTypeUtils.writeAttachment;
+import static com.focela.platform.module.infra.config.file.core.utils.FileTypeUtils.writeAttachment;
 
 @Tag(name = "Admin - File storage")
 @RestController

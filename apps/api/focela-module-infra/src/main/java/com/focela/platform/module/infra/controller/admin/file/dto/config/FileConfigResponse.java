@@ -1,6 +1,6 @@
 package com.focela.platform.module.infra.controller.admin.file.dto.config;
 
-import com.focela.platform.module.infra.framework.file.core.client.FileClientConfig;
+import com.focela.platform.module.infra.config.file.core.client.FileClientConfig;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

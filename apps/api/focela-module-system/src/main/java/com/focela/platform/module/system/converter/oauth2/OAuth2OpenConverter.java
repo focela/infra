@@ -12,7 +12,7 @@ import com.focela.platform.module.system.controller.admin.oauth2.dto.open.OAuth2
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2ApproveEntity;
 import com.focela.platform.module.system.repository.entity.oauth2.OAuth2ClientEntity;
-import com.focela.platform.module.system.framework.oauth2.OAuth2Utils;
+import com.focela.platform.module.system.config.oauth2.OAuth2Utils;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

@@ -20,7 +20,7 @@ import com.focela.platform.module.system.service.oauth2.OAuth2ApproveService;
 import com.focela.platform.module.system.service.oauth2.OAuth2ClientService;
 import com.focela.platform.module.system.service.oauth2.OAuth2GrantService;
 import com.focela.platform.module.system.service.oauth2.OAuth2TokenService;
-import com.focela.platform.module.system.framework.oauth2.OAuth2Utils;
+import com.focela.platform.module.system.config.oauth2.OAuth2Utils;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;

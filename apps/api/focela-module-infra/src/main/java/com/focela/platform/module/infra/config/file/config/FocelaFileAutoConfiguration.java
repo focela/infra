@@ -1,0 +1,19 @@
+package com.focela.platform.module.infra.config.file.config;
+
+import com.focela.platform.module.infra.config.file.core.client.FileClientFactory;
+import com.focela.platform.module.infra.config.file.core.client.DefaultFileClientFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+/**
+ * 文件配置类
+ */
+@Configuration(proxyBeanMethods = false)
+public class FocelaFileAutoConfiguration {
+
+    @Bean
+    public FileClientFactory fileClientFactory() {
+        return new DefaultFileClientFactory();
+    }
+
+}
