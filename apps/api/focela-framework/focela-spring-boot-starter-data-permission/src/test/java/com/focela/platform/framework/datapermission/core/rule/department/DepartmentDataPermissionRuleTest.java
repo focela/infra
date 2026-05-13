@@ -78,7 +78,7 @@ class DepartmentDataPermissionRuleTest extends BaseMockitoUnitTest {
             NullPointerException exception = assertThrows(NullPointerException.class,
                     () -> rule.getExpression(tableName, tableAlias));
             // 断言
-            assertEquals("LoginUser(1) Table(t_user/u) 未返回数据权限", exception.getMessage());
+            assertEquals("LoginUser(1) Table(t_user/u) did not return data permission", exception.getMessage());
         }
     }
 
