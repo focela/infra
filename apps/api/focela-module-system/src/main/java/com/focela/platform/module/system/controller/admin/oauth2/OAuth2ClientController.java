@@ -6,7 +6,7 @@ import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.oauth2.dto.client.OAuth2ClientPageRequest;
 import com.focela.platform.module.system.controller.admin.oauth2.dto.client.OAuth2ClientResponse;
 import com.focela.platform.module.system.controller.admin.oauth2.dto.client.OAuth2ClientSaveRequest;
-import com.focela.platform.module.system.repository.entity.oauth2.OAuth2ClientEntity;
+import com.focela.platform.module.system.entity.oauth2.OAuth2ClientEntity;
 import com.focela.platform.module.system.service.oauth2.OAuth2ClientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

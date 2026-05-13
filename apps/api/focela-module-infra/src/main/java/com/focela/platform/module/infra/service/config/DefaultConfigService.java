@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.module.infra.controller.admin.config.dto.ConfigPageRequest;
 import com.focela.platform.module.infra.controller.admin.config.dto.ConfigSaveRequest;
 import com.focela.platform.module.infra.converter.config.ConfigConverter;
-import com.focela.platform.module.infra.repository.entity.config.ConfigEntity;
+import com.focela.platform.module.infra.entity.config.ConfigEntity;
 import com.focela.platform.module.infra.repository.mapper.config.ConfigMapper;
 import com.focela.platform.module.infra.enums.config.ConfigTypeEnum;
 import com.google.common.annotations.VisibleForTesting;

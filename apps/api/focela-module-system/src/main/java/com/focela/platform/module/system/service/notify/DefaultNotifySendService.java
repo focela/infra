@@ -2,7 +2,7 @@ package com.focela.platform.module.system.service.notify;
 
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.module.system.repository.entity.notify.NotifyTemplateEntity;
+import com.focela.platform.module.system.entity.notify.NotifyTemplateEntity;
 import com.google.common.annotations.VisibleForTesting;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

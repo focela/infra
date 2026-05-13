@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.system.api.logger.dto.LoginLogCreateReqDTO;
 import com.focela.platform.module.system.controller.admin.logger.dto.loginlog.LoginLogPageRequest;
-import com.focela.platform.module.system.repository.entity.logger.LoginLogEntity;
+import com.focela.platform.module.system.entity.logger.LoginLogEntity;
 import com.focela.platform.module.system.repository.mapper.logger.LoginLogMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;

@@ -5,7 +5,7 @@ import com.focela.platform.framework.common.model.CommonResult;
 import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.framework.tenant.core.aop.TenantIgnore;
 import com.focela.platform.module.system.controller.app.tenant.dto.AppTenantResponse;
-import com.focela.platform.module.system.repository.entity.tenant.TenantEntity;
+import com.focela.platform.module.system.entity.tenant.TenantEntity;
 import com.focela.platform.module.system.service.tenant.TenantService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

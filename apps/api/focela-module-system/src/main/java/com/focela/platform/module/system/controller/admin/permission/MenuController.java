@@ -7,7 +7,7 @@ import com.focela.platform.module.system.controller.admin.permission.dto.menu.Me
 import com.focela.platform.module.system.controller.admin.permission.dto.menu.MenuResponse;
 import com.focela.platform.module.system.controller.admin.permission.dto.menu.MenuSaveRequest;
 import com.focela.platform.module.system.controller.admin.permission.dto.menu.MenuSimpleResponse;
-import com.focela.platform.module.system.repository.entity.permission.MenuEntity;
+import com.focela.platform.module.system.entity.permission.MenuEntity;
 import com.focela.platform.module.system.service.permission.MenuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

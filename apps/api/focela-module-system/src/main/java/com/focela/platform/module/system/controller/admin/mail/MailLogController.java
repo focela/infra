@@ -5,7 +5,7 @@ import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.mail.dto.log.MailLogPageRequest;
 import com.focela.platform.module.system.controller.admin.mail.dto.log.MailLogResponse;
-import com.focela.platform.module.system.repository.entity.mail.MailLogEntity;
+import com.focela.platform.module.system.entity.mail.MailLogEntity;
 import com.focela.platform.module.system.service.mail.MailLogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

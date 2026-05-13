@@ -8,7 +8,7 @@ import com.focela.platform.module.system.controller.admin.notify.dto.template.No
 import com.focela.platform.module.system.controller.admin.notify.dto.template.NotifyTemplateResponse;
 import com.focela.platform.module.system.controller.admin.notify.dto.template.NotifyTemplateSaveRequest;
 import com.focela.platform.module.system.controller.admin.notify.dto.template.NotifyTemplateSendRequest;
-import com.focela.platform.module.system.repository.entity.notify.NotifyTemplateEntity;
+import com.focela.platform.module.system.entity.notify.NotifyTemplateEntity;
 import com.focela.platform.module.system.service.notify.NotifySendService;
 import com.focela.platform.module.system.service.notify.NotifyTemplateService;
 import io.swagger.v3.oas.annotations.Operation;

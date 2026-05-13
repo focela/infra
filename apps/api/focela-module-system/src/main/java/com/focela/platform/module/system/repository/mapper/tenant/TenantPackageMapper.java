@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
 import com.focela.platform.module.system.controller.admin.tenant.dto.packages.TenantPackagePageRequest;
-import com.focela.platform.module.system.repository.entity.tenant.TenantPackageEntity;
+import com.focela.platform.module.system.entity.tenant.TenantPackageEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.focela.platform.module.system.service.auth;
 
 import com.focela.platform.module.system.controller.admin.auth.dto.*;
-import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
+import com.focela.platform.module.system.entity.user.AdminUserEntity;
 
 import jakarta.validation.Valid;
 

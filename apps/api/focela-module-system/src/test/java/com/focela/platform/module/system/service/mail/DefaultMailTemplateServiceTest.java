@@ -5,7 +5,7 @@ import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
 import com.focela.platform.module.system.controller.admin.mail.dto.template.MailTemplateSaveRequest;
 import com.focela.platform.module.system.controller.admin.mail.dto.template.MailTemplatePageRequest;
-import com.focela.platform.module.system.repository.entity.mail.MailTemplateEntity;
+import com.focela.platform.module.system.entity.mail.MailTemplateEntity;
 import com.focela.platform.module.system.repository.mapper.mail.MailTemplateMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;

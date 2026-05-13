@@ -9,7 +9,7 @@ import com.focela.platform.module.infra.api.websocket.WebSocketSenderApi;
 import com.focela.platform.module.system.controller.admin.notice.dto.NoticePageRequest;
 import com.focela.platform.module.system.controller.admin.notice.dto.NoticeResponse;
 import com.focela.platform.module.system.controller.admin.notice.dto.NoticeSaveRequest;
-import com.focela.platform.module.system.repository.entity.notice.NoticeEntity;
+import com.focela.platform.module.system.entity.notice.NoticeEntity;
 import com.focela.platform.module.system.service.notice.NoticeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

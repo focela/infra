@@ -11,7 +11,7 @@ import com.focela.platform.framework.common.utils.collection.CollectionUtils;
 import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.permission.dto.role.RolePageRequest;
 import com.focela.platform.module.system.controller.admin.permission.dto.role.RoleSaveRequest;
-import com.focela.platform.module.system.repository.entity.permission.RoleEntity;
+import com.focela.platform.module.system.entity.permission.RoleEntity;
 import com.focela.platform.module.system.repository.mapper.permission.RoleMapper;
 import com.focela.platform.module.system.repository.redis.RedisKeyConstants;
 import com.focela.platform.module.system.enums.permission.DataScopeEnum;

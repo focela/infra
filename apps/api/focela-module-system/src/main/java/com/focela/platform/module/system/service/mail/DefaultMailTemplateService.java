@@ -7,7 +7,7 @@ import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.mail.dto.template.MailTemplatePageRequest;
 import com.focela.platform.module.system.controller.admin.mail.dto.template.MailTemplateSaveRequest;
-import com.focela.platform.module.system.repository.entity.mail.MailTemplateEntity;
+import com.focela.platform.module.system.entity.mail.MailTemplateEntity;
 import com.focela.platform.module.system.repository.mapper.mail.MailTemplateMapper;
 import com.focela.platform.module.system.repository.redis.RedisKeyConstants;
 import com.google.common.annotations.VisibleForTesting;

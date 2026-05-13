@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
 import com.focela.platform.module.system.controller.admin.department.dto.post.PostPageRequest;
-import com.focela.platform.module.system.repository.entity.department.PostEntity;
+import com.focela.platform.module.system.entity.department.PostEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Collection;

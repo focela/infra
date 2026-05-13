@@ -3,7 +3,7 @@ package com.focela.platform.module.system.service.sms;
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.module.system.controller.admin.sms.dto.template.SmsTemplatePageRequest;
 import com.focela.platform.module.system.controller.admin.sms.dto.template.SmsTemplateSaveRequest;
-import com.focela.platform.module.system.repository.entity.sms.SmsTemplateEntity;
+import com.focela.platform.module.system.entity.sms.SmsTemplateEntity;
 import jakarta.validation.Valid;
 
 import java.util.List;

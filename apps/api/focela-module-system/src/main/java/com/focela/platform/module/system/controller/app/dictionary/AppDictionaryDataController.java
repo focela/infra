@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.model.CommonResult;
 import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.system.controller.app.dictionary.dto.AppDictionaryDataResponse;
-import com.focela.platform.module.system.repository.entity.dictionary.DictionaryDataEntity;
+import com.focela.platform.module.system.entity.dictionary.DictionaryDataEntity;
 import com.focela.platform.module.system.service.dictionary.DictionaryDataService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

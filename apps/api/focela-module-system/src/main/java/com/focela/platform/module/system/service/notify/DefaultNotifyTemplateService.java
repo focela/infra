@@ -6,7 +6,7 @@ import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.notify.dto.template.NotifyTemplatePageRequest;
 import com.focela.platform.module.system.controller.admin.notify.dto.template.NotifyTemplateSaveRequest;
-import com.focela.platform.module.system.repository.entity.notify.NotifyTemplateEntity;
+import com.focela.platform.module.system.entity.notify.NotifyTemplateEntity;
 import com.focela.platform.module.system.repository.mapper.notify.NotifyTemplateMapper;
 import com.focela.platform.module.system.repository.redis.RedisKeyConstants;
 import com.google.common.annotations.VisibleForTesting;

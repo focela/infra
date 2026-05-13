@@ -11,7 +11,7 @@ import com.focela.platform.framework.tenant.core.aop.TenantIgnore;
 import com.focela.platform.module.system.controller.admin.tenant.dto.tenant.TenantPageRequest;
 import com.focela.platform.module.system.controller.admin.tenant.dto.tenant.TenantResponse;
 import com.focela.platform.module.system.controller.admin.tenant.dto.tenant.TenantSaveRequest;
-import com.focela.platform.module.system.repository.entity.tenant.TenantEntity;
+import com.focela.platform.module.system.entity.tenant.TenantEntity;
 import com.focela.platform.module.system.service.tenant.TenantService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

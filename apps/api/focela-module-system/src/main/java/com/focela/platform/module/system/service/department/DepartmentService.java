@@ -3,7 +3,7 @@ package com.focela.platform.module.system.service.department;
 import com.focela.platform.framework.common.utils.collection.CollectionUtils;
 import com.focela.platform.module.system.controller.admin.department.dto.dept.DepartmentListRequest;
 import com.focela.platform.module.system.controller.admin.department.dto.dept.DepartmentSaveRequest;
-import com.focela.platform.module.system.repository.entity.department.DepartmentEntity;
+import com.focela.platform.module.system.entity.department.DepartmentEntity;
 
 import java.util.*;
 

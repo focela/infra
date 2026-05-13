@@ -3,7 +3,7 @@ package com.focela.platform.module.system.service.mail;
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.module.system.controller.admin.mail.dto.account.MailAccountPageRequest;
 import com.focela.platform.module.system.controller.admin.mail.dto.account.MailAccountSaveRequest;
-import com.focela.platform.module.system.repository.entity.mail.MailAccountEntity;
+import com.focela.platform.module.system.entity.mail.MailAccountEntity;
 import jakarta.validation.Valid;
 
 import java.util.List;

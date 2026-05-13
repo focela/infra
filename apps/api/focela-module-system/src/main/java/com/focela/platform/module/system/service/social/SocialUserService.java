@@ -5,7 +5,7 @@ import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.module.system.api.social.dto.SocialUserBindReqDTO;
 import com.focela.platform.module.system.api.social.dto.SocialUserRespDTO;
 import com.focela.platform.module.system.controller.admin.social.dto.user.SocialUserPageRequest;
-import com.focela.platform.module.system.repository.entity.social.SocialUserEntity;
+import com.focela.platform.module.system.entity.social.SocialUserEntity;
 import com.focela.platform.module.system.enums.social.SocialTypeEnum;
 
 import jakarta.validation.Valid;

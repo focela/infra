@@ -6,7 +6,7 @@ import com.focela.platform.framework.test.core.utils.RandomUtils;
 import com.focela.platform.framework.common.business.system.logger.dto.OperateLogCreateReqDTO;
 import com.focela.platform.module.system.api.logger.dto.OperateLogPageReqDTO;
 import com.focela.platform.module.system.controller.admin.logger.dto.operatelog.OperateLogPageRequest;
-import com.focela.platform.module.system.repository.entity.logger.OperateLogEntity;
+import com.focela.platform.module.system.entity.logger.OperateLogEntity;
 import com.focela.platform.module.system.repository.mapper.logger.OperateLogMapper;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;

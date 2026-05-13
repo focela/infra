@@ -6,7 +6,7 @@ import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
 import com.focela.platform.framework.test.core.utils.RandomUtils;
 import com.focela.platform.module.infra.controller.admin.config.dto.ConfigPageRequest;
 import com.focela.platform.module.infra.controller.admin.config.dto.ConfigSaveRequest;
-import com.focela.platform.module.infra.repository.entity.config.ConfigEntity;
+import com.focela.platform.module.infra.entity.config.ConfigEntity;
 import com.focela.platform.module.infra.repository.mapper.config.ConfigMapper;
 import com.focela.platform.module.infra.enums.config.ConfigTypeEnum;
 import org.junit.jupiter.api.Test;

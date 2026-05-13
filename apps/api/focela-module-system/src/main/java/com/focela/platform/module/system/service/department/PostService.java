@@ -3,7 +3,7 @@ package com.focela.platform.module.system.service.department;
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.module.system.controller.admin.department.dto.post.PostPageRequest;
 import com.focela.platform.module.system.controller.admin.department.dto.post.PostSaveRequest;
-import com.focela.platform.module.system.repository.entity.department.PostEntity;
+import com.focela.platform.module.system.entity.department.PostEntity;
 import org.springframework.lang.Nullable;
 
 import java.util.Collection;

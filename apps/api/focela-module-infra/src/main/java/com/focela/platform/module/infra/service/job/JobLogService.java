@@ -3,7 +3,7 @@ package com.focela.platform.module.infra.service.job;
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.quartz.core.service.JobLogFrameworkService;
 import com.focela.platform.module.infra.controller.admin.job.dto.log.JobLogPageRequest;
-import com.focela.platform.module.infra.repository.entity.job.JobLogEntity;
+import com.focela.platform.module.infra.entity.job.JobLogEntity;
 
 /**
  * Job 日志 Service 接口

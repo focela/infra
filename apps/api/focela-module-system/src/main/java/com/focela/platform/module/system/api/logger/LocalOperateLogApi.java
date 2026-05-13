@@ -5,7 +5,7 @@ import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.framework.common.business.system.logger.dto.OperateLogCreateReqDTO;
 import com.focela.platform.module.system.api.logger.dto.OperateLogPageReqDTO;
 import com.focela.platform.module.system.api.logger.dto.OperateLogRespDTO;
-import com.focela.platform.module.system.repository.entity.logger.OperateLogEntity;
+import com.focela.platform.module.system.entity.logger.OperateLogEntity;
 import com.focela.platform.module.system.service.logger.OperateLogService;
 import com.fhs.core.trans.anno.TransMethodResult;
 import jakarta.annotation.Resource;

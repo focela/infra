@@ -2,7 +2,7 @@ package com.focela.platform.module.system.repository.mapper.sms;
 
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.QueryWrapperX;
-import com.focela.platform.module.system.repository.entity.sms.SmsCodeEntity;
+import com.focela.platform.module.system.entity.sms.SmsCodeEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

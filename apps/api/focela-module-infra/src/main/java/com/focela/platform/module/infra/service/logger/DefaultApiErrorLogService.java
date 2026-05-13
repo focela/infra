@@ -7,7 +7,7 @@ import com.focela.platform.framework.common.utils.string.StrUtils;
 import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
 import com.focela.platform.framework.tenant.core.utils.TenantUtils;
 import com.focela.platform.module.infra.controller.admin.logger.dto.apierrorlog.ApiErrorLogPageRequest;
-import com.focela.platform.module.infra.repository.entity.logger.ApiErrorLogEntity;
+import com.focela.platform.module.infra.entity.logger.ApiErrorLogEntity;
 import com.focela.platform.module.infra.repository.mapper.logger.ApiErrorLogMapper;
 import com.focela.platform.module.infra.enums.logger.ApiErrorLogProcessStatusEnum;
 import jakarta.annotation.Resource;
@@ -18,7 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import java.time.LocalDateTime;
 
 import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.module.infra.repository.entity.logger.ApiErrorLogEntity.REQUEST_PARAMS_MAX_LENGTH;
+import static com.focela.platform.module.infra.entity.logger.ApiErrorLogEntity.REQUEST_PARAMS_MAX_LENGTH;
 import static com.focela.platform.module.infra.enums.ErrorCodeConstants.API_ERROR_LOG_NOT_FOUND;
 import static com.focela.platform.module.infra.enums.ErrorCodeConstants.API_ERROR_LOG_PROCESSED;
 

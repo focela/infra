@@ -10,7 +10,7 @@ import com.focela.platform.module.system.controller.admin.user.dto.user.UserImpo
 import com.focela.platform.module.system.controller.admin.user.dto.user.UserImportResponse;
 import com.focela.platform.module.system.controller.admin.user.dto.user.UserPageRequest;
 import com.focela.platform.module.system.controller.admin.user.dto.user.UserSaveRequest;
-import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
+import com.focela.platform.module.system.entity.user.AdminUserEntity;
 import jakarta.validation.Valid;
 
 import java.util.Collection;

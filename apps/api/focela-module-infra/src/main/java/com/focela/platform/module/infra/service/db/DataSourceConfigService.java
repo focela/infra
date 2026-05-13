@@ -1,7 +1,7 @@
 package com.focela.platform.module.infra.service.db;
 
 import com.focela.platform.module.infra.controller.admin.db.dto.DataSourceConfigSaveRequest;
-import com.focela.platform.module.infra.repository.entity.db.DataSourceConfigEntity;
+import com.focela.platform.module.infra.entity.db.DataSourceConfigEntity;
 import jakarta.validation.Valid;
 
 import java.util.List;

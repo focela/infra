@@ -15,11 +15,11 @@ import com.focela.platform.module.system.controller.admin.user.dto.user.UserImpo
 import com.focela.platform.module.system.controller.admin.user.dto.user.UserImportResponse;
 import com.focela.platform.module.system.controller.admin.user.dto.user.UserPageRequest;
 import com.focela.platform.module.system.controller.admin.user.dto.user.UserSaveRequest;
-import com.focela.platform.module.system.repository.entity.department.DepartmentEntity;
-import com.focela.platform.module.system.repository.entity.department.PostEntity;
-import com.focela.platform.module.system.repository.entity.department.UserPostEntity;
-import com.focela.platform.module.system.repository.entity.tenant.TenantEntity;
-import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
+import com.focela.platform.module.system.entity.department.DepartmentEntity;
+import com.focela.platform.module.system.entity.department.PostEntity;
+import com.focela.platform.module.system.entity.department.UserPostEntity;
+import com.focela.platform.module.system.entity.tenant.TenantEntity;
+import com.focela.platform.module.system.entity.user.AdminUserEntity;
 import com.focela.platform.module.system.repository.mapper.department.UserPostMapper;
 import com.focela.platform.module.system.repository.mapper.user.AdminUserMapper;
 import com.focela.platform.module.system.enums.common.SexEnum;

@@ -3,7 +3,7 @@ package com.focela.platform.module.infra.service.logger;
 import com.focela.platform.framework.common.business.infra.logger.dto.ApiAccessLogCreateReqDTO;
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.module.infra.controller.admin.logger.dto.apiaccesslog.ApiAccessLogPageRequest;
-import com.focela.platform.module.infra.repository.entity.logger.ApiAccessLogEntity;
+import com.focela.platform.module.infra.entity.logger.ApiAccessLogEntity;
 
 /**
  * API 访问日志 Service 接口

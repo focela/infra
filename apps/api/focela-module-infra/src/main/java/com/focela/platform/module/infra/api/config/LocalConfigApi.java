@@ -1,6 +1,6 @@
 package com.focela.platform.module.infra.api.config;
 
-import com.focela.platform.module.infra.repository.entity.config.ConfigEntity;
+import com.focela.platform.module.infra.entity.config.ConfigEntity;
 import com.focela.platform.module.infra.service.config.ConfigService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;

@@ -7,7 +7,7 @@ import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.permission.dto.menu.MenuListRequest;
 import com.focela.platform.module.system.controller.admin.permission.dto.menu.MenuSaveRequest;
-import com.focela.platform.module.system.repository.entity.permission.MenuEntity;
+import com.focela.platform.module.system.entity.permission.MenuEntity;
 import com.focela.platform.module.system.repository.mapper.permission.MenuMapper;
 import com.focela.platform.module.system.repository.redis.RedisKeyConstants;
 import com.focela.platform.module.system.enums.permission.MenuTypeEnum;
@@ -27,7 +27,7 @@ import java.util.*;
 import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertList;
 import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertMap;
-import static com.focela.platform.module.system.repository.entity.permission.MenuEntity.ID_ROOT;
+import static com.focela.platform.module.system.entity.permission.MenuEntity.ID_ROOT;
 import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
 
 /**

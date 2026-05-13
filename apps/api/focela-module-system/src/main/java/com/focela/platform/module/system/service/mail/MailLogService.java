@@ -2,9 +2,9 @@ package com.focela.platform.module.system.service.mail;
 
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.module.system.controller.admin.mail.dto.log.MailLogPageRequest;
-import com.focela.platform.module.system.repository.entity.mail.MailAccountEntity;
-import com.focela.platform.module.system.repository.entity.mail.MailLogEntity;
-import com.focela.platform.module.system.repository.entity.mail.MailTemplateEntity;
+import com.focela.platform.module.system.entity.mail.MailAccountEntity;
+import com.focela.platform.module.system.entity.mail.MailLogEntity;
+import com.focela.platform.module.system.entity.mail.MailTemplateEntity;
 
 import java.util.Collection;
 import java.util.List;

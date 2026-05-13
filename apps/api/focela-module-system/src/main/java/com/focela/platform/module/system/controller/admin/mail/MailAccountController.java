@@ -8,7 +8,7 @@ import com.focela.platform.module.system.controller.admin.mail.dto.account.MailA
 import com.focela.platform.module.system.controller.admin.mail.dto.account.MailAccountResponse;
 import com.focela.platform.module.system.controller.admin.mail.dto.account.MailAccountSaveRequest;
 import com.focela.platform.module.system.controller.admin.mail.dto.account.MailAccountSimpleResponse;
-import com.focela.platform.module.system.repository.entity.mail.MailAccountEntity;
+import com.focela.platform.module.system.entity.mail.MailAccountEntity;
 import com.focela.platform.module.system.service.mail.MailAccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

@@ -2,7 +2,7 @@ package com.focela.platform.module.system.api.dictionary;
 
 import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.framework.common.business.system.dictionary.dto.DictionaryDataRespDTO;
-import com.focela.platform.module.system.repository.entity.dictionary.DictionaryDataEntity;
+import com.focela.platform.module.system.entity.dictionary.DictionaryDataEntity;
 import com.focela.platform.module.system.service.dictionary.DictionaryDataService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;

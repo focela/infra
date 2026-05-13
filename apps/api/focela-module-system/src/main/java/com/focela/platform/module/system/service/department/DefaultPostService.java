@@ -6,7 +6,7 @@ import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.department.dto.post.PostPageRequest;
 import com.focela.platform.module.system.controller.admin.department.dto.post.PostSaveRequest;
-import com.focela.platform.module.system.repository.entity.department.PostEntity;
+import com.focela.platform.module.system.entity.department.PostEntity;
 import com.focela.platform.module.system.repository.mapper.department.PostMapper;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;

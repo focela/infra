@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
 import com.focela.platform.module.infra.controller.admin.logger.dto.apiaccesslog.ApiAccessLogPageRequest;
-import com.focela.platform.module.infra.repository.entity.logger.ApiAccessLogEntity;
+import com.focela.platform.module.infra.entity.logger.ApiAccessLogEntity;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

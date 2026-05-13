@@ -2,7 +2,7 @@ package com.focela.platform.module.system.service.permission;
 
 import com.focela.platform.module.system.controller.admin.permission.dto.menu.MenuListRequest;
 import com.focela.platform.module.system.controller.admin.permission.dto.menu.MenuSaveRequest;
-import com.focela.platform.module.system.repository.entity.permission.MenuEntity;
+import com.focela.platform.module.system.entity.permission.MenuEntity;
 
 import java.util.Collection;
 import java.util.List;

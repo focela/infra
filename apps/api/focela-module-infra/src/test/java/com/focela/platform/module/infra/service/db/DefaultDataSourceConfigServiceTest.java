@@ -7,7 +7,7 @@ import com.focela.platform.framework.mybatis.core.type.EncryptTypeHandler;
 import com.focela.platform.framework.mybatis.core.utils.JdbcUtils;
 import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
 import com.focela.platform.module.infra.controller.admin.db.dto.DataSourceConfigSaveRequest;
-import com.focela.platform.module.infra.repository.entity.db.DataSourceConfigEntity;
+import com.focela.platform.module.infra.entity.db.DataSourceConfigEntity;
 import com.focela.platform.module.infra.repository.mapper.db.DataSourceConfigMapper;
 import com.baomidou.dynamic.datasource.creator.DataSourceProperty;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties;

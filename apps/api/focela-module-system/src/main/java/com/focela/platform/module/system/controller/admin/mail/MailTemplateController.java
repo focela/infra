@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.model.CommonResult;
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.mail.dto.template.*;
-import com.focela.platform.module.system.repository.entity.mail.MailTemplateEntity;
+import com.focela.platform.module.system.entity.mail.MailTemplateEntity;
 import com.focela.platform.module.system.service.mail.MailSendService;
 import com.focela.platform.module.system.service.mail.MailTemplateService;
 import io.swagger.v3.oas.annotations.Operation;

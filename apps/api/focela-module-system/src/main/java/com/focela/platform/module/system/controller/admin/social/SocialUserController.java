@@ -9,7 +9,7 @@ import com.focela.platform.module.system.controller.admin.social.dto.user.Social
 import com.focela.platform.module.system.controller.admin.social.dto.user.SocialUserPageRequest;
 import com.focela.platform.module.system.controller.admin.social.dto.user.SocialUserResponse;
 import com.focela.platform.module.system.controller.admin.social.dto.user.SocialUserUnbindRequest;
-import com.focela.platform.module.system.repository.entity.social.SocialUserEntity;
+import com.focela.platform.module.system.entity.social.SocialUserEntity;
 import com.focela.platform.module.system.service.social.SocialUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

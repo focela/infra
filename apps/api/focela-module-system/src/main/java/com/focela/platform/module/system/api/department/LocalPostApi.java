@@ -2,7 +2,7 @@ package com.focela.platform.module.system.api.department;
 
 import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.system.api.department.dto.PostRespDTO;
-import com.focela.platform.module.system.repository.entity.department.PostEntity;
+import com.focela.platform.module.system.entity.department.PostEntity;
 import com.focela.platform.module.system.service.department.PostService;
 import org.springframework.stereotype.Service;
 

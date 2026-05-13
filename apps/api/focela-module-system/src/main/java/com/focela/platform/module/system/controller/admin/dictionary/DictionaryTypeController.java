@@ -10,7 +10,7 @@ import com.focela.platform.module.system.controller.admin.dictionary.dto.type.Di
 import com.focela.platform.module.system.controller.admin.dictionary.dto.type.DictionaryTypeResponse;
 import com.focela.platform.module.system.controller.admin.dictionary.dto.type.DictionaryTypeSaveRequest;
 import com.focela.platform.module.system.controller.admin.dictionary.dto.type.DictionaryTypeSimpleResponse;
-import com.focela.platform.module.system.repository.entity.dictionary.DictionaryTypeEntity;
+import com.focela.platform.module.system.entity.dictionary.DictionaryTypeEntity;
 import com.focela.platform.module.system.service.dictionary.DictionaryTypeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

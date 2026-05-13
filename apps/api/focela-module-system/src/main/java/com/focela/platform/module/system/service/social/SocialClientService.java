@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.module.system.controller.admin.social.dto.client.SocialClientPageRequest;
 import com.focela.platform.module.system.controller.admin.social.dto.client.SocialClientSaveRequest;
 import com.focela.platform.module.system.enums.social.SocialTypeEnum;
-import com.focela.platform.module.system.repository.entity.social.SocialClientEntity;
+import com.focela.platform.module.system.entity.social.SocialClientEntity;
 import jakarta.validation.Valid;
 import me.zhyd.oauth.model.AuthUser;
 

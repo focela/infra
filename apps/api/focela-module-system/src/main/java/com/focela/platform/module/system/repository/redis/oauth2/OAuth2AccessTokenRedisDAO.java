@@ -3,7 +3,7 @@ package com.focela.platform.module.system.repository.redis.oauth2;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import com.focela.platform.framework.common.utils.collection.CollectionUtils;
 import com.focela.platform.framework.common.utils.json.JsonUtils;
-import com.focela.platform.module.system.repository.entity.oauth2.OAuth2AccessTokenEntity;
+import com.focela.platform.module.system.entity.oauth2.OAuth2AccessTokenEntity;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;
 

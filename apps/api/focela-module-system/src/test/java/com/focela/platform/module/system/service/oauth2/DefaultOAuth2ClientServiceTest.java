@@ -6,7 +6,7 @@ import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
 import com.focela.platform.module.system.controller.admin.oauth2.dto.client.OAuth2ClientPageRequest;
 import com.focela.platform.module.system.controller.admin.oauth2.dto.client.OAuth2ClientSaveRequest;
-import com.focela.platform.module.system.repository.entity.oauth2.OAuth2ClientEntity;
+import com.focela.platform.module.system.entity.oauth2.OAuth2ClientEntity;
 import com.focela.platform.module.system.repository.mapper.oauth2.OAuth2ClientMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;

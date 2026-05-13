@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
 import com.focela.platform.module.system.controller.admin.permission.dto.menu.MenuListRequest;
 import com.focela.platform.module.system.controller.admin.permission.dto.menu.MenuSaveRequest;
-import com.focela.platform.module.system.repository.entity.permission.MenuEntity;
+import com.focela.platform.module.system.entity.permission.MenuEntity;
 import com.focela.platform.module.system.repository.mapper.permission.MenuMapper;
 import com.focela.platform.module.system.enums.permission.MenuTypeEnum;
 import com.focela.platform.module.system.service.tenant.TenantService;
@@ -23,7 +23,7 @@ import static com.focela.platform.framework.common.utils.object.ObjectUtils.clon
 import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPojoEquals;
 import static com.focela.platform.framework.test.core.utils.AssertUtils.assertServiceException;
 import static com.focela.platform.framework.test.core.utils.RandomUtils.*;
-import static com.focela.platform.module.system.repository.entity.permission.MenuEntity.ID_ROOT;
+import static com.focela.platform.module.system.entity.permission.MenuEntity.ID_ROOT;
 import static com.focela.platform.module.system.enums.ErrorCodeConstants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;

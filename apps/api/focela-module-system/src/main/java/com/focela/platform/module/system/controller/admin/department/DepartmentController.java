@@ -7,7 +7,7 @@ import com.focela.platform.module.system.controller.admin.department.dto.dept.De
 import com.focela.platform.module.system.controller.admin.department.dto.dept.DepartmentResponse;
 import com.focela.platform.module.system.controller.admin.department.dto.dept.DepartmentSaveRequest;
 import com.focela.platform.module.system.controller.admin.department.dto.dept.DepartmentSimpleResponse;
-import com.focela.platform.module.system.repository.entity.department.DepartmentEntity;
+import com.focela.platform.module.system.entity.department.DepartmentEntity;
 import com.focela.platform.module.system.service.department.DepartmentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

@@ -3,8 +3,8 @@ package com.focela.platform.module.system.service.notify;
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.module.system.controller.admin.notify.dto.message.NotifyMessageMyPageRequest;
 import com.focela.platform.module.system.controller.admin.notify.dto.message.NotifyMessagePageRequest;
-import com.focela.platform.module.system.repository.entity.notify.NotifyMessageEntity;
-import com.focela.platform.module.system.repository.entity.notify.NotifyTemplateEntity;
+import com.focela.platform.module.system.entity.notify.NotifyMessageEntity;
+import com.focela.platform.module.system.entity.notify.NotifyTemplateEntity;
 
 import java.util.Collection;
 import java.util.List;

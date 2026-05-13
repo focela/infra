@@ -5,7 +5,7 @@ import com.focela.platform.framework.common.utils.object.ObjectUtils;
 import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
 import com.focela.platform.module.system.controller.admin.department.dto.dept.DepartmentListRequest;
 import com.focela.platform.module.system.controller.admin.department.dto.dept.DepartmentSaveRequest;
-import com.focela.platform.module.system.repository.entity.department.DepartmentEntity;
+import com.focela.platform.module.system.entity.department.DepartmentEntity;
 import com.focela.platform.module.system.repository.mapper.department.DepartmentMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;

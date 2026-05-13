@@ -10,7 +10,7 @@ import com.focela.platform.module.system.controller.admin.sms.dto.template.SmsTe
 import com.focela.platform.module.system.controller.admin.sms.dto.template.SmsTemplateResponse;
 import com.focela.platform.module.system.controller.admin.sms.dto.template.SmsTemplateSaveRequest;
 import com.focela.platform.module.system.controller.admin.sms.dto.template.SmsTemplateSendRequest;
-import com.focela.platform.module.system.repository.entity.sms.SmsTemplateEntity;
+import com.focela.platform.module.system.entity.sms.SmsTemplateEntity;
 import com.focela.platform.module.system.service.sms.SmsSendService;
 import com.focela.platform.module.system.service.sms.SmsTemplateService;
 import io.swagger.v3.oas.annotations.Operation;

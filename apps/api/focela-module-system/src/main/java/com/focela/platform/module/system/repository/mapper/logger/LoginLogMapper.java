@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
 import com.focela.platform.module.system.controller.admin.logger.dto.loginlog.LoginLogPageRequest;
-import com.focela.platform.module.system.repository.entity.logger.LoginLogEntity;
+import com.focela.platform.module.system.entity.logger.LoginLogEntity;
 import com.focela.platform.module.system.enums.logger.LoginResultEnum;
 import org.apache.ibatis.annotations.Mapper;
 

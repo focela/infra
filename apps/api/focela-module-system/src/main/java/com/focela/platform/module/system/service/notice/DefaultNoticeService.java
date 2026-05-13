@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.module.system.controller.admin.notice.dto.NoticePageRequest;
 import com.focela.platform.module.system.controller.admin.notice.dto.NoticeSaveRequest;
-import com.focela.platform.module.system.repository.entity.notice.NoticeEntity;
+import com.focela.platform.module.system.entity.notice.NoticeEntity;
 import com.focela.platform.module.system.repository.mapper.notice.NoticeMapper;
 import com.google.common.annotations.VisibleForTesting;
 import jakarta.annotation.Resource;

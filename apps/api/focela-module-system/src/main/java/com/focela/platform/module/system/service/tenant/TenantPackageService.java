@@ -3,7 +3,7 @@ package com.focela.platform.module.system.service.tenant;
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.module.system.controller.admin.tenant.dto.packages.TenantPackagePageRequest;
 import com.focela.platform.module.system.controller.admin.tenant.dto.packages.TenantPackageSaveRequest;
-import com.focela.platform.module.system.repository.entity.tenant.TenantPackageEntity;
+import com.focela.platform.module.system.entity.tenant.TenantPackageEntity;
 import jakarta.validation.Valid;
 
 import java.util.List;

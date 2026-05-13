@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
 import com.focela.platform.module.system.controller.admin.notice.dto.NoticePageRequest;
-import com.focela.platform.module.system.repository.entity.notice.NoticeEntity;
+import com.focela.platform.module.system.entity.notice.NoticeEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

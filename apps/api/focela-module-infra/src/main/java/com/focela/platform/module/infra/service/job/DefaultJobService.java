@@ -8,7 +8,7 @@ import com.focela.platform.framework.quartz.core.scheduler.SchedulerManager;
 import com.focela.platform.framework.quartz.core.utils.CronUtils;
 import com.focela.platform.module.infra.controller.admin.job.dto.job.JobPageRequest;
 import com.focela.platform.module.infra.controller.admin.job.dto.job.JobSaveRequest;
-import com.focela.platform.module.infra.repository.entity.job.JobEntity;
+import com.focela.platform.module.infra.entity.job.JobEntity;
 import com.focela.platform.module.infra.repository.mapper.job.JobMapper;
 import com.focela.platform.module.infra.enums.job.JobStatusEnum;
 import jakarta.annotation.Resource;

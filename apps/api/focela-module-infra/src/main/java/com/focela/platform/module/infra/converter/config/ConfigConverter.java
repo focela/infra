@@ -3,7 +3,7 @@ package com.focela.platform.module.infra.converter.config;
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.module.infra.controller.admin.config.dto.ConfigResponse;
 import com.focela.platform.module.infra.controller.admin.config.dto.ConfigSaveRequest;
-import com.focela.platform.module.infra.repository.entity.config.ConfigEntity;
+import com.focela.platform.module.infra.entity.config.ConfigEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

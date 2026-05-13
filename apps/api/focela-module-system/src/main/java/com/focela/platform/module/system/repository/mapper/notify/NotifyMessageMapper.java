@@ -6,7 +6,7 @@ import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
 import com.focela.platform.framework.mybatis.core.query.QueryWrapperX;
 import com.focela.platform.module.system.controller.admin.notify.dto.message.NotifyMessageMyPageRequest;
 import com.focela.platform.module.system.controller.admin.notify.dto.message.NotifyMessagePageRequest;
-import com.focela.platform.module.system.repository.entity.notify.NotifyMessageEntity;
+import com.focela.platform.module.system.entity.notify.NotifyMessageEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.time.LocalDateTime;

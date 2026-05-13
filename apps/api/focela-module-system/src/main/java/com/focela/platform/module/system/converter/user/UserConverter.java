@@ -9,10 +9,10 @@ import com.focela.platform.module.system.controller.admin.permission.dto.role.Ro
 import com.focela.platform.module.system.controller.admin.user.dto.profile.UserProfileResponse;
 import com.focela.platform.module.system.controller.admin.user.dto.user.UserResponse;
 import com.focela.platform.module.system.controller.admin.user.dto.user.UserSimpleResponse;
-import com.focela.platform.module.system.repository.entity.department.DepartmentEntity;
-import com.focela.platform.module.system.repository.entity.department.PostEntity;
-import com.focela.platform.module.system.repository.entity.permission.RoleEntity;
-import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
+import com.focela.platform.module.system.entity.department.DepartmentEntity;
+import com.focela.platform.module.system.entity.department.PostEntity;
+import com.focela.platform.module.system.entity.permission.RoleEntity;
+import com.focela.platform.module.system.entity.user.AdminUserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

@@ -6,7 +6,7 @@ import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
 import com.focela.platform.framework.mybatis.core.utils.MyBatisUtils;
 import com.focela.platform.module.system.controller.admin.mail.dto.log.MailLogPageRequest;
-import com.focela.platform.module.system.repository.entity.mail.MailLogEntity;
+import com.focela.platform.module.system.entity.mail.MailLogEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

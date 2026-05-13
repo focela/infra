@@ -11,9 +11,9 @@ import com.focela.platform.framework.datapermission.core.annotation.DataPermissi
 import com.focela.platform.module.system.config.sms.core.client.SmsClient;
 import com.focela.platform.module.system.config.sms.core.client.dto.SmsReceiveRespDTO;
 import com.focela.platform.module.system.config.sms.core.client.dto.SmsSendRespDTO;
-import com.focela.platform.module.system.repository.entity.sms.SmsChannelEntity;
-import com.focela.platform.module.system.repository.entity.sms.SmsTemplateEntity;
-import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
+import com.focela.platform.module.system.entity.sms.SmsChannelEntity;
+import com.focela.platform.module.system.entity.sms.SmsTemplateEntity;
+import com.focela.platform.module.system.entity.user.AdminUserEntity;
 import com.focela.platform.module.system.mq.message.sms.SmsSendMessage;
 import com.focela.platform.module.system.mq.producer.sms.SmsProducer;
 import com.focela.platform.module.system.service.member.MemberService;

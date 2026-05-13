@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
 import com.focela.platform.module.infra.controller.admin.file.dto.config.FileConfigPageRequest;
-import com.focela.platform.module.infra.repository.entity.file.FileConfigEntity;
+import com.focela.platform.module.infra.entity.file.FileConfigEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

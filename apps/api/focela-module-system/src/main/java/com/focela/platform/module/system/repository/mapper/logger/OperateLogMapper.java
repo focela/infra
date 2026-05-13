@@ -5,7 +5,7 @@ import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
 import com.focela.platform.module.system.api.logger.dto.OperateLogPageReqDTO;
 import com.focela.platform.module.system.controller.admin.logger.dto.operatelog.OperateLogPageRequest;
-import com.focela.platform.module.system.repository.entity.logger.OperateLogEntity;
+import com.focela.platform.module.system.entity.logger.OperateLogEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

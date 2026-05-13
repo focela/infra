@@ -8,7 +8,7 @@ import com.focela.platform.module.system.controller.admin.tenant.dto.packages.Te
 import com.focela.platform.module.system.controller.admin.tenant.dto.packages.TenantPackageResponse;
 import com.focela.platform.module.system.controller.admin.tenant.dto.packages.TenantPackageSaveRequest;
 import com.focela.platform.module.system.controller.admin.tenant.dto.packages.TenantPackageSimpleResponse;
-import com.focela.platform.module.system.repository.entity.tenant.TenantPackageEntity;
+import com.focela.platform.module.system.entity.tenant.TenantPackageEntity;
 import com.focela.platform.module.system.service.tenant.TenantPackageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

@@ -1,7 +1,7 @@
 package com.focela.platform.module.infra.repository.mapper.db;
 
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
-import com.focela.platform.module.infra.repository.entity.db.DataSourceConfigEntity;
+import com.focela.platform.module.infra.entity.db.DataSourceConfigEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

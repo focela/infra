@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
 import com.focela.platform.module.system.api.logger.dto.LoginLogCreateReqDTO;
 import com.focela.platform.module.system.controller.admin.logger.dto.loginlog.LoginLogPageRequest;
-import com.focela.platform.module.system.repository.entity.logger.LoginLogEntity;
+import com.focela.platform.module.system.entity.logger.LoginLogEntity;
 import com.focela.platform.module.system.repository.mapper.logger.LoginLogMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;

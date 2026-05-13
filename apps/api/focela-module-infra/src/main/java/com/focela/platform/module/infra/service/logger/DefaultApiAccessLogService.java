@@ -7,7 +7,7 @@ import com.focela.platform.framework.common.utils.string.StrUtils;
 import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
 import com.focela.platform.framework.tenant.core.utils.TenantUtils;
 import com.focela.platform.module.infra.controller.admin.logger.dto.apiaccesslog.ApiAccessLogPageRequest;
-import com.focela.platform.module.infra.repository.entity.logger.ApiAccessLogEntity;
+import com.focela.platform.module.infra.entity.logger.ApiAccessLogEntity;
 import com.focela.platform.module.infra.repository.mapper.logger.ApiAccessLogMapper;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +16,8 @@ import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
 
-import static com.focela.platform.module.infra.repository.entity.logger.ApiAccessLogEntity.REQUEST_PARAMS_MAX_LENGTH;
-import static com.focela.platform.module.infra.repository.entity.logger.ApiAccessLogEntity.RESULT_MSG_MAX_LENGTH;
+import static com.focela.platform.module.infra.entity.logger.ApiAccessLogEntity.REQUEST_PARAMS_MAX_LENGTH;
+import static com.focela.platform.module.infra.entity.logger.ApiAccessLogEntity.RESULT_MSG_MAX_LENGTH;
 
 /**
  * API 访问日志 Service 实现类

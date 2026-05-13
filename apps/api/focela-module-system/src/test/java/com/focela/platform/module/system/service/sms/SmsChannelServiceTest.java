@@ -6,7 +6,7 @@ import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
 import com.focela.platform.module.system.controller.admin.sms.dto.channel.SmsChannelPageRequest;
 import com.focela.platform.module.system.controller.admin.sms.dto.channel.SmsChannelSaveRequest;
-import com.focela.platform.module.system.repository.entity.sms.SmsChannelEntity;
+import com.focela.platform.module.system.entity.sms.SmsChannelEntity;
 import com.focela.platform.module.system.repository.mapper.sms.SmsChannelMapper;
 import com.focela.platform.module.system.config.sms.core.client.SmsClient;
 import com.focela.platform.module.system.config.sms.core.client.SmsClientFactory;

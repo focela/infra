@@ -9,7 +9,7 @@ import com.focela.platform.framework.excel.core.utils.ExcelUtils;
 import com.focela.platform.framework.translate.core.TranslateUtils;
 import com.focela.platform.module.system.controller.admin.logger.dto.operatelog.OperateLogPageRequest;
 import com.focela.platform.module.system.controller.admin.logger.dto.operatelog.OperateLogResponse;
-import com.focela.platform.module.system.repository.entity.logger.OperateLogEntity;
+import com.focela.platform.module.system.entity.logger.OperateLogEntity;
 import com.focela.platform.module.system.service.logger.OperateLogService;
 import com.fhs.core.trans.anno.TransMethodResult;
 import io.swagger.v3.oas.annotations.Operation;

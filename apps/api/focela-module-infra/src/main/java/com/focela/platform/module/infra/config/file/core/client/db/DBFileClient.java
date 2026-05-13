@@ -2,7 +2,7 @@ package com.focela.platform.module.infra.config.file.core.client.db;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.focela.platform.module.infra.repository.entity.file.FileContentEntity;
+import com.focela.platform.module.infra.entity.file.FileContentEntity;
 import com.focela.platform.module.infra.repository.mapper.file.FileContentMapper;
 import com.focela.platform.module.infra.config.file.core.client.AbstractFileClient;
 

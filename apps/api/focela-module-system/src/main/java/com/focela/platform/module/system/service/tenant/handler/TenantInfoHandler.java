@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.service.tenant.handler;
 
-import com.focela.platform.module.system.repository.entity.tenant.TenantEntity;
+import com.focela.platform.module.system.entity.tenant.TenantEntity;
 
 /**
  * 租户信息处理

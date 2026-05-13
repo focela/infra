@@ -11,7 +11,7 @@ import com.focela.platform.module.system.controller.admin.dictionary.dto.data.Di
 import com.focela.platform.module.system.controller.admin.dictionary.dto.data.DictionaryDataResponse;
 import com.focela.platform.module.system.controller.admin.dictionary.dto.data.DictionaryDataSaveRequest;
 import com.focela.platform.module.system.controller.admin.dictionary.dto.data.DictionaryDataSimpleResponse;
-import com.focela.platform.module.system.repository.entity.dictionary.DictionaryDataEntity;
+import com.focela.platform.module.system.entity.dictionary.DictionaryDataEntity;
 import com.focela.platform.module.system.service.dictionary.DictionaryDataService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

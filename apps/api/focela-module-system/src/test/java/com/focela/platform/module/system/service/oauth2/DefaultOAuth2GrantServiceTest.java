@@ -2,9 +2,9 @@ package com.focela.platform.module.system.service.oauth2;
 
 import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.test.core.support.BaseMockitoUnitTest;
-import com.focela.platform.module.system.repository.entity.oauth2.OAuth2AccessTokenEntity;
-import com.focela.platform.module.system.repository.entity.oauth2.OAuth2CodeEntity;
-import com.focela.platform.module.system.repository.entity.user.AdminUserEntity;
+import com.focela.platform.module.system.entity.oauth2.OAuth2AccessTokenEntity;
+import com.focela.platform.module.system.entity.oauth2.OAuth2CodeEntity;
+import com.focela.platform.module.system.entity.user.AdminUserEntity;
 import com.focela.platform.module.system.service.auth.AdminAuthService;
 import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Test;

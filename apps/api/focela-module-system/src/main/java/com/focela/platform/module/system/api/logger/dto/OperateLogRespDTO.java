@@ -24,7 +24,7 @@ public class OperateLogRespDTO implements VO {
     /**
      * 用户编号
      */
-    @Trans(type = TransType.SIMPLE, targetClassName = "com.focela.platform.module.system.repository.entity.user.AdminUserEntity",
+    @Trans(type = TransType.SIMPLE, targetClassName = "com.focela.platform.module.system.entity.user.AdminUserEntity",
             fields = "nickname", ref = "userName")
     private Long userId;
     /**

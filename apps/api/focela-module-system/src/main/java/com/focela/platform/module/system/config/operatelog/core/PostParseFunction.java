@@ -2,7 +2,7 @@ package com.focela.platform.module.system.config.operatelog.core;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.module.system.repository.entity.department.PostEntity;
+import com.focela.platform.module.system.entity.department.PostEntity;
 import com.focela.platform.module.system.service.department.PostService;
 import com.mzt.logapi.service.IParseFunction;
 import jakarta.annotation.Resource;

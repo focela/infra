@@ -2,7 +2,7 @@ package com.focela.platform.module.system.repository.mapper.department;
 
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.module.system.repository.entity.department.UserPostEntity;
+import com.focela.platform.module.system.entity.department.UserPostEntity;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.apache.ibatis.annotations.Mapper;
 

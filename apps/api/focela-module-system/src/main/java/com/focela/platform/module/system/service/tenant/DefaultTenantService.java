@@ -16,10 +16,10 @@ import com.focela.platform.module.system.controller.admin.permission.dto.role.Ro
 import com.focela.platform.module.system.controller.admin.tenant.dto.tenant.TenantPageRequest;
 import com.focela.platform.module.system.controller.admin.tenant.dto.tenant.TenantSaveRequest;
 import com.focela.platform.module.system.converter.tenant.TenantConverter;
-import com.focela.platform.module.system.repository.entity.permission.MenuEntity;
-import com.focela.platform.module.system.repository.entity.permission.RoleEntity;
-import com.focela.platform.module.system.repository.entity.tenant.TenantEntity;
-import com.focela.platform.module.system.repository.entity.tenant.TenantPackageEntity;
+import com.focela.platform.module.system.entity.permission.MenuEntity;
+import com.focela.platform.module.system.entity.permission.RoleEntity;
+import com.focela.platform.module.system.entity.tenant.TenantEntity;
+import com.focela.platform.module.system.entity.tenant.TenantPackageEntity;
 import com.focela.platform.module.system.repository.mapper.tenant.TenantMapper;
 import com.focela.platform.module.system.enums.permission.RoleCodeEnum;
 import com.focela.platform.module.system.enums.permission.RoleTypeEnum;

@@ -3,7 +3,7 @@ package com.focela.platform.module.system.service.dictionary;
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.module.system.controller.admin.dictionary.dto.data.DictionaryDataPageRequest;
 import com.focela.platform.module.system.controller.admin.dictionary.dto.data.DictionaryDataSaveRequest;
-import com.focela.platform.module.system.repository.entity.dictionary.DictionaryDataEntity;
+import com.focela.platform.module.system.entity.dictionary.DictionaryDataEntity;
 import org.springframework.lang.Nullable;
 
 import java.util.Collection;
