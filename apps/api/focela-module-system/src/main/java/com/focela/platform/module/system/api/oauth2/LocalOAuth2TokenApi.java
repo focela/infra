@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.api.oauth2;
 
-import com.focela.platform.framework.common.contract.system.oauth2.OAuth2TokenCommonApi;
+import com.focela.platform.framework.common.contract.system.oauth2.OAuth2TokenContractApi;
 import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.framework.common.contract.system.oauth2.dto.OAuth2AccessTokenCheckRpcResponse;
 import com.focela.platform.framework.common.contract.system.oauth2.dto.OAuth2AccessTokenCreateRpcRequest;
@@ -15,7 +15,7 @@ import jakarta.annotation.Resource;
  * OAuth2.0 Token API 实现类
  */
 @Service
-public class LocalOAuth2TokenApi implements OAuth2TokenCommonApi {
+public class LocalOAuth2TokenApi implements OAuth2TokenContractApi {
 
     @Resource
     private OAuth2TokenService oauth2TokenService;

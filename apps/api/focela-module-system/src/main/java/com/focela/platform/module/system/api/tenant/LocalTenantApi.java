@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.api.tenant;
 
-import com.focela.platform.framework.common.contract.system.tenant.TenantCommonApi;
+import com.focela.platform.framework.common.contract.system.tenant.TenantContractApi;
 import com.focela.platform.module.system.service.tenant.TenantService;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import java.util.List;
  * 多租户的 API 实现类
  */
 @Service
-public class LocalTenantApi implements TenantCommonApi {
+public class LocalTenantApi implements TenantContractApi {
 
     @Resource
     private TenantService tenantService;

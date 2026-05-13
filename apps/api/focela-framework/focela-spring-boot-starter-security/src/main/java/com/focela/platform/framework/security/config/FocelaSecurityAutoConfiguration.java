@@ -1,7 +1,7 @@
 package com.focela.platform.framework.security.config;
 
-import com.focela.platform.framework.common.contract.system.oauth2.OAuth2TokenCommonApi;
-import com.focela.platform.framework.common.contract.system.permission.PermissionCommonApi;
+import com.focela.platform.framework.common.contract.system.oauth2.OAuth2TokenContractApi;
+import com.focela.platform.framework.common.contract.system.permission.PermissionContractApi;
 import com.focela.platform.framework.security.core.context.TransmittableThreadLocalSecurityContextHolderStrategy;
 import com.focela.platform.framework.security.core.filter.TokenAuthenticationFilter;
 import com.focela.platform.framework.security.core.handler.JsonAccessDeniedHandler;
@@ -67,12 +67,12 @@ public class FocelaSecurityAutoConfiguration {
      */
     @Bean
     public TokenAuthenticationFilter authenticationTokenFilter(GlobalExceptionHandler globalExceptionHandler,
-                                                               OAuth2TokenCommonApi oauth2TokenApi) {
+                                                               OAuth2TokenContractApi oauth2TokenApi) {
         return new TokenAuthenticationFilter(securityProperties, globalExceptionHandler, oauth2TokenApi);
     }
 
     @Bean("ss") // 使用 Spring Security 的缩写，方便使用
-    public SecurityFrameworkService securityFrameworkService(PermissionCommonApi permissionApi) {
+    public SecurityFrameworkService securityFrameworkService(PermissionContractApi permissionApi) {
         return new DefaultSecurityFrameworkService(permissionApi);
     }
 

@@ -1,6 +1,6 @@
 package com.focela.platform.framework.operatelog.core.service;
 
-import com.focela.platform.framework.common.contract.system.logger.OperateLogCommonApi;
+import com.focela.platform.framework.common.contract.system.logger.OperateLogContractApi;
 import com.focela.platform.framework.common.contract.system.logger.dto.OperateLogCreateRpcRequest;
 import com.focela.platform.framework.common.utils.monitor.TracerUtils;
 import com.focela.platform.framework.common.utils.servlet.ServletUtils;
@@ -17,13 +17,13 @@ import java.util.List;
 /**
  * 操作日志 ILogRecordService 实现类
  *
- * 基于 {@link OperateLogCommonApi} 实现，记录操作日志
+ * 基于 {@link OperateLogContractApi} 实现，记录操作日志
  */
 @Slf4j
 public class DefaultLogRecordService implements ILogRecordService {
 
     @Resource
-    private OperateLogCommonApi operateLogApi;
+    private OperateLogContractApi operateLogApi;
 
     @Override
     public void record(LogRecord logRecord) {

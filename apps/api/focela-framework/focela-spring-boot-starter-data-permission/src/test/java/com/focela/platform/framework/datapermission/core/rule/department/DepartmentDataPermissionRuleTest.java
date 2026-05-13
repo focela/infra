@@ -2,7 +2,7 @@ package com.focela.platform.framework.datapermission.core.rule.department;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ReflectUtil;
-import com.focela.platform.framework.common.contract.system.permission.PermissionCommonApi;
+import com.focela.platform.framework.common.contract.system.permission.PermissionContractApi;
 import com.focela.platform.framework.common.contract.system.permission.dto.DepartmentDataPermissionRpcResponse;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.common.utils.collection.SetUtils;
@@ -36,7 +36,7 @@ class DepartmentDataPermissionRuleTest extends BaseMockitoUnitTest {
     private DepartmentDataPermissionRule rule;
 
     @Mock
-    private PermissionCommonApi permissionApi;
+    private PermissionContractApi permissionApi;
 
     @BeforeEach
     @SuppressWarnings("unchecked")

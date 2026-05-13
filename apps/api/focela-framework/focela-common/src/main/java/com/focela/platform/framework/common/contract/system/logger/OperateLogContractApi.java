@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.Async;
 /**
  * 操作日志 API 接口
  */
-public interface OperateLogCommonApi {
+public interface OperateLogContractApi {
 
     /**
      * 创建操作日志

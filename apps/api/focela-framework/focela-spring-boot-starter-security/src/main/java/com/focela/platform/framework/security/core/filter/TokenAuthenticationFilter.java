@@ -2,7 +2,7 @@ package com.focela.platform.framework.security.core.filter;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.common.contract.system.oauth2.OAuth2TokenCommonApi;
+import com.focela.platform.framework.common.contract.system.oauth2.OAuth2TokenContractApi;
 import com.focela.platform.framework.common.contract.system.oauth2.dto.OAuth2AccessTokenCheckRpcResponse;
 import com.focela.platform.framework.common.exception.ServiceException;
 import com.focela.platform.framework.common.model.CommonResult;
@@ -33,7 +33,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     private final GlobalExceptionHandler globalExceptionHandler;
 
-    private final OAuth2TokenCommonApi oauth2TokenApi;
+    private final OAuth2TokenContractApi oauth2TokenApi;
 
     @Override
     @SuppressWarnings("NullableProblems")

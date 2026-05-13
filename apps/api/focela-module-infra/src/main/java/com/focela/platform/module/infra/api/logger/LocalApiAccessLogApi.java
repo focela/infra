@@ -1,6 +1,6 @@
 package com.focela.platform.module.infra.api.logger;
 
-import com.focela.platform.framework.common.contract.infra.logger.ApiAccessLogCommonApi;
+import com.focela.platform.framework.common.contract.infra.logger.ApiAccessLogContractApi;
 import com.focela.platform.framework.common.contract.infra.logger.dto.ApiAccessLogCreateRpcRequest;
 import com.focela.platform.module.infra.service.logger.ApiAccessLogService;
 import jakarta.annotation.Resource;
@@ -12,7 +12,7 @@ import org.springframework.validation.annotation.Validated;
  */
 @Service
 @Validated
-public class LocalApiAccessLogApi implements ApiAccessLogCommonApi {
+public class LocalApiAccessLogApi implements ApiAccessLogContractApi {
 
     @Resource
     private ApiAccessLogService apiAccessLogService;

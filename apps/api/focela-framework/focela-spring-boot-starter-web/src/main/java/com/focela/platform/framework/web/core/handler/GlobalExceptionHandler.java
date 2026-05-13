@@ -5,7 +5,7 @@ import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.common.contract.infra.logger.ApiErrorLogCommonApi;
+import com.focela.platform.framework.common.contract.infra.logger.ApiErrorLogContractApi;
 import com.focela.platform.framework.common.contract.infra.logger.dto.ApiErrorLogCreateRpcRequest;
 import com.focela.platform.framework.common.exception.ServiceException;
 import com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils;
@@ -63,7 +63,7 @@ public class GlobalExceptionHandler {
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     private final String applicationName;
 
-    private final ApiErrorLogCommonApi apiErrorLogApi;
+    private final ApiErrorLogContractApi apiErrorLogApi;
 
     /**
      * 处理所有异常，主要是提供给 Filter 使用

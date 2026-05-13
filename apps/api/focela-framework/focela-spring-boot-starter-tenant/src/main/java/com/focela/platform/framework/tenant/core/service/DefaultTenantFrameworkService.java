@@ -1,6 +1,6 @@
 package com.focela.platform.framework.tenant.core.service;
 
-import com.focela.platform.framework.common.contract.system.tenant.TenantCommonApi;
+import com.focela.platform.framework.common.contract.system.tenant.TenantContractApi;
 import com.focela.platform.framework.common.exception.ServiceException;
 import com.focela.platform.framework.common.utils.cache.CacheUtils;
 import com.google.common.cache.CacheLoader;
@@ -19,7 +19,7 @@ public class DefaultTenantFrameworkService implements TenantFrameworkService {
 
     private static final ServiceException SERVICE_EXCEPTION_NULL = new ServiceException();
 
-    private final TenantCommonApi tenantApi;
+    private final TenantContractApi tenantApi;
 
     /**
      * 针对 {@link #getTenantIds()} 的缓存

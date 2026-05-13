@@ -1,7 +1,7 @@
 package com.focela.platform.framework.dictionary.core;
 
 import cn.hutool.core.collection.CollUtil;
-import com.focela.platform.framework.common.contract.system.dictionary.DictionaryDataCommonApi;
+import com.focela.platform.framework.common.contract.system.dictionary.DictionaryDataContractApi;
 import com.focela.platform.framework.common.utils.cache.CacheUtils;
 import com.focela.platform.framework.common.contract.system.dictionary.dto.DictionaryDataRpcResponse;
 import com.google.common.cache.CacheLoader;
@@ -21,7 +21,7 @@ import static com.focela.platform.framework.common.utils.collection.CollectionUt
 @Slf4j
 public class DictionaryFrameworkUtils {
 
-    private static DictionaryDataCommonApi dictDataApi;
+    private static DictionaryDataContractApi dictDataApi;
 
     /**
      * 针对 dictType 的字段数据缓存
@@ -37,7 +37,7 @@ public class DictionaryFrameworkUtils {
 
             });
 
-    public static void init(DictionaryDataCommonApi dictDataApi) {
+    public static void init(DictionaryDataContractApi dictDataApi) {
         DictionaryFrameworkUtils.dictDataApi = dictDataApi;
         log.info("[init][init DictionaryFrameworkUtils success]");
     }

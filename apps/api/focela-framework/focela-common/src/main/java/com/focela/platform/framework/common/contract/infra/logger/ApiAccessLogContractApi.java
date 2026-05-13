@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.Async;
 /**
  * API 访问日志的 API 接口
  */
-public interface ApiAccessLogCommonApi {
+public interface ApiAccessLogContractApi {
 
     /**
      * 创建 API 访问日志

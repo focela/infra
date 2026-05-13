@@ -1,7 +1,7 @@
 package com.focela.platform.framework.dictionary.core.utils;
 
 import cn.hutool.core.collection.ListUtil;
-import com.focela.platform.framework.common.contract.system.dictionary.DictionaryDataCommonApi;
+import com.focela.platform.framework.common.contract.system.dictionary.DictionaryDataContractApi;
 import com.focela.platform.framework.common.contract.system.dictionary.dto.DictionaryDataRpcResponse;
 import com.focela.platform.framework.dictionary.core.DictionaryFrameworkUtils;
 import com.focela.platform.framework.test.core.support.BaseMockitoUnitTest;
@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 public class DictionaryFrameworkUtilsTest extends BaseMockitoUnitTest {
 
     @Mock
-    private DictionaryDataCommonApi dictDataApi;
+    private DictionaryDataContractApi dictDataApi;
 
     @BeforeEach
     public void setUp() {

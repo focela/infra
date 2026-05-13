@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.api.permission;
 
-import com.focela.platform.framework.common.contract.system.permission.PermissionCommonApi;
+import com.focela.platform.framework.common.contract.system.permission.PermissionContractApi;
 
 import java.util.Collection;
 import java.util.Set;
@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * 权限 API 接口
  */
-public interface PermissionApi extends PermissionCommonApi {
+public interface PermissionApi extends PermissionContractApi {
 
     /**
      * 获得拥有多个角色的用户编号集合

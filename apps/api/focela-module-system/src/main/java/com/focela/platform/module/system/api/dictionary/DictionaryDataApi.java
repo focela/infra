@@ -1,13 +1,13 @@
 package com.focela.platform.module.system.api.dictionary;
 
-import com.focela.platform.framework.common.contract.system.dictionary.DictionaryDataCommonApi;
+import com.focela.platform.framework.common.contract.system.dictionary.DictionaryDataContractApi;
 
 import java.util.Collection;
 
 /**
  * 字典数据 API 接口
  */
-public interface DictionaryDataApi extends DictionaryDataCommonApi {
+public interface DictionaryDataApi extends DictionaryDataContractApi {
 
     /**
      * 校验字典数据们是否有效。如下情况，视为无效：

@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.Async;
 /**
  * API 错误日志的 API 接口
  */
-public interface ApiErrorLogCommonApi {
+public interface ApiErrorLogContractApi {
 
     /**
      * 创建 API 错误日志

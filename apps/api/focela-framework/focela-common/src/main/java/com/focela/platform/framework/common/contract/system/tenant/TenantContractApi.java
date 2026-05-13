@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * 多租户的 API 接口
  */
-public interface TenantCommonApi {
+public interface TenantContractApi {
 
     /**
      * 获得所有租户

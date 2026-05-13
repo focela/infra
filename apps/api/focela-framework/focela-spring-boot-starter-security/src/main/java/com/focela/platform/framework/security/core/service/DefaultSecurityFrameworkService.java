@@ -1,7 +1,7 @@
 package com.focela.platform.framework.security.core.service;
 
 import cn.hutool.core.collection.CollUtil;
-import com.focela.platform.framework.common.contract.system.permission.PermissionCommonApi;
+import com.focela.platform.framework.common.contract.system.permission.PermissionContractApi;
 import com.focela.platform.framework.security.core.LoginUser;
 import com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils;
 import lombok.AllArgsConstructor;
@@ -17,7 +17,7 @@ import static com.focela.platform.framework.security.core.utils.SecurityFramewor
 @AllArgsConstructor
 public class DefaultSecurityFrameworkService implements SecurityFrameworkService {
 
-    private final PermissionCommonApi permissionApi;
+    private final PermissionContractApi permissionApi;
 
     @Override
     public boolean hasPermission(String permission) {

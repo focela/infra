@@ -3,7 +3,7 @@ package com.focela.platform.framework.datapermission.core.rule.department;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.common.contract.system.permission.PermissionCommonApi;
+import com.focela.platform.framework.common.contract.system.permission.PermissionContractApi;
 import com.focela.platform.framework.common.contract.system.permission.dto.DepartmentDataPermissionRpcResponse;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.common.utils.collection.CollectionUtils;
@@ -57,7 +57,7 @@ public class DepartmentDataPermissionRule implements DataPermissionRule {
     private static final String DEPT_COLUMN_NAME = "dept_id";
     private static final String USER_COLUMN_NAME = "user_id";
 
-    private final PermissionCommonApi permissionApi;
+    private final PermissionContractApi permissionApi;
 
     /**
      * 基于部门的表字段配置

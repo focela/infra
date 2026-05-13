@@ -2,7 +2,7 @@ package com.focela.platform.framework.apilog.config;
 
 import com.focela.platform.framework.apilog.core.filter.ApiAccessLogFilter;
 import com.focela.platform.framework.apilog.core.interceptor.ApiAccessLogInterceptor;
-import com.focela.platform.framework.common.contract.infra.logger.ApiAccessLogCommonApi;
+import com.focela.platform.framework.common.contract.infra.logger.ApiAccessLogContractApi;
 import com.focela.platform.framework.common.enums.WebFilterOrderEnum;
 import com.focela.platform.framework.web.config.WebProperties;
 import com.focela.platform.framework.web.config.FocelaWebAutoConfiguration;
@@ -25,7 +25,7 @@ public class FocelaApiLogAutoConfiguration implements WebMvcConfigurer {
     @ConditionalOnProperty(prefix = "focela.access-log", value = "enable", matchIfMissing = true)
     public FilterRegistrationBean<ApiAccessLogFilter> apiAccessLogFilter(WebProperties webProperties,
                                                                          @Value("${spring.application.name}") String applicationName,
-                                                                         ApiAccessLogCommonApi apiAccessLogApi) {
+                                                                         ApiAccessLogContractApi apiAccessLogApi) {
         ApiAccessLogFilter filter = new ApiAccessLogFilter(webProperties, applicationName, apiAccessLogApi);
         return createFilterBean(filter, WebFilterOrderEnum.API_ACCESS_LOG_FILTER);
     }

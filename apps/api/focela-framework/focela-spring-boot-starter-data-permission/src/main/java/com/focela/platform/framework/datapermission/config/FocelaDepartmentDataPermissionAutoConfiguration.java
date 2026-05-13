@@ -1,6 +1,6 @@
 package com.focela.platform.framework.datapermission.config;
 
-import com.focela.platform.framework.common.contract.system.permission.PermissionCommonApi;
+import com.focela.platform.framework.common.contract.system.permission.PermissionContractApi;
 import com.focela.platform.framework.datapermission.core.rule.department.DepartmentDataPermissionRule;
 import com.focela.platform.framework.datapermission.core.rule.department.DepartmentDataPermissionRuleCustomizer;
 import com.focela.platform.framework.security.core.LoginUser;
@@ -20,7 +20,7 @@ import java.util.List;
 public class FocelaDepartmentDataPermissionAutoConfiguration {
 
     @Bean
-    public DepartmentDataPermissionRule deptDataPermissionRule(PermissionCommonApi permissionApi,
+    public DepartmentDataPermissionRule deptDataPermissionRule(PermissionContractApi permissionApi,
                                                          List<DepartmentDataPermissionRuleCustomizer> customizers) {
         // 创建 DepartmentDataPermissionRule 对象
         DepartmentDataPermissionRule rule = new DepartmentDataPermissionRule(permissionApi);

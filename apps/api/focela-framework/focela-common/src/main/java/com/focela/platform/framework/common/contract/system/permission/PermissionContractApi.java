@@ -5,7 +5,7 @@ import com.focela.platform.framework.common.contract.system.permission.dto.Depar
 /**
  * 权限 API 接口
  */
-public interface PermissionCommonApi {
+public interface PermissionContractApi {
 
     /**
      * 判断是否有权限，任一一个即可

@@ -9,7 +9,7 @@ import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.focela.platform.framework.apilog.core.annotation.ApiAccessLog;
 import com.focela.platform.framework.apilog.core.enums.OperateTypeEnum;
-import com.focela.platform.framework.common.contract.infra.logger.ApiAccessLogCommonApi;
+import com.focela.platform.framework.common.contract.infra.logger.ApiAccessLogContractApi;
 import com.focela.platform.framework.common.contract.infra.logger.dto.ApiAccessLogCreateRpcRequest;
 import com.focela.platform.framework.common.exception.enums.GlobalErrorCodeConstants;
 import com.focela.platform.framework.common.model.CommonResult;
@@ -51,9 +51,9 @@ public class ApiAccessLogFilter extends ApiRequestFilter {
 
     private final String applicationName;
 
-    private final ApiAccessLogCommonApi apiAccessLogApi;
+    private final ApiAccessLogContractApi apiAccessLogApi;
 
-    public ApiAccessLogFilter(WebProperties webProperties, String applicationName, ApiAccessLogCommonApi apiAccessLogApi) {
+    public ApiAccessLogFilter(WebProperties webProperties, String applicationName, ApiAccessLogContractApi apiAccessLogApi) {
         super(webProperties);
         this.applicationName = applicationName;
         this.apiAccessLogApi = apiAccessLogApi;

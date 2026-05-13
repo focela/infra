@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * 字典数据 API 接口
  */
-public interface DictionaryDataCommonApi {
+public interface DictionaryDataContractApi {
 
     /**
      * 获得指定字典类型的字典数据列表

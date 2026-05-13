@@ -9,7 +9,7 @@ import jakarta.validation.Valid;
 /**
  * OAuth2.0 Token API 接口
  */
-public interface OAuth2TokenCommonApi {
+public interface OAuth2TokenContractApi {
 
     /**
      * 创建访问令牌
