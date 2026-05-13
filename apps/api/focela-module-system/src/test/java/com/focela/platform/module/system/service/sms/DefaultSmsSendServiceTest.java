@@ -5,16 +5,16 @@ import com.focela.platform.framework.common.core.KeyValue;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.module.system.config.sms.core.client.SmsClient;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsReceiveRespDTO;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsSendRespDTO;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsReceiveRpcResponse;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsSendRpcResponse;
 import com.focela.platform.framework.test.core.support.BaseMockitoUnitTest;
 import com.focela.platform.module.system.entity.sms.SmsChannelEntity;
 import com.focela.platform.module.system.entity.sms.SmsTemplateEntity;
-import com.focela.platform.module.system.entity.user.AdminUserEntity;
+import com.focela.platform.module.system.entity.user.UserEntity;
 import com.focela.platform.module.system.mq.message.sms.SmsSendMessage;
 import com.focela.platform.module.system.mq.producer.sms.SmsProducer;
 import com.focela.platform.module.system.service.member.MemberService;
-import com.focela.platform.module.system.service.user.AdminUserService;
+import com.focela.platform.module.system.service.user.UserService;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -39,7 +39,7 @@ public class DefaultSmsSendServiceTest extends BaseMockitoUnitTest {
     private DefaultSmsSendService smsSendService;
 
     @Mock
-    private AdminUserService adminUserService;
+    private UserService adminUserService;
     @Mock
     private MemberService memberService;
     @Mock
@@ -59,7 +59,7 @@ public class DefaultSmsSendServiceTest extends BaseMockitoUnitTest {
         Map<String, Object> templateParams = MapUtil.<String, Object>builder().put("code", "1234")
                 .put("op", "login").build();
         // mock adminUserService 的方法
-        AdminUserEntity user = randomPojo(AdminUserEntity.class, o -> o.setMobile("15601691300"));
+        UserEntity user = randomPojo(UserEntity.class, o -> o.setMobile("15601691300"));
         when(adminUserService.getUser(eq(userId))).thenReturn(user);
 
         // mock SmsTemplateService 的方法
@@ -265,7 +265,7 @@ public class DefaultSmsSendServiceTest extends BaseMockitoUnitTest {
         SmsClient smsClient = spy(SmsClient.class);
         when(smsChannelService.getSmsClient(eq(message.getChannelId()))).thenReturn(smsClient);
         // mock SmsClient 的方法
-        SmsSendRespDTO sendResult = randomPojo(SmsSendRespDTO.class);
+        SmsSendRpcResponse sendResult = randomPojo(SmsSendRpcResponse.class);
         when(smsClient.sendSms(eq(message.getLogId()), eq(message.getMobile()), eq(message.getApiTemplateId()),
                 eq(message.getTemplateParams()))).thenReturn(sendResult);
 
@@ -286,7 +286,7 @@ public class DefaultSmsSendServiceTest extends BaseMockitoUnitTest {
         SmsClient smsClient = spy(SmsClient.class);
         when(smsChannelService.getSmsClient(eq(channelCode))).thenReturn(smsClient);
         // mock SmsClient 的方法
-        List<SmsReceiveRespDTO> receiveResults = randomPojoList(SmsReceiveRespDTO.class);
+        List<SmsReceiveRpcResponse> receiveResults = randomPojoList(SmsReceiveRpcResponse.class);
 
         // 调用
         smsSendService.receiveSmsStatus(channelCode, text);

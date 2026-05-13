@@ -2,7 +2,7 @@ package com.focela.platform.module.system.service.permission;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.focela.platform.framework.common.business.system.permission.dto.DepartmentDataPermissionRespDTO;
+import com.focela.platform.framework.common.business.system.permission.dto.DepartmentDataPermissionRpcResponse;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
 import com.focela.platform.module.system.entity.department.DepartmentEntity;
@@ -10,12 +10,12 @@ import com.focela.platform.module.system.entity.permission.MenuEntity;
 import com.focela.platform.module.system.entity.permission.RoleEntity;
 import com.focela.platform.module.system.entity.permission.RoleMenuEntity;
 import com.focela.platform.module.system.entity.permission.UserRoleEntity;
-import com.focela.platform.module.system.entity.user.AdminUserEntity;
+import com.focela.platform.module.system.entity.user.UserEntity;
 import com.focela.platform.module.system.repository.mapper.permission.RoleMenuMapper;
 import com.focela.platform.module.system.repository.mapper.permission.UserRoleMapper;
 import com.focela.platform.module.system.enums.permission.DataScopeEnum;
 import com.focela.platform.module.system.service.department.DepartmentService;
-import com.focela.platform.module.system.service.user.AdminUserService;
+import com.focela.platform.module.system.service.user.UserService;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
@@ -55,7 +55,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     @MockitoBean
     private DepartmentService deptService;
     @MockitoBean
-    private AdminUserService userService;
+    private UserService userService;
 
     @Test
     public void testHasAnyPermissions_superAdmin() {
@@ -403,7 +403,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
             when(roleService.getRoleListFromCache(eq(singleton(2L)))).thenReturn(toList(roleDO));
 
             // 调用
-            DepartmentDataPermissionRespDTO result = permissionService.getDeptDataPermission(userId);
+            DepartmentDataPermissionRpcResponse result = permissionService.getDeptDataPermission(userId);
             // 断言
             assertTrue(result.getAll());
             assertFalse(result.getSelf());
@@ -426,11 +426,11 @@ public class PermissionServiceTest extends BaseDbUnitTest {
                     .setStatus(CommonStatusEnum.ENABLE.getStatus()));
             when(roleService.getRoleListFromCache(eq(singleton(2L)))).thenReturn(toList(roleDO));
             // mock 部门的返回
-            when(userService.getUser(eq(1L))).thenReturn(new AdminUserEntity().setDeptId(3L),
+            when(userService.getUser(eq(1L))).thenReturn(new UserEntity().setDeptId(3L),
                     null, null); // 最后返回 null 的目的，看看会不会重复调用
 
             // 调用
-            DepartmentDataPermissionRespDTO result = permissionService.getDeptDataPermission(userId);
+            DepartmentDataPermissionRpcResponse result = permissionService.getDeptDataPermission(userId);
             // 断言
             assertFalse(result.getAll());
             assertFalse(result.getSelf());
@@ -455,11 +455,11 @@ public class PermissionServiceTest extends BaseDbUnitTest {
                     .setStatus(CommonStatusEnum.ENABLE.getStatus()));
             when(roleService.getRoleListFromCache(eq(singleton(2L)))).thenReturn(toList(roleDO));
             // mock 部门的返回
-            when(userService.getUser(eq(1L))).thenReturn(new AdminUserEntity().setDeptId(3L),
+            when(userService.getUser(eq(1L))).thenReturn(new UserEntity().setDeptId(3L),
                     null, null); // 最后返回 null 的目的，看看会不会重复调用
 
             // 调用
-            DepartmentDataPermissionRespDTO result = permissionService.getDeptDataPermission(userId);
+            DepartmentDataPermissionRpcResponse result = permissionService.getDeptDataPermission(userId);
             // 断言
             assertFalse(result.getAll());
             assertFalse(result.getSelf());
@@ -483,14 +483,14 @@ public class PermissionServiceTest extends BaseDbUnitTest {
                     .setStatus(CommonStatusEnum.ENABLE.getStatus()));
             when(roleService.getRoleListFromCache(eq(singleton(2L)))).thenReturn(toList(roleDO));
             // mock 部门的返回
-            when(userService.getUser(eq(1L))).thenReturn(new AdminUserEntity().setDeptId(3L),
+            when(userService.getUser(eq(1L))).thenReturn(new UserEntity().setDeptId(3L),
                     null, null); // 最后返回 null 的目的，看看会不会重复调用
             // mock 方法（部门)
             DepartmentEntity deptDO = randomPojo(DepartmentEntity.class);
             when(deptService.getChildDeptIdListFromCache(eq(3L))).thenReturn(singleton(deptDO.getId()));
 
             // 调用
-            DepartmentDataPermissionRespDTO result = permissionService.getDeptDataPermission(userId);
+            DepartmentDataPermissionRpcResponse result = permissionService.getDeptDataPermission(userId);
             // 断言
             assertFalse(result.getAll());
             assertFalse(result.getSelf());
@@ -516,7 +516,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
             when(roleService.getRoleListFromCache(eq(singleton(2L)))).thenReturn(toList(roleDO));
 
             // 调用
-            DepartmentDataPermissionRespDTO result = permissionService.getDeptDataPermission(userId);
+            DepartmentDataPermissionRpcResponse result = permissionService.getDeptDataPermission(userId);
             // 断言
             assertFalse(result.getAll());
             assertTrue(result.getSelf());

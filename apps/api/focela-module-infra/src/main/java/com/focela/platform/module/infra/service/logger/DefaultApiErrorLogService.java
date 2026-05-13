@@ -1,6 +1,6 @@
 package com.focela.platform.module.infra.service.logger;
 
-import com.focela.platform.framework.common.business.infra.logger.dto.ApiErrorLogCreateReqDTO;
+import com.focela.platform.framework.common.business.infra.logger.dto.ApiErrorLogCreateRpcRequest;
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.framework.common.utils.string.StrUtils;
@@ -34,7 +34,7 @@ public class DefaultApiErrorLogService implements ApiErrorLogService {
     private ApiErrorLogMapper apiErrorLogMapper;
 
     @Override
-    public void createApiErrorLog(ApiErrorLogCreateReqDTO createDTO) {
+    public void createApiErrorLog(ApiErrorLogCreateRpcRequest createDTO) {
         ApiErrorLogEntity apiErrorLog = BeanUtils.toBean(createDTO, ApiErrorLogEntity.class)
                 .setProcessStatus(ApiErrorLogProcessStatusEnum.INIT.getStatus());
         apiErrorLog.setRequestParams(StrUtils.maxLength(apiErrorLog.getRequestParams(), REQUEST_PARAMS_MAX_LENGTH));

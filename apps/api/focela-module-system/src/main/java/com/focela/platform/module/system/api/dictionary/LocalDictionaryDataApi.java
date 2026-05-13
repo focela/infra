@@ -1,7 +1,7 @@
 package com.focela.platform.module.system.api.dictionary;
 
 import com.focela.platform.framework.common.utils.object.BeanUtils;
-import com.focela.platform.framework.common.business.system.dictionary.dto.DictionaryDataRespDTO;
+import com.focela.platform.framework.common.business.system.dictionary.dto.DictionaryDataRpcResponse;
 import com.focela.platform.module.system.entity.dictionary.DictionaryDataEntity;
 import com.focela.platform.module.system.service.dictionary.DictionaryDataService;
 import jakarta.annotation.Resource;
@@ -25,9 +25,9 @@ public class LocalDictionaryDataApi implements DictionaryDataApi {
     }
 
     @Override
-    public List<DictionaryDataRespDTO> getDictDataList(String dictType) {
+    public List<DictionaryDataRpcResponse> getDictDataList(String dictType) {
         List<DictionaryDataEntity> list = dictDataService.getDictDataListByDictType(dictType);
-        return BeanUtils.toBean(list, DictionaryDataRespDTO.class);
+        return BeanUtils.toBean(list, DictionaryDataRpcResponse.class);
     }
 
 }

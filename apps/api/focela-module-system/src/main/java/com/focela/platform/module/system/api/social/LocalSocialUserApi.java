@@ -1,8 +1,8 @@
 package com.focela.platform.module.system.api.social;
 
-import com.focela.platform.module.system.api.social.dto.SocialUserBindReqDTO;
-import com.focela.platform.module.system.api.social.dto.SocialUserRespDTO;
-import com.focela.platform.module.system.api.social.dto.SocialUserUnbindReqDTO;
+import com.focela.platform.module.system.api.social.dto.SocialUserBindRpcRequest;
+import com.focela.platform.module.system.api.social.dto.SocialUserRpcResponse;
+import com.focela.platform.module.system.api.social.dto.SocialUserUnbindRpcRequest;
 import com.focela.platform.module.system.service.social.SocialUserService;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -20,23 +20,23 @@ public class LocalSocialUserApi implements SocialUserApi {
     private SocialUserService socialUserService;
 
     @Override
-    public String bindSocialUser(SocialUserBindReqDTO reqDTO) {
+    public String bindSocialUser(SocialUserBindRpcRequest reqDTO) {
         return socialUserService.bindSocialUser(reqDTO);
     }
 
     @Override
-    public void unbindSocialUser(SocialUserUnbindReqDTO reqDTO) {
+    public void unbindSocialUser(SocialUserUnbindRpcRequest reqDTO) {
         socialUserService.unbindSocialUser(reqDTO.getUserId(), reqDTO.getUserType(),
                 reqDTO.getSocialType(), reqDTO.getOpenid());
     }
 
     @Override
-    public SocialUserRespDTO getSocialUserByUserId(Integer userType, Long userId, Integer socialType) {
+    public SocialUserRpcResponse getSocialUserByUserId(Integer userType, Long userId, Integer socialType) {
         return socialUserService.getSocialUserByUserId(userType, userId, socialType);
     }
 
     @Override
-    public SocialUserRespDTO getSocialUserByCode(Integer userType, Integer socialType, String code, String state) {
+    public SocialUserRpcResponse getSocialUserByCode(Integer userType, Integer socialType, String code, String state) {
        return socialUserService.getSocialUserByCode(userType, socialType, code, state);
     }
 

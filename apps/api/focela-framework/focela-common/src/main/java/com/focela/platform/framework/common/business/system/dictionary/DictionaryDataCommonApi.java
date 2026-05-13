@@ -1,6 +1,6 @@
 package com.focela.platform.framework.common.business.system.dictionary;
 
-import com.focela.platform.framework.common.business.system.dictionary.dto.DictionaryDataRespDTO;
+import com.focela.platform.framework.common.business.system.dictionary.dto.DictionaryDataRpcResponse;
 
 import java.util.List;
 
@@ -15,6 +15,6 @@ public interface DictionaryDataCommonApi {
      * @param dictType 字典类型
      * @return 字典数据列表
      */
-    List<DictionaryDataRespDTO> getDictDataList(String dictType);
+    List<DictionaryDataRpcResponse> getDictDataList(String dictType);
 
 }

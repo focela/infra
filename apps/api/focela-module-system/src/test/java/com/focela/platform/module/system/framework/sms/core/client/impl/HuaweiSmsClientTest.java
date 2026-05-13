@@ -3,8 +3,8 @@ package com.focela.platform.module.system.config.sms.core.client.impl;
 import com.focela.platform.framework.common.core.KeyValue;
 import com.focela.platform.framework.common.utils.http.HttpUtils;
 import com.focela.platform.framework.test.core.support.BaseMockitoUnitTest;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsReceiveRespDTO;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsSendRespDTO;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsReceiveRpcResponse;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsSendRpcResponse;
 import com.focela.platform.module.system.config.sms.core.property.SmsChannelProperties;
 import com.google.common.collect.Lists;
 
@@ -49,7 +49,7 @@ public class HuaweiSmsClientTest extends BaseMockitoUnitTest {
                     .thenReturn("{\"result\":[{\"originTo\":\"+86155****5678\",\"createTime\":\"2018-05-25T16:34:34Z\",\"from\":\"1069********0012\",\"smsMsgId\":\"d6e3cdd0-522b-4692-8304-a07553cdf591_8539659\",\"status\":\"000000\",\"countryId\":\"CN\",\"total\":2}],\"code\":\"000000\",\"description\":\"Success\"}\n");
 
             // 调用
-            SmsSendRespDTO result = smsClient.sendSms(sendLogId, mobile,
+            SmsSendRpcResponse result = smsClient.sendSms(sendLogId, mobile,
                     apiTemplateId, templateParams);
             // 断言
             assertTrue(result.getSuccess());
@@ -73,7 +73,7 @@ public class HuaweiSmsClientTest extends BaseMockitoUnitTest {
                     .thenReturn("{\"result\":[{\"total\":1,\"originTo\":\"17321315478\",\"createTime\":\"2024-08-18T11:32:20Z\",\"from\":\"x8824060312575\",\"smsMsgId\":\"06e4b966-ad87-479f-8b74-f57fb7aafb60_304613461\",\"countryId\":\"CN\",\"status\":\"E200033\"}],\"code\":\"E000510\",\"description\":\"The SMS fails to be sent. For details, see status.\"}");
 
             // 调用
-            SmsSendRespDTO result = smsClient.sendSms(sendLogId, mobile,
+            SmsSendRpcResponse result = smsClient.sendSms(sendLogId, mobile,
                     apiTemplateId, templateParams);
             // 断言
             assertFalse(result.getSuccess());
@@ -97,7 +97,7 @@ public class HuaweiSmsClientTest extends BaseMockitoUnitTest {
                     .thenReturn("{\"code\":\"E000102\",\"description\":\"Invalid app_key.\"}");
 
             // 调用
-            SmsSendRespDTO result = smsClient.sendSms(sendLogId, mobile,
+            SmsSendRpcResponse result = smsClient.sendSms(sendLogId, mobile,
                     apiTemplateId, templateParams);
             // 断言
             assertFalse(result.getSuccess());
@@ -112,10 +112,10 @@ public class HuaweiSmsClientTest extends BaseMockitoUnitTest {
         String text = "sequence=1&total=1&statusDesc=%E7%94%A8%E6%88%B7%E5%B7%B2%E6%88%90%E5%8A%9F%E6%94%B6%E5%88%B0%E7%9F%AD%E4%BF%A1&updateTime=2024-08-15T03%3A00%3A34Z&source=2&smsMsgId=70207ed7-1d02-41b0-8537-bb25fd1c2364_143684459&status=DELIVRD&extend=176";
 
         // 调用
-        List<SmsReceiveRespDTO> statuses = smsClient.parseSmsReceiveStatus(text);
+        List<SmsReceiveRpcResponse> statuses = smsClient.parseSmsReceiveStatus(text);
         // 断言
         assertEquals(1, statuses.size());
-        SmsReceiveRespDTO status = statuses.get(0);
+        SmsReceiveRpcResponse status = statuses.get(0);
         assertTrue(status.getSuccess());
         assertEquals("DELIVRD", status.getErrorCode());
         assertEquals(LocalDateTime.of(2024, 8, 15, 3, 0, 34), status.getReceiveTime());

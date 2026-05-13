@@ -19,7 +19,7 @@ import com.focela.platform.module.system.service.permission.PermissionService;
 import com.focela.platform.module.system.service.permission.RoleService;
 import com.focela.platform.module.system.service.tenant.handler.TenantInfoHandler;
 import com.focela.platform.module.system.service.tenant.handler.TenantMenuHandler;
-import com.focela.platform.module.system.service.user.AdminUserService;
+import com.focela.platform.module.system.service.user.UserService;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -65,7 +65,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
     @MockitoBean
     private TenantPackageService tenantPackageService;
     @MockitoBean
-    private AdminUserService userService;
+    private UserService userService;
     @MockitoBean
     private RoleService roleService;
     @MockitoBean

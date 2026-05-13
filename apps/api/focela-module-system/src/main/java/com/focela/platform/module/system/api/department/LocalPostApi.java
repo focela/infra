@@ -1,7 +1,7 @@
 package com.focela.platform.module.system.api.department;
 
 import com.focela.platform.framework.common.utils.object.BeanUtils;
-import com.focela.platform.module.system.api.department.dto.PostRespDTO;
+import com.focela.platform.module.system.api.department.dto.PostRpcResponse;
 import com.focela.platform.module.system.entity.department.PostEntity;
 import com.focela.platform.module.system.service.department.PostService;
 import org.springframework.stereotype.Service;
@@ -25,9 +25,9 @@ public class LocalPostApi implements PostApi {
     }
 
     @Override
-    public List<PostRespDTO> getPostList(Collection<Long> ids) {
+    public List<PostRpcResponse> getPostList(Collection<Long> ids) {
         List<PostEntity> list = postService.getPostList(ids);
-        return BeanUtils.toBean(list, PostRespDTO.class);
+        return BeanUtils.toBean(list, PostRpcResponse.class);
     }
 
 }

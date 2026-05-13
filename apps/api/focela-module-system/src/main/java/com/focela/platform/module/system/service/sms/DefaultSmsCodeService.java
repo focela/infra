@@ -3,9 +3,9 @@ package com.focela.platform.module.system.service.sms;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.map.MapUtil;
-import com.focela.platform.module.system.api.sms.dto.code.SmsCodeSendReqDTO;
-import com.focela.platform.module.system.api.sms.dto.code.SmsCodeUseReqDTO;
-import com.focela.platform.module.system.api.sms.dto.code.SmsCodeValidateReqDTO;
+import com.focela.platform.module.system.api.sms.dto.code.SmsCodeSendRpcRequest;
+import com.focela.platform.module.system.api.sms.dto.code.SmsCodeUseRpcRequest;
+import com.focela.platform.module.system.api.sms.dto.code.SmsCodeValidateRpcRequest;
 import com.focela.platform.module.system.entity.sms.SmsCodeEntity;
 import com.focela.platform.module.system.repository.mapper.sms.SmsCodeMapper;
 import com.focela.platform.module.system.enums.sms.SmsSceneEnum;
@@ -38,7 +38,7 @@ public class DefaultSmsCodeService implements SmsCodeService {
     private SmsSendService smsSendService;
 
     @Override
-    public void sendSmsCode(SmsCodeSendReqDTO reqDTO) {
+    public void sendSmsCode(SmsCodeSendRpcRequest reqDTO) {
         SmsSceneEnum sceneEnum = SmsSceneEnum.getCodeByScene(reqDTO.getScene());
         Assert.notNull(sceneEnum, "验证码场景({}) 查找不到配置", reqDTO.getScene());
         // 创建验证码
@@ -75,7 +75,7 @@ public class DefaultSmsCodeService implements SmsCodeService {
     }
 
     @Override
-    public void useSmsCode(SmsCodeUseReqDTO reqDTO) {
+    public void useSmsCode(SmsCodeUseRpcRequest reqDTO) {
         // 检测验证码是否有效
         SmsCodeEntity lastSmsCode = validateSmsCode0(reqDTO.getMobile(), reqDTO.getCode(), reqDTO.getScene());
         // 使用验证码
@@ -84,7 +84,7 @@ public class DefaultSmsCodeService implements SmsCodeService {
     }
 
     @Override
-    public void validateSmsCode(SmsCodeValidateReqDTO reqDTO) {
+    public void validateSmsCode(SmsCodeValidateRpcRequest reqDTO) {
         validateSmsCode0(reqDTO.getMobile(), reqDTO.getCode(), reqDTO.getScene());
     }
 

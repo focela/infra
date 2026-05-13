@@ -1,6 +1,6 @@
 package com.focela.platform.module.infra.service.logger;
 
-import com.focela.platform.framework.common.business.infra.logger.dto.ApiAccessLogCreateReqDTO;
+import com.focela.platform.framework.common.business.infra.logger.dto.ApiAccessLogCreateRpcRequest;
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.module.infra.controller.admin.logger.dto.apiaccesslog.ApiAccessLogPageRequest;
 import com.focela.platform.module.infra.entity.logger.ApiAccessLogEntity;
@@ -15,7 +15,7 @@ public interface ApiAccessLogService {
      *
      * @param createReqDTO API 访问日志
      */
-    void createApiAccessLog(ApiAccessLogCreateReqDTO createReqDTO);
+    void createApiAccessLog(ApiAccessLogCreateRpcRequest createReqDTO);
 
     /**
      * 获得 API 访问日志

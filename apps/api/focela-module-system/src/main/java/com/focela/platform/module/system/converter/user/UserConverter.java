@@ -12,7 +12,7 @@ import com.focela.platform.module.system.controller.admin.user.dto.UserSimpleRes
 import com.focela.platform.module.system.entity.department.DepartmentEntity;
 import com.focela.platform.module.system.entity.department.PostEntity;
 import com.focela.platform.module.system.entity.permission.RoleEntity;
-import com.focela.platform.module.system.entity.user.AdminUserEntity;
+import com.focela.platform.module.system.entity.user.UserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -24,11 +24,11 @@ public interface UserConverter {
 
     UserConverter INSTANCE = Mappers.getMapper(UserConverter.class);
 
-    default List<UserResponse> convertList(List<AdminUserEntity> list, Map<Long, DepartmentEntity> deptMap) {
+    default List<UserResponse> convertList(List<UserEntity> list, Map<Long, DepartmentEntity> deptMap) {
         return CollectionUtils.convertList(list, user -> convert(user, deptMap.get(user.getDeptId())));
     }
 
-    default UserResponse convert(AdminUserEntity user, DepartmentEntity dept) {
+    default UserResponse convert(UserEntity user, DepartmentEntity dept) {
         UserResponse userVO = BeanUtils.toBean(user, UserResponse.class);
         if (dept != null) {
             userVO.setDeptName(dept.getName());
@@ -36,7 +36,7 @@ public interface UserConverter {
         return userVO;
     }
 
-    default List<UserSimpleResponse> convertSimpleList(List<AdminUserEntity> list, Map<Long, DepartmentEntity> deptMap) {
+    default List<UserSimpleResponse> convertSimpleList(List<UserEntity> list, Map<Long, DepartmentEntity> deptMap) {
         return CollectionUtils.convertList(list, user -> {
             UserSimpleResponse userVO = BeanUtils.toBean(user, UserSimpleResponse.class);
             MapUtils.findAndThen(deptMap, user.getDeptId(), dept -> userVO.setDeptName(dept.getName()));
@@ -44,7 +44,7 @@ public interface UserConverter {
         });
     }
 
-    default UserProfileResponse convert(AdminUserEntity user, List<RoleEntity> userRoles,
+    default UserProfileResponse convert(UserEntity user, List<RoleEntity> userRoles,
                                       DepartmentEntity dept, List<PostEntity> posts) {
         UserProfileResponse userVO = BeanUtils.toBean(user, UserProfileResponse.class);
         userVO.setRoles(BeanUtils.toBean(userRoles, RoleSimpleResponse.class));

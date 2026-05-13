@@ -1,6 +1,6 @@
 package com.focela.platform.module.infra.service.logger;
 
-import com.focela.platform.framework.common.business.infra.logger.dto.ApiAccessLogCreateReqDTO;
+import com.focela.platform.framework.common.business.infra.logger.dto.ApiAccessLogCreateRpcRequest;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.common.exception.enums.GlobalErrorCodeConstants;
 import com.focela.platform.framework.common.model.PageResult;
@@ -98,7 +98,7 @@ public class DefaultApiAccessLogServiceTest extends BaseDbUnitTest {
     @Test
     public void testCreateApiAccessLog() {
         // 准备参数
-        ApiAccessLogCreateReqDTO createDTO = randomPojo(ApiAccessLogCreateReqDTO.class);
+        ApiAccessLogCreateRpcRequest createDTO = randomPojo(ApiAccessLogCreateRpcRequest.class);
 
         // 调用
         apiAccessLogService.createApiAccessLog(createDTO);

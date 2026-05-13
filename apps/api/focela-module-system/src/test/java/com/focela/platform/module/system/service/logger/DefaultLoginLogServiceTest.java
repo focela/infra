@@ -2,7 +2,7 @@ package com.focela.platform.module.system.service.logger;
 
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
-import com.focela.platform.module.system.api.logger.dto.LoginLogCreateReqDTO;
+import com.focela.platform.module.system.api.logger.dto.LoginLogCreateRpcRequest;
 import com.focela.platform.module.system.controller.admin.logger.dto.loginlog.LoginLogPageRequest;
 import com.focela.platform.module.system.entity.logger.LoginLogEntity;
 import com.focela.platform.module.system.repository.mapper.logger.LoginLogMapper;
@@ -64,7 +64,7 @@ public class DefaultLoginLogServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testCreateLoginLog() {
-        LoginLogCreateReqDTO reqDTO = randomPojo(LoginLogCreateReqDTO.class);
+        LoginLogCreateRpcRequest reqDTO = randomPojo(LoginLogCreateRpcRequest.class);
 
         // 调用
         loginLogService.createLoginLog(reqDTO);

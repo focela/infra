@@ -3,8 +3,8 @@ package com.focela.platform.module.system.config.sms.core.client.impl;
 import cn.hutool.core.collection.ListUtil;
 import com.focela.platform.framework.common.core.KeyValue;
 import com.focela.platform.module.system.config.sms.core.client.SmsClient;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsSendRespDTO;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsTemplateRespDTO;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsSendRpcResponse;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsTemplateRpcResponse;
 import com.focela.platform.module.system.config.sms.core.property.SmsChannelProperties;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,7 @@ public class SmsClientTest {
         // 准备参数
         String apiTemplateId = "SMS_207945135";
         // 调用
-        SmsTemplateRespDTO template = client.getSmsTemplate(apiTemplateId);
+        SmsTemplateRpcResponse template = client.getSmsTemplate(apiTemplateId);
         // 打印结果
         System.out.println(template);
     }
@@ -46,7 +46,7 @@ public class SmsClientTest {
         String mobile = "15601691323";
         String apiTemplateId = "SMS_207945135";
         // 调用
-        SmsSendRespDTO sendRespDTO = client.sendSms(sendLogId, mobile, apiTemplateId, ListUtil.of(new KeyValue<>("code", "1024")));
+        SmsSendRpcResponse sendRespDTO = client.sendSms(sendLogId, mobile, apiTemplateId, ListUtil.of(new KeyValue<>("code", "1024")));
         // 打印结果
         System.out.println(sendRespDTO);
     }
@@ -67,7 +67,7 @@ public class SmsClientTest {
         String mobile = "15601691323";
         String apiTemplateId = "358212";
         // 调用
-        SmsSendRespDTO sendRespDTO = client.sendSms(sendLogId, mobile, apiTemplateId, ListUtil.of(new KeyValue<>("code", "1024")));
+        SmsSendRpcResponse sendRespDTO = client.sendSms(sendLogId, mobile, apiTemplateId, ListUtil.of(new KeyValue<>("code", "1024")));
         // 打印结果
         System.out.println(sendRespDTO);
     }
@@ -84,7 +84,7 @@ public class SmsClientTest {
         // 准备参数
         String apiTemplateId = "358212";
         // 调用
-        SmsTemplateRespDTO template = client.getSmsTemplate(apiTemplateId);
+        SmsTemplateRpcResponse template = client.getSmsTemplate(apiTemplateId);
         // 打印结果
         System.out.println(template);
     }
@@ -106,7 +106,7 @@ public class SmsClientTest {
         String apiTemplateId = "3644cdab863546a3b718d488659a99ef";
         List<KeyValue<String, Object>> templateParams = ListUtil.of(new KeyValue<>("code", "1024"));
         // 调用
-        SmsSendRespDTO smsSendRespDTO = client.sendSms(sendLogId, mobile, apiTemplateId, templateParams);
+        SmsSendRpcResponse smsSendRespDTO = client.sendSms(sendLogId, mobile, apiTemplateId, templateParams);
         // 打印结果
         System.out.println(smsSendRespDTO);
     }
@@ -126,7 +126,7 @@ public class SmsClientTest {
         String apiTemplateId = "3644cdab863546a3b718d488659a99ef";
         List<KeyValue<String, Object>> templateParams = ListUtil.of(new KeyValue<>("code", "1122"));
         // 调用
-        SmsSendRespDTO smsSendRespDTO = client.sendSms(sendLogId, mobile, apiTemplateId, templateParams);
+        SmsSendRpcResponse smsSendRespDTO = client.sendSms(sendLogId, mobile, apiTemplateId, templateParams);
         // 打印结果
         System.out.println(smsSendRespDTO);
     }
@@ -141,7 +141,7 @@ public class SmsClientTest {
         // 准备参数
         String apiTemplateId = "3644cdab863546a3b718d488659a99ef";
         // 调用
-        SmsTemplateRespDTO template = client.getSmsTemplate(apiTemplateId);
+        SmsTemplateRpcResponse template = client.getSmsTemplate(apiTemplateId);
         // 打印结果
         System.out.println(template);
     }

@@ -2,8 +2,8 @@ package com.focela.platform.module.system.service.social;
 
 import com.focela.platform.framework.common.exception.ServiceException;
 import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.module.system.api.social.dto.SocialUserBindReqDTO;
-import com.focela.platform.module.system.api.social.dto.SocialUserRespDTO;
+import com.focela.platform.module.system.api.social.dto.SocialUserBindRpcRequest;
+import com.focela.platform.module.system.api.social.dto.SocialUserRpcResponse;
 import com.focela.platform.module.system.controller.admin.social.dto.user.SocialUserPageRequest;
 import com.focela.platform.module.system.entity.social.SocialUserEntity;
 import com.focela.platform.module.system.enums.social.SocialTypeEnum;
@@ -31,7 +31,7 @@ public interface SocialUserService {
      * @param reqDTO 绑定信息
      * @return 社交用户 openid
      */
-    String bindSocialUser(@Valid SocialUserBindReqDTO reqDTO);
+    String bindSocialUser(@Valid SocialUserBindRpcRequest reqDTO);
 
     /**
      * 取消绑定社交用户
@@ -51,7 +51,7 @@ public interface SocialUserService {
      * @param socialType 社交平台的类型
      * @return 社交用户
      */
-    SocialUserRespDTO getSocialUserByUserId(Integer userType, Long userId, Integer socialType);
+    SocialUserRpcResponse getSocialUserByUserId(Integer userType, Long userId, Integer socialType);
 
     /**
      * 获得社交用户
@@ -64,7 +64,7 @@ public interface SocialUserService {
      * @param state state
      * @return 社交用户
      */
-    SocialUserRespDTO getSocialUserByCode(Integer userType, Integer socialType, String code, String state);
+    SocialUserRpcResponse getSocialUserByCode(Integer userType, Integer socialType, String code, String state);
 
     // ==================== 社交用户 CRUD ====================
 

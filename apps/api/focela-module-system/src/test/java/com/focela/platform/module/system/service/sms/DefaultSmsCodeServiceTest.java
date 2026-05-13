@@ -2,9 +2,9 @@ package com.focela.platform.module.system.service.sms;
 
 import cn.hutool.core.map.MapUtil;
 import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
-import com.focela.platform.module.system.api.sms.dto.code.SmsCodeSendReqDTO;
-import com.focela.platform.module.system.api.sms.dto.code.SmsCodeUseReqDTO;
-import com.focela.platform.module.system.api.sms.dto.code.SmsCodeValidateReqDTO;
+import com.focela.platform.module.system.api.sms.dto.code.SmsCodeSendRpcRequest;
+import com.focela.platform.module.system.api.sms.dto.code.SmsCodeUseRpcRequest;
+import com.focela.platform.module.system.api.sms.dto.code.SmsCodeValidateRpcRequest;
 import com.focela.platform.module.system.entity.sms.SmsCodeEntity;
 import com.focela.platform.module.system.repository.mapper.sms.SmsCodeMapper;
 import com.focela.platform.module.system.enums.sms.SmsSceneEnum;
@@ -55,7 +55,7 @@ public class DefaultSmsCodeServiceTest extends BaseDbUnitTest {
     @Test
     public void sendSmsCode_success() {
         // 准备参数
-        SmsCodeSendReqDTO reqDTO = randomPojo(SmsCodeSendReqDTO.class, o -> {
+        SmsCodeSendRpcRequest reqDTO = randomPojo(SmsCodeSendRpcRequest.class, o -> {
             o.setMobile("15601691300");
             o.setScene(SmsSceneEnum.MEMBER_LOGIN.getScene());
         });
@@ -80,7 +80,7 @@ public class DefaultSmsCodeServiceTest extends BaseDbUnitTest {
                 o -> o.setMobile("15601691300").setTodayIndex(1));
         smsCodeMapper.insert(smsCodeDO);
         // 准备参数
-        SmsCodeSendReqDTO reqDTO = randomPojo(SmsCodeSendReqDTO.class, o -> {
+        SmsCodeSendRpcRequest reqDTO = randomPojo(SmsCodeSendRpcRequest.class, o -> {
             o.setMobile("15601691300");
             o.setScene(SmsSceneEnum.MEMBER_LOGIN.getScene());
         });
@@ -97,7 +97,7 @@ public class DefaultSmsCodeServiceTest extends BaseDbUnitTest {
                 o -> o.setMobile("15601691300").setTodayIndex(10).setCreateTime(LocalDateTime.now()));
         smsCodeMapper.insert(smsCodeDO);
         // 准备参数
-        SmsCodeSendReqDTO reqDTO = randomPojo(SmsCodeSendReqDTO.class, o -> {
+        SmsCodeSendRpcRequest reqDTO = randomPojo(SmsCodeSendRpcRequest.class, o -> {
             o.setMobile("15601691300");
             o.setScene(SmsSceneEnum.MEMBER_LOGIN.getScene());
         });
@@ -111,7 +111,7 @@ public class DefaultSmsCodeServiceTest extends BaseDbUnitTest {
     @Test
     public void testUseSmsCode_success() {
         // 准备参数
-        SmsCodeUseReqDTO reqDTO = randomPojo(SmsCodeUseReqDTO.class, o -> {
+        SmsCodeUseRpcRequest reqDTO = randomPojo(SmsCodeUseRpcRequest.class, o -> {
             o.setMobile("15601691300");
             o.setScene(randomEle(SmsSceneEnum.values()).getScene());
         });
@@ -132,7 +132,7 @@ public class DefaultSmsCodeServiceTest extends BaseDbUnitTest {
     @Test
     public void validateSmsCode_success() {
         // 准备参数
-        SmsCodeValidateReqDTO reqDTO = randomPojo(SmsCodeValidateReqDTO.class, o -> {
+        SmsCodeValidateRpcRequest reqDTO = randomPojo(SmsCodeValidateRpcRequest.class, o -> {
             o.setMobile("15601691300");
             o.setScene(randomEle(SmsSceneEnum.values()).getScene());
         });
@@ -146,7 +146,7 @@ public class DefaultSmsCodeServiceTest extends BaseDbUnitTest {
     @Test
     public void validateSmsCode_notFound() {
         // 准备参数
-        SmsCodeValidateReqDTO reqDTO = randomPojo(SmsCodeValidateReqDTO.class, o -> {
+        SmsCodeValidateRpcRequest reqDTO = randomPojo(SmsCodeValidateRpcRequest.class, o -> {
             o.setMobile("15601691300");
             o.setScene(randomEle(SmsSceneEnum.values()).getScene());
         });
@@ -159,7 +159,7 @@ public class DefaultSmsCodeServiceTest extends BaseDbUnitTest {
     @Test
     public void validateSmsCode_expired() {
         // 准备参数
-        SmsCodeValidateReqDTO reqDTO = randomPojo(SmsCodeValidateReqDTO.class, o -> {
+        SmsCodeValidateRpcRequest reqDTO = randomPojo(SmsCodeValidateRpcRequest.class, o -> {
             o.setMobile("15601691300");
             o.setScene(randomEle(SmsSceneEnum.values()).getScene());
         });
@@ -175,7 +175,7 @@ public class DefaultSmsCodeServiceTest extends BaseDbUnitTest {
     @Test
     public void validateSmsCode_used() {
         // 准备参数
-        SmsCodeValidateReqDTO reqDTO = randomPojo(SmsCodeValidateReqDTO.class, o -> {
+        SmsCodeValidateRpcRequest reqDTO = randomPojo(SmsCodeValidateRpcRequest.class, o -> {
             o.setMobile("15601691300");
             o.setScene(randomEle(SmsSceneEnum.values()).getScene());
         });

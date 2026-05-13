@@ -11,9 +11,9 @@ import cn.hutool.json.JSONUtil;
 import com.focela.platform.framework.common.core.KeyValue;
 import com.focela.platform.framework.common.utils.http.HttpUtils;
 import com.focela.platform.framework.common.utils.json.JsonUtils;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsReceiveRespDTO;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsSendRespDTO;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsTemplateRespDTO;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsReceiveRpcResponse;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsSendRpcResponse;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsTemplateRpcResponse;
 import com.focela.platform.module.system.config.sms.core.enums.SmsTemplateAuditStatusEnum;
 import com.focela.platform.module.system.config.sms.core.property.SmsChannelProperties;
 import lombok.extern.slf4j.Slf4j;
@@ -73,7 +73,7 @@ public class HuaweiSmsClient extends AbstractSmsClient {
     }
 
     @Override
-    public SmsSendRespDTO sendSms(Long sendLogId, String mobile, String apiTemplateId,
+    public SmsSendRpcResponse sendSms(Long sendLogId, String mobile, String apiTemplateId,
                                   List<KeyValue<String, Object>> templateParams) throws Throwable {
         StringBuilder requestBody = new StringBuilder();
         appendToBody(requestBody, "from=", getSender());
@@ -87,12 +87,12 @@ public class HuaweiSmsClient extends AbstractSmsClient {
 
         // 2. 解析请求
         if (!response.containsKey("result")) { // 例如说：密钥不正确
-            return new SmsSendRespDTO().setSuccess(false)
+            return new SmsSendRpcResponse().setSuccess(false)
                     .setApiCode(response.getStr("code"))
                     .setApiMsg(response.getStr("description"));
         }
         JSONObject sendResult = response.getJSONArray("result").getJSONObject(0);
-        return new SmsSendRespDTO().setSuccess(RESPONSE_CODE_SUCCESS.equals(response.getStr("code")))
+        return new SmsSendRpcResponse().setSuccess(RESPONSE_CODE_SUCCESS.equals(response.getStr("code")))
                 .setSerialNo(sendResult.getStr("smsMsgId")).setApiCode(sendResult.getStr("status"));
     }
 
@@ -130,10 +130,10 @@ public class HuaweiSmsClient extends AbstractSmsClient {
     }
 
     @Override
-    public List<SmsReceiveRespDTO> parseSmsReceiveStatus(String requestBody) {
+    public List<SmsReceiveRpcResponse> parseSmsReceiveStatus(String requestBody) {
         Map<String, String> params = HttpUtil.decodeParamMap(requestBody, StandardCharsets.UTF_8);
         // 字段参考 https://support.huaweicloud.com/api-msgsms/sms_05_0003.html
-        return ListUtil.of(new SmsReceiveRespDTO()
+        return ListUtil.of(new SmsReceiveRpcResponse()
                 .setSuccess("DELIVRD".equals(params.get("status"))) // 是否接收成功
                 .setErrorCode(params.get("status")) // 状态报告编码
                 .setErrorMsg(params.get("statusDesc"))
@@ -144,11 +144,11 @@ public class HuaweiSmsClient extends AbstractSmsClient {
     }
 
     @Override
-    public SmsTemplateRespDTO getSmsTemplate(String apiTemplateId) throws Throwable {
+    public SmsTemplateRpcResponse getSmsTemplate(String apiTemplateId) throws Throwable {
         // 华为短信模板查询和发送短信，是不同的两套 key 和 secret，与阿里、腾讯的区别较大，这里模板查询校验暂不实现
         String[] strs = apiTemplateId.split(" ");
         Assert.isTrue(strs.length == 2, "格式不正确，需要满足：apiTemplateId sender");
-        return new SmsTemplateRespDTO().setId(apiTemplateId).setContent(null)
+        return new SmsTemplateRpcResponse().setId(apiTemplateId).setContent(null)
                 .setAuditStatus(SmsTemplateAuditStatusEnum.SUCCESS.getStatus()).setAuditReason(null);
     }
 

@@ -3,7 +3,7 @@ package com.focela.platform.framework.dictionary.core;
 import cn.hutool.core.collection.CollUtil;
 import com.focela.platform.framework.common.business.system.dictionary.DictionaryDataCommonApi;
 import com.focela.platform.framework.common.utils.cache.CacheUtils;
-import com.focela.platform.framework.common.business.system.dictionary.dto.DictionaryDataRespDTO;
+import com.focela.platform.framework.common.business.system.dictionary.dto.DictionaryDataRpcResponse;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import lombok.SneakyThrows;
@@ -26,12 +26,12 @@ public class DictionaryFrameworkUtils {
     /**
      * 针对 dictType 的字段数据缓存
      */
-    private static final LoadingCache<String, List<DictionaryDataRespDTO>> GET_DICT_DATA_CACHE = CacheUtils.buildAsyncReloadingCache(
+    private static final LoadingCache<String, List<DictionaryDataRpcResponse>> GET_DICT_DATA_CACHE = CacheUtils.buildAsyncReloadingCache(
             Duration.ofMinutes(1L), // 过期时间 1 分钟
-            new CacheLoader<String, List<DictionaryDataRespDTO>>() {
+            new CacheLoader<String, List<DictionaryDataRpcResponse>>() {
 
                 @Override
-                public List<DictionaryDataRespDTO> load(String dictType) {
+                public List<DictionaryDataRpcResponse> load(String dictType) {
                     return dictDataApi.getDictDataList(dictType);
                 }
 
@@ -56,27 +56,27 @@ public class DictionaryFrameworkUtils {
 
     @SneakyThrows
     public static String parseDictDataLabel(String dictType, String value) {
-        List<DictionaryDataRespDTO> dictDatas = GET_DICT_DATA_CACHE.get(dictType);
-        DictionaryDataRespDTO dictData = CollUtil.findOne(dictDatas, data -> Objects.equals(data.getValue(), value));
+        List<DictionaryDataRpcResponse> dictDatas = GET_DICT_DATA_CACHE.get(dictType);
+        DictionaryDataRpcResponse dictData = CollUtil.findOne(dictDatas, data -> Objects.equals(data.getValue(), value));
         return dictData != null ? dictData.getLabel(): null;
     }
 
     @SneakyThrows
     public static List<String> getDictDataLabelList(String dictType) {
-        List<DictionaryDataRespDTO> dictDatas = GET_DICT_DATA_CACHE.get(dictType);
-        return convertList(dictDatas, DictionaryDataRespDTO::getLabel);
+        List<DictionaryDataRpcResponse> dictDatas = GET_DICT_DATA_CACHE.get(dictType);
+        return convertList(dictDatas, DictionaryDataRpcResponse::getLabel);
     }
 
     @SneakyThrows
     public static String parseDictDataValue(String dictType, String label) {
-        List<DictionaryDataRespDTO> dictDatas = GET_DICT_DATA_CACHE.get(dictType);
-        DictionaryDataRespDTO dictData = CollUtil.findOne(dictDatas, data -> Objects.equals(data.getLabel(), label));
+        List<DictionaryDataRpcResponse> dictDatas = GET_DICT_DATA_CACHE.get(dictType);
+        DictionaryDataRpcResponse dictData = CollUtil.findOne(dictDatas, data -> Objects.equals(data.getLabel(), label));
         return dictData!= null ? dictData.getValue(): null;
     }
 
     @SneakyThrows
     public static List<String> getDictDataValueList(String dictType) {
-        List<DictionaryDataRespDTO> dictDatas = GET_DICT_DATA_CACHE.get(dictType);
-        return convertList(dictDatas, DictionaryDataRespDTO::getValue);
+        List<DictionaryDataRpcResponse> dictDatas = GET_DICT_DATA_CACHE.get(dictType);
+        return convertList(dictDatas, DictionaryDataRpcResponse::getValue);
     }
 }

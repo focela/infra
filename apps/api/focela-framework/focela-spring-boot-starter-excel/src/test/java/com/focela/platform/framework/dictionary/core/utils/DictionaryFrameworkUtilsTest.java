@@ -2,7 +2,7 @@ package com.focela.platform.framework.dictionary.core.utils;
 
 import cn.hutool.core.collection.ListUtil;
 import com.focela.platform.framework.common.business.system.dictionary.DictionaryDataCommonApi;
-import com.focela.platform.framework.common.business.system.dictionary.dto.DictionaryDataRespDTO;
+import com.focela.platform.framework.common.business.system.dictionary.dto.DictionaryDataRpcResponse;
 import com.focela.platform.framework.dictionary.core.DictionaryFrameworkUtils;
 import com.focela.platform.framework.test.core.support.BaseMockitoUnitTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,9 +33,9 @@ public class DictionaryFrameworkUtilsTest extends BaseMockitoUnitTest {
     @Test
     public void testParseDictDataLabel() {
         // mock 数据
-        List<DictionaryDataRespDTO> dictDatas = ListUtil.of(
-                randomPojo(DictionaryDataRespDTO.class, o -> o.setDictType("animal").setValue("cat").setLabel("猫")),
-                randomPojo(DictionaryDataRespDTO.class, o -> o.setDictType("animal").setValue("dog").setLabel("狗"))
+        List<DictionaryDataRpcResponse> dictDatas = ListUtil.of(
+                randomPojo(DictionaryDataRpcResponse.class, o -> o.setDictType("animal").setValue("cat").setLabel("猫")),
+                randomPojo(DictionaryDataRpcResponse.class, o -> o.setDictType("animal").setValue("dog").setLabel("狗"))
         );
         // mock 方法
         when(dictDataApi.getDictDataList(eq("animal"))).thenReturn(dictDatas);
@@ -47,9 +47,9 @@ public class DictionaryFrameworkUtilsTest extends BaseMockitoUnitTest {
     @Test
     public void testParseDictDataValue() {
         // mock 数据
-        List<DictionaryDataRespDTO> dictDatas = ListUtil.of(
-                randomPojo(DictionaryDataRespDTO.class, o -> o.setDictType("animal").setValue("cat").setLabel("猫")),
-                randomPojo(DictionaryDataRespDTO.class, o -> o.setDictType("animal").setValue("dog").setLabel("狗"))
+        List<DictionaryDataRpcResponse> dictDatas = ListUtil.of(
+                randomPojo(DictionaryDataRpcResponse.class, o -> o.setDictType("animal").setValue("cat").setLabel("猫")),
+                randomPojo(DictionaryDataRpcResponse.class, o -> o.setDictType("animal").setValue("dog").setLabel("狗"))
         );
         // mock 方法
         when(dictDataApi.getDictDataList(eq("animal"))).thenReturn(dictDatas);

@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.api.logger;
 
-import com.focela.platform.module.system.api.logger.dto.LoginLogCreateReqDTO;
+import com.focela.platform.module.system.api.logger.dto.LoginLogCreateRpcRequest;
 
 import jakarta.validation.Valid;
 
@@ -14,6 +14,6 @@ public interface LoginLogApi {
      *
      * @param reqDTO 日志信息
      */
-    void createLoginLog(@Valid LoginLogCreateReqDTO reqDTO);
+    void createLoginLog(@Valid LoginLogCreateRpcRequest reqDTO);
 
 }

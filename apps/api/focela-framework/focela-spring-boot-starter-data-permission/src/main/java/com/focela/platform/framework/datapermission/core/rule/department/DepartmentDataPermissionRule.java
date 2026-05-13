@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.focela.platform.framework.common.business.system.permission.PermissionCommonApi;
-import com.focela.platform.framework.common.business.system.permission.dto.DepartmentDataPermissionRespDTO;
+import com.focela.platform.framework.common.business.system.permission.dto.DepartmentDataPermissionRpcResponse;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.common.utils.collection.CollectionUtils;
 import com.focela.platform.framework.common.utils.json.JsonUtils;
@@ -98,7 +98,7 @@ public class DepartmentDataPermissionRule implements DataPermissionRule {
         }
 
         // 获得数据权限
-        DepartmentDataPermissionRespDTO deptDataPermission = loginUser.getContext(CONTEXT_KEY, DepartmentDataPermissionRespDTO.class);
+        DepartmentDataPermissionRpcResponse deptDataPermission = loginUser.getContext(CONTEXT_KEY, DepartmentDataPermissionRpcResponse.class);
         // 从上下文中拿不到，则调用逻辑进行获取
         if (deptDataPermission == null) {
             deptDataPermission = permissionApi.getDeptDataPermission(loginUser.getId());

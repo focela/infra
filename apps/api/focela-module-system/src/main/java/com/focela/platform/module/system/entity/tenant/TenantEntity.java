@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.mybatis.core.entity.BaseEntity;
 import com.focela.platform.framework.mybatis.core.type.StringListTypeHandler;
 import com.focela.platform.framework.tenant.core.aop.TenantIgnore;
-import com.focela.platform.module.system.entity.user.AdminUserEntity;
+import com.focela.platform.module.system.entity.user.UserEntity;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -43,7 +43,7 @@ public class TenantEntity extends BaseEntity {
     /**
      * 联系人的用户编号
      *
-     * 关联 {@link AdminUserEntity#getId()}
+     * 关联 {@link UserEntity#getId()}
      */
     private Long contactUserId;
     /**

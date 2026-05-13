@@ -3,7 +3,7 @@ package com.focela.platform.module.system.api.department;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
 import com.focela.platform.framework.common.utils.collection.CollectionUtils;
-import com.focela.platform.module.system.api.department.dto.PostRespDTO;
+import com.focela.platform.module.system.api.department.dto.PostRpcResponse;
 
 import java.util.Collection;
 import java.util.List;
@@ -23,15 +23,15 @@ public interface PostApi {
      */
     void validPostList(Collection<Long> ids);
 
-    List<PostRespDTO> getPostList(Collection<Long> ids);
+    List<PostRpcResponse> getPostList(Collection<Long> ids);
 
-    default Map<Long, PostRespDTO> getPostMap(Collection<Long> ids) {
+    default Map<Long, PostRpcResponse> getPostMap(Collection<Long> ids) {
         if (CollUtil.isEmpty(ids)) {
             return MapUtil.empty();
         }
 
-        List<PostRespDTO> list = getPostList(ids);
-        return CollectionUtils.convertMap(list, PostRespDTO::getId);
+        List<PostRpcResponse> list = getPostList(ids);
+        return CollectionUtils.convertMap(list, PostRpcResponse::getId);
     }
 
 }

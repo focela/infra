@@ -12,9 +12,9 @@ import cn.hutool.json.JSONUtil;
 import com.focela.platform.framework.common.core.KeyValue;
 import com.focela.platform.framework.common.utils.collection.ArrayUtils;
 import com.focela.platform.framework.common.utils.http.HttpUtils;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsReceiveRespDTO;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsSendRespDTO;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsTemplateRespDTO;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsReceiveRpcResponse;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsSendRpcResponse;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsTemplateRpcResponse;
 import com.focela.platform.module.system.config.sms.core.enums.SmsTemplateAuditStatusEnum;
 import com.focela.platform.module.system.config.sms.core.property.SmsChannelProperties;
 import com.google.common.annotations.VisibleForTesting;
@@ -80,7 +80,7 @@ public class TencentSmsClient extends AbstractSmsClient {
     }
 
     @Override
-    public SmsSendRespDTO sendSms(Long sendLogId, String mobile,
+    public SmsSendRpcResponse sendSms(Long sendLogId, String mobile,
                                   String apiTemplateId, List<KeyValue<String, Object>> templateParams) throws Throwable {
         // 1. 执行请求
         // 参考链接 https://cloud.tencent.com/document/product/382/55981
@@ -96,25 +96,25 @@ public class TencentSmsClient extends AbstractSmsClient {
         JSONObject responseResult = response.getJSONObject("Response");
         JSONObject error = responseResult.getJSONObject("Error");
         if (error != null) {
-            return new SmsSendRespDTO().setSuccess(false)
+            return new SmsSendRpcResponse().setSuccess(false)
                     .setApiRequestId(responseResult.getStr("RequestId"))
                     .setApiCode(error.getStr("Code"))
                     .setApiMsg(error.getStr("Message"));
         }
         JSONObject sendResult = responseResult.getJSONArray("SendStatusSet").getJSONObject(0);
-        return new SmsSendRespDTO().setSuccess(Objects.equals(API_CODE_SUCCESS, sendResult.getStr("Code")))
+        return new SmsSendRpcResponse().setSuccess(Objects.equals(API_CODE_SUCCESS, sendResult.getStr("Code")))
                 .setApiRequestId(responseResult.getStr("RequestId"))
                 .setSerialNo(sendResult.getStr("SerialNo"))
                 .setApiMsg(sendResult.getStr("Message"));
     }
 
     @Override
-    public List<SmsReceiveRespDTO> parseSmsReceiveStatus(String text) {
+    public List<SmsReceiveRpcResponse> parseSmsReceiveStatus(String text) {
         JSONArray statuses = JSONUtil.parseArray(text);
         // 字段参考
         return convertList(statuses, status -> {
             JSONObject statusObj = (JSONObject) status;
-            return new SmsReceiveRespDTO()
+            return new SmsReceiveRpcResponse()
                     .setSuccess("SUCCESS".equals(statusObj.getStr("report_status"))) // 是否接收成功
                     .setErrorCode(statusObj.getStr("errmsg")) // 状态报告编码
                     .setErrorMsg(statusObj.getStr("description")) // 状态报告描述
@@ -125,7 +125,7 @@ public class TencentSmsClient extends AbstractSmsClient {
     }
 
     @Override
-    public SmsTemplateRespDTO getSmsTemplate(String apiTemplateId) throws Throwable {
+    public SmsTemplateRpcResponse getSmsTemplate(String apiTemplateId) throws Throwable {
         // 1. 构建请求
         // 参考链接 https://cloud.tencent.com/document/product/382/52067
         TreeMap<String, Object> body = new TreeMap<>();
@@ -136,7 +136,7 @@ public class TencentSmsClient extends AbstractSmsClient {
         // 2. 解析请求
         JSONObject statusResult = response.getJSONObject("Response")
                 .getJSONArray("DescribeTemplateStatusSet").getJSONObject(0);
-        return new SmsTemplateRespDTO().setId(apiTemplateId)
+        return new SmsTemplateRpcResponse().setId(apiTemplateId)
                 .setContent(statusResult.get("TemplateContent").toString())
                 .setAuditStatus(convertSmsTemplateAuditStatus(statusResult.getInt("StatusCode")))
                 .setAuditReason(statusResult.get("ReviewReply").toString());

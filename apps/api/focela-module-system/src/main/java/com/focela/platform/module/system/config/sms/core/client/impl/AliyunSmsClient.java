@@ -13,9 +13,9 @@ import com.focela.platform.framework.common.core.KeyValue;
 import com.focela.platform.framework.common.utils.collection.MapUtils;
 import com.focela.platform.framework.common.utils.http.HttpUtils;
 import com.focela.platform.framework.common.utils.json.JsonUtils;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsReceiveRespDTO;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsSendRespDTO;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsTemplateRespDTO;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsReceiveRpcResponse;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsSendRpcResponse;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsTemplateRpcResponse;
 import com.focela.platform.module.system.config.sms.core.enums.SmsTemplateAuditStatusEnum;
 import com.focela.platform.module.system.config.sms.core.property.SmsChannelProperties;
 import com.google.common.annotations.VisibleForTesting;
@@ -48,7 +48,7 @@ public class AliyunSmsClient extends AbstractSmsClient {
     }
 
     @Override
-    public SmsSendRespDTO sendSms(Long sendLogId, String mobile, String apiTemplateId,
+    public SmsSendRpcResponse sendSms(Long sendLogId, String mobile, String apiTemplateId,
                                   List<KeyValue<String, Object>> templateParams) throws Throwable {
         Assert.notBlank(properties.getSignature(), "短信签名不能为空");
         // 1. 执行请求
@@ -62,7 +62,7 @@ public class AliyunSmsClient extends AbstractSmsClient {
         JSONObject response = request("SendSms", queryParam);
 
         // 2. 解析请求
-        return new SmsSendRespDTO()
+        return new SmsSendRpcResponse()
                 .setSuccess(Objects.equals(response.getStr("Code"), RESPONSE_CODE_SUCCESS))
                 .setSerialNo(response.getStr("BizId"))
                 .setApiRequestId(response.getStr("RequestId"))
@@ -71,12 +71,12 @@ public class AliyunSmsClient extends AbstractSmsClient {
     }
 
     @Override
-    public List<SmsReceiveRespDTO> parseSmsReceiveStatus(String text) {
+    public List<SmsReceiveRpcResponse> parseSmsReceiveStatus(String text) {
         JSONArray statuses = JSONUtil.parseArray(text);
         // 字段参考 https://help.aliyun.com/zh/sms/developer-reference/smsreport-2
         return convertList(statuses, status -> {
             JSONObject statusObj = (JSONObject) status;
-            return new SmsReceiveRespDTO()
+            return new SmsReceiveRpcResponse()
                     .setSuccess(statusObj.getBool("success")) // 是否接收成功
                     .setErrorCode(statusObj.getStr("err_code")) // 状态报告编码
                     .setErrorMsg(statusObj.getStr("err_msg")) // 状态报告说明
@@ -88,7 +88,7 @@ public class AliyunSmsClient extends AbstractSmsClient {
     }
 
     @Override
-    public SmsTemplateRespDTO getSmsTemplate(String apiTemplateId) throws Throwable {
+    public SmsTemplateRpcResponse getSmsTemplate(String apiTemplateId) throws Throwable {
         // 1. 执行请求
         // 参考链接 https://api.aliyun.com/document/Dysmsapi/2017-05-25/GetSmsTemplate
         TreeMap<String, Object> queryParam = new TreeMap<>();
@@ -102,7 +102,7 @@ public class AliyunSmsClient extends AbstractSmsClient {
             return null;
         }
         // 2.2 请求成功
-        return new SmsTemplateRespDTO()
+        return new SmsTemplateRpcResponse()
                 .setId(response.getStr("TemplateCode"))
                 .setContent(response.getStr("TemplateContent"))
                 .setAuditStatus(convertSmsTemplateAuditStatus(response.getInt("TemplateStatus")))

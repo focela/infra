@@ -1,6 +1,6 @@
 package com.focela.platform.module.infra.service.logger;
 
-import com.focela.platform.framework.common.business.infra.logger.dto.ApiAccessLogCreateReqDTO;
+import com.focela.platform.framework.common.business.infra.logger.dto.ApiAccessLogCreateRpcRequest;
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.common.utils.object.BeanUtils;
 import com.focela.platform.framework.common.utils.string.StrUtils;
@@ -31,7 +31,7 @@ public class DefaultApiAccessLogService implements ApiAccessLogService {
     private ApiAccessLogMapper apiAccessLogMapper;
 
     @Override
-    public void createApiAccessLog(ApiAccessLogCreateReqDTO createDTO) {
+    public void createApiAccessLog(ApiAccessLogCreateRpcRequest createDTO) {
         ApiAccessLogEntity apiAccessLog = BeanUtils.toBean(createDTO, ApiAccessLogEntity.class);
         apiAccessLog.setRequestParams(StrUtils.maxLength(apiAccessLog.getRequestParams(), REQUEST_PARAMS_MAX_LENGTH));
         apiAccessLog.setResultMsg(StrUtils.maxLength(apiAccessLog.getResultMsg(), RESULT_MSG_MAX_LENGTH));

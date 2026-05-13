@@ -11,9 +11,9 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.focela.platform.framework.common.core.KeyValue;
 import com.focela.platform.framework.common.utils.http.HttpUtils;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsReceiveRespDTO;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsSendRespDTO;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsTemplateRespDTO;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsReceiveRpcResponse;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsSendRpcResponse;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsTemplateRpcResponse;
 import com.focela.platform.module.system.config.sms.core.enums.SmsTemplateAuditStatusEnum;
 import com.focela.platform.module.system.config.sms.core.property.SmsChannelProperties;
 import com.google.common.annotations.VisibleForTesting;
@@ -40,7 +40,7 @@ public class QiniuSmsClient extends AbstractSmsClient {
         Assert.notEmpty(properties.getApiSecret(), "apiSecret 不能为空");
     }
 
-    public SmsSendRespDTO sendSms(Long sendLogId, String mobile, String apiTemplateId,
+    public SmsSendRpcResponse sendSms(Long sendLogId, String mobile, String apiTemplateId,
                                   List<KeyValue<String, Object>> templateParams) throws Throwable {
         // 1. 执行请求
         // 参考链接 https://developer.qiniu.com/sms/5824/through-the-api-send-text-messages
@@ -54,12 +54,12 @@ public class QiniuSmsClient extends AbstractSmsClient {
         // 2. 解析请求
         if (ObjectUtil.isNotEmpty(response.getStr("error"))) {
             // 短信请求失败
-            return new SmsSendRespDTO().setSuccess(false)
+            return new SmsSendRpcResponse().setSuccess(false)
                     .setApiCode(response.getStr("error"))
                     .setApiRequestId(response.getStr("request_id"))
                     .setApiMsg(response.getStr("message"));
         }
-        return new SmsSendRespDTO().setSuccess(response.containsKey("message_id"))
+        return new SmsSendRpcResponse().setSuccess(response.containsKey("message_id"))
                 .setSerialNo(response.getStr("message_id"));
     }
 
@@ -107,15 +107,15 @@ public class QiniuSmsClient extends AbstractSmsClient {
     }
 
     @Override
-    public List<SmsReceiveRespDTO> parseSmsReceiveStatus(String text) {
+    public List<SmsReceiveRpcResponse> parseSmsReceiveStatus(String text) {
         JSONObject status = JSONUtil.parseObj(text);
         // 字段参考 https://developer.qiniu.com/sms/5910/message-push
-        return convertList(status.getJSONArray("items"), new Function<Object, SmsReceiveRespDTO>() {
+        return convertList(status.getJSONArray("items"), new Function<Object, SmsReceiveRpcResponse>() {
 
             @Override
-            public SmsReceiveRespDTO apply(Object item) {
+            public SmsReceiveRpcResponse apply(Object item) {
                 JSONObject statusObj = (JSONObject) item;
-                return new SmsReceiveRespDTO()
+                return new SmsReceiveRpcResponse()
                         .setSuccess("DELIVRD".equals(statusObj.getStr("status"))) // 是否接收成功
                         .setErrorMsg(statusObj.getStr("status")) // 状态报告编码
                         .setMobile(statusObj.getStr("mobile")) // 手机号
@@ -128,13 +128,13 @@ public class QiniuSmsClient extends AbstractSmsClient {
     }
 
     @Override
-    public SmsTemplateRespDTO getSmsTemplate(String apiTemplateId) throws Throwable {
+    public SmsTemplateRpcResponse getSmsTemplate(String apiTemplateId) throws Throwable {
         // 1. 执行请求
         // 参考链接 https://developer.qiniu.com/sms/5969/query-a-single-template
         JSONObject response = request("GET", null, "/v1/template/" + apiTemplateId);
 
         // 2.2 解析请求
-        return new SmsTemplateRespDTO()
+        return new SmsTemplateRpcResponse()
                 .setId(response.getStr("id"))
                 .setContent(response.getStr("template"))
                 .setAuditStatus(convertSmsTemplateAuditStatus(response.getStr("audit_status")))

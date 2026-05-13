@@ -1,9 +1,9 @@
 package com.focela.platform.module.system.service.sms;
 
 import com.focela.platform.framework.common.exception.ServiceException;
-import com.focela.platform.module.system.api.sms.dto.code.SmsCodeValidateReqDTO;
-import com.focela.platform.module.system.api.sms.dto.code.SmsCodeSendReqDTO;
-import com.focela.platform.module.system.api.sms.dto.code.SmsCodeUseReqDTO;
+import com.focela.platform.module.system.api.sms.dto.code.SmsCodeValidateRpcRequest;
+import com.focela.platform.module.system.api.sms.dto.code.SmsCodeSendRpcRequest;
+import com.focela.platform.module.system.api.sms.dto.code.SmsCodeUseRpcRequest;
 
 import jakarta.validation.Valid;
 
@@ -17,7 +17,7 @@ public interface SmsCodeService {
      *
      * @param reqDTO 发送请求
      */
-    void sendSmsCode(@Valid SmsCodeSendReqDTO reqDTO);
+    void sendSmsCode(@Valid SmsCodeSendRpcRequest reqDTO);
 
     /**
      * 验证短信验证码，并进行使用
@@ -26,13 +26,13 @@ public interface SmsCodeService {
      *
      * @param reqDTO 使用请求
      */
-    void useSmsCode(@Valid SmsCodeUseReqDTO reqDTO);
+    void useSmsCode(@Valid SmsCodeUseRpcRequest reqDTO);
 
     /**
      * 检查验证码是否有效
      *
      * @param reqDTO 校验请求
      */
-    void validateSmsCode(@Valid SmsCodeValidateReqDTO reqDTO);
+    void validateSmsCode(@Valid SmsCodeValidateRpcRequest reqDTO);
 
 }

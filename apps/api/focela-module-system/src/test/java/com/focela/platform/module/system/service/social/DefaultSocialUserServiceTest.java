@@ -3,8 +3,8 @@ package com.focela.platform.module.system.service.social;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
-import com.focela.platform.module.system.api.social.dto.SocialUserBindReqDTO;
-import com.focela.platform.module.system.api.social.dto.SocialUserRespDTO;
+import com.focela.platform.module.system.api.social.dto.SocialUserBindRpcRequest;
+import com.focela.platform.module.system.api.social.dto.SocialUserRpcResponse;
 import com.focela.platform.module.system.controller.admin.social.dto.user.SocialUserPageRequest;
 import com.focela.platform.module.system.entity.social.SocialUserBindEntity;
 import com.focela.platform.module.system.entity.social.SocialUserEntity;
@@ -76,7 +76,7 @@ public class DefaultSocialUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testBindSocialUser() {
         // 准备参数
-        SocialUserBindReqDTO reqDTO = new SocialUserBindReqDTO()
+        SocialUserBindRpcRequest reqDTO = new SocialUserBindRpcRequest()
                 .setUserId(1L).setUserType(UserTypeEnum.ADMIN.getValue())
                 .setSocialType(SocialTypeEnum.GITEE.getType()).setCode("test_code").setState("test_state");
         // mock 数据：获得社交用户
@@ -145,7 +145,7 @@ public class DefaultSocialUserServiceTest extends BaseDbUnitTest {
         socialUserBindMapper.insert(socialUserBind);
 
         // 调用
-        SocialUserRespDTO socialUser = socialUserService.getSocialUserByCode(userType, type, code, state);
+        SocialUserRpcResponse socialUser = socialUserService.getSocialUserByCode(userType, type, code, state);
         // 断言
         assertEquals(userId, socialUser.getUserId());
         assertEquals(socialUserDO.getOpenid(), socialUser.getOpenid());

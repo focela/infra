@@ -14,7 +14,7 @@ import com.focela.platform.module.system.entity.sms.SmsTemplateEntity;
 import com.focela.platform.module.system.repository.mapper.sms.SmsTemplateMapper;
 import com.focela.platform.module.system.repository.redis.RedisKeyConstants;
 import com.focela.platform.module.system.config.sms.core.client.SmsClient;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsTemplateRespDTO;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsTemplateRpcResponse;
 import com.focela.platform.module.system.config.sms.core.enums.SmsTemplateAuditStatusEnum;
 import com.google.common.annotations.VisibleForTesting;
 import jakarta.annotation.Resource;
@@ -172,7 +172,7 @@ public class DefaultSmsTemplateService implements SmsTemplateService {
         // 获得短信模板
         SmsClient smsClient = smsChannelService.getSmsClient(channelId);
         Assert.notNull(smsClient, String.format("SMS client (%d) does not exist", channelId));
-        SmsTemplateRespDTO template;
+        SmsTemplateRpcResponse template;
         try {
             template = smsClient.getSmsTemplate(apiTemplateId);
         } catch (Throwable ex) {

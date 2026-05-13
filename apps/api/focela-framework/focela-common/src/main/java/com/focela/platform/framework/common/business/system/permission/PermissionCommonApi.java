@@ -1,6 +1,6 @@
 package com.focela.platform.framework.common.business.system.permission;
 
-import com.focela.platform.framework.common.business.system.permission.dto.DepartmentDataPermissionRespDTO;
+import com.focela.platform.framework.common.business.system.permission.dto.DepartmentDataPermissionRpcResponse;
 
 /**
  * 权限 API 接口
@@ -31,6 +31,6 @@ public interface PermissionCommonApi {
      * @param userId 用户编号
      * @return 部门数据权限
      */
-    DepartmentDataPermissionRespDTO getDeptDataPermission(Long userId);
+    DepartmentDataPermissionRpcResponse getDeptDataPermission(Long userId);
 
 }

@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.common.model.CommonResult;
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.common.utils.object.BeanUtils;
-import com.focela.platform.module.system.api.social.dto.SocialUserBindReqDTO;
+import com.focela.platform.module.system.api.social.dto.SocialUserBindRpcRequest;
 import com.focela.platform.module.system.controller.admin.social.dto.user.SocialUserBindRequest;
 import com.focela.platform.module.system.controller.admin.social.dto.user.SocialUserPageRequest;
 import com.focela.platform.module.system.controller.admin.social.dto.user.SocialUserResponse;
@@ -38,7 +38,7 @@ public class SocialUserController {
     @PostMapping("/bind")
     @Operation(summary = "social bind, use code authorization code")
     public CommonResult<Boolean> socialBind(@RequestBody @Valid SocialUserBindRequest request) {
-        socialUserService.bindSocialUser(new SocialUserBindReqDTO().setSocialType(request.getType())
+        socialUserService.bindSocialUser(new SocialUserBindRpcRequest().setSocialType(request.getType())
                         .setCode(request.getCode()).setState(request.getState())
                         .setUserId(getLoginUserId()).setUserType(UserTypeEnum.ADMIN.getValue()));
         return CommonResult.success(true);

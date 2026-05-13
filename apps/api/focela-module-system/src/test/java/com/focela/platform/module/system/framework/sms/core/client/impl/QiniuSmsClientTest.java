@@ -3,9 +3,9 @@ package com.focela.platform.module.system.config.sms.core.client.impl;
 import com.focela.platform.framework.common.core.KeyValue;
 import com.focela.platform.framework.common.utils.http.HttpUtils;
 import com.focela.platform.framework.test.core.support.BaseMockitoUnitTest;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsReceiveRespDTO;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsSendRespDTO;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsTemplateRespDTO;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsReceiveRpcResponse;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsSendRpcResponse;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsTemplateRpcResponse;
 import com.focela.platform.module.system.config.sms.core.enums.SmsTemplateAuditStatusEnum;
 import com.focela.platform.module.system.config.sms.core.property.SmsChannelProperties;
 import com.google.common.collect.Lists;
@@ -49,7 +49,7 @@ public class QiniuSmsClientTest extends BaseMockitoUnitTest {
             httpUtilsMockedStatic.when(() -> HttpUtils.post(anyString(), anyMap(), anyString()))
                     .thenReturn("{\"message_id\":\"17245678901\"}");
             // 调用
-            SmsSendRespDTO result = smsClient.sendSms(sendLogId, mobile,
+            SmsSendRpcResponse result = smsClient.sendSms(sendLogId, mobile,
                     apiTemplateId, templateParams);
             // 断言
             assertTrue(result.getSuccess());
@@ -70,7 +70,7 @@ public class QiniuSmsClientTest extends BaseMockitoUnitTest {
             httpUtilsMockedStatic.when(() -> HttpUtils.post(anyString(), anyMap(), anyString()))
                     .thenReturn("{\"error\":\"BadToken\",\"message\":\"Your authorization token is invalid\",\"request_id\":\"etziWcJFo1C8Ne8X\"}");
             // 调用
-            SmsSendRespDTO result = smsClient.sendSms(sendLogId, mobile,
+            SmsSendRpcResponse result = smsClient.sendSms(sendLogId, mobile,
                     apiTemplateId, templateParams);
             // 断言
             assertFalse(result.getSuccess());
@@ -89,7 +89,7 @@ public class QiniuSmsClientTest extends BaseMockitoUnitTest {
             httpUtilsMockedStatic.when(() -> HttpUtils.get(anyString(), anyMap()))
                     .thenReturn("{\"audit_status\":\"passed\",\"created_at\":1724231187,\"description\":\"\",\"disable_broadcast\":false,\"disable_broadcast_reason\":\"\",\"disable_reason\":\"\",\"disabled\":false,\"id\":\"1826184073773596672\",\"is_oversea\":false,\"name\":\"dd\",\"parameters\":[\"code\"],\"reject_reason\":\"\",\"signature_id\":\"1826099896017498112\",\"signature_text\":\"yudao\",\"template\":\"您的验证码为：${code}\",\"type\":\"verification\",\"uid\":1383022432,\"updated_at\":1724288561,\"variable_count\":0}");
             // 调用
-            SmsTemplateRespDTO result = smsClient.getSmsTemplate(apiTemplateId);
+            SmsTemplateRpcResponse result = smsClient.getSmsTemplate(apiTemplateId);
             // 断言
             assertEquals("1826184073773596672", result.getId());
             assertEquals("您的验证码为：${code}", result.getContent());
@@ -103,10 +103,10 @@ public class QiniuSmsClientTest extends BaseMockitoUnitTest {
         // 准备参数
         String text = "{\"items\":[{\"mobile\":\"18881234567\",\"message_id\":\"10135515063508004167\",\"status\":\"DELIVRD\",\"delivrd_at\":1724591666,\"error\":\"DELIVRD\",\"seq\":\"123\"}]}";
         // 调用
-        List<SmsReceiveRespDTO> statuses = smsClient.parseSmsReceiveStatus(text);
+        List<SmsReceiveRpcResponse> statuses = smsClient.parseSmsReceiveStatus(text);
         // 断言
         assertEquals(1, statuses.size());
-        SmsReceiveRespDTO status = statuses.get(0);
+        SmsReceiveRpcResponse status = statuses.get(0);
         assertTrue(status.getSuccess());
         assertEquals("DELIVRD", status.getErrorMsg());
         assertEquals(LocalDateTime.of(2024, 8, 25, 21, 14, 26), status.getReceiveTime());

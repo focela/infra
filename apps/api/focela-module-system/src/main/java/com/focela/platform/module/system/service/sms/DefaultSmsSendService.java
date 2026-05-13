@@ -9,15 +9,15 @@ import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.datapermission.core.annotation.DataPermission;
 import com.focela.platform.module.system.config.sms.core.client.SmsClient;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsReceiveRespDTO;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsSendRespDTO;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsReceiveRpcResponse;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsSendRpcResponse;
 import com.focela.platform.module.system.entity.sms.SmsChannelEntity;
 import com.focela.platform.module.system.entity.sms.SmsTemplateEntity;
-import com.focela.platform.module.system.entity.user.AdminUserEntity;
+import com.focela.platform.module.system.entity.user.UserEntity;
 import com.focela.platform.module.system.mq.message.sms.SmsSendMessage;
 import com.focela.platform.module.system.mq.producer.sms.SmsProducer;
 import com.focela.platform.module.system.service.member.MemberService;
-import com.focela.platform.module.system.service.user.AdminUserService;
+import com.focela.platform.module.system.service.user.UserService;
 import com.google.common.annotations.VisibleForTesting;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -38,7 +38,7 @@ import static com.focela.platform.module.system.constants.ErrorCodeConstants.*;
 public class DefaultSmsSendService implements SmsSendService {
 
     @Resource
-    private AdminUserService adminUserService;
+    private UserService adminUserService;
     @Resource
     private MemberService memberService;
     @Resource
@@ -56,7 +56,7 @@ public class DefaultSmsSendService implements SmsSendService {
     public Long sendSingleSmsToAdmin(String mobile, Long userId, String templateCode, Map<String, Object> templateParams) {
         // 如果 mobile 为空，则加载用户编号对应的手机号
         if (StrUtil.isEmpty(mobile)) {
-            AdminUserEntity user = adminUserService.getUser(userId);
+            UserEntity user = adminUserService.getUser(userId);
             if (user != null) {
                 mobile = user.getMobile();
             }
@@ -159,7 +159,7 @@ public class DefaultSmsSendService implements SmsSendService {
         Assert.notNull(smsClient, "短信客户端({}) 不存在", message.getChannelId());
         // 发送短信
         try {
-            SmsSendRespDTO sendResponse = smsClient.sendSms(message.getLogId(), message.getMobile(),
+            SmsSendRpcResponse sendResponse = smsClient.sendSms(message.getLogId(), message.getMobile(),
                     message.getApiTemplateId(), message.getTemplateParams());
             smsLogService.updateSmsSendResult(message.getLogId(), sendResponse.getSuccess(),
                     sendResponse.getApiCode(), sendResponse.getApiMsg(),
@@ -177,7 +177,7 @@ public class DefaultSmsSendService implements SmsSendService {
         SmsClient smsClient = smsChannelService.getSmsClient(channelCode);
         Assert.notNull(smsClient, "短信客户端({}) 不存在", channelCode);
         // 解析内容
-        List<SmsReceiveRespDTO> receiveResults = smsClient.parseSmsReceiveStatus(text);
+        List<SmsReceiveRpcResponse> receiveResults = smsClient.parseSmsReceiveStatus(text);
         if (CollUtil.isEmpty(receiveResults)) {
             return;
         }

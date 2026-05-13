@@ -4,8 +4,8 @@ import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.test.core.support.BaseMockitoUnitTest;
 import com.focela.platform.module.system.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.module.system.entity.oauth2.OAuth2CodeEntity;
-import com.focela.platform.module.system.entity.user.AdminUserEntity;
-import com.focela.platform.module.system.service.auth.AdminAuthService;
+import com.focela.platform.module.system.entity.user.UserEntity;
+import com.focela.platform.module.system.service.auth.AuthService;
 import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -33,7 +33,7 @@ public class DefaultOAuth2GrantServiceTest extends BaseMockitoUnitTest {
     @Mock
     private OAuth2CodeService oauth2CodeService;
     @Mock
-    private AdminAuthService adminAuthService;
+    private AuthService adminAuthService;
 
     @Test
     public void testGrantImplicit() {
@@ -105,7 +105,7 @@ public class DefaultOAuth2GrantServiceTest extends BaseMockitoUnitTest {
         String clientId = randomString();
         List<String> scopes = Lists.newArrayList("read", "write");
         // mock 方法(认证)
-        AdminUserEntity user = randomPojo(AdminUserEntity.class);
+        UserEntity user = randomPojo(UserEntity.class);
         when(adminAuthService.authenticate(eq(username), eq(password))).thenReturn(user);
         // mock 方法（访问令牌）
         OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class);

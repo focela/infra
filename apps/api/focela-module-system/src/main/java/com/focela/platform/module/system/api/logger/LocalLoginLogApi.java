@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.api.logger;
 
-import com.focela.platform.module.system.api.logger.dto.LoginLogCreateReqDTO;
+import com.focela.platform.module.system.api.logger.dto.LoginLogCreateRpcRequest;
 import com.focela.platform.module.system.service.logger.LoginLogService;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -18,7 +18,7 @@ public class LocalLoginLogApi implements LoginLogApi {
     private LoginLogService loginLogService;
 
     @Override
-    public void createLoginLog(LoginLogCreateReqDTO reqDTO) {
+    public void createLoginLog(LoginLogCreateRpcRequest reqDTO) {
         loginLogService.createLoginLog(reqDTO);
     }
 

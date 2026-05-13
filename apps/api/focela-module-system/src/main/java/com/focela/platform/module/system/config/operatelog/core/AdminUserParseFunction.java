@@ -2,8 +2,8 @@ package com.focela.platform.module.system.config.operatelog.core;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.module.system.entity.user.AdminUserEntity;
-import com.focela.platform.module.system.service.user.AdminUserService;
+import com.focela.platform.module.system.entity.user.UserEntity;
+import com.focela.platform.module.system.service.user.UserService;
 import com.mzt.logapi.service.IParseFunction;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ public class AdminUserParseFunction implements IParseFunction {
     public static final String NAME = "getAdminUserById";
 
     @Resource
-    private AdminUserService adminUserService;
+    private UserService adminUserService;
 
     @Override
     public String functionName() {
@@ -33,7 +33,7 @@ public class AdminUserParseFunction implements IParseFunction {
         }
 
         // 获取用户信息
-        AdminUserEntity user = adminUserService.getUser(Convert.toLong(value));
+        UserEntity user = adminUserService.getUser(Convert.toLong(value));
         if (user == null) {
             log.warn("[apply][get user {{}}is empty", value);
             return "";

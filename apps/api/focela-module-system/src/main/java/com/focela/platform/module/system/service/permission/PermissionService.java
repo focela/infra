@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.service.permission;
 
-import com.focela.platform.framework.common.business.system.permission.dto.DepartmentDataPermissionRespDTO;
+import com.focela.platform.framework.common.business.system.permission.dto.DepartmentDataPermissionRpcResponse;
 
 import java.util.Collection;
 import java.util.Set;
@@ -139,6 +139,6 @@ public interface PermissionService {
      * @param userId 用户编号
      * @return 部门数据权限
      */
-    DepartmentDataPermissionRespDTO getDeptDataPermission(Long userId);
+    DepartmentDataPermissionRpcResponse getDeptDataPermission(Long userId);
 
 }

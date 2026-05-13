@@ -10,12 +10,12 @@ import com.focela.platform.module.system.converter.user.UserConverter;
 import com.focela.platform.module.system.entity.department.DepartmentEntity;
 import com.focela.platform.module.system.entity.department.PostEntity;
 import com.focela.platform.module.system.entity.permission.RoleEntity;
-import com.focela.platform.module.system.entity.user.AdminUserEntity;
+import com.focela.platform.module.system.entity.user.UserEntity;
 import com.focela.platform.module.system.service.department.DepartmentService;
 import com.focela.platform.module.system.service.department.PostService;
 import com.focela.platform.module.system.service.permission.PermissionService;
 import com.focela.platform.module.system.service.permission.RoleService;
-import com.focela.platform.module.system.service.user.AdminUserService;
+import com.focela.platform.module.system.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -37,7 +37,7 @@ import static com.focela.platform.framework.security.core.utils.SecurityFramewor
 public class UserProfileController {
 
     @Resource
-    private AdminUserService userService;
+    private UserService userService;
     @Resource
     private DepartmentService deptService;
     @Resource
@@ -52,7 +52,7 @@ public class UserProfileController {
     @DataPermission(enable = false) // 关闭数据权限，避免只查看自己时，查询不到部门。
     public CommonResult<UserProfileResponse> getUserProfile() {
         // 获得用户基本信息
-        AdminUserEntity user = userService.getUser(getLoginUserId());
+        UserEntity user = userService.getUser(getLoginUserId());
         // 获得用户角色
         List<RoleEntity> userRoles = roleService.getRoleListFromCache(permissionService.getUserRoleIdListByUserId(user.getId()));
         // 获得部门信息

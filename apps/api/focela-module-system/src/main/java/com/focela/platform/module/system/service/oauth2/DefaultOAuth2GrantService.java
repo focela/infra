@@ -6,9 +6,9 @@ import cn.hutool.core.util.StrUtil;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.module.system.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.module.system.entity.oauth2.OAuth2CodeEntity;
-import com.focela.platform.module.system.entity.user.AdminUserEntity;
+import com.focela.platform.module.system.entity.user.UserEntity;
 import com.focela.platform.module.system.constants.ErrorCodeConstants;
-import com.focela.platform.module.system.service.auth.AdminAuthService;
+import com.focela.platform.module.system.service.auth.AuthService;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
@@ -27,7 +27,7 @@ public class DefaultOAuth2GrantService implements OAuth2GrantService {
     @Resource
     private OAuth2CodeService oauth2CodeService;
     @Resource
-    private AdminAuthService adminAuthService;
+    private AuthService adminAuthService;
 
     @Override
     public OAuth2AccessTokenEntity grantImplicit(Long userId, Integer userType,
@@ -70,7 +70,7 @@ public class DefaultOAuth2GrantService implements OAuth2GrantService {
     @Override
     public OAuth2AccessTokenEntity grantPassword(String username, String password, String clientId, List<String> scopes) {
         // 使用账号 + 密码进行登录
-        AdminUserEntity user = adminAuthService.authenticate(username, password);
+        UserEntity user = adminAuthService.authenticate(username, password);
         Assert.notNull(user, "用户不能为空！"); // 防御性编程
 
         // 创建访问令牌

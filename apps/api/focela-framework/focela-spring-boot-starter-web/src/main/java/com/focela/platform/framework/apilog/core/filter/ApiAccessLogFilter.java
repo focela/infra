@@ -10,7 +10,7 @@ import cn.hutool.core.util.StrUtil;
 import com.focela.platform.framework.apilog.core.annotation.ApiAccessLog;
 import com.focela.platform.framework.apilog.core.enums.OperateTypeEnum;
 import com.focela.platform.framework.common.business.infra.logger.ApiAccessLogCommonApi;
-import com.focela.platform.framework.common.business.infra.logger.dto.ApiAccessLogCreateReqDTO;
+import com.focela.platform.framework.common.business.infra.logger.dto.ApiAccessLogCreateRpcRequest;
 import com.focela.platform.framework.common.exception.enums.GlobalErrorCodeConstants;
 import com.focela.platform.framework.common.model.CommonResult;
 import com.focela.platform.framework.common.utils.json.JsonUtils;
@@ -83,7 +83,7 @@ public class ApiAccessLogFilter extends ApiRequestFilter {
 
     private void createApiAccessLog(HttpServletRequest request, LocalDateTime beginTime,
                                     Map<String, String> queryString, String requestBody, Exception ex) {
-        ApiAccessLogCreateReqDTO accessLog = new ApiAccessLogCreateReqDTO();
+        ApiAccessLogCreateRpcRequest accessLog = new ApiAccessLogCreateRpcRequest();
         try {
             boolean enable = buildApiAccessLog(accessLog, request, beginTime, queryString, requestBody, ex);
             if (!enable) {
@@ -95,7 +95,7 @@ public class ApiAccessLogFilter extends ApiRequestFilter {
         }
     }
 
-    private boolean buildApiAccessLog(ApiAccessLogCreateReqDTO accessLog, HttpServletRequest request, LocalDateTime beginTime,
+    private boolean buildApiAccessLog(ApiAccessLogCreateRpcRequest accessLog, HttpServletRequest request, LocalDateTime beginTime,
                                       Map<String, String> queryString, String requestBody, Exception ex) {
         // 判断：是否要记录操作日志
         HandlerMethod handlerMethod = (HandlerMethod) request.getAttribute(ATTRIBUTE_HANDLER_METHOD);

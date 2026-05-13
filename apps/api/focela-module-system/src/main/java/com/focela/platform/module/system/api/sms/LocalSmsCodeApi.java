@@ -1,8 +1,8 @@
 package com.focela.platform.module.system.api.sms;
 
-import com.focela.platform.module.system.api.sms.dto.code.SmsCodeValidateReqDTO;
-import com.focela.platform.module.system.api.sms.dto.code.SmsCodeSendReqDTO;
-import com.focela.platform.module.system.api.sms.dto.code.SmsCodeUseReqDTO;
+import com.focela.platform.module.system.api.sms.dto.code.SmsCodeValidateRpcRequest;
+import com.focela.platform.module.system.api.sms.dto.code.SmsCodeSendRpcRequest;
+import com.focela.platform.module.system.api.sms.dto.code.SmsCodeUseRpcRequest;
 import com.focela.platform.module.system.service.sms.SmsCodeService;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -20,17 +20,17 @@ public class LocalSmsCodeApi implements SmsCodeApi {
     private SmsCodeService smsCodeService;
 
     @Override
-    public void sendSmsCode(SmsCodeSendReqDTO reqDTO) {
+    public void sendSmsCode(SmsCodeSendRpcRequest reqDTO) {
         smsCodeService.sendSmsCode(reqDTO);
     }
 
     @Override
-    public void useSmsCode(SmsCodeUseReqDTO reqDTO) {
+    public void useSmsCode(SmsCodeUseRpcRequest reqDTO) {
         smsCodeService.useSmsCode(reqDTO);
     }
 
     @Override
-    public void validateSmsCode(SmsCodeValidateReqDTO reqDTO) {
+    public void validateSmsCode(SmsCodeValidateRpcRequest reqDTO) {
         smsCodeService.validateSmsCode(reqDTO);
     }
 

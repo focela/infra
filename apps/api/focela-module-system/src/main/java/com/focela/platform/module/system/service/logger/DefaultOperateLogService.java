@@ -2,8 +2,8 @@ package com.focela.platform.module.system.service.logger;
 
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.common.utils.object.BeanUtils;
-import com.focela.platform.framework.common.business.system.logger.dto.OperateLogCreateReqDTO;
-import com.focela.platform.module.system.api.logger.dto.OperateLogPageReqDTO;
+import com.focela.platform.framework.common.business.system.logger.dto.OperateLogCreateRpcRequest;
+import com.focela.platform.module.system.api.logger.dto.OperateLogPageRpcRequest;
 import com.focela.platform.module.system.controller.admin.logger.dto.operatelog.OperateLogPageRequest;
 import com.focela.platform.module.system.entity.logger.OperateLogEntity;
 import com.focela.platform.module.system.repository.mapper.logger.OperateLogMapper;
@@ -24,7 +24,7 @@ public class DefaultOperateLogService implements OperateLogService {
     private OperateLogMapper operateLogMapper;
 
     @Override
-    public void createOperateLog(OperateLogCreateReqDTO createReqDTO) {
+    public void createOperateLog(OperateLogCreateRpcRequest createReqDTO) {
         OperateLogEntity log = BeanUtils.toBean(createReqDTO, OperateLogEntity.class);
         operateLogMapper.insert(log);
     }
@@ -40,7 +40,7 @@ public class DefaultOperateLogService implements OperateLogService {
     }
 
     @Override
-    public PageResult<OperateLogEntity> getOperateLogPage(OperateLogPageReqDTO pageReqDTO) {
+    public PageResult<OperateLogEntity> getOperateLogPage(OperateLogPageRpcRequest pageReqDTO) {
         return operateLogMapper.selectPage(pageReqDTO);
     }
 

@@ -11,11 +11,11 @@ import com.focela.platform.module.system.controller.admin.oauth2.dto.token.OAuth
 import com.focela.platform.module.system.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.module.system.entity.oauth2.OAuth2ClientEntity;
 import com.focela.platform.module.system.entity.oauth2.OAuth2RefreshTokenEntity;
-import com.focela.platform.module.system.entity.user.AdminUserEntity;
+import com.focela.platform.module.system.entity.user.UserEntity;
 import com.focela.platform.module.system.repository.mapper.oauth2.OAuth2AccessTokenMapper;
 import com.focela.platform.module.system.repository.mapper.oauth2.OAuth2RefreshTokenMapper;
 import com.focela.platform.module.system.repository.redis.oauth2.OAuth2AccessTokenRedisDAO;
-import com.focela.platform.module.system.service.user.AdminUserService;
+import com.focela.platform.module.system.service.user.UserService;
 import jakarta.annotation.Resource;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
@@ -53,7 +53,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
     @MockitoBean
     private OAuth2ClientService oauth2ClientService;
     @MockitoBean
-    private AdminUserService adminUserService;
+    private UserService adminUserService;
 
     @Test
     public void testCreateAccessToken() {
@@ -68,7 +68,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
                 .setAccessTokenValiditySeconds(30).setRefreshTokenValiditySeconds(60);
         when(oauth2ClientService.validOAuthClientFromCache(eq(clientId))).thenReturn(clientDO);
         // mock 数据（用户）
-        AdminUserEntity user = randomPojo(AdminUserEntity.class);
+        UserEntity user = randomPojo(UserEntity.class);
         when(adminUserService.getUser(userId)).thenReturn(user);
 
         // 调用
@@ -168,7 +168,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
         oauth2AccessTokenMapper.insert(accessTokenDO);
         oauth2AccessTokenRedisDAO.set(accessTokenDO);
         // mock 数据（用户）
-        AdminUserEntity user = randomPojo(AdminUserEntity.class);
+        UserEntity user = randomPojo(UserEntity.class);
         when(adminUserService.getUser(refreshTokenDO.getUserId())).thenReturn(user);
 
         // 调用

@@ -4,8 +4,8 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import com.focela.platform.framework.common.exception.ServiceException;
 import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.module.system.api.social.dto.SocialUserBindReqDTO;
-import com.focela.platform.module.system.api.social.dto.SocialUserRespDTO;
+import com.focela.platform.module.system.api.social.dto.SocialUserBindRpcRequest;
+import com.focela.platform.module.system.api.social.dto.SocialUserRpcResponse;
 import com.focela.platform.module.system.controller.admin.social.dto.user.SocialUserPageRequest;
 import com.focela.platform.module.system.entity.social.SocialUserBindEntity;
 import com.focela.platform.module.system.entity.social.SocialUserEntity;
@@ -57,7 +57,7 @@ public class DefaultSocialUserService implements SocialUserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String bindSocialUser(SocialUserBindReqDTO reqDTO) {
+    public String bindSocialUser(SocialUserBindRpcRequest reqDTO) {
         // 获得社交用户
         SocialUserEntity socialUser = authSocialUser(reqDTO.getSocialType(), reqDTO.getUserType(),
                 reqDTO.getCode(), reqDTO.getState());
@@ -91,7 +91,7 @@ public class DefaultSocialUserService implements SocialUserService {
     }
 
     @Override
-    public SocialUserRespDTO getSocialUserByUserId(Integer userType, Long userId, Integer socialType) {
+    public SocialUserRpcResponse getSocialUserByUserId(Integer userType, Long userId, Integer socialType) {
         // 获得绑定用户
         SocialUserBindEntity socialUserBind = socialUserBindMapper.selectByUserIdAndUserTypeAndSocialType(userId, userType, socialType);
         if (socialUserBind == null) {
@@ -100,12 +100,12 @@ public class DefaultSocialUserService implements SocialUserService {
         // 获得社交用户
         SocialUserEntity socialUser = socialUserMapper.selectById(socialUserBind.getSocialUserId());
         Assert.notNull(socialUser, "社交用户不能为空");
-        return new SocialUserRespDTO(socialUser.getOpenid(), socialUser.getNickname(), socialUser.getAvatar(),
+        return new SocialUserRpcResponse(socialUser.getOpenid(), socialUser.getNickname(), socialUser.getAvatar(),
                 socialUserBind.getUserId());
     }
 
     @Override
-    public SocialUserRespDTO getSocialUserByCode(Integer userType, Integer socialType, String code, String state) {
+    public SocialUserRpcResponse getSocialUserByCode(Integer userType, Integer socialType, String code, String state) {
         // 获得社交用户
         SocialUserEntity socialUser = authSocialUser(socialType, userType, code, state);
         Assert.notNull(socialUser, "社交用户不能为空");
@@ -113,7 +113,7 @@ public class DefaultSocialUserService implements SocialUserService {
         // 获得绑定用户
         SocialUserBindEntity socialUserBind = socialUserBindMapper.selectByUserTypeAndSocialUserId(userType,
                 socialUser.getId());
-        return new SocialUserRespDTO(socialUser.getOpenid(), socialUser.getNickname(), socialUser.getAvatar(),
+        return new SocialUserRpcResponse(socialUser.getOpenid(), socialUser.getNickname(), socialUser.getAvatar(),
                 socialUserBind != null ? socialUserBind.getUserId() : null);
     }
 

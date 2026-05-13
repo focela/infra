@@ -3,7 +3,7 @@ package com.focela.platform.module.infra.service.logger;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
-import com.focela.platform.framework.common.business.infra.logger.dto.ApiErrorLogCreateReqDTO;
+import com.focela.platform.framework.common.business.infra.logger.dto.ApiErrorLogCreateRpcRequest;
 import com.focela.platform.module.infra.controller.admin.logger.dto.apierrorlog.ApiErrorLogPageRequest;
 import com.focela.platform.module.infra.entity.logger.ApiErrorLogEntity;
 import com.focela.platform.module.infra.repository.mapper.logger.ApiErrorLogMapper;
@@ -80,7 +80,7 @@ public class DefaultApiErrorLogServiceTest extends BaseDbUnitTest {
     @Test
     public void testCreateApiErrorLog() {
         // 准备参数
-        ApiErrorLogCreateReqDTO createDTO = randomPojo(ApiErrorLogCreateReqDTO.class);
+        ApiErrorLogCreateRpcRequest createDTO = randomPojo(ApiErrorLogCreateRpcRequest.class);
 
         // 调用
         apiErrorLogService.createApiErrorLog(createDTO);

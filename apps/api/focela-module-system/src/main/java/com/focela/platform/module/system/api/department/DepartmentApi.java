@@ -1,7 +1,7 @@
 package com.focela.platform.module.system.api.department;
 
 import com.focela.platform.framework.common.utils.collection.CollectionUtils;
-import com.focela.platform.module.system.api.department.dto.DepartmentRespDTO;
+import com.focela.platform.module.system.api.department.dto.DepartmentRpcResponse;
 
 import java.util.Collection;
 import java.util.List;
@@ -18,7 +18,7 @@ public interface DepartmentApi {
      * @param id 部门编号
      * @return 部门信息
      */
-    DepartmentRespDTO getDept(Long id);
+    DepartmentRpcResponse getDept(Long id);
 
     /**
      * 获得部门信息数组
@@ -26,7 +26,7 @@ public interface DepartmentApi {
      * @param ids 部门编号数组
      * @return 部门信息数组
      */
-    List<DepartmentRespDTO> getDeptList(Collection<Long> ids);
+    List<DepartmentRpcResponse> getDeptList(Collection<Long> ids);
 
     /**
      * 校验部门们是否有效。如下情况，视为无效：
@@ -43,9 +43,9 @@ public interface DepartmentApi {
      * @param ids 部门编号数组
      * @return 部门 Map
      */
-    default Map<Long, DepartmentRespDTO> getDeptMap(Collection<Long> ids) {
-        List<DepartmentRespDTO> list = getDeptList(ids);
-        return CollectionUtils.convertMap(list, DepartmentRespDTO::getId);
+    default Map<Long, DepartmentRpcResponse> getDeptMap(Collection<Long> ids) {
+        List<DepartmentRpcResponse> list = getDeptList(ids);
+        return CollectionUtils.convertMap(list, DepartmentRpcResponse::getId);
     }
 
     /**
@@ -54,6 +54,6 @@ public interface DepartmentApi {
      * @param id 部门编号
      * @return 子部门列表
      */
-    List<DepartmentRespDTO> getChildDeptList(Long id);
+    List<DepartmentRpcResponse> getChildDeptList(Long id);
 
 }

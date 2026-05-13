@@ -1,7 +1,7 @@
 package com.focela.platform.module.system.entity.department;
 
 import com.focela.platform.framework.mybatis.core.entity.BaseEntity;
-import com.focela.platform.module.system.entity.user.AdminUserEntity;
+import com.focela.platform.module.system.entity.user.UserEntity;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -25,7 +25,7 @@ public class UserPostEntity extends BaseEntity {
     /**
      * 用户 ID
      *
-     * 关联 {@link AdminUserEntity#getId()}
+     * 关联 {@link UserEntity#getId()}
      */
     private Long userId;
     /**

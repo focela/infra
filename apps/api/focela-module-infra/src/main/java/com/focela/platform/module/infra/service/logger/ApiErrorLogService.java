@@ -1,6 +1,6 @@
 package com.focela.platform.module.infra.service.logger;
 
-import com.focela.platform.framework.common.business.infra.logger.dto.ApiErrorLogCreateReqDTO;
+import com.focela.platform.framework.common.business.infra.logger.dto.ApiErrorLogCreateRpcRequest;
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.module.infra.controller.admin.logger.dto.apierrorlog.ApiErrorLogPageRequest;
 import com.focela.platform.module.infra.entity.logger.ApiErrorLogEntity;
@@ -15,7 +15,7 @@ public interface ApiErrorLogService {
      *
      * @param createReqDTO API 错误日志
      */
-    void createApiErrorLog(ApiErrorLogCreateReqDTO createReqDTO);
+    void createApiErrorLog(ApiErrorLogCreateRpcRequest createReqDTO);
 
     /**
      * 获得 API 错误日志

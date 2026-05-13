@@ -3,7 +3,7 @@ package com.focela.platform.framework.security.core.filter;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.focela.platform.framework.common.business.system.oauth2.OAuth2TokenCommonApi;
-import com.focela.platform.framework.common.business.system.oauth2.dto.OAuth2AccessTokenCheckRespDTO;
+import com.focela.platform.framework.common.business.system.oauth2.dto.OAuth2AccessTokenCheckRpcResponse;
 import com.focela.platform.framework.common.exception.ServiceException;
 import com.focela.platform.framework.common.model.CommonResult;
 import com.focela.platform.framework.common.utils.servlet.ServletUtils;
@@ -68,7 +68,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     private LoginUser buildLoginUserByToken(String token, Integer userType) {
         try {
-            OAuth2AccessTokenCheckRespDTO accessToken = oauth2TokenApi.checkAccessToken(token);
+            OAuth2AccessTokenCheckRpcResponse accessToken = oauth2TokenApi.checkAccessToken(token);
             if (accessToken == null) {
                 return null;
             }

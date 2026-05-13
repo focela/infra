@@ -3,9 +3,9 @@ package com.focela.platform.module.system.config.sms.core.client.impl;
 import com.focela.platform.framework.common.core.KeyValue;
 import com.focela.platform.framework.common.utils.http.HttpUtils;
 import com.focela.platform.framework.test.core.support.BaseMockitoUnitTest;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsReceiveRespDTO;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsSendRespDTO;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsTemplateRespDTO;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsReceiveRpcResponse;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsSendRpcResponse;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsTemplateRpcResponse;
 import com.focela.platform.module.system.config.sms.core.enums.SmsTemplateAuditStatusEnum;
 import com.focela.platform.module.system.config.sms.core.property.SmsChannelProperties;
 import com.google.common.collect.Lists;
@@ -53,7 +53,7 @@ public class AliyunSmsClientTest extends BaseMockitoUnitTest {
                     .then((Answer<String>) invocationOnMock -> (String) invocationOnMock.getArguments()[0]);
 
             // 调用
-            SmsSendRespDTO result = smsClient.sendSms(sendLogId, mobile,
+            SmsSendRpcResponse result = smsClient.sendSms(sendLogId, mobile,
                     apiTemplateId, templateParams);
             // 断言
             assertTrue(result.getSuccess());
@@ -80,7 +80,7 @@ public class AliyunSmsClientTest extends BaseMockitoUnitTest {
                     .then((Answer<String>) invocationOnMock -> (String) invocationOnMock.getArguments()[0]);
 
             // 调用
-            SmsSendRespDTO result = smsClient.sendSms(sendLogId, mobile, apiTemplateId, templateParams);
+            SmsSendRpcResponse result = smsClient.sendSms(sendLogId, mobile, apiTemplateId, templateParams);
             // 断言
             assertFalse(result.getSuccess());
             assertEquals("B7700B8E-227E-5886-9564-26036172F01F", result.getApiRequestId());
@@ -109,7 +109,7 @@ public class AliyunSmsClientTest extends BaseMockitoUnitTest {
         // mock 方法
 
         // 调用
-        List<SmsReceiveRespDTO> statuses = smsClient.parseSmsReceiveStatus(text);
+        List<SmsReceiveRpcResponse> statuses = smsClient.parseSmsReceiveStatus(text);
         // 断言
         assertEquals(1, statuses.size());
         assertTrue(statuses.get(0).getSuccess());
@@ -134,7 +134,7 @@ public class AliyunSmsClientTest extends BaseMockitoUnitTest {
                     .then((Answer<String>) invocationOnMock -> (String) invocationOnMock.getArguments()[0]);
 
             // 调用
-            SmsTemplateRespDTO result = smsClient.getSmsTemplate(apiTemplateId);
+            SmsTemplateRpcResponse result = smsClient.getSmsTemplate(apiTemplateId);
             // 断言
             assertEquals("SMS_207945135", result.getId());
             assertEquals("您的验证码${code}，该验证码5分钟内有效，请勿泄漏于他人！", result.getContent());

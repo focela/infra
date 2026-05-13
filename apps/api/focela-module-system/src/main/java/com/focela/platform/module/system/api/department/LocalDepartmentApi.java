@@ -1,7 +1,7 @@
 package com.focela.platform.module.system.api.department;
 
 import com.focela.platform.framework.common.utils.object.BeanUtils;
-import com.focela.platform.module.system.api.department.dto.DepartmentRespDTO;
+import com.focela.platform.module.system.api.department.dto.DepartmentRpcResponse;
 import com.focela.platform.module.system.entity.department.DepartmentEntity;
 import com.focela.platform.module.system.service.department.DepartmentService;
 import org.springframework.stereotype.Service;
@@ -20,15 +20,15 @@ public class LocalDepartmentApi implements DepartmentApi {
     private DepartmentService deptService;
 
     @Override
-    public DepartmentRespDTO getDept(Long id) {
+    public DepartmentRpcResponse getDept(Long id) {
         DepartmentEntity dept = deptService.getDept(id);
-        return BeanUtils.toBean(dept, DepartmentRespDTO.class);
+        return BeanUtils.toBean(dept, DepartmentRpcResponse.class);
     }
 
     @Override
-    public List<DepartmentRespDTO> getDeptList(Collection<Long> ids) {
+    public List<DepartmentRpcResponse> getDeptList(Collection<Long> ids) {
         List<DepartmentEntity> depts = deptService.getDeptList(ids);
-        return BeanUtils.toBean(depts, DepartmentRespDTO.class);
+        return BeanUtils.toBean(depts, DepartmentRpcResponse.class);
     }
 
     @Override
@@ -37,9 +37,9 @@ public class LocalDepartmentApi implements DepartmentApi {
     }
 
     @Override
-    public List<DepartmentRespDTO> getChildDeptList(Long id) {
+    public List<DepartmentRpcResponse> getChildDeptList(Long id) {
         List<DepartmentEntity> childDeptList = deptService.getChildDeptList(id);
-        return BeanUtils.toBean(childDeptList, DepartmentRespDTO.class);
+        return BeanUtils.toBean(childDeptList, DepartmentRpcResponse.class);
     }
 
 }

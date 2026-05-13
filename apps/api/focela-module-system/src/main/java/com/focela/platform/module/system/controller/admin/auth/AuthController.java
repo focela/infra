@@ -12,14 +12,14 @@ import com.focela.platform.module.system.controller.admin.auth.dto.*;
 import com.focela.platform.module.system.converter.auth.AuthConverter;
 import com.focela.platform.module.system.entity.permission.MenuEntity;
 import com.focela.platform.module.system.entity.permission.RoleEntity;
-import com.focela.platform.module.system.entity.user.AdminUserEntity;
+import com.focela.platform.module.system.entity.user.UserEntity;
 import com.focela.platform.module.system.enums.logger.LoginLogTypeEnum;
-import com.focela.platform.module.system.service.auth.AdminAuthService;
+import com.focela.platform.module.system.service.auth.AuthService;
 import com.focela.platform.module.system.service.permission.MenuService;
 import com.focela.platform.module.system.service.permission.PermissionService;
 import com.focela.platform.module.system.service.permission.RoleService;
 import com.focela.platform.module.system.service.social.SocialClientService;
-import com.focela.platform.module.system.service.user.AdminUserService;
+import com.focela.platform.module.system.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -48,9 +48,9 @@ import static com.focela.platform.framework.security.core.utils.SecurityFramewor
 public class AuthController {
 
     @Resource
-    private AdminAuthService authService;
+    private AuthService authService;
     @Resource
-    private AdminUserService userService;
+    private UserService userService;
     @Resource
     private RoleService roleService;
     @Resource
@@ -95,7 +95,7 @@ public class AuthController {
     @DataPermission(enable = false) // 忽略数据权限，避免因为过滤，导致无法查询用户。类似：https://t.zsxq.com/LHnrp
     public CommonResult<AuthPermissionInfoResponse> getPermissionInfo() {
         // 1.1 获得用户信息
-        AdminUserEntity user = userService.getUser(getLoginUserId());
+        UserEntity user = userService.getUser(getLoginUserId());
         if (user == null) {
             return success(null);
         }

@@ -1,8 +1,8 @@
 package com.focela.platform.framework.common.business.system.oauth2;
 
-import com.focela.platform.framework.common.business.system.oauth2.dto.OAuth2AccessTokenCheckRespDTO;
-import com.focela.platform.framework.common.business.system.oauth2.dto.OAuth2AccessTokenCreateReqDTO;
-import com.focela.platform.framework.common.business.system.oauth2.dto.OAuth2AccessTokenRespDTO;
+import com.focela.platform.framework.common.business.system.oauth2.dto.OAuth2AccessTokenCheckRpcResponse;
+import com.focela.platform.framework.common.business.system.oauth2.dto.OAuth2AccessTokenCreateRpcRequest;
+import com.focela.platform.framework.common.business.system.oauth2.dto.OAuth2AccessTokenRpcResponse;
 
 import jakarta.validation.Valid;
 
@@ -17,7 +17,7 @@ public interface OAuth2TokenCommonApi {
      * @param reqDTO 访问令牌的创建信息
      * @return 访问令牌的信息
      */
-    OAuth2AccessTokenRespDTO createAccessToken(@Valid OAuth2AccessTokenCreateReqDTO reqDTO);
+    OAuth2AccessTokenRpcResponse createAccessToken(@Valid OAuth2AccessTokenCreateRpcRequest reqDTO);
 
     /**
      * 校验访问令牌
@@ -25,7 +25,7 @@ public interface OAuth2TokenCommonApi {
      * @param accessToken 访问令牌
      * @return 访问令牌的信息
      */
-    OAuth2AccessTokenCheckRespDTO checkAccessToken(String accessToken);
+    OAuth2AccessTokenCheckRpcResponse checkAccessToken(String accessToken);
 
     /**
      * 移除访问令牌
@@ -33,7 +33,7 @@ public interface OAuth2TokenCommonApi {
      * @param accessToken 访问令牌
      * @return 访问令牌的信息
      */
-    OAuth2AccessTokenRespDTO removeAccessToken(String accessToken);
+    OAuth2AccessTokenRpcResponse removeAccessToken(String accessToken);
 
     /**
      * 刷新访问令牌
@@ -42,6 +42,6 @@ public interface OAuth2TokenCommonApi {
      * @param clientId 客户端编号
      * @return 访问令牌的信息
      */
-    OAuth2AccessTokenRespDTO refreshAccessToken(String refreshToken, String clientId);
+    OAuth2AccessTokenRpcResponse refreshAccessToken(String refreshToken, String clientId);
 
 }

@@ -28,7 +28,7 @@ import com.focela.platform.module.system.service.permission.PermissionService;
 import com.focela.platform.module.system.service.permission.RoleService;
 import com.focela.platform.module.system.service.tenant.handler.TenantInfoHandler;
 import com.focela.platform.module.system.service.tenant.handler.TenantMenuHandler;
-import com.focela.platform.module.system.service.user.AdminUserService;
+import com.focela.platform.module.system.service.user.UserService;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -64,7 +64,7 @@ public class DefaultTenantService implements TenantService {
     private TenantPackageService tenantPackageService;
     @Resource
     @Lazy // 延迟，避免循环依赖报错
-    private AdminUserService userService;
+    private UserService userService;
     @Resource
     private RoleService roleService;
     @Resource

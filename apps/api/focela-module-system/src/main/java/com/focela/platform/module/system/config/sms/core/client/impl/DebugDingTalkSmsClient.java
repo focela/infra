@@ -10,9 +10,9 @@ import cn.hutool.http.HttpUtil;
 import com.focela.platform.framework.common.core.KeyValue;
 import com.focela.platform.framework.common.utils.collection.MapUtils;
 import com.focela.platform.framework.common.utils.json.JsonUtils;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsReceiveRespDTO;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsSendRespDTO;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsTemplateRespDTO;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsReceiveRpcResponse;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsSendRpcResponse;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsTemplateRpcResponse;
 import com.focela.platform.module.system.config.sms.core.enums.SmsTemplateAuditStatusEnum;
 import com.focela.platform.module.system.config.sms.core.property.SmsChannelProperties;
 
@@ -35,7 +35,7 @@ public class DebugDingTalkSmsClient extends AbstractSmsClient {
     }
 
     @Override
-    public SmsSendRespDTO sendSms(Long sendLogId, String mobile,
+    public SmsSendRpcResponse sendSms(Long sendLogId, String mobile,
                                   String apiTemplateId, List<KeyValue<String, Object>> templateParams) throws Throwable {
         // 构建请求
         String url = buildUrl("robot/send");
@@ -49,7 +49,7 @@ public class DebugDingTalkSmsClient extends AbstractSmsClient {
         // 解析结果
         Map<?, ?> responseObj = JsonUtils.parseObject(responseText, Map.class);
         String errorCode = MapUtil.getStr(responseObj, "errcode");
-        return new SmsSendRespDTO().setSuccess(Objects.equals(errorCode, "0")).setSerialNo(StrUtil.uuid())
+        return new SmsSendRpcResponse().setSuccess(Objects.equals(errorCode, "0")).setSerialNo(StrUtil.uuid())
                 .setApiCode(errorCode).setApiMsg(MapUtil.getStr(responseObj, "errorMsg"));
     }
 
@@ -76,13 +76,13 @@ public class DebugDingTalkSmsClient extends AbstractSmsClient {
     }
 
     @Override
-    public List<SmsReceiveRespDTO> parseSmsReceiveStatus(String text) {
+    public List<SmsReceiveRpcResponse> parseSmsReceiveStatus(String text) {
         throw new UnsupportedOperationException("mock SMS client, temporarily no need to parse callback");
     }
 
     @Override
-    public SmsTemplateRespDTO getSmsTemplate(String apiTemplateId) {
-        return new SmsTemplateRespDTO().setId(apiTemplateId).setContent("")
+    public SmsTemplateRpcResponse getSmsTemplate(String apiTemplateId) {
+        return new SmsTemplateRpcResponse().setId(apiTemplateId).setContent("")
                 .setAuditStatus(SmsTemplateAuditStatusEnum.SUCCESS.getStatus()).setAuditReason("");
     }
 

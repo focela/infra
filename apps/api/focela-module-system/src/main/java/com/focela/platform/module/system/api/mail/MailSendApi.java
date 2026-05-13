@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.api.mail;
 
-import com.focela.platform.module.system.api.mail.dto.MailSendSingleToUserReqDTO;
+import com.focela.platform.module.system.api.mail.dto.MailSendSingleToUserRpcRequest;
 
 import jakarta.validation.Valid;
 
@@ -17,7 +17,7 @@ public interface MailSendApi {
      * @param reqDTO 发送请求
      * @return 发送日志编号
      */
-    Long sendSingleMailToAdmin(@Valid MailSendSingleToUserReqDTO reqDTO);
+    Long sendSingleMailToAdmin(@Valid MailSendSingleToUserRpcRequest reqDTO);
 
     /**
      * 发送单条邮箱给 Member 用户
@@ -27,6 +27,6 @@ public interface MailSendApi {
      * @param reqDTO 发送请求
      * @return 发送日志编号
      */
-    Long sendSingleMailToMember(@Valid MailSendSingleToUserReqDTO reqDTO);
+    Long sendSingleMailToMember(@Valid MailSendSingleToUserRpcRequest reqDTO);
 
 }

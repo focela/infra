@@ -29,7 +29,7 @@ public class OperateLogEntity extends BaseEntity {
     /**
      * 用户编号
      *
-     * 关联 MemberUserDO 的 id 属性，或者 AdminUserEntity 的 id 属性
+     * 关联 MemberUserDO 的 id 属性，或者 UserEntity 的 id 属性
      */
     private Long userId;
     /**

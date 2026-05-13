@@ -1,6 +1,6 @@
 package com.focela.platform.framework.common.business.infra.logger;
 
-import com.focela.platform.framework.common.business.infra.logger.dto.ApiAccessLogCreateReqDTO;
+import com.focela.platform.framework.common.business.infra.logger.dto.ApiAccessLogCreateRpcRequest;
 import jakarta.validation.Valid;
 import org.springframework.scheduling.annotation.Async;
 
@@ -14,7 +14,7 @@ public interface ApiAccessLogCommonApi {
      *
      * @param createDTO 创建信息
      */
-    void createApiAccessLog(@Valid ApiAccessLogCreateReqDTO createDTO);
+    void createApiAccessLog(@Valid ApiAccessLogCreateRpcRequest createDTO);
 
     /**
      * 【异步】创建 API 访问日志
@@ -22,7 +22,7 @@ public interface ApiAccessLogCommonApi {
      * @param createDTO 访问日志 DTO
      */
     @Async
-    default void createApiAccessLogAsync(ApiAccessLogCreateReqDTO createDTO) {
+    default void createApiAccessLogAsync(ApiAccessLogCreateRpcRequest createDTO) {
         createApiAccessLog(createDTO);
     }
 

@@ -2,7 +2,7 @@ package com.focela.platform.module.system.entity.department;
 
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.tenant.core.db.TenantBaseEntity;
-import com.focela.platform.module.system.entity.user.AdminUserEntity;
+import com.focela.platform.module.system.entity.user.UserEntity;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -42,7 +42,7 @@ public class DepartmentEntity extends TenantBaseEntity {
     /**
      * 负责人
      *
-     * 关联 {@link AdminUserEntity#getId()}
+     * 关联 {@link UserEntity#getId()}
      */
     private Long leaderUserId;
     /**

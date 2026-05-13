@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.api.notify;
 
-import com.focela.platform.module.system.api.notify.dto.NotifySendSingleToUserReqDTO;
+import com.focela.platform.module.system.api.notify.dto.NotifySendSingleToUserRpcRequest;
 
 import jakarta.validation.Valid;
 
@@ -15,7 +15,7 @@ public interface NotifyMessageSendApi {
      * @param reqDTO 发送请求
      * @return 发送消息 ID
      */
-    Long sendSingleMessageToAdmin(@Valid NotifySendSingleToUserReqDTO reqDTO);
+    Long sendSingleMessageToAdmin(@Valid NotifySendSingleToUserRpcRequest reqDTO);
 
     /**
      * 发送单条站内信给 Member 用户
@@ -23,6 +23,6 @@ public interface NotifyMessageSendApi {
      * @param reqDTO 发送请求
      * @return 发送消息 ID
      */
-    Long sendSingleMessageToMember(@Valid NotifySendSingleToUserReqDTO reqDTO);
+    Long sendSingleMessageToMember(@Valid NotifySendSingleToUserRpcRequest reqDTO);
 
 }

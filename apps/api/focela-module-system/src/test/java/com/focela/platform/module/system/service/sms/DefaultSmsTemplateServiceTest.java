@@ -13,7 +13,7 @@ import com.focela.platform.module.system.entity.sms.SmsTemplateEntity;
 import com.focela.platform.module.system.repository.mapper.sms.SmsTemplateMapper;
 import com.focela.platform.module.system.enums.sms.SmsTemplateTypeEnum;
 import com.focela.platform.module.system.config.sms.core.client.SmsClient;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsTemplateRespDTO;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsTemplateRpcResponse;
 import com.focela.platform.module.system.config.sms.core.enums.SmsTemplateAuditStatusEnum;
 import com.google.common.collect.Lists;
 import jakarta.annotation.Resource;
@@ -93,7 +93,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
         // mock 获得 API 短信模板成功
         when(smsChannelService.getSmsClient(eq(request.getChannelId()))).thenReturn(smsClient);
         when(smsClient.getSmsTemplate(eq(request.getApiTemplateId()))).thenReturn(
-                randomPojo(SmsTemplateRespDTO.class, o -> o.setAuditStatus(SmsTemplateAuditStatusEnum.SUCCESS.getStatus())));
+                randomPojo(SmsTemplateRpcResponse.class, o -> o.setAuditStatus(SmsTemplateAuditStatusEnum.SUCCESS.getStatus())));
 
         // 调用
         Long smsTemplateId = smsTemplateService.createSmsTemplate(request);
@@ -128,7 +128,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
         // mock 获得 API 短信模板成功
         when(smsChannelService.getSmsClient(eq(request.getChannelId()))).thenReturn(smsClient);
         when(smsClient.getSmsTemplate(eq(request.getApiTemplateId()))).thenReturn(
-                randomPojo(SmsTemplateRespDTO.class, o -> o.setAuditStatus(SmsTemplateAuditStatusEnum.SUCCESS.getStatus())));
+                randomPojo(SmsTemplateRpcResponse.class, o -> o.setAuditStatus(SmsTemplateAuditStatusEnum.SUCCESS.getStatus())));
 
         // 调用
         smsTemplateService.updateSmsTemplate(request);

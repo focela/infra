@@ -7,7 +7,7 @@ import cn.hutool.extra.spring.SpringUtil;
 import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.utils.collection.CollectionUtils;
 import com.focela.platform.framework.datapermission.core.annotation.DataPermission;
-import com.focela.platform.framework.common.business.system.permission.dto.DepartmentDataPermissionRespDTO;
+import com.focela.platform.framework.common.business.system.permission.dto.DepartmentDataPermissionRpcResponse;
 import com.focela.platform.module.system.entity.permission.MenuEntity;
 import com.focela.platform.module.system.entity.permission.RoleEntity;
 import com.focela.platform.module.system.entity.permission.RoleMenuEntity;
@@ -17,7 +17,7 @@ import com.focela.platform.module.system.repository.mapper.permission.UserRoleMa
 import com.focela.platform.module.system.repository.redis.RedisKeyConstants;
 import com.focela.platform.module.system.enums.permission.DataScopeEnum;
 import com.focela.platform.module.system.service.department.DepartmentService;
-import com.focela.platform.module.system.service.user.AdminUserService;
+import com.focela.platform.module.system.service.user.UserService;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Suppliers;
@@ -55,7 +55,7 @@ public class DefaultPermissionService implements PermissionService {
     @Resource
     private DepartmentService deptService;
     @Resource
-    private AdminUserService userService;
+    private UserService userService;
 
     @Override
     public boolean hasAnyPermissions(Long userId, String... permissions) {
@@ -272,12 +272,12 @@ public class DefaultPermissionService implements PermissionService {
 
     @Override
     @DataPermission(enable = false) // 关闭数据权限，不然就会出现递归获取数据权限的问题
-    public DepartmentDataPermissionRespDTO getDeptDataPermission(Long userId) {
+    public DepartmentDataPermissionRpcResponse getDeptDataPermission(Long userId) {
         // 获得用户的角色
         List<RoleEntity> roles = getEnableUserRoleListByUserIdFromCache(userId);
 
         // 如果角色为空，则只能查看自己
-        DepartmentDataPermissionRespDTO result = new DepartmentDataPermissionRespDTO();
+        DepartmentDataPermissionRpcResponse result = new DepartmentDataPermissionRpcResponse();
         if (CollUtil.isEmpty(roles)) {
             result.setSelf(true);
             return result;

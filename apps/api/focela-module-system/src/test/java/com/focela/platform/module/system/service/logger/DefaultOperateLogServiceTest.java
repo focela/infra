@@ -3,8 +3,8 @@ package com.focela.platform.module.system.service.logger;
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
 import com.focela.platform.framework.test.core.utils.RandomUtils;
-import com.focela.platform.framework.common.business.system.logger.dto.OperateLogCreateReqDTO;
-import com.focela.platform.module.system.api.logger.dto.OperateLogPageReqDTO;
+import com.focela.platform.framework.common.business.system.logger.dto.OperateLogCreateRpcRequest;
+import com.focela.platform.module.system.api.logger.dto.OperateLogPageRpcRequest;
 import com.focela.platform.module.system.controller.admin.logger.dto.operatelog.OperateLogPageRequest;
 import com.focela.platform.module.system.entity.logger.OperateLogEntity;
 import com.focela.platform.module.system.repository.mapper.logger.OperateLogMapper;
@@ -29,7 +29,7 @@ public class DefaultOperateLogServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testCreateOperateLog() {
-        OperateLogCreateReqDTO request = RandomUtils.randomPojo(OperateLogCreateReqDTO.class);
+        OperateLogCreateRpcRequest request = RandomUtils.randomPojo(OperateLogCreateRpcRequest.class);
 
         // 调研
         DefaultoperateLogService.createOperateLog(request);
@@ -97,7 +97,7 @@ public class DefaultOperateLogServiceTest extends BaseDbUnitTest {
         operateLogMapper.insert(cloneIgnoreId(operateLogDO, o -> o.setType("退款")));
 
         // 构造调用参数
-        OperateLogPageReqDTO reqDTO = new OperateLogPageReqDTO();
+        OperateLogPageRpcRequest reqDTO = new OperateLogPageRpcRequest();
         reqDTO.setUserId(2048L);
         reqDTO.setBizId(999L);
         reqDTO.setType("订单");

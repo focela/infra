@@ -1,6 +1,6 @@
 package com.focela.platform.module.system.api.sms;
 
-import com.focela.platform.module.system.api.sms.dto.send.SmsSendSingleToUserReqDTO;
+import com.focela.platform.module.system.api.sms.dto.send.SmsSendSingleToUserRpcRequest;
 
 import jakarta.validation.Valid;
 
@@ -17,7 +17,7 @@ public interface SmsSendApi {
      * @param reqDTO 发送请求
      * @return 发送日志编号
      */
-    Long sendSingleSmsToAdmin(@Valid SmsSendSingleToUserReqDTO reqDTO);
+    Long sendSingleSmsToAdmin(@Valid SmsSendSingleToUserRpcRequest reqDTO);
 
     /**
      * 发送单条短信给 Member 用户
@@ -27,6 +27,6 @@ public interface SmsSendApi {
      * @param reqDTO 发送请求
      * @return 发送日志编号
      */
-    Long sendSingleSmsToMember(@Valid SmsSendSingleToUserReqDTO reqDTO);
+    Long sendSingleSmsToMember(@Valid SmsSendSingleToUserRpcRequest reqDTO);
 
 }

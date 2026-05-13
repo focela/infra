@@ -7,11 +7,11 @@ import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.module.system.entity.mail.MailAccountEntity;
 import com.focela.platform.module.system.entity.mail.MailTemplateEntity;
-import com.focela.platform.module.system.entity.user.AdminUserEntity;
+import com.focela.platform.module.system.entity.user.UserEntity;
 import com.focela.platform.module.system.mq.message.mail.MailSendMessage;
 import com.focela.platform.module.system.mq.producer.mail.MailProducer;
 import com.focela.platform.module.system.service.member.MemberService;
-import com.focela.platform.module.system.service.user.AdminUserService;
+import com.focela.platform.module.system.service.user.UserService;
 import com.google.common.annotations.VisibleForTesting;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +39,7 @@ import static com.focela.platform.module.system.constants.ErrorCodeConstants.*;
 public class DefaultMailSendService implements MailSendService {
 
     @Resource
-    private AdminUserService adminUserService;
+    private UserService adminUserService;
     @Resource
     private MemberService memberService;
 
@@ -105,7 +105,7 @@ public class DefaultMailSendService implements MailSendService {
             return null;
         }
         if (UserTypeEnum.ADMIN.getValue().equals(userType)) {
-            AdminUserEntity user = adminUserService.getUser(userId);
+            UserEntity user = adminUserService.getUser(userId);
             if (user != null) {
                 return user.getEmail();
             }

@@ -2,8 +2,8 @@ package com.focela.platform.module.system.api.logger;
 
 import com.focela.platform.framework.common.business.system.logger.OperateLogCommonApi;
 import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.module.system.api.logger.dto.OperateLogPageReqDTO;
-import com.focela.platform.module.system.api.logger.dto.OperateLogRespDTO;
+import com.focela.platform.module.system.api.logger.dto.OperateLogPageRpcRequest;
+import com.focela.platform.module.system.api.logger.dto.OperateLogRpcResponse;
 
 /**
  * 操作日志 API 接口
@@ -16,6 +16,6 @@ public interface OperateLogApi extends OperateLogCommonApi {
      * @param pageReqDTO 请求
      * @return 操作日志分页
      */
-    PageResult<OperateLogRespDTO> getOperateLogPage(OperateLogPageReqDTO pageReqDTO);
+    PageResult<OperateLogRpcResponse> getOperateLogPage(OperateLogPageRpcRequest pageReqDTO);
 
 }

@@ -1,6 +1,6 @@
 package com.focela.platform.framework.common.business.system.logger;
 
-import com.focela.platform.framework.common.business.system.logger.dto.OperateLogCreateReqDTO;
+import com.focela.platform.framework.common.business.system.logger.dto.OperateLogCreateRpcRequest;
 import jakarta.validation.Valid;
 import org.springframework.scheduling.annotation.Async;
 
@@ -14,7 +14,7 @@ public interface OperateLogCommonApi {
      *
      * @param createReqDTO 请求
      */
-    void createOperateLog(@Valid OperateLogCreateReqDTO createReqDTO);
+    void createOperateLog(@Valid OperateLogCreateRpcRequest createReqDTO);
 
     /**
      * 【异步】创建操作日志
@@ -22,7 +22,7 @@ public interface OperateLogCommonApi {
      * @param createReqDTO 请求
      */
     @Async
-    default void createOperateLogAsync(OperateLogCreateReqDTO createReqDTO) {
+    default void createOperateLogAsync(OperateLogCreateRpcRequest createReqDTO) {
         createOperateLog(createReqDTO);
     }
 

@@ -3,16 +3,16 @@ package com.focela.platform.module.system.converter.auth;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjUtil;
 import com.focela.platform.framework.common.utils.object.BeanUtils;
-import com.focela.platform.module.system.api.sms.dto.code.SmsCodeSendReqDTO;
-import com.focela.platform.module.system.api.sms.dto.code.SmsCodeUseReqDTO;
-import com.focela.platform.module.system.api.social.dto.SocialUserBindReqDTO;
+import com.focela.platform.module.system.api.sms.dto.code.SmsCodeSendRpcRequest;
+import com.focela.platform.module.system.api.sms.dto.code.SmsCodeUseRpcRequest;
+import com.focela.platform.module.system.api.social.dto.SocialUserBindRpcRequest;
 import com.focela.platform.module.system.controller.admin.auth.dto.AuthPermissionInfoResponse;
 import com.focela.platform.module.system.controller.admin.auth.dto.AuthSmsLoginRequest;
 import com.focela.platform.module.system.controller.admin.auth.dto.AuthSmsSendRequest;
 import com.focela.platform.module.system.controller.admin.auth.dto.AuthSocialLoginRequest;
 import com.focela.platform.module.system.entity.permission.MenuEntity;
 import com.focela.platform.module.system.entity.permission.RoleEntity;
-import com.focela.platform.module.system.entity.user.AdminUserEntity;
+import com.focela.platform.module.system.entity.user.UserEntity;
 import com.focela.platform.module.system.enums.permission.MenuTypeEnum;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -29,7 +29,7 @@ public interface AuthConverter {
 
     AuthConverter INSTANCE = Mappers.getMapper(AuthConverter.class);
 
-    default AuthPermissionInfoResponse convert(AdminUserEntity user, List<RoleEntity> roleList, List<MenuEntity> menuList) {
+    default AuthPermissionInfoResponse convert(UserEntity user, List<RoleEntity> roleList, List<MenuEntity> menuList) {
         return AuthPermissionInfoResponse.builder()
                 .user(BeanUtils.toBean(user, AuthPermissionInfoResponse.UserVO.class))
                 .roles(convertSet(roleList, RoleEntity::getCode))
@@ -79,10 +79,10 @@ public interface AuthConverter {
         return filterList(treeNodeMap.values(), node -> ID_ROOT.equals(node.getParentId()));
     }
 
-    SocialUserBindReqDTO convert(Long userId, Integer userType, AuthSocialLoginRequest request);
+    SocialUserBindRpcRequest convert(Long userId, Integer userType, AuthSocialLoginRequest request);
 
-    SmsCodeSendReqDTO convert(AuthSmsSendRequest request);
+    SmsCodeSendRpcRequest convert(AuthSmsSendRequest request);
 
-    SmsCodeUseReqDTO convert(AuthSmsLoginRequest request, Integer scene, String usedIp);
+    SmsCodeUseRpcRequest convert(AuthSmsLoginRequest request, Integer scene, String usedIp);
 
 }

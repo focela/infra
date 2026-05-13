@@ -7,11 +7,11 @@ import com.focela.platform.framework.test.core.support.BaseMockitoUnitTest;
 import com.focela.platform.framework.test.core.utils.RandomUtils;
 import com.focela.platform.module.system.entity.mail.MailAccountEntity;
 import com.focela.platform.module.system.entity.mail.MailTemplateEntity;
-import com.focela.platform.module.system.entity.user.AdminUserEntity;
+import com.focela.platform.module.system.entity.user.UserEntity;
 import com.focela.platform.module.system.mq.message.mail.MailSendMessage;
 import com.focela.platform.module.system.mq.producer.mail.MailProducer;
 import com.focela.platform.module.system.service.member.MemberService;
-import com.focela.platform.module.system.service.user.AdminUserService;
+import com.focela.platform.module.system.service.user.UserService;
 import org.assertj.core.util.Lists;
 import org.dromara.hutool.extra.mail.MailAccount;
 import org.dromara.hutool.extra.mail.MailUtil;
@@ -40,7 +40,7 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
     private DefaultMailSendService mailSendService;
 
     @Mock
-    private AdminUserService adminUserService;
+    private UserService adminUserService;
     @Mock
     private MemberService memberService;
     @Mock
@@ -79,7 +79,7 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
         Collection<String> bccMails = Lists.newArrayList("bcc@test.com");
 
         // mock adminUserService 的方法
-        AdminUserEntity user = randomPojo(AdminUserEntity.class, o -> o.setEmail("admin@example.com"));
+        UserEntity user = randomPojo(UserEntity.class, o -> o.setEmail("admin@example.com"));
         when(adminUserService.getUser(eq(userId))).thenReturn(user);
 
         // mock MailTemplateService 的方法

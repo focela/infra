@@ -35,7 +35,7 @@ public class NotifyMessageEntity extends BaseEntity {
     /**
      * 用户编号
      *
-     * 关联 MemberUserDO 的 id 字段、或者 AdminUserEntity 的 id 字段
+     * 关联 MemberUserDO 的 id 字段、或者 UserEntity 的 id 字段
      */
     private Long userId;
     /**

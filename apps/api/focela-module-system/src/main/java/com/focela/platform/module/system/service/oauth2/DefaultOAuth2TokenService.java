@@ -18,11 +18,11 @@ import com.focela.platform.module.system.controller.admin.oauth2.dto.token.OAuth
 import com.focela.platform.module.system.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.module.system.entity.oauth2.OAuth2ClientEntity;
 import com.focela.platform.module.system.entity.oauth2.OAuth2RefreshTokenEntity;
-import com.focela.platform.module.system.entity.user.AdminUserEntity;
+import com.focela.platform.module.system.entity.user.UserEntity;
 import com.focela.platform.module.system.repository.mapper.oauth2.OAuth2AccessTokenMapper;
 import com.focela.platform.module.system.repository.mapper.oauth2.OAuth2RefreshTokenMapper;
 import com.focela.platform.module.system.repository.redis.oauth2.OAuth2AccessTokenRedisDAO;
-import com.focela.platform.module.system.service.user.AdminUserService;
+import com.focela.platform.module.system.service.user.UserService;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -54,7 +54,7 @@ public class DefaultOAuth2TokenService implements OAuth2TokenService {
     private OAuth2ClientService oauth2ClientService;
     @Resource
     @Lazy // 懒加载，避免循环依赖
-    private AdminUserService adminUserService;
+    private UserService adminUserService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -221,7 +221,7 @@ public class DefaultOAuth2TokenService implements OAuth2TokenService {
             return Collections.emptyMap();
         }
         if (userType.equals(UserTypeEnum.ADMIN.getValue())) {
-            AdminUserEntity user = adminUserService.getUser(userId);
+            UserEntity user = adminUserService.getUser(userId);
             return MapUtil.builder(LoginUser.INFO_KEY_NICKNAME, user.getNickname())
                     .put(LoginUser.INFO_KEY_DEPT_ID, StrUtil.toStringOrNull(user.getDeptId())).build();
         } else if (userType.equals(UserTypeEnum.MEMBER.getValue())) {

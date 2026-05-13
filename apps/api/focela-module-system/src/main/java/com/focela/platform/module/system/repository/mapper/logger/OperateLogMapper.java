@@ -3,7 +3,7 @@ package com.focela.platform.module.system.repository.mapper.logger;
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.module.system.api.logger.dto.OperateLogPageReqDTO;
+import com.focela.platform.module.system.api.logger.dto.OperateLogPageRpcRequest;
 import com.focela.platform.module.system.controller.admin.logger.dto.operatelog.OperateLogPageRequest;
 import com.focela.platform.module.system.entity.logger.OperateLogEntity;
 import org.apache.ibatis.annotations.Mapper;
@@ -22,7 +22,7 @@ public interface OperateLogMapper extends BaseMapperX<OperateLogEntity> {
                 .orderByDesc(OperateLogEntity::getId));
     }
 
-    default PageResult<OperateLogEntity> selectPage(OperateLogPageReqDTO pageReqDTO) {
+    default PageResult<OperateLogEntity> selectPage(OperateLogPageRpcRequest pageReqDTO) {
         return selectPage(pageReqDTO, new LambdaQueryWrapperX<OperateLogEntity>()
                 .eqIfPresent(OperateLogEntity::getType, pageReqDTO.getType())
                 .eqIfPresent(OperateLogEntity::getBizId, pageReqDTO.getBizId())

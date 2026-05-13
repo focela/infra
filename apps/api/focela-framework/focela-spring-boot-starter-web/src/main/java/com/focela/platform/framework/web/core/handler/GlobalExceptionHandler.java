@@ -6,7 +6,7 @@ import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
 import com.focela.platform.framework.common.business.infra.logger.ApiErrorLogCommonApi;
-import com.focela.platform.framework.common.business.infra.logger.dto.ApiErrorLogCreateReqDTO;
+import com.focela.platform.framework.common.business.infra.logger.dto.ApiErrorLogCreateRpcRequest;
 import com.focela.platform.framework.common.exception.ServiceException;
 import com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils;
 import com.focela.platform.framework.common.model.CommonResult;
@@ -339,7 +339,7 @@ public class GlobalExceptionHandler {
 
     private void createExceptionLog(HttpServletRequest req, Throwable e) {
         // 插入错误日志
-        ApiErrorLogCreateReqDTO errorLog = new ApiErrorLogCreateReqDTO();
+        ApiErrorLogCreateRpcRequest errorLog = new ApiErrorLogCreateRpcRequest();
         try {
             // 初始化 errorLog
             buildExceptionLog(errorLog, req, e);
@@ -350,7 +350,7 @@ public class GlobalExceptionHandler {
         }
     }
 
-    private void buildExceptionLog(ApiErrorLogCreateReqDTO errorLog, HttpServletRequest request, Throwable e) {
+    private void buildExceptionLog(ApiErrorLogCreateRpcRequest errorLog, HttpServletRequest request, Throwable e) {
         // 处理用户信息
         errorLog.setUserId(WebFrameworkUtils.getLoginUserId(request));
         errorLog.setUserType(WebFrameworkUtils.getLoginUserType(request));

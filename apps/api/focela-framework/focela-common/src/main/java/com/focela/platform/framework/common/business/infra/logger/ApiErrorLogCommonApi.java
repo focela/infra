@@ -1,6 +1,6 @@
 package com.focela.platform.framework.common.business.infra.logger;
 
-import com.focela.platform.framework.common.business.infra.logger.dto.ApiErrorLogCreateReqDTO;
+import com.focela.platform.framework.common.business.infra.logger.dto.ApiErrorLogCreateRpcRequest;
 
 import jakarta.validation.Valid;
 import org.springframework.scheduling.annotation.Async;
@@ -15,7 +15,7 @@ public interface ApiErrorLogCommonApi {
      *
      * @param createDTO 创建信息
      */
-    void createApiErrorLog(@Valid ApiErrorLogCreateReqDTO createDTO);
+    void createApiErrorLog(@Valid ApiErrorLogCreateRpcRequest createDTO);
 
     /**
      * 【异步】创建 API 异常日志
@@ -23,7 +23,7 @@ public interface ApiErrorLogCommonApi {
      * @param createDTO 异常日志 DTO
      */
     @Async
-    default void createApiErrorLogAsync(ApiErrorLogCreateReqDTO createDTO) {
+    default void createApiErrorLogAsync(ApiErrorLogCreateRpcRequest createDTO) {
         createApiErrorLog(createDTO);
     }
 

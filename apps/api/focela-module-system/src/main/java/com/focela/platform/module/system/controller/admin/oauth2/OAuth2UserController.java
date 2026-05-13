@@ -8,10 +8,10 @@ import com.focela.platform.module.system.controller.admin.oauth2.dto.user.OAuth2
 import com.focela.platform.module.system.controller.admin.user.dto.profile.UserProfileUpdateRequest;
 import com.focela.platform.module.system.entity.department.DepartmentEntity;
 import com.focela.platform.module.system.entity.department.PostEntity;
-import com.focela.platform.module.system.entity.user.AdminUserEntity;
+import com.focela.platform.module.system.entity.user.UserEntity;
 import com.focela.platform.module.system.service.department.DepartmentService;
 import com.focela.platform.module.system.service.department.PostService;
-import com.focela.platform.module.system.service.user.AdminUserService;
+import com.focela.platform.module.system.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +40,7 @@ import static com.focela.platform.framework.security.core.utils.SecurityFramewor
 public class OAuth2UserController {
 
     @Resource
-    private AdminUserService userService;
+    private UserService userService;
     @Resource
     private DepartmentService deptService;
     @Resource
@@ -51,7 +51,7 @@ public class OAuth2UserController {
     @PreAuthorize("@ss.hasScope('user.read')") //
     public CommonResult<OAuth2UserInfoResponse> getUserInfo() {
         // 获得用户基本信息
-        AdminUserEntity user = userService.getUser(getLoginUserId());
+        UserEntity user = userService.getUser(getLoginUserId());
         OAuth2UserInfoResponse resp = BeanUtils.toBean(user, OAuth2UserInfoResponse.class);
         // 获得部门信息
         if (user.getDeptId() != null) {
@@ -71,7 +71,7 @@ public class OAuth2UserController {
     @PreAuthorize("@ss.hasScope('user.write')")
     public CommonResult<Boolean> updateUserInfo(@Valid @RequestBody OAuth2UserUpdateRequest request) {
         // 这里将 UserProfileUpdateRequest =》UserProfileUpdateRequest 对象，实现接口的复用。
-        // 主要是，AdminUserService 没有自己的 BO 对象，所以复用只能这么做
+        // 主要是，UserService 没有自己的 BO 对象，所以复用只能这么做
         userService.updateUserProfile(getLoginUserId(), BeanUtils.toBean(request, UserProfileUpdateRequest.class));
         return success(true);
     }

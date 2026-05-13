@@ -2,9 +2,9 @@ package com.focela.platform.module.system.api.logger;
 
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.common.utils.object.BeanUtils;
-import com.focela.platform.framework.common.business.system.logger.dto.OperateLogCreateReqDTO;
-import com.focela.platform.module.system.api.logger.dto.OperateLogPageReqDTO;
-import com.focela.platform.module.system.api.logger.dto.OperateLogRespDTO;
+import com.focela.platform.framework.common.business.system.logger.dto.OperateLogCreateRpcRequest;
+import com.focela.platform.module.system.api.logger.dto.OperateLogPageRpcRequest;
+import com.focela.platform.module.system.api.logger.dto.OperateLogRpcResponse;
 import com.focela.platform.module.system.entity.logger.OperateLogEntity;
 import com.focela.platform.module.system.service.logger.OperateLogService;
 import com.fhs.core.trans.anno.TransMethodResult;
@@ -23,15 +23,15 @@ public class LocalOperateLogApi implements OperateLogApi {
     private OperateLogService operateLogService;
 
     @Override
-    public void createOperateLog(OperateLogCreateReqDTO createReqDTO) {
+    public void createOperateLog(OperateLogCreateRpcRequest createReqDTO) {
         operateLogService.createOperateLog(createReqDTO);
     }
 
     @Override
     @TransMethodResult
-    public PageResult<OperateLogRespDTO> getOperateLogPage(OperateLogPageReqDTO pageReqDTO) {
+    public PageResult<OperateLogRpcResponse> getOperateLogPage(OperateLogPageRpcRequest pageReqDTO) {
         PageResult<OperateLogEntity> operateLogPage = operateLogService.getOperateLogPage(pageReqDTO);
-        return BeanUtils.toBean(operateLogPage, OperateLogRespDTO.class);
+        return BeanUtils.toBean(operateLogPage, OperateLogRpcResponse.class);
     }
 
 }

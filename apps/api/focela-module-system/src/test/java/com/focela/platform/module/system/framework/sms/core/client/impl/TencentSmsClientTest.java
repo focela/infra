@@ -3,9 +3,9 @@ package com.focela.platform.module.system.config.sms.core.client.impl;
 import com.focela.platform.framework.common.core.KeyValue;
 import com.focela.platform.framework.common.utils.http.HttpUtils;
 import com.focela.platform.framework.test.core.support.BaseMockitoUnitTest;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsReceiveRespDTO;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsSendRespDTO;
-import com.focela.platform.module.system.config.sms.core.client.dto.SmsTemplateRespDTO;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsReceiveRpcResponse;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsSendRpcResponse;
+import com.focela.platform.module.system.config.sms.core.client.dto.SmsTemplateRpcResponse;
 import com.focela.platform.module.system.config.sms.core.enums.SmsTemplateAuditStatusEnum;
 import com.focela.platform.module.system.config.sms.core.property.SmsChannelProperties;
 import com.google.common.collect.Lists;
@@ -65,7 +65,7 @@ public class TencentSmsClientTest extends BaseMockitoUnitTest {
                                     "}");
 
             // 调用
-            SmsSendRespDTO result = smsClient.sendSms(sendLogId, mobile,
+            SmsSendRpcResponse result = smsClient.sendSms(sendLogId, mobile,
                     apiTemplateId, templateParams);
             // 断言
             assertTrue(result.getSuccess());
@@ -105,7 +105,7 @@ public class TencentSmsClientTest extends BaseMockitoUnitTest {
                                     "}");
 
             // 调用
-            SmsSendRespDTO result = smsClient.sendSms(sendLogId, mobile,
+            SmsSendRpcResponse result = smsClient.sendSms(sendLogId, mobile,
                     apiTemplateId, templateParams);
             // 断言
             assertFalse(result.getSuccess());
@@ -130,7 +130,7 @@ public class TencentSmsClientTest extends BaseMockitoUnitTest {
                     .thenReturn("{\"Response\":{\"Error\":{\"Code\":\"AuthFailure.SecretIdNotFound\",\"Message\":\"The SecretId is not found, please ensure that your SecretId is correct.\"},\"RequestId\":\"2a88f82a-261c-4ac6-9fa9-c7d01aaa486a\"}}");
 
             // 调用
-            SmsSendRespDTO result = smsClient.sendSms(sendLogId, mobile,
+            SmsSendRpcResponse result = smsClient.sendSms(sendLogId, mobile,
                     apiTemplateId, templateParams);
             // 断言
             assertFalse(result.getSuccess());
@@ -157,7 +157,7 @@ public class TencentSmsClientTest extends BaseMockitoUnitTest {
                 "]";
 
         // 调用
-        List<SmsReceiveRespDTO> statuses = smsClient.parseSmsReceiveStatus(text);
+        List<SmsReceiveRpcResponse> statuses = smsClient.parseSmsReceiveStatus(text);
         // 断言
         assertEquals(1, statuses.size());
         assertTrue(statuses.get(0).getSuccess());
@@ -192,7 +192,7 @@ public class TencentSmsClientTest extends BaseMockitoUnitTest {
                             "    }}");
 
             // 调用
-            SmsTemplateRespDTO result = smsClient.getSmsTemplate(apiTemplateId);
+            SmsTemplateRpcResponse result = smsClient.getSmsTemplate(apiTemplateId);
             // 断言
             assertEquals("1122", result.getId());
             assertEquals("您的验证码是{1}", result.getContent());

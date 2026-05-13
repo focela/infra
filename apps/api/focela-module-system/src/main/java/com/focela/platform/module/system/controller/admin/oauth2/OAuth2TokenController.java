@@ -7,7 +7,7 @@ import com.focela.platform.module.system.controller.admin.oauth2.dto.token.OAuth
 import com.focela.platform.module.system.controller.admin.oauth2.dto.token.OAuth2AccessTokenResponse;
 import com.focela.platform.module.system.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.module.system.enums.logger.LoginLogTypeEnum;
-import com.focela.platform.module.system.service.auth.AdminAuthService;
+import com.focela.platform.module.system.service.auth.AuthService;
 import com.focela.platform.module.system.service.oauth2.OAuth2TokenService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -29,7 +29,7 @@ public class OAuth2TokenController {
     @Resource
     private OAuth2TokenService oauth2TokenService;
     @Resource
-    private AdminAuthService authService;
+    private AuthService authService;
 
     @GetMapping("/page")
     @Operation(summary = "get access token page", description = "return only TTL within")
