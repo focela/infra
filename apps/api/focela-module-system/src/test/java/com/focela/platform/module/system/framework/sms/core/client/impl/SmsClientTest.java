@@ -46,9 +46,9 @@ public class SmsClientTest {
         String mobile = "15601691323";
         String apiTemplateId = "SMS_207945135";
         // 调用
-        SmsSendRpcResponse sendRespDTO = client.sendSms(sendLogId, mobile, apiTemplateId, ListUtil.of(new KeyValue<>("code", "1024")));
+        SmsSendRpcResponse sendResponse = client.sendSms(sendLogId, mobile, apiTemplateId, ListUtil.of(new KeyValue<>("code", "1024")));
         // 打印结果
-        System.out.println(sendRespDTO);
+        System.out.println(sendResponse);
     }
 
     // ========== 腾讯云 ==========
@@ -67,9 +67,9 @@ public class SmsClientTest {
         String mobile = "15601691323";
         String apiTemplateId = "358212";
         // 调用
-        SmsSendRpcResponse sendRespDTO = client.sendSms(sendLogId, mobile, apiTemplateId, ListUtil.of(new KeyValue<>("code", "1024")));
+        SmsSendRpcResponse sendResponse = client.sendSms(sendLogId, mobile, apiTemplateId, ListUtil.of(new KeyValue<>("code", "1024")));
         // 打印结果
-        System.out.println(sendRespDTO);
+        System.out.println(sendResponse);
     }
 
     @Test
@@ -106,9 +106,9 @@ public class SmsClientTest {
         String apiTemplateId = "3644cdab863546a3b718d488659a99ef";
         List<KeyValue<String, Object>> templateParams = ListUtil.of(new KeyValue<>("code", "1024"));
         // 调用
-        SmsSendRpcResponse smsSendRespDTO = client.sendSms(sendLogId, mobile, apiTemplateId, templateParams);
+        SmsSendRpcResponse smsSendResponse = client.sendSms(sendLogId, mobile, apiTemplateId, templateParams);
         // 打印结果
-        System.out.println(smsSendRespDTO);
+        System.out.println(smsSendResponse);
     }
 
     // ========== 七牛云 ==========
@@ -126,9 +126,9 @@ public class SmsClientTest {
         String apiTemplateId = "3644cdab863546a3b718d488659a99ef";
         List<KeyValue<String, Object>> templateParams = ListUtil.of(new KeyValue<>("code", "1122"));
         // 调用
-        SmsSendRpcResponse smsSendRespDTO = client.sendSms(sendLogId, mobile, apiTemplateId, templateParams);
+        SmsSendRpcResponse smsSendResponse = client.sendSms(sendLogId, mobile, apiTemplateId, templateParams);
         // 打印结果
-        System.out.println(smsSendRespDTO);
+        System.out.println(smsSendResponse);
     }
 
     @Test

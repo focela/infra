@@ -14,9 +14,9 @@ public interface OperateLogService {
     /**
      * 记录操作日志
      *
-     * @param createReqDTO 创建请求
+     * @param createRequest 创建请求
      */
-    void createOperateLog(OperateLogCreateRpcRequest createReqDTO);
+    void createOperateLog(OperateLogCreateRpcRequest createRequest);
 
     /**
      * 获得操作日志

@@ -13,9 +13,9 @@ public interface OperateLogApi extends OperateLogContractApi {
     /**
      * 获取指定模块的指定数据的操作日志分页
      *
-     * @param pageReqDTO 请求
+     * @param pageRequest 请求
      * @return 操作日志分页
      */
-    PageResult<OperateLogRpcResponse> getOperateLogPage(OperateLogPageRpcRequest pageReqDTO);
+    PageResult<OperateLogRpcResponse> getOperateLogPage(OperateLogPageRpcRequest pageRequest);
 
 }

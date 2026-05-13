@@ -11,22 +11,22 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface OperateLogMapper extends BaseMapperX<OperateLogEntity> {
 
-    default PageResult<OperateLogEntity> selectPage(OperateLogPageRequest pageReqDTO) {
-        return selectPage(pageReqDTO, new LambdaQueryWrapperX<OperateLogEntity>()
-                .eqIfPresent(OperateLogEntity::getUserId, pageReqDTO.getUserId())
-                .eqIfPresent(OperateLogEntity::getBizId, pageReqDTO.getBizId())
-                .likeIfPresent(OperateLogEntity::getType, pageReqDTO.getType())
-                .likeIfPresent(OperateLogEntity::getSubType, pageReqDTO.getSubType())
-                .likeIfPresent(OperateLogEntity::getAction, pageReqDTO.getAction())
-                .betweenIfPresent(OperateLogEntity::getCreateTime, pageReqDTO.getCreateTime())
+    default PageResult<OperateLogEntity> selectPage(OperateLogPageRequest pageRequest) {
+        return selectPage(pageRequest, new LambdaQueryWrapperX<OperateLogEntity>()
+                .eqIfPresent(OperateLogEntity::getUserId, pageRequest.getUserId())
+                .eqIfPresent(OperateLogEntity::getBizId, pageRequest.getBizId())
+                .likeIfPresent(OperateLogEntity::getType, pageRequest.getType())
+                .likeIfPresent(OperateLogEntity::getSubType, pageRequest.getSubType())
+                .likeIfPresent(OperateLogEntity::getAction, pageRequest.getAction())
+                .betweenIfPresent(OperateLogEntity::getCreateTime, pageRequest.getCreateTime())
                 .orderByDesc(OperateLogEntity::getId));
     }
 
-    default PageResult<OperateLogEntity> selectPage(OperateLogPageRpcRequest pageReqDTO) {
-        return selectPage(pageReqDTO, new LambdaQueryWrapperX<OperateLogEntity>()
-                .eqIfPresent(OperateLogEntity::getType, pageReqDTO.getType())
-                .eqIfPresent(OperateLogEntity::getBizId, pageReqDTO.getBizId())
-                .eqIfPresent(OperateLogEntity::getUserId, pageReqDTO.getUserId())
+    default PageResult<OperateLogEntity> selectPage(OperateLogPageRpcRequest pageRequest) {
+        return selectPage(pageRequest, new LambdaQueryWrapperX<OperateLogEntity>()
+                .eqIfPresent(OperateLogEntity::getType, pageRequest.getType())
+                .eqIfPresent(OperateLogEntity::getBizId, pageRequest.getBizId())
+                .eqIfPresent(OperateLogEntity::getUserId, pageRequest.getUserId())
                 .orderByDesc(OperateLogEntity::getId));
     }
 

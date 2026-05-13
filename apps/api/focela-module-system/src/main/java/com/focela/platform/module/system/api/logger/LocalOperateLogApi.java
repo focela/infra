@@ -23,14 +23,14 @@ public class LocalOperateLogApi implements OperateLogApi {
     private OperateLogService operateLogService;
 
     @Override
-    public void createOperateLog(OperateLogCreateRpcRequest createReqDTO) {
-        operateLogService.createOperateLog(createReqDTO);
+    public void createOperateLog(OperateLogCreateRpcRequest createRequest) {
+        operateLogService.createOperateLog(createRequest);
     }
 
     @Override
     @TransMethodResult
-    public PageResult<OperateLogRpcResponse> getOperateLogPage(OperateLogPageRpcRequest pageReqDTO) {
-        PageResult<OperateLogEntity> operateLogPage = operateLogService.getOperateLogPage(pageReqDTO);
+    public PageResult<OperateLogRpcResponse> getOperateLogPage(OperateLogPageRpcRequest pageRequest) {
+        PageResult<OperateLogEntity> operateLogPage = operateLogService.getOperateLogPage(pageRequest);
         return BeanUtils.toBean(operateLogPage, OperateLogRpcResponse.class);
     }
 

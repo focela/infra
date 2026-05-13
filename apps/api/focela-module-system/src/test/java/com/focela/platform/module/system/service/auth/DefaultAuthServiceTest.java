@@ -194,9 +194,9 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
         // 调用
         authService.sendSmsCode(request);
         // 断言
-        verify(smsCodeApi).sendSmsCode(argThat(sendReqDTO -> {
-            assertEquals(mobile, sendReqDTO.getMobile());
-            assertEquals(scene, sendReqDTO.getScene());
+        verify(smsCodeApi).sendSmsCode(argThat(sendRequest -> {
+            assertEquals(mobile, sendRequest.getMobile());
+            assertEquals(scene, sendRequest.getScene());
             return true;
         }));
     }
@@ -208,10 +208,10 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
         String code = randomString();
         AuthSmsLoginRequest request = new AuthSmsLoginRequest(mobile, code);
         // mock 方法（验证码）
-        doNothing().when(smsCodeApi).useSmsCode((argThat(smsCodeUseReqDTO -> {
-            assertEquals(mobile, smsCodeUseReqDTO.getMobile());
-            assertEquals(code, smsCodeUseReqDTO.getCode());
-            assertEquals(SmsSceneEnum.ADMIN_MEMBER_LOGIN.getScene(), smsCodeUseReqDTO.getScene());
+        doNothing().when(smsCodeApi).useSmsCode((argThat(smsCodeUseRequest -> {
+            assertEquals(mobile, smsCodeUseRequest.getMobile());
+            assertEquals(code, smsCodeUseRequest.getCode());
+            assertEquals(SmsSceneEnum.ADMIN_MEMBER_LOGIN.getScene(), smsCodeUseRequest.getScene());
             return true;
         })));
         // mock 方法（用户信息）

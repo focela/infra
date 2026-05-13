@@ -24,8 +24,8 @@ public class DefaultOperateLogService implements OperateLogService {
     private OperateLogMapper operateLogMapper;
 
     @Override
-    public void createOperateLog(OperateLogCreateRpcRequest createReqDTO) {
-        OperateLogEntity log = BeanUtils.toBean(createReqDTO, OperateLogEntity.class);
+    public void createOperateLog(OperateLogCreateRpcRequest createRequest) {
+        OperateLogEntity log = BeanUtils.toBean(createRequest, OperateLogEntity.class);
         operateLogMapper.insert(log);
     }
 
@@ -40,8 +40,8 @@ public class DefaultOperateLogService implements OperateLogService {
     }
 
     @Override
-    public PageResult<OperateLogEntity> getOperateLogPage(OperateLogPageRpcRequest pageReqDTO) {
-        return operateLogMapper.selectPage(pageReqDTO);
+    public PageResult<OperateLogEntity> getOperateLogPage(OperateLogPageRpcRequest pageRequest) {
+        return operateLogMapper.selectPage(pageRequest);
     }
 
 }

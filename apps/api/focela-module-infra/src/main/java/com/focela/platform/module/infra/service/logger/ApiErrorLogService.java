@@ -13,9 +13,9 @@ public interface ApiErrorLogService {
     /**
      * 创建 API 错误日志
      *
-     * @param createReqDTO API 错误日志
+     * @param createRequest API 错误日志
      */
-    void createApiErrorLog(ApiErrorLogCreateRpcRequest createReqDTO);
+    void createApiErrorLog(ApiErrorLogCreateRpcRequest createRequest);
 
     /**
      * 获得 API 错误日志

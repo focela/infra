@@ -12,18 +12,18 @@ public interface OperateLogContractApi {
     /**
      * 创建操作日志
      *
-     * @param createReqDTO 请求
+     * @param createRequest 请求
      */
-    void createOperateLog(@Valid OperateLogCreateRpcRequest createReqDTO);
+    void createOperateLog(@Valid OperateLogCreateRpcRequest createRequest);
 
     /**
      * 【异步】创建操作日志
      *
-     * @param createReqDTO 请求
+     * @param createRequest 请求
      */
     @Async
-    default void createOperateLogAsync(OperateLogCreateRpcRequest createReqDTO) {
-        createOperateLog(createReqDTO);
+    default void createOperateLogAsync(OperateLogCreateRpcRequest createRequest) {
+        createOperateLog(createRequest);
     }
 
 }

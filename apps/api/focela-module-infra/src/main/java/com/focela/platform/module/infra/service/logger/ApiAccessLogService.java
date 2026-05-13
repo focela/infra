@@ -13,9 +13,9 @@ public interface ApiAccessLogService {
     /**
      * 创建 API 访问日志
      *
-     * @param createReqDTO API 访问日志
+     * @param createRequest API 访问日志
      */
-    void createApiAccessLog(ApiAccessLogCreateRpcRequest createReqDTO);
+    void createApiAccessLog(ApiAccessLogCreateRpcRequest createRequest);
 
     /**
      * 获得 API 访问日志
