@@ -1,0 +1,22 @@
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.maplibregl-popup-content {
+  border-radius: 12px !important;
+  padding: 0 !important;
+}
+
+.maplibregl-popup-tip {
+  margin-top: -1px !important;
+}
+
+html[data-color-scheme='dark'] {
+  .maplibregl-popup-tip {
+    border-top-color: var(--palette-background-paper) !important;
+  }
+}
+
+html[data-color-scheme='dark'] .maplibregl-popup-anchor-top .maplibregl-popup-tip {
+  border-bottom-color: var(--palette-background-paper) !important;
+}
