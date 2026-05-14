@@ -11,10 +11,10 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * 参数配置表
+ * Config table
  */
 @TableName("infra_config")
-@KeySequence("infra_config_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
+@KeySequence("infra_config_seq") // Used for database primary key auto-increment in Oracle, PostgreSQL, Kingbase, DB2, H2. For databases like MySQL it can be omitted.
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
@@ -22,42 +22,42 @@ import lombok.ToString;
 public class ConfigEntity extends BaseEntity {
 
     /**
-     * 参数主键
+     * Config primary key
      */
     @TableId
     private Long id;
     /**
-     * 参数分类
+     * Config category
      */
     private String category;
     /**
-     * 参数名称
+     * Config name
      */
     private String name;
     /**
-     * 参数键名
+     * Config key
      *
-     * 支持多 DB 类型时，无法直接使用 key + @TableField("config_key") 来实现转换，原因是 "config_key" AS key 而存在报错
+     * When supporting multiple DB types, cannot directly use key + @TableField("config_key") for conversion, because "config_key" AS key causes errors
      */
     private String configKey;
     /**
-     * 参数键值
+     * Config value
      */
     private String value;
     /**
-     * 参数类型
+     * Config type
      *
-     * 枚举 {@link ConfigTypeEnum}
+     * Enum {@link ConfigTypeEnum}
      */
     private Integer type;
     /**
-     * 是否可见
+     * Whether visible
      *
-     * 不可见的参数，一般是敏感参数，前端不可获取
+     * Invisible configs are generally sensitive parameters that the front-end cannot retrieve
      */
     private Boolean visible;
     /**
-     * 备注
+     * Remarks
      */
     private String remark;
 

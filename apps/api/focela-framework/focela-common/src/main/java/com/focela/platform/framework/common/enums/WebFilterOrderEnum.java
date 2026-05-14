@@ -1,9 +1,9 @@
 package com.focela.platform.framework.common.enums;
 
 /**
- * Web 过滤器顺序的枚举类，保证过滤器按照符合我们的预期
+ * Web filter ordering enum, ensuring filters run in the expected order.
  *
- *  考虑到每个 starter 都需要用到该工具类，所以放到 common 模块下的 enums 包下
+ * Every starter needs this utility, so it lives in the common module's enums package.
  */
 public interface WebFilterOrderEnum {
 
@@ -15,18 +15,18 @@ public interface WebFilterOrderEnum {
 
     int API_ENCRYPT_FILTER = REQUEST_BODY_CACHE_FILTER + 1;
 
-    // OrderedRequestContextFilter 默认为 -105，用于国际化上下文等等
+    // OrderedRequestContextFilter defaults to -105, used for i18n context, etc.
 
-    int TENANT_CONTEXT_FILTER = - 104; // 需要保证在 ApiAccessLogFilter 前面
+    int TENANT_CONTEXT_FILTER = - 104; // Must run before ApiAccessLogFilter
 
-    int API_ACCESS_LOG_FILTER = -103; // 需要保证在 RequestBodyCacheFilter 后面
+    int API_ACCESS_LOG_FILTER = -103; // Must run after RequestBodyCacheFilter
 
-    int XSS_FILTER = -102;  // 需要保证在 RequestBodyCacheFilter 后面
+    int XSS_FILTER = -102;  // Must run after RequestBodyCacheFilter
 
-    // Spring Security Filter 默认为 -100，可见 org.springframework.boot.autoconfigure.security.SecurityProperties 配置属性类
+    // Spring Security Filter defaults to -100; see org.springframework.boot.autoconfigure.security.SecurityProperties
 
-    int TENANT_SECURITY_FILTER = -99; // 需要保证在 Spring Security 过滤器后面
+    int TENANT_SECURITY_FILTER = -99; // Must run after Spring Security filter
 
-    int FLOWABLE_FILTER = -98; // 需要保证在 Spring Security 过滤后面
+    int FLOWABLE_FILTER = -98; // Must run after Spring Security filter
 
 }

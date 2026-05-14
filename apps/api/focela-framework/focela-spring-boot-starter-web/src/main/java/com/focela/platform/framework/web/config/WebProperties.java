@@ -31,11 +31,11 @@ public class WebProperties {
     public static class Api {
 
         /**
-         * API 前缀，实现所有 Controller 提供的 RESTFul API 的统一前缀
+         * API prefix, applied as a unified prefix to all RESTful APIs provided by Controllers
          *
          *
-         * 意义：通过该前缀，避免 Swagger、Actuator 意外通过 Nginx 暴露出来给外部，带来安全性问题
-         *      这样，Nginx 只需要配置转发到 /api/* 的所有接口即可。
+         * Purpose: this prefix prevents Swagger and Actuator from being accidentally exposed externally through Nginx (security issue).
+         *      With this, Nginx only needs to forward all endpoints under /api/*.
          *
          * @see FocelaWebAutoConfiguration#configurePathMatch(PathMatchConfigurer)
          */
@@ -43,9 +43,9 @@ public class WebProperties {
         private String prefix;
 
         /**
-         * Controller 所在包的 Ant 路径规则
+         * Ant path rule for the Controller package
          *
-         * 主要目的是，给该 Controller 设置指定的 {@link #prefix}
+         * Main purpose is to set the specified {@link #prefix} for the Controllers.
          */
         @NotEmpty(message = "Controller package must not be blank")
         private String controller;
@@ -57,7 +57,7 @@ public class WebProperties {
     public static class Ui {
 
         /**
-         * 访问地址
+         * Access URL
          */
         private String url;
 

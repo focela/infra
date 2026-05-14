@@ -1,57 +1,57 @@
 package com.focela.platform.framework.security.core.service;
 
 /**
- * Security 框架 Service 接口，定义权限相关的校验操作
+ * Security framework Service interface, defining permission-related validation operations.
  */
 public interface SecurityFrameworkService {
 
     /**
-     * 判断是否有权限
+     * Check whether the user has the given permission.
      *
-     * @param permission 权限
-     * @return 是否
+     * @param permission permission
+     * @return whether the user has it
      */
     boolean hasPermission(String permission);
 
     /**
-     * 判断是否有权限，任一一个即可
+     * Check whether the user has any one of the given permissions.
      *
-     * @param permissions 权限
-     * @return 是否
+     * @param permissions permissions
+     * @return whether the user has any of them
      */
     boolean hasAnyPermissions(String... permissions);
 
     /**
-     * 判断是否有角色
+     * Check whether the user has the given role.
      *
-     * 注意，角色使用的是 SysRoleDO 的 code 标识
+     * Note: roles are identified by the SysRoleDO code.
      *
-     * @param role 角色
-     * @return 是否
+     * @param role role
+     * @return whether the user has it
      */
     boolean hasRole(String role);
 
     /**
-     * 判断是否有角色，任一一个即可
+     * Check whether the user has any one of the given roles.
      *
-     * @param roles 角色数组
-     * @return 是否
+     * @param roles roles array
+     * @return whether the user has any of them
      */
     boolean hasAnyRoles(String... roles);
 
     /**
-     * 判断是否有授权
+     * Check whether the user has the given authorization scope.
      *
-     * @param scope 授权
-     * @return 是否
+     * @param scope authorization scope
+     * @return whether the user has it
      */
     boolean hasScope(String scope);
 
     /**
-     * 判断是否有授权范围，任一一个即可
+     * Check whether the user has any one of the given authorization scopes.
      *
-     * @param scope 授权范围数组
-     * @return 是否
+     * @param scope authorization scopes array
+     * @return whether the user has any of them
      */
     boolean hasAnyScopes(String... scope);
 }

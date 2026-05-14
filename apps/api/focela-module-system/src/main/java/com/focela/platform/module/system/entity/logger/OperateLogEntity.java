@@ -8,75 +8,75 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
- * 操作日志表
+ * Operate log table
  */
 @TableName(value = "system_operate_log", autoResultMap = true)
-@KeySequence("system_operate_log_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
+@KeySequence("system_operate_log_seq") // Primary key auto-increment for databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.
 @Data
 public class OperateLogEntity extends BaseEntity {
 
     /**
-     * 日志主键
+     * Log primary key
      */
     @TableId
     private Long id;
     /**
-     * 链路追踪编号
+     * Trace ID
      *
-     * 一般来说，通过链路追踪编号，可以将访问日志，错误日志，链路追踪日志，logger 打印日志等，结合在一起，从而进行排错。
+     * In general, the trace ID can correlate access logs, error logs, trace logs, logger output, etc., for troubleshooting.
      */
     private String traceId;
     /**
-     * 用户编号
+     * User ID
      *
-     * 关联 MemberUserDO 的 id 属性，或者 UserEntity 的 id 属性
+     * Associated with MemberUserDO#id, or UserEntity#id
      */
     private Long userId;
     /**
-     * 用户类型
+     * User type
      *
-     * 关联 {@link  UserTypeEnum}
+     * Associated with {@link  UserTypeEnum}
      */
     private Integer userType;
     /**
-     * 操作模块类型
+     * Operation module type
      */
     private String type;
     /**
-     * 操作名
+     * Operation name
      */
     private String subType;
     /**
-     * 操作模块业务编号
+     * Business ID of the operation module
      */
     private Long bizId;
     /**
-     * 日志内容，记录整个操作的明细
+     * Log content, records the details of the whole operation
      *
-     * 例如说，修改编号为 1 的用户信息，将性别从男改成女，将姓名从芋道改成源码。
+     * For example, updating user info with ID 1: change gender from male to female, change name from "Foo" to "Bar".
      */
     private String action;
     /**
-     * 拓展字段，有些复杂的业务，需要记录一些字段 ( JSON 格式 )
+     * Extended field. Some complex businesses need to record extra fields (JSON format).
      *
-     * 例如说，记录订单编号，{ orderId: "1"}
+     * For example, recording an order ID: { orderId: "1"}
      */
     private String extra;
 
     /**
-     * 请求方法名
+     * Request method name
      */
     private String requestMethod;
     /**
-     * 请求地址
+     * Request URL
      */
     private String requestUrl;
     /**
-     * 用户 IP
+     * User IP
      */
     private String userIp;
     /**
-     * 浏览器 UA
+     * Browser UA
      */
     private String userAgent;
 

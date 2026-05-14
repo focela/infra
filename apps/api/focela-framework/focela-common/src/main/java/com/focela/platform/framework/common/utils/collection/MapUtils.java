@@ -15,16 +15,16 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 /**
- * Map 工具类
+ * Map utilities.
  */
 public class MapUtils {
 
     /**
-     * 从哈希表表中，获得 keys 对应的所有 value 数组
+     * Get all values from a multimap for the given keys.
      *
-     * @param multimap 哈希表
+     * @param multimap multimap
      * @param keys keys
-     * @return value 数组
+     * @return value array
      */
     public static <K, V> List<V> getList(Multimap<K, V> multimap, Collection<K> keys) {
         List<V> result = new ArrayList<>();
@@ -39,13 +39,12 @@ public class MapUtils {
     }
 
     /**
-     * 从哈希表查找到 key 对应的 value，然后进一步处理
-     * key 为 null 时, 不处理
-     * 注意，如果查找到的 value 为 null 时，不进行处理
+     * Look up a value by key in the map and pass it to the consumer for further processing.
+     * No-op when the key is null. When the resolved value is null, no processing is performed.
      *
-     * @param map 哈希表
+     * @param map the map
      * @param key key
-     * @param consumer 进一步处理的逻辑
+     * @param consumer further processing logic
      */
     public static <K, V> void findAndThen(Map<K, V> map, K key, Consumer<V> consumer) {
         if (ObjUtil.isNull(key) || CollUtil.isEmpty(map)) {
@@ -65,23 +64,23 @@ public class MapUtils {
     }
 
     /**
-     * 从 Map 中获取 BigDecimal 值
+     * Get a BigDecimal value from a Map.
      *
-     * @param map Map 数据源
-     * @param key 键名
-     * @return BigDecimal 值，解析失败或值为 null 时返回 null
+     * @param map Map data source
+     * @param key key name
+     * @return BigDecimal value; returns null when parsing fails or the value is null
      */
     public static BigDecimal getBigDecimal(Map<String, ?> map, String key) {
         return getBigDecimal(map, key, null);
     }
 
     /**
-     * 从 Map 中获取 BigDecimal 值
+     * Get a BigDecimal value from a Map.
      *
-     * @param map          Map 数据源
-     * @param key          键名
-     * @param defaultValue 默认值
-     * @return BigDecimal 值，解析失败或值为 null 时返回默认值
+     * @param map          Map data source
+     * @param key          key name
+     * @param defaultValue default value
+     * @return BigDecimal value; returns the default value when parsing fails or the value is null
      */
     public static BigDecimal getBigDecimal(Map<String, ?> map, String key, BigDecimal defaultValue) {
         if (map == null) {

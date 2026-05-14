@@ -9,36 +9,36 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 通知公告表
+ * Notice table
  */
 @TableName("system_notice")
-@KeySequence("system_notice_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
+@KeySequence("system_notice_seq") // Primary key auto-increment for databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class NoticeEntity extends BaseEntity {
 
     /**
-     * 公告ID
+     * Notice ID
      */
     private Long id;
     /**
-     * 公告标题
+     * Notice title
      */
     private String title;
     /**
-     * 公告类型
+     * Notice type
      *
-     * 枚举 {@link NoticeTypeEnum}
+     * Enum {@link NoticeTypeEnum}
      */
     private Integer type;
     /**
-     * 公告内容
+     * Notice content
      */
     private String content;
     /**
-     * 公告状态
+     * Notice status
      *
-     * 枚举 {@link CommonStatusEnum}
+     * Enum {@link CommonStatusEnum}
      */
     private Integer status;
 

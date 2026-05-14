@@ -9,30 +9,30 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 /**
- * 短信验证码的使用 Request DTO
+ * SMS verification code use Request DTO
  */
 @Data
 public class SmsCodeUseRpcRequest {
 
     /**
-     * 手机号
+     * Mobile number
      */
     @Mobile
     @NotEmpty(message = "mobile number must not be blank")
     private String mobile;
     /**
-     * 发送场景
+     * Send scenario
      */
     @NotNull(message = "send scenario must not be blank")
     @InEnum(SmsSceneEnum.class)
     private Integer scene;
     /**
-     * 验证码
+     * Verification code
      */
-    @NotEmpty(message = "CAPTCHA")
+    @NotEmpty(message = "verification code must not be blank")
     private String code;
     /**
-     * 使用 IP
+     * Used IP
      */
     @NotEmpty(message = "use IP must not be blank")
     private String usedIp;

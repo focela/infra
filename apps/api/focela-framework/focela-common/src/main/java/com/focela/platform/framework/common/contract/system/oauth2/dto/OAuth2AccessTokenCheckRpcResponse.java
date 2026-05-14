@@ -8,33 +8,33 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * OAuth2.0 访问令牌的校验 Response DTO
+ * OAuth2.0 access token validation Response DTO.
  */
 @Data
 public class OAuth2AccessTokenCheckRpcResponse implements Serializable {
 
     /**
-     * 用户编号
+     * User ID.
      */
     private Long userId;
     /**
-     * 用户类型
+     * User type.
      */
     private Integer userType;
     /**
-     * 用户信息
+     * User info.
      */
     private Map<String, String> userInfo;
     /**
-     * 租户编号
+     * Tenant ID.
      */
     private Long tenantId;
     /**
-     * 授权范围的数组
+     * Authorization scope array.
      */
     private List<String> scopes;
     /**
-     * 过期时间
+     * Expiration time.
      */
     private LocalDateTime expiresTime;
 

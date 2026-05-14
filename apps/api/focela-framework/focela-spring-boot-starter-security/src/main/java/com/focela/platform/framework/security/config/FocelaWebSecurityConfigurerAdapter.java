@@ -39,10 +39,10 @@ import java.util.Set;
 import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertList;
 
 /**
- * 自定义的 Spring Security 配置适配器实现
+ * Custom Spring Security configuration adapter implementation.
  */
 @AutoConfiguration
-@AutoConfigureOrder(-1) // 目的：先于 Spring Security 自动配置，避免一键改包后，org.* 基础包无法生效
+@AutoConfigureOrder(-1) // Purpose: run before Spring Security auto-configuration so that, after a one-click package rename, the org.* base packages still take effect
 @EnableMethodSecurity(securedEnabled = true)
 public class FocelaWebSecurityConfigurerAdapter {
 
@@ -52,23 +52,23 @@ public class FocelaWebSecurityConfigurerAdapter {
     private SecurityProperties securityProperties;
 
     /**
-     * 认证失败处理类 Bean
+     * Authentication-failure handler Bean
      */
     @Resource
     private AuthenticationEntryPoint authenticationEntryPoint;
     /**
-     * 权限不够处理器 Bean
+     * Insufficient-permission handler Bean
      */
     @Resource
     private AccessDeniedHandler accessDeniedHandler;
     /**
-     * Token 认证过滤器 Bean
+     * Token authentication filter Bean
      */
     @Resource
     private TokenAuthenticationFilter authenticationTokenFilter;
 
     /**
-     * 自定义的权限映射 Bean 们
+     * Custom permission mapping Beans
      *
      * @see #filterChain(HttpSecurity)
      */
@@ -79,8 +79,8 @@ public class FocelaWebSecurityConfigurerAdapter {
     private ApplicationContext applicationContext;
 
     /**
-     * 由于 Spring Security 创建 AuthenticationManager 对象时，没声明 @Bean 注解，导致无法被注入
-     * 通过覆写父类的该方法，添加 @Bean 注解，解决该问题
+     * Spring Security does not declare @Bean when creating AuthenticationManager, so it cannot be injected.
+     * Override this method and annotate it with @Bean to resolve the issue.
      */
     @Bean
     public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -88,47 +88,48 @@ public class FocelaWebSecurityConfigurerAdapter {
     }
 
     /**
-     * 配置 URL 的安全配置
+     * Configure URL security.
      *
-     * anyRequest          |   匹配所有请求路径
-     * access              |   SpringEl表达式结果为true时可以访问
-     * anonymous           |   匿名可以访问
-     * denyAll             |   用户不能访问
-     * fullyAuthenticated  |   用户完全认证可以访问（非remember-me下自动登录）
-     * hasAnyAuthority     |   如果有参数，参数表示权限，则其中任何一个权限可以访问
-     * hasAnyRole          |   如果有参数，参数表示角色，则其中任何一个角色可以访问
-     * hasAuthority        |   如果有参数，参数表示权限，则其权限可以访问
-     * hasIpAddress        |   如果有参数，参数表示IP地址，如果用户IP和参数匹配，则可以访问
-     * hasRole             |   如果有参数，参数表示角色，则其角色可以访问
-     * permitAll           |   用户可以任意访问
-     * rememberMe          |   允许通过remember-me登录的用户访问
-     * authenticated       |   用户登录后可访问
+     * anyRequest          |   matches all request paths
+     * access              |   accessible when the SpringEL expression evaluates to true
+     * anonymous           |   anonymous users may access
+     * denyAll             |   users may not access
+     * fullyAuthenticated  |   accessible after full authentication (not via remember-me auto-login)
+     * hasAnyAuthority     |   accessible if the user has any of the given authorities
+     * hasAnyRole          |   accessible if the user has any of the given roles
+     * hasAuthority        |   accessible if the user has the given authority
+     * hasIpAddress        |   accessible if the user's IP matches the given parameter
+     * hasRole             |   accessible if the user has the given role
+     * permitAll           |   any user may access
+     * rememberMe          |   users authenticated via remember-me may access
+     * authenticated       |   accessible after login
      */
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        // 登出
+        // Logout
         httpSecurity
-                // 开启跨域
+                // Enable CORS
                 .cors(Customizer.withDefaults())
-                // CSRF 禁用，因为不使用 Session
+                // Disable CSRF because Sessions are not used
                 .csrf(AbstractHttpConfigurer::disable)
-                // 基于 token 机制，所以不需要 Session
+                // Token-based, so no Session needed
                 .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .headers(c -> c.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-                // 一堆自定义的 Spring Security 处理器
+                // Pile of custom Spring Security handlers
                 .exceptionHandling(c -> c.authenticationEntryPoint(authenticationEntryPoint)
                         .accessDeniedHandler(accessDeniedHandler));
-        // 登录、登录暂时不使用 Spring Security 的拓展点，主要考虑一方面拓展多用户、多种登录方式相对复杂，一方面用户的学习成本较高
+        // Login is not implemented via Spring Security extension points for now; supporting multiple user types
+        // and multiple login methods is relatively complex and the learning curve is high.
 
-        // 获得 @PermitAll 带来的 URL 列表，免登录
+        // Get the URL list contributed by @PermitAll (no login required)
         Multimap<HttpMethod, String> permitAllUrls = getPermitAllUrlsFromAnnotations();
-        // 设置每个请求的权限
+        // Configure permissions for each request
         httpSecurity
-                // ①：全局共享规则
+                // (1) Global shared rules
                 .authorizeHttpRequests(c -> c
-                    // 1.1 静态资源，可匿名访问
+                    // 1.1 Static resources, anonymous access allowed
                     .requestMatchers(HttpMethod.GET, "/*.html", "/*.css", "/*.js").permitAll()
-                    // 1.2 设置 @PermitAll 无需认证
+                    // 1.2 @PermitAll: no authentication required
                     .requestMatchers(HttpMethod.GET, permitAllUrls.get(HttpMethod.GET).toArray(new String[0])).permitAll()
                     .requestMatchers(HttpMethod.POST, permitAllUrls.get(HttpMethod.POST).toArray(new String[0])).permitAll()
                     .requestMatchers(HttpMethod.PUT, permitAllUrls.get(HttpMethod.PUT).toArray(new String[0])).permitAll()
@@ -138,14 +139,14 @@ public class FocelaWebSecurityConfigurerAdapter {
                     // 1.3 permit-all URLs from focela.security.permit-all-urls
                     .requestMatchers(securityProperties.getPermitAllUrls().toArray(new String[0])).permitAll()
                 )
-                // ②：每个项目的自定义规则
+                // (2) Per-project custom rules
                 .authorizeHttpRequests(c -> authorizeRequestsCustomizers.forEach(customizer -> customizer.customize(c)))
-                // ③：兜底规则，必须认证
+                // (3) Fallback rule: authentication required
                 .authorizeHttpRequests(c -> c
-                        .dispatcherTypeMatchers(DispatcherType.ASYNC).permitAll() // WebFlux 异步请求，无需认证，目的：SSE 场景
+                        .dispatcherTypeMatchers(DispatcherType.ASYNC).permitAll() // WebFlux async requests require no authentication; purpose: SSE scenarios
                         .anyRequest().authenticated());
 
-        // 添加 Token Filter
+        // Add Token Filter
         httpSecurity.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
@@ -156,15 +157,15 @@ public class FocelaWebSecurityConfigurerAdapter {
 
     private Multimap<HttpMethod, String> getPermitAllUrlsFromAnnotations() {
         Multimap<HttpMethod, String> result = HashMultimap.create();
-        // 获得接口对应的 HandlerMethod 集合
+        // Get the HandlerMethod collection for endpoints
         RequestMappingHandlerMapping requestMappingHandlerMapping = (RequestMappingHandlerMapping)
                 applicationContext.getBean("requestMappingHandlerMapping");
         Map<RequestMappingInfo, HandlerMethod> handlerMethodMap = requestMappingHandlerMapping.getHandlerMethods();
-        // 获得有 @PermitAll 注解的接口
+        // Get endpoints annotated with @PermitAll
         for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : handlerMethodMap.entrySet()) {
             HandlerMethod handlerMethod = entry.getValue();
-            if (!handlerMethod.hasMethodAnnotation(PermitAll.class) // 方法级
-                && !handlerMethod.getBeanType().isAnnotationPresent(PermitAll.class)) { // 接口级
+            if (!handlerMethod.hasMethodAnnotation(PermitAll.class) // method level
+                && !handlerMethod.getBeanType().isAnnotationPresent(PermitAll.class)) { // class level
                 continue;
             }
             Set<String> urls = new HashSet<>();
@@ -178,7 +179,7 @@ public class FocelaWebSecurityConfigurerAdapter {
                 continue;
             }
 
-            // 特殊：使用 @RequestMapping 注解，并且未写 method 属性，此时认为都需要免登录
+            // Special case: when @RequestMapping is used without a method attribute, treat it as login-free for all methods
             Set<RequestMethod> methods = entry.getKey().getMethodsCondition().getMethods();
             if (CollUtil.isEmpty(methods)) {
                 result.putAll(HttpMethod.GET, urls);
@@ -189,7 +190,7 @@ public class FocelaWebSecurityConfigurerAdapter {
                 result.putAll(HttpMethod.PATCH, urls);
                 continue;
             }
-            // 根据请求方法，添加到 result 结果
+            // Add to result based on request method
             entry.getKey().getMethodsCondition().getMethods().forEach(requestMethod -> {
                 switch (requestMethod) {
                     case GET:

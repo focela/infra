@@ -15,7 +15,7 @@ import static cn.hutool.core.convert.Convert.toCollection;
 import static java.util.Arrays.asList;
 
 /**
- * Collection 工具类
+ * Collection utilities.
  */
 public class CollectionUtils {
 
@@ -203,7 +203,7 @@ public class CollectionUtils {
                 .collect(Collectors.groupingBy(keyFunc, Collectors.mapping(valueFunc, Collectors.toList())));
     }
 
-    // 暂时没想好名字，先以 2 结尾噶
+    // No better name yet; suffixed with 2 for now.
     public static <T, K, V> Map<K, Set<V>> convertMultiMap2(Collection<T> from, Function<T, K> keyFunc, Function<T, V> valueFunc) {
         if (CollUtil.isEmpty(from)) {
             return new HashMap<>();
@@ -221,36 +221,36 @@ public class CollectionUtils {
     }
 
     /**
-     * 对比老、新两个列表，找出新增、修改、删除的数据
+     * Compare old and new lists to determine which items were created, updated, or deleted.
      *
-     * @param oldList  老列表
-     * @param newList  新列表
-     * @param sameFunc 对比函数，返回 true 表示相同，返回 false 表示不同
-     *                 注意，same 是通过每个元素的“标识”，判断它们是不是同一个数据
-     * @return [新增列表、修改列表、删除列表]
+     * @param oldList  old list
+     * @param newList  new list
+     * @param sameFunc comparator function; returns true if the two items represent the same logical entity.
+     *                 Note: "same" is determined by the item's identifier, not by full equality.
+     * @return [create list, update list, delete list]
      */
     public static <T> List<List<T>> diffList(Collection<T> oldList, Collection<T> newList,
                                              BiFunction<T, T, Boolean> sameFunc) {
-        List<T> createList = new LinkedList<>(newList); // 默认都认为是新增的，后续会进行移除
+        List<T> createList = new LinkedList<>(newList); // Initially assume everything is new; remove as we find matches.
         List<T> updateList = new ArrayList<>();
         List<T> deleteList = new ArrayList<>();
 
-        // 通过以 oldList 为主遍历，找出 updateList 和 deleteList
+        // Iterate over oldList to find updateList and deleteList.
         for (T oldObj : oldList) {
-            // 1. 寻找是否有匹配的
+            // 1. Look for a match.
             T foundObj = null;
             for (Iterator<T> iterator = createList.iterator(); iterator.hasNext(); ) {
                 T newObj = iterator.next();
-                // 1.1 不匹配，则直接跳过
+                // 1.1 No match; skip.
                 if (!sameFunc.apply(oldObj, newObj)) {
                     continue;
                 }
-                // 1.2 匹配，则移除，并结束寻找
+                // 1.2 Match; remove and stop searching.
                 iterator.remove();
                 foundObj = newObj;
                 break;
             }
-            // 2. 匹配添加到 updateList；不匹配则添加到 deleteList 中
+            // 2. Matched -> updateList; otherwise -> deleteList.
             if (foundObj != null) {
                 updateList.add(foundObj);
             } else {
@@ -283,7 +283,7 @@ public class CollectionUtils {
         if (CollUtil.isEmpty(from)) {
             return null;
         }
-        assert !from.isEmpty(); // 断言，避免告警
+        assert !from.isEmpty(); // Assertion to silence warning.
         T t = from.stream().max(Comparator.comparing(valueFunc)).get();
         return valueFunc.apply(t);
     }
@@ -292,7 +292,7 @@ public class CollectionUtils {
         if (CollUtil.isEmpty(from)) {
             return null;
         }
-        assert from.size() > 0; // 断言，避免告警
+        assert from.size() > 0; // Assertion to silence warning.
         T t = from.stream().min(Comparator.comparing(valueFunc)).get();
         return valueFunc.apply(t);
     }
@@ -301,7 +301,7 @@ public class CollectionUtils {
         if (CollUtil.isEmpty(from)) {
             return null;
         }
-        assert from.size() > 0; // 断言，避免告警
+        assert from.size() > 0; // Assertion to silence warning.
         return from.stream().min(Comparator.comparing(valueFunc)).get();
     }
 
@@ -315,7 +315,7 @@ public class CollectionUtils {
         if (CollUtil.isEmpty(from)) {
             return defaultValue;
         }
-        assert !from.isEmpty(); // 断言，避免告警
+        assert !from.isEmpty(); // Assertion to silence warning.
         return from.stream().map(valueFunc).filter(Objects::nonNull).reduce(accumulator).orElse(defaultValue);
     }
 
@@ -335,11 +335,11 @@ public class CollectionUtils {
     }
 
     /**
-     * 转换为 LinkedHashSet
+     * Convert to LinkedHashSet.
      *
-     * @param <T>         元素类型
-     * @param elementType 集合中元素类型
-     * @param value       被转换的值
+     * @param <T>         element type
+     * @param elementType element class
+     * @param value       value to convert
      * @return {@link LinkedHashSet}
      */
     @SuppressWarnings("unchecked")

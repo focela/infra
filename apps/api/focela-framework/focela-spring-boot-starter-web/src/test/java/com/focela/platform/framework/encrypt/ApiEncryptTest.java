@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Objects;
 
 /**
- * 各种 API 加解密的测试类：不是单测，而是方便大家生成密钥、加密、解密等操作。
+ * Test class for various API encryption/decryption: not a unit test, but a helper for generating keys, encrypting, decrypting, etc.
  */
 @SuppressWarnings("ConstantValue")
 public class ApiEncryptTest {
@@ -28,25 +28,25 @@ public class ApiEncryptTest {
         String responseClientKey = null;
         String responseServerKey = null;
         if (Objects.equals(asymmetricAlgorithm, AsymmetricAlgorithm.RSA.getValue())) {
-            // 请求的密钥
+            // request key
             RSA requestRsa = SecureUtil.rsa();
             requestClientKey = requestRsa.getPublicKeyBase64();
             requestServerKey = requestRsa.getPrivateKeyBase64();
-            // 响应的密钥
+            // response key
             RSA responseRsa = new RSA();
             responseClientKey = responseRsa.getPrivateKeyBase64();
             responseServerKey = responseRsa.getPublicKeyBase64();
         } else if (Objects.equals(asymmetricAlgorithm, SymmetricAlgorithm.AES.getValue())) {
-            // AES 密钥可选 32、24、16 位
-            // 请求的密钥（前后端密钥一致）
+            // AES key length can be 32, 24, or 16 bits
+            // request key (frontend and backend share the same key)
             requestClientKey = RandomUtil.randomNumbers(32);
             requestServerKey = requestClientKey;
-            // 响应的密钥（前后端密钥一致）
+            // response key (frontend and backend share the same key)
             responseClientKey = RandomUtil.randomNumbers(32);
             responseServerKey = responseClientKey;
         }
 
-        // 打印结果
+        // print result
         System.out.println("requestClientKey = " + requestClientKey);
         System.out.println("requestServerKey = " + requestServerKey);
         System.out.println("responseClientKey = " + responseClientKey);

@@ -18,15 +18,15 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 /**
- * Spring Boot Admin Server 配置
+ * Spring Boot Admin Server configuration
  *
- * 包含 Admin Server 的启用配置和安全配置
- * 安全配置独立于 {@link com.focela.platform.framework.security.config.FocelaWebSecurityConfigurerAdapter}，
- * 使用 HTTP Basic 认证保护 Admin Server 端点，不影响现有的 Token 认证机制
+ * Contains the Admin Server enablement config and security config.
+ * The security config is independent of {@link com.focela.platform.framework.security.config.FocelaWebSecurityConfigurerAdapter},
+ * using HTTP Basic authentication to protect Admin Server endpoints, without affecting the existing Token authentication mechanism
  */
 @Configuration(proxyBeanMethods = false)
 @EnableAdminServer
-@ConditionalOnClass(name = "de.codecentric.boot.admin.server.config.AdminServerProperties") // 目的：按需启动 spring boot admin 监控服务
+@ConditionalOnClass(name = "de.codecentric.boot.admin.server.config.AdminServerProperties") // Purpose: start spring boot admin monitoring service on demand
 public class AdminServerConfiguration {
 
     @Value("${spring.boot.admin.context-path:''}")
@@ -39,8 +39,8 @@ public class AdminServerConfiguration {
     private String password;
 
     /**
-     * Spring Boot Admin 专用的 InMemoryUserDetailsManager
-     * 使用内存存储，与系统用户隔离
+     * Spring Boot Admin dedicated InMemoryUserDetailsManager
+     * Uses in-memory storage, isolated from system users
      */
     @Bean("adminUserDetailsManager")
     public InMemoryUserDetailsManager adminUserDetailsManager(PasswordEncoder passwordEncoder) {
@@ -53,50 +53,50 @@ public class AdminServerConfiguration {
     }
 
     /**
-     * Spring Boot Admin Server 的 SecurityFilterChain
-     * 使用 @Order(1) 确保优先于默认的 SecurityFilterChain 匹配
+     * Spring Boot Admin Server SecurityFilterChain
+     * Uses @Order(1) to ensure priority over the default SecurityFilterChain
      */
     @Bean("adminServerSecurityFilterChain")
     @Order(1)
     public SecurityFilterChain adminServerSecurityFilterChain(HttpSecurity httpSecurity,
                                                                InMemoryUserDetailsManager adminUserDetailsManager) throws Exception {
-        // 登录成功后的处理器
+        // Handler after successful login
         SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
         successHandler.setTargetUrlParameter("redirectTo");
         successHandler.setDefaultTargetUrl(adminSeverContextPath + "/");
 
-        // 配置 HttpSecurity 对象
+        // Configure HttpSecurity object
         httpSecurity
-                // 仅匹配 Admin Server 的路径
+                // Match only Admin Server paths
                 .securityMatcher(adminSeverContextPath + "/**")
-                // 使用独立的 UserDetailsManager
+                // Use independent UserDetailsManager
                 .userDetailsService(adminUserDetailsManager)
-                // 授权配置
+                // Authorization config
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(adminSeverContextPath + "/assets/**").permitAll() // 静态资源允许匿名访问
-                        .requestMatchers(adminSeverContextPath + "/login").permitAll() // 登录页面允许匿名访问
-                        .dispatcherTypeMatchers(DispatcherType.ASYNC).permitAll() // 异步请求允许
-                        .anyRequest().authenticated() // 其他请求需要认证
+                        .requestMatchers(adminSeverContextPath + "/assets/**").permitAll() // Static resources allow anonymous access
+                        .requestMatchers(adminSeverContextPath + "/login").permitAll() // Login page allows anonymous access
+                        .dispatcherTypeMatchers(DispatcherType.ASYNC).permitAll() // Allow async requests
+                        .anyRequest().authenticated() // Other requests require authentication
                 )
-                // 表单登录配置（用于 Admin UI 访问）
+                // Form login config (for Admin UI access)
                 .formLogin(form -> form
                         .loginPage(adminSeverContextPath + "/login")
                         .successHandler(successHandler)
                         .permitAll()
                 )
-                // 登出配置
+                // Logout config
                 .logout(logout -> logout
                         .logoutUrl(adminSeverContextPath + "/logout")
                         .logoutSuccessUrl(adminSeverContextPath + "/login")
                 )
-                // HTTP Basic 认证（用于 Admin Client 注册）
+                // HTTP Basic authentication (for Admin Client registration)
                 .httpBasic(Customizer.withDefaults())
-                // CSRF 配置
+                // CSRF config
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                         .ignoringRequestMatchers(
-                                adminSeverContextPath + "/instances", // Admin Client 注册端点忽略 CSRF
-                                adminSeverContextPath + "/actuator/**" // Actuator 端点忽略 CSRF
+                                adminSeverContextPath + "/instances", // Admin Client registration endpoint ignores CSRF
+                                adminSeverContextPath + "/actuator/**" // Actuator endpoints ignore CSRF
                         )
                 );
         return httpSecurity.build();

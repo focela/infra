@@ -13,21 +13,21 @@ import com.jcraft.jsch.JSch;
 import java.io.File;
 
 /**
- * Sftp 文件客户端
+ * Sftp file client
  */
 public class SftpFileClient extends AbstractFileClient<SftpFileClientConfig> {
 
     /**
-     * 连接超时时间，单位：毫秒
+     * Connection timeout, unit: milliseconds
      */
     private static final Long CONNECTION_TIMEOUT = 3000L;
     /**
-     * 读写超时时间，单位：毫秒
+     * Read/write timeout, unit: milliseconds
      */
     private static final Long SO_TIMEOUT = 10000L;
 
     static {
-        // 某些旧的 sftp 服务器仅支持 ssh-dss 协议，该协议并不安全，默认不支持该协议，按需添加
+        // Some old sftp servers only support the ssh-dss protocol, which is not secure and is not supported by default — add it on demand
         JSch.setConfig("server_host_key", JSch.getConfig("server_host_key") + ",ssh-dss");
     }
 
@@ -39,7 +39,7 @@ public class SftpFileClient extends AbstractFileClient<SftpFileClientConfig> {
 
     @Override
     protected void doInit() {
-        // 初始化 Sftp 对象
+        // Initialize Sftp object
         FtpConfig ftpConfig = new FtpConfig(config.getHost(), config.getPort(), config.getUsername(), config.getPassword(),
                 CharsetUtil.CHARSET_UTF_8, null, null);
         ftpConfig.setConnectionTimeout(CONNECTION_TIMEOUT);
@@ -49,18 +49,18 @@ public class SftpFileClient extends AbstractFileClient<SftpFileClientConfig> {
 
     @Override
     public String upload(byte[] content, String path, String type) {
-        // 执行写入
+        // Perform write
         String filePath = getFilePath(path);
         String fileName = FileUtil.getName(filePath);
         String dir = StrUtil.removeSuffix(filePath, fileName);
         File file = FileUtils.createTempFile(content);
         reconnectIfTimeout();
-        sftp.mkDirs(dir); // 需要创建父目录，不然会报错
+        sftp.mkDirs(dir); // Parent directory must be created, otherwise an error will be thrown
         boolean success = sftp.upload(filePath, file);
         if (!success) {
             throw new JschRuntimeException(StrUtil.format("upload file to target directory ({}) failed", filePath));
         }
-        // 拼接返回路径
+        // Build return path
         return super.formatFileUrl(config.getDomain(), path);
     }
 

@@ -17,13 +17,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 邮箱日志 DO
- * 记录每一次邮件的发送
+ * Mail log DO
+ * Records each mail send
  *
  * @since 2022-03-21
  */
 @TableName(value = "system_mail_log", autoResultMap = true)
-@KeySequence("system_mail_log_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
+@KeySequence("system_mail_log_seq") // Primary key auto-increment for databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
@@ -34,104 +34,104 @@ import java.util.Map;
 public class MailLogEntity extends BaseEntity implements Serializable {
 
     /**
-     * 日志编号，自增
+     * Log ID, auto-increment
      */
     private Long id;
 
     /**
-     * 用户编码
+     * User ID
      */
     private Long userId;
     /**
-     * 用户类型
+     * User type
      *
-     * 枚举 {@link UserTypeEnum}
+     * Enum {@link UserTypeEnum}
      */
     private Integer userType;
 
     /**
-     * 接收邮箱地址
+     * Recipient email addresses
      */
     @TableField(typeHandler = StringListTypeHandler.class)
     private List<String> toMails;
     /**
-     * 接收邮箱地址
+     * CC email addresses
      */
     @TableField(typeHandler = StringListTypeHandler.class)
     private List<String> ccMails;
     /**
-     * 密送邮箱地址
+     * BCC email addresses
      */
     @TableField(typeHandler = StringListTypeHandler.class)
     private List<String> bccMails;
 
     /**
-     * 邮箱账号编号
+     * Mail account ID
      *
-     * 关联 {@link MailAccountEntity#getId()}
+     * Associated with {@link MailAccountEntity#getId()}
      */
     private Long accountId;
     /**
-     * 发送邮箱地址
+     * Sender email address
      *
-     * 冗余 {@link MailAccountEntity#getMail()}
+     * Redundant {@link MailAccountEntity#getMail()}
      */
     private String fromMail;
 
-    // ========= 模板相关字段 =========
+    // ========= Template-related fields =========
     /**
-     * 模版编号
+     * Template ID
      *
-     * 关联 {@link MailTemplateEntity#getId()}
+     * Associated with {@link MailTemplateEntity#getId()}
      */
     private Long templateId;
     /**
-     * 模版编码
+     * Template code
      *
-     * 冗余 {@link MailTemplateEntity#getCode()}
+     * Redundant {@link MailTemplateEntity#getCode()}
      */
     private String templateCode;
     /**
-     * 模版发送人名称
+     * Template sender nickname
      *
-     * 冗余 {@link MailTemplateEntity#getNickname()}
+     * Redundant {@link MailTemplateEntity#getNickname()}
      */
     private String templateNickname;
     /**
-     * 模版标题
+     * Template title
      */
     private String templateTitle;
     /**
-     * 模版内容
+     * Template content
      *
-     * 基于 {@link MailTemplateEntity#getContent()} 格式化后的内容
+     * Formatted content based on {@link MailTemplateEntity#getContent()}
      */
     private String templateContent;
     /**
-     * 模版参数
+     * Template parameters
      *
-     * 基于 {@link MailTemplateEntity#getParams()} 输入后的参数
+     * Parameters provided based on {@link MailTemplateEntity#getParams()}
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
     private Map<String, Object> templateParams;
 
-    // ========= 发送相关字段 =========
+    // ========= Sending-related fields =========
     /**
-     * 发送状态
+     * Send status
      *
-     * 枚举 {@link MailSendStatusEnum}
+     * Enum {@link MailSendStatusEnum}
      */
     private Integer sendStatus;
     /**
-     * 发送时间
+     * Send time
      */
     private LocalDateTime sendTime;
     /**
-     * 发送返回的消息 ID
+     * Message ID returned after sending
      */
     private String sendMessageId;
     /**
-     * 发送异常
+     * Send exception
      */
     private String sendException;
 

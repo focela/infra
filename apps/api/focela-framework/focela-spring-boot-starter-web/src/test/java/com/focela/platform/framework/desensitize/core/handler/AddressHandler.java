@@ -5,9 +5,9 @@ import com.focela.platform.framework.desensitize.core.base.handler.Desensitizati
 import com.focela.platform.framework.desensitize.core.annotation.Address;
 
 /**
- * {@link Address} 的脱敏处理器
+ * Desensitization handler for {@link Address}
  *
- * 用于 {@link DesensitizeTest} 测试使用
+ * Used by {@link DesensitizeTest} tests
  */
 public class AddressHandler implements DesensitizationHandler<Address> {
 

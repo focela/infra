@@ -7,11 +7,11 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 
 /**
- * 文件表
- * 每次文件上传，都会记录一条记录到该表中
+ * File table
+ * Each file upload records an entry in this table
  */
 @TableName("infra_file")
-@KeySequence("infra_file_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
+@KeySequence("infra_file_seq") // Used for database primary key auto-increment in Oracle, PostgreSQL, Kingbase, DB2, H2. For databases like MySQL it can be omitted.
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
@@ -22,33 +22,33 @@ import lombok.*;
 public class FileEntity extends BaseEntity {
 
     /**
-     * 编号，数据库自增
+     * ID, database auto-increment
      */
     private Long id;
     /**
-     * 配置编号
+     * Config ID
      *
-     * 关联 {@link FileConfigEntity#getId()}
+     * Associated with {@link FileConfigEntity#getId()}
      */
     private Long configId;
     /**
-     * 原文件名
+     * Original file name
      */
     private String name;
     /**
-     * 路径，即文件名
+     * Path, i.e. file name
      */
     private String path;
     /**
-     * 访问地址
+     * Access URL
      */
     private String url;
     /**
-     * 文件的 MIME 类型，例如 "application/octet-stream"
+     * File MIME type, e.g. "application/octet-stream"
      */
     private String type;
     /**
-     * 文件大小
+     * File size
      */
     private Long size;
 

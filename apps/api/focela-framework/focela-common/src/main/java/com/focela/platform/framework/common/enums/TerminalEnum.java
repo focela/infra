@@ -21,11 +21,11 @@ public enum TerminalEnum implements ArrayValuable<Integer> {
     public static final Integer[] ARRAYS = Arrays.stream(values()).map(TerminalEnum::getTerminal).toArray(Integer[]::new);
 
     /**
-     * 终端
+     * Terminal.
      */
     private final Integer terminal;
     /**
-     * 终端名
+     * Terminal name.
      */
     private final String name;
 

@@ -3,21 +3,21 @@ package com.focela.platform.framework.common.contract.system.tenant;
 import java.util.List;
 
 /**
- * 多租户的 API 接口
+ * Multi-tenant API interface.
  */
 public interface TenantContractApi {
 
     /**
-     * 获得所有租户
+     * Get all tenants.
      *
-     * @return 租户编号数组
+     * @return tenant ID array
      */
     List<Long> getTenantIdList();
 
     /**
-     * 校验租户是否合法
+     * Validate whether a tenant is legitimate.
      *
-     * @param id 租户编号
+     * @param id tenant ID
      */
     void validateTenant(Long id);
 

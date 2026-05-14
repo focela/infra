@@ -15,9 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 /**
- * 操作日志 ILogRecordService 实现类
+ * Operate log ILogRecordService implementation.
  *
- * 基于 {@link OperateLogContractApi} 实现，记录操作日志
+ * Records operate logs based on {@link OperateLogContractApi}.
  */
 @Slf4j
 public class DefaultLogRecordService implements ILogRecordService {
@@ -30,23 +30,23 @@ public class DefaultLogRecordService implements ILogRecordService {
         OperateLogCreateRpcRequest reqDTO = new OperateLogCreateRpcRequest();
         try {
             reqDTO.setTraceId(TracerUtils.getTraceId());
-            // 补充用户信息
+            // Fill in user information
             fillUserFields(reqDTO);
-            // 补全模块信息
+            // Fill in module information
             fillModuleFields(reqDTO, logRecord);
-            // 补全请求信息
+            // Fill in request information
             fillRequestFields(reqDTO);
 
-            // 2. 异步记录日志
+            // 2. Record the log asynchronously
             operateLogApi.createOperateLogAsync(reqDTO);
         } catch (Throwable ex) {
-            // 由于 @Async 异步调用，这里打印下日志，更容易跟进
-            log.error("[record][url({}) log({}) 发生exception]", reqDTO.getRequestUrl(), reqDTO, ex);
+            // Because this is invoked asynchronously via @Async, log here so issues are easier to trace
+            log.error("[record][url({}) log({}) exception occurred]", reqDTO.getRequestUrl(), reqDTO, ex);
         }
     }
 
     private static void fillUserFields(OperateLogCreateRpcRequest reqDTO) {
-        // 使用 SecurityFrameworkUtils。因为要考虑，rpc、mq、job，它其实不是 web；
+        // Use SecurityFrameworkUtils because rpc, mq, and job are not necessarily web contexts.
         LoginUser loginUser = SecurityFrameworkUtils.getLoginUser();
         if (loginUser == null) {
             return;
@@ -56,20 +56,20 @@ public class DefaultLogRecordService implements ILogRecordService {
     }
 
     public static void fillModuleFields(OperateLogCreateRpcRequest reqDTO, LogRecord logRecord) {
-        reqDTO.setType(logRecord.getType()); // 大模块类型，例如：CRM 客户
-        reqDTO.setSubType(logRecord.getSubType());// 操作名称，例如：转移客户
-        reqDTO.setBizId(Long.parseLong(logRecord.getBizNo())); // 业务编号，例如：客户编号
-        reqDTO.setAction(logRecord.getAction());// 操作内容，例如：修改编号为 1 的用户信息，将性别从男改成女，将姓名从芋道改成源码。
-        reqDTO.setExtra(logRecord.getExtra()); // 拓展字段，有些复杂的业务，需要记录一些字段 ( JSON 格式 )，例如说，记录订单编号，{ orderId: "1"}
+        reqDTO.setType(logRecord.getType()); // Major module type, e.g. CRM customer
+        reqDTO.setSubType(logRecord.getSubType());// Operation name, e.g. transfer customer
+        reqDTO.setBizId(Long.parseLong(logRecord.getBizNo())); // Business ID, e.g. customer ID
+        reqDTO.setAction(logRecord.getAction());// Operation content, e.g. update user with ID 1 - change gender from male to female and update the name.
+        reqDTO.setExtra(logRecord.getExtra()); // Extra field; some complex business operations need to record extra fields (JSON format), e.g. recording the order ID: { orderId: "1" }
     }
 
     private static void fillRequestFields(OperateLogCreateRpcRequest reqDTO) {
-        // 获得 Request 对象
+        // Get the Request object
         HttpServletRequest request = ServletUtils.getRequest();
         if (request == null) {
             return;
         }
-        // 补全请求信息
+        // Fill in request information
         reqDTO.setRequestMethod(request.getMethod());
         reqDTO.setRequestUrl(request.getRequestURI());
         reqDTO.setUserIp(ServletUtils.getClientIP(request));

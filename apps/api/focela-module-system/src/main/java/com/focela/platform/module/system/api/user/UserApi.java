@@ -9,55 +9,55 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Admin 用户 API 接口
+ * Admin user API interface
  */
 public interface UserApi {
 
     /**
-     * 通过用户 ID 查询用户
+     * Get a user by user ID
      *
-     * @param id 用户ID
-     * @return 用户对象信息
+     * @param id user ID
+     * @return user information
      */
     UserRpcResponse getUser(Long id);
 
     /**
-     * 通过用户 ID 查询用户下属
+     * Get the subordinates of a user by user ID
      *
-     * @param id 用户编号
-     * @return 用户下属用户列表
+     * @param id user ID
+     * @return list of subordinate users
      */
     List<UserRpcResponse> getUserListBySubordinate(Long id);
 
     /**
-     * 通过用户 ID 查询用户们
+     * Get users by user IDs
      *
-     * @param ids 用户 ID 们
-     * @return 用户对象信息
+     * @param ids user IDs
+     * @return user information list
      */
     List<UserRpcResponse> getUserList(Collection<Long> ids);
 
     /**
-     * 获得指定部门的用户数组
+     * Get users for the specified departments
      *
-     * @param deptIds 部门数组
-     * @return 用户数组
+     * @param deptIds department IDs
+     * @return user list
      */
     List<UserRpcResponse> getUserListByDeptIds(Collection<Long> deptIds);
 
     /**
-     * 获得指定岗位的用户数组
+     * Get users for the specified posts
      *
-     * @param postIds 岗位数组
-     * @return 用户数组
+     * @param postIds post IDs
+     * @return user list
      */
     List<UserRpcResponse> getUserListByPostIds(Collection<Long> postIds);
 
     /**
-     * 获得用户 Map
+     * Get the user Map
      *
-     * @param ids 用户编号数组
-     * @return 用户 Map
+     * @param ids user IDs
+     * @return user Map
      */
     default Map<Long, UserRpcResponse> getUserMap(Collection<Long> ids) {
         List<UserRpcResponse> users = getUserList(ids);
@@ -65,22 +65,22 @@ public interface UserApi {
     }
 
     /**
-     * 校验用户是否有效。如下情况，视为无效：
-     * 1. 用户编号不存在
-     * 2. 用户被禁用
+     * Validate whether a user is valid. The following cases are considered invalid:
+     * 1. user ID does not exist
+     * 2. user is disabled
      *
-     * @param id 用户编号
+     * @param id user ID
      */
     default void validateUser(Long id) {
         validateUserList(Collections.singleton(id));
     }
 
     /**
-     * 校验用户们是否有效。如下情况，视为无效：
-     * 1. 用户编号不存在
-     * 2. 用户被禁用
+     * Validate whether the users are valid. The following cases are considered invalid:
+     * 1. user ID does not exist
+     * 2. user is disabled
      *
-     * @param ids 用户编号数组
+     * @param ids user IDs
      */
     void validateUserList(Collection<Long> ids);
 

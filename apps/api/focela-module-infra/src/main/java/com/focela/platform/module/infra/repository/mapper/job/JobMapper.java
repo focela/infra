@@ -8,7 +8,7 @@ import com.focela.platform.module.infra.entity.job.JobEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 定时任务 Mapper
+ * Scheduled job Mapper
  */
 @Mapper
 public interface JobMapper extends BaseMapperX<JobEntity> {

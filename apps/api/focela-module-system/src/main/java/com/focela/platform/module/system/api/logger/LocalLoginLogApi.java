@@ -8,7 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import jakarta.annotation.Resource;
 
 /**
- * 登录日志的 API 实现类
+ * Login log API implementation class
  */
 @Service
 @Validated

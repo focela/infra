@@ -6,31 +6,31 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import jakarta.validation.constraints.NotEmpty;
 
 /**
- * Swagger 配置属性
+ * Swagger configuration properties
  */
 @ConfigurationProperties("focela.swagger")
 @Data
 public class SwaggerProperties {
 
     /**
-     * 标题
+     * Title
      */
     @NotEmpty(message = "title must not be blank")
     private String title;
     /**
-     * 描述
+     * Description
      */
     @NotEmpty(message = "description must not be blank")
     private String description;
     /**
-     * 作者
+     * Author
      */
     @NotEmpty(message = "author must not be blank")
     private String author;
     /**
-     * 版本
+     * Version
      */
-    @NotEmpty(message = "版本must not be blank")
+    @NotEmpty(message = "version must not be blank")
     private String version;
     /**
      * url

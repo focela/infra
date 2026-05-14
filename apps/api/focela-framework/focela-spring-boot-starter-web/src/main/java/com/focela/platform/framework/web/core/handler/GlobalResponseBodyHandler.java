@@ -11,33 +11,33 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 /**
- * 全局响应结果（ResponseBody）处理器
+ * Global response body handler
  *
- * 不同于在网上看到的很多文章，会选择自动将 Controller 返回结果包上 {@link CommonResult}，
- * 在 onemall 中，是 Controller 在返回时，主动自己包上 {@link CommonResult}。
- * 原因是，GlobalResponseBodyHandler 本质上是 AOP，它不应该改变 Controller 返回的数据结构
+ * Unlike many articles on the web that choose to automatically wrap the Controller return value with {@link CommonResult},
+ * here the Controller actively wraps its return value with {@link CommonResult} when returning.
+ * The reason is that GlobalResponseBodyHandler is essentially AOP; it should not change the data structure returned by the Controller.
  *
- * 目前，GlobalResponseBodyHandler 的主要作用是，记录 Controller 的返回结果，
- * 方便 {@link com.focela.platform.framework.apilog.core.filter.ApiAccessLogFilter} 记录访问日志
+ * Currently, the main purpose of GlobalResponseBodyHandler is to record the Controller return value,
+ * making it easier for {@link com.focela.platform.framework.apilog.core.filter.ApiAccessLogFilter} to record access logs.
  */
 @ControllerAdvice
 public class GlobalResponseBodyHandler implements ResponseBodyAdvice {
 
     @Override
-    @SuppressWarnings("NullableProblems") // 避免 IDEA 警告
+    @SuppressWarnings("NullableProblems") // avoid IDEA warning
     public boolean supports(MethodParameter returnType, Class converterType) {
         if (returnType.getMethod() == null) {
             return false;
         }
-        // 只拦截返回结果为 CommonResult 类型
+        // only intercept results of type CommonResult
         return returnType.getMethod().getReturnType() == CommonResult.class;
     }
 
     @Override
-    @SuppressWarnings("NullableProblems") // 避免 IDEA 警告
+    @SuppressWarnings("NullableProblems") // avoid IDEA warning
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class selectedConverterType,
                                   ServerHttpRequest request, ServerHttpResponse response) {
-        // 记录 Controller 结果
+        // record Controller result
         WebFrameworkUtils.setCommonResult(((ServletServerHttpRequest) request).getServletRequest(), (CommonResult<?>) body);
         return body;
     }

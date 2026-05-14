@@ -13,16 +13,16 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 /**
- * Ftp 文件客户端
+ * Ftp file client
  */
 public class FtpFileClient extends AbstractFileClient<FtpFileClientConfig> {
 
     /**
-     * 连接超时时间，单位：毫秒
+     * Connection timeout, unit: milliseconds
      */
     private static final Long CONNECTION_TIMEOUT = 3000L;
     /**
-     * 读写超时时间，单位：毫秒
+     * Read/write timeout, unit: milliseconds
      */
     private static final Long SO_TIMEOUT = 10000L;
 
@@ -34,7 +34,7 @@ public class FtpFileClient extends AbstractFileClient<FtpFileClientConfig> {
 
     @Override
     protected void doInit() {
-        // 初始化 Ftp 对象：https://gitee.com/zhijiantianya/yudao-cloud/pulls/207/
+        // Initialize Ftp object
         FtpConfig ftpConfig = new FtpConfig(config.getHost(), config.getPort(), config.getUsername(), config.getPassword(),
                 CharsetUtil.CHARSET_UTF_8, null, null);
         ftpConfig.setConnectionTimeout(CONNECTION_TIMEOUT);
@@ -44,16 +44,16 @@ public class FtpFileClient extends AbstractFileClient<FtpFileClientConfig> {
 
     @Override
     public String upload(byte[] content, String path, String type) {
-        // 执行写入
+        // Perform write
         String filePath = getFilePath(path);
         String fileName = FileUtil.getName(filePath);
         String dir = StrUtil.removeSuffix(filePath, fileName);
         reconnectIfTimeout();
-        boolean success = ftp.upload(dir, fileName, new ByteArrayInputStream(content)); // 不需要主动创建目录，ftp 内部已经处理（见源码）
+        boolean success = ftp.upload(dir, fileName, new ByteArrayInputStream(content)); // No need to create directory manually; ftp handles it internally (see source code)
         if (!success) {
             throw new FtpException(StrUtil.format("upload file to target directory ({}) failed", filePath));
         }
-        // 拼接返回路径
+        // Build return path
         return super.formatFileUrl(config.getDomain(), path);
     }
 

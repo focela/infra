@@ -6,40 +6,40 @@ import lombok.Data;
 import java.util.Set;
 
 /**
- * Admin 用户 Response DTO
+ * Admin user Response DTO
  */
 @Data
 public class UserRpcResponse {
 
     /**
-     * 用户ID
+     * User ID
      */
     private Long id;
     /**
-     * 用户昵称
+     * User nickname
      */
     private String nickname;
     /**
-     * 帐号状态
+     * Account status
      *
-     * 枚举 {@link CommonStatusEnum}
+     * Enum {@link CommonStatusEnum}
      */
     private Integer status;
 
     /**
-     * 部门ID
+     * Department ID
      */
     private Long deptId;
     /**
-     * 岗位编号数组
+     * Post IDs
      */
     private Set<Long> postIds;
     /**
-     * 手机号码
+     * Mobile number
      */
     private String mobile;
     /**
-     * 用户头像
+     * User avatar
      */
     private String avatar;
 

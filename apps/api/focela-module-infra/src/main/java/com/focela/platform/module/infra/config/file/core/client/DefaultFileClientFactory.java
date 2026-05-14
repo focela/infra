@@ -9,14 +9,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * 文件客户端的工厂实现类
+ * File client factory implementation class
  */
 @Slf4j
 public class DefaultFileClientFactory implements FileClientFactory {
 
     /**
-     * 文件客户端 Map
-     * key：配置编号
+     * File client Map
+     * key: config ID
      */
     private final ConcurrentMap<Long, AbstractFileClient<?>> clients = new ConcurrentHashMap<>();
 
@@ -47,7 +47,7 @@ public class DefaultFileClientFactory implements FileClientFactory {
             Long configId, Integer storage, Config config) {
         FileStorageEnum storageEnum = FileStorageEnum.getByStorage(storage);
         Assert.notNull(storageEnum, String.format("file config (%s) is empty", storageEnum));
-        // 创建客户端
+        // Create client
         return (AbstractFileClient<Config>) ReflectUtil.newInstance(storageEnum.getClientClass(), configId, config);
     }
 

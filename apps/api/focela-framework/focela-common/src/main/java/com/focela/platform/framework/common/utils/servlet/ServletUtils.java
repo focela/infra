@@ -14,25 +14,25 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import java.util.Map;
 
 /**
- * 客户端工具类
+ * Client/servlet utilities.
  */
 public class ServletUtils {
 
     /**
-     * 返回 JSON 字符串
+     * Write the given object as a JSON string to the response.
      *
-     * @param response 响应
-     * @param object   对象，会序列化成 JSON 字符串
+     * @param response response
+     * @param object   object that will be serialized to JSON
      */
-    @SuppressWarnings("deprecation") // 必须使用 APPLICATION_JSON_UTF8_VALUE，否则会乱码
+    @SuppressWarnings("deprecation") // Must use APPLICATION_JSON_UTF8_VALUE to avoid garbled characters
     public static void writeJSON(HttpServletResponse response, Object object) {
         String content = JsonUtils.toJsonString(object);
         JakartaServletUtil.write(response, content, MediaType.APPLICATION_JSON_UTF8_VALUE);
     }
 
     /**
-     * @param request 请求
-     * @return ua
+     * @param request request
+     * @return user-agent
      */
     public static String getUserAgent(HttpServletRequest request) {
         String ua = request.getHeader("User-Agent");
@@ -40,7 +40,7 @@ public class ServletUtils {
     }
 
     /**
-     * 获得请求
+     * Get the current request.
      *
      * @return HttpServletRequest
      */
@@ -73,7 +73,7 @@ public class ServletUtils {
     }
 
     public static String getBody(HttpServletRequest request) {
-        // 只有在 json 请求在读取，因为只有 CacheRequestBodyFilter 才会进行缓存，支持重复读取
+        // Only read for JSON requests, because only CacheRequestBodyFilter caches the body for repeated reads.
         if (isJsonRequest(request)) {
             return JakartaServletUtil.getBody(request);
         }
@@ -81,7 +81,7 @@ public class ServletUtils {
     }
 
     public static byte[] getBodyBytes(HttpServletRequest request) {
-        // 只有在 json 请求在读取，因为只有 CacheRequestBodyFilter 才会进行缓存，支持重复读取
+        // Only read for JSON requests, because only CacheRequestBodyFilter caches the body for repeated reads.
         if (isJsonRequest(request)) {
             return JakartaServletUtil.getBodyBytes(request);
         }

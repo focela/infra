@@ -11,15 +11,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Request Body 缓存 Filter，实现它的可重复读取
+ * Request Body cache Filter, makes the body repeatedly readable
  */
 public class CacheRequestBodyFilter extends OncePerRequestFilter {
 
     /**
-     * 需要排除的 URI
+     * URIs that need to be excluded
      *
-     * 1. 排除 Spring Boot Admin 相关请求，避免客户端连接中断导致的异常。
-     *    例如说：<a href="https://github.com/YunaiV/ruoyi-vue-pro/issues/795">795 ISSUE</a>
+     * 1. Exclude Spring Boot Admin related requests to avoid exceptions caused by client connection interruption.
+     *    For example: <a href="https://github.com/YunaiV/ruoyi-vue-pro/issues/795">795 ISSUE</a>
      */
     private static final String[] IGNORE_URIS = {"/admin/", "/actuator/"};
 
@@ -31,13 +31,13 @@ public class CacheRequestBodyFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        // 1. 校验是否为排除的 URL
+        // 1. validate whether it is an excluded URL
         String requestURI = request.getRequestURI();
         if (StrUtil.startWithAny(requestURI, IGNORE_URIS)) {
             return true;
         }
 
-        // 2. 只处理 json 请求内容
+        // 2. only process json request content
         return !ServletUtils.isJsonRequest(request);
     }
 

@@ -8,23 +8,23 @@ import lombok.Getter;
 import java.util.Arrays;
 
 /**
- * 全局用户类型枚举
+ * Global user type enum.
  */
 @AllArgsConstructor
 @Getter
 public enum UserTypeEnum implements ArrayValuable<Integer> {
 
-    MEMBER(1, "会员"), // 面向 c 端，普通用户
-    ADMIN(2, "管理员"); // 面向 b 端，管理后台
+    MEMBER(1, "Member"), // C-side, regular user
+    ADMIN(2, "Admin"); // B-side, admin backend
 
     public static final Integer[] ARRAYS = Arrays.stream(values()).map(UserTypeEnum::getValue).toArray(Integer[]::new);
 
     /**
-     * 类型
+     * Type value.
      */
     private final Integer value;
     /**
-     * 类型名
+     * Type name.
      */
     private final String name;
 

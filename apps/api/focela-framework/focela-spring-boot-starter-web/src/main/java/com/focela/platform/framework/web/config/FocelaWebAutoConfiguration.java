@@ -35,7 +35,7 @@ import java.util.function.Predicate;
 public class FocelaWebAutoConfiguration {
 
     /**
-     * 应用名
+     * Application name
      */
     @Value("${spring.application.name}")
     private String applicationName;
@@ -47,13 +47,13 @@ public class FocelaWebAutoConfiguration {
             @Override
             public RequestMappingHandlerMapping getRequestMappingHandlerMapping() {
                 RequestMappingHandlerMapping mapping = new RequestMappingHandlerMapping();
-                // 实例化时就带上前缀
+                // include prefix at instantiation
                 mapping.setPathPrefixes(buildPathPrefixes(webProperties));
                 return mapping;
             }
 
             /**
-             * 构建 prefix → 匹配条件的映射
+             * Build a mapping of prefix to match condition
              */
             private Map<String, Predicate<Class<?>>> buildPathPrefixes(WebProperties webProperties) {
                 AntPathMatcher antPathMatcher = new AntPathMatcher(".");
@@ -64,13 +64,13 @@ public class FocelaWebAutoConfiguration {
             }
 
             /**
-             * 设置 API 前缀，仅仅匹配 controller 包下的
+             * Set API prefix, matching only classes under the controller package
              */
             private void putPathPrefix(Map<String, Predicate<Class<?>>> pathPrefixes, WebProperties.Api api, AntPathMatcher matcher) {
                 if (api == null || StrUtil.isEmpty(api.getPrefix())) {
                     return;
                 }
-                pathPrefixes.put(api.getPrefix(), // api 前缀
+                pathPrefixes.put(api.getPrefix(), // api prefix
                         clazz -> clazz.isAnnotationPresent(RestController.class)
                                 && matcher.match(api.getController(), clazz.getPackage().getName()));
             }
@@ -92,32 +92,32 @@ public class FocelaWebAutoConfiguration {
     @Bean
     @SuppressWarnings("InstantiationOfUtilityClass")
     public WebFrameworkUtils webFrameworkUtils(WebProperties webProperties) {
-        // 由于 WebFrameworkUtils 需要使用到 webProperties 属性，所以注册为一个 Bean
+        // WebFrameworkUtils needs webProperties, so it is registered as a Bean
         return new WebFrameworkUtils(webProperties);
     }
 
-    // ========== Filter 相关 ==========
+    // ========== Filter related ==========
 
     /**
-     * 创建 CorsFilter Bean，解决跨域问题
+     * Create CorsFilter Bean, resolves CORS issues
      */
     @Bean
-    @Order(value = WebFilterOrderEnum.CORS_FILTER) // 特殊：修复因执行顺序影响到跨域配置不生效问题
+    @Order(value = WebFilterOrderEnum.CORS_FILTER) // special: fix the issue that execution order affects CORS configuration
     public FilterRegistrationBean<CorsFilter> corsFilterBean() {
-        // 创建 CorsConfiguration 对象
+        // create CorsConfiguration object
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOriginPattern("*"); // 设置访问源地址
-        config.addAllowedHeader("*"); // 设置访问源请求头
-        config.addAllowedMethod("*"); // 设置访问源请求方法
-        // 创建 UrlBasedCorsConfigurationSource 对象
+        config.addAllowedOriginPattern("*"); // set allowed origins
+        config.addAllowedHeader("*"); // set allowed request headers
+        config.addAllowedMethod("*"); // set allowed request methods
+        // create UrlBasedCorsConfigurationSource object
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config); // 对接口配置跨域设置
+        source.registerCorsConfiguration("/**", config); // configure CORS for endpoints
         return createFilterBean(new CorsFilter(source), WebFilterOrderEnum.CORS_FILTER);
     }
 
     /**
-     * 创建 RequestBodyCacheFilter Bean，可重复读取请求内容
+     * Create RequestBodyCacheFilter Bean, makes request content repeatedly readable
      */
     @Bean
     public FilterRegistrationBean<CacheRequestBodyFilter> requestBodyCacheFilter() {
@@ -131,7 +131,7 @@ public class FocelaWebAutoConfiguration {
     }
 
     /**
-     * 创建 RestTemplate 实例
+     * Create RestTemplate instance
      *
      * @param restTemplateBuilder {@link RestTemplateAutoConfiguration#restTemplateBuilder}
      */

@@ -9,31 +9,31 @@ import java.util.Collections;
 import java.util.Set;
 
 /**
- * 任务状态的枚举
+ * Job status enum
  */
 @Getter
 @AllArgsConstructor
 public enum JobStatusEnum {
 
     /**
-     * 初始化中
+     * Initializing
      */
     INIT(0, Collections.emptySet()),
     /**
-     * 开启
+     * Enabled
      */
     NORMAL(1, Sets.newHashSet(Constants.STATE_WAITING, Constants.STATE_ACQUIRED, Constants.STATE_BLOCKED)),
     /**
-     * 暂停
+     * Paused
      */
     STOP(2, Sets.newHashSet(Constants.STATE_PAUSED, Constants.STATE_PAUSED_BLOCKED));
 
     /**
-     * 状态
+     * Status
      */
     private final Integer status;
     /**
-     * 对应的 Quartz 触发器的状态集合
+     * Corresponding Quartz trigger status set
      */
     private final Set<String> quartzStates;
 

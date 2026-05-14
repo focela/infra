@@ -8,57 +8,57 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 字典数据表
+ * Dictionary data table
  */
 @TableName("system_dict_data")
-@KeySequence("system_dict_data_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
+@KeySequence("system_dict_data_seq") // Primary key auto-increment for databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TenantIgnore
 public class DictionaryDataEntity extends BaseEntity {
 
     /**
-     * 字典数据编号
+     * Dictionary data ID
      */
     @TableId
     private Long id;
     /**
-     * 字典排序
+     * Dictionary sort order
      */
     private Integer sort;
     /**
-     * 字典标签
+     * Dictionary label
      */
     private String label;
     /**
-     * 字典值
+     * Dictionary value
      */
     private String value;
     /**
-     * 字典类型
+     * Dictionary type
      *
-     * 冗余 {@link DictionaryDataEntity#getDictType()}
+     * Redundant {@link DictionaryDataEntity#getDictType()}
      */
     private String dictType;
     /**
-     * 状态
+     * Status
      *
-     * 枚举 {@link CommonStatusEnum}
+     * Enum {@link CommonStatusEnum}
      */
     private Integer status;
     /**
-     * 颜色类型
+     * Color type
      *
-     * 对应到 element-ui 为 default、primary、success、info、warning、danger
+     * Corresponds to element-ui: default, primary, success, info, warning, danger
      */
     private String colorType;
     /**
-     * css 样式
+     * CSS style
      */
     @TableField(updateStrategy = FieldStrategy.ALWAYS)
     private String cssClass;
     /**
-     * 备注
+     * Remarks
      */
     private String remark;
 

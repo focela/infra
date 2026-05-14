@@ -12,9 +12,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 地址
+ * Address
  *
- * 用于 {@link DesensitizeTest} 测试使用
+ * Used by {@link DesensitizeTest} tests
  */
 @Documented
 @Target({ElementType.FIELD})

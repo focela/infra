@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 部门 API 实现类
+ * Department API implementation class
  */
 @Service
 public class LocalDepartmentApi implements DepartmentApi {

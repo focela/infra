@@ -7,13 +7,13 @@ import org.hibernate.validator.constraints.URL;
 import jakarta.validation.constraints.NotEmpty;
 
 /**
- * 基于 DB 存储的文件客户端的配置类
+ * File client config class based on DB storage
  */
 @Data
 public class DBFileClientConfig implements FileClientConfig {
 
     /**
-     * 自定义域名
+     * Custom domain
      */
     @NotEmpty(message = "domain must not be blank")
     @URL(message = "domain must be URL format")

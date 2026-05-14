@@ -4,22 +4,22 @@ import com.focela.platform.framework.common.model.PageParam;
 import lombok.Data;
 
 /**
- * 操作日志分页 Request DTO
+ * Operate log page Request DTO
  */
 @Data
 public class OperateLogPageRpcRequest extends PageParam {
 
     /**
-     * 模块类型
+     * Module type
      */
     private String type;
     /**
-     * 模块数据编号
+     * Module data ID
      */
     private Long bizId;
 
     /**
-     * 用户编号
+     * User ID
      */
     private Long userId;
 

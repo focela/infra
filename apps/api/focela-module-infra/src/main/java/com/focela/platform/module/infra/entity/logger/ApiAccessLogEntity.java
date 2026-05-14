@@ -12,7 +12,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 /**
- * API 访问日志
+ * API access log
  */
 @TableName("infra_api_access_log")
 @KeySequence(value = "infra_api_access_log_seq")
@@ -25,113 +25,113 @@ import java.time.LocalDateTime;
 public class ApiAccessLogEntity extends BaseEntity {
 
     /**
-     * {@link #requestParams} 的最大长度
+     * Maximum length of {@link #requestParams}
      */
     public static final Integer REQUEST_PARAMS_MAX_LENGTH = 8000;
 
     /**
-     * {@link #resultMsg} 的最大长度
+     * Maximum length of {@link #resultMsg}
      */
     public static final Integer RESULT_MSG_MAX_LENGTH = 512;
 
     /**
-     * 编号
+     * ID
      */
     @TableId
     private Long id;
     /**
-     * 链路追踪编号
+     * Trace ID
      *
-     * 一般来说，通过链路追踪编号，可以将访问日志，错误日志，链路追踪日志，logger 打印日志等，结合在一起，从而进行排错。
+     * Generally, by trace ID, access logs, error logs, trace logs, logger logs, etc. can be combined to troubleshoot.
      */
     private String traceId;
     /**
-     * 用户编号
+     * User ID
      */
     private Long userId;
     /**
-     * 用户类型
+     * User type
      *
-     * 枚举 {@link UserTypeEnum}
+     * Enum {@link UserTypeEnum}
      */
     private Integer userType;
     /**
-     * 应用名
+     * Application name
      *
-     * 目前读取 `spring.application.name` 配置项
+     * Currently reads `spring.application.name` config item
      */
     private String applicationName;
 
-    // ========== 请求相关字段 ==========
+    // ========== Request related fields ==========
 
     /**
-     * 请求方法名
+     * Request method name
      */
     private String requestMethod;
     /**
-     * 访问地址
+     * Request URL
      */
     private String requestUrl;
     /**
-     * 请求参数
+     * Request parameters
      *
      * query: Query String
      * body: Quest Body
      */
     private String requestParams;
     /**
-     * 响应结果
+     * Response body
      */
     private String responseBody;
     /**
-     * 用户 IP
+     * User IP
      */
     private String userIp;
     /**
-     * 浏览器 UA
+     * Browser UA
      */
     private String userAgent;
 
-    // ========== 执行相关字段 ==========
+    // ========== Execution related fields ==========
 
     /**
-     * 操作模块
+     * Operation module
      */
     private String operateModule;
     /**
-     * 操作名
+     * Operation name
      */
     private String operateName;
     /**
-     * 操作分类
+     * Operation category
      *
-     * 枚举 {@link OperateTypeEnum}
+     * Enum {@link OperateTypeEnum}
      */
     private Integer operateType;
 
     /**
-     * 开始请求时间
+     * Request begin time
      */
     private LocalDateTime beginTime;
     /**
-     * 结束请求时间
+     * Request end time
      */
     private LocalDateTime endTime;
     /**
-     * 执行时长，单位：毫秒
+     * Execution duration, unit: milliseconds
      */
     private Integer duration;
 
     /**
-     * 结果码
+     * Result code
      *
-     * 目前使用的 {@link CommonResult#getCode()} 属性
+     * Currently uses the {@link CommonResult#getCode()} property
      */
     private Integer resultCode;
     /**
-     * 结果提示
+     * Result message
      *
-     * 目前使用的 {@link CommonResult#getMsg()} 属性
+     * Currently uses the {@link CommonResult#getMsg()} property
      */
     private String resultMsg;
 

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 /**
- * 操作日志 API 实现类
+ * Operate log API implementation class
  */
 @Service
 @Validated

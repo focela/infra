@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.NoArgsConstructor;
 
 /**
- * 社交绑定 Request DTO，使用 code 授权码
+ * Social unbind Request DTO
  */
 @Data
 @AllArgsConstructor
@@ -19,26 +19,26 @@ import lombok.NoArgsConstructor;
 public class SocialUserUnbindRpcRequest {
 
     /**
-     * 用户编号
+     * User ID
      */
     @NotNull(message = "user ID must not be blank")
     private Long userId;
     /**
-     * 用户类型
+     * User type
      */
     @InEnum(UserTypeEnum.class)
     @NotNull(message = "user type must not be blank")
     private Integer userType;
 
     /**
-     * 社交平台的类型
+     * Social platform type
      */
     @InEnum(SocialTypeEnum.class)
     @NotNull(message = "social platform type must not be blank")
     private Integer socialType;
 
     /**
-     * 社交平台的 openid
+     * Social platform openid
      */
     @NotEmpty(message = "social platform openid must not be blank")
     private String openid;

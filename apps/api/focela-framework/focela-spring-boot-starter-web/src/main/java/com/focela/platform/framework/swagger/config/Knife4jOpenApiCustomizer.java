@@ -25,9 +25,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * 增强扩展属性支持
+ * Enhanced extension property support
  *
- * 参考 <a href="https://github.com/xiaoymin/knife4j/issues/913">Spring Boot 3.4 以上版本 /v3/api-docs 解决接口报错，依赖修复</a>
+ * Reference <a href="https://github.com/xiaoymin/knife4j/issues/913">Spring Boot 3.4+ /v3/api-docs interface error fix, dependency repair</a>
  *
  * @since 4.1.0
  * 2022/12/11 22:40
@@ -52,7 +52,7 @@ public class Knife4jOpenApiCustomizer extends com.github.xiaoymin.knife4j.spring
         if (knife4jProperties.isEnable()) {
             Knife4jSetting setting = knife4jProperties.getSetting();
             OpenApiExtensionResolver openApiExtensionResolver = new OpenApiExtensionResolver(setting, knife4jProperties.getDocuments());
-            // 解析初始化
+            // parse and initialize
             openApiExtensionResolver.start();
             Map<String, Object> objectMap = new HashMap<>();
             objectMap.put(GlobalConstants.EXTENSION_OPEN_SETTING_NAME, setting);
@@ -63,7 +63,7 @@ public class Knife4jOpenApiCustomizer extends com.github.xiaoymin.knife4j.spring
     }
 
     /**
-     * 往 OpenAPI 内 tags 字段添加 x-order 属性
+     * Add x-order property to the tags field in OpenAPI
      *
      * @param openApi openApi
      */
@@ -71,7 +71,7 @@ public class Knife4jOpenApiCustomizer extends com.github.xiaoymin.knife4j.spring
         if (CollectionUtils.isEmpty(properties.getGroupConfigs())) {
             return;
         }
-        // 获取包扫描路径
+        // get package scan paths
         Set<String> packagesToScan =
                 properties.getGroupConfigs().stream()
                         .map(SpringDocConfigProperties.GroupConfig::getPackagesToScan)
@@ -81,14 +81,14 @@ public class Knife4jOpenApiCustomizer extends com.github.xiaoymin.knife4j.spring
         if (CollectionUtils.isEmpty(packagesToScan)) {
             return;
         }
-        // 扫描包下被 ApiSupport 注解的 RestController Class
+        // scan RestController classes annotated with ApiSupport under the package
         Set<Class<?>> classes = packagesToScan.stream()
                 .map(packageToScan -> scanPackageByAnnotation(packageToScan, RestController.class))
                 .flatMap(Set::stream)
                 .filter(clazz -> clazz.isAnnotationPresent(ApiSupport.class))
                 .collect(Collectors.toSet());
         if (!CollectionUtils.isEmpty(classes)) {
-            // ApiSupport oder 值存入 tagSortMap<Tag.name,ApiSupport.order>
+            // store ApiSupport order values into tagSortMap<Tag.name, ApiSupport.order>
             Map<String, Integer> tagOrderMap = new HashMap<>();
             classes.forEach(clazz -> {
                 Tag tag = getTag(clazz);
@@ -97,7 +97,7 @@ public class Knife4jOpenApiCustomizer extends com.github.xiaoymin.knife4j.spring
                     tagOrderMap.putIfAbsent(tag.name(), apiSupport.order());
                 }
             });
-            // 往 openApi tags 字段添加 x-order 增强属性
+            // add x-order extension property to openApi tags field
             if (openApi.getTags() != null) {
                 openApi.getTags().forEach(tag -> {
                     if (tagOrderMap.containsKey(tag.getName())) {
@@ -109,10 +109,10 @@ public class Knife4jOpenApiCustomizer extends com.github.xiaoymin.knife4j.spring
     }
 
     private Tag getTag(Class<?> clazz) {
-        // 从类上获取
+        // get from the class
         Tag tag = clazz.getAnnotation(Tag.class);
         if (Objects.isNull(tag)) {
-            // 从接口上获取
+            // get from the interface
             Class<?>[] interfaces = clazz.getInterfaces();
             if (ArrayUtils.isNotEmpty(interfaces)) {
                 for (Class<?> interfaceClazz : interfaces) {

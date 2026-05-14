@@ -9,25 +9,25 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 /**
- * 短信验证码的发送 Request DTO
+ * SMS verification code send Request DTO
  */
 @Data
 public class SmsCodeSendRpcRequest {
 
     /**
-     * 手机号
+     * Mobile number
      */
     @Mobile
     @NotEmpty(message = "mobile number must not be blank")
     private String mobile;
     /**
-     * 发送场景
+     * Send scenario
      */
     @NotNull(message = "send scenario must not be blank")
     @InEnum(SmsSceneEnum.class)
     private Integer scene;
     /**
-     * 发送 IP
+     * Send IP
      */
     @NotEmpty(message = "send IP must not be blank")
     private String createIp;

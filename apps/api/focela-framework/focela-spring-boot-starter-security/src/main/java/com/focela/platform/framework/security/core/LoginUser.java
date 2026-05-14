@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 登录用户信息
+ * Login user information
  */
 @Data
 public class LoginUser {
@@ -20,42 +20,42 @@ public class LoginUser {
     public static final String INFO_KEY_DEPT_ID = "deptId";
 
     /**
-     * 用户编号
+     * User ID
      */
     private Long id;
     /**
-     * 用户类型
+     * User type
      *
-     * 关联 {@link UserTypeEnum}
+     * Associated with {@link UserTypeEnum}
      */
     private Integer userType;
     /**
-     * 额外的用户信息
+     * Additional user information
      */
     private Map<String, String> info;
     /**
-     * 租户编号
+     * Tenant ID
      */
     private Long tenantId;
     /**
-     * 授权范围
+     * Authorization scopes
      */
     private List<String> scopes;
     /**
-     * 过期时间
+     * Expiration time
      */
     private LocalDateTime expiresTime;
 
-    // ========== 上下文 ==========
+    // ========== Context ==========
     /**
-     * 上下文字段，不进行持久化
+     * Context field, not persisted
      *
-     * 1. 用于基于 LoginUser 维度的临时缓存
+     * 1. Used for temporary caching keyed by LoginUser
      */
     @JsonIgnore
     private Map<String, Object> context;
     /**
-     * 访问的租户编号
+     * Visited tenant ID
      */
     private Long visitTenantId;
 

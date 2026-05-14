@@ -3,33 +3,33 @@ package com.focela.platform.module.system.config.sms.core.client;
 import com.focela.platform.module.system.config.sms.core.property.SmsChannelProperties;
 
 /**
- * 短信客户端的工厂接口
+ * SMS client factory interface
  *
  * @since 2021/1/28 14:01
  */
 public interface SmsClientFactory {
 
     /**
-     * 获得短信 Client
+     * Get the SMS Client
      *
-     * @param channelId 渠道编号
-     * @return 短信 Client
+     * @param channelId channel ID
+     * @return SMS Client
      */
     SmsClient getSmsClient(Long channelId);
 
     /**
-     * 获得短信 Client
+     * Get the SMS Client
      *
-     * @param channelCode 渠道编码
-     * @return 短信 Client
+     * @param channelCode channel code
+     * @return SMS Client
      */
     SmsClient getSmsClient(String channelCode);
 
     /**
-     * 创建短信 Client
+     * Create the SMS Client
      *
-     * @param properties 配置对象
-     * @return 短信 Client
+     * @param properties configuration object
+     * @return SMS Client
      */
     SmsClient createOrUpdateSmsClient(SmsChannelProperties properties);
 

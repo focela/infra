@@ -7,17 +7,17 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * 时间工具类
+ * Date/time utilities.
  */
 public class DateUtils {
 
     /**
-     * 时区 - 默认
+     * Default time zone.
      */
     public static final String TIME_ZONE_DEFAULT = "GMT+8";
 
     /**
-     * 秒转换成毫秒
+     * Milliseconds per second.
      */
     public static final long SECOND_MILLIS = 1000;
 
@@ -26,25 +26,25 @@ public class DateUtils {
     public static final String FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND = "yyyy-MM-dd HH:mm:ss";
 
     /**
-     * 将 LocalDateTime 转换成 Date
+     * Convert LocalDateTime to Date.
      *
      * @param date LocalDateTime
-     * @return LocalDateTime
+     * @return Date
      */
     public static Date of(LocalDateTime date) {
         if (date == null) {
             return null;
         }
-        // 将此日期时间与时区相结合以创建 ZonedDateTime
+        // Combine the date-time with the system time zone to create a ZonedDateTime.
         ZonedDateTime zonedDateTime = date.atZone(ZoneId.systemDefault());
-        // 本地时间线 LocalDateTime 到即时时间线 Instant 时间戳
+        // Convert local date-time to an Instant timestamp.
         Instant instant = zonedDateTime.toInstant();
-        // UTC时间(世界协调时间,UTC + 00:00)转北京(北京,UTC + 8:00)时间
+        // Convert UTC to the system default time zone.
         return Date.from(instant);
     }
 
     /**
-     * 将 Date 转换成 LocalDateTime
+     * Convert Date to LocalDateTime.
      *
      * @param date Date
      * @return LocalDateTime
@@ -53,9 +53,9 @@ public class DateUtils {
         if (date == null) {
             return null;
         }
-        // 转为时间戳
+        // Convert to timestamp.
         Instant instant = date.toInstant();
-        // UTC时间(世界协调时间,UTC + 00:00)转北京(北京,UTC + 8:00)时间
+        // Convert UTC to the system default time zone.
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
     }
 
@@ -69,27 +69,27 @@ public class DateUtils {
     }
 
     /**
-     * 创建指定时间
+     * Build a Date with the given year/month/day.
      *
-     * @param year  年
-     * @param month 月
-     * @param day   日
-     * @return 指定时间
+     * @param year  year
+     * @param month month
+     * @param day   day
+     * @return the date
      */
     public static Date buildTime(int year, int month, int day) {
         return buildTime(year, month, day, 0, 0, 0);
     }
 
     /**
-     * 创建指定时间
+     * Build a Date with the given year/month/day/hour/minute/second.
      *
-     * @param year   年
-     * @param month  月
-     * @param day    日
-     * @param hour   小时
-     * @param minute 分钟
-     * @param second 秒
-     * @return 指定时间
+     * @param year   year
+     * @param month  month
+     * @param day    day
+     * @param hour   hour
+     * @param minute minute
+     * @param second second
+     * @return the date
      */
     public static Date buildTime(int year, int month, int day,
                                  int hour, int minute, int second) {
@@ -100,7 +100,7 @@ public class DateUtils {
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, second);
-        calendar.set(Calendar.MILLISECOND, 0); // 一般情况下，都是 0 毫秒
+        calendar.set(Calendar.MILLISECOND, 0); // Typically 0 ms.
         return calendar.getTime();
     }
 
@@ -125,20 +125,20 @@ public class DateUtils {
     }
 
     /**
-     * 是否今天
+     * Whether the given date is today.
      *
-     * @param date 日期
-     * @return 是否
+     * @param date date
+     * @return whether it is today
      */
     public static boolean isToday(LocalDateTime date) {
         return LocalDateTimeUtil.isSameDay(date, LocalDateTime.now());
     }
 
     /**
-     * 是否昨天
+     * Whether the given date is yesterday.
      *
-     * @param date 日期
-     * @return 是否
+     * @param date date
+     * @return whether it is yesterday
      */
     public static boolean isYesterday(LocalDateTime date) {
         return LocalDateTimeUtil.isSameDay(date, LocalDateTime.now().minusDays(1));

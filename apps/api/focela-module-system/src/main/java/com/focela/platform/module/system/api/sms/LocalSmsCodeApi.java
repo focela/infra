@@ -10,7 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import jakarta.annotation.Resource;
 
 /**
- * 短信验证码 API 实现类
+ * SMS verification code API implementation class
  */
 @Service
 @Validated

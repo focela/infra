@@ -5,17 +5,17 @@ import com.focela.platform.framework.common.contract.system.dictionary.Dictionar
 import java.util.Collection;
 
 /**
- * 字典数据 API 接口
+ * Dictionary data API interface
  */
 public interface DictionaryDataApi extends DictionaryDataContractApi {
 
     /**
-     * 校验字典数据们是否有效。如下情况，视为无效：
-     * 1. 字典数据不存在
-     * 2. 字典数据被禁用
+     * Validate whether the dictionary data are valid. The following cases are considered invalid:
+     * 1. dictionary data does not exist
+     * 2. dictionary data is disabled
      *
-     * @param dictType 字典类型
-     * @param values   字典数据值的数组
+     * @param dictType dictionary type
+     * @param values   dictionary data values
      */
     void validateDictDataList(String dictType, Collection<String> values);
 

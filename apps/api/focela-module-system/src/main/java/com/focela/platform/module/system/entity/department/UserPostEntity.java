@@ -9,29 +9,29 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 用户和岗位关联
+ * User-post association
  */
 @TableName("system_user_post")
-@KeySequence("system_user_post_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
+@KeySequence("system_user_post_seq") // Primary key auto-increment for databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class UserPostEntity extends BaseEntity {
 
     /**
-     * 自增主键
+     * Auto-increment primary key
      */
     @TableId
     private Long id;
     /**
-     * 用户 ID
+     * User ID
      *
-     * 关联 {@link UserEntity#getId()}
+     * Associated with {@link UserEntity#getId()}
      */
     private Long userId;
     /**
-     * 角色 ID
+     * Post ID
      *
-     * 关联 {@link PostEntity#getId()}
+     * Associated with {@link PostEntity#getId()}
      */
     private Long postId;
 

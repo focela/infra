@@ -15,37 +15,37 @@ import java.util.List;
 public class SecurityProperties {
 
     /**
-     * HTTP 请求时，访问令牌的请求 Header
+     * Request Header carrying the access token in HTTP requests
      */
     @NotEmpty(message = "Token Header must not be blank")
     private String tokenHeader = "Authorization";
     /**
-     * HTTP 请求时，访问令牌的请求参数
+     * Request parameter carrying the access token in HTTP requests.
      *
-     * 初始目的：解决 WebSocket 无法通过 header 传参，只能通过 token 参数拼接
+     * Original purpose: handle WebSocket which cannot pass parameters via headers and must use a token query parameter.
      */
     @NotEmpty(message = "Token Parameter must not be blank")
     private String tokenParameter = "token";
 
     /**
-     * mock 模式的开关
+     * Switch for mock mode
      */
-    @NotNull(message = "mock 模式 开关must not be blank")
+    @NotNull(message = "mock mode switch must not be blank")
     private Boolean mockEnable = false;
     /**
-     * mock 模式的密钥
-     * 一定要配置密钥，保证安全性
+     * Secret for mock mode.
+     * A secret must be configured to ensure security.
      */
-    @NotEmpty(message = "mock 模式 secret must not be blank") // 这里设置了一个默认值，因为实际上只有 mockEnable 为 true 时才需要配置。
+    @NotEmpty(message = "mock mode secret must not be blank") // A default value is set here because it is actually only required when mockEnable is true.
     private String mockSecret = "test";
 
     /**
-     * 免登录的 URL 列表
+     * URL list that requires no login
      */
     private List<String> permitAllUrls = Collections.emptyList();
 
     /**
-     * PasswordEncoder 加密复杂度，越高开销越大
+     * PasswordEncoder encoding strength; higher means more CPU overhead
      */
     private Integer passwordEncoderLength = 4;
 }

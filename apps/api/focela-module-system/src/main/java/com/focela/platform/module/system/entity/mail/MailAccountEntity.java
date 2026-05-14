@@ -9,51 +9,51 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 邮箱账号 DO
+ * Mail account DO
  *
- * 用途：配置发送邮箱的账号
+ * Purpose: configure the account used to send mail
  *
  * @since 2022-03-21
  */
 @TableName(value = "system_mail_account", autoResultMap = true)
-@KeySequence("system_mail_account_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
+@KeySequence("system_mail_account_seq") // Primary key auto-increment for databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TenantIgnore
 public class MailAccountEntity extends BaseEntity {
 
     /**
-     * 主键
+     * Primary key
      */
     @TableId
     private Long id;
     /**
-     * 邮箱
+     * Email address
      */
     private String mail;
 
     /**
-     * 用户名
+     * Username
      */
     private String username;
     /**
-     * 密码
+     * Password
      */
     private String password;
     /**
-     * SMTP 服务器域名
+     * SMTP server host
      */
     private String host;
     /**
-     * SMTP 服务器端口
+     * SMTP server port
      */
     private Integer port;
     /**
-     * 是否开启 SSL
+     * Whether SSL is enabled
      */
     private Boolean sslEnable;
     /**
-     * 是否开启 STARTTLS
+     * Whether STARTTLS is enabled
      */
     private Boolean starttlsEnable;
 

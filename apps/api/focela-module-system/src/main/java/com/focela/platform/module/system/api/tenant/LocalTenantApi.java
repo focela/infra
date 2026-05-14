@@ -8,7 +8,7 @@ import jakarta.annotation.Resource;
 import java.util.List;
 
 /**
- * 多租户的 API 实现类
+ * Multi-tenant API implementation class
  */
 @Service
 public class LocalTenantApi implements TenantContractApi {

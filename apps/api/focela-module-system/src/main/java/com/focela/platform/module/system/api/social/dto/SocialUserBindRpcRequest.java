@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 /**
- * 取消绑定社交用户 Request DTO
+ * Bind social user Request DTO
  */
 @Data
 @NoArgsConstructor
@@ -19,25 +19,25 @@ import jakarta.validation.constraints.NotNull;
 public class SocialUserBindRpcRequest {
 
     /**
-     * 用户编号
+     * User ID
      */
     @NotNull(message = "user ID must not be blank")
     private Long userId;
     /**
-     * 用户类型
+     * User type
      */
     @InEnum(UserTypeEnum.class)
     @NotNull(message = "user type must not be blank")
     private Integer userType;
 
     /**
-     * 社交平台的类型
+     * Social platform type
      */
     @InEnum(SocialTypeEnum.class)
     @NotNull(message = "social platform type must not be blank")
     private Integer socialType;
     /**
-     * 授权码
+     * Authorization code
      */
     @NotEmpty(message = "authorization code must not be blank")
     private String code;

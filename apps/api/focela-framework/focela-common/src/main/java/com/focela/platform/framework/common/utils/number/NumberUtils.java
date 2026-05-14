@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * 数字的工具类，补全 {@link cn.hutool.core.util.NumberUtil} 的功能
+ * Number utilities; fills gaps in {@link cn.hutool.core.util.NumberUtil}.
  */
 public class NumberUtils {
 
@@ -33,15 +33,16 @@ public class NumberUtils {
     }
 
     /**
-     * 通过经纬度获取地球上两点之间的距离
+     * Compute the distance between two points on Earth from latitude/longitude.
      *
-     * 参考 <<a href="https://gitee.com/dromara/hutool/blob/1caabb586b1f95aec66a21d039c5695df5e0f4c1/hutool-core/src/main/java/cn/hutool/core/util/DistanceUtil.java">DistanceUtil</a>> 实现，目前它已经被 hutool 删除
+     * Based on the now-removed Hutool DistanceUtil:
+     * <a href="https://gitee.com/dromara/hutool/blob/1caabb586b1f95aec66a21d039c5695df5e0f4c1/hutool-core/src/main/java/cn/hutool/core/util/DistanceUtil.java">DistanceUtil</a>.
      *
-     * @param lat1 经度1
-     * @param lng1 纬度1
-     * @param lat2 经度2
-     * @param lng2 纬度2
-     * @return 距离，单位：千米
+     * @param lat1 latitude 1
+     * @param lng1 longitude 1
+     * @param lat2 latitude 2
+     * @param lng2 longitude 2
+     * @return distance in kilometers
      */
     public static double getDistance(double lat1, double lng1, double lat2, double lng2) {
         double radLat1 = lat1 * Math.PI / 180.0;
@@ -57,12 +58,12 @@ public class NumberUtils {
     }
 
     /**
-     * 提供精确的乘法运算
+     * Precise multiplication.
      *
-     * 和 hutool {@link NumberUtil#mul(BigDecimal...)} 的差别是，如果存在 null，则返回 null
+     * Differs from Hutool's {@link NumberUtil#mul(BigDecimal...)} by returning null if any argument is null.
      *
-     * @param values 多个被乘值
-     * @return 积
+     * @param values multipliers
+     * @return product
      */
     public static BigDecimal mul(BigDecimal... values) {
         for (BigDecimal value : values) {

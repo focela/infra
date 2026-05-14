@@ -13,53 +13,53 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * OAuth2 授权码 DO
+ * OAuth2 authorization code DO
  */
 @TableName(value = "system_oauth2_code", autoResultMap = true)
-@KeySequence("system_oauth2_code_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
+@KeySequence("system_oauth2_code_seq") // Primary key auto-increment for databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class OAuth2CodeEntity extends BaseEntity {
 
     /**
-     * 编号，数据库递增
+     * ID, database auto-increment
      */
     private Long id;
     /**
-     * 授权码
+     * Authorization code
      */
     private String code;
     /**
-     * 用户编号
+     * User ID
      */
     private Long userId;
     /**
-     * 用户类型
+     * User type
      *
-     * 枚举 {@link UserTypeEnum}
+     * Enum {@link UserTypeEnum}
      */
     private Integer userType;
     /**
-     * 客户端编号
+     * Client ID
      *
-     * 关联 {@link OAuth2ClientEntity#getClientId()}
+     * Associated with {@link OAuth2ClientEntity#getClientId()}
      */
     private String clientId;
     /**
-     * 授权范围
+     * Authorization scopes
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
     private List<String> scopes;
     /**
-     * 重定向地址
+     * Redirect URI
      */
     private String redirectUri;
     /**
-     * 状态
+     * State
      */
     private String state;
     /**
-     * 过期时间
+     * Expiration time
      */
     private LocalDateTime expiresTime;
 

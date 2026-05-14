@@ -4,31 +4,31 @@ import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import lombok.Data;
 
 /**
- * 岗位 Response DTO
+ * Post Response DTO
  */
 @Data
 public class PostRpcResponse {
 
     /**
-     * 岗位序号
+     * Post ID
      */
     private Long id;
     /**
-     * 岗位名称
+     * Post name
      */
     private String name;
     /**
-     * 岗位编码
+     * Post code
      */
     private String code;
     /**
-     * 岗位排序
+     * Post sort order
      */
     private Integer sort;
     /**
-     * 状态
+     * Status
      *
-     * 枚举 {@link CommonStatusEnum}
+     * Enum {@link CommonStatusEnum}
      */
     private Integer status;
 

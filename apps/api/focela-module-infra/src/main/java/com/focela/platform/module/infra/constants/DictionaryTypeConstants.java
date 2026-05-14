@@ -1,20 +1,20 @@
 package com.focela.platform.module.infra.constants;
 
 /**
- * Infra 字典类型的枚举类
+ * Infra dictionary type enum class
  */
 public interface DictionaryTypeConstants {
 
-    String USER_TYPE = "user_type"; // 用户类型
+    String USER_TYPE = "user_type"; // User type
 
-    String JOB_STATUS = "infra_job_status"; // 定时任务状态的枚举
-    String JOB_LOG_STATUS = "infra_job_log_status"; // 定时任务日志状态的枚举
+    String JOB_STATUS = "infra_job_status"; // Scheduled job status enum
+    String JOB_LOG_STATUS = "infra_job_log_status"; // Scheduled job log status enum
 
-    String API_ERROR_LOG_PROCESS_STATUS = "infra_api_error_log_process_status"; // API 错误日志的处理状态的枚举
+    String API_ERROR_LOG_PROCESS_STATUS = "infra_api_error_log_process_status"; // API error log process status enum
 
-    String CONFIG_TYPE = "infra_config_type"; // 参数配置类型
-    String BOOLEAN_STRING = "infra_boolean_string"; // Boolean 是否类型
+    String CONFIG_TYPE = "infra_config_type"; // Config type
+    String BOOLEAN_STRING = "infra_boolean_string"; // Boolean type
 
-    String OPERATE_TYPE = "infra_operate_type"; // 操作类型
+    String OPERATE_TYPE = "infra_operate_type"; // Operation type
 
 }

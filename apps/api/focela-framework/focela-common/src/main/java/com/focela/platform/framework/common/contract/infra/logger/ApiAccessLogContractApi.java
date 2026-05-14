@@ -5,21 +5,21 @@ import jakarta.validation.Valid;
 import org.springframework.scheduling.annotation.Async;
 
 /**
- * API 访问日志的 API 接口
+ * API access log API interface.
  */
 public interface ApiAccessLogContractApi {
 
     /**
-     * 创建 API 访问日志
+     * Create an API access log.
      *
-     * @param createDTO 创建信息
+     * @param createDTO create information
      */
     void createApiAccessLog(@Valid ApiAccessLogCreateRpcRequest createDTO);
 
     /**
-     * 【异步】创建 API 访问日志
+     * [Async] Create an API access log.
      *
-     * @param createDTO 访问日志 DTO
+     * @param createDTO access log DTO
      */
     @Async
     default void createApiAccessLogAsync(ApiAccessLogCreateRpcRequest createDTO) {

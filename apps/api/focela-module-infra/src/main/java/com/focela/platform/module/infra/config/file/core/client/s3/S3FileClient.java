@@ -25,7 +25,7 @@ import java.net.URL;
 import java.time.Duration;
 
 /**
- * 基于 S3 协议的文件客户端，实现 MinIO、阿里云、腾讯云、七牛云、华为云等云服务
+ * File client based on the S3 protocol; supports MinIO, Aliyun, Tencent Cloud, Qiniu, Huawei Cloud and other cloud services
  */
 public class S3FileClient extends AbstractFileClient<S3FileClientConfig> {
 
@@ -40,20 +40,20 @@ public class S3FileClient extends AbstractFileClient<S3FileClientConfig> {
 
     @Override
     protected void doInit() {
-        // 补全 domain
+        // Fill in domain
         if (StrUtil.isEmpty(config.getDomain())) {
             config.setDomain(buildDomain());
         }
-        // 初始化 S3 客户端
-        // 优先级：配置的 region > 从 endpoint 解析的 region > 默认值 us-east-1
+        // Initialize S3 client
+        // Priority: configured region > region parsed from endpoint > default us-east-1
         String regionStr = resolveRegion();
         Region region = Region.of(regionStr);
         AwsCredentialsProvider credentialsProvider = StaticCredentialsProvider.create(
                 AwsBasicCredentials.create(config.getAccessKey(), config.getAccessSecret()));
         URI endpoint = URI.create(buildEndpoint());
-        S3Configuration serviceConfiguration = S3Configuration.builder() // Path-style 访问
+        S3Configuration serviceConfiguration = S3Configuration.builder() // Path-style access
                 .pathStyleAccessEnabled(Boolean.TRUE.equals(config.getEnablePathStyleAccess()))
-                .chunkedEncodingEnabled(false) // 禁用分块编码，参见 https://t.zsxq.com/kBy57
+                .chunkedEncodingEnabled(false) // Disable chunked encoding, see https://t.zsxq.com/kBy57
                 .build();
         client = S3Client.builder()
                 .credentialsProvider(credentialsProvider)
@@ -71,16 +71,16 @@ public class S3FileClient extends AbstractFileClient<S3FileClientConfig> {
 
     @Override
     public String upload(byte[] content, String path, String type) {
-        // 构造 PutObjectRequest
+        // Build PutObjectRequest
         PutObjectRequest putRequest = PutObjectRequest.builder()
                 .bucket(config.getBucket())
                 .key(path)
                 .contentType(type)
                 .contentLength((long) content.length)
                 .build();
-        // 上传文件
+        // Upload file
         client.putObject(putRequest, RequestBody.fromBytes(content));
-        // 拼接返回路径
+        // Build return path
         return presignGetUrl(path, null);
     }
 
@@ -112,17 +112,17 @@ public class S3FileClient extends AbstractFileClient<S3FileClientConfig> {
 
     @Override
     public String presignGetUrl(String url, Integer expirationSeconds) {
-        // 1. 将 url 转换为 path
+        // 1. Convert url to path
         String path = StrUtil.removePrefix(url, config.getDomain() + "/");
         path = HttpUtils.decodeUrlPath(HttpUtils.removeUrlQuery(path));
 
-        // 2.1 情况一：公开访问：无需签名
-        // 考虑到老版本的兼容，所以必须是 config.getEnablePublicAccess() 为 false 时，才进行签名
+        // 2.1 Case 1: public access — no signing required
+        // For backward compatibility, only sign when config.getEnablePublicAccess() is false
         if (!BooleanUtil.isFalse(config.getEnablePublicAccess())) {
             return config.getDomain() + "/" + path;
         }
 
-        // 2.2 情况二：私有访问：生成 GET 预签名 URL
+        // 2.2 Case 2: private access — generate GET presigned URL
         String finalPath = path;
         Duration expiration = expirationSeconds != null ? Duration.ofSeconds(expirationSeconds) : EXPIRATION_DEFAULT;
         URL signedUrl = presigner.presignGetObject(GetObjectPresignRequest.builder()
@@ -133,26 +133,26 @@ public class S3FileClient extends AbstractFileClient<S3FileClientConfig> {
     }
 
     /**
-     * 基于 bucket + endpoint 构建访问的 Domain 地址
+     * Build the access Domain address based on bucket + endpoint
      *
-     * @return Domain 地址
+     * @return Domain address
      */
     private String buildDomain() {
-        // 如果已经是 http 或者 https，则不进行拼接.主要适配 MinIO
+        // If already http or https, do not concatenate. Mainly suited for MinIO
         if (HttpUtil.isHttp(config.getEndpoint()) || HttpUtil.isHttps(config.getEndpoint())) {
             return StrUtil.format("{}/{}", config.getEndpoint(), config.getBucket());
         }
-        // 阿里云、腾讯云、华为云都适合。七牛云比较特殊，必须有自定义域名
+        // Suitable for Aliyun, Tencent Cloud, Huawei Cloud. Qiniu is special — must have custom domain
         return StrUtil.format("https://{}.{}", config.getBucket(), config.getEndpoint());
     }
 
     /**
-     * 节点地址补全协议头
+     * Complete the endpoint address protocol prefix
      *
-     * @return 节点地址
+     * @return endpoint address
      */
     private String buildEndpoint() {
-        // 如果已经是 http 或者 https，则不进行拼接
+        // If already http or https, do not concatenate
         if (HttpUtil.isHttp(config.getEndpoint()) || HttpUtil.isHttps(config.getEndpoint())) {
             return config.getEndpoint();
         }
@@ -160,30 +160,30 @@ public class S3FileClient extends AbstractFileClient<S3FileClientConfig> {
     }
 
     /**
-     * 解析 AWS 区域
-     * 优先级：配置的 region > 从 endpoint 解析的 region > 默认值 us-east-1
+     * Resolve AWS region
+     * Priority: configured region > region parsed from endpoint > default us-east-1
      *
-     * @return 区域字符串
+     * @return region string
      */
     private String resolveRegion() {
-        // 1. 如果配置了 region，直接使用
+        // 1. If region is configured, use it directly
         if (StrUtil.isNotEmpty(config.getRegion())) {
             return config.getRegion();
         }
 
-        // 2.1 尝试从 endpoint 中解析 region
+        // 2.1 Try to parse region from endpoint
         String endpoint = config.getEndpoint();
         if (StrUtil.isEmpty(endpoint)) {
             return "us-east-1";
         }
 
-        // 2.2 移除协议头（http:// 或 https://）
+        // 2.2 Remove protocol prefix (http:// or https://)
         String host = endpoint;
         if (HttpUtil.isHttp(endpoint) || HttpUtil.isHttps(endpoint)) {
             try {
                 host = URI.create(endpoint).getHost();
             } catch (Exception e) {
-                // 解析失败，使用默认值
+                // Parsing failed, use default value
                 return "us-east-1";
             }
         }
@@ -191,21 +191,21 @@ public class S3FileClient extends AbstractFileClient<S3FileClientConfig> {
             return "us-east-1";
         }
 
-        // 3.1 AWS S3 格式：s3.us-west-2.amazonaws.com 或 s3.amazonaws.com
+        // 3.1 AWS S3 format: s3.us-west-2.amazonaws.com or s3.amazonaws.com
         if (host.contains("amazonaws.com")) {
-            // 匹配 s3.{region}.amazonaws.com 格式
+            // Match s3.{region}.amazonaws.com format
             if (host.startsWith("s3.") && host.contains(".amazonaws.com")) {
                 String regionPart = host.substring(3, host.indexOf(".amazonaws.com"));
                 if (StrUtil.isNotEmpty(regionPart) && !regionPart.equals("accelerate")) {
                     return regionPart;
                 }
             }
-            // s3.amazonaws.com 或 s3-accelerate.amazonaws.com 使用默认值
+            // s3.amazonaws.com or s3-accelerate.amazonaws.com — use default
             return "us-east-1";
         }
-        // 3.2 阿里云 OSS 格式：oss-cn-beijing.aliyuncs.com
+        // 3.2 Aliyun OSS format: oss-cn-beijing.aliyuncs.com
         if (host.contains(S3FileClientConfig.ENDPOINT_ALIYUN)) {
-            // 匹配 oss-{region}.aliyuncs.com 格式
+            // Match oss-{region}.aliyuncs.com format
             if (host.startsWith("oss-") && host.contains("." + S3FileClientConfig.ENDPOINT_ALIYUN)) {
                 String regionPart = host.substring(4, host.indexOf("." + S3FileClientConfig.ENDPOINT_ALIYUN));
                 if (StrUtil.isNotEmpty(regionPart)) {
@@ -213,9 +213,9 @@ public class S3FileClient extends AbstractFileClient<S3FileClientConfig> {
                 }
             }
         }
-        // 3.3 腾讯云 COS 格式：cos.ap-shanghai.myqcloud.com
+        // 3.3 Tencent Cloud COS format: cos.ap-shanghai.myqcloud.com
         if (host.contains(S3FileClientConfig.ENDPOINT_TENCENT)) {
-            // 匹配 cos.{region}.myqcloud.com 格式
+            // Match cos.{region}.myqcloud.com format
             if (host.startsWith("cos.") && host.contains("." + S3FileClientConfig.ENDPOINT_TENCENT)) {
                 String regionPart = host.substring(4, host.indexOf("." + S3FileClientConfig.ENDPOINT_TENCENT));
                 if (StrUtil.isNotEmpty(regionPart)) {
@@ -224,7 +224,7 @@ public class S3FileClient extends AbstractFileClient<S3FileClientConfig> {
             }
         }
 
-        // 3.4 其他情况（MinIO、七牛云等）使用默认值
+        // 3.4 Other cases (MinIO, Qiniu, etc.) — use default
         return "us-east-1";
     }
 

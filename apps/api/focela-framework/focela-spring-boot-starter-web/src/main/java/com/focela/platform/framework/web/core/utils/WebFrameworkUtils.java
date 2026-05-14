@@ -12,7 +12,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
- * 专属于 web 包的工具类
+ * Utility class dedicated to the web package
  */
 public class WebFrameworkUtils {
 
@@ -25,7 +25,7 @@ public class WebFrameworkUtils {
     public static final String HEADER_VISIT_TENANT_ID = "visit-tenant-id";
 
     /**
-     * 终端的 Header
+     * Terminal Header
      *
      * @see com.focela.platform.framework.common.enums.TerminalEnum
      */
@@ -38,11 +38,11 @@ public class WebFrameworkUtils {
     }
 
     /**
-     * 获得租户编号，从 header 中
-     * 考虑到其它 framework 组件也会使用到租户编号，所以不得不放在 WebFrameworkUtils 统一提供
+     * Get the tenant ID from the header.
+     * Since other framework components also need the tenant ID, it must be provided uniformly in WebFrameworkUtils.
      *
-     * @param request 请求
-     * @return 租户编号
+     * @param request request
+     * @return tenant ID
      */
     public static Long getTenantId(HttpServletRequest request) {
         String tenantId = request.getHeader(HEADER_TENANT_ID);
@@ -50,11 +50,11 @@ public class WebFrameworkUtils {
     }
 
     /**
-     * 获得访问的租户编号，从 header 中
-     * 考虑到其它 framework 组件也会使用到租户编号，所以不得不放在 WebFrameworkUtils 统一提供
+     * Get the visiting tenant ID from the header.
+     * Since other framework components also need the tenant ID, it must be provided uniformly in WebFrameworkUtils.
      *
-     * @param request 请求
-     * @return 租户编号
+     * @param request request
+     * @return tenant ID
      */
     public static Long getVisitTenantId(HttpServletRequest request) {
         String tenantId = request.getHeader(HEADER_VISIT_TENANT_ID);
@@ -66,21 +66,21 @@ public class WebFrameworkUtils {
     }
 
     /**
-     * 设置用户类型
+     * Set the user type
      *
-     * @param request 请求
-     * @param userType 用户类型
+     * @param request request
+     * @param userType user type
      */
     public static void setLoginUserType(ServletRequest request, Integer userType) {
         request.setAttribute(REQUEST_ATTRIBUTE_LOGIN_USER_TYPE, userType);
     }
 
     /**
-     * 获得当前用户的编号，从请求中
-     * 注意：该方法仅限于 framework 框架使用！！！
+     * Get the current user's ID from the request.
+     * Note: this method is limited to framework usage only!
      *
-     * @param request 请求
-     * @return 用户编号
+     * @param request request
+     * @return user ID
      */
     public static Long getLoginUserId(HttpServletRequest request) {
         if (request == null) {
@@ -90,22 +90,22 @@ public class WebFrameworkUtils {
     }
 
     /**
-     * 获得当前用户的类型
-     * 注意：该方法仅限于 web 相关的 framework 组件使用！！！
+     * Get the current user's type.
+     * Note: this method is limited to web-related framework components only!
      *
-     * @param request 请求
-     * @return 用户编号
+     * @param request request
+     * @return user ID
      */
     public static Integer getLoginUserType(HttpServletRequest request) {
         if (request == null) {
             return null;
         }
-        // 1. 优先，从 Attribute 中获取
+        // 1. prefer to get from Attribute
         Integer userType = (Integer) request.getAttribute(REQUEST_ATTRIBUTE_LOGIN_USER_TYPE);
         if (userType != null) {
             return userType;
         }
-        // 2. 其次，基于 URL 前缀的约定
+        // 2. fall back to convention based on URL prefix
         if (request.getServletPath().startsWith(properties.getAdminApi().getPrefix())) {
             return UserTypeEnum.ADMIN.getValue();
         }

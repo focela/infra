@@ -10,10 +10,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 部门表
+ * Department table
  */
 @TableName("system_dept")
-@KeySequence("system_dept_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
+@KeySequence("system_dept_seq") // Primary key auto-increment for databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class DepartmentEntity extends TenantBaseEntity {
@@ -21,42 +21,42 @@ public class DepartmentEntity extends TenantBaseEntity {
     public static final Long PARENT_ID_ROOT = 0L;
 
     /**
-     * 部门ID
+     * Department ID
      */
     @TableId
     private Long id;
     /**
-     * 部门名称
+     * Department name
      */
     private String name;
     /**
-     * 父部门ID
+     * Parent department ID
      *
-     * 关联 {@link #id}
+     * Associated with {@link #id}
      */
     private Long parentId;
     /**
-     * 显示顺序
+     * Display order
      */
     private Integer sort;
     /**
-     * 负责人
+     * Leader
      *
-     * 关联 {@link UserEntity#getId()}
+     * Associated with {@link UserEntity#getId()}
      */
     private Long leaderUserId;
     /**
-     * 联系电话
+     * Contact phone
      */
     private String phone;
     /**
-     * 邮箱
+     * Email
      */
     private String email;
     /**
-     * 部门状态
+     * Department status
      *
-     * 枚举 {@link CommonStatusEnum}
+     * Enum {@link CommonStatusEnum}
      */
     private Integer status;
 

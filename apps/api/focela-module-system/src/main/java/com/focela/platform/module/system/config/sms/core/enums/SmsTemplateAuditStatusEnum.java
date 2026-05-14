@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 短信模板的审核状态枚举
+ * SMS template audit status enum
  */
 @AllArgsConstructor
 @Getter

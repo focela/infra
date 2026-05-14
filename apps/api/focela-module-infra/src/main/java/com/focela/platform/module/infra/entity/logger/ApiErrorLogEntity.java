@@ -11,7 +11,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 /**
- * API 异常数据
+ * API exception data
  */
 @TableName("infra_api_error_log")
 @Data
@@ -24,135 +24,135 @@ import java.time.LocalDateTime;
 public class ApiErrorLogEntity extends BaseEntity {
 
     /**
-     * {@link #requestParams} 的最大长度
+     * Maximum length of {@link #requestParams}
      */
     public static final Integer REQUEST_PARAMS_MAX_LENGTH = 8000;
 
     /**
-     * 编号
+     * ID
      */
     @TableId
     private Long id;
     /**
-     * 用户编号
+     * User ID
      */
     private Long userId;
     /**
-     * 链路追踪编号
+     * Trace ID
      *
-     * 一般来说，通过链路追踪编号，可以将访问日志，错误日志，链路追踪日志，logger 打印日志等，结合在一起，从而进行排错。
+     * Generally, by trace ID, access logs, error logs, trace logs, logger logs, etc. can be combined to troubleshoot.
      */
     private String traceId;
     /**
-     * 用户类型
+     * User type
      *
-     * 枚举 {@link UserTypeEnum}
+     * Enum {@link UserTypeEnum}
      */
     private Integer userType;
     /**
-     * 应用名
+     * Application name
      *
-     * 目前读取 spring.application.name
+     * Currently reads spring.application.name
      */
     private String applicationName;
 
-    // ========== 请求相关字段 ==========
+    // ========== Request related fields ==========
 
     /**
-     * 请求方法名
+     * Request method name
      */
     private String requestMethod;
     /**
-     * 访问地址
+     * Request URL
      */
     private String requestUrl;
     /**
-     * 请求参数
+     * Request parameters
      *
      * query: Query String
      * body: Quest Body
      */
     private String requestParams;
     /**
-     * 用户 IP
+     * User IP
      */
     private String userIp;
     /**
-     * 浏览器 UA
+     * Browser UA
      */
     private String userAgent;
 
-    // ========== 异常相关字段 ==========
+    // ========== Exception related fields ==========
 
     /**
-     * 异常发生时间
+     * Exception occurrence time
      */
     private LocalDateTime exceptionTime;
     /**
-     * 异常名
+     * Exception name
      *
-     * {@link Throwable#getClass()} 的类全名
+     * Full class name of {@link Throwable#getClass()}
      */
     private String exceptionName;
     /**
-     * 异常导致的消息
+     * Exception message
      *
      * {@link cn.hutool.core.exceptions.ExceptionUtil#getMessage(Throwable)}
      */
     private String exceptionMessage;
     /**
-     * 异常导致的根消息
+     * Exception root cause message
      *
      * {@link cn.hutool.core.exceptions.ExceptionUtil#getRootCauseMessage(Throwable)}
      */
     private String exceptionRootCauseMessage;
     /**
-     * 异常的栈轨迹
+     * Exception stack trace
      *
      * {@link org.apache.commons.lang3.exception.ExceptionUtils#getStackTrace(Throwable)}
      */
     private String exceptionStackTrace;
     /**
-     * 异常发生的类全名
+     * Full class name where the exception occurred
      *
      * {@link StackTraceElement#getClassName()}
      */
     private String exceptionClassName;
     /**
-     * 异常发生的类文件
+     * Class file where the exception occurred
      *
      * {@link StackTraceElement#getFileName()}
      */
     private String exceptionFileName;
     /**
-     * 异常发生的方法名
+     * Method name where the exception occurred
      *
      * {@link StackTraceElement#getMethodName()}
      */
     private String exceptionMethodName;
     /**
-     * 异常发生的方法所在行
+     * Line number where the exception occurred
      *
      * {@link StackTraceElement#getLineNumber()}
      */
     private Integer exceptionLineNumber;
 
-    // ========== 处理相关字段 ==========
+    // ========== Process related fields ==========
 
     /**
-     * 处理状态
+     * Process status
      *
-     * 枚举 {@link ApiErrorLogProcessStatusEnum}
+     * Enum {@link ApiErrorLogProcessStatusEnum}
      */
     private Integer processStatus;
     /**
-     * 处理时间
+     * Process time
      */
     private LocalDateTime processTime;
     /**
-     * 处理用户编号
+     * Process user ID
      *
-     * 关联 com.focela.platform.adminserver.modules.system.repository.entity.user.SysUserDO.SysUserDO#getId()
+     * Associated with com.focela.platform.adminserver.modules.system.repository.entity.user.SysUserDO.SysUserDO#getId()
      */
     private Long processUserId;
 

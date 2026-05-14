@@ -6,95 +6,95 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * API 访问日志
+ * API access log.
  */
 @Data
 public class ApiAccessLogCreateRpcRequest {
 
     /**
-     * 链路追踪编号
+     * Trace ID.
      */
     private String traceId;
     /**
-     * 用户编号
+     * User ID.
      */
     private Long userId;
     /**
-     * 用户类型
+     * User type.
      */
     private Integer userType;
     /**
-     * 应用名
+     * Application name.
      */
     @NotNull(message = "application name must not be blank")
     private String applicationName;
 
     /**
-     * 请求方法名
+     * HTTP request method.
      */
     @NotNull(message = "HTTP method must not be blank")
     private String requestMethod;
     /**
-     * 访问地址
+     * Access URL.
      */
     @NotNull(message = "access URL must not be blank")
     private String requestUrl;
     /**
-     * 请求参数
+     * Request parameters.
      */
     private String requestParams;
     /**
-     * 响应结果
+     * Response body.
      */
     private String responseBody;
     /**
-     * 用户 IP
+     * User IP.
      */
     @NotNull(message = "ip must not be blank")
     private String userIp;
     /**
-     * 浏览器 UA
+     * Browser User-Agent.
      */
     @NotNull(message = "User-Agent must not be blank")
     private String userAgent;
 
     /**
-     * 操作模块
+     * Operation module.
      */
     private String operateModule;
     /**
-     * 操作名
+     * Operation name.
      */
     private String operateName;
     /**
-     * 操作分类
+     * Operation category.
      *
-     * 枚举，参见 OperateTypeEnum 类
+     * Enum; see OperateTypeEnum.
      */
     private Integer operateType;
 
     /**
-     * 开始请求时间
+     * Request start time.
      */
     @NotNull(message = "start request time must not be blank")
     private LocalDateTime beginTime;
     /**
-     * 结束请求时间
+     * Request end time.
      */
     @NotNull(message = "end request time must not be blank")
     private LocalDateTime endTime;
     /**
-     * 执行时长，单位：毫秒
+     * Execution duration in milliseconds.
      */
     @NotNull(message = "execution duration must not be blank")
     private Integer duration;
     /**
-     * 结果码
+     * Result code.
      */
     @NotNull(message = "error code must not be blank")
     private Integer resultCode;
     /**
-     * 结果提示
+     * Result message.
      */
     private String resultMsg;
 

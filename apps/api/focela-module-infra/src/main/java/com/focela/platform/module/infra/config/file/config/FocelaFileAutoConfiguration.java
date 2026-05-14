@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 文件配置类
+ * File config class
  */
 @Configuration(proxyBeanMethods = false)
 public class FocelaFileAutoConfiguration {

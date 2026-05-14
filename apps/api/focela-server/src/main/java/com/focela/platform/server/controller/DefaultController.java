@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import static com.focela.platform.framework.common.exception.enums.GlobalErrorCodeConstants.NOT_IMPLEMENTED;
 
 /**
- * 默认 Controller，解决部分 module 未开启时的 404 提示。
- * 例如说，/bpm/** 路径，工作流
+ * Default Controller; handles 404 responses when certain modules are not enabled.
+ * For example, the /bpm/** path for the workflow module.
  */
 @RestController
 @Slf4j
@@ -21,70 +21,70 @@ public class DefaultController {
     @RequestMapping("/admin-api/bpm/**")
     public CommonResult<Boolean> bpm404() {
         return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                "[工作流模块 yudao-module-bpm - 已禁用][参考 https://www.example.com/bpm/ 开启]");
+                "[Workflow module - disabled][See https://www.example.com/bpm/ to enable]");
     }
 
     @RequestMapping("/admin-api/mp/**")
     public CommonResult<Boolean> mp404() {
         return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                "[微信公众号 yudao-module-mp - 已禁用][参考 https://www.example.com/mp/build/ 开启]");
+                "[WeChat Official Account module - disabled][See https://www.example.com/mp/build/ to enable]");
     }
 
-    @RequestMapping(value = { "/admin-api/product/**", // 商品中心
-            "/admin-api/trade/**", // 交易中心
-            "/admin-api/promotion/**" }) // 营销中心
+    @RequestMapping(value = { "/admin-api/product/**", // Product center
+            "/admin-api/trade/**", // Trade center
+            "/admin-api/promotion/**" }) // Promotion center
     public CommonResult<Boolean> mall404() {
         return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                "[商城系统 yudao-module-mall - 已禁用][参考 https://www.example.com/mall/build/ 开启]");
+                "[Mall system - disabled][See https://www.example.com/mall/build/ to enable]");
     }
 
     @RequestMapping("/admin-api/erp/**")
     public CommonResult<Boolean> erp404() {
         return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                "[ERP 模块 yudao-module-erp - 已禁用][参考 https://www.example.com/erp/build/ 开启]");
+                "[ERP module - disabled][See https://www.example.com/erp/build/ to enable]");
     }
 
     @RequestMapping("/admin-api/crm/**")
     public CommonResult<Boolean> crm404() {
         return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                "[CRM 模块 yudao-module-crm - 已禁用][参考 https://www.example.com/crm/build/ 开启]");
+                "[CRM module - disabled][See https://www.example.com/crm/build/ to enable]");
     }
 
     @RequestMapping(value = { "/admin-api/report/**"})
     public CommonResult<Boolean> report404() {
         return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                "[报表模块 yudao-module-report - 已禁用][参考 https://www.example.com/report/ 开启]");
+                "[Report module - disabled][See https://www.example.com/report/ to enable]");
     }
 
     @RequestMapping(value = { "/admin-api/pay/**"})
     public CommonResult<Boolean> pay404() {
         return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                "[支付模块 yudao-module-pay - 已禁用][参考 https://www.example.com/pay/build/ 开启]");
+                "[Pay module - disabled][See https://www.example.com/pay/build/ to enable]");
     }
 
     @RequestMapping(value = { "/admin-api/ai/**"})
     public CommonResult<Boolean> ai404() {
         return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                "[AI 大模型 yudao-module-ai - 已禁用][参考 https://www.example.com/ai/build/ 开启]");
+                "[AI module - disabled][See https://www.example.com/ai/build/ to enable]");
     }
 
     @RequestMapping(value = { "/admin-api/iot/**"})
     public CommonResult<Boolean> iot404() {
         return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                "[IoT 物联网 yudao-module-iot - 已禁用][参考 https://www.example.com/iot/build/ 开启]");
+                "[IoT module - disabled][See https://www.example.com/iot/build/ to enable]");
     }
 
     /**
-     * 测试接口：打印 query、header、body
+     * Test endpoint: prints query, header, and body.
      */
     @RequestMapping(value = { "/test" })
     @PermitAll
     public CommonResult<Boolean> test(HttpServletRequest request) {
-        // 打印查询参数
+        // Print query parameters
         log.info("Query: {}", ServletUtils.getParamMap(request));
-        // 打印请求头
+        // Print request headers
         log.info("Header: {}", ServletUtils.getHeaderMap(request));
-        // 打印请求体
+        // Print request body
         log.info("Body: {}", ServletUtils.getBody(request));
         return CommonResult.success(true);
     }

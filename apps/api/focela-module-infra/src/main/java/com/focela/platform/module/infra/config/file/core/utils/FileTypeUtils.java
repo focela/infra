@@ -13,7 +13,7 @@ import org.apache.tika.mime.MimeTypes;
 import java.io.IOException;
 
 /**
- * 文件类型 Utils
+ * File type Utils
  */
 @Slf4j
 public class FileTypeUtils {
@@ -21,10 +21,10 @@ public class FileTypeUtils {
     private static final Tika TIKA = new Tika();
 
     /**
-     * 获得文件的 mineType，对于 doc，jar 等文件会有误差
+     * Get the mineType of a file. There may be discrepancies for doc, jar and similar files.
      *
-     * @param data 文件内容
-     * @return mineType 无法识别时会返回“application/octet-stream”
+     * @param data file content
+     * @return mineType, returns "application/octet-stream" when unable to recognize
      */
     @SneakyThrows
     public static String getMineType(byte[] data) {
@@ -32,33 +32,33 @@ public class FileTypeUtils {
     }
 
     /**
-     * 已知文件名，获取文件类型，在某些情况下比通过字节数组准确，例如使用 jar 文件时，通过名字更为准确
+     * Get the file type by file name; in some cases more accurate than via byte array, e.g. for jar files name is more accurate
      *
-     * @param name 文件名
-     * @return mineType 无法识别时会返回“application/octet-stream”
+     * @param name file name
+     * @return mineType, returns "application/octet-stream" when unable to recognize
      */
     public static String getMineType(String name) {
         return TIKA.detect(name);
     }
 
     /**
-     * 在拥有文件和数据的情况下，最好使用此方法，最为准确
+     * When both file and data are available, this method is preferred — most accurate
      *
-     * @param data 文件内容
-     * @param name 文件名
-     * @return mineType 无法识别时会返回“application/octet-stream”
+     * @param data file content
+     * @param name file name
+     * @return mineType, returns "application/octet-stream" when unable to recognize
      */
     public static String getMineType(byte[] data, String name) {
         return TIKA.detect(data, name);
     }
 
     /**
-     * 根据 mineType 获得文件后缀
+     * Get file extension by mineType
      *
-     * 注意：如果获取不到，或者发生异常，都返回 null
+     * Note: If not found or an exception occurs, returns null
      *
-     * @param mineType 类型
-     * @return 后缀，例如说 .pdf
+     * @param mineType type
+     * @return extension, e.g. .pdf
      */
     public static String getExtension(String mineType) {
         try {
@@ -70,37 +70,37 @@ public class FileTypeUtils {
     }
 
     /**
-     * 返回附件
+     * Return attachment
      *
-     * @param response 响应
-     * @param filename 文件名
-     * @param content  附件内容
+     * @param response response
+     * @param filename file name
+     * @param content  attachment content
      */
     public static void writeAttachment(HttpServletResponse response, String filename, byte[] content) throws IOException {
-        // 设置 header 和 contentType
+        // Set header and contentType
         String mineType = getMineType(content, filename);
         response.setContentType(mineType);
-        // 设置内容显示、下载文件名：https://www.cnblogs.com/wq-9/articles/12165056.html
+        // Set content display, download file name: https://www.cnblogs.com/wq-9/articles/12165056.html
         if (isImage(mineType)) {
-            // 参见 https://github.com/YunaiV/ruoyi-vue-pro/issues/692 讨论
+            // See https://github.com/YunaiV/ruoyi-vue-pro/issues/692 for discussion
             response.setHeader("Content-Disposition", "inline;filename=" + HttpUtils.encodeUtf8(filename));
         } else {
             response.setHeader("Content-Disposition", "attachment;filename=" + HttpUtils.encodeUtf8(filename));
         }
-        // 针对 video 的特殊处理，解决视频地址在移动端播放的兼容性问题
+        // Special handling for video, to solve compatibility issues when playing video URLs on mobile
         if (StrUtil.containsIgnoreCase(mineType, "video")) {
             response.setHeader("Accept-Ranges", "bytes");
             response.setHeader("Content-Length", String.valueOf(content.length));
         }
-        // 输出附件
+        // Output attachment
         IoUtil.write(response.getOutputStream(), false, content);
     }
 
     /**
-     * 判断是否是图片
+     * Check whether it is an image
      *
-     * @param mineType 类型
-     * @return 是否是图片
+     * @param mineType type
+     * @return whether it is an image
      */
     public static boolean isImage(String mineType) {
         return StrUtil.startWith(mineType, "image/");

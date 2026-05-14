@@ -1,13 +1,13 @@
 package com.focela.platform.framework.common.core;
 
 /**
- * 可生成 T 数组的接口
+ * Interface for types that can produce a T array.
  */
 public interface ArrayValuable<T> {
 
     /**
-     * @return 数组
+     * @return the array
      */
     T[] array();
 
-} 
+}

@@ -11,12 +11,12 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
 
 /**
- *  Request Body 缓存 Wrapper
+ * Request Body cache Wrapper
  */
 public class CacheRequestBodyWrapper extends HttpServletRequestWrapper {
 
     /**
-     * 缓存的内容
+     * Cached content
      */
     private final byte[] body;
 
@@ -43,7 +43,7 @@ public class CacheRequestBodyWrapper extends HttpServletRequestWrapper {
     @Override
     public ServletInputStream getInputStream() {
         final ByteArrayInputStream inputStream = new ByteArrayInputStream(body);
-        // 返回 ServletInputStream
+        // return ServletInputStream
         return new ServletInputStream() {
 
             @Override

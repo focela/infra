@@ -8,7 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import jakarta.annotation.Resource;
 
 /**
- * 邮件发送 API 实现类
+ * Mail send API implementation class
  */
 @Service
 @Validated

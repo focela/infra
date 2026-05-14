@@ -15,10 +15,10 @@ import java.util.Date;
 import java.util.Map;
 
 /**
- * 站内信 DO
+ * In-site notification message DO
  */
 @TableName(value = "system_notify_message", autoResultMap = true)
-@KeySequence("system_notify_message_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
+@KeySequence("system_notify_message_seq") // Primary key auto-increment for databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
@@ -28,71 +28,71 @@ import java.util.Map;
 public class NotifyMessageEntity extends BaseEntity {
 
     /**
-     * 站内信编号，自增
+     * Notification message ID, auto-increment
      */
     @TableId
     private Long id;
     /**
-     * 用户编号
+     * User ID
      *
-     * 关联 MemberUserDO 的 id 字段、或者 UserEntity 的 id 字段
+     * Associated with MemberUserDO#id, or UserEntity#id
      */
     private Long userId;
     /**
-     * 用户类型
+     * User type
      *
-     * 枚举 {@link UserTypeEnum}
+     * Enum {@link UserTypeEnum}
      */
     private Integer userType;
 
-    // ========= 模板相关字段 =========
+    // ========= Template-related fields =========
 
     /**
-     * 模版编号
+     * Template ID
      *
-     * 关联 {@link NotifyTemplateEntity#getId()}
+     * Associated with {@link NotifyTemplateEntity#getId()}
      */
     private Long templateId;
     /**
-     * 模版编码
+     * Template code
      *
-     * 关联 {@link NotifyTemplateEntity#getCode()}
+     * Associated with {@link NotifyTemplateEntity#getCode()}
      */
     private String templateCode;
     /**
-     * 模版类型
+     * Template type
      *
-     * 冗余 {@link NotifyTemplateEntity#getType()}
+     * Redundant {@link NotifyTemplateEntity#getType()}
      */
     private Integer templateType;
     /**
-     * 模版发送人名称
+     * Template sender nickname
      *
-     * 冗余 {@link NotifyTemplateEntity#getNickname()}
+     * Redundant {@link NotifyTemplateEntity#getNickname()}
      */
     private String templateNickname;
     /**
-     * 模版内容
+     * Template content
      *
-     * 基于 {@link NotifyTemplateEntity#getContent()} 格式化后的内容
+     * Formatted content based on {@link NotifyTemplateEntity#getContent()}
      */
     private String templateContent;
     /**
-     * 模版参数
+     * Template parameters
      *
-     * 基于 {@link NotifyTemplateEntity#getParams()} 输入后的参数
+     * Parameters provided based on {@link NotifyTemplateEntity#getParams()}
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
     private Map<String, Object> templateParams;
 
-    // ========= 读取相关字段 =========
+    // ========= Read-related fields =========
 
     /**
-     * 是否已读
+     * Whether read
      */
     private Boolean readStatus;
     /**
-     * 阅读时间
+     * Read time
      */
     private LocalDateTime readTime;
 

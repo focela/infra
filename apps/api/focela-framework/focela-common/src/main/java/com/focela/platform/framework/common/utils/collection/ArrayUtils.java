@@ -11,17 +11,17 @@ import java.util.function.Function;
 import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertList;
 
 /**
- * Array 工具类
+ * Array utilities.
  */
 public class ArrayUtils {
 
     /**
-     * 将 object 和 newElements 合并成一个数组
+     * Merge object and newElements into a single array.
      *
-     * @param object 对象
-     * @param newElements 数组
-     * @param <T> 泛型
-     * @return 结果数组
+     * @param object object
+     * @param newElements array
+     * @param <T> generic type
+     * @return resulting array
      */
     @SafeVarargs
     public static <T> Consumer<T>[] append(Consumer<T> object, Consumer<T>... newElements) {

@@ -5,21 +5,21 @@ import jakarta.validation.Valid;
 import org.springframework.scheduling.annotation.Async;
 
 /**
- * 操作日志 API 接口
+ * Operate log API interface.
  */
 public interface OperateLogContractApi {
 
     /**
-     * 创建操作日志
+     * Create an operate log.
      *
-     * @param createRequest 请求
+     * @param createRequest request
      */
     void createOperateLog(@Valid OperateLogCreateRpcRequest createRequest);
 
     /**
-     * 【异步】创建操作日志
+     * [Async] Create an operate log.
      *
-     * @param createRequest 请求
+     * @param createRequest request
      */
     @Async
     default void createOperateLogAsync(OperateLogCreateRpcRequest createRequest) {

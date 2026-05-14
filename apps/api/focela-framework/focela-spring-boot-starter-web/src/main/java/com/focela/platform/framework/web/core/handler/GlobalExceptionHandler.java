@@ -48,7 +48,7 @@ import java.util.Set;
 import static com.focela.platform.framework.common.exception.enums.GlobalErrorCodeConstants.*;
 
 /**
- * 全局异常处理器，将 Exception 翻译成 CommonResult + 对应的异常编号
+ * Global exception handler; translates exceptions into CommonResult + corresponding error code
  */
 @RestControllerAdvice
 @AllArgsConstructor
@@ -56,8 +56,9 @@ import static com.focela.platform.framework.common.exception.enums.GlobalErrorCo
 public class GlobalExceptionHandler {
 
     /**
-     * 忽略的 ServiceException 错误提示，避免打印过多 logger
+     * ServiceException error messages to ignore, to avoid logging too much
      */
+    // NOTE: value compared against error messages thrown elsewhere; kept in Chinese intentionally ("Invalid refresh token")
     public static final Set<String> IGNORE_ERROR_MESSAGES = SetUtils.asSet("无效的刷新令牌");
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
@@ -66,12 +67,13 @@ public class GlobalExceptionHandler {
     private final ApiErrorLogContractApi apiErrorLogApi;
 
     /**
-     * 处理所有异常，主要是提供给 Filter 使用
-     * 因为 Filter 不走 SpringMVC 的流程，但是我们又需要兜底处理异常，所以这里提供一个全量的异常处理过程，保持逻辑统一。
+     * Handle all exceptions, mainly for Filter usage.
+     * Because Filter does not go through the SpringMVC flow, but we still need a fallback exception handler,
+     * a full exception handling process is provided here to keep logic consistent.
      *
-     * @param request 请求
-     * @param ex 异常
-     * @return 通用返回
+     * @param request request
+     * @param ex exception
+     * @return common result
      */
     public CommonResult<?> allExceptionHandler(HttpServletRequest request, Throwable ex) {
         if (ex instanceof MissingServletRequestParameterException) {
@@ -117,20 +119,20 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理 SpringMVC 请求参数缺失
+     * Handle SpringMVC missing request parameter
      *
-     * 例如说，接口上设置了 @RequestParam("xx") 参数，结果并未传递 xx 参数
+     * For example, the interface declares @RequestParam("xx"), but xx is not provided.
      */
     @ExceptionHandler(value = MissingServletRequestParameterException.class)
     public CommonResult<?> missingServletRequestParameterExceptionHandler(MissingServletRequestParameterException ex) {
         log.warn("[missingServletRequestParameterExceptionHandler]", ex);
-        return CommonResult.error(BAD_REQUEST.getCode(), String.format("request param 缺失:%s", ex.getParameterName()));
+        return CommonResult.error(BAD_REQUEST.getCode(), String.format("request param missing:%s", ex.getParameterName()));
     }
 
     /**
-     * 处理 SpringMVC 请求参数类型错误
+     * Handle SpringMVC request parameter type mismatch
      *
-     * 例如说，接口上设置了 @RequestParam("xx") 参数为 Integer，结果传递 xx 参数类型为 String
+     * For example, the interface declares @RequestParam("xx") as Integer, but xx is provided as a String.
      */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public CommonResult<?> methodArgumentTypeMismatchExceptionHandler(MethodArgumentTypeMismatchException ex) {
@@ -139,16 +141,16 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理 SpringMVC 参数校验不正确
+     * Handle SpringMVC parameter validation failures
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public CommonResult<?> methodArgumentNotValidExceptionExceptionHandler(MethodArgumentNotValidException ex) {
         log.warn("[methodArgumentNotValidExceptionExceptionHandler]", ex);
-        // 获取 errorMessage
+        // get errorMessage
         String errorMessage = null;
         FieldError fieldError = ex.getBindingResult().getFieldError();
         if (fieldError == null) {
-            // 组合校验，参考自 https://t.zsxq.com/3HVTx
+            // combined validation, reference: https://t.zsxq.com/3HVTx
             List<ObjectError> allErrors = ex.getBindingResult().getAllErrors();
             if (CollUtil.isNotEmpty(allErrors)) {
                 errorMessage = allErrors.get(0).getDefaultMessage();
@@ -156,7 +158,7 @@ public class GlobalExceptionHandler {
         } else {
             errorMessage = fieldError.getDefaultMessage();
         }
-        // 转换 CommonResult
+        // convert to CommonResult
         if (StrUtil.isEmpty(errorMessage)) {
             return CommonResult.error(BAD_REQUEST);
         }
@@ -164,20 +166,20 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理 SpringMVC 参数绑定不正确，本质上也是通过 Validator 校验
+     * Handle SpringMVC parameter binding failures; essentially also Validator validation
      */
     @ExceptionHandler(BindException.class)
     public CommonResult<?> bindExceptionHandler(BindException ex) {
         log.warn("[handleBindException]", ex);
         FieldError fieldError = ex.getFieldError();
-        assert fieldError != null; // 断言，避免告警
+        assert fieldError != null; // assertion, avoids warning
         return CommonResult.error(BAD_REQUEST.getCode(), String.format("invalid request param:%s", fieldError.getDefaultMessage()));
     }
 
     /**
-     * 处理 SpringMVC 请求参数类型错误
+     * Handle SpringMVC request parameter type errors
      *
-     * 例如说，接口上设置了 @RequestBody 实体中 xx 属性类型为 Integer，结果传递 xx 参数类型为 String
+     * For example, the @RequestBody entity declares an Integer property xx, but xx is provided as a String.
      */
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @SuppressWarnings("PatternVariableCanBeUsed")
@@ -188,13 +190,13 @@ public class GlobalExceptionHandler {
             return CommonResult.error(BAD_REQUEST.getCode(), String.format("invalid request param type:%s", invalidFormatException.getValue()));
         }
         if (StrUtil.startWith(ex.getMessage(), "Required request body is missing")) {
-            return CommonResult.error(BAD_REQUEST.getCode(), "请求参数类型错误: request body 缺失");
+            return CommonResult.error(BAD_REQUEST.getCode(), "invalid request param type: request body missing");
         }
         return defaultExceptionHandler(ServletUtils.getRequest(), ex);
     }
 
     /**
-     * 处理 Validator 校验不通过产生的异常
+     * Handle exceptions from Validator validation failures
      */
     @ExceptionHandler(value = ConstraintViolationException.class)
     public CommonResult<?> constraintViolationExceptionHandler(ConstraintViolationException ex) {
@@ -204,29 +206,29 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理 Dubbo Consumer 本地参数校验时，抛出的 ValidationException 异常
+     * Handle ValidationException thrown by Dubbo Consumer local parameter validation
      */
     @ExceptionHandler(value = ValidationException.class)
     public CommonResult<?> validationException(ValidationException ex) {
         log.warn("[constraintViolationExceptionHandler]", ex);
-        // 无法拼接明细的错误信息，因为 Dubbo Consumer 抛出 ValidationException 异常时，是直接的字符串信息，且人类不可读
+        // Cannot construct detailed error info because Dubbo Consumer throws ValidationException with a raw, non-human-readable string
         return CommonResult.error(BAD_REQUEST);
     }
 
     /**
-     * 处理上传文件过大异常
+     * Handle exception when uploaded file is too large
      */
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public CommonResult<?> maxUploadSizeExceededExceptionHandler(MaxUploadSizeExceededException ex) {
-        return CommonResult.error(BAD_REQUEST.getCode(), "上传文件过大，请调整后重试");
+        return CommonResult.error(BAD_REQUEST.getCode(), "Uploaded file is too large, please adjust and retry");
     }
 
     /**
-     * 处理 SpringMVC 请求地址不存在
+     * Handle SpringMVC request URL not found
      *
-     * 注意，它需要设置如下两个配置项：
-     * 1. spring.mvc.throw-exception-if-no-handler-found 为 true
-     * 2. spring.mvc.static-path-pattern 为 /statics/**
+     * Note: it requires the following two configuration items:
+     * 1. spring.mvc.throw-exception-if-no-handler-found = true
+     * 2. spring.mvc.static-path-pattern = /statics/**
      */
     @ExceptionHandler(NoHandlerFoundException.class)
     public CommonResult<?> noHandlerFoundExceptionHandler(NoHandlerFoundException ex) {
@@ -235,7 +237,7 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理 SpringMVC 请求地址不存在
+     * Handle SpringMVC request URL not found
      */
     @ExceptionHandler(NoResourceFoundException.class)
     private CommonResult<?> noResourceFoundExceptionHandler(HttpServletRequest req, NoResourceFoundException ex) {
@@ -244,9 +246,9 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理 SpringMVC 请求方法不正确
+     * Handle SpringMVC request method not supported
      *
-     * 例如说，A 接口的方法为 GET 方式，结果请求方法为 POST 方式，导致不匹配
+     * For example, interface A is defined as GET but the request is POST, causing a mismatch.
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public CommonResult<?> httpRequestMethodNotSupportedExceptionHandler(HttpRequestMethodNotSupportedException ex) {
@@ -255,9 +257,9 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理 SpringMVC 请求的 Content-Type 不正确
+     * Handle SpringMVC unsupported Content-Type
      *
-     * 例如说，A 接口的 Content-Type 为 application/json，结果请求的 Content-Type 为 application/octet-stream，导致不匹配
+     * For example, interface A's Content-Type is application/json but the request's Content-Type is application/octet-stream, causing a mismatch.
      */
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     public CommonResult<?> httpMediaTypeNotSupportedExceptionHandler(HttpMediaTypeNotSupportedException ex) {
@@ -266,21 +268,21 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理 Spring Security 权限不足的异常
+     * Handle Spring Security access-denied exception
      *
-     * 来源是，使用 @PreAuthorize 注解，AOP 进行权限拦截
+     * Originates from using @PreAuthorize annotation with AOP for permission checking.
      */
     @ExceptionHandler(value = AccessDeniedException.class)
     public CommonResult<?> accessDeniedExceptionHandler(HttpServletRequest req, AccessDeniedException ex) {
-        log.warn("[accessDeniedExceptionHandler][userId({}) cannot 访问 url({})]", WebFrameworkUtils.getLoginUserId(req),
+        log.warn("[accessDeniedExceptionHandler][userId({}) cannot access url({})]", WebFrameworkUtils.getLoginUserId(req),
                 req.getRequestURL(), ex);
         return CommonResult.error(FORBIDDEN);
     }
 
     /**
-     * 处理 Guava UncheckedExecutionException
+     * Handle Guava UncheckedExecutionException
      *
-     * 例如说，缓存加载报错，可见 <a href="https://t.zsxq.com/UszdH">https://t.zsxq.com/UszdH</a>
+     * For example, cache loading errors; see <a href="https://t.zsxq.com/UszdH">https://t.zsxq.com/UszdH</a>
      */
     @ExceptionHandler(value = UncheckedExecutionException.class)
     public CommonResult<?> uncheckedExecutionExceptionHandler(HttpServletRequest req, UncheckedExecutionException ex) {
@@ -288,15 +290,15 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理业务异常 ServiceException
+     * Handle business exception ServiceException
      *
-     * 例如说，商品库存不足，用户手机号已存在。
+     * For example: product out of stock, user mobile already exists.
      */
     @ExceptionHandler(value = ServiceException.class)
     public CommonResult<?> serviceExceptionHandler(ServiceException ex) {
-        // 不包含的时候，才进行打印，避免 ex 堆栈过多
+        // only print when not in the ignore set, to avoid excessive ex stack traces
         if (!IGNORE_ERROR_MESSAGES.contains(ex.getMessage())) {
-            // 即使打印，也只打印第一层 StackTraceElement，并且使用 warn 在控制台输出，更容易看到
+            // even when printing, only print the first StackTraceElement, and use warn level to make it easier to spot
             try {
                 StackTraceElement[] stackTraces = ex.getStackTrace();
                 for (StackTraceElement stackTrace : stackTraces) {
@@ -306,67 +308,67 @@ public class GlobalExceptionHandler {
                     }
                 }
             } catch (Exception ignored) {
-                // 忽略日志，避免影响主流程
+                // ignore log, avoid affecting the main flow
             }
         }
         return CommonResult.error(ex.getCode(), ex.getMessage());
     }
 
     /**
-     * 处理系统异常，兜底处理所有的一切
+     * Handle system exception, fallback for everything
      */
     @ExceptionHandler(value = Exception.class)
     public CommonResult<?> defaultExceptionHandler(HttpServletRequest req, Throwable ex) {
-        // 特殊：如果是 ServiceException 的异常，则直接返回
-        // 例如说：https://gitee.com/zhijiantianya/yudao-cloud/issues/ICSSRM、https://gitee.com/zhijiantianya/yudao-cloud/issues/ICT6FM
+        // special case: if the cause is a ServiceException, return directly
+        // for example: https://gitee.com/zhijiantianya/yudao-cloud/issues/ICSSRM, https://gitee.com/zhijiantianya/yudao-cloud/issues/ICT6FM
         if (ex.getCause() != null && ex.getCause() instanceof ServiceException) {
             return serviceExceptionHandler((ServiceException) ex.getCause());
         }
 
-        // 情况一：处理表不存在的异常
+        // case 1: handle table-not-exists exceptions
         CommonResult<?> tableNotExistsResult = handleTableNotExists(ex);
         if (tableNotExistsResult != null) {
             return tableNotExistsResult;
         }
 
-        // 情况二：处理异常
+        // case 2: handle exception
         log.error("[defaultExceptionHandler]", ex);
-        // 插入异常日志
+        // insert exception log
         createExceptionLog(req, ex);
-        // 返回 ERROR CommonResult
+        // return ERROR CommonResult
         return CommonResult.error(INTERNAL_SERVER_ERROR.getCode(), INTERNAL_SERVER_ERROR.getMsg());
     }
 
     private void createExceptionLog(HttpServletRequest req, Throwable e) {
-        // 插入错误日志
+        // insert error log
         ApiErrorLogCreateRpcRequest errorLog = new ApiErrorLogCreateRpcRequest();
         try {
-            // 初始化 errorLog
+            // initialize errorLog
             buildExceptionLog(errorLog, req, e);
-            // 执行插入 errorLog
+            // execute insert errorLog
             apiErrorLogApi.createApiErrorLogAsync(errorLog);
         } catch (Throwable th) {
-            log.error("[createExceptionLog][url({}) log({}) 发生exception]", req.getRequestURI(),  JsonUtils.toJsonString(errorLog), th);
+            log.error("[createExceptionLog][url({}) log({}) exception occurred]", req.getRequestURI(),  JsonUtils.toJsonString(errorLog), th);
         }
     }
 
     private void buildExceptionLog(ApiErrorLogCreateRpcRequest errorLog, HttpServletRequest request, Throwable e) {
-        // 处理用户信息
+        // handle user info
         errorLog.setUserId(WebFrameworkUtils.getLoginUserId(request));
         errorLog.setUserType(WebFrameworkUtils.getLoginUserType(request));
-        // 设置异常字段
+        // set exception fields
         errorLog.setExceptionName(e.getClass().getName());
         errorLog.setExceptionMessage(ExceptionUtil.getMessage(e));
         errorLog.setExceptionRootCauseMessage(ExceptionUtil.getRootCauseMessage(e));
         errorLog.setExceptionStackTrace(ExceptionUtil.stacktraceToString(e));
         StackTraceElement[] stackTraceElements = e.getStackTrace();
-        Assert.notEmpty(stackTraceElements, "异常 stackTraceElements 不能为空");
+        Assert.notEmpty(stackTraceElements, "exception stackTraceElements must not be empty");
         StackTraceElement stackTraceElement = stackTraceElements[0];
         errorLog.setExceptionClassName(stackTraceElement.getClassName());
         errorLog.setExceptionFileName(stackTraceElement.getFileName());
         errorLog.setExceptionMethodName(stackTraceElement.getMethodName());
         errorLog.setExceptionLineNumber(stackTraceElement.getLineNumber());
-        // 设置其它字段
+        // set other fields
         errorLog.setTraceId(TracerUtils.getTraceId());
         errorLog.setApplicationName(applicationName);
         errorLog.setRequestUrl(request.getRequestURI());
@@ -381,69 +383,69 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理 Table 不存在的异常情况
+     * Handle Table-not-exists exception cases
      *
-     * @param ex 异常
-     * @return 如果是 Table 不存在的异常，则返回对应的 CommonResult
+     * @param ex exception
+     * @return corresponding CommonResult if it is a Table-not-exists exception
      */
     private CommonResult<?> handleTableNotExists(Throwable ex) {
         String message = ExceptionUtil.getRootCauseMessage(ex);
         if (!message.contains("doesn't exist")) {
             return null;
         }
-        // 1. 数据报表
+        // 1. Report module
         if (message.contains("report_")) {
-            log.error("[报table 模block yudao-module-report - table schema not imported][see https://cloud.example.com/report/ open]");
+            log.error("[Report module yudao-module-report - table schema not imported][see https://cloud.example.com/report/ to enable]");
             return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                    "[报表模块 yudao-module-report - 表结构未导入][参考 https://cloud.example.com/report/ 开启]");
+                    "[Report module yudao-module-report - table schema not imported][see https://cloud.example.com/report/ to enable]");
         }
-        // 2. 工作流
+        // 2. Workflow module
         if (message.contains("bpm_")) {
-            log.error("[工作流模block yudao-module-bpm - table schema not imported][see https://cloud.example.com/bpm/ open]");
+            log.error("[Workflow module yudao-module-bpm - table schema not imported][see https://cloud.example.com/bpm/ to enable]");
             return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                    "[工作流模块 yudao-module-bpm - 表结构未导入][参考 https://cloud.example.com/bpm/ 开启]");
+                    "[Workflow module yudao-module-bpm - table schema not imported][see https://cloud.example.com/bpm/ to enable]");
         }
-        // 3. 微信公众号
+        // 3. WeChat MP
         if (message.contains("mp_")) {
-            log.error("[微信公众号 yudao-module-mp - table schema not imported][see https://cloud.example.com/mp/build/ open]");
+            log.error("[WeChat MP yudao-module-mp - table schema not imported][see https://cloud.example.com/mp/build/ to enable]");
             return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                    "[微信公众号 yudao-module-mp - 表结构未导入][参考 https://cloud.example.com/mp/build/ 开启]");
+                    "[WeChat MP yudao-module-mp - table schema not imported][see https://cloud.example.com/mp/build/ to enable]");
         }
-        // 4. 商城系统
+        // 4. Mall system
         if (StrUtil.containsAny(message, "product_", "promotion_", "trade_")) {
-            log.error("[商城system yudao-module-mall - is disabled][see https://cloud.example.com/mall/build/ open]");
+            log.error("[Mall system yudao-module-mall - is disabled][see https://cloud.example.com/mall/build/ to enable]");
             return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                    "[商城系统 yudao-module-mall - 已禁用][参考 https://cloud.example.com/mall/build/ 开启]");
+                    "[Mall system yudao-module-mall - is disabled][see https://cloud.example.com/mall/build/ to enable]");
         }
-        // 5. ERP 系统
+        // 5. ERP system
         if (message.contains("erp_")) {
-            log.error("[ERP system yudao-module-erp - table schema not imported][see https://cloud.example.com/erp/build/ open]");
+            log.error("[ERP system yudao-module-erp - table schema not imported][see https://cloud.example.com/erp/build/ to enable]");
             return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                    "[ERP 系统 yudao-module-erp - 表结构未导入][参考 https://cloud.example.com/erp/build/ 开启]");
+                    "[ERP system yudao-module-erp - table schema not imported][see https://cloud.example.com/erp/build/ to enable]");
         }
-        // 6. CRM 系统
+        // 6. CRM system
         if (message.contains("crm_")) {
-            log.error("[CRM system yudao-module-crm - table schema not imported][see https://cloud.example.com/crm/build/ open]");
+            log.error("[CRM system yudao-module-crm - table schema not imported][see https://cloud.example.com/crm/build/ to enable]");
             return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                    "[CRM 系统 yudao-module-crm - 表结构未导入][参考 https://cloud.example.com/crm/build/ 开启]");
+                    "[CRM system yudao-module-crm - table schema not imported][see https://cloud.example.com/crm/build/ to enable]");
         }
-        // 7. 支付平台
+        // 7. Payment platform
         if (message.contains("pay_")) {
-            log.error("[支付模block yudao-module-pay - table schema not imported][see https://cloud.example.com/pay/build/ open]");
+            log.error("[Payment module yudao-module-pay - table schema not imported][see https://cloud.example.com/pay/build/ to enable]");
             return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                    "[支付模块 yudao-module-pay - 表结构未导入][参考 https://cloud.example.com/pay/build/ 开启]");
+                    "[Payment module yudao-module-pay - table schema not imported][see https://cloud.example.com/pay/build/ to enable]");
         }
-        // 8. AI 大模型
+        // 8. AI large model
         if (message.contains("ai_")) {
-            log.error("[AI 大模型 yudao-module-ai - table schema not imported][see https://cloud.example.com/ai/build/ open]");
+            log.error("[AI large model yudao-module-ai - table schema not imported][see https://cloud.example.com/ai/build/ to enable]");
             return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                    "[AI 大模型 yudao-module-ai - 表结构未导入][参考 https://cloud.example.com/ai/build/ 开启]");
+                    "[AI large model yudao-module-ai - table schema not imported][see https://cloud.example.com/ai/build/ to enable]");
         }
-        // 9. IoT 物联网
+        // 9. IoT
         if (message.contains("iot_")) {
-            log.error("[IoT 物联网 yudao-module-iot - table schema not imported][see https://www.example.com/iot/build/ open]");
+            log.error("[IoT yudao-module-iot - table schema not imported][see https://www.example.com/iot/build/ to enable]");
             return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                    "[IoT 物联网 yudao-module-iot - 表结构未导入][参考 https://www.example.com/iot/build/ 开启]");
+                    "[IoT yudao-module-iot - table schema not imported][see https://www.example.com/iot/build/ to enable]");
         }
         return null;
     }

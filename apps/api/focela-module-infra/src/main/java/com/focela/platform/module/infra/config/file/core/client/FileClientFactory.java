@@ -5,19 +5,19 @@ import com.focela.platform.module.infra.config.file.core.enums.FileStorageEnum;
 public interface FileClientFactory {
 
     /**
-     * 获得文件客户端
+     * Get the file client
      *
-     * @param configId 配置编号
-     * @return 文件客户端
+     * @param configId config ID
+     * @return file client
      */
     FileClient getFileClient(Long configId);
 
     /**
-     * 创建文件客户端
+     * Create the file client
      *
-     * @param configId 配置编号
-     * @param storage 存储器的枚举 {@link FileStorageEnum}
-     * @param config 文件配置
+     * @param configId config ID
+     * @param storage storage enum {@link FileStorageEnum}
+     * @param config file config
      */
     <Config extends FileClientConfig> void createOrUpdateFileClient(Long configId, Integer storage, Config config);
 

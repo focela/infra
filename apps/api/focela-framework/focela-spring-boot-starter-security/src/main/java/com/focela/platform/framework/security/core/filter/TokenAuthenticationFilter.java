@@ -23,8 +23,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 /**
- * Token 过滤器，验证 token 的有效性
- * 验证通过后，获得 {@link LoginUser} 信息，并加入到 Spring Security 上下文
+ * Token filter that validates the token's validity.
+ * After validation, retrieves the {@link LoginUser} info and adds it to the Spring Security context.
  */
 @RequiredArgsConstructor
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
@@ -44,14 +44,14 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         if (StrUtil.isNotEmpty(token)) {
             Integer userType = WebFrameworkUtils.getLoginUserType(request);
             try {
-                // 1.1 基于 token 构建登录用户
+                // 1.1 Build login user from token
                 LoginUser loginUser = buildLoginUserByToken(token, userType);
-                // 1.2 模拟 Login 功能，方便日常开发调试
+                // 1.2 Mock Login functionality for convenience during development/debugging
                 if (loginUser == null) {
                     loginUser = mockLoginUser(request, token, userType);
                 }
 
-                // 2. 设置当前用户
+                // 2. Set the current user
                 if (loginUser != null) {
                     SecurityFrameworkUtils.setLoginUser(loginUser, request);
                 }
@@ -62,7 +62,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             }
         }
 
-        // 继续过滤链
+        // Continue the filter chain
         chain.doFilter(request, response);
     }
 
@@ -72,43 +72,43 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             if (accessToken == null) {
                 return null;
             }
-            // 用户类型不匹配，无权限
-            // 注意：只有 /admin-api/* 和 /app-api/* 有 userType，才需要比对用户类型
-            // 类似 WebSocket 的 /ws/* 连接地址，是不需要比对用户类型的
+            // User type mismatch, no permission
+            // Note: only /admin-api/* and /app-api/* have userType and require user type comparison.
+            // WebSocket-like /ws/* connection addresses do not need user type comparison.
             if (userType != null
                     && ObjectUtil.notEqual(accessToken.getUserType(), userType)) {
                 throw new AccessDeniedException("error user type");
             }
-            // 构建登录用户
+            // Build the login user
             return new LoginUser().setId(accessToken.getUserId()).setUserType(accessToken.getUserType())
-                    .setInfo(accessToken.getUserInfo()) // 额外的用户信息
+                    .setInfo(accessToken.getUserInfo()) // Additional user information
                     .setTenantId(accessToken.getTenantId()).setScopes(accessToken.getScopes())
                     .setExpiresTime(accessToken.getExpiresTime());
         } catch (ServiceException serviceException) {
-            // 校验 Token 不通过时，考虑到一些接口是无需登录的，所以直接返回 null 即可
+            // When token validation fails, since some endpoints do not require login, just return null
             return null;
         }
     }
 
     /**
-     * 模拟登录用户，方便日常开发调试
+     * Mock a login user, for convenience during development/debugging.
      *
-     * 注意，在线上环境下，一定要关闭该功能！！！
+     * Note: this feature MUST be disabled in production environments!
      *
-     * @param request 请求
-     * @param token 模拟的 token，格式为 {@link SecurityProperties#getMockSecret()} + 用户编号
-     * @param userType 用户类型
-     * @return 模拟的 LoginUser
+     * @param request  request
+     * @param token    mock token, format is {@link SecurityProperties#getMockSecret()} + user ID
+     * @param userType user type
+     * @return the mocked LoginUser
      */
     private LoginUser mockLoginUser(HttpServletRequest request, String token, Integer userType) {
         if (!securityProperties.getMockEnable()) {
             return null;
         }
-        // 必须以 mockSecret 开头
+        // Must start with mockSecret
         if (!token.startsWith(securityProperties.getMockSecret())) {
             return null;
         }
-        // 构建模拟用户
+        // Build the mocked user
         Long userId = Long.valueOf(token.substring(securityProperties.getMockSecret().length()));
         return new LoginUser().setId(userId).setUserType(userType)
                 .setTenantId(WebFrameworkUtils.getTenantId(request));

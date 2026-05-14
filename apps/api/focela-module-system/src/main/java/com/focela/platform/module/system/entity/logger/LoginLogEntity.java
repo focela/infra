@@ -11,59 +11,59 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * 登录日志表
+ * Login log table
  *
- * 注意，包括登录和登出两种行为
+ * Note: includes both login and logout actions
  */
 @TableName("system_login_log")
-@KeySequence("system_login_log_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
+@KeySequence("system_login_log_seq") // Primary key auto-increment for databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class LoginLogEntity extends BaseEntity {
 
     /**
-     * 日志主键
+     * Log primary key
      */
     private Long id;
     /**
-     * 日志类型
+     * Log type
      *
-     * 枚举 {@link LoginLogTypeEnum}
+     * Enum {@link LoginLogTypeEnum}
      */
     private Integer logType;
     /**
-     * 链路追踪编号
+     * Trace ID
      */
     private String traceId;
     /**
-     * 用户编号
+     * User ID
      */
     private Long userId;
     /**
-     * 用户类型
+     * User type
      *
-     * 枚举 {@link UserTypeEnum}
+     * Enum {@link UserTypeEnum}
      */
     private Integer userType;
     /**
-     * 用户账号
+     * Username
      *
-     * 冗余，因为账号可以变更
+     * Redundant, since accounts can change
      */
     private String username;
     /**
-     * 登录结果
+     * Login result
      *
-     * 枚举 {@link LoginResultEnum}
+     * Enum {@link LoginResultEnum}
      */
     private Integer result;
     /**
-     * 用户 IP
+     * User IP
      */
     private String userIp;
     /**
-     * 浏览器 UA
+     * Browser UA
      */
     private String userAgent;
 

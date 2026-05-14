@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 短信渠道枚举
+ * SMS channel enum
  *
  * @since 2021/1/25 10:56
  */
@@ -13,19 +13,19 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum SmsChannelEnum {
 
-    DEBUG_DING_TALK("DEBUG_DING_TALK", "调试(钉钉)"),
-    ALIYUN("ALIYUN", "阿里云"),
-    TENCENT("TENCENT", "腾讯云"),
-    HUAWEI("HUAWEI", "华为云"),
-    QINIU("QINIU", "七牛云"),
+    DEBUG_DING_TALK("DEBUG_DING_TALK", "Debug (DingTalk)"),
+    ALIYUN("ALIYUN", "Aliyun"),
+    TENCENT("TENCENT", "Tencent Cloud"),
+    HUAWEI("HUAWEI", "Huawei Cloud"),
+    QINIU("QINIU", "Qiniu Cloud"),
     ;
 
     /**
-     * 编码
+     * Code
      */
     private final String code;
     /**
-     * 名字
+     * Name
      */
     private final String name;
 

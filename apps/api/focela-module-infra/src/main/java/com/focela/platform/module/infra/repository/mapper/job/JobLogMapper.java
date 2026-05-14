@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Param;
 import java.time.LocalDateTime;
 
 /**
- * 任务日志 Mapper
+ * Job log Mapper
  */
 @Mapper
 public interface JobLogMapper extends BaseMapperX<JobLogEntity> {
@@ -24,16 +24,16 @@ public interface JobLogMapper extends BaseMapperX<JobLogEntity> {
                 .geIfPresent(JobLogEntity::getBeginTime, request.getBeginTime())
                 .leIfPresent(JobLogEntity::getEndTime, request.getEndTime())
                 .eqIfPresent(JobLogEntity::getStatus, request.getStatus())
-                .orderByDesc(JobLogEntity::getId) // ID 倒序
+                .orderByDesc(JobLogEntity::getId) // ID descending
         );
     }
 
     /**
-     * 物理删除指定时间之前的日志
+     * Physically delete logs before the specified time
      *
-     * @param createTime 最大时间
-     * @param limit      删除条数，防止一次删除太多
-     * @return 删除条数
+     * @param createTime maximum time
+     * @param limit      delete count, to prevent deleting too many at once
+     * @return delete count
      */
     @Delete("DELETE FROM infra_job_log WHERE create_time < #{createTime} LIMIT #{limit}")
     Integer deleteByCreateTimeLt(@Param("createTime") LocalDateTime createTime, @Param("limit") Integer limit);

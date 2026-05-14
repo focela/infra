@@ -9,44 +9,44 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 邮件发送 Request DTO
+ * Mail send Request DTO
  */
 @Data
 public class MailSendSingleToUserRpcRequest {
 
     /**
-     * 用户编号
+     * User ID
      *
-     * 如果非空，则加载对应用户的邮箱，添加到 {@link #toMails} 中
+     * If not empty, load the corresponding user's email and add it to {@link #toMails}
      */
     private Long userId;
 
     /**
-     * 收件邮箱
+     * Recipient emails
      */
     private List<@Email String> toMails;
     /**
-     * 抄送邮箱
+     * CC emails
      */
     private List<@Email String> ccMails;
     /**
-     * 密送邮箱
+     * BCC emails
      */
     private List<@Email String> bccMails;
 
 
     /**
-     * 邮件模板编号
+     * Mail template ID
      */
     @NotNull(message = "email template ID must not be blank")
     private String templateCode;
     /**
-     * 邮件模板参数
+     * Mail template parameters
      */
     private Map<String, Object> templateParams;
 
     /**
-     * 附件
+     * Attachments
      */
     private File[] attachments;
 

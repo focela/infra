@@ -5,7 +5,7 @@ import cn.hutool.core.collection.CollUtil;
 import java.util.Set;
 
 /**
- * Set 工具类
+ * Set utilities.
  */
 public class SetUtils {
 

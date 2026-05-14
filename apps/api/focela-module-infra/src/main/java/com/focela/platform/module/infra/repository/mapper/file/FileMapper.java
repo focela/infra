@@ -8,7 +8,7 @@ import com.focela.platform.module.infra.entity.file.FileEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 文件操作 Mapper
+ * File operation Mapper
  */
 @Mapper
 public interface FileMapper extends BaseMapperX<FileEntity> {

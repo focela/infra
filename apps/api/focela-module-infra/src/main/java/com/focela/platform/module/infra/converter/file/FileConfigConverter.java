@@ -7,7 +7,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 /**
- * 文件配置 Convert
+ * File config Converter
  */
 @Mapper
 public interface FileConfigConverter {

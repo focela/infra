@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 import static java.io.File.separator;
 
 /**
- * 项目修改器，一键替换 Maven 的 groupId、artifactId，项目的 package 等
+ * Project reactor: one-click replacement of Maven groupId, artifactId, project package, etc.
  * <p>
- * 通过修改 groupIdNew、artifactIdNew、projectBaseDirNew 三个变量
+ * Configure via the groupIdNew, artifactIdNew, and projectBaseDirNew variables.
  */
 @Slf4j
 public class ProjectReactor {
@@ -26,55 +26,56 @@ public class ProjectReactor {
     private static final String GROUP_ID = "com.focela.platform";
     private static final String ARTIFACT_ID = "focela-platform";
     private static final String PACKAGE_NAME = "com.focela.platform";
-    private static final String TITLE = "芋道管理系统";
+    private static final String TITLE = "Focela Admin System";
 
     /**
-     * 白名单文件，不进行重写，避免出问题
+     * Whitelisted file types that are copied as-is without rewriting.
      */
-    private static final Set<String> WHITE_FILE_TYPES = SetUtils.asSet("gif", "jpg", "svg", "png", // 图片
-            "eot", "woff2", "ttf", "woff",  // 字体
-            "xdb"); // IP 库
+    private static final Set<String> WHITE_FILE_TYPES = SetUtils.asSet("gif", "jpg", "svg", "png", // images
+            "eot", "woff2", "ttf", "woff",  // fonts
+            "xdb"); // IP database
 
     public static void main(String[] args) {
         long start = System.currentTimeMillis();
         String projectBaseDir = getProjectBaseDir();
-        log.info("[main][原project path change address ({})]", projectBaseDir);
+        log.info("[main][original project path ({})]", projectBaseDir);
 
-        // ========== 配置，需要你手动修改 ==========
+        // ========== Configuration; edit manually ==========
         String groupIdNew = "cn.star.gg";
         String artifactIdNew = "star";
         String packageNameNew = "cn.start.pp";
-        String titleNew = "土豆管理系统";
-        String projectBaseDirNew = projectBaseDir + "-new"; // 一键改名后，“新”项目所在的目录
-        log.info("[main][检测新project directory ({})is 否exists]", projectBaseDirNew);
+        String titleNew = "Potato Admin System";
+        String projectBaseDirNew = projectBaseDir + "-new"; // Directory for the renamed project
+        log.info("[main][checking whether new project directory ({}) exists]", projectBaseDirNew);
         if (FileUtil.exist(projectBaseDirNew)) {
-            log.error("[main][新project directory 检测 ({})already exists, please more change 新 directory! 程序logout]", projectBaseDirNew);
+            log.error("[main][new project directory ({}) already exists; please choose a different directory. Exiting.]", projectBaseDirNew);
             return;
         }
-        // 如果新目录中存在 PACKAGE_NAME，ARTIFACT_ID 等关键字，路径会被替换，导致生成的文件不在预期目录
+        // If the new directory contains keywords like PACKAGE_NAME or ARTIFACT_ID, the path will be substituted
+        // and generated files will end up outside the expected directory.
         if (StrUtil.containsAny(projectBaseDirNew, PACKAGE_NAME, ARTIFACT_ID, StrUtil.upperFirst(ARTIFACT_ID))) {
-            log.error("[main][新project directory `projectBaseDirNew` 检测 ({}) exists 冲突name 「{}」or 「{}」, please more change 新 directory! 程序logout]",
+            log.error("[main][new project directory `projectBaseDirNew` ({}) conflicts with name '{}' or '{}'; please choose a different directory. Exiting.]",
                     projectBaseDirNew, PACKAGE_NAME, ARTIFACT_ID);
             return;
         }
-        log.info("[main][complete 新project directory 检测, 新project path address ({})]", projectBaseDirNew);
-        // 获得需要复制的文件
-        log.info("[main][start get requires 重写 file, 预计requires 10-20 second]");
+        log.info("[main][new project directory check complete; new project path ({})]", projectBaseDirNew);
+        // Collect files to copy
+        log.info("[main][collecting files to rewrite; this takes about 10-20 seconds]");
         Collection<File> files = listFiles(projectBaseDir);
-        log.info("[main][requires 重写 file count: {}, 预计requires 15-30 second]", files.size());
-        // 写入文件
+        log.info("[main][file count to rewrite: {}; takes about 15-30 seconds]", files.size());
+        // Write files
         files.forEach(file -> {
-            // 如果是白名单的文件类型，不进行重写，直接拷贝
+            // For whitelisted file types, copy directly without rewriting
             String fileType = getFileType(file);
             if (WHITE_FILE_TYPES.contains(fileType)) {
                 copyFile(file, projectBaseDir, projectBaseDirNew, packageNameNew, artifactIdNew);
                 return;
             }
-            // 如果非白名单的文件类型，重写内容，在生成文件
+            // For non-whitelisted file types, rewrite the content and generate the file
             String content = replaceFileContent(file, groupIdNew, artifactIdNew, packageNameNew, titleNew);
             writeFile(file, content, projectBaseDir, projectBaseDirNew, packageNameNew, artifactIdNew);
         });
-        log.info("[main][重写complete]共elapsed: {} second", (System.currentTimeMillis() - start) / 1000);
+        log.info("[main][rewrite complete] total elapsed: {} seconds", (System.currentTimeMillis() - start) / 1000);
     }
 
     private static String getProjectBaseDir() {
@@ -87,7 +88,7 @@ public class ProjectReactor {
 
     private static Collection<File> listFiles(String projectBaseDir) {
         Collection<File> files = FileUtil.loopFiles(projectBaseDir);
-        // 移除 IDEA、Git 自身的文件、Node 编译出来的文件
+        // Remove IDEA, Git's own files, and Node build outputs
         files = files.stream()
                 .filter(file -> !file.getPath().contains(separator + "target" + separator)
                         && !file.getPath().contains(separator + "node_modules" + separator)
@@ -104,15 +105,15 @@ public class ProjectReactor {
                                              String artifactIdNew, String packageNameNew,
                                              String titleNew) {
         String content = FileUtil.readString(file, StandardCharsets.UTF_8);
-        // 如果是白名单的文件类型，不进行重写
+        // Skip rewriting for whitelisted file types
         String fileType = getFileType(file);
         if (WHITE_FILE_TYPES.contains(fileType)) {
             return content;
         }
-        // 执行文件内容都重写
+        // Rewrite the file content
         return content.replaceAll(GROUP_ID, groupIdNew)
                 .replaceAll(PACKAGE_NAME, packageNameNew)
-                .replaceAll(ARTIFACT_ID, artifactIdNew) // 必须放在最后替换，因为 ARTIFACT_ID 太短！
+                .replaceAll(ARTIFACT_ID, artifactIdNew) // Must be replaced last because ARTIFACT_ID is too short!
                 .replaceAll(StrUtil.upperFirst(ARTIFACT_ID), StrUtil.upperFirst(artifactIdNew))
                 .replaceAll(TITLE, titleNew);
     }
@@ -131,7 +132,7 @@ public class ProjectReactor {
 
     private static String buildNewFilePath(File file, String projectBaseDir,
                                            String projectBaseDirNew, String packageNameNew, String artifactIdNew) {
-        return file.getPath().replace(projectBaseDir, projectBaseDirNew) // 新目录
+        return file.getPath().replace(projectBaseDir, projectBaseDirNew) // New directory
                 .replace(PACKAGE_NAME.replaceAll("\\.", Matcher.quoteReplacement(separator)),
                         packageNameNew.replaceAll("\\.", Matcher.quoteReplacement(separator)))
                 .replace(ARTIFACT_ID, artifactIdNew) //

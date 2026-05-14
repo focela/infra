@@ -7,13 +7,13 @@ import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.util.Assert;
 
 /**
- * 基于 TransmittableThreadLocal 实现的 Security Context 持有者策略
- * 目的是，避免 @Async 等异步执行时，原生 ThreadLocal 的丢失问题
+ * Security Context holder strategy implemented based on TransmittableThreadLocal.
+ * The purpose is to avoid the loss of native ThreadLocal during asynchronous execution such as @Async.
  */
 public class TransmittableThreadLocalSecurityContextHolderStrategy implements SecurityContextHolderStrategy {
 
     /**
-     * 使用 TransmittableThreadLocal 作为上下文
+     * Use TransmittableThreadLocal as the context holder
      */
     private static final ThreadLocal<SecurityContext> CONTEXT_HOLDER = new TransmittableThreadLocal<>();
 

@@ -15,18 +15,20 @@ import jakarta.servlet.http.HttpServletResponse;
 import static com.focela.platform.framework.common.exception.enums.GlobalErrorCodeConstants.UNAUTHORIZED;
 
 /**
- * 访问一个需要认证的 URL 资源，但是此时自己尚未认证（登录）的情况下，返回 {@link GlobalErrorCodeConstants#UNAUTHORIZED} 错误码，从而使前端重定向到登录页
+ * When accessing a URL resource that requires authentication while not yet authenticated (logged in),
+ * return the {@link GlobalErrorCodeConstants#UNAUTHORIZED} error code so the frontend redirects to the login page.
  *
- * 补充：Spring Security 通过 {@link ExceptionTranslationFilter#sendStartAuthentication(HttpServletRequest, HttpServletResponse, FilterChain, AuthenticationException)} 方法，调用当前类
+ * Note: Spring Security invokes this class via the
+ * {@link ExceptionTranslationFilter#sendStartAuthentication(HttpServletRequest, HttpServletResponse, FilterChain, AuthenticationException)} method.
  */
 @Slf4j
-@SuppressWarnings("JavadocReference") // 忽略文档引用报错
+@SuppressWarnings("JavadocReference") // suppress Javadoc reference warnings
 public class JsonAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) {
-        log.debug("[commence][访问 URL({}) when, no login]", request.getRequestURI(), e);
-        // 返回 401
+        log.debug("[commence][access URL({}) when, no login]", request.getRequestURI(), e);
+        // Return 401
         ServletUtils.writeJSON(response, CommonResult.error(UNAUTHORIZED));
     }
 

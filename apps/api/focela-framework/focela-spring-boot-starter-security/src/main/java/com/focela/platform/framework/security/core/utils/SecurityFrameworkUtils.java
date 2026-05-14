@@ -17,28 +17,28 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.Collections;
 
 /**
- * 安全服务工具类
+ * Security service utility class.
  */
 public class SecurityFrameworkUtils {
 
     /**
-     * HEADER 认证头 value 的前缀
+     * Prefix of the HEADER authentication value
      */
     public static final String AUTHORIZATION_BEARER = "Bearer";
 
     private SecurityFrameworkUtils() {}
 
     /**
-     * 从请求中，获得认证 Token
+     * Get the authentication Token from the request.
      *
-     * @param request 请求
-     * @param headerName 认证 Token 对应的 Header 名字
-     * @param parameterName 认证 Token 对应的 Parameter 名字
-     * @return 认证 Token
+     * @param request       request
+     * @param headerName    header name for the authentication Token
+     * @param parameterName parameter name for the authentication Token
+     * @return authentication Token
      */
     public static String obtainAuthorization(HttpServletRequest request,
                                              String headerName, String parameterName) {
-        // 1. 获得 Token。优先级：Header > Parameter
+        // 1. Get the Token. Priority: Header > Parameter
         String token = request.getHeader(headerName);
         if (StrUtil.isEmpty(token)) {
             token = request.getParameter(parameterName);
@@ -46,15 +46,15 @@ public class SecurityFrameworkUtils {
         if (!StringUtils.hasText(token)) {
             return null;
         }
-        // 2. 去除 Token 中带的 Bearer
+        // 2. Strip the Bearer prefix from the Token
         int index = token.indexOf(AUTHORIZATION_BEARER + " ");
         return index >= 0 ? token.substring(index + 7).trim() : token;
     }
 
     /**
-     * 获得当前认证信息
+     * Get the current authentication info.
      *
-     * @return 认证信息
+     * @return authentication info
      */
     public static Authentication getAuthentication() {
         SecurityContext context = SecurityContextHolder.getContext();
@@ -65,9 +65,9 @@ public class SecurityFrameworkUtils {
     }
 
     /**
-     * 获取当前用户
+     * Get the current user.
      *
-     * @return 当前用户
+     * @return current user
      */
     @Nullable
     public static LoginUser getLoginUser() {
@@ -79,9 +79,9 @@ public class SecurityFrameworkUtils {
     }
 
     /**
-     * 获得当前用户的编号，从上下文中
+     * Get the current user's ID from the context.
      *
-     * @return 用户编号
+     * @return user ID
      */
     @Nullable
     public static Long getLoginUserId() {
@@ -90,9 +90,9 @@ public class SecurityFrameworkUtils {
     }
 
     /**
-     * 获得当前用户的昵称，从上下文中
+     * Get the current user's nickname from the context.
      *
-     * @return 昵称
+     * @return nickname
      */
     @Nullable
     public static String getLoginUserNickname() {
@@ -101,9 +101,9 @@ public class SecurityFrameworkUtils {
     }
 
     /**
-     * 获得当前用户的部门编号，从上下文中
+     * Get the current user's department ID from the context.
      *
-     * @return 部门编号
+     * @return department ID
      */
     @Nullable
     public static Long getLoginUserDeptId() {
@@ -112,18 +112,19 @@ public class SecurityFrameworkUtils {
     }
 
     /**
-     * 设置当前用户
+     * Set the current user.
      *
-     * @param loginUser 登录用户
-     * @param request 请求
+     * @param loginUser login user
+     * @param request   request
      */
     public static void setLoginUser(LoginUser loginUser, HttpServletRequest request) {
-        // 创建 Authentication，并设置到上下文
+        // Create the Authentication and set it on the context
         Authentication authentication = buildAuthentication(loginUser, request);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        // 额外设置到 request 中，用于 ApiAccessLogFilter 可以获取到用户编号；
-        // 原因是，Spring Security 的 Filter 在 ApiAccessLogFilter 后面，在它记录访问日志时，线上上下文已经没有用户编号等信息
+        // Additionally set on the request so ApiAccessLogFilter can read the user ID.
+        // Reason: the Spring Security Filter runs after ApiAccessLogFilter; by the time access logs are recorded the
+        // context no longer has user ID information.
         if (request != null) {
             WebFrameworkUtils.setLoginUserId(request, loginUser.getId());
             WebFrameworkUtils.setLoginUserType(request, loginUser.getUserType());
@@ -131,7 +132,7 @@ public class SecurityFrameworkUtils {
     }
 
     private static Authentication buildAuthentication(LoginUser loginUser, HttpServletRequest request) {
-        // 创建 UsernamePasswordAuthenticationToken 对象
+        // Create the UsernamePasswordAuthenticationToken
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 loginUser, null, Collections.emptyList());
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
@@ -139,9 +140,9 @@ public class SecurityFrameworkUtils {
     }
 
     /**
-     * 是否条件跳过权限校验，包括数据权限、功能权限
+     * Whether to conditionally skip permission checks (including data permissions and feature permissions).
      *
-     * @return 是否跳过
+     * @return whether to skip
      */
     public static boolean skipPermissionCheck() {
         LoginUser loginUser = getLoginUser();
@@ -151,7 +152,7 @@ public class SecurityFrameworkUtils {
         if (loginUser.getVisitTenantId() == null) {
             return false;
         }
-        // 重点：跨租户访问时，无法进行权限校验
+        // Important: permission checks cannot be performed during cross-tenant access
         return ObjUtil.notEqual(loginUser.getVisitTenantId(), loginUser.getTenantId());
     }
 

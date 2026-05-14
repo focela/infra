@@ -5,14 +5,14 @@ import com.focela.platform.module.system.api.logger.dto.LoginLogCreateRpcRequest
 import jakarta.validation.Valid;
 
 /**
- * 登录日志的 API 接口
+ * Login log API interface
  */
 public interface LoginLogApi {
 
     /**
-     * 创建登录日志
+     * Create a login log
      *
-     * @param reqDTO 日志信息
+     * @param reqDTO log information
      */
     void createLoginLog(@Valid LoginLogCreateRpcRequest reqDTO);
 

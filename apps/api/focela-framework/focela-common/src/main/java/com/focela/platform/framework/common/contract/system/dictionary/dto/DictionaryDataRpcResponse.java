@@ -4,27 +4,27 @@ import com.focela.platform.framework.common.enums.CommonStatusEnum;
 import lombok.Data;
 
 /**
- * 字典数据 Response DTO
+ * Dictionary data Response DTO.
  */
 @Data
 public class DictionaryDataRpcResponse {
 
     /**
-     * 字典标签
+     * Dictionary label.
      */
     private String label;
     /**
-     * 字典值
+     * Dictionary value.
      */
     private String value;
     /**
-     * 字典类型
+     * Dictionary type.
      */
     private String dictType;
     /**
-     * 状态
+     * Status.
      *
-     * 枚举 {@link CommonStatusEnum}
+     * See {@link CommonStatusEnum}.
      */
     private Integer status;
 

@@ -6,21 +6,21 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * 部门的数据权限 Response DTO
+ * Department data permission Response DTO.
  */
 @Data
 public class DepartmentDataPermissionRpcResponse {
 
     /**
-     * 是否可查看全部数据
+     * Whether the user can view all data.
      */
     private Boolean all;
     /**
-     * 是否可查看自己的数据
+     * Whether the user can view their own data.
      */
     private Boolean self;
     /**
-     * 可查看的部门编号数组
+     * IDs of departments the user can view.
      */
     private Set<Long> deptIds;
 

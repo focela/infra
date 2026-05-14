@@ -5,27 +5,27 @@ import com.focela.platform.module.system.api.sms.dto.send.SmsSendSingleToUserRpc
 import jakarta.validation.Valid;
 
 /**
- * 短信发送 API 接口
+ * SMS send API interface
  */
 public interface SmsSendApi {
 
     /**
-     * 发送单条短信给 Admin 用户
+     * Send a single SMS to an Admin user
      *
-     * 在 mobile 为空时，使用 userId 加载对应 Admin 的手机号
+     * When mobile is empty, use userId to load the mobile number of the corresponding Admin
      *
-     * @param reqDTO 发送请求
-     * @return 发送日志编号
+     * @param reqDTO send request
+     * @return send log ID
      */
     Long sendSingleSmsToAdmin(@Valid SmsSendSingleToUserRpcRequest reqDTO);
 
     /**
-     * 发送单条短信给 Member 用户
+     * Send a single SMS to a Member user
      *
-     * 在 mobile 为空时，使用 userId 加载对应 Member 的手机号
+     * When mobile is empty, use userId to load the mobile number of the corresponding Member
      *
-     * @param reqDTO 发送请求
-     * @return 发送日志编号
+     * @param reqDTO send request
+     * @return send log ID
      */
     Long sendSingleSmsToMember(@Valid SmsSendSingleToUserRpcRequest reqDTO);
 

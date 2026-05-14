@@ -12,7 +12,7 @@ import static com.focela.platform.framework.security.core.utils.SecurityFramewor
 import static com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils.skipPermissionCheck;
 
 /**
- * 默认的 {@link SecurityFrameworkService} 实现类
+ * Default {@link SecurityFrameworkService} implementation class
  */
 @AllArgsConstructor
 public class DefaultSecurityFrameworkService implements SecurityFrameworkService {
@@ -26,12 +26,12 @@ public class DefaultSecurityFrameworkService implements SecurityFrameworkService
 
     @Override
     public boolean hasAnyPermissions(String... permissions) {
-        // 特殊：跨租户访问
+        // Special: cross-tenant access
         if (skipPermissionCheck()) {
             return true;
         }
 
-        // 权限校验
+        // Permission check
         Long userId = getLoginUserId();
         if (userId == null) {
             return false;
@@ -46,12 +46,12 @@ public class DefaultSecurityFrameworkService implements SecurityFrameworkService
 
     @Override
     public boolean hasAnyRoles(String... roles) {
-        // 特殊：跨租户访问
+        // Special: cross-tenant access
         if (skipPermissionCheck()) {
             return true;
         }
 
-        // 权限校验
+        // Permission check
         Long userId = getLoginUserId();
         if (userId == null) {
             return false;
@@ -66,12 +66,12 @@ public class DefaultSecurityFrameworkService implements SecurityFrameworkService
 
     @Override
     public boolean hasAnyScopes(String... scope) {
-        // 特殊：跨租户访问
+        // Special: cross-tenant access
         if (skipPermissionCheck()) {
             return true;
         }
 
-        // 权限校验
+        // Permission check
         LoginUser user = SecurityFrameworkUtils.getLoginUser();
         if (user == null) {
             return false;

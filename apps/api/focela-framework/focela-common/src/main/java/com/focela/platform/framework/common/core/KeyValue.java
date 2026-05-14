@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * Key Value 的键值对
+ * Key-value pair.
  */
 @Data
 @NoArgsConstructor

@@ -6,29 +6,29 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * OAuth2.0 访问令牌的信息 Response DTO
+ * OAuth2.0 access token info Response DTO.
  */
 @Data
 public class OAuth2AccessTokenRpcResponse implements Serializable {
 
     /**
-     * 访问令牌
+     * Access token.
      */
     private String accessToken;
     /**
-     * 刷新令牌
+     * Refresh token.
      */
     private String refreshToken;
     /**
-     * 用户编号
+     * User ID.
      */
     private Long userId;
     /**
-     * 用户类型
+     * User type.
      */
     private Integer userType;
     /**
-     * 过期时间
+     * Expiration time.
      */
     private LocalDateTime expiresTime;
 

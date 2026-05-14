@@ -7,25 +7,25 @@ import jakarta.validation.constraints.NotNull;
 import java.util.Map;
 
 /**
- * 站内信发送给 Admin 或者 Member 用户
+ * Notification message sent to an Admin or Member user
  */
 @Data
 public class NotifySendSingleToUserRpcRequest {
 
     /**
-     * 用户编号
+     * User ID
      */
     @NotNull(message = "user ID must not be blank")
     private Long userId;
 
     /**
-     * 站内信模板编号
+     * Notification template ID
      */
     @NotEmpty(message = "notify message template ID must not be blank")
     private String templateCode;
 
     /**
-     * 站内信模板参数
+     * Notification template parameters
      */
     private Map<String, Object> templateParams;
 }

@@ -14,14 +14,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
- * {@link DesensitizeTest} 的单元测试
+ * Unit test for {@link DesensitizeTest}
  */
 @ExtendWith(MockitoExtension.class)
 public class DesensitizeTest {
 
     @Test
     public void test() {
-        // 准备参数
+        // prepare parameters
         DesensitizeDemo desensitizeDemo = new DesensitizeDemo();
         desensitizeDemo.setNickname("芋道源码");
         desensitizeDemo.setBankCard("9988002866797031");
@@ -38,9 +38,9 @@ public class DesensitizeTest {
         desensitizeDemo.setAddress("北京市海淀区上地十街10号");
         desensitizeDemo.setOrigin("芋道源码");
 
-        // 调用
+        // invoke
         DesensitizeDemo d = JsonUtils.parseObject(JsonUtils.toJsonString(desensitizeDemo), DesensitizeDemo.class);
-        // 断言
+        // assert
         assertNotNull(d);
         assertEquals("芋***", d.getNickname());
         assertEquals("998800********31", d.getBankCard());

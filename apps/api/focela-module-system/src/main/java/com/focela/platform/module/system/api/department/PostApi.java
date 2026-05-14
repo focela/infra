@@ -10,16 +10,16 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 岗位 API 接口
+ * Post API interface
  */
 public interface PostApi {
 
     /**
-     * 校验岗位们是否有效。如下情况，视为无效：
-     * 1. 岗位编号不存在
-     * 2. 岗位被禁用
+     * Validate whether the posts are valid. The following cases are considered invalid:
+     * 1. post ID does not exist
+     * 2. post is disabled
      *
-     * @param ids 岗位编号数组
+     * @param ids post IDs
      */
     void validPostList(Collection<Long> ids);
 

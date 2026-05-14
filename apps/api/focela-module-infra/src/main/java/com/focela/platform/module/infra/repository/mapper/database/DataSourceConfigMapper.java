@@ -5,7 +5,7 @@ import com.focela.platform.module.infra.entity.database.DataSourceConfigEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 数据源配置 Mapper
+ * Data source config Mapper
  */
 @Mapper
 public interface DataSourceConfigMapper extends BaseMapperX<DataSourceConfigEntity> {

@@ -7,50 +7,50 @@ import lombok.Data;
 import org.hibernate.validator.constraints.URL;
 
 /**
- * Ftp 文件客户端的配置类
+ * Ftp file client config class
  */
 @Data
 public class FtpFileClientConfig implements FileClientConfig {
 
     /**
-     * 基础路径
+     * Base path
      */
     @NotEmpty(message = "base path must not be blank")
     private String basePath;
 
     /**
-     * 自定义域名
+     * Custom domain
      */
     @NotEmpty(message = "domain must not be blank")
     @URL(message = "domain must be URL format")
     private String domain;
 
     /**
-     * 主机地址
+     * Host address
      */
     @NotEmpty(message = "host must not be blank")
     private String host;
     /**
-     * 主机端口
+     * Host port
      */
     @NotNull(message = "port must not be blank")
     private Integer port;
     /**
-     * 用户名
+     * Username
      */
     @NotEmpty(message = "username must not be blank")
     private String username;
     /**
-     * 密码
+     * Password
      */
     @NotEmpty(message = "password must not be blank")
     private String password;
     /**
-     * 连接模式
+     * Connection mode
      *
-     * 使用 {@link  cn.hutool.extra.ftp.FtpMode} 对应的字符串
+     * Uses the string corresponding to {@link  cn.hutool.extra.ftp.FtpMode}
      */
-    @NotEmpty(message = "连接模式must not be blank")
+    @NotEmpty(message = "connection mode must not be blank")
     private String mode;
 
 }

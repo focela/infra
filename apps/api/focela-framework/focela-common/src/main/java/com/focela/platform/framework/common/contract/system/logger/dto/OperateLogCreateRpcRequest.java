@@ -6,75 +6,75 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
- * 系统操作日志 Create Request DTO
+ * System operate log Create Request DTO.
  */
 @Data
 public class OperateLogCreateRpcRequest {
 
     /**
-     * 链路追踪编号
+     * Trace ID.
      *
-     * 一般来说，通过链路追踪编号，可以将访问日志，错误日志，链路追踪日志，logger 打印日志等，结合在一起，从而进行排错。
+     * The trace ID allows access logs, error logs, tracing logs, and logger output to be correlated for troubleshooting.
      */
     private String traceId;
     /**
-     * 用户编号
+     * User ID.
      *
-     * 关联 MemberUserDO 的 id 属性，或者 UserEntity 的 id 属性
+     * References the id of MemberUserDO or UserEntity.
      */
     @NotNull(message = "user ID must not be blank")
     private Long userId;
     /**
-     * 用户类型
+     * User type.
      *
-     * 关联 {@link  UserTypeEnum}
+     * See {@link UserTypeEnum}.
      */
     @NotNull(message = "user type must not be blank")
     private Integer userType;
     /**
-     * 操作模块类型
+     * Operation module type.
      */
-    @NotEmpty(message = "operation 模block type must not be blank")
+    @NotEmpty(message = "operation module type must not be blank")
     private String type;
     /**
-     * 操作名
+     * Operation name.
      */
-    @NotEmpty(message = "operation 名must not be blank")
+    @NotEmpty(message = "operation name must not be blank")
     private String subType;
     /**
-     * 操作模块业务编号
+     * Business ID of the operation module.
      */
-    @NotNull(message = "operation 模block 业务ID must not be blank")
+    @NotNull(message = "operation module business ID must not be blank")
     private Long bizId;
     /**
-     * 操作内容，记录整个操作的明细
-     * 例如说，修改编号为 1 的用户信息，将性别从男改成女，将姓名从芋道改成源码。
+     * Operation content, recording the details of the entire operation.
+     * For example: modifying the user with ID 1, changing gender from male to female and name from A to B.
      */
     @NotEmpty(message = "operation content must not be blank")
     private String action;
     /**
-     * 拓展字段，有些复杂的业务，需要记录一些字段 ( JSON 格式 )
-     * 例如说，记录订单编号，{ orderId: "1"}
+     * Extension field; some complex business cases require additional fields recorded in JSON format.
+     * For example, recording the order ID: { orderId: "1" }.
      */
     private String extra;
 
     /**
-     * 请求方法名
+     * HTTP request method.
      */
     @NotEmpty(message = "HTTP method must not be blank")
     private String requestMethod;
     /**
-     * 请求地址
+     * Request URL.
      */
     @NotEmpty(message = "request URL must not be blank")
     private String requestUrl;
     /**
-     * 用户 IP
+     * User IP.
      */
     @NotEmpty(message = "user IP must not be blank")
     private String userIp;
     /**
-     * 浏览器 UA
+     * Browser User-Agent.
      */
     @NotEmpty(message = "user agent must not be blank")
     private String userAgent;

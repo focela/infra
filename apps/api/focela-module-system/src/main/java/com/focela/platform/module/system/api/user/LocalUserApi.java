@@ -21,7 +21,7 @@ import java.util.Set;
 import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertSet;
 
 /**
- * Admin 用户 API 实现类
+ * Admin user API implementation class
  */
 @Service
 public class LocalUserApi implements UserApi {
@@ -32,7 +32,7 @@ public class LocalUserApi implements UserApi {
     private DepartmentService deptService;
 
     @Override
-    @DataPermission(enable = false) // 忽略数据权限，避免因为过滤，导致无法查询用户。类似：https://github.com/YunaiV/ruoyi-vue-pro/issues/1051
+    @DataPermission(enable = false) // Ignore data permission to avoid filtering preventing the user from being found
     public UserRpcResponse getUser(Long id) {
         UserEntity user = userService.getUser(id);
         return BeanUtils.toBean(user, UserRpcResponse.class);
@@ -40,27 +40,27 @@ public class LocalUserApi implements UserApi {
 
     @Override
     public List<UserRpcResponse> getUserListBySubordinate(Long id) {
-        // 1.1 获取用户负责的部门
+        // 1.1 Get the departments the user is responsible for
         List<DepartmentEntity> depts = deptService.getDeptListByLeaderUserId(id);
         if (CollUtil.isEmpty(depts)) {
             return Collections.emptyList();
         }
-        // 1.2 获取所有子部门
+        // 1.2 Get all child departments
         Set<Long> deptIds = convertSet(depts, DepartmentEntity::getId);
         List<DepartmentEntity> childDeptList = deptService.getChildDeptList(deptIds);
         if (CollUtil.isNotEmpty(childDeptList)) {
             deptIds.addAll(convertSet(childDeptList, DepartmentEntity::getId));
         }
 
-        // 2. 获取部门对应的用户信息
+        // 2. Get users belonging to the departments
         List<UserEntity> users = userService.getUserListByDeptIds(deptIds);
-        users.removeIf(item -> ObjUtil.equal(item.getId(), id)); // 排除自己
+        users.removeIf(item -> ObjUtil.equal(item.getId(), id)); // exclude self
         return BeanUtils.toBean(users, UserRpcResponse.class);
     }
 
     @Override
     public List<UserRpcResponse> getUserList(Collection<Long> ids) {
-        return DataPermissionUtils.executeIgnore(() -> { // 禁用数据权限。原因是，一般基于指定 id 的 API 查询，都是数据拼接为主
+        return DataPermissionUtils.executeIgnore(() -> { // Disable data permission. Reason: ID-based API queries are mostly for data joining
             List<UserEntity> users = userService.getUserList(ids);
             return BeanUtils.toBean(users, UserRpcResponse.class);
         });

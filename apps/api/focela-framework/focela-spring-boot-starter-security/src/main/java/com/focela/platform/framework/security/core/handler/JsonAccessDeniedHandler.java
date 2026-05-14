@@ -18,9 +18,11 @@ import java.io.IOException;
 import static com.focela.platform.framework.common.exception.enums.GlobalErrorCodeConstants.FORBIDDEN;
 
 /**
- * 访问一个需要认证的 URL 资源，已经认证（登录）但是没有权限的情况下，返回 {@link GlobalErrorCodeConstants#FORBIDDEN} 错误码。
+ * When accessing a URL resource that requires authentication while authenticated (logged in) but lacking permission,
+ * return the {@link GlobalErrorCodeConstants#FORBIDDEN} error code.
  *
- * 补充：Spring Security 通过 {@link ExceptionTranslationFilter#handleAccessDeniedException(HttpServletRequest, HttpServletResponse, FilterChain, AccessDeniedException)} 方法，调用当前类
+ * Note: Spring Security invokes this class via the
+ * {@link ExceptionTranslationFilter#handleAccessDeniedException(HttpServletRequest, HttpServletResponse, FilterChain, AccessDeniedException)} method.
  */
 @Slf4j
 @SuppressWarnings("JavadocReference")
@@ -29,10 +31,10 @@ public class JsonAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e)
             throws IOException, ServletException {
-        // 打印 warn 的原因是，不定期合并 warn，看看有没恶意破坏
-        log.warn("[commence][访问 URL({}) when, user ({}) permission not 够]", request.getRequestURI(),
+        // Log at warn level so we can periodically review warnings for malicious activity
+        log.warn("[commence][access URL({}) when, user ({}) permission insufficient]", request.getRequestURI(),
                 SecurityFrameworkUtils.getLoginUserId(), e);
-        // 返回 403
+        // Return 403
         ServletUtils.writeJSON(response, CommonResult.error(FORBIDDEN));
     }
 

@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.Set;
 
 /**
- * 权限 API 实现类
+ * Permission API implementation class
  */
 @Service
 public class LocalPermissionApi implements PermissionApi {

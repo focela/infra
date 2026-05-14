@@ -22,13 +22,13 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
 /**
- * Spring Security 自动配置类，主要用于相关组件的配置
+ * Spring Security auto-configuration class, mainly used to configure related components.
  *
- * 注意，不能和 {@link FocelaWebSecurityConfigurerAdapter} 用一个，原因是会导致初始化报错。
- * 参见 https://stackoverflow.com/questions/53847050/spring-boot-delegatebuilder-cannot-be-null-on-autowiring-authenticationmanager 文档。
+ * Note: this must not be combined with {@link FocelaWebSecurityConfigurerAdapter}; doing so causes initialization errors.
+ * See https://stackoverflow.com/questions/53847050/spring-boot-delegatebuilder-cannot-be-null-on-autowiring-authenticationmanager
  */
 @AutoConfiguration
-@AutoConfigureOrder(-1) // 目的：先于 Spring Security 自动配置，避免一键改包后，org.* 基础包无法生效
+@AutoConfigureOrder(-1) // Purpose: run before Spring Security auto-configuration so that, after a one-click package rename, the org.* base packages still take effect
 @EnableConfigurationProperties(SecurityProperties.class)
 public class FocelaSecurityAutoConfiguration {
 
@@ -36,7 +36,7 @@ public class FocelaSecurityAutoConfiguration {
     private SecurityProperties securityProperties;
 
     /**
-     * 认证失败处理类 Bean
+     * Authentication-failure handler Bean
      */
     @Bean
     public AuthenticationEntryPoint authenticationEntryPoint() {
@@ -44,7 +44,7 @@ public class FocelaSecurityAutoConfiguration {
     }
 
     /**
-     * 权限不够处理器 Bean
+     * Insufficient-permission handler Bean
      */
     @Bean
     public AccessDeniedHandler accessDeniedHandler() {
@@ -52,8 +52,8 @@ public class FocelaSecurityAutoConfiguration {
     }
 
     /**
-     * Spring Security 加密器
-     * 考虑到安全性，这里采用 BCryptPasswordEncoder 加密器
+     * Spring Security password encoder.
+     * For security reasons, BCryptPasswordEncoder is used.
      *
      * @see <a href="http://stackabuse.com/password-encoding-with-spring-security/">Password Encoding with Spring Security</a>
      */
@@ -63,7 +63,7 @@ public class FocelaSecurityAutoConfiguration {
     }
 
     /**
-     * Token 认证过滤器 Bean
+     * Token authentication filter Bean
      */
     @Bean
     public TokenAuthenticationFilter authenticationTokenFilter(GlobalExceptionHandler globalExceptionHandler,
@@ -71,14 +71,14 @@ public class FocelaSecurityAutoConfiguration {
         return new TokenAuthenticationFilter(securityProperties, globalExceptionHandler, oauth2TokenApi);
     }
 
-    @Bean("ss") // 使用 Spring Security 的缩写，方便使用
+    @Bean("ss") // Use Spring Security's abbreviation for convenience
     public SecurityFrameworkService securityFrameworkService(PermissionContractApi permissionApi) {
         return new DefaultSecurityFrameworkService(permissionApi);
     }
 
     /**
-     * 声明调用 {@link SecurityContextHolder#setStrategyName(String)} 方法，
-     * 设置使用 {@link TransmittableThreadLocalSecurityContextHolderStrategy} 作为 Security 的上下文策略
+     * Declare invocation of {@link SecurityContextHolder#setStrategyName(String)}
+     * to configure {@link TransmittableThreadLocalSecurityContextHolderStrategy} as the Security context strategy.
      */
     @Bean
     public MethodInvokingFactoryBean securityContextHolderMethodInvokingFactoryBean() {

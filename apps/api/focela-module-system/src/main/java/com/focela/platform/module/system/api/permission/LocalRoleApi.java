@@ -7,7 +7,7 @@ import jakarta.annotation.Resource;
 import java.util.Collection;
 
 /**
- * 角色 API 实现类
+ * Role API implementation class
  */
 @Service
 public class LocalRoleApi implements RoleApi {

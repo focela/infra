@@ -3,23 +3,23 @@ package com.focela.platform.framework.common.utils.monitor;
 import org.apache.skywalking.apm.toolkit.trace.TraceContext;
 
 /**
- * 链路追踪工具类
+ * Tracing utility.
  *
- * 考虑到每个 starter 都需要用到该工具类，所以放到 common 模块下的 util 包下
+ * Every starter needs this utility, so it lives in the common module's util package.
  */
 public class TracerUtils {
 
     /**
-     * 私有化构造方法
+     * Private constructor.
      */
     private TracerUtils() {
     }
 
     /**
-     * 获得链路追踪编号，直接返回 SkyWalking 的 TraceId。
-     * 如果不存在的话为空字符串！！！
+     * Get the trace ID; returns SkyWalking's TraceId directly.
+     * Returns an empty string when absent.
      *
-     * @return 链路追踪编号
+     * @return trace ID
      */
     public static String getTraceId() {
         return TraceContext.traceId();

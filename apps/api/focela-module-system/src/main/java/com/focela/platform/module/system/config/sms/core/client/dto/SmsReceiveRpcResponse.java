@@ -5,41 +5,41 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * 消息接收 Response DTO
+ * SMS receive Response DTO
  */
 @Data
 public class SmsReceiveRpcResponse {
 
     /**
-     * 是否接收成功
+     * Whether receive succeeded
      */
     private Boolean success;
     /**
-     * API 接收结果的编码
+     * API receive result code
      */
     private String errorCode;
     /**
-     * API 接收结果的说明
+     * API receive result description
      */
     private String errorMsg;
 
     /**
-     * 手机号
+     * Mobile number
      */
     private String mobile;
     /**
-     * 用户接收时间
+     * User receive time
      */
     private LocalDateTime receiveTime;
 
     /**
-     * 短信 API 发送返回的序号
+     * Serial number returned by the SMS API send
      */
     private String serialNo;
     /**
-     * 短信日志编号
+     * SMS log ID
      *
-     * 对应 SysSmsLogDO 的编号
+     * Corresponds to SysSmsLogDO's ID
      */
     private Long logId;
 

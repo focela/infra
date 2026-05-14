@@ -5,27 +5,27 @@ import com.focela.platform.module.system.api.mail.dto.MailSendSingleToUserRpcReq
 import jakarta.validation.Valid;
 
 /**
- * 邮箱发送 API 接口
+ * Mail send API interface
  */
 public interface MailSendApi {
 
     /**
-     * 发送单条邮箱给 Admin 用户
+     * Send a single email to an Admin user
      *
-     * 在 mail 为空时，使用 userId 加载对应 Admin 的邮箱
+     * When mail is empty, use userId to load the email of the corresponding Admin
      *
-     * @param reqDTO 发送请求
-     * @return 发送日志编号
+     * @param reqDTO send request
+     * @return send log ID
      */
     Long sendSingleMailToAdmin(@Valid MailSendSingleToUserRpcRequest reqDTO);
 
     /**
-     * 发送单条邮箱给 Member 用户
+     * Send a single email to a Member user
      *
-     * 在 mail 为空时，使用 userId 加载对应 Member 的邮箱
+     * When mail is empty, use userId to load the email of the corresponding Member
      *
-     * @param reqDTO 发送请求
-     * @return 发送日志编号
+     * @param reqDTO send request
+     * @return send log ID
      */
     Long sendSingleMailToMember(@Valid MailSendSingleToUserRpcRequest reqDTO);
 

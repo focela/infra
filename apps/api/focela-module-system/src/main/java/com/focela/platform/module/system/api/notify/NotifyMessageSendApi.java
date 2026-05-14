@@ -5,23 +5,23 @@ import com.focela.platform.module.system.api.notify.dto.NotifySendSingleToUserRp
 import jakarta.validation.Valid;
 
 /**
- * 站内信发送 API 接口
+ * Notification message send API interface
  */
 public interface NotifyMessageSendApi {
 
     /**
-     * 发送单条站内信给 Admin 用户
+     * Send a single notification message to an Admin user
      *
-     * @param reqDTO 发送请求
-     * @return 发送消息 ID
+     * @param reqDTO send request
+     * @return sent message ID
      */
     Long sendSingleMessageToAdmin(@Valid NotifySendSingleToUserRpcRequest reqDTO);
 
     /**
-     * 发送单条站内信给 Member 用户
+     * Send a single notification message to a Member user
      *
-     * @param reqDTO 发送请求
-     * @return 发送消息 ID
+     * @param reqDTO send request
+     * @return sent message ID
      */
     Long sendSingleMessageToMember(@Valid NotifySendSingleToUserRpcRequest reqDTO);
 

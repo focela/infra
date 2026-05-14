@@ -6,15 +6,15 @@ import java.util.Collection;
 import java.util.Set;
 
 /**
- * 权限 API 接口
+ * Permission API interface
  */
 public interface PermissionApi extends PermissionContractApi {
 
     /**
-     * 获得拥有多个角色的用户编号集合
+     * Get the set of user IDs that hold any of the given roles
      *
-     * @param roleIds 角色编号集合
-     * @return 用户编号集合
+     * @param roleIds role ID set
+     * @return user ID set
      */
     Set<Long> getUserRoleIdListByRoleIds(Collection<Long> roleIds);
 

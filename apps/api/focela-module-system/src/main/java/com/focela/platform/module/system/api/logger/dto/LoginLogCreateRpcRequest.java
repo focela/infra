@@ -8,52 +8,52 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 /**
- * 登录日志创建 Request DTO
+ * Login log create Request DTO
  */
 @Data
 public class LoginLogCreateRpcRequest {
 
     /**
-     * 日志类型
+     * Log type
      */
     @NotNull(message = "log type must not be blank")
     private Integer logType;
     /**
-     * 链路追踪编号
+     * Trace ID
      */
     private String traceId;
 
     /**
-     * 用户编号
+     * User ID
      */
     private Long userId;
     /**
-     * 用户类型
+     * User type
      */
     @NotNull(message = "user type must not be blank")
     private Integer userType;
     /**
-     * 用户账号
+     * User account
      *
-     * 不再强制校验 username 非空，因为 Member 社交登录时，此时暂时没有 username(mobile）！
+     * No longer requires username to be non-empty, because during Member social login there is temporarily no username (mobile)!
      */
     private String username;
 
     /**
-     * 登录结果
+     * Login result
      */
-    @NotNull(message = "login 结果must not be blank")
+    @NotNull(message = "login result must not be blank")
     private Integer result;
 
     /**
-     * 用户 IP
+     * User IP
      */
     @NotEmpty(message = "user IP must not be blank")
     private String userIp;
     /**
-     * 浏览器 UserAgent
+     * Browser UserAgent
      *
-     * 允许空，原因：Job 过期登出时，是无法传递 UserAgent 的
+     * Allowed to be empty, reason: when Job triggers expired logout, the UserAgent cannot be passed
      */
     private String userAgent;
 

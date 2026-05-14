@@ -7,45 +7,45 @@ import com.focela.platform.module.system.api.social.dto.SocialUserUnbindRpcReque
 import jakarta.validation.Valid;
 
 /**
- * 社交用户的 API 接口
+ * Social user API interface
  */
 public interface SocialUserApi {
 
     /**
-     * 绑定社交用户
+     * Bind a social user
      *
-     * @param reqDTO 绑定信息
-     * @return 社交用户 openid
+     * @param reqDTO bind info
+     * @return social user openid
      */
     String bindSocialUser(@Valid SocialUserBindRpcRequest reqDTO);
 
     /**
-     * 取消绑定社交用户
+     * Unbind a social user
      *
-     * @param reqDTO 解绑
+     * @param reqDTO unbind request
      */
     void unbindSocialUser(@Valid SocialUserUnbindRpcRequest reqDTO);
 
     /**
-     * 获得社交用户，基于 userId
+     * Get a social user by userId
      *
-     * @param userType   用户类型
-     * @param userId     用户编号
-     * @param socialType 社交平台的类型
-     * @return 社交用户
+     * @param userType   user type
+     * @param userId     user ID
+     * @param socialType social platform type
+     * @return social user
      */
     SocialUserRpcResponse getSocialUserByUserId(Integer userType, Long userId, Integer socialType);
 
     /**
-     * 获得社交用户
+     * Get a social user
      *
-     * 在认证信息不正确的情况下，也会抛出 {@link ServiceException} 业务异常
+     * When the authentication info is incorrect, a {@link ServiceException} business exception will be thrown
      *
-     * @param userType   用户类型
-     * @param socialType 社交平台的类型
-     * @param code       授权码
+     * @param userType   user type
+     * @param socialType social platform type
+     * @param code       authorization code
      * @param state      state
-     * @return 社交用户
+     * @return social user
      */
     SocialUserRpcResponse getSocialUserByCode(Integer userType, Integer socialType, String code, String state);
 

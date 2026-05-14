@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 岗位 API 实现类
+ * Post API implementation class
  */
 @Service
 public class LocalPostApi implements PostApi {

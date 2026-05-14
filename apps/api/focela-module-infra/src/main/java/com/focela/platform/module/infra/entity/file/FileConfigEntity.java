@@ -21,10 +21,10 @@ import lombok.*;
 import java.lang.reflect.Field;
 
 /**
- * 文件配置表
+ * File config table
  */
 @TableName(value = "infra_file_config", autoResultMap = true)
-@KeySequence("infra_file_config_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
+@KeySequence("infra_file_config_seq") // Used for database primary key auto-increment in Oracle, PostgreSQL, Kingbase, DB2, H2. For databases like MySQL it can be omitted.
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
@@ -35,32 +35,32 @@ import java.lang.reflect.Field;
 public class FileConfigEntity extends BaseEntity {
 
     /**
-     * 配置编号，数据库自增
+     * Config ID, database auto-increment
      */
     private Long id;
     /**
-     * 配置名
+     * Config name
      */
     private String name;
     /**
-     * 存储器
+     * Storage
      *
-     * 枚举 {@link FileStorageEnum}
+     * Enum {@link FileStorageEnum}
      */
     private Integer storage;
     /**
-     * 备注
+     * Remarks
      */
     private String remark;
     /**
-     * 是否为主配置
+     * Whether master config
      *
-     * 由于我们可以配置多个文件配置，默认情况下，使用主配置进行文件的上传
+     * Since multiple file configs can be configured, the master config is used by default for file upload
      */
     private Boolean master;
 
     /**
-     * 支付渠道配置
+     * Payment channel config
      */
     @TableField(typeHandler = FileClientConfigTypeHandler.class)
     private FileClientConfig config;
@@ -83,7 +83,7 @@ public class FileConfigEntity extends BaseEntity {
                 return config;
             }
 
-            // 兼容老版本的包路径
+            // Compatibility with old version package paths
             String className = JsonUtils.parseObject(json, "@class", String.class);
             className = StrUtil.subAfter(className, ".", true);
             switch (className) {

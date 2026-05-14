@@ -7,17 +7,17 @@ import cn.hutool.core.util.StrUtil;
 import java.io.InputStream;
 
 /**
- * IO 工具类，用于 {@link cn.hutool.core.io.IoUtil} 缺失的方法
+ * IO utilities; fills gaps in {@link cn.hutool.core.io.IoUtil}.
  */
 public class IoUtils {
 
     /**
-     * 从流中读取 UTF8 编码的内容
+     * Read UTF-8 encoded content from the stream.
      *
-     * @param in 输入流
-     * @param isClose 是否关闭
-     * @return 内容
-     * @throws IORuntimeException IO 异常
+     * @param in input stream
+     * @param isClose whether to close the stream
+     * @return content
+     * @throws IORuntimeException IO exception
      */
     public static String readUtf8(InputStream in, boolean isClose) throws IORuntimeException {
         return StrUtil.utf8Str(IoUtil.read(in, isClose));

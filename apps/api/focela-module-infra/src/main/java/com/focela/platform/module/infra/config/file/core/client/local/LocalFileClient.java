@@ -7,7 +7,7 @@ import com.focela.platform.module.infra.config.file.core.client.AbstractFileClie
 import java.io.File;
 
 /**
- * 本地文件客户端
+ * Local file client
  */
 public class LocalFileClient extends AbstractFileClient<LocalFileClientConfig> {
 
@@ -21,10 +21,10 @@ public class LocalFileClient extends AbstractFileClient<LocalFileClientConfig> {
 
     @Override
     public String upload(byte[] content, String path, String type) {
-        // 执行写入
+        // Perform write
         String filePath = getFilePath(path);
         FileUtil.writeBytes(content, filePath);
-        // 拼接返回路径
+        // Build return path
         return super.formatFileUrl(config.getDomain(), path);
     }
 

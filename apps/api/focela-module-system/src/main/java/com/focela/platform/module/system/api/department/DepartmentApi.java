@@ -8,40 +8,40 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 部门 API 接口
+ * Department API interface
  */
 public interface DepartmentApi {
 
     /**
-     * 获得部门信息
+     * Get department information
      *
-     * @param id 部门编号
-     * @return 部门信息
+     * @param id department ID
+     * @return department information
      */
     DepartmentRpcResponse getDept(Long id);
 
     /**
-     * 获得部门信息数组
+     * Get a list of departments
      *
-     * @param ids 部门编号数组
-     * @return 部门信息数组
+     * @param ids department IDs
+     * @return list of departments
      */
     List<DepartmentRpcResponse> getDeptList(Collection<Long> ids);
 
     /**
-     * 校验部门们是否有效。如下情况，视为无效：
-     * 1. 部门编号不存在
-     * 2. 部门被禁用
+     * Validate whether the departments are valid. The following cases are considered invalid:
+     * 1. department ID does not exist
+     * 2. department is disabled
      *
-     * @param ids 角色编号数组
+     * @param ids department IDs
      */
     void validateDeptList(Collection<Long> ids);
 
     /**
-     * 获得指定编号的部门 Map
+     * Get the department Map for the specified IDs
      *
-     * @param ids 部门编号数组
-     * @return 部门 Map
+     * @param ids department IDs
+     * @return department Map
      */
     default Map<Long, DepartmentRpcResponse> getDeptMap(Collection<Long> ids) {
         List<DepartmentRpcResponse> list = getDeptList(ids);
@@ -49,10 +49,10 @@ public interface DepartmentApi {
     }
 
     /**
-     * 获得指定部门的所有子部门
+     * Get all child departments of the specified department
      *
-     * @param id 部门编号
-     * @return 子部门列表
+     * @param id department ID
+     * @return list of child departments
      */
     List<DepartmentRpcResponse> getChildDeptList(Long id);
 

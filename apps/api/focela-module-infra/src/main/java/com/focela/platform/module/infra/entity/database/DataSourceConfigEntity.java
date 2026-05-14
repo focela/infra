@@ -9,38 +9,38 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
- * 数据源配置
+ * Data source config
  */
 @TableName(value = "infra_data_source_config", autoResultMap = true)
-@KeySequence("infra_data_source_config_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
+@KeySequence("infra_data_source_config_seq") // Used for database primary key auto-increment in Oracle, PostgreSQL, Kingbase, DB2, H2. For databases like MySQL it can be omitted.
 @Data
 @TenantIgnore
 public class DataSourceConfigEntity extends BaseEntity {
 
     /**
-     * 主键编号 - Master 数据源
+     * Primary key ID - Master data source
      */
     public static final Long ID_MASTER = 0L;
 
     /**
-     * 主键编号
+     * Primary key ID
      */
     private Long id;
     /**
-     * 连接名
+     * Connection name
      */
     private String name;
 
     /**
-     * 数据源连接
+     * Data source URL
      */
     private String url;
     /**
-     * 用户名
+     * Username
      */
     private String username;
     /**
-     * 密码
+     * Password
      */
     @TableField(typeHandler = EncryptTypeHandler.class)
     private String password;

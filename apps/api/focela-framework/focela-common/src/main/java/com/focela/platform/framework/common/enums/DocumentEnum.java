@@ -4,14 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 文档地址
+ * Documentation URLs.
  */
 @Getter
 @AllArgsConstructor
 public enum DocumentEnum {
 
-    REDIS_INSTALL("https://gitee.com/zhijiantianya/ruoyi-vue-pro/issues/I4VCSJ", "Redis 安装文档"),
-    TENANT("https://www.example.com", "SaaS 多租户文档");
+    REDIS_INSTALL("https://gitee.com/zhijiantianya/ruoyi-vue-pro/issues/I4VCSJ", "Redis installation docs"),
+    TENANT("https://www.example.com", "SaaS multi-tenancy docs");
 
     private final String url;
     private final String memo;

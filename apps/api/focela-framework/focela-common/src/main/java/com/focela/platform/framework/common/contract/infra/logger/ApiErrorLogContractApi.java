@@ -6,21 +6,21 @@ import jakarta.validation.Valid;
 import org.springframework.scheduling.annotation.Async;
 
 /**
- * API 错误日志的 API 接口
+ * API error log API interface.
  */
 public interface ApiErrorLogContractApi {
 
     /**
-     * 创建 API 错误日志
+     * Create an API error log.
      *
-     * @param createDTO 创建信息
+     * @param createDTO create information
      */
     void createApiErrorLog(@Valid ApiErrorLogCreateRpcRequest createDTO);
 
     /**
-     * 【异步】创建 API 异常日志
+     * [Async] Create an API error log.
      *
-     * @param createDTO 异常日志 DTO
+     * @param createDTO error log DTO
      */
     @Async
     default void createApiErrorLogAsync(ApiErrorLogCreateRpcRequest createDTO) {
