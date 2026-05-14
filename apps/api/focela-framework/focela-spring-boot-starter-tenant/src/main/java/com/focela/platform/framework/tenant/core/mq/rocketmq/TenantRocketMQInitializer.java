@@ -10,7 +10,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
 /**
- * 多租户的 RocketMQ 初始化器
+ * Multi-tenant RocketMQ initializer
  */
 public class TenantRocketMQInitializer implements BeanPostProcessor {
 

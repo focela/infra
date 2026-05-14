@@ -23,7 +23,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 /**
- * {@link ApiSignatureTest} 的单元测试
+ * Unit tests for {@link ApiSignatureTest}.
  */
 @ExtendWith(MockitoExtension.class)
 public class ApiSignatureTest {
@@ -36,7 +36,7 @@ public class ApiSignatureTest {
 
     @Test
     public void testSignatureGet() throws IOException {
-        // 搞一个签名
+        // Build a signature
         Long timestamp = System.currentTimeMillis();
         String nonce = IdUtil.randomUUID();
         String appId = "xxxxxx";
@@ -44,7 +44,7 @@ public class ApiSignatureTest {
         String signString = "k1=v1&v1=k1testappId=xxxxxx&nonce=" + nonce + "&timestamp=" + timestamp + "yyyyyy";
         String sign = DigestUtil.sha256Hex(signString);
 
-        // 准备参数
+        // Prepare parameters
         ApiSignature apiSignature = mock(ApiSignature.class);
         when(apiSignature.appId()).thenReturn("appId");
         when(apiSignature.timestamp()).thenReturn("timestamp");
@@ -61,13 +61,13 @@ public class ApiSignatureTest {
                 .put("v1", new String[]{"k1"}).put("k1", new String[]{"v1"}).build());
         when(request.getContentType()).thenReturn("application/json");
         when(request.getReader()).thenReturn(new BufferedReader(new StringReader("test")));
-        // mock 方法
+        // mock the methods
         when(signatureRedisDAO.getAppSecret(eq(appId))).thenReturn(appSecret);
         when(signatureRedisDAO.setNonce(eq(appId), eq(nonce), eq(120), eq(TimeUnit.SECONDS))).thenReturn(true);
 
-        // 调用
+        // invoke
         boolean result = apiSignatureAspect.verifySignature(apiSignature, request);
-        // 断言结果
+        // assert the result
         assertTrue(result);
     }
 

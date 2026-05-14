@@ -12,11 +12,11 @@
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
-    <description>IP 拓展，支持如下功能：
-        1. IP 功能：查询 IP 对应的城市信息
-            基于 https://gitee.com/lionsoul/ip2region 实现
-        2. 城市功能：查询城市编码对应的城市信息
-            基于 https://github.com/modood/Administrative-divisions-of-China 实现
+    <description>IP extension, providing the following features:
+        1. IP feature: look up city information by IP address
+            Implemented based on https://gitee.com/lionsoul/ip2region
+        2. City feature: look up city information by city code
+            Implemented based on https://github.com/modood/Administrative-divisions-of-China
     </description>
     <url>https://github.com/YunaiV/ruoyi-vue-pro</url>
 
@@ -26,7 +26,7 @@
             <artifactId>focela-common</artifactId>
         </dependency>
 
-        <!-- IP地址检索 -->
+        <!-- IP address lookup -->
         <dependency>
             <groupId>org.lionsoul</groupId>
             <artifactId>ip2region</artifactId>
@@ -40,10 +40,10 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <scope>provided</scope> <!-- 设置为 provided，只有工具类需要使用到 -->
+            <scope>provided</scope> <!-- Set to provided; only utility classes need it -->
         </dependency>
 
-        <!-- Test 测试相关 -->
+        <!-- Test-related -->
         <dependency>
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-test</artifactId>

@@ -31,46 +31,47 @@ import java.util.Map;
 import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertList;
 
 /**
- * 基于固定 sheet 实现下拉框
+ * Implements dropdown lists backed by a fixed reference sheet.
  */
 @Slf4j
 public class SelectSheetWriteHandler implements SheetWriteHandler {
 
     /**
-     * 数据起始行从 0 开始
+     * Data start row (zero-based).
      *
-     * 约定：本项目第一行有标题所以从 1 开始如果您的 Excel 有多行标题请自行更改
+     * Convention: this project's first row is the header, so we start from 1. If
+     * your Excel has multiple header rows, adjust accordingly.
      */
     public static final int FIRST_ROW = 1;
     /**
-     * 下拉列需要创建下拉框的行数，默认两千行如需更多请自行调整
+     * Number of rows that need a dropdown; defaults to 2000. Adjust if you need more.
      */
     public static final int LAST_ROW = 2000;
 
-    private static final String DICT_SHEET_NAME = "字典sheet";
+    private static final String DICT_SHEET_NAME = "dict sheet";
 
     /**
-     * key: 列 value: 下拉数据源
+     * key: column index, value: dropdown data source.
      */
     private final Map<Integer, List<String>> selectMap = new HashMap<>();
 
     public SelectSheetWriteHandler(Class<?> head) {
-        // 解析下拉数据
+        // Parse dropdown data
         int colIndex = 0;
         boolean ignoreUnannotated = head.isAnnotationPresent(ExcelIgnoreUnannotated.class);
         for (Field field : head.getDeclaredFields()) {
-            // 关联 https://github.com/YunaiV/ruoyi-vue-pro/pull/853
-            // 1.1 忽略 static final 或 transient 的字段
+            // See https://github.com/YunaiV/ruoyi-vue-pro/pull/853
+            // 1.1 Skip static final or transient fields
             if (isStaticFinalOrTransient(field) ) {
                 continue;
             }
-            // 1.2 忽略的字段跳过
+            // 1.2 Skip ignored fields
             if ((ignoreUnannotated && !field.isAnnotationPresent(ExcelProperty.class))
                     || field.isAnnotationPresent(ExcelIgnore.class)) {
                 continue;
             }
 
-            // 2. 核心：处理有 ExcelColumnSelect 注解的字段
+            // 2. Core: handle fields annotated with ExcelColumnSelect
             if (field.isAnnotationPresent(ExcelColumnSelect.class)) {
                 ExcelProperty excelProperty = field.getAnnotation(ExcelProperty.class);
                 if (excelProperty != null && excelProperty.index() != -1) {
@@ -83,11 +84,11 @@ public class SelectSheetWriteHandler implements SheetWriteHandler {
     }
 
     /**
-     * 判断字段是否是静态的、最终的、 transient 的
-     * 原因：FastExcel 默认是忽略 static final 或 transient 的字段，所以需要判断
+     * Check whether the field is static-final or transient.
+     * Reason: FastExcel ignores static final or transient fields by default, so we mirror that check here.
      *
-     * @param field 字段
-     * @return 是否是静态的、最终的、transient 的
+     * @param field field
+     * @return whether the field is static-final or transient
      */
     private boolean isStaticFinalOrTransient(Field field) {
         return (Modifier.isStatic(field.getModifiers()) && Modifier.isFinal(field.getModifiers()))
@@ -96,28 +97,28 @@ public class SelectSheetWriteHandler implements SheetWriteHandler {
 
 
     /**
-     * 获得下拉数据，并添加到 {@link #selectMap} 中
+     * Fetch the dropdown data and add it to {@link #selectMap}.
      *
-     * @param colIndex 列索引
-     * @param field    字段
+     * @param colIndex column index
+     * @param field    field
      */
     private void getSelectDataList(int colIndex, Field field) {
         ExcelColumnSelect columnSelect = field.getAnnotation(ExcelColumnSelect.class);
         String dictType = columnSelect.dictType();
         String functionName = columnSelect.functionName();
         Assert.isTrue(ObjectUtil.isNotEmpty(dictType) || ObjectUtil.isNotEmpty(functionName),
-                "Field({}) 的 @ExcelColumnSelect 注解，dictType 和 functionName 不能同时为空", field.getName());
+                "Field({}) @ExcelColumnSelect annotation: dictType and functionName must not both be empty", field.getName());
 
-        // 情况一：使用 dictType 获得下拉数据
-        if (StrUtil.isNotEmpty(dictType)) { // 情况一： 字典数据 （默认）
+        // Case 1: fetch dropdown data via dictType
+        if (StrUtil.isNotEmpty(dictType)) { // Case 1: dictionary data (default)
             selectMap.put(colIndex, DictionaryFrameworkUtils.getDictDataLabelList(dictType));
             return;
         }
 
-        // 情况二：使用 functionName 获得下拉数据
+        // Case 2: fetch dropdown data via functionName
         Map<String, ExcelColumnSelectFunction> functionMap = SpringUtil.getApplicationContext().getBeansOfType(ExcelColumnSelectFunction.class);
         ExcelColumnSelectFunction function = CollUtil.findOne(functionMap.values(), item -> item.getName().equals(functionName));
-        Assert.notNull(function, "未找到对应的 function({})", functionName);
+        Assert.notNull(function, "no matching function found ({})", functionName);
         selectMap.put(colIndex, function.getOptions());
     }
 
@@ -127,17 +128,17 @@ public class SelectSheetWriteHandler implements SheetWriteHandler {
             return;
         }
 
-        // 1. 获取相应操作对象
-        DataValidationHelper helper = writeSheetHolder.getSheet().getDataValidationHelper(); // 需要设置下拉框的 sheet 页的数据验证助手
-        Workbook workbook = writeWorkbookHolder.getWorkbook(); // 获得工作簿
+        // 1. Get the relevant handles
+        DataValidationHelper helper = writeSheetHolder.getSheet().getDataValidationHelper(); // Data validation helper for the sheet that needs dropdowns
+        Workbook workbook = writeWorkbookHolder.getWorkbook(); // Get the workbook
         List<KeyValue<Integer, List<String>>> keyValues = convertList(selectMap.entrySet(), entry -> new KeyValue<>(entry.getKey(), entry.getValue()));
-        keyValues.sort(Comparator.comparing(item -> item.getValue().size())); // 升序不然创建下拉会报错
+        keyValues.sort(Comparator.comparing(item -> item.getValue().size())); // Ascending order; otherwise dropdown creation will fail
 
-        // 2. 创建数据字典的 sheet 页
+        // 2. Create the dictionary sheet
         Sheet dictSheet = workbook.createSheet(DICT_SHEET_NAME);
         for (KeyValue<Integer, List<String>> keyValue : keyValues) {
             int rowLength = keyValue.getValue().size();
-            // 2.1 设置字典 sheet 页的值，每一列一个字典项
+            // 2.1 Populate the dictionary sheet; each column holds one dictionary entry
             for (int i = 0; i < rowLength; i++) {
                 Row row = dictSheet.getRow(i);
                 if (row == null) {
@@ -145,27 +146,27 @@ public class SelectSheetWriteHandler implements SheetWriteHandler {
                 }
                 row.createCell(keyValue.getKey()).setCellValue(keyValue.getValue().get(i));
             }
-            // 2.2 设置单元格下拉选择
+            // 2.2 Attach the dropdown to the cell
             setColumnSelect(writeSheetHolder, workbook, helper, keyValue);
         }
     }
 
     /**
-     * 设置单元格下拉选择
+     * Set the dropdown on the cell.
      */
     private static void setColumnSelect(WriteSheetHolder writeSheetHolder, Workbook workbook, DataValidationHelper helper,
                                         KeyValue<Integer, List<String>> keyValue) {
-        // 1.1 创建可被其他单元格引用的名称
+        // 1.1 Create a name that other cells can reference
         Name name = workbook.createName();
         String excelColumn = ExcelUtil.indexToColName(keyValue.getKey());
-        // 1.2 下拉框数据来源 eg:字典sheet!$B1:$B2
+        // 1.2 Dropdown data source, e.g. dict sheet!$B1:$B2
         String refers = DICT_SHEET_NAME + "!$" + excelColumn + "$1:$" + excelColumn + "$" + keyValue.getValue().size();
-        name.setNameName("dict" + keyValue.getKey()); // 设置名称的名字
-        name.setRefersToFormula(refers); // 设置公式
+        name.setNameName("dict" + keyValue.getKey()); // Set the name
+        name.setRefersToFormula(refers); // Set the formula
 
-        // 2.1 设置约束
-        DataValidationConstraint constraint = helper.createFormulaListConstraint("dict" + keyValue.getKey()); // 设置引用约束
-        // 设置下拉单元格的首行、末行、首列、末列
+        // 2.1 Configure the constraint
+        DataValidationConstraint constraint = helper.createFormulaListConstraint("dict" + keyValue.getKey()); // Set the reference constraint
+        // Set first/last row and first/last column of the dropdown cells
         CellRangeAddressList rangeAddressList = new CellRangeAddressList(FIRST_ROW, LAST_ROW,
                 keyValue.getKey(), keyValue.getKey());
         DataValidation validation = helper.createValidation(constraint, rangeAddressList);
@@ -175,10 +176,10 @@ public class SelectSheetWriteHandler implements SheetWriteHandler {
             validation.setSuppressDropDownArrow(true);
             validation.setShowErrorBox(true);
         }
-        // 2.2 阻止输入非下拉框的值
+        // 2.2 Block values outside the dropdown list
         validation.setErrorStyle(DataValidation.ErrorStyle.STOP);
-        validation.createErrorBox("提示", "此值不存在于下拉选择中！");
-        // 2.3 添加下拉框约束
+        validation.createErrorBox("Notice", "This value is not in the dropdown selection.");
+        // 2.3 Apply the dropdown constraint
         writeSheetHolder.getSheet().addValidationData(validation);
     }
 

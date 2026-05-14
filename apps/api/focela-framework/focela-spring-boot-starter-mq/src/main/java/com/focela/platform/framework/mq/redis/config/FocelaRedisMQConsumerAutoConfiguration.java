@@ -32,25 +32,25 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * Redis 消息队列 Consumer 配置类
+ * Redis message queue consumer configuration class.
  */
 @Slf4j
-@EnableScheduling // 启用定时任务，用于 RedisPendingMessageResendJob 重发消息
+@EnableScheduling // Enable scheduling, used by RedisPendingMessageResendJob for message redelivery
 @AutoConfiguration(after = FocelaRedisAutoConfiguration.class)
 public class FocelaRedisMQConsumerAutoConfiguration {
 
     /**
-     * 创建 Redis Pub/Sub 广播消费的容器
+     * Create the container for Redis Pub/Sub broadcast consumption.
      */
     @Bean
-    @ConditionalOnBean(AbstractRedisChannelMessageListener.class) // 只有 AbstractChannelMessageListener 存在的时候，才需要注册 Redis pubsub 监听
+    @ConditionalOnBean(AbstractRedisChannelMessageListener.class) // Only register the Redis pubsub listener when AbstractChannelMessageListener is present
     public RedisMessageListenerContainer redisMessageListenerContainer(
             RedisMQTemplate redisMQTemplate, List<AbstractRedisChannelMessageListener<?>> listeners) {
-        // 创建 RedisMessageListenerContainer 对象
+        // Create the RedisMessageListenerContainer
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
-        // 设置 RedisConnection 工厂。
+        // Set the RedisConnection factory
         container.setConnectionFactory(redisMQTemplate.getRedisTemplate().getRequiredConnectionFactory());
-        // 添加监听器
+        // Add listeners
         listeners.forEach(listener -> {
             listener.setRedisMQTemplate(redisMQTemplate);
             container.addMessageListener(listener, new ChannelTopic(listener.getChannel()));
@@ -61,10 +61,10 @@ public class FocelaRedisMQConsumerAutoConfiguration {
     }
 
     /**
-     * 创建 Redis Stream 重新消费的任务
+     * Create the Redis Stream pending-message redelivery job.
      */
     @Bean
-    @ConditionalOnBean(AbstractRedisStreamMessageListener.class) // 只有 AbstractStreamMessageListener 存在的时候，才需要注册 Redis pubsub 监听
+    @ConditionalOnBean(AbstractRedisStreamMessageListener.class) // Only register when AbstractStreamMessageListener is present
     public RedisPendingMessageResendJob redisPendingMessageResendJob(List<AbstractRedisStreamMessageListener<?>> listeners,
                                                                      RedisMQTemplate redisTemplate,
                                                                      RedissonClient redissonClient) {
@@ -72,7 +72,7 @@ public class FocelaRedisMQConsumerAutoConfiguration {
     }
 
     /**
-     * 创建 Redis Stream 消息清理任务
+     * Create the Redis Stream message cleanup job.
      */
     @Bean
     @ConditionalOnBean(AbstractRedisStreamMessageListener.class)
@@ -83,48 +83,48 @@ public class FocelaRedisMQConsumerAutoConfiguration {
     }
 
     /**
-     * 创建 Redis Stream 集群消费的容器
+     * Create the container for Redis Stream cluster consumption.
      *
-     * 基础知识：<a href="https://www.geek-book.com/src/docs/redis/redis/redis.io/commands/xreadgroup.html">Redis Stream 的 xreadgroup 命令</a>
+     * Background: <a href="https://www.geek-book.com/src/docs/redis/redis/redis.io/commands/xreadgroup.html">Redis Stream xreadgroup command</a>
      */
     @Bean(initMethod = "start", destroyMethod = "stop")
-    @ConditionalOnBean(AbstractRedisStreamMessageListener.class) // 只有 AbstractStreamMessageListener 存在的时候，才需要注册 Redis pubsub 监听
+    @ConditionalOnBean(AbstractRedisStreamMessageListener.class) // Only register when AbstractStreamMessageListener is present
     public StreamMessageListenerContainer<String, ObjectRecord<String, String>> redisStreamMessageListenerContainer(
             RedisMQTemplate redisMQTemplate, List<AbstractRedisStreamMessageListener<?>> listeners) {
         RedisTemplate<String, ?> redisTemplate = redisMQTemplate.getRedisTemplate();
         checkRedisVersion(redisTemplate);
-        // 第一步，创建 StreamMessageListenerContainer 容器
-        // 创建 options 配置
+        // Step 1: create the StreamMessageListenerContainer
+        // Build the options
         StreamMessageListenerContainer.StreamMessageListenerContainerOptions<String, ObjectRecord<String, String>> containerOptions =
                 StreamMessageListenerContainer.StreamMessageListenerContainerOptions.builder()
-                        .batchSize(10) // 一次性最多拉取多少条消息
-                        .targetType(String.class) // 目标类型。统一使用 String，通过自己封装的 AbstractStreamMessageListener 去反序列化
+                        .batchSize(10) // Maximum messages pulled per batch
+                        .targetType(String.class) // Target type. Uniformly use String and let AbstractStreamMessageListener deserialize
                         .build();
-        // 创建 container 对象
+        // Create the container
         StreamMessageListenerContainer<String, ObjectRecord<String, String>> container =
                 StreamMessageListenerContainer.create(redisMQTemplate.getRedisTemplate().getRequiredConnectionFactory(), containerOptions);
 
-        // 第二步，注册监听器，消费对应的 Stream 主题
+        // Step 2: register listeners to consume the corresponding Stream topics
         String consumerName = buildConsumerName();
         listeners.parallelStream().forEach(listener -> {
             log.info("[redisStreamMessageListenerContainer][start register StreamKey({}) corresponding listener ({})]",
                     listener.getStreamKey(), listener.getClass().getName());
-            // 创建 listener 对应的消费者分组
+            // Create the consumer group for the listener
             try {
                 redisTemplate.opsForStream().createGroup(listener.getStreamKey(), listener.getGroup());
             } catch (Exception ignore) {
             }
-            // 设置 listener 对应的 redisTemplate
+            // Set the redisTemplate for the listener
             listener.setRedisMQTemplate(redisMQTemplate);
-            // 创建 Consumer 对象
+            // Create the Consumer
             Consumer consumer = Consumer.from(listener.getGroup(), consumerName);
-            // 设置 Consumer 消费进度，以最小消费进度为准
+            // Set the consumer's offset, based on the smallest consumption offset
             StreamOffset<String> streamOffset = StreamOffset.create(listener.getStreamKey(), ReadOffset.lastConsumed());
-            // 设置 Consumer 监听
+            // Configure the consumer subscription
             StreamMessageListenerContainer.StreamReadRequestBuilder<String> builder = StreamMessageListenerContainer.StreamReadRequest
                     .builder(streamOffset).consumer(consumer)
-                    .autoAcknowledge(false) // 不自动 ack
-                    .cancelOnError(throwable -> false); // 默认配置，发生异常就取消消费，显然不符合预期；因此，我们设置为 false
+                    .autoAcknowledge(false) // Do not auto-ack
+                    .cancelOnError(throwable -> false); // The default cancels consumption on error, which is not what we want; set to false
             container.register(builder.build(), listener);
             log.info("[redisStreamMessageListenerContainer][complete register StreamKey({}) corresponding listener ({})]",
                     listener.getStreamKey(), listener.getClass().getName());
@@ -133,27 +133,27 @@ public class FocelaRedisMQConsumerAutoConfiguration {
     }
 
     /**
-     * 构建消费者名字，使用本地 IP + 进程编号的方式。
-     * 参考自 RocketMQ clientId 的实现
+     * Build the consumer name using the local IP plus process ID.
+     * Modeled after RocketMQ's clientId implementation.
      *
-     * @return 消费者名字
+     * @return consumer name
      */
     public static String buildConsumerName() {
         return String.format("%s@%d", SystemUtil.getHostInfo().getAddress(), SystemUtil.getCurrentPID());
     }
 
     /**
-     * 校验 Redis 版本号，是否满足最低的版本号要求！
+     * Verify that the Redis version meets the minimum requirement.
      */
     public static void checkRedisVersion(RedisTemplate<String, ?> redisTemplate) {
-        // 获得 Redis 版本
+        // Get the Redis version
         Properties info = redisTemplate.execute((RedisCallback<Properties>) RedisServerCommands::info);
         String version = MapUtil.getStr(info, "redis_version");
-        // 校验最低版本必须大于等于 5.0.0
+        // Require version >= 5.0.0
         int majorVersion = Integer.parseInt(StrUtil.subBefore(version, '.', false));
         if (majorVersion < 5) {
-            throw new IllegalStateException(StrUtil.format("您when before Redis 版本is {}, 小于most 低要求 5.0.0 版本!" +
-                    "请参考 {} 文档进行安装。", version, DocumentEnum.REDIS_INSTALL.getUrl()));
+            throw new IllegalStateException(StrUtil.format("Your current Redis version is {}, which is below the minimum required 5.0.0. " +
+                    "Please follow the {} documentation to install a newer version.", version, DocumentEnum.REDIS_INSTALL.getUrl()));
         }
     }
 

@@ -5,7 +5,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 
 /**
- * {@link KafkaWebSocketMessage} 广播消息的消费者，真正把消息发送出去
+ * Consumer for {@link KafkaWebSocketMessage} broadcast messages — actually delivers the message.
  */
 @RequiredArgsConstructor
 public class KafkaWebSocketMessageConsumer {
@@ -15,7 +15,7 @@ public class KafkaWebSocketMessageConsumer {
     @RabbitHandler
     @KafkaListener(
             topics = "${focela.websocket.sender-kafka.topic}",
-            // 在 Group 上，使用 UUID 生成其后缀。这样，启动的 Consumer 的 Group 不同，以达到广播消费的目的
+            // Append a UUID suffix to the group ID so each Consumer joins a different group, achieving broadcast consumption.
             groupId = "${focela.websocket.sender-kafka.consumer-group}" + "-" + "#{T(java.util.UUID).randomUUID()}")
     public void onMessage(KafkaWebSocketMessage message) {
         kafkaWebSocketMessageSender.send(message.getSessionId(),

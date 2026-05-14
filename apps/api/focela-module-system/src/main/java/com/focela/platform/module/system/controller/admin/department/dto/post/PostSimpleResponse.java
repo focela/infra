@@ -9,11 +9,11 @@ import lombok.Data;
 public class PostSimpleResponse {
 
     @Schema(description = "Post order", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-    @ExcelProperty("岗位序号")
+    @ExcelProperty("Post ID")
     private Long id;
 
     @Schema(description = "Post name", requiredMode = Schema.RequiredMode.REQUIRED, example = "little potato")
-    @ExcelProperty("岗位名称")
+    @ExcelProperty("Post Name")
     private String name;
 
 }

@@ -11,7 +11,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 银行卡号
+ * Bank card number
  */
 @Documented
 @Target({ElementType.FIELD})
@@ -21,24 +21,24 @@ import java.lang.annotation.Target;
 public @interface BankCardDesensitize {
 
     /**
-     * 前缀保留长度
+     * Prefix kept length
      */
     int prefixKeep() default 6;
 
     /**
-     * 后缀保留长度
+     * Suffix kept length
      */
     int suffixKeep() default 2;
 
     /**
-     * 替换规则，银行卡号; 比如：9988002866797031 脱敏之后为 998800********31
+     * Replacement rule for bank card number; e.g. 9988002866797031 becomes 998800********31 after desensitization
      */
     String replacer() default "*";
 
     /**
-     * 是否禁用脱敏
+     * Whether to disable desensitization
      *
-     * 支持 Spring EL 表达式，如果返回 true 则跳过脱敏
+     * Supports Spring EL expressions; desensitization is skipped if the expression returns true
      */
     String disable() default "";
 

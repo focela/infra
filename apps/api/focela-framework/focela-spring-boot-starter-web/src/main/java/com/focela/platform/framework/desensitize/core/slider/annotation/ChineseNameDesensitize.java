@@ -11,7 +11,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 中文名
+ * Chinese name
  */
 @Documented
 @Target({ElementType.FIELD})
@@ -21,24 +21,24 @@ import java.lang.annotation.Target;
 public @interface ChineseNameDesensitize {
 
     /**
-     * 前缀保留长度
+     * Prefix kept length
      */
     int prefixKeep() default 1;
 
     /**
-     * 后缀保留长度
+     * Suffix kept length
      */
     int suffixKeep() default 0;
 
     /**
-     * 替换规则，中文名;比如：刘子豪脱敏之后为刘**
+     * Replacement rule for Chinese name; e.g. 刘子豪 becomes 刘** after desensitization
      */
     String replacer() default "*";
 
     /**
-     * 是否禁用脱敏
+     * Whether to disable desensitization
      *
-     * 支持 Spring EL 表达式，如果返回 true 则跳过脱敏
+     * Supports Spring EL expressions; desensitization is skipped if the expression returns true
      */
     String disable() default "";
 

@@ -3,7 +3,7 @@ package com.focela.platform.framework.desensitize.core.regex.handler;
 import com.focela.platform.framework.desensitize.core.regex.annotation.RegexDesensitize;
 
 /**
- * {@link RegexDesensitize} 的正则脱敏处理器
+ * Regex desensitization handler for {@link RegexDesensitize}
  */
 public class DefaultRegexDesensitizationHandler extends AbstractRegexDesensitizationHandler<RegexDesensitize> {
 

@@ -19,7 +19,7 @@ import java.util.Map;
 import static java.util.Arrays.asList;
 
 /**
- * {@link BusinessTrace} 切面，记录业务链路
+ * {@link BusinessTrace} aspect, records the business trace.
  */
 @Aspect
 @AllArgsConstructor
@@ -32,31 +32,31 @@ public class BusinessTraceAspect {
 
     @Around(value = "@annotation(trace)")
     public Object around(ProceedingJoinPoint joinPoint, BusinessTrace trace) throws Throwable {
-        // 创建 span
+        // Create span
         String operationName = getOperationName(joinPoint, trace);
         Span span = tracer.buildSpan(operationName)
                 .withTag(Tags.COMPONENT.getKey(), "biz")
                 .start();
         try {
-            // 执行原有方法
+            // Invoke the original method
             return joinPoint.proceed();
         } catch (Throwable throwable) {
             TracerFrameworkUtils.onError(throwable, span);
             throw throwable;
         } finally {
-            // 设置 Span 的 biz 属性
+            // Set the biz tags on the Span
             setBizTag(span, joinPoint, trace);
-            // 完成 Span
+            // Finish the Span
             span.finish();
         }
     }
 
     private String getOperationName(ProceedingJoinPoint joinPoint, BusinessTrace trace) {
-        // 自定义操作名
+        // Custom operation name
         if (StrUtil.isNotEmpty(trace.operationName())) {
             return BIZ_OPERATION_NAME_PREFIX + trace.operationName();
         }
-        // 默认操作名，使用方法名
+        // Default operation name uses the method name
         return BIZ_OPERATION_NAME_PREFIX
                 + joinPoint.getSignature().getDeclaringType().getSimpleName()
                 + "/" + joinPoint.getSignature().getName();
@@ -68,7 +68,7 @@ public class BusinessTraceAspect {
             span.setTag(BusinessTrace.TYPE_TAG, MapUtil.getStr(result, trace.type()));
             span.setTag(BusinessTrace.ID_TAG, MapUtil.getStr(result, trace.id()));
         } catch (Exception ex) {
-            log.error("[setBizTag][parse bizType 与 bizId 发生exception]", ex);
+            log.error("[setBizTag][exception occurred while parsing bizType and bizId]", ex);
         }
     }
 

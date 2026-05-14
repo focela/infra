@@ -9,12 +9,12 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 /**
- * 手机验证码 DO
+ * Mobile verification code DO
  *
- * idx_mobile 索引：基于 {@link #mobile} 字段
+ * idx_mobile index: based on the {@link #mobile} field
  */
 @TableName("system_sms_code")
-@KeySequence("system_sms_code_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
+@KeySequence("system_sms_code_seq") // used for primary key auto-increment in databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Builder
@@ -24,41 +24,41 @@ import java.time.LocalDateTime;
 public class SmsCodeEntity extends BaseEntity {
 
     /**
-     * 编号
+     * ID
      */
     private Long id;
     /**
-     * 手机号
+     * Mobile number
      */
     private String mobile;
     /**
-     * 验证码
+     * Verification code
      */
     private String code;
     /**
-     * 发送场景
+     * Send scene
      *
-     * 枚举 {@link SmsCodeEntity}
+     * Enum {@link SmsCodeEntity}
      */
     private Integer scene;
     /**
-     * 创建 IP
+     * Creation IP
      */
     private String createIp;
     /**
-     * 今日发送的第几条
+     * Index of the message among today's sends
      */
     private Integer todayIndex;
     /**
-     * 是否使用
+     * Whether used
      */
     private Boolean used;
     /**
-     * 使用时间
+     * Used time
      */
     private LocalDateTime usedTime;
     /**
-     * 使用 IP
+     * Used IP
      */
     private String usedIp;
 

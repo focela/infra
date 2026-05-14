@@ -16,7 +16,7 @@ import java.util.Objects;
 import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertList;
 
 /**
- * 字典工具类
+ * Dictionary utility class.
  */
 @Slf4j
 public class DictionaryFrameworkUtils {
@@ -24,10 +24,10 @@ public class DictionaryFrameworkUtils {
     private static DictionaryDataContractApi dictDataApi;
 
     /**
-     * 针对 dictType 的字段数据缓存
+     * Cache of dictionary data keyed by dictType.
      */
     private static final LoadingCache<String, List<DictionaryDataRpcResponse>> GET_DICT_DATA_CACHE = CacheUtils.buildAsyncReloadingCache(
-            Duration.ofMinutes(1L), // 过期时间 1 分钟
+            Duration.ofMinutes(1L), // Expiration: 1 minute
             new CacheLoader<String, List<DictionaryDataRpcResponse>>() {
 
                 @Override

@@ -13,8 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * 字段字段的 TypeHandler 实现类，基于 {@link AES} 实现
- * 可通过 jasypt.encryptor.password 配置项，设置密钥
+ * Field-encrypting TypeHandler implementation based on {@link AES}.
+ * The secret key can be set via the jasypt.encryptor.password configuration property.
  */
 public class EncryptTypeHandler extends BaseTypeHandler<String> {
 
@@ -63,9 +63,9 @@ public class EncryptTypeHandler extends BaseTypeHandler<String> {
         if (aes != null) {
             return aes;
         }
-        // 构建 AES
+        // Build AES
         String password = SpringUtil.getProperty(ENCRYPTOR_PROPERTY_NAME);
-        Assert.notEmpty(password, "配置项({}) 不能为空", ENCRYPTOR_PROPERTY_NAME);
+        Assert.notEmpty(password, "Configuration property ({}) must not be blank", ENCRYPTOR_PROPERTY_NAME);
         aes = SecureUtil.aes(password.getBytes());
         return aes;
     }

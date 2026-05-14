@@ -11,7 +11,7 @@ import cn.idev.excel.metadata.property.ExcelContentProperty;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Excel 数据地区转换器
+ * Excel area data converter.
  */
 @Slf4j
 public class AreaConverter implements Converter<Object> {
@@ -29,14 +29,14 @@ public class AreaConverter implements Converter<Object> {
     @Override
     public Object convertToJavaData(ReadCellData readCellData, ExcelContentProperty contentProperty,
                                     GlobalConfiguration globalConfiguration) {
-        // 解析地区编号
+        // Parse the area ID
         String label = readCellData.getStringValue();
         Area area = AreaUtils.parseArea(label);
         if (area == null) {
             log.error("[convertToJavaData][label({}) cannot parse]", label);
             return null;
         }
-        // 将 value 转换成对应的属性
+        // Convert the value to the matching field type
         Class<?> fieldClazz = contentProperty.getField().getType();
         return Convert.convert(fieldClazz, area.getId());
     }

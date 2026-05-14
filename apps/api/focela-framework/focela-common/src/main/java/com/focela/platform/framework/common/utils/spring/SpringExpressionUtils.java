@@ -22,16 +22,16 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Spring EL 表达式的工具类
+ * Utility class for Spring EL expressions.
  */
 public class SpringExpressionUtils {
 
     /**
-     * Spring EL 表达式解析器
+     * Spring EL expression parser.
      */
     private static final ExpressionParser EXPRESSION_PARSER = new SpelExpressionParser();
     /**
-     * 参数名发现器
+     * Parameter name discoverer.
      */
     private static final ParameterNameDiscoverer PARAMETER_NAME_DISCOVERER = new DefaultParameterNameDiscoverer();
 
@@ -39,11 +39,11 @@ public class SpringExpressionUtils {
     }
 
     /**
-     * 从切面中，单个解析 EL 表达式的结果
+     * Parse a single EL expression from an aspect join point.
      *
-     * @param joinPoint        切面点
-     * @param expressionString EL 表达式数组
-     * @return 执行界面
+     * @param joinPoint        join point
+     * @param expressionString EL expression
+     * @return evaluation result
      */
     public static Object parseExpression(JoinPoint joinPoint, String expressionString) {
         Map<String, Object> result = parseExpressions(joinPoint, Collections.singletonList(expressionString));
@@ -51,27 +51,27 @@ public class SpringExpressionUtils {
     }
 
     /**
-     * 从切面中，批量解析 EL 表达式的结果
+     * Parse multiple EL expressions from an aspect join point.
      *
-     * @param joinPoint         切面点
-     * @param expressionStrings EL 表达式数组
-     * @return 结果，key 为表达式，value 为对应值
+     * @param joinPoint         join point
+     * @param expressionStrings EL expressions
+     * @return map of expression to evaluation result
      */
     public static Map<String, Object> parseExpressions(JoinPoint joinPoint, List<String> expressionStrings) {
-        // 如果为空，则不进行解析
+        // skip parsing when the input is empty
         if (CollUtil.isEmpty(expressionStrings)) {
             return MapUtil.newHashMap();
         }
 
-        // 第一步，构建解析的上下文 EvaluationContext
-        // 通过 joinPoint 获取被注解方法
+        // Step 1: build the EvaluationContext for parsing.
+        // Resolve the annotated method via the join point.
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Method method = methodSignature.getMethod();
-        // 使用 spring 的 ParameterNameDiscoverer 获取方法形参名数组
+        // Resolve parameter names with Spring's ParameterNameDiscoverer.
         String[] paramNames = PARAMETER_NAME_DISCOVERER.getParameterNames(method);
-        // Spring 的表达式上下文对象
+        // Spring expression evaluation context.
         EvaluationContext context = new StandardEvaluationContext();
-        // 给上下文赋值
+        // Populate the context with argument values.
         if (ArrayUtil.isNotEmpty(paramNames)) {
             Object[] args = joinPoint.getArgs();
             for (int i = 0; i < paramNames.length; i++) {
@@ -79,7 +79,7 @@ public class SpringExpressionUtils {
             }
         }
 
-        // 第二步，逐个参数解析
+        // Step 2: parse each expression individually.
         Map<String, Object> result = MapUtil.newHashMap(expressionStrings.size(), true);
         expressionStrings.forEach(key -> {
             Object value = EXPRESSION_PARSER.parseExpression(key).getValue(context);
@@ -89,21 +89,21 @@ public class SpringExpressionUtils {
     }
 
     /**
-     * 从 Bean 工厂，解析 EL 表达式的结果
+     * Parse an EL expression using the Spring bean factory as the root.
      *
-     * @param expressionString EL 表达式
-     * @return 执行界面
+     * @param expressionString EL expression
+     * @return evaluation result
      */
     public static Object parseExpression(String expressionString) {
         return parseExpression(expressionString, null);
     }
 
     /**
-     * 从 Bean 工厂，解析 EL 表达式的结果
+     * Parse an EL expression using the Spring bean factory as the root.
      *
-     * @param expressionString EL 表达式
-     * @param variables        变量
-     * @return 执行界面
+     * @param expressionString EL expression
+     * @param variables        variables for the evaluation context
+     * @return evaluation result
      */
     public static Object parseExpression(String expressionString, Map<String, Object> variables) {
         if (StrUtil.isBlank(expressionString)) {

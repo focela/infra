@@ -104,7 +104,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
 
         // 调用，并断言
         assertServiceException(() -> oauth2TokenService.refreshAccessToken(refreshToken, clientId),
-                new ErrorCode(400, "无效的刷新令牌"));
+                new ErrorCode(400, "Invalid refresh token"));
     }
 
     @Test

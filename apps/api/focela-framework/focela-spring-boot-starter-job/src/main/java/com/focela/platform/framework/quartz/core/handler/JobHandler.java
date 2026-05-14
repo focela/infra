@@ -1,16 +1,16 @@
 package com.focela.platform.framework.quartz.core.handler;
 
 /**
- * 任务处理器
+ * Job handler.
  */
 public interface JobHandler {
 
     /**
-     * 执行任务
+     * Execute the job.
      *
-     * @param param 参数
-     * @return 结果
-     * @throws Exception 异常
+     * @param param parameter
+     * @return result
+     * @throws Exception exception
      */
     String execute(String param) throws Exception;
 

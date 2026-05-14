@@ -11,7 +11,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 固定电话
+ * Fixed phone
  */
 @Documented
 @Target({ElementType.FIELD})
@@ -21,24 +21,24 @@ import java.lang.annotation.Target;
 public @interface FixedPhoneDesensitize {
 
     /**
-     * 前缀保留长度
+     * Prefix kept length
      */
     int prefixKeep() default 4;
 
     /**
-     * 后缀保留长度
+     * Suffix kept length
      */
     int suffixKeep() default 2;
 
     /**
-     * 替换规则，固定电话;比如：01086551122 脱敏之后为 0108*****22
+     * Replacement rule for fixed phone; e.g. 01086551122 becomes 0108*****22 after desensitization
      */
     String replacer() default "*";
 
     /**
-     * 是否禁用脱敏
+     * Whether to disable desensitization
      *
-     * 支持 Spring EL 表达式，如果返回 true 则跳过脱敏
+     * Supports Spring EL expressions; desensitization is skipped if the expression returns true
      */
     String disable() default "";
 

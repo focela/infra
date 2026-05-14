@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
- * 校验工具类
+ * Validation utility class
  */
 public class ValidationUtils {
 

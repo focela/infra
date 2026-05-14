@@ -1,15 +1,15 @@
 package com.focela.platform.framework.xss.core.clean;
 
 /**
- * 对 html 文本中的有 Xss 风险的数据进行清理
+ * Cleans XSS-risk data from HTML text
  */
 public interface XssCleaner {
 
     /**
-     * 清理有 Xss 风险的文本
+     * Clean XSS-risky text
      *
-     * @param html 原 html
-     * @return 清理后的 html
+     * @param html original HTML
+     * @return cleaned HTML
      */
     String clean(String html);
 

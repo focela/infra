@@ -21,14 +21,14 @@ import static com.focela.platform.framework.common.utils.collection.CollectionUt
 import static com.focela.platform.framework.common.utils.collection.CollectionUtils.findFirst;
 
 /**
- * 区域工具类
+ * Area utility class.
  */
 @Slf4j
 @UtilityClass
 public class AreaUtils {
 
     /**
-     * Area 内存缓存，提升访问速度
+     * In-memory Area cache to speed up access.
      */
     private static Map<Integer, Area> areas;
 
@@ -37,26 +37,26 @@ public class AreaUtils {
     }
 
     /**
-     * 初始化
+     * Initialize.
      */
     private static void init() {
         try {
             long now = System.currentTimeMillis();
             areas = new HashMap<>();
-            areas.put(Area.ID_GLOBAL, new Area(Area.ID_GLOBAL, "全球", 0, null, new ArrayList<>()));
-            // 从 csv 中加载数据
+            areas.put(Area.ID_GLOBAL, new Area(Area.ID_GLOBAL, "Global", 0, null, new ArrayList<>()));
+            // Load data from csv
             List<CsvRow> rows = CsvUtil.getReader().read(ResourceUtil.getUtf8Reader("area.csv")).getRows();
-            rows.remove(0); // 删除 header
+            rows.remove(0); // remove header
             for (CsvRow row : rows) {
                 Area area = new Area(Integer.valueOf(row.get(0)), row.get(1), Integer.valueOf(row.get(2)), null, new ArrayList<>());
                 areas.put(area.getId(), area);
             }
 
-            // 构建父子关系：因为 Area 中没有 parentId 字段,所以需要重复读取
+            // Build parent-child relationships: Area has no parentId field, so we iterate again
             for (CsvRow row : rows) {
-                Area area = areas.get(Integer.valueOf(row.get(0))); // 自己
-                Area parent = areas.get(Integer.valueOf(row.get(3))); // 父
-                Assert.isTrue(area != parent, "{}:父子节点相同", area.getName());
+                Area area = areas.get(Integer.valueOf(row.get(0))); // self
+                Area parent = areas.get(Integer.valueOf(row.get(3))); // parent
+                Assert.isTrue(area != parent, "{}: parent and child nodes are identical", area.getName());
                 area.setParent(parent);
                 parent.getChildren().add(area);
             }
@@ -67,20 +67,20 @@ public class AreaUtils {
     }
 
     /**
-     * 获得指定编号对应的区域
+     * Get the area for the given ID.
      *
-     * @param id 区域编号
-     * @return 区域
+     * @param id area ID
+     * @return area
      */
     public static Area getArea(Integer id) {
         return areas.get(id);
     }
 
     /**
-     * 获得指定区域对应的编号
+     * Resolve an area from its full path.
      *
-     * @param pathStr 区域路径，例如说：河南省/石家庄市/新华区
-     * @return 区域
+     * @param pathStr area path, e.g. Henan Province/Shijiazhuang City/Xinhua District
+     * @return area
      */
     public static Area parseArea(String pathStr) {
         String[] paths = pathStr.split("/");
@@ -96,10 +96,10 @@ public class AreaUtils {
     }
 
     /**
-     * 获取所有节点的全路径名称如：河南省/石家庄市/新华区
+     * Get the full path names of all nodes, e.g. Province/City/District.
      *
-     * @param areas 地区树
-     * @return 所有节点的全路径名称
+     * @param areas area tree
+     * @return full path names of all nodes
      */
     public static List<String> getAreaNodePathList(List<Area> areas) {
         List<String> paths = new ArrayList<>();
@@ -108,64 +108,64 @@ public class AreaUtils {
     }
 
     /**
-     * 构建一棵树的所有节点的全路径名称，并将其存储为 "祖先/父级/子级" 的形式
+     * Build full path names for every node in a tree, stored in the form "ancestor/parent/child".
      *
-     * @param node  父节点
-     * @param path  全路径名称
-     * @param paths 全路径名称列表，省份/城市/地区
+     * @param node  parent node
+     * @param path  full path name
+     * @param paths list of full path names, province/city/district
      */
     private static void getAreaNodePathList(Area node, String path, List<String> paths) {
         if (node == null) {
             return;
         }
-        // 构建当前节点的路径
+        // Build the current node path
         String currentPath = path.isEmpty() ? node.getName() : path + "/" + node.getName();
         paths.add(currentPath);
-        // 递归遍历子节点
+        // Recursively traverse child nodes
         for (Area child : node.getChildren()) {
             getAreaNodePathList(child, currentPath, paths);
         }
     }
 
     /**
-     * 格式化区域
+     * Format the area.
      *
-     * @param id 区域编号
-     * @return 格式化后的区域
+     * @param id area ID
+     * @return formatted area
      */
     public static String format(Integer id) {
         return format(id, " ");
     }
 
     /**
-     * 格式化区域
+     * Format the area.
      *
-     * 例如说：
-     * 1. id = “静安区”时：上海 上海市 静安区
-     * 2. id = “上海市”时：上海 上海市
-     * 3. id = “上海”时：上海
-     * 4. id = “美国”时：美国
-     * 当区域在中国时，默认不显示中国
+     * Examples:
+     * 1. id = "Jing'an District": Shanghai Shanghai Jing'an District
+     * 2. id = "Shanghai City": Shanghai Shanghai
+     * 3. id = "Shanghai": Shanghai
+     * 4. id = "United States": United States
+     * When the area lies inside China, "China" is omitted by default.
      *
-     * @param id        区域编号
-     * @param separator 分隔符
-     * @return 格式化后的区域
+     * @param id        area ID
+     * @param separator separator
+     * @return formatted area
      */
     public static String format(Integer id, String separator) {
-        // 获得区域
+        // Get the area
         Area area = areas.get(id);
         if (area == null) {
             return null;
         }
 
-        // 格式化
+        // Format
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < AreaTypeEnum.values().length; i++) { // 避免死循环
+        for (int i = 0; i < AreaTypeEnum.values().length; i++) { // avoid infinite loop
             sb.insert(0, area.getName());
-            // “递归”父节点
+            // "Recurse" into the parent
             area = area.getParent();
             if (area == null
-                    || ObjectUtils.equalsAny(area.getId(), Area.ID_GLOBAL, Area.ID_CHINA)) { // 跳过父节点为中国的情况
+                    || ObjectUtils.equalsAny(area.getId(), Area.ID_GLOBAL, Area.ID_CHINA)) { // skip when the parent is China
                 break;
             }
             sb.insert(0, separator);
@@ -174,23 +174,23 @@ public class AreaUtils {
     }
 
     /**
-     * 获取指定类型的区域列表
+     * Get the list of areas of the given type.
      *
-     * @param type 区域类型
-     * @param func 转换函数
-     * @param <T>  结果类型
-     * @return 区域列表
+     * @param type area type
+     * @param func conversion function
+     * @param <T>  result type
+     * @return area list
      */
     public static <T> List<T> getByType(AreaTypeEnum type, Function<Area, T> func) {
         return convertList(areas.values(), func, area -> type.getType().equals(area.getType()));
     }
 
     /**
-     * 根据区域编号、上级区域类型，获取上级区域编号
+     * Get the parent area ID for the given area ID and parent area type.
      *
-     * @param id   区域编号
-     * @param type 区域类型
-     * @return 上级区域编号
+     * @param id   area ID
+     * @param type area type
+     * @return parent area ID
      */
     public static Integer getParentIdByType(Integer id, @NonNull AreaTypeEnum type) {
         for (int i = 0; i < Byte.MAX_VALUE; i++) {
@@ -198,15 +198,15 @@ public class AreaUtils {
             if (area == null) {
                 return null;
             }
-            // 情况一：匹配到，返回它
+            // Case 1: a match is found, return it
             if (type.getType().equals(area.getType())) {
                 return area.getId();
             }
-            // 情况二：找到根节点，返回空
+            // Case 2: root node reached, return null
             if (area.getParent() == null || area.getParent().getId() == null) {
                 return null;
             }
-            // 其它：继续向上查找
+            // Otherwise: keep walking up
             id = area.getParent().getId();
         }
         return null;

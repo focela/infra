@@ -15,31 +15,31 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * 默认的 {@link WebSocketSessionManager} 实现类
+ * Default {@link WebSocketSessionManager} implementation.
  */
 public class DefaultWebSocketSessionManager implements WebSocketSessionManager {
 
     /**
-     * id 与 WebSocketSession 映射
+     * id-to-WebSocketSession map.
      *
-     * key：Session 编号
+     * key: Session ID
      */
     private final ConcurrentMap<String, WebSocketSession> idSessions = new ConcurrentHashMap<>();
 
     /**
-     * user 与 WebSocketSession 映射
+     * user-to-WebSocketSession map.
      *
-     * key1：用户类型
-     * key2：用户编号
+     * key1: user type
+     * key2: user ID
      */
     private final ConcurrentMap<Integer, ConcurrentMap<Long, CopyOnWriteArrayList<WebSocketSession>>> userSessions
             = new ConcurrentHashMap<>();
 
     @Override
     public void addSession(WebSocketSession session) {
-        // 添加到 idSessions 中
+        // Add to idSessions
         idSessions.put(session.getId(), session);
-        // 添加到 userSessions 中
+        // Add to userSessions
         LoginUser user = WebSocketFrameworkUtils.getLoginUser(session);
         if (user == null) {
             return;
@@ -63,9 +63,9 @@ public class DefaultWebSocketSessionManager implements WebSocketSessionManager {
 
     @Override
     public void removeSession(WebSocketSession session) {
-        // 移除从 idSessions 中
+        // Remove from idSessions
         idSessions.remove(session.getId());
-        // 移除从 idSessions 中
+        // Remove from userSessions
         LoginUser user = WebSocketFrameworkUtils.getLoginUser(session);
         if (user == null) {
             return;
@@ -92,13 +92,13 @@ public class DefaultWebSocketSessionManager implements WebSocketSessionManager {
         if (CollUtil.isEmpty(userSessionsMap)) {
             return new ArrayList<>();
         }
-        LinkedList<WebSocketSession> result = new LinkedList<>(); // 避免扩容
+        LinkedList<WebSocketSession> result = new LinkedList<>(); // Avoid resizing
         Long contextTenantId = TenantContextHolder.getTenantId();
         for (List<WebSocketSession> sessions : userSessionsMap.values()) {
             if (CollUtil.isEmpty(sessions)) {
                 continue;
             }
-            // 特殊：如果租户不匹配，则直接排除
+            // Special: if tenant does not match, skip directly
             if (contextTenantId != null) {
                 Long userTenantId = WebSocketFrameworkUtils.getTenantId(sessions.get(0));
                 if (!contextTenantId.equals(userTenantId)) {

@@ -8,11 +8,11 @@ import lombok.Getter;
 public enum RoleTypeEnum {
 
     /**
-     * 内置角色
+     * Built-in role
      */
     SYSTEM(1),
     /**
-     * 自定义角色
+     * Custom role
      */
     CUSTOM(2);
 

@@ -3,24 +3,24 @@ package com.focela.platform.framework.excel.core.function;
 import java.util.List;
 
 /**
- * Excel 列下拉数据源获取接口
+ * Interface for fetching Excel column dropdown data sources.
  *
- * 为什么不直接解析字典还搞个接口？考虑到有的下拉数据不是从字典中获取的所有需要做一个兼容
-
+ * Why not parse the dictionary directly? Some dropdown data is not sourced from
+ * the dictionary, so this interface keeps things compatible across both cases.
  */
 public interface ExcelColumnSelectFunction {
 
     /**
-     * 获得方法名称
+     * Get the method name.
      *
-     * @return 方法名称
+     * @return method name
      */
     String getName();
 
     /**
-     * 获得列下拉数据源
+     * Get the column dropdown data source.
      *
-     * @return 下拉数据源
+     * @return dropdown data source
      */
     List<String> getOptions();
 

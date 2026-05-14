@@ -6,21 +6,21 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * JSON 格式的 WebSocket 消息帧
+ * WebSocket message frame in JSON format.
  */
 @Data
 public class JsonWebSocketMessage implements Serializable {
 
     /**
-     * 消息类型
+     * Message type.
      *
-     * 目的：用于分发到对应的 {@link WebSocketMessageListener} 实现类
+     * Purpose: dispatch to the corresponding {@link WebSocketMessageListener} implementation.
      */
     private String type;
     /**
-     * 消息内容
+     * Message content.
      *
-     * 要求 JSON 对象
+     * Must be a JSON object.
      */
     private String content;
 

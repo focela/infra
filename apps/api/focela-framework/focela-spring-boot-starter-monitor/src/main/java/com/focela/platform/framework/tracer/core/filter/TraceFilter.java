@@ -10,21 +10,21 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Trace 过滤器，打印 traceId 到 header 中返回
+ * Trace filter that writes the traceId to the response header.
  */
 public class TraceFilter extends OncePerRequestFilter {
 
     /**
-     * Header 名 - 链路追踪编号
+     * Header name - trace ID
      */
     private static final String HEADER_NAME_TRACE_ID = "trace-id";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        // 设置响应 traceId
+        // Set the traceId on the response
         response.addHeader(HEADER_NAME_TRACE_ID, TracerUtils.getTraceId());
-        // 继续过滤
+        // Continue the filter chain
         chain.doFilter(request, response);
     }
 

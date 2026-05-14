@@ -15,28 +15,29 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
 /**
- * 依赖内存 DB 的单元测试
+ * Unit test backed by in-memory DB.
  *
- * 注意，Service 层同样适用。对于 Service 层的单元测试，我们针对自己模块的 Mapper 走的是 H2 内存数据库，针对别的模块的 Service 走的是 Mock 方法
+ * Note: this also applies to the Service layer. For Service-layer unit tests, our own module's Mapper uses the H2
+ * in-memory database, while other modules' Services are accessed via mock methods.
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE, classes = BaseDbUnitTest.Application.class)
-@ActiveProfiles("unit-test") // 设置使用 application-unit-test 配置文件
-@Sql(scripts = "/sql/clean.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD) // 每个单元测试结束后，清理 DB
+@ActiveProfiles("unit-test") // use the application-unit-test config profile
+@Sql(scripts = "/sql/clean.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD) // clean the DB after each unit test
 public class BaseDbUnitTest {
 
     @Import({
-            // DB 配置类
-            FocelaDataSourceAutoConfiguration.class, // 自己的 DB 配置类
-            DataSourceAutoConfiguration.class, // Spring DB 自动配置类
-            DataSourceTransactionManagerAutoConfiguration.class, // Spring 事务自动配置类
-            DruidDataSourceAutoConfigure.class, // Druid 自动配置类
-            SqlInitializationTestConfiguration.class, // SQL 初始化
-            // MyBatis 配置类
-            FocelaMybatisAutoConfiguration.class, // 自己的 MyBatis 配置类
-            MybatisPlusAutoConfiguration.class, // MyBatis 的自动配置类
-            MybatisPlusJoinAutoConfiguration.class, // MyBatis 的Join配置类
+            // DB config classes
+            FocelaDataSourceAutoConfiguration.class, // our own DB config
+            DataSourceAutoConfiguration.class, // Spring DB auto-configuration
+            DataSourceTransactionManagerAutoConfiguration.class, // Spring transaction auto-configuration
+            DruidDataSourceAutoConfigure.class, // Druid auto-configuration
+            SqlInitializationTestConfiguration.class, // SQL initialization
+            // MyBatis config classes
+            FocelaMybatisAutoConfiguration.class, // our own MyBatis config
+            MybatisPlusAutoConfiguration.class, // MyBatis auto-configuration
+            MybatisPlusJoinAutoConfiguration.class, // MyBatis Join configuration
 
-            // 其它配置类
+            // Other config classes
             SpringUtil.class
     })
     public static class Application {

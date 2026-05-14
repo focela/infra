@@ -4,27 +4,27 @@ import com.focela.platform.framework.websocket.core.message.JsonWebSocketMessage
 import org.springframework.web.socket.WebSocketSession;
 
 /**
- * WebSocket 消息监听器接口
+ * WebSocket message listener interface
  *
- * 目的：前端发送消息给后端后，处理对应 {@link #getType()} 类型的消息
+ * Purpose: after the frontend sends a message to the backend, handle the message of the corresponding {@link #getType()} type.
  *
- * @param <T> 泛型，消息类型
+ * @param <T> generic, message type
  */
 public interface WebSocketMessageListener<T> {
 
     /**
-     * 处理消息
+     * Handle message
      *
      * @param session Session
-     * @param message 消息
+     * @param message message
      */
     void onMessage(WebSocketSession session, T message);
 
     /**
-     * 获得消息类型
+     * Get the message type
      *
      * @see JsonWebSocketMessage#getType()
-     * @return 消息类型
+     * @return message type
      */
     String getType();
 

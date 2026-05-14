@@ -5,25 +5,25 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 业务逻辑异常 Exception
+ * Business logic exception.
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public final class ServiceException extends RuntimeException {
 
     /**
-     * 业务错误码
+     * Business error code
      *
      * @see ServiceErrorCodeRange
      */
     private Integer code;
     /**
-     * 错误提示
+     * Error message
      */
     private String message;
 
     /**
-     * 空构造方法，避免反序列化问题
+     * No-arg constructor, to avoid deserialization issues.
      */
     public ServiceException() {
     }

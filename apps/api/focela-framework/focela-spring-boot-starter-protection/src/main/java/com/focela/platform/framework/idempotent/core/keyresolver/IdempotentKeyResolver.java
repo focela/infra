@@ -4,16 +4,16 @@ import com.focela.platform.framework.idempotent.core.annotation.Idempotent;
 import org.aspectj.lang.JoinPoint;
 
 /**
- * 幂等 Key 解析器接口
+ * Idempotent key resolver interface.
  */
 public interface IdempotentKeyResolver {
 
     /**
-     * 解析一个 Key
+     * Resolve a key.
      *
-     * @param idempotent 幂等注解
-     * @param joinPoint  AOP 切面
-     * @return Key
+     * @param idempotent the idempotent annotation
+     * @param joinPoint  the AOP join point
+     * @return resolved key
      */
     String resolver(JoinPoint joinPoint, Idempotent idempotent);
 

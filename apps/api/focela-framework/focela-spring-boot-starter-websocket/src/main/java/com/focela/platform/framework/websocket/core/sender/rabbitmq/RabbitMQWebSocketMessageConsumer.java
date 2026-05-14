@@ -5,14 +5,14 @@ import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.rabbit.annotation.*;
 
 /**
- * {@link RabbitMQWebSocketMessage} 广播消息的消费者，真正把消息发送出去
+ * Consumer for {@link RabbitMQWebSocketMessage} broadcast messages; it actually sends the message out.
  */
 @RabbitListener(
         bindings = @QueueBinding(
                 value = @Queue(
-                        // 在 Queue 的名字上，使用 UUID 生成其后缀。这样，启动的 Consumer 的 Queue 不同，以达到广播消费的目的
+                        // Append a UUID suffix to the Queue name. This way, each launched Consumer has a different Queue, achieving broadcast consumption.
                         name = "${focela.websocket.sender-rabbitmq.queue}" + "-" + "#{T(java.util.UUID).randomUUID()}",
-                        // Consumer 关闭时，该队列就可以被自动删除了
+                        // When the Consumer shuts down, the queue can be automatically deleted.
                         autoDelete = "true"
                 ),
                 exchange = @Exchange(

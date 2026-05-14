@@ -26,7 +26,7 @@ public class FocelaIdempotentConfiguration {
         return new IdempotentRedisDAO(stringRedisTemplate);
     }
 
-    // ========== 各种 IdempotentKeyResolver Bean ==========
+    // ========== IdempotentKeyResolver Beans ==========
 
     @Bean
     public DefaultIdempotentKeyResolver defaultIdempotentKeyResolver() {

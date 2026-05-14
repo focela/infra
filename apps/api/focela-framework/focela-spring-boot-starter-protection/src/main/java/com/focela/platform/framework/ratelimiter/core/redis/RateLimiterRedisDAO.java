@@ -8,26 +8,26 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 限流 Redis DAO
+ * Rate limiter Redis DAO.
  */
 @AllArgsConstructor
 public class RateLimiterRedisDAO {
 
     /**
-     * 限流操作
+     * Rate limiter operation.
      *
-     * KEY 格式：rate_limiter:%s // 参数为 uuid
-     * VALUE 格式：String
-     * 过期时间：不固定
+     * KEY format: rate_limiter:%s // parameter is a uuid
+     * VALUE format: String
+     * Expiration: variable
      */
     private static final String RATE_LIMITER = "rate_limiter:%s";
 
     private final RedissonClient redissonClient;
 
     public Boolean tryAcquire(String key, int count, int time, TimeUnit timeUnit) {
-        // 1. 获得 RRateLimiter，并设置 rate 速率
+        // 1. Get the RRateLimiter and configure the rate
         RRateLimiter rateLimiter = getRRateLimiter(key, count, time, timeUnit);
-        // 2. 尝试获取 1 个
+        // 2. Try to acquire one permit
         return rateLimiter.tryAcquire();
     }
 
@@ -40,23 +40,23 @@ public class RateLimiterRedisDAO {
         RRateLimiter rateLimiter = redissonClient.getRateLimiter(redisKey);
         long rateInterval = timeUnit.toSeconds(time);
         Duration duration = Duration.ofSeconds(rateInterval);
-        // 1. 如果不存在，设置 rate 速率
+        // 1. If it does not exist, configure the rate
         RateLimiterConfig config = rateLimiter.getConfig();
         if (config == null) {
             rateLimiter.trySetRate(RateType.OVERALL, count, duration);
-            // 原因参见 https://t.zsxq.com/lcR0W
+            // Reason: see https://t.zsxq.com/lcR0W
             rateLimiter.expire(duration);
             return rateLimiter;
         }
-        // 2. 如果存在，并且配置相同，则直接返回
+        // 2. If it exists with the same config, return as-is
         if (config.getRateType() == RateType.OVERALL
                 && Objects.equals(config.getRate(), count)
                 && Objects.equals(config.getRateInterval(), TimeUnit.SECONDS.toMillis(rateInterval))) {
             return rateLimiter;
         }
-        // 3. 如果存在，并且配置不同，则进行新建
+        // 3. If it exists with a different config, reconfigure it
         rateLimiter.setRate(RateType.OVERALL, count, duration);
-        // 原因参见 https://t.zsxq.com/lcR0W
+        // Reason: see https://t.zsxq.com/lcR0W
         rateLimiter.expire(duration);
         return rateLimiter;
     }

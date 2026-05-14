@@ -3,7 +3,7 @@ package com.focela.platform.framework.desensitize.core.slider.handler;
 import com.focela.platform.framework.desensitize.core.slider.annotation.CarLicenseDesensitize;
 
 /**
- * {@link CarLicenseDesensitize} 的脱敏处理器
+ * Desensitization handler for {@link CarLicenseDesensitize}
  */
 public class CarLicenseDesensitization extends AbstractSliderDesensitizationHandler<CarLicenseDesensitize> {
 

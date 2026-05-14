@@ -6,35 +6,35 @@ import org.springframework.web.socket.WebSocketSession;
 import java.util.Map;
 
 /**
- * 专属于 web 包的工具类
+ * Utility class scoped to the web package.
  */
 public class WebSocketFrameworkUtils {
 
     public static final String ATTRIBUTE_LOGIN_USER = "LOGIN_USER";
 
     /**
-     * 设置当前用户
+     * Set the current user.
      *
-     * @param loginUser 登录用户
-     * @param attributes Session
+     * @param loginUser logged-in user
+     * @param attributes Session attributes
      */
     public static void setLoginUser(LoginUser loginUser, Map<String, Object> attributes) {
         attributes.put(ATTRIBUTE_LOGIN_USER, loginUser);
     }
 
     /**
-     * 获取当前用户
+     * Get the current user.
      *
-     * @return 当前用户
+     * @return current user
      */
     public static LoginUser getLoginUser(WebSocketSession session) {
         return (LoginUser) session.getAttributes().get(ATTRIBUTE_LOGIN_USER);
     }
 
     /**
-     * 获得当前用户的编号
+     * Get the current user's ID.
      *
-     * @return 用户编号
+     * @return user ID
      */
     public static Long getLoginUserId(WebSocketSession session) {
         LoginUser loginUser = getLoginUser(session);
@@ -42,9 +42,9 @@ public class WebSocketFrameworkUtils {
     }
 
     /**
-     * 获得当前用户的类型
+     * Get the current user's type.
      *
-     * @return 用户编号
+     * @return user type
      */
     public static Integer getLoginUserType(WebSocketSession session) {
         LoginUser loginUser = getLoginUser(session);
@@ -52,10 +52,10 @@ public class WebSocketFrameworkUtils {
     }
 
     /**
-     * 获得当前用户的租户编号
+     * Get the current user's tenant ID.
      *
      * @param session Session
-     * @return 租户编号
+     * @return tenant ID
      */
     public static Long getTenantId(WebSocketSession session) {
         LoginUser loginUser = getLoginUser(session);

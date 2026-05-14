@@ -6,69 +6,69 @@ import com.focela.platform.framework.desensitize.core.base.handler.Desensitizati
 import java.lang.annotation.Annotation;
 
 /**
- * 滑动脱敏处理器抽象类，已实现通用的方法
+ * Abstract slider desensitization handler with common methods implemented
  */
 public abstract class AbstractSliderDesensitizationHandler<T extends Annotation>
         implements DesensitizationHandler<T> {
 
     @Override
     public String desensitize(String origin, T annotation) {
-        // 1. 判断是否禁用脱敏
+        // 1. check whether desensitization is disabled
         Object disable = SpringExpressionUtils.parseExpression(getDisable(annotation));
         if (Boolean.TRUE.equals(disable)) {
             return origin;
         }
 
-        // 2. 执行脱敏
+        // 2. perform desensitization
         int prefixKeep = getPrefixKeep(annotation);
         int suffixKeep = getSuffixKeep(annotation);
         String replacer = getReplacer(annotation);
         int length = origin.length();
         int interval = length - prefixKeep - suffixKeep;
 
-        // 情况一：原始字符串长度小于等于前后缀保留字符串长度，则原始字符串全部替换
+        // case 1: original string length <= prefix+suffix kept length, replace the whole string
         if (interval <= 0) {
             return buildReplacerByLength(replacer, length);
         }
 
-        // 情况二：原始字符串长度大于前后缀保留字符串长度，则替换中间字符串
+        // case 2: original string length > prefix+suffix kept length, replace the middle portion
         return origin.substring(0, prefixKeep) +
                 buildReplacerByLength(replacer, interval) +
                 origin.substring(prefixKeep + interval);
     }
 
     /**
-     * 根据长度循环构建替换符
+     * Build the replacer by repeating it for the given length
      *
-     * @param replacer 替换符
-     * @param length   长度
-     * @return 构建后的替换符
+     * @param replacer replacer
+     * @param length   length
+     * @return built replacer
      */
     private String buildReplacerByLength(String replacer, int length) {
         return replacer.repeat(length);
     }
 
     /**
-     * 前缀保留长度
+     * Prefix kept length
      *
-     * @param annotation 注解信息
-     * @return 前缀保留长度
+     * @param annotation annotation info
+     * @return prefix kept length
      */
     abstract Integer getPrefixKeep(T annotation);
 
     /**
-     * 后缀保留长度
+     * Suffix kept length
      *
-     * @param annotation 注解信息
-     * @return 后缀保留长度
+     * @param annotation annotation info
+     * @return suffix kept length
      */
     abstract Integer getSuffixKeep(T annotation);
 
     /**
-     * 替换符
+     * Replacer
      *
-     * @param annotation 注解信息
-     * @return 替换符
+     * @param annotation annotation info
+     * @return replacer
      */
     abstract String getReplacer(T annotation);
 

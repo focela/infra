@@ -11,7 +11,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 正则脱敏注解
+ * Regex desensitization annotation
  */
 @Documented
 @Target({ElementType.FIELD, ElementType.ANNOTATION_TYPE})
@@ -21,23 +21,23 @@ import java.lang.annotation.Target;
 public @interface RegexDesensitize {
 
     /**
-     * 匹配的正则表达式（默认匹配所有）
+     * Regular expression to match (defaults to matching all)
      */
     String regex() default "^[\\s\\S]*$";
 
     /**
-     * 替换规则，会将匹配到的字符串全部替换成 replacer
+     * Replacement rule: all matched strings are replaced with replacer
      *
-     * 例如：regex=123; replacer=******
-     * 原始字符串 123456789
-     * 脱敏后字符串 ******456789
+     * Example: regex=123; replacer=******
+     * Original string: 123456789
+     * Desensitized string: ******456789
      */
     String replacer() default "******";
 
     /**
-     * 是否禁用脱敏
+     * Whether to disable desensitization
      *
-     * 支持 Spring EL 表达式，如果返回 true 则跳过脱敏
+     * Supports Spring EL expressions; desensitization is skipped if the expression returns true
      */
     String disable() default "";
 

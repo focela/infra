@@ -3,21 +3,21 @@ package com.focela.platform.framework.tenant.core.service;
 import java.util.List;
 
 /**
- * Tenant 框架 Service 接口，定义获取租户信息
+ * Tenant framework Service interface, defining how to obtain tenant information.
  */
 public interface TenantFrameworkService {
 
     /**
-     * 获得所有租户
+     * Get all tenants.
      *
-     * @return 租户编号数组
+     * @return array of tenant IDs
      */
     List<Long> getTenantIds();
 
     /**
-     * 校验租户是否合法
+     * Verify whether the tenant is valid.
      *
-     * @param id 租户编号
+     * @param id tenant ID
      */
     void validTenant(Long id);
 

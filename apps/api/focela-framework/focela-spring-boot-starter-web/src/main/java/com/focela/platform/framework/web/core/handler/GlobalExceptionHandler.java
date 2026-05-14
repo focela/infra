@@ -58,8 +58,8 @@ public class GlobalExceptionHandler {
     /**
      * ServiceException error messages to ignore, to avoid logging too much
      */
-    // NOTE: value compared against error messages thrown elsewhere; kept in Chinese intentionally ("Invalid refresh token")
-    public static final Set<String> IGNORE_ERROR_MESSAGES = SetUtils.asSet("无效的刷新令牌");
+    // NOTE: value compared against error messages thrown elsewhere — keep in sync with DefaultOAuth2TokenService.
+    public static final Set<String> IGNORE_ERROR_MESSAGES = SetUtils.asSet("Invalid refresh token");
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     private final String applicationName;

@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class OperateLogResponse implements VO {
 
     @Schema(description = "Log ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-    @ExcelProperty("日志编号")
+    @ExcelProperty("Log ID")
     private Long id;
 
     @Schema(description = "Trace ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "89aca178-a370-411c-ae02-3f0d672be4ab")
@@ -30,24 +30,24 @@ public class OperateLogResponse implements VO {
     @Trans(type = TransType.SIMPLE, target = UserEntity.class, fields = "nickname", ref = "userName")
     private Long userId;
     @Schema(description = "Nickname", requiredMode = Schema.RequiredMode.REQUIRED, example = "Alice")
-    @ExcelProperty("操作人")
+    @ExcelProperty("Operator")
     private String userName;
 
     @Schema(description = "User type", requiredMode = Schema.RequiredMode.REQUIRED, example = "1", implementation = Integer.class)
-    @ExcelProperty("用户类型")
+    @ExcelProperty("User Type")
     @DictionaryFormat(DictionaryTypeConstants.USER_TYPE)
     private Integer userType;
 
     @Schema(description = "operation module type", requiredMode = Schema.RequiredMode.REQUIRED, example = "order")
-    @ExcelProperty("操作模块类型")
+    @ExcelProperty("Operation Module Type")
     private String type;
 
     @Schema(description = "Operation name", requiredMode = Schema.RequiredMode.REQUIRED, example = "create order")
-    @ExcelProperty("操作名")
+    @ExcelProperty("Operation Name")
     private String subType;
 
     @Schema(description = "Business ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @ExcelProperty("操作模块业务编号")
+    @ExcelProperty("Operation Module Business ID")
     private Long bizId;
 
     @Schema(description = "operation detail", example = "update ID as 1 user info, gender slave male to female, name slave Acme to source.")

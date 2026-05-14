@@ -8,47 +8,48 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * 多租户配置
+ * Multi-tenant configuration
  */
 @ConfigurationProperties(prefix = "focela.tenant")
 @Data
 public class TenantProperties {
 
     /**
-     * 租户是否开启
+     * Whether the tenant feature is enabled
      */
     private static final Boolean ENABLE_DEFAULT = true;
 
     /**
-     * 是否开启
+     * Whether enabled
      */
     private Boolean enable = ENABLE_DEFAULT;
 
     /**
-     * 需要忽略多租户的请求
+     * Requests that should ignore multi-tenancy
      *
-     * 默认情况下，每个请求需要带上 tenant-id 的请求头。但是，部分请求是无需带上的，例如说短信回调、支付回调等 Open API！
+     * By default, every request must carry the tenant-id header. However, some requests do not need to carry it,
+     * such as SMS callbacks, payment callbacks, and other Open APIs.
      */
     private Set<String> ignoreUrls = new HashSet<>();
 
     /**
-     * 需要忽略跨（切换）租户访问的请求
+     * Requests that should ignore cross-tenant (switching) access
      *
-     * 原因是：某些接口，访问的是个人信息，在跨租户是获取不到的！
+     * Reason: some endpoints access personal information which cannot be obtained across tenants.
      */
     private Set<String> ignoreVisitUrls = Collections.emptySet();
 
     /**
-     * 需要忽略多租户的表
+     * Tables that should ignore multi-tenancy
      *
-     * 即默认所有表都开启多租户的功能，所以记得添加对应的 tenant_id 字段哟
+     * By default, all tables have multi-tenancy enabled, so remember to add the corresponding tenant_id column.
      */
     private Set<String> ignoreTables = Collections.emptySet();
 
     /**
-     * 需要忽略多租户的 Spring Cache 缓存
+     * Spring Cache caches that should ignore multi-tenancy
      *
-     * 即默认所有缓存都开启多租户的功能，所以记得添加对应的 tenant_id 字段哟
+     * By default, all caches have multi-tenancy enabled, so remember to add the corresponding tenant_id field.
      */
     private Set<String> ignoreCaches = Collections.emptySet();
 

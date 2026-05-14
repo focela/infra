@@ -7,7 +7,7 @@ import com.fhs.trans.service.impl.TransService;
 import java.util.List;
 
 /**
- * VO 数据翻译 Utils
+ * VO data translation utilities.
  */
 public class TranslateUtils {
 
@@ -18,12 +18,13 @@ public class TranslateUtils {
     }
 
     /**
-     * 数据翻译
+     * Translate data.
      *
-     * 使用场景：无法使用 @TransMethodResult 注解的场景，只能通过手动触发翻译
+     * Use case: scenarios where the {@code @TransMethodResult} annotation cannot be applied,
+     * so translation must be triggered manually.
      *
-     * @param data 数据
-     * @return 翻译结果
+     * @param data data
+     * @return translated result
      */
     public static <T extends VO> List<T> translate(List<T> data) {
         if (CollUtil.isNotEmpty((data))) {

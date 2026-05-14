@@ -15,12 +15,12 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
- * 短信日志 DO
+ * SMS log DO
  *
  * @since 2021-01-25
  */
 @TableName(value = "system_sms_log", autoResultMap = true)
-@KeySequence("system_sms_log_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
+@KeySequence("system_sms_log_seq") // used for primary key auto-increment in databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
@@ -31,131 +31,131 @@ import java.util.Map;
 public class SmsLogEntity extends BaseEntity {
 
     /**
-     * 自增编号
+     * Auto-increment ID
      */
     private Long id;
 
-    // ========= 渠道相关字段 =========
+    // ========= Channel-related fields =========
 
     /**
-     * 短信渠道编号
+     * SMS channel ID
      *
-     * 关联 {@link SmsChannelEntity#getId()}
+     * Associated with {@link SmsChannelEntity#getId()}
      */
     private Long channelId;
     /**
-     * 短信渠道编码
+     * SMS channel code
      *
-     * 冗余 {@link SmsChannelEntity#getCode()}
+     * Redundant {@link SmsChannelEntity#getCode()}
      */
     private String channelCode;
 
-    // ========= 模板相关字段 =========
+    // ========= Template-related fields =========
 
     /**
-     * 模板编号
+     * Template ID
      *
-     * 关联 {@link SmsTemplateEntity#getId()}
+     * Associated with {@link SmsTemplateEntity#getId()}
      */
     private Long templateId;
     /**
-     * 模板编码
+     * Template code
      *
-     * 冗余 {@link SmsTemplateEntity#getCode()}
+     * Redundant {@link SmsTemplateEntity#getCode()}
      */
     private String templateCode;
     /**
-     * 短信类型
+     * SMS type
      *
-     * 冗余 {@link SmsTemplateEntity#getType()}
+     * Redundant {@link SmsTemplateEntity#getType()}
      */
     private Integer templateType;
     /**
-     * 基于 {@link SmsTemplateEntity#getContent()} 格式化后的内容
+     * Content formatted based on {@link SmsTemplateEntity#getContent()}
      */
     private String templateContent;
     /**
-     * 基于 {@link SmsTemplateEntity#getParams()} 输入后的参数
+     * Parameters provided based on {@link SmsTemplateEntity#getParams()}
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
     private Map<String, Object> templateParams;
     /**
-     * 短信 API 的模板编号
+     * SMS API template ID
      *
-     * 冗余 {@link SmsTemplateEntity#getApiTemplateId()}
+     * Redundant {@link SmsTemplateEntity#getApiTemplateId()}
      */
     private String apiTemplateId;
 
-    // ========= 手机相关字段 =========
+    // ========= Mobile-related fields =========
 
     /**
-     * 手机号
+     * Mobile number
      */
     private String mobile;
     /**
-     * 用户编号
+     * User ID
      */
     private Long userId;
     /**
-     * 用户类型
+     * User type
      *
-     * 枚举 {@link UserTypeEnum}
+     * Enum {@link UserTypeEnum}
      */
     private Integer userType;
 
-    // ========= 发送相关字段 =========
+    // ========= Send-related fields =========
 
     /**
-     * 发送状态
+     * Send status
      *
-     * 枚举 {@link SmsSendStatusEnum}
+     * Enum {@link SmsSendStatusEnum}
      */
     private Integer sendStatus;
     /**
-     * 发送时间
+     * Send time
      */
     private LocalDateTime sendTime;
     /**
-     * 短信 API 发送结果的编码
+     * SMS API send result code
      *
-     * 由于第三方的错误码可能是字符串，所以使用 String 类型
+     * Since third-party error codes may be strings, String type is used.
      */
     private String apiSendCode;
     /**
-     * 短信 API 发送失败的提示
+     * SMS API send failure message
      */
     private String apiSendMsg;
     /**
-     * 短信 API 发送返回的唯一请求 ID
+     * Unique request ID returned by the SMS API
      *
-     * 用于和短信 API 进行定位于排错
+     * Used for locating and troubleshooting with the SMS API.
      */
     private String apiRequestId;
     /**
-     * 短信 API 发送返回的序号
+     * Serial number returned by the SMS API
      *
-     * 用于和短信 API 平台的发送记录关联
+     * Used to associate with send records on the SMS API platform.
      */
     private String apiSerialNo;
 
-    // ========= 接收相关字段 =========
+    // ========= Receive-related fields =========
 
     /**
-     * 接收状态
+     * Receive status
      *
-     * 枚举 {@link SmsReceiveStatusEnum}
+     * Enum {@link SmsReceiveStatusEnum}
      */
     private Integer receiveStatus;
     /**
-     * 接收时间
+     * Receive time
      */
     private LocalDateTime receiveTime;
     /**
-     * 短信 API 接收结果的编码
+     * SMS API receive result code
      */
     private String apiReceiveCode;
     /**
-     * 短信 API 接收结果的提示
+     * SMS API receive result message
      */
     private String apiReceiveMsg;
 

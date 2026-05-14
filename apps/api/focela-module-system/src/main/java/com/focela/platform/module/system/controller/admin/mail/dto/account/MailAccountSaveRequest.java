@@ -27,19 +27,19 @@ public class MailAccountSaveRequest {
     private String password;
 
     @Schema(description = "SMTP server domain", requiredMode = Schema.RequiredMode.REQUIRED, example = "www.example.com")
-    @NotNull(message = "SMTP 服务器域名must not be blank")
+    @NotNull(message = "SMTP server domain must not be blank")
     private String host;
 
     @Schema(description = "SMTP server port", requiredMode = Schema.RequiredMode.REQUIRED, example = "80")
-    @NotNull(message = "SMTP 服务器端口must not be blank")
+    @NotNull(message = "SMTP server port must not be blank")
     private Integer port;
 
     @Schema(description = "Enable SSL", requiredMode = Schema.RequiredMode.REQUIRED, example = "true")
-    @NotNull(message = "is 否open ssl is required")
+    @NotNull(message = "whether SSL is enabled is required")
     private Boolean sslEnable;
 
     @Schema(description = "Enable STARTTLS", requiredMode = Schema.RequiredMode.REQUIRED, example = "true")
-    @NotNull(message = "is 否open starttls is required")
+    @NotNull(message = "whether STARTTLS is enabled is required")
     private Boolean starttlsEnable;
 
 }

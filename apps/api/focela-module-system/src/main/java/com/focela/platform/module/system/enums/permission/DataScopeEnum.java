@@ -7,24 +7,24 @@ import lombok.Getter;
 import java.util.Arrays;
 
 /**
- * 数据范围枚举类
+ * Data scope enum
  *
- * 用于实现数据级别的权限
+ * Used to implement data-level permissions.
  */
 @Getter
 @AllArgsConstructor
 public enum DataScopeEnum implements ArrayValuable<Integer> {
 
-    ALL(1), // 全部数据权限
+    ALL(1), // all data permission
 
-    DEPT_CUSTOM(2), // 指定部门数据权限
-    DEPT_ONLY(3), // 部门数据权限
-    DEPT_AND_CHILD(4), // 部门及以下数据权限
+    DEPT_CUSTOM(2), // permission for specified departments
+    DEPT_ONLY(3), // permission for the department only
+    DEPT_AND_CHILD(4), // permission for the department and its children
 
-    SELF(5); // 仅本人数据权限
+    SELF(5); // permission for own data only
 
     /**
-     * 范围
+     * Scope
      */
     private final Integer scope;
 

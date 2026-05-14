@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
 /**
- * Cache 配置项
+ * Cache configuration properties.
  */
 @ConfigurationProperties("focela.cache")
 @Data
@@ -13,12 +13,12 @@ import org.springframework.validation.annotation.Validated;
 public class FocelaCacheProperties {
 
     /**
-     * {@link #redisScanBatchSize} 默认值
+     * Default value for {@link #redisScanBatchSize}.
      */
     private static final Integer REDIS_SCAN_BATCH_SIZE_DEFAULT = 30;
 
     /**
-     * redis scan 一次返回数量
+     * Number of entries returned by a single redis scan call.
      */
     private Integer redisScanBatchSize = REDIS_SCAN_BATCH_SIZE_DEFAULT;
 

@@ -19,7 +19,7 @@ import java.lang.annotation.*;
 )
 public @interface Telephone {
 
-    String message() default "电话格式不正确";
+    String message() default "Invalid telephone format";
 
     Class<?>[] groups() default {};
 

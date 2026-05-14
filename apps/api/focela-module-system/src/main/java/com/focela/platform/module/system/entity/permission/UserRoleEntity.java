@@ -8,25 +8,25 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 用户和角色关联
+ * User-role association
  */
 @TableName("system_user_role")
-@KeySequence("system_user_role_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
+@KeySequence("system_user_role_seq") // used for primary key auto-increment in databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class UserRoleEntity extends BaseEntity {
 
     /**
-     * 自增主键
+     * Auto-increment primary key
      */
     @TableId
     private Long id;
     /**
-     * 用户 ID
+     * User ID
      */
     private Long userId;
     /**
-     * 角色 ID
+     * Role ID
      */
     private Long roleId;
 

@@ -12,7 +12,7 @@
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
-    <description>Web 框架，全局异常、API 日志、脱敏、错误码等</description>
+    <description>Web framework: global exceptions, API logs, desensitization, error codes, etc.</description>
     <url>https://github.com/YunaiV/ruoyi-vue-pro</url>
 
     <dependencies>
@@ -21,12 +21,12 @@
             <artifactId>focela-common</artifactId>
         </dependency>
 
-        <!-- Web 相关 -->
+        <!-- Web related -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!-- spring boot 配置所需依赖 -->
+        <!-- Spring Boot configuration metadata dependency -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
@@ -35,7 +35,7 @@
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
-            <scope>provided</scope> <!-- 解决工具类 SpringExpressionUtils 加载的时候访问不到 org.aspectj.lang.JoinPoint 问题 -->
+            <scope>provided</scope> <!-- fixes SpringExpressionUtils failing to access org.aspectj.lang.JoinPoint at load time -->
         </dependency>
 
         <dependency>
@@ -50,14 +50,14 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
-            <scope>provided</scope> <!-- 设置为 provided，主要是 GlobalExceptionHandler 使用 -->
+            <scope>provided</scope> <!-- set to provided, mainly used by GlobalExceptionHandler -->
         </dependency>
 
-        <!-- 工具类相关 -->
+        <!-- Utility classes -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <scope>provided</scope> <!-- 设置为 provided，只有工具类需要使用到 -->
+            <scope>provided</scope> <!-- set to provided, only utility classes need it -->
         </dependency>
 
         <dependency>
@@ -65,7 +65,7 @@
             <artifactId>jsoup</artifactId>
         </dependency>
 
-        <!-- Test 测试相关 -->
+        <!-- Test related -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

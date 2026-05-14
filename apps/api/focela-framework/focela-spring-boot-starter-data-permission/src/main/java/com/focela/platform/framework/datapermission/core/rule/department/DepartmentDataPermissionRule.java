@@ -31,26 +31,31 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 基于部门的 {@link DataPermissionRule} 数据权限规则实现
+ * Department-based {@link DataPermissionRule} implementation.
  *
- * 注意，使用 DepartmentDataPermissionRule 时，需要保证表中有 dept_id 部门编号的字段，可自定义。
+ * Note: when using DepartmentDataPermissionRule, the table must contain a dept_id field for the
+ * department ID. The column name is customizable.
  *
- * 实际业务场景下，会存在一个经典的问题？当用户修改部门时，冗余的 dept_id 是否需要修改？
- * 1. 一般情况下，dept_id 不进行修改，则会导致用户看不到之前的数据。【yudao-server 采用该方案】
- * 2. 部分情况下，希望该用户还是能看到之前的数据，则有两种方式解决：【需要你改造该 DepartmentDataPermissionRule 的实现代码】
- *  1）编写洗数据的脚本，将 dept_id 修改成新部门的编号；【建议】
- *      最终过滤条件是 WHERE dept_id = ?
- *  2）洗数据的话，可能涉及的数据量较大，也可以采用 user_id 进行过滤的方式，此时需要获取到 dept_id 对应的所有 user_id 用户编号；
- *      最终过滤条件是 WHERE user_id IN (?, ?, ? ...)
- *  3）想要保证原 dept_id 和 user_id 都可以看的到，此时使用 dept_id 和 user_id 一起过滤；
- *      最终过滤条件是 WHERE dept_id = ? OR user_id IN (?, ?, ? ...)
+ * A classic question arises in real business scenarios: when a user changes departments, should the
+ * redundant dept_id be updated?
+ * 1. Typically dept_id is not updated, which means the user can no longer see their previous data.
+ *    (This is the approach used by the server.)
+ * 2. If you want the user to still see the previous data, there are several options
+ *    (you will need to modify this DepartmentDataPermissionRule implementation):
+ *  1) Write a data migration script that rewrites dept_id to the new department ID (recommended).
+ *      Final filter condition: WHERE dept_id = ?
+ *  2) Migrating data may involve a large volume, so user_id-based filtering is an alternative;
+ *     in that case you must collect all user_id values associated with the dept_id.
+ *      Final filter condition: WHERE user_id IN (?, ?, ? ...)
+ *  3) To preserve visibility for both the original dept_id and user_id, filter by both at once.
+ *      Final filter condition: WHERE dept_id = ? OR user_id IN (?, ?, ? ...)
  */
 @AllArgsConstructor
 @Slf4j
 public class DepartmentDataPermissionRule implements DataPermissionRule {
 
     /**
-     * LoginUser 的 Context 缓存 Key
+     * Context cache key on LoginUser.
      */
     protected static final String CONTEXT_KEY = DepartmentDataPermissionRule.class.getSimpleName();
 
@@ -60,23 +65,23 @@ public class DepartmentDataPermissionRule implements DataPermissionRule {
     private final PermissionContractApi permissionApi;
 
     /**
-     * 基于部门的表字段配置
-     * 一般情况下，每个表的部门编号字段是 dept_id，通过该配置自定义。
+     * Per-table column configuration for department-based filtering.
+     * Normally each table's department ID column is dept_id; this configuration allows customization.
      *
-     * key：表名
-     * value：字段名
+     * key: table name
+     * value: column name
      */
     private final Map<String, String> deptColumns = new HashMap<>();
     /**
-     * 基于用户的表字段配置
-     * 一般情况下，每个表的部门编号字段是 dept_id，通过该配置自定义。
+     * Per-table column configuration for user-based filtering.
+     * Normally each table's user ID column is user_id; this configuration allows customization.
      *
-     * key：表名
-     * value：字段名
+     * key: table name
+     * value: column name
      */
     private final Map<String, String> userColumns = new HashMap<>();
     /**
-     * 所有表名，是 {@link #deptColumns} 和 {@link #userColumns} 的合集
+     * All table names, the union of {@link #deptColumns} and {@link #userColumns}.
      */
     private final Set<String> TABLE_NAMES = new HashSet<>();
 
@@ -87,19 +92,19 @@ public class DepartmentDataPermissionRule implements DataPermissionRule {
 
     @Override
     public Expression getExpression(String tableName, Alias tableAlias) {
-        // 只有有登陆用户的情况下，才进行数据权限的处理
+        // Only enforce data permission when there is a login user
         LoginUser loginUser = SecurityFrameworkUtils.getLoginUser();
         if (loginUser == null) {
             return null;
         }
-        // 只有管理员类型的用户，才进行数据权限的处理
+        // Only enforce data permission for admin-type users
         if (ObjectUtil.notEqual(loginUser.getUserType(), UserTypeEnum.ADMIN.getValue())) {
             return null;
         }
 
-        // 获得数据权限
+        // Get the data permission
         DepartmentDataPermissionRpcResponse deptDataPermission = loginUser.getContext(CONTEXT_KEY, DepartmentDataPermissionRpcResponse.class);
-        // 从上下文中拿不到，则调用逻辑进行获取
+        // If not present in the context, fetch it via the API
         if (deptDataPermission == null) {
             deptDataPermission = permissionApi.getDeptDataPermission(loginUser.getId());
             if (deptDataPermission == null) {
@@ -107,31 +112,31 @@ public class DepartmentDataPermissionRule implements DataPermissionRule {
                 throw new NullPointerException(String.format("LoginUser(%d) Table(%s/%s) did not return data permission",
                         loginUser.getId(), tableName, tableAlias.getName()));
             }
-            // 添加到上下文中，避免重复计算
+            // Store in the context to avoid repeated computation
             loginUser.setContext(CONTEXT_KEY, deptDataPermission);
         }
 
-        // 情况一，如果是 ALL 可查看全部，则无需拼接条件
+        // Case 1: ALL access — no need to append any condition
         if (deptDataPermission.getAll()) {
             return null;
         }
 
-        // 情况二，即不能查看部门，又不能查看自己，则说明 100% 无权限
+        // Case 2: cannot view departments nor self — i.e. 100% no permission
         if (CollUtil.isEmpty(deptDataPermission.getDeptIds())
             && Boolean.FALSE.equals(deptDataPermission.getSelf())) {
-            return new EqualsTo(null, null); // WHERE null = null，可以保证返回的数据为空
+            return new EqualsTo(null, null); // WHERE null = null guarantees an empty result
         }
 
-        // 情况三，拼接 Department 和 User 的条件，最后组合
+        // Case 3: build Department and User conditions, then combine them
         Expression deptExpression = buildDeptExpression(tableName,tableAlias, deptDataPermission.getDeptIds());
         Expression userExpression = buildUserExpression(tableName, tableAlias, deptDataPermission.getSelf(), loginUser.getId());
         if (deptExpression == null && userExpression == null) {
-            // TODO 芋艿：获得不到条件的时候，暂时不抛出异常，而是不返回数据
+            // TODO: when no condition can be built, do not throw; instead return no data
             log.warn("[getExpression][LoginUser({}) Table({}/{}) DepartmentDataPermission({}) build item item is empty]",
                     JsonUtils.toJsonString(loginUser), tableName, tableAlias, JsonUtils.toJsonString(deptDataPermission));
 //            throw new NullPointerException(String.format("LoginUser(%d) Table(%s/%s) build item item is empty",
 //                    loginUser.getId(), tableName, tableAlias.getName()));
-            return new EqualsTo(null, null); // WHERE null = null，可以保证返回的数据为空
+            return new EqualsTo(null, null); // WHERE null = null guarantees an empty result
         }
         if (deptExpression == null) {
             return userExpression;
@@ -139,28 +144,29 @@ public class DepartmentDataPermissionRule implements DataPermissionRule {
         if (userExpression == null) {
             return deptExpression;
         }
-        // 目前，如果有指定部门 + 可查看自己，采用 OR 条件。即，WHERE (dept_id IN ? OR user_id = ?)
+        // For now, when there is both a department list and self access, OR them together,
+        // i.e. WHERE (dept_id IN ? OR user_id = ?)
         return new ParenthesedExpressionList(new OrExpression(deptExpression, userExpression));
     }
 
     private Expression buildDeptExpression(String tableName, Alias tableAlias, Set<Long> deptIds) {
-        // 如果不存在配置，则无需作为条件
+        // If no column is configured, skip
         String columnName = deptColumns.get(tableName);
         if (StrUtil.isEmpty(columnName)) {
             return null;
         }
-        // 如果为空，则无条件
+        // If empty, no condition
         if (CollUtil.isEmpty(deptIds)) {
             return null;
         }
-        // 拼接条件
+        // Build the condition
         return new InExpression(MyBatisUtils.buildColumn(tableName, tableAlias, columnName),
-                // Parenthesis 的目的，是提供 (1,2,3) 的 () 左右括号
+                // Parenthesis is used to produce the () around (1,2,3)
                 new ParenthesedExpressionList(new ExpressionList<LongValue>(CollectionUtils.convertList(deptIds, LongValue::new))));
     }
 
     private Expression buildUserExpression(String tableName, Alias tableAlias, Boolean self, Long userId) {
-        // 如果不查看自己，则无需作为条件
+        // If "view self" is disabled, no condition
         if (Boolean.FALSE.equals(self)) {
             return null;
         }
@@ -168,11 +174,11 @@ public class DepartmentDataPermissionRule implements DataPermissionRule {
         if (StrUtil.isEmpty(columnName)) {
             return null;
         }
-        // 拼接条件
+        // Build the condition
         return new EqualsTo(MyBatisUtils.buildColumn(tableName, tableAlias, columnName), new LongValue(userId));
     }
 
-    // ==================== 添加配置 ====================
+    // ==================== Configuration helpers ====================
 
     public void addDeptColumn(Class<? extends BaseEntity> entityClass) {
         addDeptColumn(entityClass, DEPT_COLUMN_NAME);

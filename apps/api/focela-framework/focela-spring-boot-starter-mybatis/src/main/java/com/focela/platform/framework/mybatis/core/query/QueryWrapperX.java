@@ -10,11 +10,11 @@ import org.springframework.util.StringUtils;
 import java.util.Collection;
 
 /**
- * 拓展 MyBatis Plus QueryWrapper 类，主要增加如下功能：
+ * Extends MyBatis Plus QueryWrapper with additional features:
  *
- * 1. 拼接条件的方法，增加 xxxIfPresent 方法，用于判断值不存在的时候，不要拼接到条件中。
+ * 1. Adds xxxIfPresent methods that skip the condition when the value is absent.
  *
- * @param <T> 数据类型
+ * @param <T> entity type
  */
 public class QueryWrapperX<T> extends QueryWrapper<T> {
 
@@ -107,7 +107,7 @@ public class QueryWrapperX<T> extends QueryWrapper<T> {
         return this;
     }
 
-    // ========== 重写父类方法，方便链式调用 ==========
+    // ========== Override parent methods for fluent chaining ==========
 
     @Override
     public QueryWrapperX<T> eq(boolean condition, String column, Object val) {
@@ -140,9 +140,9 @@ public class QueryWrapperX<T> extends QueryWrapper<T> {
     }
 
     /**
-     * 设置只返回最后一条
+     * Set to return only the last N records.
      *
-     * TODO 芋艿：不是完美解，需要在思考下。如果使用多数据源，并且数据源是多种类型时，可能会存在问题：实现之返回一条的语法不同
+     * TODO: not a perfect solution; needs more thought. With multiple data sources of different types, the syntax for limiting rows differs.
      *
      * @return this
      */
@@ -155,9 +155,9 @@ public class QueryWrapperX<T> extends QueryWrapper<T> {
                 break;
             case SQL_SERVER:
             case SQL_SERVER2005:
-                super.select("TOP " + n + " *"); // 由于 SQL Server 是通过 SELECT TOP 1 实现限制一条，所以只好使用 * 查询剩余字段
+                super.select("TOP " + n + " *"); // SQL Server uses SELECT TOP n to limit rows, so we must use * to select remaining fields
                 break;
-            default: // MySQL、PostgreSQL、DM 达梦、KingbaseES 大金都是采用 LIMIT 实现
+            default: // MySQL, PostgreSQL, DM (Dameng), KingbaseES all use LIMIT
                 super.last("LIMIT " + n);
         }
         return this;

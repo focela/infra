@@ -59,8 +59,8 @@ public class LoginLogController {
     public void exportLoginLog(HttpServletResponse response, @Valid LoginLogPageRequest exportRequest) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
         List<LoginLogEntity> list = loginLogService.getLoginLogPage(exportRequest).getList();
-        // 输出
-        ExcelUtils.write(response, "登录日志.xls", "数据列表", LoginLogResponse.class,
+        // output
+        ExcelUtils.write(response, "Login Log.xls", "Data List", LoginLogResponse.class,
                 BeanUtils.toBean(list, LoginLogResponse.class));
     }
 

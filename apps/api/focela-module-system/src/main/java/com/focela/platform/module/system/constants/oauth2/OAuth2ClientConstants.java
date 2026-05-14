@@ -1,7 +1,7 @@
 package com.focela.platform.module.system.constants.oauth2;
 
 /**
- * OAuth2.0 客户端的通用枚举
+ * Common enumeration for OAuth2.0 clients
  */
 public interface OAuth2ClientConstants {
 

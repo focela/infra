@@ -4,16 +4,16 @@ import com.focela.platform.framework.ratelimiter.core.annotation.RateLimiter;
 import org.aspectj.lang.JoinPoint;
 
 /**
- * 限流 Key 解析器接口
+ * Rate limiter key resolver interface.
  */
 public interface RateLimiterKeyResolver {
 
     /**
-     * 解析一个 Key
+     * Resolve a key.
      *
-     * @param rateLimiter 限流注解
-     * @param joinPoint  AOP 切面
-     * @return Key
+     * @param rateLimiter the rate limiter annotation
+     * @param joinPoint   the AOP join point
+     * @return resolved key
      */
     String resolver(JoinPoint joinPoint, RateLimiter rateLimiter);
 

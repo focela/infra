@@ -4,18 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 通知模板类型枚举
+ * Notify template type enum
  */
 @Getter
 @AllArgsConstructor
 public enum NotifyTemplateTypeEnum {
 
     /**
-     * 系统消息
+     * System message
      */
     SYSTEM_MESSAGE(2),
     /**
-     * 通知消息
+     * Notification message
      */
     NOTIFICATION_MESSAGE(1);
 

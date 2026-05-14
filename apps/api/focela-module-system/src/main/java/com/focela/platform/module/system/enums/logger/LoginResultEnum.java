@@ -4,22 +4,22 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 登录结果的枚举类
+ * Login result enum
  */
 @Getter
 @AllArgsConstructor
 public enum LoginResultEnum {
 
-    SUCCESS(0), // 成功
-    BAD_CREDENTIALS(10), // 账号或密码不正确
-    USER_DISABLED(20), // 用户被禁用
-    CAPTCHA_NOT_FOUND(30), // 图片验证码不存在
-    CAPTCHA_CODE_ERROR(31), // 图片验证码不正确
+    SUCCESS(0), // succeeded
+    BAD_CREDENTIALS(10), // incorrect username or password
+    USER_DISABLED(20), // user is disabled
+    CAPTCHA_NOT_FOUND(30), // captcha does not exist
+    CAPTCHA_CODE_ERROR(31), // captcha is incorrect
 
     ;
 
     /**
-     * 结果
+     * Result
      */
     private final Integer result;
 

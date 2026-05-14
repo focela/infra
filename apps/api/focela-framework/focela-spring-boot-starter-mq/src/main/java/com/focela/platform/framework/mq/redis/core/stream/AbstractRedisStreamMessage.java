@@ -4,16 +4,16 @@ import com.focela.platform.framework.mq.redis.core.message.AbstractRedisMessage;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * Redis Stream Message 抽象类
+ * Abstract Redis Stream Message.
  */
 public abstract class AbstractRedisStreamMessage extends AbstractRedisMessage {
 
     /**
-     * 获得 Redis Stream Key，默认使用类名
+     * Get the Redis Stream key; defaults to the class simple name.
      *
      * @return Channel
      */
-    @JsonIgnore // 避免序列化
+    @JsonIgnore // Skip serialization
     public String getStreamKey() {
         return getClass().getSimpleName();
     }

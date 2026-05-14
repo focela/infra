@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
 /**
- * HTTP API 加解密配置
+ * HTTP API encryption/decryption configuration.
  */
 @ConfigurationProperties(prefix = "focela.api-encrypt")
 @Validated
@@ -15,52 +15,52 @@ import org.springframework.validation.annotation.Validated;
 public class ApiEncryptProperties {
 
     /**
-     * 是否开启
+     * Whether enabled.
      */
-    @NotNull(message = "is 否open must not be blank")
+    @NotNull(message = "enabled flag must not be blank")
     private Boolean enable;
 
     /**
-     * 请求头（响应头）名称
+     * Request header (response header) name.
      *
-     * 1. 如果该请求头非空，则表示请求参数已被「前端」加密，「后端」需要解密
-     * 2. 如果该响应头非空，则表示响应结果已被「后端」加密，「前端」需要解密
+     * 1. If this request header is non-empty, the request parameters are encrypted by the "frontend" and need to be decrypted by the "backend".
+     * 2. If this response header is non-empty, the response is encrypted by the "backend" and needs to be decrypted by the "frontend".
      */
     @NotEmpty(message = "request header (response header) name must not be blank")
     private String header = "X-Api-Encrypt";
 
     /**
-     * 对称加密算法，用于请求/响应的加解密
+     * Symmetric encryption algorithm used for request/response encryption and decryption.
      *
-     * 目前支持
-     * 【对称加密】：
+     * Currently supported:
+     * [Symmetric encryption]:
      *      1. {@link cn.hutool.crypto.symmetric.SymmetricAlgorithm#AES}
-     *      2. {@link cn.hutool.crypto.symmetric.SM4#ALGORITHM_NAME} （需要自己二次开发，成本低）
-     * 【非对称加密】
+     *      2. {@link cn.hutool.crypto.symmetric.SM4#ALGORITHM_NAME} (requires custom development; low cost)
+     * [Asymmetric encryption]:
      *      1. {@link cn.hutool.crypto.asymmetric.AsymmetricAlgorithm#RSA}
-     *      2. {@link cn.hutool.crypto.asymmetric.SM2} （需要自己二次开发，成本低）
+     *      2. {@link cn.hutool.crypto.asymmetric.SM2} (requires custom development; low cost)
      *
-     * @see <a href="https://help.aliyun.com/zh/ssl-certificate/what-are-a-public-key-and-a-private-key">什么是公钥和私钥？</a>
+     * @see <a href="https://help.aliyun.com/zh/ssl-certificate/what-are-a-public-key-and-a-private-key">What are a public key and a private key?</a>
      */
     @NotEmpty(message = "symmetric encryption algorithm must not be blank")
     private String algorithm;
 
     /**
-     * 请求的解密密钥
+     * Decryption key for requests.
      *
-     * 注意：
-     * 1. 如果是【对称加密】时，它「后端」对应的是“密钥”。对应的，「前端」也对应的也是“密钥”。
-     * 2. 如果是【非对称加密】时，它「后端」对应的是“私钥”。对应的，「前端」对应的是“公钥”。（重要！！！）
+     * Note:
+     * 1. For [symmetric encryption], on the "backend" side it is the "secret key"; correspondingly on the "frontend" side it is also the "secret key".
+     * 2. For [asymmetric encryption], on the "backend" side it is the "private key"; correspondingly on the "frontend" side it is the "public key". (Important!)
      */
     @NotEmpty(message = "request decrypt secret must not be blank")
     private String requestKey;
 
     /**
-     * 响应的加密密钥
+     * Encryption key for responses.
      *
-     * 注意：
-     * 1. 如果是【对称加密】时，它「后端」对应的是“密钥”。对应的，「前端」也对应的也是“密钥”。
-     * 2. 如果是【非对称加密】时，它「后端」对应的是“公钥”。对应的，「前端」对应的是“私钥”。（重要！！！）
+     * Note:
+     * 1. For [symmetric encryption], on the "backend" side it is the "secret key"; correspondingly on the "frontend" side it is also the "secret key".
+     * 2. For [asymmetric encryption], on the "backend" side it is the "public key"; correspondingly on the "frontend" side it is the "private key". (Important!)
      */
     @NotEmpty(message = "response encrypt secret must not be blank")
     private String responseKey;

@@ -12,17 +12,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 顶级脱敏注解，自定义注解需要使用此注解
+ * Top-level desensitization annotation; custom annotations must use this annotation
  */
 @Documented
 @Target(ElementType.ANNOTATION_TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@JacksonAnnotationsInside // 此注解是其他所有 jackson 注解的元注解，打上了此注解的注解表明是 jackson 注解的一部分
-@JsonSerialize(using = StringDesensitizeSerializer.class) // 指定序列化器
+@JacksonAnnotationsInside // this is the meta-annotation for all other Jackson annotations; an annotation marked with it is treated as a Jackson annotation
+@JsonSerialize(using = StringDesensitizeSerializer.class) // specify the serializer
 public @interface DesensitizeBy {
 
     /**
-     * 脱敏处理器
+     * Desensitization handler
      */
     @SuppressWarnings("rawtypes")
     Class<? extends DesensitizationHandler> handler();

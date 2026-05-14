@@ -15,19 +15,19 @@ import org.springframework.util.PathMatcher;
 import java.io.IOException;
 
 /**
- * XSS 过滤 jackson 反序列化器。
- * 在反序列化的过程中，会对字符串进行 XSS 过滤。
+ * XSS-filtering Jackson deserializer.
+ * During deserialization, strings are XSS-filtered.
  */
 @Slf4j
 @AllArgsConstructor
 public class XssStringJsonDeserializer extends StringDeserializer {
 
     /**
-     * 属性
+     * Properties
      */
     private final XssProperties properties;
     /**
-     * 路径匹配器
+     * Path matcher
      */
     private final PathMatcher pathMatcher;
 
@@ -35,7 +35,7 @@ public class XssStringJsonDeserializer extends StringDeserializer {
 
     @Override
     public String deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
-        // 1. 白名单 URL 的处理
+        // 1. handle URL whitelist
         HttpServletRequest request = ServletUtils.getRequest();
         if (request != null) {
             String uri = ServletUtils.getRequest().getRequestURI();
@@ -44,7 +44,7 @@ public class XssStringJsonDeserializer extends StringDeserializer {
             }
         }
 
-        // 2. 真正使用 xssCleaner 进行过滤
+        // 2. actually filter using xssCleaner
         if (p.hasToken(JsonToken.VALUE_STRING)) {
             return xssCleaner.clean(p.getText());
         }

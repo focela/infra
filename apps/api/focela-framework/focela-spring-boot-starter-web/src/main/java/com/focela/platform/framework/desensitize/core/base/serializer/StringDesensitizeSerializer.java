@@ -21,9 +21,9 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
 /**
- * 脱敏序列化器
+ * Desensitization serializer
  *
- * 实现 JSON 返回数据时，使用 {@link DesensitizationHandler} 对声明脱敏注解的字段，进行脱敏处理。
+ * When returning JSON data, uses {@link DesensitizationHandler} to desensitize fields that declare a desensitization annotation.
  */
 @SuppressWarnings("rawtypes")
 public class StringDesensitizeSerializer extends StdSerializer<String> implements ContextualSerializer {
@@ -42,7 +42,7 @@ public class StringDesensitizeSerializer extends StdSerializer<String> implement
         if (annotation == null) {
             return this;
         }
-        // 创建一个 StringDesensitizeSerializer 对象，使用 DesensitizeBy 对应的处理器
+        // create a StringDesensitizeSerializer using the handler from DesensitizeBy
         StringDesensitizeSerializer serializer = new StringDesensitizeSerializer();
         serializer.setDesensitizationHandler(Singleton.get(annotation.handler()));
         return serializer;
@@ -55,10 +55,10 @@ public class StringDesensitizeSerializer extends StdSerializer<String> implement
             gen.writeNull();
             return;
         }
-        // 获取序列化字段
+        // get the serialized field
         Field field = getField(gen);
 
-        // 自定义处理器
+        // custom handler
         DesensitizeBy[] annotations = AnnotationUtil.getCombinationAnnotations(field, DesensitizeBy.class);
         if (ArrayUtil.isEmpty(annotations)) {
             gen.writeString(value);
@@ -75,10 +75,10 @@ public class StringDesensitizeSerializer extends StdSerializer<String> implement
     }
 
     /**
-     * 获取字段
+     * Get the field
      *
      * @param generator JsonGenerator
-     * @return 字段
+     * @return field
      */
     private Field getField(JsonGenerator generator) {
         String currentName = generator.getOutputContext().getCurrentName();

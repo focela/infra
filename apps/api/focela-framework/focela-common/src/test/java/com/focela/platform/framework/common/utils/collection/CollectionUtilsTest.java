@@ -12,7 +12,7 @@ import java.util.function.BiFunction;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * {@link CollectionUtils} 的单元测试
+ * Unit test for {@link CollectionUtils}
  */
 public class CollectionUtilsTest {
 
@@ -28,37 +28,37 @@ public class CollectionUtilsTest {
 
     @Test
     public void testDiffList() {
-        // 准备参数
+        // prepare parameters
         Collection<Dog> oldList = Arrays.asList(
-                new Dog(1, "花花", "hh"),
-                new Dog(2, "旺财", "wc")
+                new Dog(1, "Huahua", "hh"),
+                new Dog(2, "Wangcai", "wc")
         );
         Collection<Dog> newList = Arrays.asList(
-                new Dog(null, "花花2", "hh"),
-                new Dog(null, "小白", "xb")
+                new Dog(null, "Huahua2", "hh"),
+                new Dog(null, "Xiaobai", "xb")
         );
         BiFunction<Dog, Dog, Boolean> sameFunc = (oldObj, newObj) -> {
             boolean same = oldObj.getCode().equals(newObj.getCode());
-            // 如果相等的情况下，需要设置下 id，后续好更新
+            // if equal, set the id for later update
             if (same) {
                 newObj.setId(oldObj.getId());
             }
             return same;
         };
 
-        // 调用
+        // invoke
         List<List<Dog>> result = CollectionUtils.diffList(oldList, newList, sameFunc);
-        // 断言
+        // assert
         assertEquals(result.size(), 3);
-        // 断言 create
+        // assert create
         assertEquals(result.get(0).size(), 1);
-        assertEquals(result.get(0).get(0), new Dog(null, "小白", "xb"));
-        // 断言 update
+        assertEquals(result.get(0).get(0), new Dog(null, "Xiaobai", "xb"));
+        // assert update
         assertEquals(result.get(1).size(), 1);
-        assertEquals(result.get(1).get(0), new Dog(1, "花花2", "hh"));
-        // 断言 delete
+        assertEquals(result.get(1).get(0), new Dog(1, "Huahua2", "hh"));
+        // assert delete
         assertEquals(result.get(2).size(), 1);
-        assertEquals(result.get(2).get(0), new Dog(2, "旺财", "wc"));
+        assertEquals(result.get(2).get(0), new Dog(2, "Wangcai", "wc"));
     }
 
 }

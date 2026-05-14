@@ -6,17 +6,17 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 幂等 Redis DAO
+ * Idempotent Redis DAO.
  */
 @AllArgsConstructor
 public class IdempotentRedisDAO {
 
     /**
-     * 幂等操作
+     * Idempotent operation.
      *
-     * KEY 格式：idempotent:%s // 参数为 uuid
-     * VALUE 格式：String
-     * 过期时间：不固定
+     * KEY format: idempotent:%s // parameter is a uuid
+     * VALUE format: String
+     * Expiration: variable
      */
     private static final String IDEMPOTENT = "idempotent:%s";
 

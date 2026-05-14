@@ -27,9 +27,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 /**
- * {@link DataPermissionRuleHandler} 的单元测试
- * 主要复用了 MyBatis Plus 的 TenantLineInnerInterceptorTest 的单元测试
- * 不过它的单元测试不是很规范，考虑到是复用的，所以暂时不进行修改~
+ * Unit tests for {@link DataPermissionRuleHandler}.
+ * Largely reuses MyBatis Plus's TenantLineInnerInterceptorTest unit tests.
+ * Those tests are not very idiomatic, but since they are reused we leave them as-is for now.
  */
 public class DataPermissionRuleHandlerTest extends BaseMockitoUnitTest {
 
@@ -45,15 +45,15 @@ public class DataPermissionRuleHandlerTest extends BaseMockitoUnitTest {
     public void setUp() {
         interceptor = new DataPermissionInterceptor(handler);
 
-        // 租户的数据权限规则
+        // Tenant data permission rule
         DataPermissionRule tenantRule = new DataPermissionRule() {
 
             private static final String COLUMN = "tenant_id";
 
             @Override
             public Set<String> getTableNames() {
-                return asSet("entity", "entity1", "entity2", "entity3", "t1", "t2", "sys_dict_item", // 支持 MyBatis Plus 的单元测试
-                        "t_user", "t_role"); // 满足自己的单元测试
+                return asSet("entity", "entity1", "entity2", "entity3", "t1", "t2", "sys_dict_item", // support MyBatis Plus unit tests
+                        "t_user", "t_role"); // for our own unit tests
             }
 
             @Override
@@ -64,14 +64,14 @@ public class DataPermissionRuleHandlerTest extends BaseMockitoUnitTest {
             }
 
         };
-        // 部门的数据权限规则
+        // Department data permission rule
         DataPermissionRule deptRule = new DataPermissionRule() {
 
             private static final String COLUMN = "dept_id";
 
             @Override
             public Set<String> getTableNames() {
-                return asSet("t_user");  // 满足自己的单元测试
+                return asSet("t_user");  // for our own unit tests
             }
 
             @Override
@@ -83,7 +83,7 @@ public class DataPermissionRuleHandlerTest extends BaseMockitoUnitTest {
             }
 
         };
-        // 设置到上下文
+        // Set in the context
         when(ruleFactory.getDataPermissionRule(any())).thenReturn(Arrays.asList(tenantRule, deptRule));
     }
 
@@ -101,7 +101,7 @@ public class DataPermissionRuleHandlerTest extends BaseMockitoUnitTest {
 
     @Test
     void selectSingle() {
-        // 单表
+        // Single table
         assertSql("select * from entity where id = ?",
                 "SELECT * FROM entity WHERE id = ? AND entity.tenant_id = 1");
 
@@ -121,17 +121,17 @@ public class DataPermissionRuleHandlerTest extends BaseMockitoUnitTest {
         /* in */
         assertSql("SELECT * FROM entity e WHERE e.id IN (select e1.id from entity1 e1 where e1.id = ?)",
                 "SELECT * FROM entity e WHERE e.id IN (SELECT e1.id FROM entity1 e1 WHERE e1.id = ? AND e1.tenant_id = 1) AND e.tenant_id = 1");
-        // 在最前
+        // At the beginning
         assertSql("SELECT * FROM entity e WHERE e.id IN " +
                         "(select e1.id from entity1 e1 where e1.id = ?) and e.id = ?",
                 "SELECT * FROM entity e WHERE e.id IN " +
                         "(SELECT e1.id FROM entity1 e1 WHERE e1.id = ? AND e1.tenant_id = 1) AND e.id = ? AND e.tenant_id = 1");
-        // 在最后
+        // At the end
         assertSql("SELECT * FROM entity e WHERE e.id = ? and e.id IN " +
                         "(select e1.id from entity1 e1 where e1.id = ?)",
                 "SELECT * FROM entity e WHERE e.id = ? AND e.id IN " +
                         "(SELECT e1.id FROM entity1 e1 WHERE e1.id = ? AND e1.tenant_id = 1) AND e.tenant_id = 1");
-        // 在中间
+        // In the middle
         assertSql("SELECT * FROM entity e WHERE e.id = ? and e.id IN " +
                         "(select e1.id from entity1 e1 where e1.id = ?) and e.id = ?",
                 "SELECT * FROM entity e WHERE e.id = ? AND e.id IN " +
@@ -349,7 +349,7 @@ public class DataPermissionRuleHandlerTest extends BaseMockitoUnitTest {
 
     @Test
     void selectLeftJoinMultipleTrailingOn() {
-        // 多个 on 尾缀的
+        // Multiple trailing ON clauses
         assertSql("SELECT * FROM entity e " +
                         "LEFT JOIN entity1 e1 " +
                         "LEFT JOIN entity2 e2 ON e2.id = e1.id " +
@@ -390,13 +390,13 @@ public class DataPermissionRuleHandlerTest extends BaseMockitoUnitTest {
                         "INNER JOIN entity1 e1 ON e1.id = e.id AND e.tenant_id = 1 AND e1.tenant_id = 1 " +
                         "WHERE (e.id = ? OR e.name = ?)");
 
-        // 隐式内连接
+        // Implicit inner join
         assertSql("SELECT * FROM entity,entity1 " +
                         "WHERE entity.id = entity1.id",
                 "SELECT * FROM entity, entity1 " +
                         "WHERE entity.id = entity1.id AND entity.tenant_id = 1 AND entity1.tenant_id = 1");
 
-        // 隐式内连接
+        // Implicit inner join
         assertSql("SELECT * FROM entity a, with_as_entity1 b " +
                         "WHERE a.id = b.id",
                 "SELECT * FROM entity a, with_as_entity1 b " +
@@ -407,7 +407,7 @@ public class DataPermissionRuleHandlerTest extends BaseMockitoUnitTest {
                 "SELECT * FROM with_as_entity a, with_as_entity1 b " +
                         "WHERE a.id = b.id");
 
-        // SubJoin with 隐式内连接
+        // SubJoin with implicit inner join
         assertSql("SELECT * FROM (entity,entity1) " +
                         "WHERE entity.id = entity1.id",
                 "SELECT * FROM (entity, entity1) " +
@@ -426,7 +426,7 @@ public class DataPermissionRuleHandlerTest extends BaseMockitoUnitTest {
                         "WHERE entity.id = entity1.id AND entity.id = entity2.id " +
                         "AND entity.tenant_id = 1 AND entity1.tenant_id = 1 AND entity2.tenant_id = 1");
 
-        // 沙雕的括号写法
+        // Silly parenthesized form
         assertSql("SELECT * FROM (((entity,entity1))) " +
                         "WHERE entity.id = entity1.id",
                 "SELECT * FROM (((entity, entity1))) " +
@@ -453,11 +453,11 @@ public class DataPermissionRuleHandlerTest extends BaseMockitoUnitTest {
         assertEquals(targetSql, interceptor.parserSingle(sql, null));
     }
 
-    // ========== 额外的测试 ==========
+    // ========== Extra tests ==========
 
     @Test
     public void testSelectSingle() {
-        // 单表
+        // Single table
         assertSql("select * from t_user where id = ?",
                 "SELECT * FROM t_user WHERE id = ? AND t_user.tenant_id = 1 AND t_user.dept_id IN (10, 20)");
 
@@ -482,7 +482,7 @@ public class DataPermissionRuleHandlerTest extends BaseMockitoUnitTest {
                         "LEFT JOIN t_role e1 ON e1.id = e.id AND e1.tenant_id = 1 " +
                         "WHERE (e.id = ? OR e.name = ?) AND e.tenant_id = 1 AND e.dept_id IN (10, 20)");
 
-        // 条件 e.id = ? OR e.name = ? 带括号
+        // Condition e.id = ? OR e.name = ? with parentheses
         assertSql("SELECT * FROM t_user e " +
                         "left join t_role e1 on e1.id = e.id " +
                         "WHERE (e.id = ? OR e.name = ?)",
@@ -501,7 +501,7 @@ public class DataPermissionRuleHandlerTest extends BaseMockitoUnitTest {
                         "RIGHT JOIN t_role e1 ON e1.id = e.id AND e.tenant_id = 1 AND e.dept_id IN (10, 20) " +
                         "WHERE (e.id = ? OR e.name = ?) AND e1.tenant_id = 1");
 
-        // 条件 e.id = ? OR e.name = ? 带括号
+        // Condition e.id = ? OR e.name = ? with parentheses
         assertSql("SELECT * FROM t_user e " +
                         "right join t_role e1 on e1.id = e.id " +
                         "WHERE (e.id = ? OR e.name = ?)",
@@ -520,7 +520,7 @@ public class DataPermissionRuleHandlerTest extends BaseMockitoUnitTest {
                         "INNER JOIN entity1 e1 ON e1.id = e.id AND e.tenant_id = 1 AND e.dept_id IN (10, 20) AND e1.tenant_id = 1 " +
                         "WHERE e.id = ? OR e.name = ?");
 
-        // 条件 e.id = ? OR e.name = ? 带括号
+        // Condition e.id = ? OR e.name = ? with parentheses
         assertSql("SELECT * FROM t_user e " +
                         "inner join entity1 e1 on e1.id = e.id " +
                         "WHERE (e.id = ? OR e.name = ?)",
@@ -528,7 +528,7 @@ public class DataPermissionRuleHandlerTest extends BaseMockitoUnitTest {
                         "INNER JOIN entity1 e1 ON e1.id = e.id AND e.tenant_id = 1 AND e.dept_id IN (10, 20) AND e1.tenant_id = 1 " +
                         "WHERE (e.id = ? OR e.name = ?)");
 
-        // 没有 On 的 inner join
+        // Inner join without ON clause
         assertSql("SELECT * FROM entity,entity1 " +
                 "WHERE entity.id = entity1.id",
             "SELECT * FROM entity, entity1 " +

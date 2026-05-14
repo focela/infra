@@ -16,7 +16,7 @@ public class AreaNodeResponse {
     private String name;
 
     /**
-     * 子节点
+     * child nodes
      */
     private List<AreaNodeResponse> children;
 

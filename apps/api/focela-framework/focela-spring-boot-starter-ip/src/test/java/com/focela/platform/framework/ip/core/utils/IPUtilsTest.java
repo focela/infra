@@ -8,7 +8,7 @@ import org.lionsoul.ip2region.xdb.Searcher;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * {@link IPUtils} 的单元测试
+ * Unit test for {@link IPUtils}.
  */
 public class IPUtilsTest {
 

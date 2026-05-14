@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 
 /**
- * 基于 RocketMQ 的 {@link WebSocketMessageSender} 实现类
+ * RocketMQ-based implementation of {@link WebSocketMessageSender}.
  */
 @Slf4j
 public class RocketMQWebSocketMessageSender extends AbstractWebSocketMessageSender {
@@ -40,13 +40,13 @@ public class RocketMQWebSocketMessageSender extends AbstractWebSocketMessageSend
     }
 
     /**
-     * 通过 RocketMQ 广播消息
+     * Broadcast a message over RocketMQ.
      *
-     * @param sessionId Session 编号
-     * @param userId 用户编号
-     * @param userType 用户类型
-     * @param messageType 消息类型
-     * @param messageContent 消息内容
+     * @param sessionId Session ID
+     * @param userId User ID
+     * @param userType User type
+     * @param messageType Message type
+     * @param messageContent Message content
      */
     private void sendRocketMQMessage(String sessionId, Long userId, Integer userType,
                                      String messageType, String messageContent) {

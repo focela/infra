@@ -92,28 +92,28 @@ public class AuthController {
 
     @GetMapping("/get-permission-info")
     @Operation(summary = "get login user permission info")
-    @DataPermission(enable = false) // 忽略数据权限，避免因为过滤，导致无法查询用户。类似：https://t.zsxq.com/LHnrp
+    @DataPermission(enable = false) // ignore data permission to avoid filtering that prevents querying the user. Similar to: https://t.zsxq.com/LHnrp
     public CommonResult<AuthPermissionInfoResponse> getPermissionInfo() {
-        // 1.1 获得用户信息
+        // 1.1 get user information
         UserEntity user = userService.getUser(getLoginUserId());
         if (user == null) {
             return success(null);
         }
 
-        // 1.2 获得角色列表
+        // 1.2 get role list
         Set<Long> roleIds = permissionService.getUserRoleIdListByUserId(getLoginUserId());
         if (CollUtil.isEmpty(roleIds)) {
             return success(AuthConverter.INSTANCE.convert(user, Collections.emptyList(), Collections.emptyList()));
         }
         List<RoleEntity> roles = roleService.getRoleList(roleIds);
-        roles.removeIf(role -> !CommonStatusEnum.ENABLE.getStatus().equals(role.getStatus())); // 移除禁用的角色
+        roles.removeIf(role -> !CommonStatusEnum.ENABLE.getStatus().equals(role.getStatus())); // remove disabled roles
 
-        // 1.3 获得菜单列表
+        // 1.3 get menu list
         Set<Long> menuIds = permissionService.getRoleMenuListByRoleId(convertSet(roles, RoleEntity::getId));
         List<MenuEntity> menuList = menuService.getMenuList(menuIds);
         menuList = menuService.filterDisableMenus(menuList);
 
-        // 2. 拼接结果返回
+        // 2. assemble result and return
         return success(AuthConverter.INSTANCE.convert(user, roles, menuList));
     }
 
@@ -124,12 +124,12 @@ public class AuthController {
         return success(authService.register(registerRequest));
     }
 
-    // ========== 短信登录相关 ==========
+    // ========== SMS login related ==========
 
     @PostMapping("/sms-login")
     @PermitAll
     @Operation(summary = "use SMS CAPTCHA login")
-    // 可按需开启限流：https://github.com/YunaiV/ruoyi-vue-pro/issues/851
+    // optionally enable rate limiting: https://github.com/YunaiV/ruoyi-vue-pro/issues/851
     // @RateLimiter(time = 60, count = 6, keyResolver = ExpressionRateLimiterKeyResolver.class, keyArg = "#request.mobile")
     public CommonResult<AuthLoginResponse> smsLogin(@RequestBody @Valid AuthSmsLoginRequest request) {
         return success(authService.smsLogin(request));
@@ -151,7 +151,7 @@ public class AuthController {
         return success(true);
     }
 
-    // ========== 社交登录相关 ==========
+    // ========== social login related ==========
 
     @GetMapping("/social-auth-redirect")
     @PermitAll

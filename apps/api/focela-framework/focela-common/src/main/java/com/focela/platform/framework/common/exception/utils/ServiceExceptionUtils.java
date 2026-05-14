@@ -7,16 +7,16 @@ import com.google.common.annotations.VisibleForTesting;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * {@link ServiceException} 工具类
+ * Utility class for {@link ServiceException}.
  *
- * 目的在于，格式化异常信息提示。
- * 考虑到 String.format 在参数不正确时会报错，因此使用 {} 作为占位符，并使用 {@link #doFormat(int, String, Object...)} 方法来格式化
- *
+ * Its purpose is to format exception messages.
+ * Since String.format throws when arguments are incorrect, we use {} as the placeholder
+ * and format via {@link #doFormat(int, String, Object...)}.
  */
 @Slf4j
 public class ServiceExceptionUtils {
 
-    // ========== 和 ServiceException 的集成 ==========
+    // ========== Integration with ServiceException ==========
 
     public static ServiceException exception(ErrorCode errorCode) {
         return exception0(errorCode.getCode(), errorCode.getMsg());
@@ -35,15 +35,15 @@ public class ServiceExceptionUtils {
         return exception0(GlobalErrorCodeConstants.BAD_REQUEST.getCode(), messagePattern, params);
     }
 
-    // ========== 格式化方法 ==========
+    // ========== Format method ==========
 
     /**
-     * 将错误编号对应的消息使用 params 进行格式化。
+     * Format the message corresponding to the given error code using params.
      *
-     * @param code           错误编号
-     * @param messagePattern 消息模版
-     * @param params         参数
-     * @return 格式化后的提示
+     * @param code           error code
+     * @param messagePattern message template
+     * @param params         parameters
+     * @return formatted message
      */
     @VisibleForTesting
     public static String doFormat(int code, String messagePattern, Object... params) {
@@ -54,7 +54,7 @@ public class ServiceExceptionUtils {
         for (l = 0; l < params.length; l++) {
             j = messagePattern.indexOf("{}", i);
             if (j == -1) {
-                log.error("[doFormat][参数多: error code ({})|error content ({})|参数({})", code, messagePattern, params);
+                log.error("[doFormat][too many params: error code ({})|error content ({})|params({})", code, messagePattern, params);
                 if (i == 0) {
                     return messagePattern;
                 } else {
@@ -68,7 +68,7 @@ public class ServiceExceptionUtils {
             }
         }
         if (messagePattern.indexOf("{}", i) != -1) {
-            log.error("[doFormat][参数少: error code ({})|error content ({})|参数({})", code, messagePattern, params);
+            log.error("[doFormat][too few params: error code ({})|error content ({})|params({})", code, messagePattern, params);
         }
         sbuf.append(messagePattern.substring(i));
         return sbuf.toString();

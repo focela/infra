@@ -25,7 +25,7 @@ public class FocelaRateLimiterConfiguration {
         return new RateLimiterRedisDAO(redissonClient);
     }
 
-    // ========== 各种 RateLimiterRedisDAO Bean ==========
+    // ========== RateLimiterKeyResolver Beans ==========
 
     @Bean
     public DefaultRateLimiterKeyResolver defaultRateLimiterKeyResolver() {

@@ -25,11 +25,11 @@ import java.lang.annotation.Target;
 public @interface InDictionary {
 
     /**
-     * 数据字典 type
+     * Dictionary data type.
      */
     String type();
 
-    String message() default "必须在指定范围 {value}";
+    String message() default "must be within the specified range {value}";
 
     Class<?>[] groups() default {};
 

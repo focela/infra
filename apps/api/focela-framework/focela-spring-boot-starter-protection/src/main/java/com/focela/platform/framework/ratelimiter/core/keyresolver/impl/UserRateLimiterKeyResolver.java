@@ -8,9 +8,9 @@ import com.focela.platform.framework.web.core.utils.WebFrameworkUtils;
 import org.aspectj.lang.JoinPoint;
 
 /**
- * 用户级别的限流 Key 解析器，使用方法名 + 方法参数 + userId + userType，组装成一个 Key
+ * User-level rate limiter key resolver. Builds the key from method name + arguments + userId + userType.
  *
- * 为了避免 Key 过长，使用 MD5 进行“压缩”
+ * Uses MD5 to "compress" the key and avoid excessively long values.
  */
 public class UserRateLimiterKeyResolver implements RateLimiterKeyResolver {
 

@@ -11,10 +11,10 @@ import org.springframework.data.redis.cache.RedisCacheWriter;
 import java.time.Duration;
 
 /**
- * 支持自定义过期时间的 {@link RedisCacheManager} 实现类
+ * {@link RedisCacheManager} implementation that supports custom expiration time.
  *
- * 在 {@link Cacheable#cacheNames()} 格式为 "key#ttl" 时，# 后面的 ttl 为过期时间。
- * 单位为最后一个字母（支持的单位有：d 天，h 小时，m 分钟，s 秒），默认单位为 s 秒
+ * When {@link Cacheable#cacheNames()} is in the format "key#ttl", the value after # is the expiration time.
+ * The unit is the trailing letter (supported: d days, h hours, m minutes, s seconds); defaults to seconds.
  */
 public class TimeoutRedisCacheManager extends RedisCacheManager {
 
@@ -29,31 +29,31 @@ public class TimeoutRedisCacheManager extends RedisCacheManager {
         if (StrUtil.isEmpty(name)) {
             return super.createRedisCache(name, cacheConfig);
         }
-        // 如果使用 # 分隔，大小不为 2，则说明不使用自定义过期时间
+        // If split by # does not produce exactly 2 segments, custom expiration is not used.
         String[] names = StrUtil.splitToArray(name, SPLIT);
         if (names.length != 2) {
             return super.createRedisCache(name, cacheConfig);
         }
 
-        // 核心：通过修改 cacheConfig 的过期时间，实现自定义过期时间
+        // Core: implement custom expiration by overriding cacheConfig.entryTtl.
         if (cacheConfig != null) {
-            // 移除 # 后面的 : 以及后面的内容，避免影响解析
-            String ttlStr = StrUtil.subBefore(names[1], StrUtil.COLON, false); // 获得 ttlStr 时间部分
-            names[1] = StrUtil.subAfter(names[1], ttlStr, false); // 移除掉 ttlStr 时间部分
-            // 解析时间
+            // Strip the colon after # (and everything beyond) so it doesn't interfere with parsing.
+            String ttlStr = StrUtil.subBefore(names[1], StrUtil.COLON, false); // get the ttlStr time portion
+            names[1] = StrUtil.subAfter(names[1], ttlStr, false); // strip the ttlStr time portion
+            // Parse the duration
             Duration duration = parseDuration(ttlStr);
             cacheConfig = cacheConfig.entryTtl(duration);
         }
 
-        // 创建 RedisCache 对象，需要忽略掉 ttlStr
+        // Build the RedisCache, omitting the ttlStr portion from the name.
         return super.createRedisCache(names[0] + names[1], cacheConfig);
     }
 
     /**
-     * 解析过期时间 Duration
+     * Parse the expiration time Duration.
      *
-     * @param ttlStr 过期时间字符串
-     * @return 过期时间 Duration
+     * @param ttlStr expiration time string
+     * @return Duration
      */
     private Duration parseDuration(String ttlStr) {
         String timeUnit = StrUtil.subSuf(ttlStr, -1);
@@ -72,10 +72,10 @@ public class TimeoutRedisCacheManager extends RedisCacheManager {
     }
 
     /**
-     * 移除多余的后缀，返回具体的时间
+     * Strip the trailing unit suffix and return the numeric value.
      *
-     * @param ttlStr 过期时间字符串
-     * @return 时间
+     * @param ttlStr expiration time string
+     * @return numeric time value
      */
     private Long removeDurationSuffix(String ttlStr) {
         return NumberUtil.parseLong(StrUtil.sub(ttlStr, 0, ttlStr.length() - 1));

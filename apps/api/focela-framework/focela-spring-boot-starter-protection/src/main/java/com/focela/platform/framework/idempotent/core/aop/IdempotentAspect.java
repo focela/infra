@@ -16,14 +16,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 拦截声明了 {@link Idempotent} 注解的方法，实现幂等操作
+ * Intercept methods annotated with {@link Idempotent} to enforce idempotent operations.
  */
 @Aspect
 @Slf4j
 public class IdempotentAspect {
 
     /**
-     * IdempotentKeyResolver 集合
+     * IdempotentKeyResolver collection.
      */
     private final Map<Class<? extends IdempotentKeyResolver>, IdempotentKeyResolver> keyResolvers;
 
@@ -36,26 +36,26 @@ public class IdempotentAspect {
 
     @Around(value = "@annotation(idempotent)")
     public Object aroundPointCut(ProceedingJoinPoint joinPoint, Idempotent idempotent) throws Throwable {
-        // 获得 IdempotentKeyResolver
+        // Resolve the IdempotentKeyResolver
         IdempotentKeyResolver keyResolver = keyResolvers.get(idempotent.keyResolver());
-        Assert.notNull(keyResolver, "找不到对应的 IdempotentKeyResolver");
-        // 解析 Key
+        Assert.notNull(keyResolver, "Could not find the corresponding IdempotentKeyResolver");
+        // Resolve the key
         String key = keyResolver.resolver(joinPoint, idempotent);
 
-        // 1. 锁定 Key
+        // 1. Lock the key
         boolean success = idempotentRedisDAO.setIfAbsent(key, idempotent.timeout(), idempotent.timeUnit());
-        // 锁定失败，抛出异常
+        // If locking fails, throw an exception
         if (!success) {
-            log.info("[aroundPointCut][方法({}) 参数({}) exists 重复request]", joinPoint.getSignature().toString(), joinPoint.getArgs());
+            log.info("[aroundPointCut][method({}) args({}) exists duplicate request]", joinPoint.getSignature().toString(), joinPoint.getArgs());
             throw new ServiceException(GlobalErrorCodeConstants.REPEATED_REQUESTS.getCode(), idempotent.message());
         }
 
-        // 2. 执行逻辑
+        // 2. Execute the business logic
         try {
             return joinPoint.proceed();
         } catch (Throwable throwable) {
-            // 3. 异常时，删除 Key
-            // 参考美团 GTIS 思路：https://tech.meituan.com/2016/09/29/distributed-system-mutually-exclusive-idempotence-cerberus-gtis.html
+            // 3. On exception, delete the key
+            // Reference: Meituan GTIS approach - https://tech.meituan.com/2016/09/29/distributed-system-mutually-exclusive-idempotence-cerberus-gtis.html
             if (idempotent.deleteKeyWhenException()) {
                 idempotentRedisDAO.delete(key);
             }

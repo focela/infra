@@ -10,20 +10,21 @@ import org.springframework.context.annotation.Lazy;
 import java.io.IOException;
 
 /**
- * Redis 测试 Configuration，主要实现内嵌 Redis 的启动
+ * Redis test Configuration; mainly starts the embedded Redis.
  */
 @Configuration(proxyBeanMethods = false)
-@Lazy(false) // 禁止延迟加载
+@Lazy(false) // disable lazy initialization
 @EnableConfigurationProperties(RedisProperties.class)
 public class RedisTestConfiguration {
 
     /**
-     * 创建模拟的 Redis Server 服务器
+     * Create the mock Redis Server.
      */
     @Bean
     public RedisServer redisServer(RedisProperties properties) throws IOException {
         RedisServer redisServer = new RedisServer(properties.getPort());
-        // 一次执行多个单元测试时，貌似创建多个 spring 容器，导致不进行 stop。这样，就导致端口被占用，无法启动。。。
+        // When running multiple unit tests, multiple Spring containers may be created and the server is not stopped,
+        // which causes the port to be occupied and prevents startup.
         try {
             redisServer.start();
         } catch (Exception ignore) {}

@@ -24,10 +24,10 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * 多租户 Security Web 过滤器
- * 1. 如果是登陆的用户，校验是否有权限访问该租户，避免越权问题。
- * 2. 如果请求未带租户的编号，检查是否是忽略的 URL，否则也不允许访问。
- * 3. 校验租户是合法，例如说被禁用、到期
+ * Multi-tenant Security Web filter
+ * 1. For a logged-in user, verify whether they have permission to access this tenant, to avoid privilege escalation.
+ * 2. If the request does not carry a tenant ID, check whether it is an ignored URL; otherwise access is not allowed.
+ * 3. Verify the tenant is valid, e.g., not disabled, not expired.
  */
 @Slf4j
 public class TenantSecurityWebFilter extends ApiRequestFilter {
@@ -35,9 +35,9 @@ public class TenantSecurityWebFilter extends ApiRequestFilter {
     private final TenantProperties tenantProperties;
 
     /**
-     * 允许忽略租户的 URL 列表
+     * List of URLs allowed to ignore tenant
      *
-     * 目的：解决 <a href="https://gitee.com/zhijiantianya/yudao-cloud/issues/ICUQL9">修改配置会导致 @TenantIgnore Controller 接口过滤失效</>
+     * Purpose: resolve the issue where modifying configuration causes the @TenantIgnore Controller endpoint filter to become ineffective.
      */
     private final Set<String> ignoreUrls;
 
@@ -63,34 +63,34 @@ public class TenantSecurityWebFilter extends ApiRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
         Long tenantId = TenantContextHolder.getTenantId();
-        // 1. 登陆的用户，校验是否有权限访问该租户，避免越权问题。
+        // 1. For a logged-in user, verify whether they have permission to access this tenant, to avoid privilege escalation.
         LoginUser user = SecurityFrameworkUtils.getLoginUser();
         if (user != null) {
-            // 如果获取不到租户编号，则尝试使用登陆用户的租户编号
+            // If the tenant ID cannot be obtained, try to use the logged-in user's tenant ID
             if (tenantId == null) {
                 tenantId = user.getTenantId();
                 TenantContextHolder.setTenantId(tenantId);
-            // 如果传递了租户编号，则进行比对租户编号，避免越权问题
+            // If a tenant ID is provided, compare it to prevent privilege escalation
             } else if (!Objects.equals(user.getTenantId(), TenantContextHolder.getTenantId())) {
-                log.error("[doFilterInternal][tenant ({}) User({}/{}) 越权访问tenant ({}) URL({}/{})]",
+                log.error("[doFilterInternal][tenant ({}) User({}/{}) unauthorized access to tenant ({}) URL({}/{})]",
                         user.getTenantId(), user.getId(), user.getUserType(),
                         TenantContextHolder.getTenantId(), request.getRequestURI(), request.getMethod());
                 ServletUtils.writeJSON(response, CommonResult.error(GlobalErrorCodeConstants.FORBIDDEN.getCode(),
-                        "您无权访问该租户的数据"));
+                        "You are not authorized to access this tenant's data"));
                 return;
             }
         }
 
-        // 如果非允许忽略租户的 URL，则校验租户是否合法
+        // If not an URL allowed to ignore tenant, verify the tenant is valid
         if (!isIgnoreUrl(request)) {
-            // 2. 如果请求未带租户的编号，不允许访问。
+            // 2. If the request does not carry a tenant ID, access is not allowed.
             if (tenantId == null) {
-                log.error("[doFilterInternal][URL({}/{}) not 传递tenant ID]", request.getRequestURI(), request.getMethod());
+                log.error("[doFilterInternal][URL({}/{}) did not pass tenant ID]", request.getRequestURI(), request.getMethod());
                 ServletUtils.writeJSON(response, CommonResult.error(GlobalErrorCodeConstants.BAD_REQUEST.getCode(),
-                        "请求的租户标识未传递，请进行排查"));
+                        "The tenant identifier of the request was not passed, please check"));
                 return;
             }
-            // 3. 校验租户是合法，例如说被禁用、到期
+            // 3. Verify the tenant is valid, e.g., not disabled, not expired
             try {
                 tenantFrameworkService.validTenant(tenantId);
             } catch (Throwable ex) {
@@ -98,24 +98,24 @@ public class TenantSecurityWebFilter extends ApiRequestFilter {
                 ServletUtils.writeJSON(response, result);
                 return;
             }
-        } else { // 如果是允许忽略租户的 URL，若未传递租户编号，则默认忽略租户编号，避免报错
+        } else { // For URLs allowed to ignore tenant: if no tenant ID is passed, default to ignoring the tenant ID to avoid errors
             if (tenantId == null) {
                 TenantContextHolder.setIgnore(true);
             }
         }
 
-        // 继续过滤
+        // Continue filtering
         chain.doFilter(request, response);
     }
 
     private boolean isIgnoreUrl(HttpServletRequest request) {
         String apiUri = request.getRequestURI().substring(request.getContextPath().length());
-        // 快速匹配，保证性能
+        // Fast match for performance
         if (CollUtil.contains(tenantProperties.getIgnoreUrls(), apiUri)
             || CollUtil.contains(ignoreUrls, apiUri)) {
             return true;
         }
-        // 逐个 Ant 路径匹配
+        // Match each Ant path
         for (String url : tenantProperties.getIgnoreUrls()) {
             if (pathMatcher.match(url, apiUri)) {
                 return true;

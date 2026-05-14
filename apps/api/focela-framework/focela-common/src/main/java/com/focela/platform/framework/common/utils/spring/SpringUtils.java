@@ -5,14 +5,14 @@ import cn.hutool.extra.spring.SpringUtil;
 import java.util.Objects;
 
 /**
- * Spring 工具类
+ * Spring utility class
  */
 public class SpringUtils extends SpringUtil {
 
     /**
-     * 是否为生产环境
+     * Whether running in the production environment.
      *
-     * @return 是否生产环境
+     * @return true if production
      */
     public static boolean isProd() {
         String activeProfile = getActiveProfile();

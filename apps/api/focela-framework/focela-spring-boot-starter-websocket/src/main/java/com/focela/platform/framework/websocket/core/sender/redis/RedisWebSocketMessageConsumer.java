@@ -4,7 +4,7 @@ import com.focela.platform.framework.mq.redis.core.pubsub.AbstractRedisChannelMe
 import lombok.RequiredArgsConstructor;
 
 /**
- * {@link RedisWebSocketMessage} 广播消息的消费者，真正把消息发送出去
+ * Consumer for {@link RedisWebSocketMessage} broadcast messages; it actually sends the message out.
  */
 @RequiredArgsConstructor
 public class RedisWebSocketMessageConsumer extends AbstractRedisChannelMessageListener<RedisWebSocketMessage> {

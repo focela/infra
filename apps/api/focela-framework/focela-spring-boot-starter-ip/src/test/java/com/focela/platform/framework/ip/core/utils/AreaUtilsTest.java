@@ -8,15 +8,15 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * {@link AreaUtils} 的单元测试
+ * Unit test for {@link AreaUtils}.
  */
 public class AreaUtilsTest {
 
     @Test
     public void testGetArea() {
-        // 调用：北京
+        // Invoke: Beijing
         Area area = AreaUtils.getArea(110100);
-        // 断言
+        // Assert
         assertEquals(area.getId(), 110100);
         assertEquals(area.getName(), "北京市");
         assertEquals(area.getType(), AreaTypeEnum.CITY.getType());

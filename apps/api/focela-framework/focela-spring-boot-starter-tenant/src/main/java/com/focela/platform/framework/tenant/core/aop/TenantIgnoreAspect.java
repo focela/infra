@@ -9,11 +9,11 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 
 /**
- * 忽略多租户的 Aspect，基于 {@link TenantIgnore} 注解实现，用于一些全局的逻辑。
- * 例如说，一个定时任务，读取所有数据，进行处理。
- * 又例如说，读取所有数据，进行缓存。
+ * Aspect for ignoring multi-tenancy, implemented based on the {@link TenantIgnore} annotation, used for some global logic.
+ * For example, a scheduled task that reads all data and processes it.
+ * Or, reading all data and caching it.
  *
- * 整体逻辑的实现，和 {@link TenantUtils#executeIgnore(Runnable)} 需要保持一致
+ * The overall logic implementation must remain consistent with {@link TenantUtils#executeIgnore(Runnable)}.
  */
 @Aspect
 @Slf4j
@@ -23,13 +23,13 @@ public class TenantIgnoreAspect {
     public Object around(ProceedingJoinPoint joinPoint, TenantIgnore tenantIgnore) throws Throwable {
         Boolean oldIgnore = TenantContextHolder.isIgnore();
         try {
-            // 计算条件，满足的情况下，才进行忽略
+            // Evaluate the condition; only ignore if it is satisfied
             Object enable = SpringExpressionUtils.parseExpression(tenantIgnore.enable());
             if (Boolean.TRUE.equals(enable)) {
                 TenantContextHolder.setIgnore(true);
             }
 
-            // 执行逻辑
+            // Execute logic
             return joinPoint.proceed();
         } finally {
             TenantContextHolder.setIgnore(oldIgnore);

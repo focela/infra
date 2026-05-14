@@ -12,7 +12,7 @@
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
-    <description>Excel 拓展</description>
+    <description>Excel extension</description>
     <url>https://github.com/YunaiV/ruoyi-vue-pro</url>
 
     <dependencies>
@@ -21,26 +21,26 @@
             <artifactId>focela-common</artifactId>
         </dependency>
 
-        <!-- Spring 核心 -->
+        <!-- Spring core -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
 
-        <!-- Web 相关 -->
+        <!-- Web related -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <scope>provided</scope> <!-- 设置为 provided，只有 ExcelUtils 使用 -->
+            <scope>provided</scope> <!-- Set to provided; only ExcelUtils uses it -->
         </dependency>
 
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
-            <scope>provided</scope> <!-- 设置为 provided，只有 ExcelUtils 使用 -->
+            <scope>provided</scope> <!-- Set to provided; only ExcelUtils uses it -->
         </dependency>
 
-        <!-- 工具类相关 -->
+        <!-- Utility related -->
         <dependency>
             <groupId>cn.idev.excel</groupId>
             <artifactId>fastexcel</artifactId>
@@ -60,10 +60,10 @@
         <dependency>
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-ip</artifactId>
-            <optional>true</optional> <!-- 设置为 optional，只有在 AreaConverter 的时候使用 -->
+            <optional>true</optional> <!-- Set to optional; only AreaConverter uses it -->
         </dependency>
 
-        <!-- Test 测试相关 -->
+        <!-- Test related -->
         <dependency>
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-test</artifactId>

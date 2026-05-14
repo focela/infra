@@ -15,17 +15,18 @@ import org.springframework.context.annotation.Lazy;
 import javax.sql.DataSource;
 
 /**
- * SQL 初始化的测试 Configuration
+ * Test Configuration for SQL initialization.
  *
- * 为什么不使用 org.springframework.boot.autoconfigure.sql.init.DataSourceInitializationConfiguration 呢？
- * 因为我们在单元测试会使用 spring.main.lazy-initialization 为 true，开启延迟加载。此时，会导致 DataSourceInitializationConfiguration 初始化
- * 不过呢，当前类的实现代码，基本是复制 DataSourceInitializationConfiguration 的哈！
+ * Why not use org.springframework.boot.autoconfigure.sql.init.DataSourceInitializationConfiguration?
+ * Because in unit tests we set spring.main.lazy-initialization to true to enable lazy initialization,
+ * which prevents DataSourceInitializationConfiguration from being initialized.
+ * The implementation of this class is essentially a copy of DataSourceInitializationConfiguration.
  */
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnMissingBean(AbstractScriptDatabaseInitializer.class)
 @ConditionalOnSingleCandidate(DataSource.class)
 @ConditionalOnClass(name = "org.springframework.jdbc.datasource.init.DatabasePopulator")
-@Lazy(value = false) // 禁止延迟加载
+@Lazy(value = false) // disable lazy initialization
 @EnableConfigurationProperties(SqlInitializationProperties.class)
 public class SqlInitializationTestConfiguration {
 

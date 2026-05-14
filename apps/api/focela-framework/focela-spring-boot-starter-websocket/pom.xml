@@ -12,7 +12,7 @@
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
-    <description>WebSocket 框架，支持多节点的广播</description>
+    <description>WebSocket framework, supports broadcasting across multiple nodes</description>
     <url>https://github.com/YunaiV/ruoyi-vue-pro</url>
 
 
@@ -22,11 +22,11 @@
             <artifactId>focela-common</artifactId>
         </dependency>
 
-        <!-- Web 相关 -->
+        <!-- Web related -->
         <dependency>
-            <!-- 为什么是 websocket 依赖 security 呢？而不是 security 拓展 websocket 呢？
-                 因为 websocket 和 LoginUser 当前登录的用户有一定的相关性，具体可见 DefaultWebSocketSessionManager 逻辑。
-                 如果让 security 拓展 websocket 的话，会导致 websocket 组件的封装很散，进而增大理解成本。
+            <!-- Why does websocket depend on security instead of security extending websocket?
+                 Because websocket is tightly coupled to the current LoginUser; see DefaultWebSocketSessionManager.
+                 Having security extend websocket would fragment the websocket component and increase the cost of understanding it.
             -->
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-security</artifactId>
@@ -38,7 +38,7 @@
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
 
-        <!-- 消息队列相关 -->
+        <!-- Message queue related -->
         <dependency>
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-mq</artifactId>
@@ -59,10 +59,11 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- 业务组件 -->
+        <!-- Business components -->
         <dependency>
-            <!-- 为什么要依赖 tenant 组件？
-                因为广播某个类型的用户时候，需要根据租户过滤下，避免广播到别的租户！
+            <!-- Why depend on the tenant component?
+                When broadcasting to a particular user type we need to filter by tenant
+                so we don't broadcast to other tenants.
             -->
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-tenant</artifactId>

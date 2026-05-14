@@ -33,7 +33,7 @@ public class DepartmentSaveRequest {
     private Long leaderUserId;
 
     @Schema(description = "Contact phone", example = "15601691000")
-    @Size(max = 11, message = "contact 电话length must not exceed 11characters")
+    @Size(max = 11, message = "contact phone length must not exceed 11 characters")
     private String phone;
 
     @Schema(description = "Email", example = "user@example.com")

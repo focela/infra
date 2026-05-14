@@ -7,9 +7,9 @@ import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 /**
- * 多租户的 Kafka 的 {@link EnvironmentPostProcessor} 实现类
+ * Multi-tenant Kafka {@link EnvironmentPostProcessor} implementation
  *
- * Kafka Producer 发送消息时，增加 {@link TenantKafkaProducerInterceptor} 拦截器
+ * Adds the {@link TenantKafkaProducerInterceptor} interceptor when the Kafka Producer sends messages.
  */
 @Slf4j
 public class TenantKafkaEnvironmentPostProcessor implements EnvironmentPostProcessor {
@@ -18,7 +18,7 @@ public class TenantKafkaEnvironmentPostProcessor implements EnvironmentPostProce
 
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
-        // 添加 TenantKafkaProducerInterceptor 拦截器
+        // Add the TenantKafkaProducerInterceptor interceptor
         try {
             String value = environment.getProperty(PROPERTY_KEY_INTERCEPTOR_CLASSES);
             if (StrUtil.isEmpty(value)) {
@@ -28,7 +28,7 @@ public class TenantKafkaEnvironmentPostProcessor implements EnvironmentPostProce
             }
             environment.getSystemProperties().put(PROPERTY_KEY_INTERCEPTOR_CLASSES, value);
         } catch (NoClassDefFoundError ignore) {
-            // 如果触发 NoClassDefFoundError 异常，说明 TenantKafkaProducerInterceptor 类不存在，即没引入 kafka-spring 依赖
+            // If a NoClassDefFoundError is thrown, the TenantKafkaProducerInterceptor class does not exist, i.e., the kafka-spring dependency was not introduced.
         }
     }
 

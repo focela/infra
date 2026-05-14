@@ -20,11 +20,11 @@ import static com.focela.platform.framework.web.config.FocelaWebAutoConfiguratio
 
 @AutoConfiguration
 @EnableConfigurationProperties(XssProperties.class)
-@ConditionalOnProperty(prefix = "focela.xss", name = "enable", havingValue = "true", matchIfMissing = true) // 设置为 false 时，禁用
+@ConditionalOnProperty(prefix = "focela.xss", name = "enable", havingValue = "true", matchIfMissing = true) // when set to false, disabled
 public class FocelaXssAutoConfiguration implements WebMvcConfigurer {
 
     /**
-     * Xss 清理者
+     * XSS cleaner
      *
      * @return XssCleaner
      */
@@ -35,7 +35,7 @@ public class FocelaXssAutoConfiguration implements WebMvcConfigurer {
     }
 
     /**
-     * 注册 Jackson 的序列化器，用于处理 json 类型参数的 xss 过滤
+     * Register Jackson serializer to handle XSS filtering of JSON parameters
      *
      * @return Jackson2ObjectMapperBuilderCustomizer
      */
@@ -45,13 +45,13 @@ public class FocelaXssAutoConfiguration implements WebMvcConfigurer {
     public Jackson2ObjectMapperBuilderCustomizer xssJacksonCustomizer(XssProperties properties,
                                                                       PathMatcher pathMatcher,
                                                                       XssCleaner xssCleaner) {
-        // 在反序列化时进行 xss 过滤，可以替换使用 XssStringJsonSerializer，在序列化时进行处理
+        // perform XSS filtering during deserialization; XssStringJsonSerializer could be used as a replacement to handle it during serialization
         return builder ->
                 builder.deserializerByType(String.class, new XssStringJsonDeserializer(properties, pathMatcher, xssCleaner));
     }
 
     /**
-     * 创建 XssFilter Bean，解决 Xss 安全问题
+     * Create XssFilter Bean to address XSS security issues
      */
     @Bean
     @ConditionalOnBean(XssCleaner.class)

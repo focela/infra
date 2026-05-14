@@ -7,7 +7,7 @@ import com.focela.platform.framework.websocket.core.session.WebSocketSessionMana
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 基于 Redis 的 {@link WebSocketMessageSender} 实现类
+ * Redis-based {@link WebSocketMessageSender} implementation.
  */
 @Slf4j
 public class RedisWebSocketMessageSender extends AbstractWebSocketMessageSender {
@@ -36,13 +36,13 @@ public class RedisWebSocketMessageSender extends AbstractWebSocketMessageSender 
     }
 
     /**
-     * 通过 Redis 广播消息
+     * Broadcast a message via Redis.
      *
-     * @param sessionId Session 编号
-     * @param userId 用户编号
-     * @param userType 用户类型
-     * @param messageType 消息类型
-     * @param messageContent 消息内容
+     * @param sessionId Session ID
+     * @param userId user ID
+     * @param userType user type
+     * @param messageType message type
+     * @param messageContent message content
      */
     private void sendRedisMessage(String sessionId, Long userId, Integer userType,
                                   String messageType, String messageContent) {

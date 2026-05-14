@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 /**
- * WebSocket 配置项
+ * WebSocket configuration properties.
  */
 @ConfigurationProperties("focela.websocket")
 @Data
@@ -16,17 +16,17 @@ import jakarta.validation.constraints.NotNull;
 public class WebSocketProperties {
 
     /**
-     * WebSocket 的连接路径
+     * WebSocket connection path.
      */
-    @NotEmpty(message = "WebSocket 连接path must not be blank")
+    @NotEmpty(message = "WebSocket connection path must not be blank")
     private String path = "/ws";
 
     /**
-     * 消息发送器的类型
+     * Message sender type.
      *
-     * 可选值：local、redis、rocketmq、kafka、rabbitmq
+     * Allowed values: local, redis, rocketmq, kafka, rabbitmq
      */
-    @NotNull(message = "WebSocket message send 者must not be blank")
+    @NotNull(message = "WebSocket message sender must not be blank")
     private String senderType = "local";
 
 }

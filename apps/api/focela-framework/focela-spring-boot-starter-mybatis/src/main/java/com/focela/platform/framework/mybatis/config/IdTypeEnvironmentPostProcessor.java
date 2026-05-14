@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 当 IdType 为 {@link IdType#NONE} 时，根据 PRIMARY 数据源所使用的数据库，自动设置
+ * When IdType is {@link IdType#NONE}, automatically set it based on the database used by the PRIMARY data source.
  */
 @Slf4j
 public class IdTypeEnvironmentPostProcessor implements EnvironmentPostProcessor {
@@ -32,27 +32,27 @@ public class IdTypeEnvironmentPostProcessor implements EnvironmentPostProcessor 
 
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
-        // 如果获取不到 DbType，则不进行处理
+        // If DbType cannot be obtained, skip processing
         DbType dbType = getDbType(environment);
         if (dbType == null) {
             return;
         }
 
-        // 设置 Quartz JobStore 对应的 Driver
-        // TODO 芋艿：暂时没有找到特别合适的地方，先放在这里
+        // Set the Quartz JobStore Driver
+        // TODO: no particularly suitable place yet; keep here for now
         setJobStoreDriverIfPresent(environment, dbType);
 
-        // 如果非 NONE，则不进行处理
+        // If not NONE, skip processing
         IdType idType = getIdType(environment);
         if (idType != IdType.NONE) {
             return;
         }
-        // 情况一，用户输入 ID，适合 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库
+        // Case 1: user-input ID, suitable for Oracle, PostgreSQL, Kingbase, DB2, H2
         if (INPUT_ID_TYPES.contains(dbType)) {
             setIdType(environment, IdType.INPUT);
             return;
         }
-        // 情况二，自增 ID，适合 MySQL、DM 达梦等直接自增的数据库
+        // Case 2: auto-increment ID, suitable for databases like MySQL and DM with native auto-increment
         setIdType(environment, IdType.AUTO);
     }
 
@@ -61,7 +61,7 @@ public class IdTypeEnvironmentPostProcessor implements EnvironmentPostProcessor 
         try {
             return StrUtil.isNotBlank(value) ? IdType.valueOf(value) : IdType.NONE;
         } catch (IllegalArgumentException ex) {
-            log.error("[getIdType][cannot parse id-type config 值({})]", value, ex);
+            log.error("[getIdType][cannot parse id-type config value({})]", value, ex);
             return IdType.NONE;
         }
     }
@@ -78,7 +78,7 @@ public class IdTypeEnvironmentPostProcessor implements EnvironmentPostProcessor 
         if (StrUtil.isNotEmpty(driverClass)) {
             return;
         }
-        // 根据 dbType 类型，获取对应的 driverClass
+        // Get the corresponding driverClass for the dbType
         switch (dbType) {
             case POSTGRE_SQL:
                 driverClass = "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate";
@@ -96,7 +96,7 @@ public class IdTypeEnvironmentPostProcessor implements EnvironmentPostProcessor 
                 driverClass = "org.quartz.impl.jdbcjobstore.StdJDBCDelegate";
                 break;
         }
-        // 设置 driverClass 变量
+        // Set the driverClass property
         if (StrUtil.isNotEmpty(driverClass)) {
             environment.getSystemProperties().put(QUARTZ_JOB_STORE_DRIVER_KEY, driverClass);
         }

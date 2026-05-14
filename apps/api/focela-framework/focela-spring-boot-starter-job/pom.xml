@@ -12,9 +12,9 @@
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
-    <description>任务拓展
-        1. 定时任务，基于 Quartz 拓展
-        2. 异步任务，基于 Spring Async 拓展
+    <description>Job extension
+        1. Scheduled jobs, based on Quartz
+        2. Async tasks, based on Spring Async
     </description>
     <url>https://github.com/YunaiV/ruoyi-vue-pro</url>
 
@@ -24,13 +24,13 @@
             <artifactId>focela-common</artifactId>
         </dependency>
 
-        <!-- Job 定时任务相关 -->
+        <!-- Job / scheduled task related -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-quartz</artifactId>
         </dependency>
 
-        <!-- 工具类相关 -->
+        <!-- Utility class related -->
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>

@@ -46,7 +46,7 @@ public class AuthMenuResponse {
     private Boolean alwaysShow;
 
     /**
-     * 子路由
+     * child routes
      */
     private List<AuthMenuResponse> children;
 

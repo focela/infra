@@ -7,9 +7,9 @@ import com.focela.platform.framework.idempotent.core.keyresolver.IdempotentKeyRe
 import org.aspectj.lang.JoinPoint;
 
 /**
- * 默认（全局级别）幂等 Key 解析器，使用方法名 + 方法参数，组装成一个 Key
+ * Default (global level) idempotent key resolver. Builds the key from the method name and arguments.
  *
- * 为了避免 Key 过长，使用 MD5 进行“压缩”
+ * Uses MD5 to "compress" the key and avoid excessively long values.
  */
 public class DefaultIdempotentKeyResolver implements IdempotentKeyResolver {
 

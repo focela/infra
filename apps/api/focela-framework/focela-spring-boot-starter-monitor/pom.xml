@@ -12,7 +12,7 @@
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
-    <description>服务监控，提供链路追踪、日志服务、指标收集等等功能</description>
+    <description>Service monitoring: distributed tracing, log service, metric collection, and more.</description>
     <url>https://github.com/YunaiV/ruoyi-vue-pro</url>
 
     <dependencies>
@@ -21,26 +21,26 @@
             <artifactId>focela-common</artifactId>
         </dependency>
 
-        <!-- Spring 核心 -->
+        <!-- Spring core -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
-        <!-- Web 相关 -->
+        <!-- Web related -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <scope>provided</scope> <!-- 设置为 provided，只有 TraceFilter 使用 -->
+            <scope>provided</scope> <!-- Set to provided; only TraceFilter uses it -->
         </dependency>
 
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
-            <scope>provided</scope> <!-- 设置为 provided，只有 TraceFilter 使用 -->
+            <scope>provided</scope> <!-- Set to provided; only TraceFilter uses it -->
         </dependency>
 
-        <!-- 监控相关 -->
+        <!-- Monitoring related -->
         <dependency>
             <groupId>io.opentracing</groupId>
             <artifactId>opentracing-util</artifactId>
@@ -62,7 +62,7 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- Micrometer 对 Prometheus 的支持 -->
+        <!-- Micrometer support for Prometheus -->
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
@@ -71,7 +71,7 @@
 
         <dependency>
             <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-starter-client</artifactId> <!-- 实现 Spring Boot Admin Client 客户端 -->
+            <artifactId>spring-boot-admin-starter-client</artifactId> <!-- Implements the Spring Boot Admin client -->
             <optional>true</optional>
         </dependency>
     </dependencies>

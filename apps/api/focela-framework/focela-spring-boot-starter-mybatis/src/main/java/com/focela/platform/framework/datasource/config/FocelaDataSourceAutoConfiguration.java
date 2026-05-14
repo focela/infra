@@ -10,25 +10,25 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * 数据库配置类
+ * Database configuration class
  */
 @AutoConfiguration
-@EnableTransactionManagement(proxyTargetClass = true) // 启动事务管理
+@EnableTransactionManagement(proxyTargetClass = true) // Enable transaction management
 @EnableConfigurationProperties(DruidStatProperties.class)
 public class FocelaDataSourceAutoConfiguration {
 
     /**
-     * 创建 DruidAdRemoveFilter 过滤器，过滤 common.js 的广告
+     * Create the DruidAdRemoveFilter to filter out common.js ads
      */
     @Bean
     @ConditionalOnProperty(name = "spring.datasource.druid.stat-view-servlet.enabled", havingValue = "true")
     public FilterRegistrationBean<DruidAdRemoveFilter> druidAdRemoveFilterFilter(DruidStatProperties properties) {
-        // 获取 druid web 监控页面的参数
+        // Get the druid web monitoring page parameters
         DruidStatProperties.StatViewServlet config = properties.getStatViewServlet();
-        // 提取 common.js 的配置路径
+        // Extract the configuration path for common.js
         String pattern = config.getUrlPattern() != null ? config.getUrlPattern() : "/druid/*";
         String commonJsPattern = pattern.replaceAll("\\*", "js/common.js");
-        // 创建 DruidAdRemoveFilter Bean
+        // Create the DruidAdRemoveFilter Bean
         FilterRegistrationBean<DruidAdRemoveFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(new DruidAdRemoveFilter());
         registrationBean.addUrlPatterns(commonJsPattern);

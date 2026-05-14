@@ -74,7 +74,7 @@ public class DictionaryDataController {
 
     @GetMapping(value = {"/list-all-simple", "simple-list"})
     @Operation(summary = "get all dictionary data list", description = "usually for Admin cache dictionary data in local")
-    // 无需添加权限认证，因为前端全局都需要
+    // no permission check required as the frontend uses this globally
     public CommonResult<List<DictionaryDataSimpleResponse>> getSimpleDictDataList() {
         List<DictionaryDataEntity> list = dictDataService.getDictDataList(
                 CommonStatusEnum.ENABLE.getStatus(), null);
@@ -105,8 +105,8 @@ public class DictionaryDataController {
     public void export(HttpServletResponse response, @Valid DictionaryDataPageRequest exportRequest) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
         List<DictionaryDataEntity> list = dictDataService.getDictDataPage(exportRequest).getList();
-        // 输出
-        ExcelUtils.write(response, "字典数据.xls", "数据", DictionaryDataResponse.class,
+        // output
+        ExcelUtils.write(response, "Dictionary Data.xls", "Data", DictionaryDataResponse.class,
                 BeanUtils.toBean(list, DictionaryDataResponse.class));
     }
 

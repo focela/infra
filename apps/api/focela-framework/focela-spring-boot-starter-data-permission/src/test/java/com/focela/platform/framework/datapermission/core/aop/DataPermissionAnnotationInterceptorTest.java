@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 /**
- * {@link DataPermissionAnnotationInterceptor} 的单元测试
+ * Unit tests for {@link DataPermissionAnnotationInterceptor}.
  */
 public class DataPermissionAnnotationInterceptorTest extends BaseMockitoUnitTest {
 
@@ -30,40 +30,40 @@ public class DataPermissionAnnotationInterceptorTest extends BaseMockitoUnitTest
         interceptor.getDataPermissionCache().clear();
     }
 
-    @Test // 无 @DataPermission 注解
+    @Test // No @DataPermission annotation
     public void testInvoke_none() throws Throwable {
-        // 参数
+        // prepare parameters
         mockMethodInvocation(TestNone.class);
 
-        // 调用
+        // invoke
         Object result = interceptor.invoke(methodInvocation);
-        // 断言
+        // assert
         assertEquals("none", result);
         assertEquals(1, interceptor.getDataPermissionCache().size());
         assertTrue(CollUtil.getFirst(interceptor.getDataPermissionCache().values()).enable());
     }
 
-    @Test // 在 Method 上有 @DataPermission 注解
+    @Test // @DataPermission annotation on the method
     public void testInvoke_method() throws Throwable {
-        // 参数
+        // prepare parameters
         mockMethodInvocation(TestMethod.class);
 
-        // 调用
+        // invoke
         Object result = interceptor.invoke(methodInvocation);
-        // 断言
+        // assert
         assertEquals("method", result);
         assertEquals(1, interceptor.getDataPermissionCache().size());
         assertFalse(CollUtil.getFirst(interceptor.getDataPermissionCache().values()).enable());
     }
 
-    @Test // 在 Class 上有 @DataPermission 注解
+    @Test // @DataPermission annotation on the class
     public void testInvoke_class() throws Throwable {
-        // 参数
+        // prepare parameters
         mockMethodInvocation(TestClass.class);
 
-        // 调用
+        // invoke
         Object result = interceptor.invoke(methodInvocation);
-        // 断言
+        // assert
         assertEquals("class", result);
         assertEquals(1, interceptor.getDataPermissionCache().size());
         assertFalse(CollUtil.getFirst(interceptor.getDataPermissionCache().values()).enable());

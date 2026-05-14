@@ -36,10 +36,10 @@ import org.springframework.web.socket.server.HandshakeInterceptor;
 import java.util.List;
 
 /**
- * WebSocket 自动配置
+ * WebSocket auto-configuration.
  */
-@AutoConfiguration(before = FocelaRedisMQConsumerAutoConfiguration.class) // before FocelaRedisMQConsumerAutoConfiguration 的原因是，需要保证 RedisWebSocketMessageConsumer 先创建，才能创建 RedisMessageListenerContainer
-@EnableWebSocket // 开启 websocket
+@AutoConfiguration(before = FocelaRedisMQConsumerAutoConfiguration.class) // Ordered before FocelaRedisMQConsumerAutoConfiguration so that RedisWebSocketMessageConsumer is created first, allowing RedisMessageListenerContainer to be created
+@EnableWebSocket // Enable websocket
 @ConditionalOnProperty(prefix = "focela.websocket", value = "enable", matchIfMissing = true)
 @EnableConfigurationProperties(WebSocketProperties.class)
 public class FocelaWebSocketAutoConfiguration {
@@ -49,10 +49,10 @@ public class FocelaWebSocketAutoConfiguration {
                                                    WebSocketHandler webSocketHandler,
                                                    WebSocketProperties webSocketProperties) {
         return registry -> registry
-                // 添加 WebSocketHandler
+                // Add the WebSocketHandler
                 .addHandler(webSocketHandler, webSocketProperties.getPath())
                 .addInterceptors(handshakeInterceptors)
-                // 允许跨域，否则前端连接会直接断开
+                // Allow cross-origin, otherwise the front-end connection would be dropped
                 .setAllowedOriginPatterns("*");
     }
 
@@ -64,9 +64,9 @@ public class FocelaWebSocketAutoConfiguration {
     @Bean
     public WebSocketHandler webSocketHandler(WebSocketSessionManager sessionManager,
                                              List<? extends WebSocketMessageListener<?>> messageListeners) {
-        // 1. 创建 JsonWebSocketMessageHandler 对象，处理消息
+        // 1. Create the JsonWebSocketMessageHandler that handles messages
         JsonWebSocketMessageHandler messageHandler = new JsonWebSocketMessageHandler(messageListeners);
-        // 2. 创建 WebSocketSessionHandlerDecorator 对象，处理连接
+        // 2. Create the WebSocketSessionHandlerDecorator that handles connections
         return new WebSocketSessionHandlerDecorator(messageHandler, sessionManager);
     }
 
@@ -80,7 +80,7 @@ public class FocelaWebSocketAutoConfiguration {
         return new WebSocketAuthorizeRequestsCustomizer(webSocketProperties);
     }
 
-    // ==================== Sender 相关 ====================
+    // ==================== Sender related ====================
 
     @Configuration
     @ConditionalOnProperty(prefix = "focela.websocket", name = "sender-type", havingValue = "local")
@@ -148,13 +148,13 @@ public class FocelaWebSocketAutoConfiguration {
         }
 
         /**
-         * 创建 Topic Exchange
+         * Create the Topic Exchange.
          */
         @Bean
         public TopicExchange websocketTopicExchange(@Value("${focela.websocket.sender-rabbitmq.exchange}") String exchange) {
             return new TopicExchange(exchange,
-                    true,  // durable: 是否持久化
-                    false);  // exclusive: 是否排它
+                    true,  // durable: whether to persist
+                    false);  // exclusive: whether exclusive
         }
 
     }

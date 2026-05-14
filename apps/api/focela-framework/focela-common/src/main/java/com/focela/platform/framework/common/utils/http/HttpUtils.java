@@ -20,42 +20,42 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
- * HTTP 工具类
+ * HTTP utility class
  */
 public class HttpUtils {
 
     /**
-     * 编码 URL 参数
+     * URL-encode a parameter.
      *
-     * @param value 参数
-     * @return 编码后的参数
+     * @param value parameter
+     * @return encoded parameter
      */
     public static String encodeUtf8(String value) {
         return URLEncoder.encode(value, StandardCharsets.UTF_8);
     }
 
     /**
-     * 解码 URL 参数（query parameter）
-     * 注意：此方法会将 + 解码为空格，适用于 query parameter，不适用于 URL path
+     * URL-decode a query parameter.
+     * Note: this method decodes + as space, which is suitable for query parameters but not for URL paths.
      *
      * @see #decodeUrlPath(String)
-     * @param value 参数
-     * @return 解码后的参数
+     * @param value parameter
+     * @return decoded parameter
      */
     public static String decodeUtf8(String value) {
         return URLDecoder.decode(value, StandardCharsets.UTF_8);
     }
 
     /**
-     * 解码 URL 路径
-     * 与 {@link #decodeUtf8(String)} 不同，此方法不会将 + 解码为空格，保持 + 为字面字符
-     * 适用于 URL path 部分的解码
+     * URL-decode a URL path.
+     * Unlike {@link #decodeUtf8(String)}, this method does not decode + into space and keeps + literal.
+     * Suitable for decoding the path segment of a URL.
      *
-     * @param path URL 路径
-     * @return 解码后的路径
+     * @param path URL path
+     * @return decoded path
      */
     public static String decodeUrlPath(String path) {
-        // 先将 + 替换为 %2B，避免被 URLDecoder 解码为空格
+        // first replace + with %2B so URLDecoder does not turn it into a space
         String encoded = path.replace("+", "%2B");
         return URLDecoder.decode(encoded, StandardCharsets.UTF_8);
     }
@@ -63,11 +63,11 @@ public class HttpUtils {
     @SuppressWarnings("unchecked")
     public static String replaceUrlQuery(String url, String key, String value) {
         UrlBuilder builder = UrlBuilder.of(url, Charset.defaultCharset());
-        // 先移除
+        // remove first
         TableMap<CharSequence, CharSequence> query = (TableMap<CharSequence, CharSequence>)
                 ReflectUtil.getFieldValue(builder.getQuery(), "query");
         query.remove(key);
-        // 后添加
+        // then add
         builder.addQuery(key, value);
         return builder.build();
     }
@@ -77,22 +77,23 @@ public class HttpUtils {
             return url;
         }
         UrlBuilder builder = UrlBuilder.of(url, Charset.defaultCharset());
-        // 移除 query、fragment
+        // remove query and fragment
         builder.setQuery(null);
         builder.setFragment(null);
         return builder.build();
     }
 
     /**
-     * 拼接 URL
+     * Append parameters to a URL.
      *
-     * copy from Spring Security OAuth2 的 AuthorizationEndpoint 类的 append 方法
+     * Copied from the {@code append} method of Spring Security OAuth2's AuthorizationEndpoint.
      *
-     * @param base 基础 URL
-     * @param query 查询参数
-     * @param keys query 的 key，对应的原本的 key 的映射。例如说 query 里有个 key 是 xx，实际它的 key 是 extra_xx，则通过 keys 里添加这个映射
-     * @param fragment URL 的 fragment，即拼接到 # 中
-     * @return 拼接后的 URL
+     * @param base     base URL
+     * @param query    query parameters
+     * @param keys     mapping from query keys to their actual key names; e.g. if a query has key "xx" but the actual key is
+     *                 "extra_xx", add that mapping in keys
+     * @param fragment whether to put values in the URL fragment (after #)
+     * @return the assembled URL
      */
     public static String append(String base, Map<String, ?> query, Map<String, String> keys, boolean fragment) {
         UriComponentsBuilder template = UriComponentsBuilder.newInstance();
@@ -148,20 +149,20 @@ public class HttpUtils {
     public static String[] obtainBasicAuthorization(HttpServletRequest request) {
         String clientId;
         String clientSecret;
-        // 先从 Header 中获取
+        // first read from Header
         String authorization = request.getHeader("Authorization");
         authorization = StrUtil.subAfter(authorization, "Basic ", true);
         if (StringUtils.hasText(authorization)) {
             authorization = Base64.decodeStr(authorization);
             clientId = StrUtil.subBefore(authorization, ":", false);
             clientSecret = StrUtil.subAfter(authorization, ":", false);
-            // 再从 Param 中获取
+            // otherwise read from request parameters
         } else {
             clientId = request.getParameter("client_id");
             clientSecret = request.getParameter("client_secret");
         }
 
-        // 如果两者非空，则返回
+        // return only when both are present
         if (StrUtil.isNotEmpty(clientId) && StrUtil.isNotEmpty(clientSecret)) {
             return new String[]{clientId, clientSecret};
         }
@@ -169,14 +170,14 @@ public class HttpUtils {
     }
 
     /**
-     * HTTP post 请求，基于 {@link cn.hutool.http.HttpUtil} 实现
+     * HTTP POST request, based on {@link cn.hutool.http.HttpUtil}.
      *
-     * 为什么要封装该方法，因为 HttpUtil 默认封装的方法，没有允许传递 headers 参数
+     * This wrapper exists because the default HttpUtil shortcut does not accept a headers parameter.
      *
-     * @param url URL
-     * @param headers 请求头
-     * @param requestBody 请求体
-     * @return 请求结果
+     * @param url         URL
+     * @param headers     request headers
+     * @param requestBody request body
+     * @return response body
      */
     public static String post(String url, Map<String, String> headers, String requestBody) {
         try (HttpResponse response = HttpRequest.post(url)
@@ -188,13 +189,13 @@ public class HttpUtils {
     }
 
     /**
-     * HTTP get 请求，基于 {@link cn.hutool.http.HttpUtil} 实现
+     * HTTP GET request, based on {@link cn.hutool.http.HttpUtil}.
      *
-     * 为什么要封装该方法，因为 HttpUtil 默认封装的方法，没有允许传递 headers 参数
+     * This wrapper exists because the default HttpUtil shortcut does not accept a headers parameter.
      *
-     * @param url URL
-     * @param headers 请求头
-     * @return 请求结果
+     * @param url     URL
+     * @param headers request headers
+     * @return response body
      */
     public static String get(String url, Map<String, String> headers) {
         try (HttpResponse response = HttpRequest.get(url)

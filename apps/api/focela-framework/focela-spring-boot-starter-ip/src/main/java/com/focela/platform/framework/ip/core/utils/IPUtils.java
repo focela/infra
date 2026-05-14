@@ -8,16 +8,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.lionsoul.ip2region.xdb.Searcher;
 
 /**
- * IP 工具类
+ * IP utility class.
  *
- * IP 数据源来自 ip2region.xdb 精简版，基于 <a href="https://gitee.com/zhijiantianya/ip2region"/> 项目
+ * The IP data is the lite version of ip2region.xdb, based on the <a href="https://gitee.com/zhijiantianya/ip2region"/> project.
  */
 @Slf4j
 @UtilityClass
 public class IPUtils {
 
     /**
-     * IP 查询器，启动加载到内存中
+     * IP searcher, loaded into memory at startup.
      */
     private static Searcher SEARCHER;
 
@@ -26,7 +26,7 @@ public class IPUtils {
     }
 
     /**
-     * 初始化
+     * Initialize.
      */
     private static void init() {
         try {
@@ -40,10 +40,10 @@ public class IPUtils {
     }
 
     /**
-     * 查询 IP 对应的地区编号
+     * Look up the area ID for the given IP.
      *
-     * @param ip IP 地址，格式为 127.0.0.1
-     * @return 地区id
+     * @param ip IP address, e.g. 127.0.0.1
+     * @return area ID
      */
     @SneakyThrows
     public static Integer getAreaId(String ip) {
@@ -51,10 +51,10 @@ public class IPUtils {
     }
 
     /**
-     * 查询 IP 对应的地区编号
+     * Look up the area ID for the given IP.
      *
-     * @param ip IP 地址的时间戳，格式参考{@link Searcher#checkIP(String)} 的返回
-     * @return 地区编号
+     * @param ip IP address as a long, see the return of {@link Searcher#checkIP(String)}
+     * @return area ID
      */
     @SneakyThrows
     public static Integer getAreaId(long ip) {
@@ -62,20 +62,20 @@ public class IPUtils {
     }
 
     /**
-     * 查询 IP 对应的地区
+     * Look up the area for the given IP.
      *
-     * @param ip IP 地址，格式为 127.0.0.1
-     * @return 地区
+     * @param ip IP address, e.g. 127.0.0.1
+     * @return area
      */
     public static Area getArea(String ip) {
         return AreaUtils.getArea(getAreaId(ip));
     }
 
     /**
-     * 查询 IP 对应的地区
+     * Look up the area for the given IP.
      *
-     * @param ip IP 地址的时间戳，格式参考{@link Searcher#checkIP(String)} 的返回
-     * @return 地区
+     * @param ip IP address as a long, see the return of {@link Searcher#checkIP(String)}
+     * @return area
      */
     public static Area getArea(long ip) {
         return AreaUtils.getArea(getAreaId(ip));

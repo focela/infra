@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean;
 import java.util.List;
 
 /**
- * 基于部门的数据权限 AutoConfiguration
+ * Auto-configuration for department-based data permission.
  */
 @AutoConfiguration
 @ConditionalOnClass(LoginUser.class)
@@ -22,9 +22,9 @@ public class FocelaDepartmentDataPermissionAutoConfiguration {
     @Bean
     public DepartmentDataPermissionRule deptDataPermissionRule(PermissionContractApi permissionApi,
                                                          List<DepartmentDataPermissionRuleCustomizer> customizers) {
-        // 创建 DepartmentDataPermissionRule 对象
+        // Create the DepartmentDataPermissionRule
         DepartmentDataPermissionRule rule = new DepartmentDataPermissionRule(permissionApi);
-        // 补全表配置
+        // Complete table configuration
         customizers.forEach(customizer -> customizer.customize(rule));
         return rule;
     }

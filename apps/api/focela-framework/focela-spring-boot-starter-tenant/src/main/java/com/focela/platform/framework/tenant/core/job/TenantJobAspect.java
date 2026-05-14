@@ -17,10 +17,11 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 多租户 JobHandler AOP
- * 任务执行时，会按照租户逐个执行 Job 的逻辑
+ * Multi-tenant JobHandler AOP
+ * When the task is executed, the Job logic is executed for each tenant one by one.
  *
- * 注意，需要保证 JobHandler 的幂等性。因为 Job 因为某个租户执行失败重试时，之前执行成功的租户也会再次执行。
+ * Note: the JobHandler must be idempotent. Because when a Job is retried due to a failure for some tenant, tenants
+ * that previously executed successfully will also be executed again.
  */
 @Aspect
 @RequiredArgsConstructor
@@ -31,22 +32,22 @@ public class TenantJobAspect {
 
     @Around("@annotation(tenantJob)")
     public String around(ProceedingJoinPoint joinPoint, TenantJob tenantJob) {
-        // 获得租户列表
+        // Get the tenant list
         List<Long> tenantIds = tenantFrameworkService.getTenantIds();
         if (CollUtil.isEmpty(tenantIds)) {
             return null;
         }
 
-        // 逐个租户，执行 Job
+        // Execute the Job for each tenant
         Map<Long, String> results = new ConcurrentHashMap<>();
         tenantIds.parallelStream().forEach(tenantId -> {
-            // TODO 芋艿：先通过 parallel 实现并行；1）多个租户，是一条执行日志；2）异常的情况
+            // TODO: first use parallel to run in parallel; 1) multiple tenants share a single execution log; 2) handle exception cases
             TenantUtils.execute(tenantId, () -> {
                 try {
                     Object result = joinPoint.proceed();
                     results.put(tenantId, StrUtil.toStringOrEmpty(result));
                 } catch (Throwable e) {
-                    log.error("[execute][tenant ({}) execute Job 发生exception", tenantId, e);
+                    log.error("[execute][tenant ({}) execute Job encountered exception", tenantId, e);
                     results.put(tenantId, ExceptionUtil.getRootCauseMessage(e));
                 }
             });

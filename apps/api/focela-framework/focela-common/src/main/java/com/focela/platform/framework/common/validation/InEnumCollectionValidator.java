@@ -29,14 +29,14 @@ public class InEnumCollectionValidator implements ConstraintValidator<InEnum, Co
         if (list == null) {
             return true;
         }
-        // 校验通过
+        // validation passed
         if (CollUtil.containsAll(values, list)) {
             return true;
         }
-        // 校验不通过，自定义提示语句
-        context.disableDefaultConstraintViolation(); // 禁用默认的 message 的值
+        // validation failed, customize the error message
+        context.disableDefaultConstraintViolation(); // disable the default message value
         context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate()
-                .replaceAll("\\{value}", CollUtil.join(list, ","))).addConstraintViolation(); // 重新添加错误提示语句
+                .replaceAll("\\{value}", CollUtil.join(list, ","))).addConstraintViolation(); // re-add the error message
         return false;
     }
 

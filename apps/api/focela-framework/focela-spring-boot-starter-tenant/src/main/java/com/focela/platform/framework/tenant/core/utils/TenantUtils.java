@@ -8,18 +8,18 @@ import java.util.concurrent.Callable;
 import static com.focela.platform.framework.web.core.utils.WebFrameworkUtils.HEADER_TENANT_ID;
 
 /**
- * 多租户 Util
+ * Multi-tenant Util
  */
 public class TenantUtils {
 
     /**
-     * 使用指定租户，执行对应的逻辑
+     * Execute the corresponding logic using the specified tenant.
      *
-     * 注意，如果当前是忽略租户的情况下，会被强制设置成不忽略租户
-     * 当然，执行完成后，还是会恢复回去
+     * Note: if the tenant is currently being ignored, it will be forcibly set to not-ignore.
+     * Of course, after execution completes, it will be restored.
      *
-     * @param tenantId 租户编号
-     * @param runnable 逻辑
+     * @param tenantId tenant ID
+     * @param runnable logic
      */
     public static void execute(Long tenantId, Runnable runnable) {
         Long oldTenantId = TenantContextHolder.getTenantId();
@@ -27,7 +27,7 @@ public class TenantUtils {
         try {
             TenantContextHolder.setTenantId(tenantId);
             TenantContextHolder.setIgnore(false);
-            // 执行逻辑
+            // Execute logic
             runnable.run();
         } finally {
             TenantContextHolder.setTenantId(oldTenantId);
@@ -36,14 +36,14 @@ public class TenantUtils {
     }
 
     /**
-     * 使用指定租户，执行对应的逻辑
+     * Execute the corresponding logic using the specified tenant.
      *
-     * 注意，如果当前是忽略租户的情况下，会被强制设置成不忽略租户
-     * 当然，执行完成后，还是会恢复回去
+     * Note: if the tenant is currently being ignored, it will be forcibly set to not-ignore.
+     * Of course, after execution completes, it will be restored.
      *
-     * @param tenantId 租户编号
-     * @param callable 逻辑
-     * @return 结果
+     * @param tenantId tenant ID
+     * @param callable logic
+     * @return result
      */
     public static <V> V execute(Long tenantId, Callable<V> callable) {
         Long oldTenantId = TenantContextHolder.getTenantId();
@@ -51,7 +51,7 @@ public class TenantUtils {
         try {
             TenantContextHolder.setTenantId(tenantId);
             TenantContextHolder.setIgnore(false);
-            // 执行逻辑
+            // Execute logic
             return callable.call();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -62,15 +62,15 @@ public class TenantUtils {
     }
 
     /**
-     * 忽略租户，执行对应的逻辑
+     * Ignore tenant and execute the corresponding logic.
      *
-     * @param runnable 逻辑
+     * @param runnable logic
      */
     public static void executeIgnore(Runnable runnable) {
         Boolean oldIgnore = TenantContextHolder.isIgnore();
         try {
             TenantContextHolder.setIgnore(true);
-            // 执行逻辑
+            // Execute logic
             runnable.run();
         } finally {
             TenantContextHolder.setIgnore(oldIgnore);
@@ -78,16 +78,16 @@ public class TenantUtils {
     }
 
     /**
-     * 忽略租户，执行对应的逻辑
+     * Ignore tenant and execute the corresponding logic.
      *
-     * @param callable 逻辑
-     * @return 结果
+     * @param callable logic
+     * @return result
      */
     public static <V> V executeIgnore(Callable<V> callable) {
         Boolean oldIgnore = TenantContextHolder.isIgnore();
         try {
             TenantContextHolder.setIgnore(true);
-            // 执行逻辑
+            // Execute logic
             return callable.call();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -97,10 +97,10 @@ public class TenantUtils {
     }
 
     /**
-     * 将多租户编号，添加到 header 中
+     * Add the tenant ID to the header.
      *
-     * @param headers HTTP 请求 headers
-     * @param tenantId 租户编号
+     * @param headers HTTP request headers
+     * @param tenantId tenant ID
      */
     public static void addTenantHeader(Map<String, String> headers, Long tenantId) {
         if (tenantId != null) {

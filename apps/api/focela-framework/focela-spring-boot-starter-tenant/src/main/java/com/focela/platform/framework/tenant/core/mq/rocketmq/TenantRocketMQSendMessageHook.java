@@ -7,9 +7,9 @@ import org.apache.rocketmq.client.hook.SendMessageHook;
 import static com.focela.platform.framework.web.core.utils.WebFrameworkUtils.HEADER_TENANT_ID;
 
 /**
- * RocketMQ 消息队列的多租户 {@link SendMessageHook} 实现类
+ * Multi-tenant {@link SendMessageHook} implementation for RocketMQ message queue
  *
- * Producer 发送消息时，将 {@link TenantContextHolder} 租户编号，添加到消息的 Header 中
+ * When the Producer sends a message, add the tenant ID from {@link TenantContextHolder} to the message Header.
  */
 public class TenantRocketMQSendMessageHook implements SendMessageHook {
 

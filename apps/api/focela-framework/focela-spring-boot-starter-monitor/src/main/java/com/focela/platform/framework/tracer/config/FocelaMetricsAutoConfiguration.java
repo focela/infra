@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 
 /**
- * Metrics 配置类
+ * Metrics configuration class.
  */
 @AutoConfiguration
 @ConditionalOnClass({MeterRegistryCustomizer.class})

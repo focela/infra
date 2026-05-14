@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 
 /**
- * RabbitMQ 消息队列配置类
+ * RabbitMQ message queue configuration class.
  */
 @AutoConfiguration
 @Slf4j
@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Bean;
 public class FocelaRabbitMQAutoConfiguration {
 
     /**
-     * Jackson2JsonMessageConverter Bean：使用 jackson 序列化消息
+     * Jackson2JsonMessageConverter bean: serialize messages with Jackson.
      */
     @Bean
     public MessageConverter createMessageConverter() {

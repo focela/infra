@@ -12,7 +12,7 @@
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
-    <description>数据权限</description>
+    <description>Data permission</description>
     <url>https://github.com/YunaiV/ruoyi-vue-pro</url>
 
     <dependencies>
@@ -21,20 +21,20 @@
             <artifactId>focela-common</artifactId>
         </dependency>
 
-        <!-- Web 相关 -->
+        <!-- Web related -->
         <dependency>
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-security</artifactId>
-            <optional>true</optional> <!-- 可选，如果使用 DepartmentDataPermissionRule 必须提供 -->
+            <optional>true</optional> <!-- Optional; required if DepartmentDataPermissionRule is used -->
         </dependency>
 
-        <!-- DB 相关 -->
+        <!-- DB related -->
         <dependency>
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-mybatis</artifactId>
         </dependency>
 
-        <!-- Test 测试相关 -->
+        <!-- Test related -->
         <dependency>
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-test</artifactId>

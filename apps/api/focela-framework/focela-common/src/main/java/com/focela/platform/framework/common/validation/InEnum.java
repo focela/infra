@@ -22,11 +22,11 @@ import java.lang.annotation.*;
 public @interface InEnum {
 
     /**
-     * @return 实现 ArrayValuable 接口的类
+     * @return class implementing the ArrayValuable interface
      */
     Class<? extends ArrayValuable<?>> value();
 
-    String message() default "必须在指定范围 {value}";
+    String message() default "must be within the specified range {value}";
 
     Class<?>[] groups() default {};
 

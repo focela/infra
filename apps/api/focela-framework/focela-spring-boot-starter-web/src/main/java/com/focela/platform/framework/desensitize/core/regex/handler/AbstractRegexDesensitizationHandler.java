@@ -6,38 +6,38 @@ import com.focela.platform.framework.desensitize.core.base.handler.Desensitizati
 import java.lang.annotation.Annotation;
 
 /**
- * 正则表达式脱敏处理器抽象类，已实现通用的方法
+ * Abstract regex desensitization handler with common methods implemented
  */
 public abstract class AbstractRegexDesensitizationHandler<T extends Annotation>
         implements DesensitizationHandler<T> {
 
     @Override
     public String desensitize(String origin, T annotation) {
-        // 1. 判断是否禁用脱敏
+        // 1. check whether desensitization is disabled
         Object disable = SpringExpressionUtils.parseExpression(getDisable(annotation));
         if (Boolean.TRUE.equals(disable)) {
             return origin;
         }
 
-        // 2. 执行脱敏
+        // 2. perform desensitization
         String regex = getRegex(annotation);
         String replacer = getReplacer(annotation);
         return origin.replaceAll(regex, replacer);
     }
 
     /**
-     * 获取注解上的 regex 参数
+     * Get the regex parameter from the annotation
      *
-     * @param annotation 注解信息
-     * @return 正则表达式
+     * @param annotation annotation info
+     * @return regular expression
      */
     abstract String getRegex(T annotation);
 
     /**
-     * 获取注解上的 replacer 参数
+     * Get the replacer parameter from the annotation
      *
-     * @param annotation 注解信息
-     * @return 待替换的字符串
+     * @param annotation annotation info
+     * @return replacement string
      */
     abstract String getReplacer(T annotation);
 

@@ -26,8 +26,8 @@ public class DictionaryDataSaveRequest {
     private String label;
 
     @Schema(description = "Dictionary value", requiredMode = Schema.RequiredMode.REQUIRED, example = "sample")
-    @NotBlank(message = "dictionary 键值must not be blank")
-    @Size(max = 100, message = "dictionary 键值length must not exceed 100characters")
+    @NotBlank(message = "dictionary value must not be blank")
+    @Size(max = 100, message = "dictionary value length must not exceed 100 characters")
     private String value;
 
     @Schema(description = "Dictionary type", requiredMode = Schema.RequiredMode.REQUIRED, example = "sys_common_sex")

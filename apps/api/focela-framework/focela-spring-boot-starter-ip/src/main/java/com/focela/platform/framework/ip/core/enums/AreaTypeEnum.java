@@ -7,26 +7,26 @@ import lombok.Getter;
 import java.util.Arrays;
 
 /**
- * 区域类型枚举
+ * Area type enum
  */
 @AllArgsConstructor
 @Getter
 public enum AreaTypeEnum implements ArrayValuable<Integer> {
 
-    COUNTRY(1, "国家"),
-    PROVINCE(2, "省份"),
-    CITY(3, "城市"),
-    DISTRICT(4, "地区"), // 县、镇、区等
+    COUNTRY(1, "Country"),
+    PROVINCE(2, "Province"),
+    CITY(3, "City"),
+    DISTRICT(4, "District"), // counties, towns, districts, etc.
     ;
 
     public static final Integer[] ARRAYS = Arrays.stream(values()).map(AreaTypeEnum::getType).toArray(Integer[]::new);
 
     /**
-     * 类型
+     * Type
      */
     private final Integer type;
     /**
-     * 名字
+     * Name
      */
     private final String name;
 

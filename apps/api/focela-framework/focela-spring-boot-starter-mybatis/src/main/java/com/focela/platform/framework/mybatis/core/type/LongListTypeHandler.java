@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * List<Long> 的类型转换器实现类，对应数据库的 varchar 类型
+ * TypeHandler for List&lt;Long&gt;, corresponding to the database varchar type.
  */
 @MappedJdbcTypes(JdbcType.VARCHAR)
 @MappedTypes(List.class)
@@ -24,7 +24,7 @@ public class LongListTypeHandler implements TypeHandler<List<Long>> {
 
     @Override
     public void setParameter(PreparedStatement ps, int i, List<Long> strings, JdbcType jdbcType) throws SQLException {
-        // 设置占位符
+        // Set the placeholder
         ps.setString(i, CollUtil.join(strings, COMMA));
     }
 

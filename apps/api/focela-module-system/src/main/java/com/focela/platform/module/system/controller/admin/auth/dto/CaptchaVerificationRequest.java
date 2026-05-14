@@ -8,14 +8,14 @@ import lombok.Data;
 @Data
 public class CaptchaVerificationRequest {
 
-    // ========== 图片验证码相关 ==========
+    // ========== image captcha related ==========
     @Schema(description = "CAPTCHA, CAPTCHA enable when, required", requiredMode = Schema.RequiredMode.REQUIRED,
             example = "PfcH6mgr8tpXuMWFjvW6YVaqrswIuwmWI5dsVZSg7sGpWtDCUbHuDEXl3cFB1+VvCC/rAkSwK8Fad52FSuncVg==")
     @NotEmpty(message = "CAPTCHA must not be blank", groups = CodeEnableGroup.class)
     private String captchaVerification;
 
     /**
-     * 开启验证码的 Group
+     * Group for enabling captcha verification
      */
     public interface CodeEnableGroup {
     }

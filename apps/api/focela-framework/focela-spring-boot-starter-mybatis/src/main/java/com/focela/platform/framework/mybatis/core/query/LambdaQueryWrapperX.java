@@ -10,11 +10,11 @@ import org.springframework.util.StringUtils;
 import java.util.Collection;
 
 /**
- * 拓展 MyBatis Plus QueryWrapper 类，主要增加如下功能：
+ * Extends MyBatis Plus QueryWrapper with additional features:
  * <p>
- * 1. 拼接条件的方法，增加 xxxIfPresent 方法，用于判断值不存在的时候，不要拼接到条件中。
+ * 1. Adds xxxIfPresent methods that skip the condition when the value is absent.
  *
- * @param <T> 数据类型
+ * @param <T> entity type
  */
 public class LambdaQueryWrapperX<T> extends LambdaQueryWrapper<T> {
 
@@ -100,7 +100,7 @@ public class LambdaQueryWrapperX<T> extends LambdaQueryWrapper<T> {
         return betweenIfPresent(column, val1, val2);
     }
 
-    // ========== 重写父类方法，方便链式调用 ==========
+    // ========== Override parent methods for fluent chaining ==========
 
     @Override
     public LambdaQueryWrapperX<T> eq(boolean condition, SFunction<T, ?> column, Object val) {

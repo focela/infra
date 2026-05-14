@@ -11,7 +11,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import java.util.List;
 
 /**
- * Redis 消息队列 Producer 配置类
+ * Redis message queue producer configuration class.
  */
 @Slf4j
 @AutoConfiguration(after = FocelaRedisAutoConfiguration.class)
@@ -21,7 +21,7 @@ public class FocelaRedisMQProducerAutoConfiguration {
     public RedisMQTemplate redisMQTemplate(StringRedisTemplate redisTemplate,
                                            List<RedisMessageInterceptor> interceptors) {
         RedisMQTemplate redisMQTemplate = new RedisMQTemplate(redisTemplate);
-        // 添加拦截器
+        // Add interceptors
         interceptors.forEach(redisMQTemplate::addInterceptor);
         return redisMQTemplate;
     }

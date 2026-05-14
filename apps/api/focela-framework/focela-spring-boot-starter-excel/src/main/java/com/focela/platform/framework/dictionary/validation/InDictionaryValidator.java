@@ -18,22 +18,22 @@ public class InDictionaryValidator implements ConstraintValidator<InDictionary, 
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
-        // 为空时，默认不校验，即认为通过
+        // When empty, skip validation by default (treat as passing)
         if (value == null) {
             return true;
         }
-        // 校验通过
+        // Validation passes
         final List<String> values = DictionaryFrameworkUtils.getDictDataValueList(dictType);
         boolean match = values.stream().anyMatch(v -> StrUtil.equalsIgnoreCase(v, value.toString()));
         if (match) {
             return true;
         }
 
-        // 校验不通过，自定义提示语句
-        context.disableDefaultConstraintViolation(); // 禁用默认的 message 的值
+        // Validation failed; build a custom error message
+        context.disableDefaultConstraintViolation(); // Disable the default message value
         context.buildConstraintViolationWithTemplate(
                 context.getDefaultConstraintMessageTemplate().replaceAll("\\{value}", values.toString())
-        ).addConstraintViolation(); // 重新添加错误提示语句
+        ).addConstraintViolation(); // Re-add the error message
         return false;
     }
 

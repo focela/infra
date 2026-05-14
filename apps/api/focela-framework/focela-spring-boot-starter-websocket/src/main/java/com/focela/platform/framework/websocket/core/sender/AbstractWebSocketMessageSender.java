@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * WebSocketMessageSender 实现类
+ * WebSocketMessageSender implementation.
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -40,16 +40,16 @@ public abstract class AbstractWebSocketMessageSender implements WebSocketMessage
     }
 
     /**
-     * 发送消息
+     * Send a message.
      *
-     * @param sessionId Session 编号
-     * @param userType 用户类型
-     * @param userId 用户编号
-     * @param messageType 消息类型
-     * @param messageContent 消息内容
+     * @param sessionId Session ID
+     * @param userType user type
+     * @param userId user ID
+     * @param messageType message type
+     * @param messageContent message content
      */
     public void send(String sessionId, Integer userType, Long userId, String messageType, String messageContent) {
-        // 1. 获得 Session 列表
+        // 1. Get the Session list
         List<WebSocketSession> sessions = Collections.emptyList();
         if (StrUtil.isNotEmpty(sessionId)) {
             WebSocketSession session = sessionManager.getSession(sessionId);
@@ -67,22 +67,22 @@ public abstract class AbstractWebSocketMessageSender implements WebSocketMessage
                         sessionId, userType, userId, messageType, messageContent);
             }
         }
-        // 2. 执行发送
+        // 2. Send
         doSend(sessions, messageType, messageContent);
     }
 
     /**
-     * 发送消息的具体实现
+     * Concrete implementation of sending a message.
      *
-     * @param sessions Session 列表
-     * @param messageType 消息类型
-     * @param messageContent 消息内容
+     * @param sessions Session list
+     * @param messageType message type
+     * @param messageContent message content
      */
     public void doSend(Collection<WebSocketSession> sessions, String messageType, String messageContent) {
         JsonWebSocketMessage message = new JsonWebSocketMessage().setType(messageType).setContent(messageContent);
-        String payload = JsonUtils.toJsonString(message); // 关键，使用 JSON 序列化
+        String payload = JsonUtils.toJsonString(message); // Key step: serialize as JSON
         sessions.forEach(session -> {
-            // 1. 各种校验，保证 Session 可以被发送
+            // 1. Various checks to ensure the Session can be sent to
             if (session == null) {
                 log.error("[doSend][session is empty, message({})]", message);
                 return;
@@ -91,7 +91,7 @@ public abstract class AbstractWebSocketMessageSender implements WebSocketMessage
                 log.error("[doSend][session({}) is closed, message({})]", session.getId(), message);
                 return;
             }
-            // 2. 执行发送
+            // 2. Send
             try {
                 session.sendMessage(new TextMessage(payload));
                 log.info("[doSend][session({}) send message success, message({})]", session.getId(), message);

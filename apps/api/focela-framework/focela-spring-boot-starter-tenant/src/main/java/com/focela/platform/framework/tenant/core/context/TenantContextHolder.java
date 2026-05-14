@@ -4,33 +4,33 @@ import com.focela.platform.framework.common.enums.DocumentEnum;
 import com.alibaba.ttl.TransmittableThreadLocal;
 
 /**
- * 多租户上下文 Holder
+ * Multi-tenant context Holder
  */
 public class TenantContextHolder {
 
     /**
-     * 当前租户编号
+     * Current tenant ID
      */
     private static final ThreadLocal<Long> TENANT_ID = new TransmittableThreadLocal<>();
 
     /**
-     * 是否忽略租户
+     * Whether to ignore tenant
      */
     private static final ThreadLocal<Boolean> IGNORE = new TransmittableThreadLocal<>();
 
     /**
-     * 获得租户编号
+     * Get the tenant ID
      *
-     * @return 租户编号
+     * @return tenant ID
      */
     public static Long getTenantId() {
         return TENANT_ID.get();
     }
 
     /**
-     * 获得租户编号。如果不存在，则抛出 NullPointerException 异常
+     * Get the tenant ID. Throws NullPointerException if not present.
      *
-     * @return 租户编号
+     * @return tenant ID
      */
     public static Long getRequiredTenantId() {
         Long tenantId = getTenantId();
@@ -50,9 +50,9 @@ public class TenantContextHolder {
     }
 
     /**
-     * 当前是否忽略租户
+     * Whether tenant is currently ignored
      *
-     * @return 是否忽略
+     * @return whether to ignore
      */
     public static boolean isIgnore() {
         return Boolean.TRUE.equals(IGNORE.get());

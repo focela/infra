@@ -11,96 +11,96 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 菜单 DO
+ * Menu DO
  */
 @TableName("system_menu")
-@KeySequence("system_menu_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
+@KeySequence("system_menu_seq") // used for primary key auto-increment in databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TenantIgnore
 public class MenuEntity extends BaseEntity {
 
     /**
-     * 菜单编号 - 根节点
+     * Menu ID - root node
      */
     public static final Long ID_ROOT = 0L;
 
     /**
-     * 菜单编号
+     * Menu ID
      */
     @TableId
     private Long id;
     /**
-     * 菜单名称
+     * Menu name
      */
     private String name;
     /**
-     * 权限标识
+     * Permission identifier
      *
-     * 一般格式为：${系统}:${模块}:${操作}
-     * 例如说：system:admin:add，即 system 服务的添加管理员。
+     * General format: ${system}:${module}:${operation}
+     * For example: system:admin:add, meaning add admin in the system service.
      *
-     * 当我们把该 MenuEntity 赋予给角色后，意味着该角色有该资源：
-     * - 对于后端，配合 @PreAuthorize 注解，配置 API 接口需要该权限，从而对 API 接口进行权限控制。
-     * - 对于前端，配合前端标签，配置按钮是否展示，避免用户没有该权限时，结果可以看到该操作。
+     * When this MenuEntity is granted to a role, the role gains access to this resource:
+     * - For the backend, combined with @PreAuthorize annotation to require this permission for API endpoints, enabling API permission control.
+     * - For the frontend, combined with frontend tags to control whether buttons are shown, preventing users from seeing actions they lack permission for.
      */
     private String permission;
     /**
-     * 菜单类型
+     * Menu type
      *
-     * 枚举 {@link MenuTypeEnum}
+     * Enum {@link MenuTypeEnum}
      */
     private Integer type;
     /**
-     * 显示顺序
+     * Display order
      */
     private Integer sort;
     /**
-     * 父菜单ID
+     * Parent menu ID
      */
     private Long parentId;
     /**
-     * 路由地址
+     * Route path
      *
-     * 如果 path 为 http(s) 时，则它是外链
+     * If path is http(s), it is an external link.
      */
     private String path;
     /**
-     * 菜单图标
+     * Menu icon
      */
     private String icon;
     /**
-     * 组件路径
+     * Component path
      */
     private String component;
     /**
-     * 组件名
+     * Component name
      */
     private String componentName;
     /**
-     * 状态
+     * Status
      *
-     * 枚举 {@link CommonStatusEnum}
+     * Enum {@link CommonStatusEnum}
      */
     private Integer status;
     /**
-     * 是否可见
+     * Whether visible
      *
-     * 只有菜单、目录使用
-     * 当设置为 true 时，该菜单不会展示在侧边栏，但是路由还是存在。例如说，一些独立的编辑页面 /edit/1024 等等
+     * Only used by menus and directories.
+     * When set to true, the menu is not shown in the sidebar but the route still exists. For example, standalone edit pages like /edit/1024.
      */
     private Boolean visible;
     /**
-     * 是否缓存
+     * Whether to cache
      *
-     * 只有菜单、目录使用，否使用 Vue 路由的 keep-alive 特性
-     * 注意：如果开启缓存，则必须填写 {@link #componentName} 属性，否则无法缓存
+     * Only used by menus and directories; uses Vue Router's keep-alive feature.
+     * Note: if caching is enabled, {@link #componentName} must be set, otherwise caching will not work.
      */
     private Boolean keepAlive;
     /**
-     * 是否总是显示
+     * Whether always show
      *
-     * 如果为 false 时，当该菜单只有一个子菜单时，不展示自己，直接展示子菜单
+     * If false, when the menu has only one child menu, the parent is not shown and the child is displayed directly.
      */
     private Boolean alwaysShow;
 

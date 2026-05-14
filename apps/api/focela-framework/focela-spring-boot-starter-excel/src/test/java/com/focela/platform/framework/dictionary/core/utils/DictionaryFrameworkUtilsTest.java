@@ -17,7 +17,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 /**
- * {@link DictionaryFrameworkUtils} 的单元测试
+ * Unit test for {@link DictionaryFrameworkUtils}.
  */
 public class DictionaryFrameworkUtilsTest extends BaseMockitoUnitTest {
 
@@ -32,30 +32,30 @@ public class DictionaryFrameworkUtilsTest extends BaseMockitoUnitTest {
 
     @Test
     public void testParseDictDataLabel() {
-        // mock 数据
+        // mock data
         List<DictionaryDataRpcResponse> dictDatas = ListUtil.of(
-                randomPojo(DictionaryDataRpcResponse.class, o -> o.setDictType("animal").setValue("cat").setLabel("猫")),
-                randomPojo(DictionaryDataRpcResponse.class, o -> o.setDictType("animal").setValue("dog").setLabel("狗"))
+                randomPojo(DictionaryDataRpcResponse.class, o -> o.setDictType("animal").setValue("cat").setLabel("Cat")),
+                randomPojo(DictionaryDataRpcResponse.class, o -> o.setDictType("animal").setValue("dog").setLabel("Dog"))
         );
-        // mock 方法
+        // mock the method
         when(dictDataApi.getDictDataList(eq("animal"))).thenReturn(dictDatas);
 
-        // 断言返回值
-        assertEquals("狗", DictionaryFrameworkUtils.parseDictDataLabel("animal", "dog"));
+        // assert the return value
+        assertEquals("Dog", DictionaryFrameworkUtils.parseDictDataLabel("animal", "dog"));
     }
 
     @Test
     public void testParseDictDataValue() {
-        // mock 数据
+        // mock data
         List<DictionaryDataRpcResponse> dictDatas = ListUtil.of(
-                randomPojo(DictionaryDataRpcResponse.class, o -> o.setDictType("animal").setValue("cat").setLabel("猫")),
-                randomPojo(DictionaryDataRpcResponse.class, o -> o.setDictType("animal").setValue("dog").setLabel("狗"))
+                randomPojo(DictionaryDataRpcResponse.class, o -> o.setDictType("animal").setValue("cat").setLabel("Cat")),
+                randomPojo(DictionaryDataRpcResponse.class, o -> o.setDictType("animal").setValue("dog").setLabel("Dog"))
         );
-        // mock 方法
+        // mock the method
         when(dictDataApi.getDictDataList(eq("animal"))).thenReturn(dictDatas);
 
-        // 断言返回值
-        assertEquals("dog", DictionaryFrameworkUtils.parseDictDataValue("animal", "狗"));
+        // assert the return value
+        assertEquals("dog", DictionaryFrameworkUtils.parseDictDataValue("animal", "Dog"));
     }
 
 }

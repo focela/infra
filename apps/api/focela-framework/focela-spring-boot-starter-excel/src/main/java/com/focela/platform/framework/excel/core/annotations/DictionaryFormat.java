@@ -3,9 +3,9 @@ package com.focela.platform.framework.excel.core.annotations;
 import java.lang.annotation.*;
 
 /**
- * 字典格式化
+ * Dictionary formatter.
  *
- * 实现将字典数据的值，格式化成字典数据的标签
+ * Formats a dictionary data value into its corresponding label.
  */
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
@@ -13,9 +13,9 @@ import java.lang.annotation.*;
 public @interface DictionaryFormat {
 
     /**
-     * 例如说，SysDictTypeConstants、InfDictTypeConstants
+     * For example, SysDictTypeConstants or InfDictTypeConstants.
      *
-     * @return 字典类型
+     * @return dictionary type
      */
     String value();
 

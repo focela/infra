@@ -8,55 +8,55 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 访问日志注解
+ * Access log annotation
  */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ApiAccessLog {
 
-    // ========== 开关字段 ==========
+    // ========== Switch fields ==========
 
     /**
-     * 是否记录访问日志
+     * Whether to record access log
      */
     boolean enable() default true;
     /**
-     * 是否记录请求参数
+     * Whether to record request parameters
      *
-     * 默认记录，主要考虑请求数据一般不大。可手动设置为 false 进行关闭
+     * Recorded by default, mainly because request data is usually not large. Can be manually set to false to disable
      */
     boolean requestEnable() default true;
     /**
-     * 是否记录响应结果
+     * Whether to record response result
      *
-     * 默认不记录，主要考虑响应数据可能比较大。可手动设置为 true 进行打开
+     * Not recorded by default, mainly because response data can be relatively large. Can be manually set to true to enable
      */
     boolean responseEnable() default false;
     /**
-     * 敏感参数数组
+     * Sensitive parameter array
      *
-     * 添加后，请求参数、响应结果不会记录该参数
+     * Once added, request parameters and response results will not record these parameters
      */
     String[] sanitizeKeys() default {};
 
-    // ========== 模块字段 ==========
+    // ========== Module fields ==========
 
     /**
-     * 操作模块
+     * Operation module
      *
-     * 为空时，会尝试读取 {@link io.swagger.v3.oas.annotations.tags.Tag#name()} 属性
+     * When empty, the {@link io.swagger.v3.oas.annotations.tags.Tag#name()} attribute will be attempted
      */
     String operateModule() default "";
     /**
-     * 操作名
+     * Operation name
      *
-     * 为空时，会尝试读取 {@link io.swagger.v3.oas.annotations.Operation#summary()} 属性
+     * When empty, the {@link io.swagger.v3.oas.annotations.Operation#summary()} attribute will be attempted
      */
     String operateName() default "";
     /**
-     * 操作分类
+     * Operation category
      *
-     * 实际并不是数组，因为枚举不能设置 null 作为默认值
+     * Not actually an array; enums cannot use null as a default value
      */
     OperateTypeEnum[] operateType() default {};
 

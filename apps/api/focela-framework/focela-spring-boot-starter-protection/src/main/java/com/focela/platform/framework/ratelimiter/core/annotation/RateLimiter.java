@@ -15,45 +15,45 @@ import java.lang.annotation.Target;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 限流注解
+ * Rate limiter annotation.
  */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RateLimiter {
 
     /**
-     * 限流的时间，默认为 1 秒
+     * Rate-limiting window, default 1 second.
      */
     int time() default 1;
     /**
-     * 时间单位，默认为 SECONDS 秒
+     * Time unit, default SECONDS.
      */
     TimeUnit timeUnit() default TimeUnit.SECONDS;
 
     /**
-     * 限流次数
+     * Maximum number of allowed invocations.
      */
     int count() default 100;
 
     /**
-     * 提示信息，请求过快的提示
+     * Message shown when requests come in too quickly.
      *
      * @see GlobalErrorCodeConstants#TOO_MANY_REQUESTS
      */
-    String message() default ""; // 为空时，使用 TOO_MANY_REQUESTS 错误提示
+    String message() default ""; // When empty, the TOO_MANY_REQUESTS error message is used
 
     /**
-     * 使用的 Key 解析器
+     * Key resolver to use.
      *
-     * @see DefaultRateLimiterKeyResolver 全局级别
-     * @see UserRateLimiterKeyResolver 用户 ID 级别
-     * @see ClientIpRateLimiterKeyResolver 用户 IP 级别
-     * @see ServerNodeRateLimiterKeyResolver 服务器 Node 级别
-     * @see ExpressionIdempotentKeyResolver 自定义表达式，通过 {@link #keyArg()} 计算
+     * @see DefaultRateLimiterKeyResolver global level
+     * @see UserRateLimiterKeyResolver user ID level
+     * @see ClientIpRateLimiterKeyResolver client IP level
+     * @see ServerNodeRateLimiterKeyResolver server node level
+     * @see ExpressionIdempotentKeyResolver custom expression, computed via {@link #keyArg()}
      */
     Class<? extends RateLimiterKeyResolver> keyResolver() default DefaultRateLimiterKeyResolver.class;
     /**
-     * 使用的 Key 参数
+     * Key argument.
      */
     String keyArg() default "";
 

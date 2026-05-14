@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Set<Long> 的类型转换器实现类，对应数据库的 varchar 类型
+ * TypeHandler for Set&lt;Long&gt;, corresponding to the database varchar type.
  */
 @MappedJdbcTypes(JdbcType.VARCHAR)
 @MappedTypes(List.class)
@@ -25,7 +25,7 @@ public class LongSetTypeHandler implements TypeHandler<Set<Long>> {
 
     @Override
     public void setParameter(PreparedStatement ps, int i, Set<Long> strings, JdbcType jdbcType) throws SQLException {
-        // 设置占位符
+        // Set the placeholder
         ps.setString(i, CollUtil.join(strings, COMMA));
     }
 

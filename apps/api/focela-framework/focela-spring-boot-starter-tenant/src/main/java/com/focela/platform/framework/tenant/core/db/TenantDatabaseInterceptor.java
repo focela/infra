@@ -14,24 +14,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 基于 MyBatis Plus 多租户的功能，实现 DB 层面的多租户的功能
+ * Implements multi-tenancy at the DB layer based on MyBatis Plus multi-tenant feature.
  */
 public class TenantDatabaseInterceptor implements TenantLineHandler {
 
     /**
-     * 忽略的表
+     * Ignored tables
      *
-     * KEY：表名
-     * VALUE：是否忽略
+     * KEY: table name
+     * VALUE: whether to ignore
      */
     private final Map<String, Boolean> ignoreTables = new HashMap<>();
 
     public TenantDatabaseInterceptor(TenantProperties properties) {
-        // 不同 DB 下，大小写的习惯不同，所以需要都添加进去
+        // Different DBs have different case conventions, so add both
         properties.getIgnoreTables().forEach(table -> {
             addIgnoreTable(table, true);
         });
-        // 在 OracleKeyGenerator 中，生成主键时，会查询这个表，查询这个表后，会自动拼接 TENANT_ID 导致报错
+        // In OracleKeyGenerator, when generating primary keys, this table is queried; after that TENANT_ID is automatically appended, which causes errors.
         addIgnoreTable("DUAL", true);
     }
 
@@ -42,11 +42,11 @@ public class TenantDatabaseInterceptor implements TenantLineHandler {
 
     @Override
     public boolean ignoreTable(String tableName) {
-        // 情况一，全局忽略多租户
+        // Case 1: globally ignore multi-tenancy
         if (TenantContextHolder.isIgnore()) {
             return true;
         }
-        // 情况二，忽略多租户的表
+        // Case 2: tables that ignore multi-tenancy
         tableName = SqlParserUtils.removeWrapperSymbol(tableName);
         Boolean ignore = ignoreTables.get(tableName.toLowerCase());
         if (ignore == null) {
@@ -64,16 +64,16 @@ public class TenantDatabaseInterceptor implements TenantLineHandler {
     }
 
     private boolean computeIgnoreTable(String tableName) {
-        // 找不到的表，说明不是 yudao 项目里的，不进行拦截（忽略租户）
+        // Tables not found are not part of this project; do not intercept (ignore tenant)
         TableInfo tableInfo = TableInfoHelper.getTableInfo(tableName);
         if (tableInfo == null) {
             return true;
         }
-        // 如果继承了 TenantBaseEntity 基类，显然不忽略租户
+        // If it extends the TenantBaseEntity base class, obviously do not ignore tenant
         if (TenantBaseEntity.class.isAssignableFrom(tableInfo.getEntityType())) {
             return false;
         }
-        // 如果添加了 @TenantIgnore 注解，则忽略租户
+        // If the @TenantIgnore annotation is added, ignore tenant
         TenantIgnore tenantIgnore = tableInfo.getEntityType().getAnnotation(TenantIgnore.class);
         return tenantIgnore != null;
     }

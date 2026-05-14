@@ -1,16 +1,16 @@
 package com.focela.platform.framework.lock4j.core;
 
 /**
- * Lock4j Redis Key 枚举类
+ * Lock4j Redis key constants.
  */
 public interface Lock4jRedisKeyConstants {
 
     /**
-     * 分布式锁
+     * Distributed lock.
      *
-     * KEY 格式：lock4j:%s // 参数来自 DefaultLockKeyBuilder 类
-     * VALUE 数据格式：HASH // RLock.class：Redisson 的 Lock 锁，使用 Hash 数据结构
-     * 过期时间：不固定
+     * KEY format: lock4j:%s // parameter is produced by DefaultLockKeyBuilder
+     * VALUE format: HASH // RLock.class: Redisson lock backed by a Hash structure
+     * Expiration: variable
      */
     String LOCK4J = "lock4j:%s";
 

@@ -9,14 +9,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 链路追踪 Util
+ * Distributed tracing utilities.
  */
 public class TracerFrameworkUtils {
 
     /**
-     * 将异常记录到 Span 中，参考自 com.aliyuncs.utils.TraceUtils
+     * Record the exception onto the Span, adapted from com.aliyuncs.utils.TraceUtils.
      *
-     * @param throwable 异常
+     * @param throwable exception
      * @param span Span
      */
     public static void onError(Throwable throwable, Span span) {

@@ -13,10 +13,10 @@ import java.util.Map;
 import static com.focela.platform.framework.web.core.utils.WebFrameworkUtils.HEADER_TENANT_ID;
 
 /**
- * Kafka 消息队列的多租户 {@link ProducerInterceptor} 实现类
+ * Multi-tenant {@link ProducerInterceptor} implementation for Kafka message queue
  *
- * 1. Producer 发送消息时，将 {@link TenantContextHolder} 租户编号，添加到消息的 Header 中
- * 2. Consumer 消费消息时，将消息的 Header 的租户编号，添加到 {@link TenantContextHolder} 中，通过 {@link InvocableHandlerMethod} 实现
+ * 1. When the Producer sends a message, add the tenant ID from {@link TenantContextHolder} to the message Header.
+ * 2. When the Consumer consumes a message, add the tenant ID from the message Header to {@link TenantContextHolder}, implemented via {@link InvocableHandlerMethod}.
  */
 public class TenantKafkaProducerInterceptor implements ProducerInterceptor<Object, Object> {
 
@@ -24,7 +24,7 @@ public class TenantKafkaProducerInterceptor implements ProducerInterceptor<Objec
     public ProducerRecord<Object, Object> onSend(ProducerRecord<Object, Object> record) {
         Long tenantId = TenantContextHolder.getTenantId();
         if (tenantId != null) {
-            Headers headers = (Headers) ReflectUtil.getFieldValue(record, "headers"); // private 属性，没有 get 方法，智能反射
+            Headers headers = (Headers) ReflectUtil.getFieldValue(record, "headers"); // private field, no getter, use reflection
             headers.add(HEADER_TENANT_ID, tenantId.toString().getBytes());
         }
         return record;

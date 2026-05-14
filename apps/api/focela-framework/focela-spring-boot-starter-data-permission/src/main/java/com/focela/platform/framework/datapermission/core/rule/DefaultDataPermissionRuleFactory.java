@@ -12,14 +12,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * 默认的 DefaultDataPermissionRuleFactory 实现类
- * 支持通过 {@link DataPermissionContextHolder} 过滤数据权限
+ * Default DefaultDataPermissionRuleFactory implementation.
+ * Supports filtering data permission via {@link DataPermissionContextHolder}.
  */
 @RequiredArgsConstructor
 public class DefaultDataPermissionRuleFactory implements DataPermissionRuleFactory {
 
     /**
-     * 数据权限规则数组
+     * Data permission rules
      */
     private final List<DataPermissionRule> rules;
 
@@ -28,46 +28,47 @@ public class DefaultDataPermissionRuleFactory implements DataPermissionRuleFacto
         return rules;
     }
 
-    @Override // mappedStatementId 参数，暂时没有用。以后，可以基于 mappedStatementId + DataPermission 进行缓存
+    @Override // The mappedStatementId parameter is currently unused. In the future we may cache based on mappedStatementId + DataPermission.
     public List<DataPermissionRule> getDataPermissionRule(String mappedStatementId) {
-        // 1.1 无数据权限
+        // 1.1 No data permission rules
         if (CollUtil.isEmpty(rules)) {
             return Collections.emptyList();
         }
-        // 1.2 未配置，则默认开启
+        // 1.2 Not configured: enabled by default
         DataPermission dataPermission = DataPermissionContextHolder.get();
         if (dataPermission == null) {
             return rules;
         }
-        // 1.3 已配置，但禁用
+        // 1.3 Configured but disabled
         if (!dataPermission.enable()) {
             return Collections.emptyList();
         }
-        // 1.4 特殊：数据翻译时，强制忽略数据权限 https://github.com/YunaiV/ruoyi-vue-pro/issues/1007
+        // 1.4 Special case: forcibly ignore data permission during data translation
+        // https://github.com/YunaiV/ruoyi-vue-pro/issues/1007
         if (isTranslateCall()) {
             return Collections.emptyList();
         }
 
-        // 2.1 情况一：已配置，只选择部分规则
+        // 2.1 Case one: configured, select only certain rules
         if (ArrayUtil.isNotEmpty(dataPermission.includeRules())) {
             return rules.stream().filter(rule -> ArrayUtil.contains(dataPermission.includeRules(), rule.getClass()))
-                    .collect(Collectors.toList()); // 一般规则不会太多，所以不采用 HashSet 查询
+                    .collect(Collectors.toList()); // Rules are usually few, so a HashSet lookup isn't worth it
         }
-        // 2.2 已配置，只排除部分规则
+        // 2.2 Configured, exclude certain rules
         if (ArrayUtil.isNotEmpty(dataPermission.excludeRules())) {
             return rules.stream().filter(rule -> !ArrayUtil.contains(dataPermission.excludeRules(), rule.getClass()))
-                    .collect(Collectors.toList()); // 一般规则不会太多，所以不采用 HashSet 查询
+                    .collect(Collectors.toList()); // Rules are usually few, so a HashSet lookup isn't worth it
         }
-        // 2.3 已配置，全部规则
+        // 2.3 Configured, all rules apply
         return rules;
     }
 
     /**
-     * 判断是否为数据翻译 {@link com.fhs.core.trans.anno.Trans} 的调用
+     * Check whether this is a data translation call via {@link com.fhs.core.trans.anno.Trans}.
      *
-     * 目前暂时只有这个办法，已经和 easy-trans 做过沟通
+     * This is currently the only available approach; we have discussed it with easy-trans.
      *
-     * @return 是否
+     * @return whether it is a translation call
      */
     private boolean isTranslateCall() {
         StackTraceElement[] stack = Thread.currentThread().getStackTrace();

@@ -3,7 +3,7 @@ package com.focela.platform.framework.desensitize.core.slider.handler;
 import com.focela.platform.framework.desensitize.core.slider.annotation.ChineseNameDesensitize;
 
 /**
- * {@link ChineseNameDesensitize} 的脱敏处理器
+ * Desensitization handler for {@link ChineseNameDesensitize}
  */
 public class ChineseNameDesensitization extends AbstractSliderDesensitizationHandler<ChineseNameDesensitize> {
 

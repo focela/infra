@@ -15,7 +15,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
 /**
- * 加密响应 {@link HttpServletResponseWrapper} 实现类
+ * Encrypted response {@link HttpServletResponseWrapper} implementation.
  */
 public class ApiEncryptResponseWrapper extends HttpServletResponseWrapper {
 
@@ -33,22 +33,22 @@ public class ApiEncryptResponseWrapper extends HttpServletResponseWrapper {
     public void encrypt(ApiEncryptProperties properties,
                         SymmetricEncryptor symmetricEncryptor,
                         AsymmetricEncryptor asymmetricEncryptor) throws IOException {
-        // 1.1 清空 body
+        // 1.1 clear the body
         HttpServletResponse response = (HttpServletResponse) this.getResponse();
         response.resetBuffer();
-        // 1.2 获取 body
+        // 1.2 get the body
         this.flushBuffer();
         byte[] body = byteArrayOutputStream.toByteArray();
 
-        // 2. 添加加密 header 标识
+        // 2. add the encrypt header marker
         this.addHeader(properties.getHeader(), "true");
-        // 特殊：特殊：https://juejin.cn/post/6867327674675625992
+        // Special: https://juejin.cn/post/6867327674675625992
         this.addHeader("Access-Control-Expose-Headers", properties.getHeader());
 
-        // 3.1 加密 body
+        // 3.1 encrypt the body
         String encryptedBody = symmetricEncryptor != null ? symmetricEncryptor.encryptBase64(body)
                 : asymmetricEncryptor.encryptBase64(body, KeyType.PublicKey);
-        // 3.2 输出加密后的 body：（设置 header 要放在 response 的 write 之前）
+        // 3.2 write the encrypted body (headers must be set before response write)
         response.getWriter().write(encryptedBody);
     }
 

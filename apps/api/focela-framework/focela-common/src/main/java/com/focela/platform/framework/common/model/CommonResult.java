@@ -12,45 +12,46 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * 通用返回
+ * Common result wrapper.
  *
- * @param <T> 数据泛型
+ * @param <T> data generic type
  */
 @Data
 public class CommonResult<T> implements Serializable {
 
     /**
-     * 错误码
+     * Error code
      *
      * @see ErrorCode#getCode()
      */
     private Integer code;
     /**
-     * 错误提示，用户可阅读
+     * Error message, human-readable.
      *
      * @see ErrorCode#getMsg() ()
      */
     private String msg;
     /**
-     * 返回数据
+     * Returned data
      */
     private T data;
 
     /**
-     * 将传入的 result 对象，转换成另外一个泛型结果的对象
+     * Convert the given result object into another generic result object.
      *
-     * 因为 A 方法返回的 CommonResult 对象，不满足调用其的 B 方法的返回，所以需要进行转换。
+     * Because the CommonResult returned by method A does not match what its caller B needs to return,
+     * a conversion is required.
      *
-     * @param result 传入的 result 对象
-     * @param <T> 返回的泛型
-     * @return 新的 CommonResult 对象
+     * @param result the source result object
+     * @param <T> returned generic type
+     * @return new CommonResult object
      */
     public static <T> CommonResult<T> error(CommonResult<?> result) {
         return error(result.getCode(), result.getMsg());
     }
 
     public static <T> CommonResult<T> error(Integer code, String message) {
-        Assert.notEquals(GlobalErrorCodeConstants.SUCCESS.getCode(), code, "code 必须是错误的！");
+        Assert.notEquals(GlobalErrorCodeConstants.SUCCESS.getCode(), code, "code must be an error!");
         CommonResult<T> result = new CommonResult<>();
         result.code = code;
         result.msg = message;
@@ -58,7 +59,7 @@ public class CommonResult<T> implements Serializable {
     }
 
     public static <T> CommonResult<T> error(ErrorCode errorCode, Object... params) {
-        Assert.notEquals(GlobalErrorCodeConstants.SUCCESS.getCode(), errorCode.getCode(), "code 必须是错误的！");
+        Assert.notEquals(GlobalErrorCodeConstants.SUCCESS.getCode(), errorCode.getCode(), "code must be an error!");
         CommonResult<T> result = new CommonResult<>();
         result.code = errorCode.getCode();
         result.msg = ServiceExceptionUtils.doFormat(errorCode.getCode(), errorCode.getMsg(), params);
@@ -81,34 +82,34 @@ public class CommonResult<T> implements Serializable {
         return Objects.equals(code, GlobalErrorCodeConstants.SUCCESS.getCode());
     }
 
-    @JsonIgnore // 避免 jackson 序列化
+    @JsonIgnore // avoid jackson serialization
     public boolean isSuccess() {
         return isSuccess(code);
     }
 
-    @JsonIgnore // 避免 jackson 序列化
+    @JsonIgnore // avoid jackson serialization
     public boolean isError() {
         return !isSuccess();
     }
 
-    // ========= 和 Exception 异常体系集成 =========
+    // ========= Integration with Exception system =========
 
     /**
-     * 判断是否有异常。如果有，则抛出 {@link ServiceException} 异常
+     * Check whether there is an error. If so, throw a {@link ServiceException}.
      */
     public void checkError() throws ServiceException {
         if (isSuccess()) {
             return;
         }
-        // 业务异常
+        // business exception
         throw new ServiceException(code, msg);
     }
 
     /**
-     * 判断是否有异常。如果有，则抛出 {@link ServiceException} 异常
-     * 如果没有，则返回 {@link #data} 数据
+     * Check whether there is an error. If so, throw a {@link ServiceException};
+     * otherwise return {@link #data}.
      */
-    @JsonIgnore // 避免 jackson 序列化
+    @JsonIgnore // avoid jackson serialization
     public T getCheckedData() {
         checkError();
         return data;

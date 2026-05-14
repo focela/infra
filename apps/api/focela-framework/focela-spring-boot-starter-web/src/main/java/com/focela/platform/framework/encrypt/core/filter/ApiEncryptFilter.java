@@ -30,13 +30,14 @@ import java.io.IOException;
 import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.invalidParamException;
 
 /**
- * API 加密过滤器，处理 {@link ApiEncrypt} 注解。
+ * API encryption filter that processes the {@link ApiEncrypt} annotation.
  *
- * 1. 解密请求参数
- * 2. 加密响应结果
+ * 1. Decrypts request parameters
+ * 2. Encrypts response results
  *
- * 疑问：为什么不使用 SpringMVC 的 RequestBodyAdvice 或 ResponseBodyAdvice 机制呢？
- * 回答：考虑到项目中会记录访问日志、异常日志，以及 HTTP API 签名等场景，最好是全局级、且提前做解析！！！
+ * Q: Why not use SpringMVC's RequestBodyAdvice or ResponseBodyAdvice mechanism?
+ * A: Considering that the project records access logs, error logs, and HTTP API signing,
+ * it is best to handle this globally and parse early.
  */
 @Slf4j
 public class ApiEncryptFilter extends ApiRequestFilter {
@@ -72,7 +73,7 @@ public class ApiEncryptFilter extends ApiRequestFilter {
             this.responseSymmetricEncryptor = null;
             this.responseAsymmetricEncryptor = SecureUtil.rsa(null, apiEncryptProperties.getResponseKey());
         } else {
-            // 补充说明：如果要支持 SM2、SM4 等算法，可在此处增加对应实例的创建，并添加相应的 Maven 依赖即可。
+            // Note: to support SM2, SM4, etc., add the corresponding instance creation here and the matching Maven dependency.
             throw new IllegalArgumentException("not supported encryption algorithm:" + apiEncryptProperties.getAlgorithm());
         }
     }
@@ -81,7 +82,7 @@ public class ApiEncryptFilter extends ApiRequestFilter {
     @SuppressWarnings("NullableProblems")
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
-        // 获取 @ApiEncrypt 注解
+        // get the @ApiEncrypt annotation
         ApiEncrypt apiEncrypt = getApiEncrypt(request);
         boolean requestEnable = apiEncrypt != null && apiEncrypt.request();
         boolean responseEnable = apiEncrypt != null && apiEncrypt.response();
@@ -91,7 +92,7 @@ public class ApiEncryptFilter extends ApiRequestFilter {
             return;
         }
 
-        // 1. 解密请求
+        // 1. decrypt request
         if (ObjectUtils.equalsAny(HttpMethod.valueOf(request.getMethod()),
                 HttpMethod.POST, HttpMethod.PUT, HttpMethod.DELETE)) {
             try {
@@ -99,7 +100,7 @@ public class ApiEncryptFilter extends ApiRequestFilter {
                     request = new ApiDecryptRequestWrapper(request,
                             requestSymmetricDecryptor, requestAsymmetricDecryptor);
                 } else if (requestEnable) {
-                    throw invalidParamException("请求未包含加密标头，请检查是否正确配置了加密标头");
+                    throw invalidParamException("request does not contain the encrypt header; please verify it is configured correctly");
                 }
             } catch (Exception ex) {
                 CommonResult<?> result = globalExceptionHandler.allExceptionHandler(request, ex);
@@ -108,14 +109,14 @@ public class ApiEncryptFilter extends ApiRequestFilter {
             }
         }
 
-        // 2. 执行过滤器链
+        // 2. execute the filter chain
         if (responseEnable) {
-            // 特殊：仅包装，最后执行。目的：Response 内容可以被重复读取！！！
+            // Special: only wrap here, execute later. Purpose: allow the response content to be read multiple times.
             response = new ApiEncryptResponseWrapper(response);
         }
         chain.doFilter(request, response);
 
-        // 3. 加密响应（真正执行）
+        // 3. encrypt the response (actual execution)
         if (responseEnable) {
             ((ApiEncryptResponseWrapper) response).encrypt(apiEncryptProperties,
                     responseSymmetricEncryptor, responseAsymmetricEncryptor);
@@ -123,19 +124,19 @@ public class ApiEncryptFilter extends ApiRequestFilter {
     }
 
     /**
-     * 获取 @ApiEncrypt 注解
+     * Get the @ApiEncrypt annotation.
      *
-     * @param request 请求
+     * @param request request
      */
     @SuppressWarnings("PatternVariableCanBeUsed")
     private ApiEncrypt getApiEncrypt(HttpServletRequest request) {
         try {
-            // 特殊：兼容 SpringBoot 2.X 版本会报错的问题 https://t.zsxq.com/kqyiB
+            // Special: compatibility fix for an error in SpringBoot 2.X https://t.zsxq.com/kqyiB
             if (!ServletRequestPathUtils.hasParsedRequestPath(request)) {
                 ServletRequestPathUtils.parseAndCache(request);
             }
 
-            // 解析 @ApiEncrypt 注解
+            // resolve the @ApiEncrypt annotation
             HandlerExecutionChain mappingHandler = requestMappingHandlerMapping.getHandler(request);
             if (mappingHandler == null) {
                 return null;
@@ -150,7 +151,7 @@ public class ApiEncryptFilter extends ApiRequestFilter {
                 return annotation;
             }
         } catch (Exception e) {
-            log.error("[getApiEncrypt][url({}/{}) get @ApiEncrypt 注解failed]",
+            log.error("[getApiEncrypt][url({}/{}) failed to get @ApiEncrypt annotation]",
                     request.getRequestURI(), request.getMethod(), e);
         }
         return null;

@@ -11,47 +11,47 @@ import lombok.ToString;
 import java.util.List;
 
 /**
- * 区域节点，包括国家、省份、城市、地区等信息
+ * Area node, including country, province, city, district, and so on.
  *
- * 数据可见 resources/area.csv 文件
+ * See resources/area.csv for the underlying data.
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = {"parent"}) // 参见 https://gitee.com/yudaocode/yudao-cloud-mini/pulls/2 原因
+@ToString(exclude = {"parent"}) // See https://gitee.com/yudaocode/yudao-cloud-mini/pulls/2 for the rationale
 public class Area {
 
     /**
-     * 编号 - 全球，即根目录
+     * ID - Global, i.e. the root node
      */
     public static final Integer ID_GLOBAL = 0;
     /**
-     * 编号 - 中国
+     * ID - China
      */
     public static final Integer ID_CHINA = 1;
 
     /**
-     * 编号
+     * ID
      */
     private Integer id;
     /**
-     * 名字
+     * Name
      */
     private String name;
     /**
-     * 类型
+     * Type
      *
-     * 枚举 {@link AreaTypeEnum}
+     * See enum {@link AreaTypeEnum}
      */
     private Integer type;
 
     /**
-     * 父节点
+     * Parent node
      */
     @JsonManagedReference
     private Area parent;
     /**
-     * 子节点
+     * Child nodes
      */
     @JsonBackReference
     private List<Area> children;

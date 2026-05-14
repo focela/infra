@@ -39,8 +39,8 @@ import static com.focela.platform.framework.web.core.utils.WebFrameworkUtils.HEA
  * argument values resolved from the current HTTP request through a list of
  * {@link HandlerMethodArgumentResolver}.
  *
- * 针对 rabbitmq-spring 和 kafka-spring，不存在合适的拓展点，可以实现 Consumer 消费前，读取 Header 中的 tenant-id 设置到 {@link TenantContextHolder} 中
- * TODO 芋艿：持续跟进，看看有没新的拓展点
+ * For rabbitmq-spring and kafka-spring, there is no suitable extension point that allows reading the tenant-id from
+ * the Header before the Consumer consumes the message and setting it to {@link TenantContextHolder}.
  *
  * @since 4.0
  */
@@ -121,13 +121,13 @@ public class InvocableHandlerMethod extends HandlerMethod {
         if (logger.isTraceEnabled()) {
             logger.trace("Arguments: " + Arrays.toString(args));
         }
-        // 注意：如下是本类的改动点！！！
-        // 情况一：无租户编号的情况
+        // NOTE: the following are the modifications made in this class!!!
+        // Case 1: no tenant ID
         Long tenantId= parseTenantId(message);
         if (tenantId == null) {
             return doInvoke(args);
         }
-        // 情况二：有租户的情况下
+        // Case 2: with tenant
         return TenantUtils.execute(tenantId, () -> doInvoke(args));
     }
 

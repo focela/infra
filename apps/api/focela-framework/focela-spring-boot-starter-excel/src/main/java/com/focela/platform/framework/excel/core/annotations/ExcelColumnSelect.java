@@ -3,9 +3,9 @@ package com.focela.platform.framework.excel.core.annotations;
 import java.lang.annotation.*;
 
 /**
- * 给 Excel 列添加下拉选择数据
+ * Adds dropdown selection data to an Excel column.
  *
- * 其中 {@link #dictType()} 和 {@link #functionName()} 二选一
+ * Specify either {@link #dictType()} or {@link #functionName()}; choose one.
  */
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
@@ -13,12 +13,12 @@ import java.lang.annotation.*;
 public @interface ExcelColumnSelect {
 
     /**
-     * @return 字典类型
+     * @return dictionary type
      */
     String dictType() default "";
 
     /**
-     * @return 获取下拉数据源的方法名称
+     * @return name of the method that provides the dropdown data source
      */
     String functionName() default "";
 

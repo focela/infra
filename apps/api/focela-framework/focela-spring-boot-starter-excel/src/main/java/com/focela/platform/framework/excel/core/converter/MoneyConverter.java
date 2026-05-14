@@ -10,9 +10,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
- * 金额转换器
+ * Money converter.
  *
- * 金额单位：分
+ * Money unit: cents.
  */
 public class MoneyConverter implements Converter<Integer> {
 

@@ -1,40 +1,40 @@
 <configuration>
-    <!-- 参考 org/springframework/boot/logging/logback/defaults.xml 配置，优化 CONSOLE_LOG_PATTERN、FILE_LOG_PATTERN -->
-    <!-- 格式化输出：%d 表示日期，%thread 表示线程名，%-5level：级别从左显示 5 个字符宽度，%msg：日志消息，%n是换行符 -->
-    <!-- CONSOLE_LOG_PATTERN 相比 FILE_LOG_PATTERN 多了 highlight、cyan 等高亮 -->
+    <!-- Based on org/springframework/boot/logging/logback/defaults.xml; tunes CONSOLE_LOG_PATTERN and FILE_LOG_PATTERN. -->
+    <!-- Format tokens: %d=date, %thread=thread name, %-5level=level padded to 5 chars, %msg=log message, %n=newline. -->
+    <!-- CONSOLE_LOG_PATTERN adds highlight/cyan ANSI colors compared with FILE_LOG_PATTERN. -->
     <property name="CONSOLE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %highlight(%-5level) %cyan(%logger{50}:%L) - %msg%n"/>
     <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}:%L - %msg%n"/>
 
-    <!-- 控制台 Appender -->
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">　　　　　
+    <!-- Console Appender -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
         </encoder>
     </appender>
 
-    <!-- 文件 Appender -->
-    <!-- 参考 Spring Boot 的 file-appender.xml 编写 -->
+    <!-- File Appender -->
+    <!-- Modeled after Spring Boot's file-appender.xml. -->
     <appender name="FILE"  class="ch.qos.logback.core.rolling.RollingFileAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>${FILE_LOG_PATTERN}</pattern>
         </encoder>
-        <!-- 日志文件名 -->
+        <!-- Log file name -->
         <file>${LOG_FILE}</file>
-        <!-- 滚动策略：基于【每天 + 大小】创建日志文件 -->
+        <!-- Rolling policy: roll files based on day + size. -->
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.%i.log</fileNamePattern> <!-- 日志文件输出的文件名 -->
-            <maxHistory>30</maxHistory> <!-- 日志文件的保留天数 -->
-            <maxFileSize>10MB</maxFileSize> <!-- 日志文件，到达多少容量，进行滚动 -->
+            <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.%i.log</fileNamePattern> <!-- Log file output name pattern -->
+            <maxHistory>30</maxHistory> <!-- Number of days log files are retained -->
+            <maxFileSize>10MB</maxFileSize> <!-- File size at which a log file is rolled -->
         </rollingPolicy>
     </appender>
-    <!-- 异步写入日志，提升性能 -->
+    <!-- Async log writes for better performance. -->
     <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
-        <discardingThreshold>0</discardingThreshold> <!-- 不丢失日志。默认的，如果队列的 80% 已满,则会丢弃 TRACT、DEBUG、INFO 级别的日志 -->
-        <queueSize>512</queueSize> <!-- 更改默认的队列的深度，该值会影响性能。默认值为 256 -->
+        <discardingThreshold>0</discardingThreshold> <!-- Do not discard logs. By default, once the queue is 80% full, TRACE/DEBUG/INFO logs are dropped. -->
+        <queueSize>512</queueSize> <!-- Override the default queue depth; affects performance. Default is 256. -->
         <appender-ref ref="FILE"/>
     </appender>
 
-    <!-- SkyWalking Appender：GRPC 日志收集，实现日志中心 -->
+    <!-- SkyWalking Appender: GRPC log collection for a centralized log service. -->
     <!--
     <appender name="SKYWALKING" class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.log.GRPCLogClientAppender">
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
@@ -47,9 +47,9 @@
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
-        <!-- 本地环境下，如果不想【FILE】打印日志，可以注释掉本行 -->
+        <!-- In local environments, comment this out if you do not want FILE logging. -->
         <appender-ref ref="ASYNC"/>
-        <!-- 如果想接入【SkyWalking 日志服务】，可以取消注释掉本行 -->
+        <!-- Uncomment to enable the SkyWalking log service. -->
         <!-- <appender-ref ref="SKYWALKING"/> -->
     </root>
 

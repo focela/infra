@@ -11,24 +11,24 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 /**
- * Redis 配置类
+ * Redis configuration class.
  */
-@AutoConfiguration(before = RedissonAutoConfigurationV2.class) // 目的：使用自己定义的 RedisTemplate Bean
+@AutoConfiguration(before = RedissonAutoConfigurationV2.class) // So our own RedisTemplate Bean is used
 public class FocelaRedisAutoConfiguration {
 
     /**
-     * 创建 RedisTemplate Bean，使用 JSON 序列化方式
+     * Create the RedisTemplate Bean using JSON serialization.
      */
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
-        // 创建 RedisTemplate 对象
+        // Build the RedisTemplate
         RedisTemplate<String, Object> template = new RedisTemplate<>();
-        // 设置 RedisConnection 工厂。😈 它就是实现多种 Java Redis 客户端接入的秘密工厂。感兴趣的胖友，可以自己去撸下。
+        // Wire in the RedisConnection factory - this is what enables the various Java Redis clients under the hood.
         template.setConnectionFactory(factory);
-        // 使用 String 序列化方式，序列化 KEY 。
+        // Use String serialization for KEY.
         template.setKeySerializer(RedisSerializer.string());
         template.setHashKeySerializer(RedisSerializer.string());
-        // 使用 JSON 序列化方式（库是 Jackson ），序列化 VALUE 。
+        // Use JSON (Jackson) serialization for VALUE.
         template.setValueSerializer(buildRedisSerializer());
         template.setHashValueSerializer(buildRedisSerializer());
         return template;
@@ -36,7 +36,7 @@ public class FocelaRedisAutoConfiguration {
 
     public static RedisSerializer<?> buildRedisSerializer() {
         RedisSerializer<Object> json = RedisSerializer.json();
-        // 解决 LocalDateTime 的序列化
+        // Handle LocalDateTime serialization
         ObjectMapper objectMapper = (ObjectMapper) ReflectUtil.getFieldValue(json, "mapper");
         objectMapper.registerModules(new JavaTimeModule());
         return json;

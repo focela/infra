@@ -93,8 +93,8 @@ public class NoticeController {
     @PreAuthorize("@ss.hasPermission('system:notice:update')")
     public CommonResult<Boolean> push(@RequestParam("id") Long id) {
         NoticeEntity notice = noticeService.getNotice(id);
-        Assert.notNull(notice, "公告不能为空");
-        // 通过 websocket 推送给在线的用户
+        Assert.notNull(notice, "notice must not be empty");
+        // push to online users via websocket
         webSocketSenderApi.sendObject(UserTypeEnum.ADMIN.getValue(), "notice-push", notice);
         return success(true);
     }

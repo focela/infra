@@ -18,33 +18,33 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
 /**
- * 依赖内存 DB + Redis 的单元测试
+ * Unit test backed by in-memory DB + Redis.
  *
- * 相比 {@link BaseDbUnitTest} 来说，额外增加了内存 Redis
+ * Compared to {@link BaseDbUnitTest}, this additionally adds an in-memory Redis.
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE, classes = BaseDbAndRedisUnitTest.Application.class)
-@ActiveProfiles("unit-test") // 设置使用 application-unit-test 配置文件
-@Sql(scripts = "/sql/clean.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD) // 每个单元测试结束后，清理 DB
+@ActiveProfiles("unit-test") // use the application-unit-test config profile
+@Sql(scripts = "/sql/clean.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD) // clean the DB after each unit test
 public class BaseDbAndRedisUnitTest {
 
     @Import({
-            // DB 配置类
-            FocelaDataSourceAutoConfiguration.class, // 自己的 DB 配置类
-            DataSourceAutoConfiguration.class, // Spring DB 自动配置类
-            DataSourceTransactionManagerAutoConfiguration.class, // Spring 事务自动配置类
-            DruidDataSourceAutoConfigure.class, // Druid 自动配置类
-            SqlInitializationTestConfiguration.class, // SQL 初始化
-            // MyBatis 配置类
-            FocelaMybatisAutoConfiguration.class, // 自己的 MyBatis 配置类
-            MybatisPlusAutoConfiguration.class, // MyBatis 的自动配置类
+            // DB config classes
+            FocelaDataSourceAutoConfiguration.class, // our own DB config
+            DataSourceAutoConfiguration.class, // Spring DB auto-configuration
+            DataSourceTransactionManagerAutoConfiguration.class, // Spring transaction auto-configuration
+            DruidDataSourceAutoConfigure.class, // Druid auto-configuration
+            SqlInitializationTestConfiguration.class, // SQL initialization
+            // MyBatis config classes
+            FocelaMybatisAutoConfiguration.class, // our own MyBatis config
+            MybatisPlusAutoConfiguration.class, // MyBatis auto-configuration
 
-            // Redis 配置类
-            RedisTestConfiguration.class, // Redis 测试配置类，用于启动 RedisServer
-            FocelaRedisAutoConfiguration.class, // 自己的 Redis 配置类
-            RedisAutoConfiguration.class, // Spring Redis 自动配置类
-            RedissonAutoConfiguration.class, // Redisson 自动配置类
+            // Redis config classes
+            RedisTestConfiguration.class, // Redis test configuration, used to start RedisServer
+            FocelaRedisAutoConfiguration.class, // our own Redis config
+            RedisAutoConfiguration.class, // Spring Redis auto-configuration
+            RedissonAutoConfiguration.class, // Redisson auto-configuration
 
-            // 其它配置类
+            // Other config classes
             SpringUtil.class
     })
     public static class Application {

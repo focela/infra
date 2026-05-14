@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 /**
- * 基于时间戳的 LocalDateTime 反序列化器
+ * Timestamp-based LocalDateTime deserializer
  */
 public class TimestampLocalDateTimeDeserializer extends JsonDeserializer<LocalDateTime> {
 
@@ -18,7 +18,7 @@ public class TimestampLocalDateTimeDeserializer extends JsonDeserializer<LocalDa
 
     @Override
     public LocalDateTime deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
-        // 将 Long 时间戳，转换为 LocalDateTime 对象
+        // convert the Long timestamp to a LocalDateTime
         return LocalDateTime.ofInstant(Instant.ofEpochMilli(p.getValueAsLong()), ZoneId.systemDefault());
     }
 

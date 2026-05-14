@@ -7,7 +7,7 @@ import lombok.SneakyThrows;
 import java.util.concurrent.Callable;
 
 /**
- * 数据权限 Util
+ * Data permission utilities.
  */
 public class DataPermissionUtils {
 
@@ -25,14 +25,14 @@ public class DataPermissionUtils {
     }
 
     /**
-     * 忽略数据权限，执行对应的逻辑
+     * Run the given logic while ignoring data permission.
      *
-     * @param runnable 逻辑
+     * @param runnable logic to run
      */
     public static void executeIgnore(Runnable runnable) {
         addDisableDataPermission();
         try {
-            // 执行 runnable
+            // Execute runnable
             runnable.run();
         } finally {
             removeDataPermission();
@@ -40,16 +40,16 @@ public class DataPermissionUtils {
     }
 
     /**
-     * 忽略数据权限，执行对应的逻辑
+     * Run the given logic while ignoring data permission.
      *
-     * @param callable 逻辑
-     * @return 执行结果
+     * @param callable logic to run
+     * @return the execution result
      */
     @SneakyThrows
     public static <T> T executeIgnore(Callable<T> callable) {
         addDisableDataPermission();
         try {
-            // 执行 callable
+            // Execute callable
             return callable.call();
         } finally {
             removeDataPermission();
@@ -57,7 +57,7 @@ public class DataPermissionUtils {
     }
 
     /**
-     * 添加忽略数据权限
+     * Push a "disable data permission" entry onto the stack.
      */
     public static void addDisableDataPermission(){
         DataPermission dataPermission = getDisableDataPermissionDisable();

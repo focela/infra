@@ -24,10 +24,10 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 在 MyBatis Plus 的 BaseMapper 的基础上拓展，提供更多的能力
+ * Extends MyBatis Plus BaseMapper with additional capabilities.
  *
- * 1. {@link BaseMapper} 为 MyBatis Plus 的基础接口，提供基础的 CRUD 能力
- * 2. {@link MPJBaseMapper} 为 MyBatis Plus Join 的基础接口，提供连表 Join 能力
+ * 1. {@link BaseMapper} is the base interface of MyBatis Plus, providing basic CRUD operations.
+ * 2. {@link MPJBaseMapper} is the base interface of MyBatis Plus Join, providing join query capabilities.
  */
 public interface BaseMapperX<T> extends MPJBaseMapper<T> {
 
@@ -40,61 +40,61 @@ public interface BaseMapperX<T> extends MPJBaseMapper<T> {
     }
 
     default PageResult<T> selectPage(PageParam pageParam, Collection<SortingField> sortingFields, @Param("ew") Wrapper<T> queryWrapper) {
-        // 特殊：不分页，直接查询全部
+        // Special: no pagination, query everything directly
         if (PageParam.PAGE_SIZE_NONE.equals(pageParam.getPageSize())) {
             MyBatisUtils.addOrder(queryWrapper, sortingFields);
             List<T> list = selectList(queryWrapper);
             return new PageResult<>(list, (long) list.size());
         }
 
-        // MyBatis Plus 查询
+        // MyBatis Plus query
         IPage<T> mpPage = MyBatisUtils.buildPage(pageParam, sortingFields);
         selectPage(mpPage, queryWrapper);
-        // 转换返回
+        // Convert and return
         return new PageResult<>(mpPage.getRecords(), mpPage.getTotal());
     }
 
     default <D> PageResult<D> selectJoinPage(PageParam pageParam, Class<D> clazz, MPJLambdaWrapper<T> lambdaWrapper) {
-        // 特殊：不分页，直接查询全部
+        // Special: no pagination, query everything directly
         if (PageParam.PAGE_SIZE_NONE.equals(pageParam.getPageSize())) {
             List<D> list = selectJoinList(clazz, lambdaWrapper);
             return new PageResult<>(list, (long) list.size());
         }
 
-        // MyBatis Plus Join 查询
+        // MyBatis Plus Join query
         IPage<D> mpPage = MyBatisUtils.buildPage(pageParam);
         mpPage = selectJoinPage(mpPage, clazz, lambdaWrapper);
-        // 转换返回
+        // Convert and return
         return new PageResult<>(mpPage.getRecords(), mpPage.getTotal());
     }
 
     /**
-     * 执行分页查询并返回结果。
+     * Execute a paginated query and return the result.
      *
-     * @param pageParam 分页参数，包含页码、每页条数和排序字段信息。如果 pageSize 为 {@link PageParam#PAGE_SIZE_NONE}，则不分页，直接查询所有数据。
-     * @param clazz     结果集的类类型
-     * @param lambdaWrapper MyBatis Plus Join 查询条件包装器
-     * @param <D>       结果集的泛型类型
-     * @return 返回分页查询的结果，包括总记录数和当前页的数据列表
+     * @param pageParam pagination params: page number, page size, sorting fields. If pageSize is {@link PageParam#PAGE_SIZE_NONE}, pagination is skipped and all data is returned.
+     * @param clazz     result class type
+     * @param lambdaWrapper MyBatis Plus Join query wrapper
+     * @param <D>       result generic type
+     * @return paginated result, including total count and current-page data list
      */
     default <D> PageResult<D> selectJoinPage(SortablePageParam pageParam, Class<D> clazz, MPJLambdaWrapper<T> lambdaWrapper) {
-        // 特殊：不分页，直接查询全部
+        // Special: no pagination, query everything directly
         if (PageParam.PAGE_SIZE_NONE.equals(pageParam.getPageSize())) {
             List<D> list = selectJoinList(clazz, lambdaWrapper);
             return new PageResult<>(list, (long) list.size());
         }
 
-        // MyBatis Plus Join 查询
+        // MyBatis Plus Join query
         IPage<D> mpPage = MyBatisUtils.buildPage(pageParam, pageParam.getSortingFields());
         mpPage = selectJoinPage(mpPage, clazz, lambdaWrapper);
-        // 转换返回
+        // Convert and return
         return new PageResult<>(mpPage.getRecords(), mpPage.getTotal());
     }
 
     default <DTO> PageResult<DTO> selectJoinPage(PageParam pageParam, Class<DTO> resultTypeClass, MPJBaseJoin<T> joinQueryWrapper) {
         IPage<DTO> mpPage = MyBatisUtils.buildPage(pageParam);
         selectJoinPage(mpPage, resultTypeClass, joinQueryWrapper);
-        // 转换返回
+        // Convert and return
         return new PageResult<>(mpPage.getRecords(), mpPage.getTotal());
     }
 
@@ -120,16 +120,16 @@ public interface BaseMapperX<T> extends MPJBaseMapper<T> {
     }
 
     /**
-     * 获取满足条件的第 1 条记录
+     * Get the first record matching the condition.
      *
-     * 目的：解决并发场景下，插入多条记录后，使用 selectOne 会报错的问题
+     * Purpose: avoid the error from selectOne when multiple records exist under concurrent insertion scenarios.
      *
-     * @param field 字段名
-     * @param value 字段值
-     * @return 实体
+     * @param field field name
+     * @param value field value
+     * @return entity
      */
     default T selectFirstOne(SFunction<T, ?> field, Object value) {
-        // 如果明确使用 MySQL 等场景，可以考虑使用 LIMIT 1 进行优化
+        // When MySQL or similar is explicitly used, consider optimizing with LIMIT 1
         List<T> list = selectList(new LambdaQueryWrapper<T>().eq(field, value));
         return CollUtil.getFirst(list);
     }
@@ -189,12 +189,12 @@ public interface BaseMapperX<T> extends MPJBaseMapper<T> {
     }
 
     /**
-     * 批量插入，适合大量数据插入
+     * Batch insert; suitable for inserting large amounts of data.
      *
-     * @param entities 实体们
+     * @param entities entities
      */
     default Boolean insertBatch(Collection<T> entities) {
-        // 特殊：SQL Server 批量插入后，获取 id 会报错，因此通过循环处理
+        // Special: SQL Server throws when fetching id after batch insert, so loop instead
         DbType dbType = JdbcUtils.getDbType();
         if (JdbcUtils.isSQLServer(dbType)) {
             entities.forEach(this::insert);
@@ -204,13 +204,13 @@ public interface BaseMapperX<T> extends MPJBaseMapper<T> {
     }
 
     /**
-     * 批量插入，适合大量数据插入
+     * Batch insert; suitable for inserting large amounts of data.
      *
-     * @param entities 实体们
-     * @param size     插入数量 Db.saveBatch 默认为 1000
+     * @param entities entities
+     * @param size     batch size; Db.saveBatch default is 1000
      */
     default Boolean insertBatch(Collection<T> entities, int size) {
-        // 特殊：SQL Server 批量插入后，获取 id 会报错，因此通过循环处理
+        // Special: SQL Server throws when fetching id after batch insert, so loop instead
         DbType dbType = JdbcUtils.getDbType();
         if (JdbcUtils.isSQLServer(dbType)) {
             entities.forEach(this::insert);

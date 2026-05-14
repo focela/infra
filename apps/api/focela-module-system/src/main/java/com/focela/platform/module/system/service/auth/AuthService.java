@@ -6,80 +6,80 @@ import com.focela.platform.module.system.entity.user.UserEntity;
 import jakarta.validation.Valid;
 
 /**
- * 管理后台的认证 Service 接口
+ * Admin authentication Service interface
  *
- * 提供用户的登录、登出的能力
+ * Provides user login and logout capabilities.
  */
 public interface AuthService {
 
     /**
-     * 验证账号 + 密码。如果通过，则返回用户
+     * Validate username + password. If successful, return the user.
      *
-     * @param username 账号
-     * @param password 密码
-     * @return 用户
+     * @param username username
+     * @param password password
+     * @return user
      */
     UserEntity authenticate(String username, String password);
 
     /**
-     * 账号登录
+     * Account login
      *
-     * @param request 登录信息
-     * @return 登录结果
+     * @param request login info
+     * @return login result
      */
     AuthLoginResponse login(@Valid AuthLoginRequest request);
 
     /**
-     * 基于 token 退出登录
+     * Logout based on token
      *
      * @param token token
-     * @param logType 登出类型
+     * @param logType logout type
      */
     void logout(String token, Integer logType);
 
     /**
-     * 短信验证码发送
+     * Send SMS verification code
      *
-     * @param request 发送请求
+     * @param request send request
      */
     void sendSmsCode(AuthSmsSendRequest request);
 
     /**
-     * 短信登录
+     * SMS login
      *
-     * @param request 登录信息
-     * @return 登录结果
+     * @param request login info
+     * @return login result
      */
     AuthLoginResponse smsLogin(AuthSmsLoginRequest request);
 
     /**
-     * 社交快捷登录，使用 code 授权码
+     * Social quick login using a code (authorization code).
      *
-     * @param request 登录信息
-     * @return 登录结果
+     * @param request login info
+     * @return login result
      */
     AuthLoginResponse socialLogin(@Valid AuthSocialLoginRequest request);
 
     /**
-     * 刷新访问令牌
+     * Refresh access token
      *
-     * @param refreshToken 刷新令牌
-     * @return 登录结果
+     * @param refreshToken refresh token
+     * @return login result
      */
     AuthLoginResponse refreshToken(String refreshToken);
 
     /**
-     * 用户注册
+     * User registration
      *
-     * @param createRequest 注册用户
-     * @return 注册结果
+     * @param createRequest registration info
+     * @return registration result
      */
     AuthLoginResponse register(AuthRegisterRequest createRequest);
 
     /**
-     * 重置密码
+     * Reset password
      *
-     * @param request 验证码信息
+     * @param request verification code info
      */
     void resetPassword(AuthResetPasswordRequest request);
 

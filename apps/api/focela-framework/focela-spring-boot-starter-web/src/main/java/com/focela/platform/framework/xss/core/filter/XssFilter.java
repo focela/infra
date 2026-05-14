@@ -13,17 +13,17 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Xss 过滤器
+ * XSS filter
  */
 @AllArgsConstructor
 public class XssFilter extends OncePerRequestFilter {
 
     /**
-     * 属性
+     * Properties
      */
     private final XssProperties properties;
     /**
-     * 路径匹配器
+     * Path matcher
      */
     private final PathMatcher pathMatcher;
 
@@ -37,12 +37,12 @@ public class XssFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        // 如果关闭，则不过滤
+        // do not filter if disabled
         if (!properties.isEnable()) {
             return true;
         }
 
-        // 如果匹配到无需过滤，则不过滤
+        // do not filter if matched to an exclusion
         String uri = request.getRequestURI();
         return properties.getExcludeUrls().stream().anyMatch(excludeUrl -> pathMatcher.match(excludeUrl, uri));
     }

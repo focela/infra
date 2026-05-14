@@ -11,12 +11,12 @@ import java.util.Collection;
 import java.util.function.Consumer;
 
 /**
- * 拓展 MyBatis Plus Join QueryWrapper 类，主要增加如下功能：
+ * Extends MyBatis Plus Join QueryWrapper with additional features:
  * <p>
- * 1. 拼接条件的方法，增加 xxxIfPresent 方法，用于判断值不存在的时候，不要拼接到条件中。
- * 2. SFunction<S, ?> column + <S> 泛型：支持任意类字段（主表、子表、三表），推荐写法, 让编译器自动推断 S 类型
+ * 1. Adds xxxIfPresent methods that skip the condition when the value is absent.
+ * 2. SFunction&lt;S, ?&gt; column + &lt;S&gt; generic: supports fields from any class (main table, sub-table, tri-table); recommended form so the compiler infers S automatically.
  *
- * @param <T> 数据类型
+ * @param <T> entity type
  */
 public class MPJLambdaWrapperX<T> extends MPJLambdaWrapper<T> {
 
@@ -103,7 +103,7 @@ public class MPJLambdaWrapperX<T> extends MPJLambdaWrapper<T> {
     }
 
 
-    // ========== 重写父类方法，方便链式调用 ==========
+    // ========== Override parent methods for fluent chaining ==========
 
     @Override
     public <X> MPJLambdaWrapperX<T> eq(boolean condition, SFunction<X, ?> column, Object val) {
@@ -315,7 +315,7 @@ public class MPJLambdaWrapperX<T> extends MPJLambdaWrapper<T> {
         return this;
     }
 
-    // ========== 关键重写：使 leftJoin 返回当前类型 this ==========
+    // ========== Key override: make leftJoin return this for the current type ==========
     @Override
     public <A, B> MPJLambdaWrapperX<T> leftJoin(Class<A> clazz, SFunction<A, ?> left, SFunction<B, ?> right) {
         super.leftJoin(clazz, left, right);
@@ -334,7 +334,7 @@ public class MPJLambdaWrapperX<T> extends MPJLambdaWrapper<T> {
         return this;
     }
 
-    // ========== 添加扩展 Join 支持 ext 函数式参数 ==========
+    // ========== Extended Join methods supporting an ext functional parameter ==========
     public <A, B> MPJLambdaWrapperX<T> leftJoin(Class<A> clazz, SFunction<A, ?> left, SFunction<B, ?> right, Consumer<MPJLambdaWrapperX<T>> ext) {
         super.leftJoin(clazz, left, right);
         if (ext != null) ext.accept(this);

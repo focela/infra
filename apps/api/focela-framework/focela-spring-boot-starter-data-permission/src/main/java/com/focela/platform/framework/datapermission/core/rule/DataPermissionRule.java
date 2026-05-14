@@ -7,27 +7,28 @@ import net.sf.jsqlparser.expression.Expression;
 import java.util.Set;
 
 /**
- * 数据权限规则接口
- * 通过实现接口，自定义数据规则。例如说，
+ * Data permission rule interface.
+ * Implement this interface to define custom data rules.
  */
 public interface DataPermissionRule {
 
     /**
-     * 返回需要生效的表名数组
-     * 为什么需要该方法？Data Permission 数组基于 SQL 重写，通过 Where 返回只有权限的数据
+     * Return the array of table names this rule applies to.
+     * Why is this needed? Data Permission rewrites SQL via WHERE clauses to return only the data
+     * the user has permission to see.
      *
-     * 如果需要基于实体名获得表名，可调用 {@link TableInfoHelper#getTableInfo(Class)} 获得
+     * To get a table name from an entity class, call {@link TableInfoHelper#getTableInfo(Class)}.
      *
-     * @return 表名数组
+     * @return array of table names
      */
     Set<String> getTableNames();
 
     /**
-     * 根据表名和别名，生成对应的 WHERE / OR 过滤条件
+     * Build the WHERE / OR filter condition for the given table name and alias.
      *
-     * @param tableName 表名
-     * @param tableAlias 别名，可能为空
-     * @return 过滤条件 Expression 表达式
+     * @param tableName table name
+     * @param tableAlias alias; may be null
+     * @return the filter Expression
      */
     Expression getExpression(String tableName, Alias tableAlias);
 

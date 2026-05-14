@@ -3,7 +3,7 @@ package com.focela.platform.framework.desensitize.core.slider.handler;
 import com.focela.platform.framework.desensitize.core.slider.annotation.MobileDesensitize;
 
 /**
- * {@link MobileDesensitize} 的脱敏处理器
+ * Desensitization handler for {@link MobileDesensitize}
  */
 public class MobileDesensitization extends AbstractSliderDesensitizationHandler<MobileDesensitize> {
 

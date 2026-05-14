@@ -8,11 +8,11 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 
 /**
- * 社交用户的绑定
- * 即 {@link SocialUserEntity} 与 UserDO 的关联表
+ * Social user binding
+ * The association table between {@link SocialUserEntity} and UserDO.
  */
 @TableName(value = "system_social_user_bind", autoResultMap = true)
-@KeySequence("system_social_user_bind_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
+@KeySequence("system_social_user_bind_seq") // used for primary key auto-increment in databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Builder
@@ -21,33 +21,33 @@ import lombok.*;
 public class SocialUserBindEntity extends BaseEntity {
 
     /**
-     * 编号
+     * ID
      */
     @TableId
     private Long id;
     /**
-     * 关联的用户编号
+     * Associated user ID
      *
-     * 关联 UserDO 的编号
+     * Associated with UserDO's ID.
      */
     private Long userId;
     /**
-     * 用户类型
+     * User type
      *
-     * 枚举 {@link UserTypeEnum}
+     * Enum {@link UserTypeEnum}
      */
     private Integer userType;
 
     /**
-     * 社交平台的用户编号
+     * Social platform user ID
      *
-     * 关联 {@link SocialUserEntity#getId()}
+     * Associated with {@link SocialUserEntity#getId()}
      */
     private Long socialUserId;
     /**
-     * 社交平台的类型
+     * Social platform type
      *
-     * 冗余 {@link SocialUserEntity#getType()}
+     * Redundant {@link SocialUserEntity#getType()}
      */
     private Integer socialType;
 

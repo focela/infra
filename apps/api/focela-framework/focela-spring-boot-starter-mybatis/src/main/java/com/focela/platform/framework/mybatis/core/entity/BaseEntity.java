@@ -12,47 +12,47 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 基础实体对象
+ * Base entity object.
  *
- * 为什么实现 {@link TransPojo} 接口？
- * 因为使用 Easy-Trans TransType.SIMPLE 模式，集成 MyBatis Plus 查询
+ * Why implement the {@link TransPojo} interface?
+ * Because Easy-Trans TransType.SIMPLE mode integrates with MyBatis Plus queries.
  */
 @Data
-@JsonIgnoreProperties(value = "transMap") // 由于 Easy-Trans 会添加 transMap 属性，避免 Jackson 在 Spring Cache 反序列化报错
+@JsonIgnoreProperties(value = "transMap") // Easy-Trans adds a transMap field; ignore it to avoid Jackson deserialization errors in Spring Cache
 public abstract class BaseEntity implements Serializable, TransPojo {
 
     /**
-     * 创建时间
+     * Creation time
      */
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
     /**
-     * 最后更新时间
+     * Last update time
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
     /**
-     * 创建者，目前使用 SysUser 的 id 编号
+     * Creator; currently the SysUser ID.
      *
-     * 使用 String 类型的原因是，未来可能会存在非数值的情况，留好拓展性。
+     * Stored as String because non-numeric values may appear in the future; reserves room for extension.
      */
     @TableField(fill = FieldFill.INSERT, jdbcType = JdbcType.VARCHAR)
     private String creator;
     /**
-     * 更新者，目前使用 SysUser 的 id 编号
+     * Updater; currently the SysUser ID.
      *
-     * 使用 String 类型的原因是，未来可能会存在非数值的情况，留好拓展性。
+     * Stored as String because non-numeric values may appear in the future; reserves room for extension.
      */
     @TableField(fill = FieldFill.INSERT_UPDATE, jdbcType = JdbcType.VARCHAR)
     private String updater;
     /**
-     * 是否删除
+     * Whether deleted
      */
     @TableLogic
     private Boolean deleted;
 
     /**
-     * 把 creator、createTime、updateTime、updater 都清空，避免前端直接传递 creator 之类的字段，直接就被更新了
+     * Clear creator, createTime, updateTime, and updater to prevent the frontend from passing these fields and overwriting them directly.
      */
     public void clean(){
         this.creator = null;

@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.mock;
 
 /**
- * {@link DataPermissionContextHolder} 的单元测试
+ * Unit tests for {@link DataPermissionContextHolder}.
  */
 class DataPermissionContextHolderTest {
 
@@ -20,26 +20,26 @@ class DataPermissionContextHolderTest {
 
     @Test
     public void testGet() {
-        // mock 方法
+        // mock the method
         DataPermission dataPermission01 = mock(DataPermission.class);
         DataPermissionContextHolder.add(dataPermission01);
         DataPermission dataPermission02 = mock(DataPermission.class);
         DataPermissionContextHolder.add(dataPermission02);
 
-        // 调用
+        // invoke
         DataPermission result = DataPermissionContextHolder.get();
-        // 断言
+        // assert
         assertSame(result, dataPermission02);
     }
 
     @Test
     public void testPush() {
-        // 调用
+        // invoke
         DataPermission dataPermission01 = mock(DataPermission.class);
         DataPermissionContextHolder.add(dataPermission01);
         DataPermission dataPermission02 = mock(DataPermission.class);
         DataPermissionContextHolder.add(dataPermission02);
-        // 断言
+        // assert
         DataPermission first = DataPermissionContextHolder.getAll().get(0);
         DataPermission second = DataPermissionContextHolder.getAll().get(1);
         assertSame(dataPermission01, first);
@@ -48,15 +48,15 @@ class DataPermissionContextHolderTest {
 
     @Test
     public void testRemove() {
-        // mock 方法
+        // mock the method
         DataPermission dataPermission01 = mock(DataPermission.class);
         DataPermissionContextHolder.add(dataPermission01);
         DataPermission dataPermission02 = mock(DataPermission.class);
         DataPermissionContextHolder.add(dataPermission02);
 
-        // 调用
+        // invoke
         DataPermission result = DataPermissionContextHolder.remove();
-        // 断言
+        // assert
         assertSame(result, dataPermission02);
         assertEquals(1, DataPermissionContextHolder.getAll().size());
     }

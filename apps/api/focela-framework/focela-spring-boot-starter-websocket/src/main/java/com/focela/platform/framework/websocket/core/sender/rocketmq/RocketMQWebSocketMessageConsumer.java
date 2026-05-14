@@ -6,12 +6,12 @@ import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
 
 /**
- * {@link RocketMQWebSocketMessage} 广播消息的消费者，真正把消息发送出去
+ * Consumer for {@link RocketMQWebSocketMessage} broadcast messages — actually delivers the message.
  */
-@RocketMQMessageListener( // 重点：添加 @RocketMQMessageListener 注解，声明消费的 topic
+@RocketMQMessageListener( // Important: add @RocketMQMessageListener to declare the consumed topic
         topic = "${focela.websocket.sender-rocketmq.topic}",
         consumerGroup = "${focela.websocket.sender-rocketmq.consumer-group}",
-        messageModel = MessageModel.BROADCASTING // 设置为广播模式，保证每个实例都能收到消息
+        messageModel = MessageModel.BROADCASTING // Broadcast mode, so every instance receives the message
 )
 @RequiredArgsConstructor
 public class RocketMQWebSocketMessageConsumer implements RocketMQListener<RocketMQWebSocketMessage> {

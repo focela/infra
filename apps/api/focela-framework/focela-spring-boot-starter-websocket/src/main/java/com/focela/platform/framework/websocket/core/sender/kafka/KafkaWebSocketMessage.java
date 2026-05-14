@@ -3,30 +3,30 @@ package com.focela.platform.framework.websocket.core.sender.kafka;
 import lombok.Data;
 
 /**
- * Kafka 广播 WebSocket 的消息
+ * WebSocket broadcast message over Kafka.
  */
 @Data
 public class KafkaWebSocketMessage {
 
     /**
-     * Session 编号
+     * Session ID
      */
     private String sessionId;
     /**
-     * 用户类型
+     * User type
      */
     private Integer userType;
     /**
-     * 用户编号
+     * User ID
      */
     private Long userId;
 
     /**
-     * 消息类型
+     * Message type
      */
     private String messageType;
     /**
-     * 消息内容
+     * Message content
      */
     private String messageContent;
 

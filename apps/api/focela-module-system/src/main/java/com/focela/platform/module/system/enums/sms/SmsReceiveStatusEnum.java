@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 短信的接收状态枚举
+ * SMS receive status enum
  *
  * @date 2021/2/1 13:39
  */
@@ -12,9 +12,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum SmsReceiveStatusEnum {
 
-    INIT(0), // 初始化
-    SUCCESS(10), // 接收成功
-    FAILURE(20), // 接收失败
+    INIT(0), // initialized
+    SUCCESS(10), // receive succeeded
+    FAILURE(20), // receive failed
     ;
 
     private final int status;

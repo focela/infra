@@ -5,22 +5,22 @@ import com.focela.platform.framework.common.exception.enums.ServiceErrorCodeRang
 import lombok.Data;
 
 /**
- * 错误码对象
+ * Error code object.
  *
- * 全局错误码，占用 [0, 999], 参见 {@link GlobalErrorCodeConstants}
- * 业务异常错误码，占用 [1 000 000 000, +∞)，参见 {@link ServiceErrorCodeRange}
+ * Global error codes occupy [0, 999], see {@link GlobalErrorCodeConstants}.
+ * Business exception error codes occupy [1 000 000 000, +inf), see {@link ServiceErrorCodeRange}.
  *
- * TODO 错误码设计成对象的原因，为未来的 i18 国际化做准备
+ * TODO Error codes are modeled as objects to leave room for future i18n support.
  */
 @Data
 public class ErrorCode {
 
     /**
-     * 错误码
+     * Error code
      */
     private final Integer code;
     /**
-     * 错误提示
+     * Error message
      */
     private final String msg;
 

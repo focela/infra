@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Xss 配置属性
+ * XSS configuration properties
  */
 @ConfigurationProperties(prefix = "focela.xss")
 @Validated
@@ -16,11 +16,11 @@ import java.util.List;
 public class XssProperties {
 
     /**
-     * 是否开启，默认为 true
+     * Whether enabled; default true
      */
     private boolean enable = true;
     /**
-     * 需要排除的 URL，默认为空
+     * URLs to exclude; default empty
      */
     private List<String> excludeUrls = Collections.emptyList();
 

@@ -5,29 +5,29 @@ import cn.hutool.core.util.ReflectUtil;
 import java.lang.annotation.Annotation;
 
 /**
- * 脱敏处理器接口
+ * Desensitization handler interface
  */
 public interface DesensitizationHandler<T extends Annotation> {
 
     /**
-     * 脱敏
+     * Desensitize
      *
-     * @param origin     原始字符串
-     * @param annotation 注解信息
-     * @return 脱敏后的字符串
+     * @param origin     original string
+     * @param annotation annotation info
+     * @return desensitized string
      */
     String desensitize(String origin, T annotation);
 
     /**
-     * 是否禁用脱敏的 Spring EL 表达式
+     * Spring EL expression that indicates whether desensitization is disabled
      *
-     * 如果返回 true 则跳过脱敏
+     * If it returns true, desensitization is skipped
      *
-     * @param annotation 注解信息
-     * @return 是否禁用脱敏的 Spring EL 表达式
+     * @param annotation annotation info
+     * @return Spring EL expression indicating whether desensitization is disabled
      */
     default String getDisable(T annotation) {
-        // 约定：默认就是 enable() 属性。如果不符合，子类重写
+        // convention: defaults to the enable() attribute. Override in subclasses if it does not apply
         try {
             return (String) ReflectUtil.invoke(annotation, "disable");
         } catch (Exception ex) {

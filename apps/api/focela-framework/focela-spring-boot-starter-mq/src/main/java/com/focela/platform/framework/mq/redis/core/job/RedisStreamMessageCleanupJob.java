@@ -12,10 +12,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import java.util.List;
 
 /**
- * Redis Stream 消息清理任务
- * 用于定期清理已消费的消息，防止内存占用过大
+ * Redis Stream message cleanup job.
+ * Periodically removes already-consumed messages to keep memory usage in check.
  *
- * @see <a href="https://www.cnblogs.com/nanxiang/p/16179519.html">记一次 redis stream 数据类型内存不释放问题</a>
+ * @see <a href="https://www.cnblogs.com/nanxiang/p/16179519.html">Notes on a Redis stream data type not releasing memory</a>
  */
 @Slf4j
 @AllArgsConstructor
@@ -24,7 +24,7 @@ public class RedisStreamMessageCleanupJob {
     private static final String LOCK_KEY = "redis:stream:message-cleanup:lock";
 
     /**
-     * 保留的消息数量，默认保留最近 10000 条消息
+     * Number of messages to retain; defaults to the most recent 10000.
      */
     private static final long MAX_COUNT = 10000;
 
@@ -33,12 +33,12 @@ public class RedisStreamMessageCleanupJob {
     private final RedissonClient redissonClient;
 
     /**
-     * 每小时执行一次清理任务
+     * Run the cleanup task once every hour.
      */
     @Scheduled(cron = "0 0 * * * ?")
     public void cleanup() {
         RLock lock = redissonClient.getLock(LOCK_KEY);
-        // 尝试加锁
+        // Try to acquire the lock
         if (lock.tryLock()) {
             try {
                 execute();
@@ -51,13 +51,13 @@ public class RedisStreamMessageCleanupJob {
     }
 
     /**
-     * 执行清理逻辑
+     * Execute the cleanup logic.
      */
     private void execute() {
         StreamOperations<String, Object, Object> ops = redisTemplate.getRedisTemplate().opsForStream();
         listeners.forEach(listener -> {
             try {
-                // 使用 XTRIM 命令清理消息，只保留最近的 MAX_LEN 条消息
+                // Use the XTRIM command to keep only the most recent MAX_LEN messages
                 Long trimCount = ops.trim(listener.getStreamKey(), MAX_COUNT, true);
                 if (trimCount != null && trimCount > 0) {
                     log.info("[execute][Stream({}) clean message count ({})]", listener.getStreamKey(), trimCount);

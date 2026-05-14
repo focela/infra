@@ -28,7 +28,7 @@ public class TenantVisitContextInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        // 如果和当前租户编号一致，则直接跳过
+        // If it matches the current tenant ID, skip directly
         Long visitTenantId = WebFrameworkUtils.getVisitTenantId(request);
         if (visitTenantId == null) {
             return true;
@@ -36,18 +36,18 @@ public class TenantVisitContextInterceptor implements HandlerInterceptor {
         if (ObjUtil.equal(visitTenantId, TenantContextHolder.getTenantId())) {
             return true;
         }
-        // 必须是登录用户
+        // Must be a logged-in user
         LoginUser loginUser = SecurityFrameworkUtils.getLoginUser();
         if (loginUser == null) {
             return true;
         }
 
-        // 校验用户是否可切换租户
+        // Verify whether the user is allowed to switch tenant
         if (!securityFrameworkService.hasAnyPermissions(PERMISSION)) {
-            throw exception0(GlobalErrorCodeConstants.FORBIDDEN.getCode(), "您无权切换租户");
+            throw exception0(GlobalErrorCodeConstants.FORBIDDEN.getCode(), "You are not authorized to switch tenant");
         }
 
-        // 【重点】切换租户编号
+        // [IMPORTANT] switch tenant ID
         loginUser.setVisitTenantId(visitTenantId);
         TenantContextHolder.setTenantId(visitTenantId);
         return true;
@@ -55,7 +55,7 @@ public class TenantVisitContextInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
-        // 【重点】清理切换，换回原租户编号
+        // [IMPORTANT] clean up the switch, restore the original tenant ID
         LoginUser loginUser = SecurityFrameworkUtils.getLoginUser();
         if (loginUser != null && loginUser.getTenantId() != null) {
             TenantContextHolder.setTenantId(loginUser.getTenantId());

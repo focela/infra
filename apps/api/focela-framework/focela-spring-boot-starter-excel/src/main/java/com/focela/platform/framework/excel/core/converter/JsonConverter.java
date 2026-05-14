@@ -8,7 +8,7 @@ import cn.idev.excel.metadata.data.WriteCellData;
 import cn.idev.excel.metadata.property.ExcelContentProperty;
 
 /**
- * Excel Json 转换器
+ * Excel JSON converter.
  */
 public class JsonConverter implements Converter<Object> {
 
@@ -25,7 +25,7 @@ public class JsonConverter implements Converter<Object> {
     @Override
     public WriteCellData<String> convertToExcelData(Object value, ExcelContentProperty contentProperty,
                                                     GlobalConfiguration globalConfiguration) {
-        // 生成 Excel 小表格
+        // Build the Excel cell value
         return new WriteCellData<>(JsonUtils.toJsonString(value));
     }
 

@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * JSON 工具类
+ * JSON utility class
  */
 @Slf4j
 public class JsonUtils {
@@ -35,8 +35,8 @@ public class JsonUtils {
     static {
         objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL); // 忽略 null 值
-        // 解决 LocalDateTime 的序列化
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL); // ignore null values
+        // resolve LocalDateTime serialization
         SimpleModule simpleModule = new JavaTimeModule()
                 .addSerializer(LocalDateTime.class, TimestampLocalDateTimeSerializer.INSTANCE)
                 .addDeserializer(LocalDateTime.class, TimestampLocalDateTimeDeserializer.INSTANCE);
@@ -44,11 +44,11 @@ public class JsonUtils {
     }
 
     /**
-     * 初始化 objectMapper 属性
+     * Initialize the objectMapper field
      * <p>
-     * 通过这样的方式，使用 Spring 创建的 ObjectMapper Bean
+     * This lets us reuse the ObjectMapper bean created by Spring
      *
-     * @param objectMapper ObjectMapper 对象
+     * @param objectMapper ObjectMapper instance
      */
     public static void init(ObjectMapper objectMapper) {
         JsonUtils.objectMapper = objectMapper;
@@ -120,13 +120,13 @@ public class JsonUtils {
     }
 
     /**
-     * 将字符串解析成指定类型的对象
-     * 使用 {@link #parseObject(String, Class)} 时，在@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS) 的场景下，
-     * 如果 text 没有 class 属性，则会报错。此时，使用这个方法，可以解决。
+     * Parse a string into an object of the specified type.
+     * When using {@link #parseObject(String, Class)} with @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS),
+     * parsing fails if the text has no class property. This method works around that.
      *
-     * @param text 字符串
-     * @param clazz 类型
-     * @return 对象
+     * @param text  string
+     * @param clazz target type
+     * @return parsed object
      */
     public static <T> T parseObject2(String text, Class<T> clazz) {
         if (StrUtil.isEmpty(text)) {
@@ -157,11 +157,11 @@ public class JsonUtils {
     }
 
     /**
-     * 解析 JSON 字符串成指定类型的对象，如果解析失败，则返回 null
+     * Parse a JSON string into the specified type, returning null on failure.
      *
-     * @param text 字符串
-     * @param typeReference 类型引用
-     * @return 指定类型的对象
+     * @param text          string
+     * @param typeReference type reference
+     * @return parsed object of the specified type
      */
     public static <T> T parseObjectQuietly(String text, TypeReference<T> typeReference) {
         try {
@@ -220,21 +220,21 @@ public class JsonUtils {
     }
 
     /**
-     * 判断字符串是否为 JSON 类型的字符串
-     * @param str 字符串
+     * Determine whether the string is a JSON object string.
+     * @param str string
      */
     public static boolean isJsonObject(String str) {
         return JSONUtil.isTypeJSONObject(str);
     }
 
     /**
-     * 将 Object 转换为目标类型
+     * Convert an Object to the target type.
      * <p>
-     * 避免先转 jsonString 再 parseObject 的性能损耗
+     * Avoids the overhead of converting to a JSON string and then calling parseObject.
      *
-     * @param obj   源对象（可以是 Map、POJO 等）
-     * @param clazz 目标类型
-     * @return 转换后的对象
+     * @param obj   source object (Map, POJO, etc.)
+     * @param clazz target type
+     * @return converted object
      */
     public static <T> T convertObject(Object obj, Class<T> clazz) {
         if (obj == null) {
@@ -247,11 +247,11 @@ public class JsonUtils {
     }
 
     /**
-     * 将 Object 转换为目标类型（支持泛型）
+     * Convert an Object to the target type (supports generics).
      *
-     * @param obj           源对象
-     * @param typeReference 目标类型引用
-     * @return 转换后的对象
+     * @param obj           source object
+     * @param typeReference target type reference
+     * @return converted object
      */
     public static <T> T convertObject(Object obj, TypeReference<T> typeReference) {
         if (obj == null) {
@@ -261,13 +261,13 @@ public class JsonUtils {
     }
 
     /**
-     * 将 Object 转换为 List 类型
+     * Convert an Object to a List.
      * <p>
-     * 避免先转 jsonString 再 parseArray 的性能损耗
+     * Avoids the overhead of converting to a JSON string and then calling parseArray.
      *
-     * @param obj   源对象（可以是 List、数组等）
-     * @param clazz 目标元素类型
-     * @return 转换后的 List
+     * @param obj   source object (List, array, etc.)
+     * @param clazz target element type
+     * @return converted List
      */
     public static <T> List<T> convertList(Object obj, Class<T> clazz) {
         if (obj == null) {

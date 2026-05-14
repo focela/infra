@@ -6,7 +6,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import java.util.concurrent.TimeUnit;
 
 /**
- * HTTP API 签名 Redis DAO
+ * HTTP API signature Redis DAO.
  */
 @AllArgsConstructor
 public class ApiSignatureRedisDAO {
@@ -14,25 +14,25 @@ public class ApiSignatureRedisDAO {
     private final StringRedisTemplate stringRedisTemplate;
 
     /**
-     * 验签随机数
+     * Signature nonce.
      * <p>
-     * KEY 格式：signature_nonce:%s // 参数为 随机数
-     * VALUE 格式：String
-     * 过期时间：不固定
+     * KEY format: signature_nonce:%s // parameter is the random nonce
+     * VALUE format: String
+     * Expiration: variable
      */
     private static final String SIGNATURE_NONCE = "api_signature_nonce:%s:%s";
 
     /**
-     * 签名密钥
+     * Signature secret.
      * <p>
-     * HASH 结构
-     * KEY 格式：%s // 参数为 appid
-     * VALUE 格式：String
-     * 过期时间：永不过期（预加载到 Redis）
+     * HASH structure.
+     * KEY format: %s // parameter is the appId
+     * VALUE format: String
+     * Expiration: never expires (preloaded into Redis)
      */
     private static final String SIGNATURE_APPID = "api_signature_app";
 
-    // ========== 验签随机数 ==========
+    // ========== Signature nonce ==========
 
     public String getNonce(String appId, String nonce) {
         return stringRedisTemplate.opsForValue().get(formatNonceKey(appId, nonce));
@@ -46,7 +46,7 @@ public class ApiSignatureRedisDAO {
         return String.format(SIGNATURE_NONCE, appId, nonce);
     }
 
-    // ========== 签名密钥 ==========
+    // ========== Signature secret ==========
 
     public String getAppSecret(String appId) {
         return (String) stringRedisTemplate.opsForHash().get(SIGNATURE_APPID, appId);

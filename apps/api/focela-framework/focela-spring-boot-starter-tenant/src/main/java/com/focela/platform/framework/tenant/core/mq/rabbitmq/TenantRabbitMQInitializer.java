@@ -5,7 +5,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
 /**
- * 多租户的 RabbitMQ 初始化器
+ * Multi-tenant RabbitMQ initializer
  */
 public class TenantRabbitMQInitializer implements BeanPostProcessor {
 

@@ -24,18 +24,18 @@ public class InEnumValidator implements ConstraintValidator<InEnum, Object> {
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
-        // 为空时，默认不校验，即认为通过
+        // when null, skip validation by default (i.e., consider it passed)
         if (value == null) {
             return true;
         }
-        // 校验通过
+        // validation passed
         if (values.contains(value)) {
             return true;
         }
-        // 校验不通过，自定义提示语句
-        context.disableDefaultConstraintViolation(); // 禁用默认的 message 的值
+        // validation failed, customize the error message
+        context.disableDefaultConstraintViolation(); // disable the default message value
         context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate()
-                .replaceAll("\\{value}", values.toString())).addConstraintViolation(); // 重新添加错误提示语句
+                .replaceAll("\\{value}", values.toString())).addConstraintViolation(); // re-add the error message
         return false;
     }
 

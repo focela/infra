@@ -14,22 +14,22 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 /**
- * Redis Pub/Sub 监听器抽象类，用于实现广播消费
+ * Abstract Redis Pub/Sub listener used to implement broadcast consumption.
  *
- * @param <T> 消息类型。一定要填写噢，不然会报错
+ * @param <T> message type. Must be specified; otherwise an error is thrown.
  */
 public abstract class AbstractRedisChannelMessageListener<T extends AbstractRedisChannelMessage> implements MessageListener {
 
     /**
-     * 消息类型
+     * Message type.
      */
     private final Class<T> messageType;
     /**
-     * Redis Channel
+     * Redis channel.
      */
     private final String channel;
     /**
-     * RedisMQTemplate
+     * RedisMQTemplate.
      */
     @Setter
     private RedisMQTemplate redisMQTemplate;
@@ -41,7 +41,7 @@ public abstract class AbstractRedisChannelMessageListener<T extends AbstractRedi
     }
 
     /**
-     * 获得 Sub 订阅的 Redis Channel 通道
+     * Get the Redis channel that the subscriber listens to.
      *
      * @return channel
      */
@@ -54,7 +54,7 @@ public abstract class AbstractRedisChannelMessageListener<T extends AbstractRedi
         T messageObj = JsonUtils.parseObject(message.getBody(), messageType);
         try {
             consumeMessageBefore(messageObj);
-            // 消费消息
+            // Consume the message
             this.onMessage(messageObj);
         } finally {
             consumeMessageAfter(messageObj);
@@ -62,16 +62,16 @@ public abstract class AbstractRedisChannelMessageListener<T extends AbstractRedi
     }
 
     /**
-     * 处理消息
+     * Handle the message.
      *
-     * @param message 消息
+     * @param message message
      */
     public abstract void onMessage(T message);
 
     /**
-     * 通过解析类上的泛型，获得消息类型
+     * Resolve the message type from the class generic parameter.
      *
-     * @return 消息类型
+     * @return message type
      */
     @SuppressWarnings("unchecked")
     private Class<T> getMessageClass() {
@@ -85,14 +85,14 @@ public abstract class AbstractRedisChannelMessageListener<T extends AbstractRedi
     private void consumeMessageBefore(AbstractRedisMessage message) {
         assert redisMQTemplate != null;
         List<RedisMessageInterceptor> interceptors = redisMQTemplate.getInterceptors();
-        // 正序
+        // Forward order
         interceptors.forEach(interceptor -> interceptor.consumeMessageBefore(message));
     }
 
     private void consumeMessageAfter(AbstractRedisMessage message) {
         assert redisMQTemplate != null;
         List<RedisMessageInterceptor> interceptors = redisMQTemplate.getInterceptors();
-        // 倒序
+        // Reverse order
         for (int i = interceptors.size() - 1; i >= 0; i--) {
             interceptors.get(i).consumeMessageAfter(message);
         }

@@ -15,12 +15,12 @@ import lombok.ToString;
 import java.util.List;
 
 /**
- * 短信模板 DO
+ * SMS template DO
  *
  * @since 2021-01-25
  */
 @TableName(value = "system_sms_template", autoResultMap = true)
-@KeySequence("system_sms_template_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
+@KeySequence("system_sms_template_seq") // used for primary key auto-increment in databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
@@ -28,64 +28,64 @@ import java.util.List;
 public class SmsTemplateEntity extends BaseEntity {
 
     /**
-     * 自增编号
+     * Auto-increment ID
      */
     private Long id;
 
-    // ========= 模板相关字段 =========
+    // ========= Template-related fields =========
 
     /**
-     * 短信类型
+     * SMS type
      *
-     * 枚举 {@link SmsTemplateTypeEnum}
+     * Enum {@link SmsTemplateTypeEnum}
      */
     private Integer type;
     /**
-     * 启用状态
+     * Enabled status
      *
-     * 枚举 {@link CommonStatusEnum}
+     * Enum {@link CommonStatusEnum}
      */
     private Integer status;
     /**
-     * 模板编码，保证唯一
+     * Template code; must be unique
      */
     private String code;
     /**
-     * 模板名称
+     * Template name
      */
     private String name;
     /**
-     * 模板内容
+     * Template content
      *
-     * 内容的参数，使用 {} 包括，例如说 {name}
+     * Parameters in the content are wrapped with {}, e.g. {name}.
      */
     private String content;
     /**
-     * 参数数组(自动根据内容生成)
+     * Parameter array (auto-generated from content)
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
     private List<String> params;
     /**
-     * 备注
+     * Remarks
      */
     private String remark;
     /**
-     * 短信 API 的模板编号
+     * SMS API template ID
      */
     private String apiTemplateId;
 
-    // ========= 渠道相关字段 =========
+    // ========= Channel-related fields =========
 
     /**
-     * 短信渠道编号
+     * SMS channel ID
      *
-     * 关联 {@link SmsChannelEntity#getId()}
+     * Associated with {@link SmsChannelEntity#getId()}
      */
     private Long channelId;
     /**
-     * 短信渠道编码
+     * SMS channel code
      *
-     * 冗余 {@link SmsChannelEntity#getCode()}
+     * Redundant {@link SmsChannelEntity#getCode()}
      */
     private String channelCode;
 

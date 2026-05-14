@@ -3,7 +3,7 @@ package com.focela.platform.framework.desensitize.core.slider.handler;
 import com.focela.platform.framework.desensitize.core.slider.annotation.PasswordDesensitize;
 
 /**
- * {@link PasswordDesensitize} 的码脱敏处理器
+ * Desensitization handler for {@link PasswordDesensitize}
  */
 public class PasswordDesensitization extends AbstractSliderDesensitizationHandler<PasswordDesensitize> {
     @Override

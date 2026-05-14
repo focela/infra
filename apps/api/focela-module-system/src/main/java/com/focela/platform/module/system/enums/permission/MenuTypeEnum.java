@@ -4,19 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 菜单类型枚举类
+ * Menu type enum
  */
 @Getter
 @AllArgsConstructor
 public enum MenuTypeEnum {
 
-    DIR(1), // 目录
-    MENU(2), // 菜单
-    BUTTON(3) // 按钮
+    DIR(1), // directory
+    MENU(2), // menu
+    BUTTON(3) // button
     ;
 
     /**
-     * 类型
+     * Type
      */
     private final Integer type;
 

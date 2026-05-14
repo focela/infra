@@ -4,19 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 短信的模板类型枚举
+ * SMS template type enum
  */
 @Getter
 @AllArgsConstructor
 public enum SmsTemplateTypeEnum {
 
-    VERIFICATION_CODE(1), // 验证码
-    NOTICE(2), // 通知
-    PROMOTION(3), // 营销
+    VERIFICATION_CODE(1), // verification code
+    NOTICE(2), // notice
+    PROMOTION(3), // promotion
     ;
 
     /**
-     * 类型
+     * Type
      */
     private final int type;
 

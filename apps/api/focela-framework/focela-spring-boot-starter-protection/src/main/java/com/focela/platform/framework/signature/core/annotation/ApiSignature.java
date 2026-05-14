@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- * HTTP API 签名注解
+ * HTTP API signature annotation.
  */
 @Inherited
 @Documented
@@ -16,41 +16,41 @@ import java.util.concurrent.TimeUnit;
 public @interface ApiSignature {
 
     /**
-     * 同一个请求多长时间内有效 默认 60 秒
+     * Validity window for the same request, default 60 seconds.
      */
     int timeout() default 60;
 
     /**
-     * 时间单位，默认为 SECONDS 秒
+     * Time unit, default SECONDS.
      */
     TimeUnit timeUnit() default TimeUnit.SECONDS;
 
-    // ========================== 签名参数 ==========================
+    // ========================== Signature parameters ==========================
 
     /**
-     * 提示信息，签名失败的提示
+     * Message shown when signature verification fails.
      *
      * @see GlobalErrorCodeConstants#BAD_REQUEST
      */
-    String message() default "签名不正确"; // 为空时，使用 BAD_REQUEST 错误提示
+    String message() default "Invalid signature"; // When empty, the BAD_REQUEST error message is used
 
     /**
-     * 签名字段：appId 应用ID
+     * Signature field: appId (application ID).
      */
     String appId() default "appId";
 
     /**
-     * 签名字段：timestamp 时间戳
+     * Signature field: timestamp.
      */
     String timestamp() default "timestamp";
 
     /**
-     * 签名字段：nonce 随机数，10 位以上
+     * Signature field: nonce (random value, at least 10 characters).
      */
     String nonce() default "nonce";
 
     /**
-     * sign 客户端签名
+     * sign: the client-side signature.
      */
     String sign() default "sign";
 

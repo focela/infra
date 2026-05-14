@@ -3,23 +3,23 @@ package com.focela.platform.framework.datapermission.core.rule;
 import java.util.List;
 
 /**
- * {@link DataPermissionRule} 工厂接口
- * 作为 {@link DataPermissionRule} 的容器，提供管理能力
+ * Factory interface for {@link DataPermissionRule}.
+ * Acts as the container for {@link DataPermissionRule} instances and provides management capabilities.
  */
 public interface DataPermissionRuleFactory {
 
     /**
-     * 获得所有数据权限规则数组
+     * Get all data permission rules.
      *
-     * @return 数据权限规则数组
+     * @return array of data permission rules
      */
     List<DataPermissionRule> getDataPermissionRules();
 
     /**
-     * 获得指定 Mapper 的数据权限规则数组
+     * Get the data permission rules for the specified Mapper.
      *
-     * @param mappedStatementId 指定 Mapper 的编号
-     * @return 数据权限规则数组
+     * @param mappedStatementId ID of the specified Mapper
+     * @return array of data permission rules
      */
     List<DataPermissionRule> getDataPermissionRule(String mappedStatementId);
 

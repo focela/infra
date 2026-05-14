@@ -28,7 +28,7 @@ import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
 
 /**
- * {@link DepartmentDataPermissionRule} 的单元测试
+ * Unit tests for {@link DepartmentDataPermissionRule}.
  */
 class DepartmentDataPermissionRuleTest extends BaseMockitoUnitTest {
 
@@ -41,192 +41,192 @@ class DepartmentDataPermissionRuleTest extends BaseMockitoUnitTest {
     @BeforeEach
     @SuppressWarnings("unchecked")
     public void setUp() {
-        // 清空 rule
+        // Clear the rule
         rule.getTableNames().clear();
         ((Map<String, String>) ReflectUtil.getFieldValue(rule, "deptColumns")).clear();
         ((Map<String, String>) ReflectUtil.getFieldValue(rule, "deptColumns")).clear();
     }
 
-    @Test // 无 LoginUser
+    @Test // No LoginUser
     public void testGetExpression_noLoginUser() {
-        // 准备参数
+        // prepare parameters
         String tableName = randomString();
         Alias tableAlias = new Alias(randomString());
-        // mock 方法
+        // mock the method
 
-        // 调用
+        // invoke
         Expression expression = rule.getExpression(tableName, tableAlias);
-        // 断言
+        // assert
         assertNull(expression);
     }
 
-    @Test // 无数据权限时
+    @Test // No data permission
     public void testGetExpression_noDeptDataPermission() {
         try (MockedStatic<SecurityFrameworkUtils> securityFrameworkUtilsMock
                      = mockStatic(SecurityFrameworkUtils.class)) {
-            // 准备参数
+            // prepare parameters
             String tableName = "t_user";
             Alias tableAlias = new Alias("u");
-            // mock 方法
+            // mock the method
             LoginUser loginUser = randomPojo(LoginUser.class, o -> o.setId(1L)
                     .setUserType(UserTypeEnum.ADMIN.getValue()));
             securityFrameworkUtilsMock.when(SecurityFrameworkUtils::getLoginUser).thenReturn(loginUser);
-            // mock 方法（permissionApi 返回 null）
+            // mock the method (permissionApi returns null)
             when(permissionApi.getDeptDataPermission(eq(loginUser.getId()))).thenReturn(null);
 
-            // 调用
+            // invoke
             NullPointerException exception = assertThrows(NullPointerException.class,
                     () -> rule.getExpression(tableName, tableAlias));
-            // 断言
+            // assert
             assertEquals("LoginUser(1) Table(t_user/u) did not return data permission", exception.getMessage());
         }
     }
 
-    @Test // 全部数据权限
+    @Test // Full data permission
     public void testGetExpression_allDeptDataPermission() {
         try (MockedStatic<SecurityFrameworkUtils> securityFrameworkUtilsMock
                      = mockStatic(SecurityFrameworkUtils.class)) {
-            // 准备参数
+            // prepare parameters
             String tableName = "t_user";
             Alias tableAlias = new Alias("u");
-            // mock 方法（LoginUser）
+            // mock the method (LoginUser)
             LoginUser loginUser = randomPojo(LoginUser.class, o -> o.setId(1L)
                     .setUserType(UserTypeEnum.ADMIN.getValue()));
             securityFrameworkUtilsMock.when(SecurityFrameworkUtils::getLoginUser).thenReturn(loginUser);
-            // mock 方法（DepartmentDataPermissionRpcResponse）
+            // mock the method (DepartmentDataPermissionRpcResponse)
             DepartmentDataPermissionRpcResponse deptDataPermission = new DepartmentDataPermissionRpcResponse().setAll(true);
             when(permissionApi.getDeptDataPermission(same(1L))).thenReturn(deptDataPermission);
 
-            // 调用
+            // invoke
             Expression expression = rule.getExpression(tableName, tableAlias);
-            // 断言
+            // assert
             assertNull(expression);
             assertSame(deptDataPermission, loginUser.getContext(DepartmentDataPermissionRule.CONTEXT_KEY, DepartmentDataPermissionRpcResponse.class));
         }
     }
 
-    @Test // 即不能查看部门，又不能查看自己，则说明 100% 无权限
+    @Test // Cannot view department nor self - i.e. 100% no permission
     public void testGetExpression_noDept_noSelf() {
         try (MockedStatic<SecurityFrameworkUtils> securityFrameworkUtilsMock
                      = mockStatic(SecurityFrameworkUtils.class)) {
-            // 准备参数
+            // prepare parameters
             String tableName = "t_user";
             Alias tableAlias = new Alias("u");
-            // mock 方法（LoginUser）
+            // mock the method (LoginUser)
             LoginUser loginUser = randomPojo(LoginUser.class, o -> o.setId(1L)
                     .setUserType(UserTypeEnum.ADMIN.getValue()));
             securityFrameworkUtilsMock.when(SecurityFrameworkUtils::getLoginUser).thenReturn(loginUser);
-            // mock 方法（DepartmentDataPermissionRpcResponse）
+            // mock the method (DepartmentDataPermissionRpcResponse)
             DepartmentDataPermissionRpcResponse deptDataPermission = new DepartmentDataPermissionRpcResponse();
             when(permissionApi.getDeptDataPermission(same(1L))).thenReturn(deptDataPermission);
 
-            // 调用
+            // invoke
             Expression expression = rule.getExpression(tableName, tableAlias);
-            // 断言
+            // assert
             assertEquals("null = null", expression.toString());
             assertSame(deptDataPermission, loginUser.getContext(DepartmentDataPermissionRule.CONTEXT_KEY, DepartmentDataPermissionRpcResponse.class));
         }
     }
 
-    @Test // 拼接 Department 和 User 的条件（字段都不符合）
+    @Test // Combine Department and User conditions (neither column matches)
     public void testGetExpression_noDeptColumn_noSelfColumn() {
         try (MockedStatic<SecurityFrameworkUtils> securityFrameworkUtilsMock
                      = mockStatic(SecurityFrameworkUtils.class)) {
-            // 准备参数
+            // prepare parameters
             String tableName = "t_user";
             Alias tableAlias = new Alias("u");
-            // mock 方法（LoginUser）
+            // mock the method (LoginUser)
             LoginUser loginUser = randomPojo(LoginUser.class, o -> o.setId(1L)
                     .setUserType(UserTypeEnum.ADMIN.getValue()));
             securityFrameworkUtilsMock.when(SecurityFrameworkUtils::getLoginUser).thenReturn(loginUser);
-            // mock 方法（DepartmentDataPermissionRpcResponse）
+            // mock the method (DepartmentDataPermissionRpcResponse)
             DepartmentDataPermissionRpcResponse deptDataPermission = new DepartmentDataPermissionRpcResponse()
                     .setDeptIds(SetUtils.asSet(10L, 20L)).setSelf(true);
             when(permissionApi.getDeptDataPermission(same(1L))).thenReturn(deptDataPermission);
 
-            // 调用
+            // invoke
             Expression expression = rule.getExpression(tableName, tableAlias);
-            // 断言
+            // assert
             assertEquals("null = null", expression.toString());
             assertSame(deptDataPermission, loginUser.getContext(DepartmentDataPermissionRule.CONTEXT_KEY, DepartmentDataPermissionRpcResponse.class));
         }
     }
 
-    @Test // 拼接 Department 和 User 的条件（self 符合）
+    @Test // Combine Department and User conditions (self column matches)
     public void testGetExpression_noDeptColumn_yesSelfColumn() {
         try (MockedStatic<SecurityFrameworkUtils> securityFrameworkUtilsMock
                      = mockStatic(SecurityFrameworkUtils.class)) {
-            // 准备参数
+            // prepare parameters
             String tableName = "t_user";
             Alias tableAlias = new Alias("u");
-            // mock 方法（LoginUser）
+            // mock the method (LoginUser)
             LoginUser loginUser = randomPojo(LoginUser.class, o -> o.setId(1L)
                     .setUserType(UserTypeEnum.ADMIN.getValue()));
             securityFrameworkUtilsMock.when(SecurityFrameworkUtils::getLoginUser).thenReturn(loginUser);
-            // mock 方法（DepartmentDataPermissionRpcResponse）
+            // mock the method (DepartmentDataPermissionRpcResponse)
             DepartmentDataPermissionRpcResponse deptDataPermission = new DepartmentDataPermissionRpcResponse()
                     .setSelf(true);
             when(permissionApi.getDeptDataPermission(same(1L))).thenReturn(deptDataPermission);
-            // 添加 user 字段配置
+            // Add user column configuration
             rule.addUserColumn("t_user", "id");
 
-            // 调用
+            // invoke
             Expression expression = rule.getExpression(tableName, tableAlias);
-            // 断言
+            // assert
             assertEquals("u.id = 1", expression.toString());
             assertSame(deptDataPermission, loginUser.getContext(DepartmentDataPermissionRule.CONTEXT_KEY, DepartmentDataPermissionRpcResponse.class));
         }
     }
 
-    @Test // 拼接 Department 和 User 的条件（dept 符合）
+    @Test // Combine Department and User conditions (dept column matches)
     public void testGetExpression_yesDeptColumn_noSelfColumn() {
         try (MockedStatic<SecurityFrameworkUtils> securityFrameworkUtilsMock
                      = mockStatic(SecurityFrameworkUtils.class)) {
-            // 准备参数
+            // prepare parameters
             String tableName = "t_user";
             Alias tableAlias = new Alias("u");
-            // mock 方法（LoginUser）
+            // mock the method (LoginUser)
             LoginUser loginUser = randomPojo(LoginUser.class, o -> o.setId(1L)
                     .setUserType(UserTypeEnum.ADMIN.getValue()));
             securityFrameworkUtilsMock.when(SecurityFrameworkUtils::getLoginUser).thenReturn(loginUser);
-            // mock 方法（DepartmentDataPermissionRpcResponse）
+            // mock the method (DepartmentDataPermissionRpcResponse)
             DepartmentDataPermissionRpcResponse deptDataPermission = new DepartmentDataPermissionRpcResponse()
                     .setDeptIds(CollUtil.newLinkedHashSet(10L, 20L));
             when(permissionApi.getDeptDataPermission(same(1L))).thenReturn(deptDataPermission);
-            // 添加 dept 字段配置
+            // Add dept column configuration
             rule.addDeptColumn("t_user", "dept_id");
 
-            // 调用
+            // invoke
             Expression expression = rule.getExpression(tableName, tableAlias);
-            // 断言
+            // assert
             assertEquals("u.dept_id IN (10, 20)", expression.toString());
             assertSame(deptDataPermission, loginUser.getContext(DepartmentDataPermissionRule.CONTEXT_KEY, DepartmentDataPermissionRpcResponse.class));
         }
     }
 
-    @Test // 拼接 Department 和 User 的条件（dept + self 符合）
+    @Test // Combine Department and User conditions (both dept and self match)
     public void testGetExpression_yesDeptColumn_yesSelfColumn() {
         try (MockedStatic<SecurityFrameworkUtils> securityFrameworkUtilsMock
                      = mockStatic(SecurityFrameworkUtils.class)) {
-            // 准备参数
+            // prepare parameters
             String tableName = "t_user";
             Alias tableAlias = new Alias("u");
-            // mock 方法（LoginUser）
+            // mock the method (LoginUser)
             LoginUser loginUser = randomPojo(LoginUser.class, o -> o.setId(1L)
                     .setUserType(UserTypeEnum.ADMIN.getValue()));
             securityFrameworkUtilsMock.when(SecurityFrameworkUtils::getLoginUser).thenReturn(loginUser);
-            // mock 方法（DepartmentDataPermissionRpcResponse）
+            // mock the method (DepartmentDataPermissionRpcResponse)
             DepartmentDataPermissionRpcResponse deptDataPermission = new DepartmentDataPermissionRpcResponse()
                     .setDeptIds(CollUtil.newLinkedHashSet(10L, 20L)).setSelf(true);
             when(permissionApi.getDeptDataPermission(same(1L))).thenReturn(deptDataPermission);
-            // 添加 user 字段配置
+            // Add user column configuration
             rule.addUserColumn("t_user", "id");
-            // 添加 dept 字段配置
+            // Add dept column configuration
             rule.addDeptColumn("t_user", "dept_id");
 
-            // 调用
+            // invoke
             Expression expression = rule.getExpression(tableName, tableAlias);
-            // 断言
+            // assert
             assertEquals("(u.dept_id IN (10, 20) OR u.id = 1)", expression.toString());
             assertSame(deptDataPermission, loginUser.getContext(DepartmentDataPermissionRule.CONTEXT_KEY, DepartmentDataPermissionRpcResponse.class));
         }

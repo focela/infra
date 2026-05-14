@@ -10,7 +10,7 @@ import org.springframework.aop.support.ComposablePointcut;
 import org.springframework.aop.support.annotation.AnnotationMatchingPointcut;
 
 /**
- * {@link com.focela.platform.framework.datapermission.core.annotation.DataPermission} 注解的 Advisor 实现类
+ * Advisor implementation for the {@link com.focela.platform.framework.datapermission.core.annotation.DataPermission} annotation.
  */
 @Getter
 @EqualsAndHashCode(callSuper = true)

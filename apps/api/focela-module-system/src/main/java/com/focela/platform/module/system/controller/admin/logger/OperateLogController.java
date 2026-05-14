@@ -66,7 +66,7 @@ public class OperateLogController {
     public void exportOperateLog(HttpServletResponse response, @Valid OperateLogPageRequest exportRequest) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
         List<OperateLogEntity> list = operateLogService.getOperateLogPage(exportRequest).getList();
-        ExcelUtils.write(response, "操作日志.xls", "数据列表", OperateLogResponse.class,
+        ExcelUtils.write(response, "Operate Log.xls", "Data List", OperateLogResponse.class,
                 TranslateUtils.translate(BeanUtils.toBean(list, OperateLogResponse.class)));
     }
 

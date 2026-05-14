@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Redis MQ 操作模板类
+ * Redis MQ operation template class.
  */
 @AllArgsConstructor
 public class RedisMQTemplate {
@@ -23,20 +23,20 @@ public class RedisMQTemplate {
     @Getter
     private final RedisTemplate<String, ?> redisTemplate;
     /**
-     * 拦截器数组
+     * Interceptor list.
      */
     @Getter
     private final List<RedisMessageInterceptor> interceptors = new ArrayList<>();
 
     /**
-     * 发送 Redis 消息，基于 Redis pub/sub 实现
+     * Send a Redis message via Redis pub/sub.
      *
-     * @param message 消息
+     * @param message message
      */
     public <T extends AbstractRedisChannelMessage> void send(T message) {
         try {
             sendMessageBefore(message);
-            // 发送消息
+            // Send the message
             redisTemplate.convertAndSend(message.getChannel(), JsonUtils.toJsonString(message));
         } finally {
             sendMessageAfter(message);
@@ -44,39 +44,39 @@ public class RedisMQTemplate {
     }
 
     /**
-     * 发送 Redis 消息，基于 Redis Stream 实现
+     * Send a Redis message via Redis Stream.
      *
-     * @param message 消息
-     * @return 消息记录的编号对象
+     * @param message message
+     * @return message record ID
      */
     public <T extends AbstractRedisStreamMessage> RecordId send(T message) {
         try {
             sendMessageBefore(message);
-            // 发送消息
+            // Send the message
             return redisTemplate.opsForStream().add(StreamRecords.newRecord()
-                    .ofObject(JsonUtils.toJsonString(message)) // 设置内容
-                    .withStreamKey(message.getStreamKey())); // 设置 stream key
+                    .ofObject(JsonUtils.toJsonString(message)) // Set the payload
+                    .withStreamKey(message.getStreamKey())); // Set the stream key
         } finally {
             sendMessageAfter(message);
         }
     }
 
     /**
-     * 添加拦截器
+     * Add an interceptor.
      *
-     * @param interceptor 拦截器
+     * @param interceptor interceptor
      */
     public void addInterceptor(RedisMessageInterceptor interceptor) {
         interceptors.add(interceptor);
     }
 
     private void sendMessageBefore(AbstractRedisMessage message) {
-        // 正序
+        // Forward order
         interceptors.forEach(interceptor -> interceptor.sendMessageBefore(message));
     }
 
     private void sendMessageAfter(AbstractRedisMessage message) {
-        // 倒序
+        // Reverse order
         for (int i = interceptors.size() - 1; i >= 0; i--) {
             interceptors.get(i).sendMessageAfter(message);
         }

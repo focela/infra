@@ -4,21 +4,21 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 性别的枚举值
+ * Gender enum values
  */
 @Getter
 @AllArgsConstructor
 public enum SexEnum {
 
-    /** 男 */
+    /** Male */
     MALE(1),
-    /** 女 */
+    /** Female */
     FEMALE(2),
-    /* 未知 */
+    /* Unknown */
     UNKNOWN(0);
 
     /**
-     * 性别
+     * Gender
      */
     private final Integer sex;
 

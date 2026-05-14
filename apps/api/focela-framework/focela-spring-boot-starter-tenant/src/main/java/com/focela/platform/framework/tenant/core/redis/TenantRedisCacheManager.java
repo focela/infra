@@ -13,9 +13,9 @@ import org.springframework.data.redis.cache.RedisCacheWriter;
 import java.util.Set;
 
 /**
- * 多租户的 {@link RedisCacheManager} 实现类
+ * Multi-tenant {@link RedisCacheManager} implementation class
  *
- * 操作指定 name 的 {@link Cache} 时，自动拼接租户后缀，格式为 name + ":" + tenantId + 后缀
+ * When operating a {@link Cache} with a specific name, automatically append the tenant suffix in the format name + ":" + tenantId + suffix.
  */
 @Slf4j
 public class TenantRedisCacheManager extends TimeoutRedisCacheManager {
@@ -34,14 +34,14 @@ public class TenantRedisCacheManager extends TimeoutRedisCacheManager {
     @Override
     public Cache getCache(String name) {
         String[] names = StrUtil.splitToArray(name, SPLIT);
-        // 如果开启多租户，则 name 拼接租户后缀
+        // If multi-tenancy is enabled, append the tenant suffix to name
         if (!TenantContextHolder.isIgnore()
                 && TenantContextHolder.getTenantId() != null
                 && !CollUtil.contains(ignoreCaches, names[0])) {
             name = name + ":" + TenantContextHolder.getTenantId();
         }
 
-        // 继续基于父方法
+        // Continue with the parent method
         return super.getCache(name);
     }
 

@@ -5,8 +5,8 @@ import com.focela.platform.framework.datapermission.core.rule.DataPermissionRule
 import java.lang.annotation.*;
 
 /**
- * 数据权限注解
- * 可声明在类或者方法上，标识使用的数据权限规则
+ * Data permission annotation.
+ * Can be declared on a class or method to indicate the data permission rules in use.
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
@@ -14,19 +14,19 @@ import java.lang.annotation.*;
 public @interface DataPermission {
 
     /**
-     * 当前类或方法是否开启数据权限
-     * 即使不添加 @DataPermission 注解，默认是开启状态
-     * 可通过设置 enable 为 false 禁用
+     * Whether data permission is enabled for the current class or method.
+     * Even without an @DataPermission annotation it defaults to enabled.
+     * Set enable to false to disable it.
      */
     boolean enable() default true;
 
     /**
-     * 生效的数据权限规则数组，优先级高于 {@link #excludeRules()}
+     * Array of data permission rules to apply. Takes priority over {@link #excludeRules()}.
      */
     Class<? extends DataPermissionRule>[] includeRules() default {};
 
     /**
-     * 排除的数据权限规则数组，优先级最低
+     * Array of data permission rules to exclude. Lowest priority.
      */
     Class<? extends DataPermissionRule>[] excludeRules() default {};
 

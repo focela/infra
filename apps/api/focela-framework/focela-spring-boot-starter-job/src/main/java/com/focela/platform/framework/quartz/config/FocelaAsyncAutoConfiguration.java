@@ -10,7 +10,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 
 /**
- * 异步任务 Configuration
+ * Async task configuration.
  */
 @AutoConfiguration
 @EnableAsync
@@ -23,14 +23,14 @@ public class FocelaAsyncAutoConfiguration {
             @Override
             @SuppressWarnings("PatternVariableCanBeUsed")
             public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-                // 处理 ThreadPoolTaskExecutor
+                // Handle ThreadPoolTaskExecutor
                 if (bean instanceof ThreadPoolTaskExecutor) {
                     ThreadPoolTaskExecutor executor = (ThreadPoolTaskExecutor) bean;
                     executor.setTaskDecorator(TtlRunnable::get);
                     return executor;
                 }
-                // 处理 SimpleAsyncTaskExecutor
-                // 参考 https://t.zsxq.com/CBoks 增加
+                // Handle SimpleAsyncTaskExecutor
+                // Added per https://t.zsxq.com/CBoks
                 if (bean instanceof SimpleAsyncTaskExecutor) {
                     SimpleAsyncTaskExecutor executor = (SimpleAsyncTaskExecutor) bean;
                     executor.setTaskDecorator(TtlRunnable::get);

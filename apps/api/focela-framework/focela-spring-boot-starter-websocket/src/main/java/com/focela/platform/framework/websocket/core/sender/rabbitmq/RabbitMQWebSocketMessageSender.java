@@ -8,7 +8,7 @@ import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 /**
- * 基于 RabbitMQ 的 {@link WebSocketMessageSender} 实现类
+ * RabbitMQ-based implementation of {@link WebSocketMessageSender}.
  */
 @Slf4j
 public class RabbitMQWebSocketMessageSender extends AbstractWebSocketMessageSender {
@@ -41,13 +41,13 @@ public class RabbitMQWebSocketMessageSender extends AbstractWebSocketMessageSend
     }
 
     /**
-     * 通过 RabbitMQ 广播消息
+     * Broadcast a message over RabbitMQ.
      *
-     * @param sessionId Session 编号
-     * @param userId 用户编号
-     * @param userType 用户类型
-     * @param messageType 消息类型
-     * @param messageContent 消息内容
+     * @param sessionId Session ID
+     * @param userId User ID
+     * @param userType User type
+     * @param messageType Message type
+     * @param messageContent Message content
      */
     private void sendRabbitMQMessage(String sessionId, Long userId, Integer userType,
                                      String messageType, String messageContent) {

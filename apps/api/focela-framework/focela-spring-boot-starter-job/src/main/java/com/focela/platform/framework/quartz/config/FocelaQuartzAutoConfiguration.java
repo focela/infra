@@ -10,17 +10,17 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import java.util.Optional;
 
 /**
- * 定时任务 Configuration
+ * Scheduled task configuration.
  */
 @AutoConfiguration
-@EnableScheduling // 开启 Spring 自带的定时任务
+@EnableScheduling // Enable Spring's built-in scheduling
 @Slf4j
 public class FocelaQuartzAutoConfiguration {
 
     @Bean
     public SchedulerManager schedulerManager(Optional<Scheduler> scheduler) {
         if (!scheduler.isPresent()) {
-            log.info("[定when 任务 - is disabled][see https://www.example.com/job/ open]");
+            log.info("[scheduled task - disabled][see https://www.example.com/job/ to enable]");
             return new SchedulerManager(null);
         }
         return new SchedulerManager(scheduler.get());

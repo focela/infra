@@ -3,9 +3,9 @@ package com.focela.platform.framework.mq.redis.core.interceptor;
 import com.focela.platform.framework.mq.redis.core.message.AbstractRedisMessage;
 
 /**
- * {@link AbstractRedisMessage} 消息拦截器
- * 通过拦截器，作为插件机制，实现拓展。
- * 例如说，多租户场景下的 MQ 消息处理
+ * Message interceptor for {@link AbstractRedisMessage}.
+ * Acts as a plugin mechanism for extensions, for example MQ message handling in
+ * multi-tenant scenarios.
  */
 public interface RedisMessageInterceptor {
 

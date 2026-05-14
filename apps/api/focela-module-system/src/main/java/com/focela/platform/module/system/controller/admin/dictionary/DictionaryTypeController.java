@@ -90,7 +90,7 @@ public class DictionaryTypeController {
 
     @GetMapping(value = {"/list-all-simple", "simple-list"})
     @Operation(summary = "get all dictionary type list", description = "include enable + disable dictionary type, for frontend dropdown options")
-    // 无需添加权限认证，因为前端全局都需要
+    // no permission check required as the frontend uses this globally
     public CommonResult<List<DictionaryTypeSimpleResponse>> getSimpleDictTypeList() {
         List<DictionaryTypeEntity> list = dictTypeService.getDictTypeList();
         return success(BeanUtils.toBean(list, DictionaryTypeSimpleResponse.class));
@@ -103,8 +103,8 @@ public class DictionaryTypeController {
     public void export(HttpServletResponse response, @Valid DictionaryTypePageRequest exportRequest) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
         List<DictionaryTypeEntity> list = dictTypeService.getDictTypePage(exportRequest).getList();
-        // 导出
-        ExcelUtils.write(response, "字典类型.xls", "数据", DictionaryTypeResponse.class,
+        // export
+        ExcelUtils.write(response, "Dictionary Type.xls", "Data", DictionaryTypeResponse.class,
                 BeanUtils.toBean(list, DictionaryTypeResponse.class));
     }
 

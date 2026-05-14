@@ -9,7 +9,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import java.util.concurrent.ExecutionException;
 
 /**
- * 基于 Kafka 的 {@link WebSocketMessageSender} 实现类
+ * Kafka-based implementation of {@link WebSocketMessageSender}.
  */
 @Slf4j
 public class KafkaWebSocketMessageSender extends AbstractWebSocketMessageSender {
@@ -42,13 +42,13 @@ public class KafkaWebSocketMessageSender extends AbstractWebSocketMessageSender 
     }
 
     /**
-     * 通过 Kafka 广播消息
+     * Broadcast a message over Kafka.
      *
-     * @param sessionId Session 编号
-     * @param userId 用户编号
-     * @param userType 用户类型
-     * @param messageType 消息类型
-     * @param messageContent 消息内容
+     * @param sessionId Session ID
+     * @param userId User ID
+     * @param userType User type
+     * @param messageType Message type
+     * @param messageContent Message content
      */
     private void sendKafkaMessage(String sessionId, Long userId, Integer userType,
                                   String messageType, String messageContent) {

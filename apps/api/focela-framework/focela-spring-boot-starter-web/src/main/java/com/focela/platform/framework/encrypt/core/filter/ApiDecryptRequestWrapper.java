@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * 解密请求 {@link HttpServletRequestWrapper} 实现类
+ * Decrypt request {@link HttpServletRequestWrapper} implementation
  */
 public class ApiDecryptRequestWrapper extends HttpServletRequestWrapper {
 
@@ -26,11 +26,11 @@ public class ApiDecryptRequestWrapper extends HttpServletRequestWrapper {
                                     SymmetricDecryptor symmetricDecryptor,
                                     AsymmetricDecryptor asymmetricDecryptor) throws IOException {
         super(request);
-        // 读取 body，允许 HEX、BASE64 传输
+        // read body; supports HEX and BASE64 transfer
         String requestBody = StrUtil.utf8Str(
                 IoUtil.readBytes(request.getInputStream(), false));
 
-        // 解密 body
+        // decrypt body
         body = symmetricDecryptor != null ? symmetricDecryptor.decrypt(requestBody)
                 : asymmetricDecryptor.decrypt(requestBody, KeyType.PrivateKey);
     }

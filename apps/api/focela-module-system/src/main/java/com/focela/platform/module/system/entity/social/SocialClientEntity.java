@@ -11,12 +11,12 @@ import lombok.*;
 import me.zhyd.oauth.config.AuthConfig;
 
 /**
- * 社交客户端 DO
+ * Social client DO
  *
- * 对应 {@link AuthConfig} 配置，满足不同租户，有自己的客户端配置，实现社交（三方）登录
+ * Corresponds to {@link AuthConfig}; allows each tenant to have its own client configuration for social (third-party) login.
  */
 @TableName(value = "system_social_client", autoResultMap = true)
-@KeySequence("system_social_client_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
+@KeySequence("system_social_client_seq") // used for primary key auto-increment in databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Builder
@@ -25,57 +25,57 @@ import me.zhyd.oauth.config.AuthConfig;
 public class SocialClientEntity extends TenantBaseEntity {
 
     /**
-     * 编号，自增
+     * ID, auto-increment
      */
     @TableId
     private Long id;
     /**
-     * 应用名
+     * Application name
      */
     private String name;
     /**
-     * 社交类型
+     * Social type
      *
-     * 枚举 {@link SocialTypeEnum}
+     * Enum {@link SocialTypeEnum}
      */
     private Integer socialType;
     /**
-     * 用户类型
+     * User type
      *
-     * 目的：不同用户类型，对应不同的小程序，需要自己的配置
+     * Purpose: different user types correspond to different mini-programs and need their own configuration.
      *
-     * 枚举 {@link UserTypeEnum}
+     * Enum {@link UserTypeEnum}
      */
     private Integer userType;
     /**
-     * 状态
+     * Status
      *
-     * 枚举 {@link CommonStatusEnum}
+     * Enum {@link CommonStatusEnum}
      */
     private Integer status;
 
     /**
-     * 客户端 id
+     * Client ID
      */
     private String clientId;
     /**
-     * 客户端 Secret
+     * Client secret
      */
     private String clientSecret;
 
     /**
-     * 代理编号
+     * Agent ID
      *
-     * 目前只有部分“社交类型”在使用：
-     * 1. 企业微信：对应授权方的网页应用 ID
+     * Currently used by only some "social types":
+     * 1. WeCom: corresponds to the authorizing party's web application ID
      */
     private String agentId;
 
     /**
-     * publicKey 公钥
+     * publicKey
      *
-     * 目前只有部分“社交类型”在使用：
-     * 1. 支付宝：支付宝公钥
+     * Currently used by only some "social types":
+     * 1. Alipay: the Alipay public key
      */
     private String publicKey;
 

@@ -12,7 +12,7 @@ import org.springframework.util.Assert;
 import static java.util.Collections.singletonList;
 
 /**
- * {@link com.focela.platform.framework.common.model.PageParam} 工具类
+ * Utility class for {@link com.focela.platform.framework.common.model.PageParam}
  */
 public class PageUtils {
 
@@ -23,38 +23,38 @@ public class PageUtils {
     }
 
     /**
-     * 构建排序字段（默认倒序）
+     * Build a sorting field (descending by default)
      *
-     * @param func 排序字段的 Lambda 表达式
-     * @param <T>  排序字段所属的类型
-     * @return 排序字段
+     * @param func Lambda expression of the sort field
+     * @param <T>  type that owns the sort field
+     * @return sorting field
      */
     public static <T> SortingField buildSortingField(Func1<T, ?> func) {
         return buildSortingField(func, SortingField.ORDER_DESC);
     }
 
     /**
-     * 构建排序字段
+     * Build a sorting field
      *
-     * @param func  排序字段的 Lambda 表达式
-     * @param order 排序类型 {@link SortingField#ORDER_ASC} {@link SortingField#ORDER_DESC}
-     * @param <T>   排序字段所属的类型
-     * @return 排序字段
+     * @param func  Lambda expression of the sort field
+     * @param order sort order, {@link SortingField#ORDER_ASC} or {@link SortingField#ORDER_DESC}
+     * @param <T>   type that owns the sort field
+     * @return sorting field
      */
     public static <T> SortingField buildSortingField(Func1<T, ?> func, String order) {
-        Assert.isTrue(ArrayUtil.contains(ORDER_TYPES, order), String.format("字segment 排序type only can is %s/%s", ORDER_TYPES));
+        Assert.isTrue(ArrayUtil.contains(ORDER_TYPES, order), String.format("Field sort type must be %s or %s", ORDER_TYPES));
 
         String fieldName = LambdaUtil.getFieldName(func);
         return new SortingField(fieldName, order);
     }
 
     /**
-     * 构建默认的排序字段
-     * 如果排序字段为空，则设置排序字段；否则忽略
+     * Build a default sorting field.
+     * If no sorting field is set, apply the default; otherwise leave it alone.
      *
-     * @param sortablePageParam 排序分页查询参数
-     * @param func              排序字段的 Lambda 表达式
-     * @param <T>               排序字段所属的类型
+     * @param sortablePageParam sortable pagination query parameter
+     * @param func              Lambda expression of the sort field
+     * @param <T>               type that owns the sort field
      */
     public static <T> void buildDefaultSortingField(SortablePageParam sortablePageParam, Func1<T, ?> func) {
         if (sortablePageParam != null && CollUtil.isEmpty(sortablePageParam.getSortingFields())) {

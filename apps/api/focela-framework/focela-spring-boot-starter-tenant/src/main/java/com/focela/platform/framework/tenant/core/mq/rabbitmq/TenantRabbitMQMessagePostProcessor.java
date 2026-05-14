@@ -10,10 +10,10 @@ import org.springframework.messaging.handler.invocation.InvocableHandlerMethod;
 import static com.focela.platform.framework.web.core.utils.WebFrameworkUtils.HEADER_TENANT_ID;
 
 /**
- * RabbitMQ 消息队列的多租户 {@link ProducerInterceptor} 实现类
+ * Multi-tenant {@link ProducerInterceptor} implementation for RabbitMQ message queue
  *
- * 1. Producer 发送消息时，将 {@link TenantContextHolder} 租户编号，添加到消息的 Header 中
- * 2. Consumer 消费消息时，将消息的 Header 的租户编号，添加到 {@link TenantContextHolder} 中，通过 {@link InvocableHandlerMethod} 实现
+ * 1. When the Producer sends a message, add the tenant ID from {@link TenantContextHolder} to the message Header.
+ * 2. When the Consumer consumes a message, add the tenant ID from the message Header to {@link TenantContextHolder}, implemented via {@link InvocableHandlerMethod}.
  */
 public class TenantRabbitMQMessagePostProcessor implements MessagePostProcessor {
 

@@ -8,9 +8,9 @@ import com.focela.platform.framework.ratelimiter.core.keyresolver.RateLimiterKey
 import org.aspectj.lang.JoinPoint;
 
 /**
- * IP 级别的限流 Key 解析器，使用方法名 + 方法参数 + IP，组装成一个 Key
+ * IP-level rate limiter key resolver. Builds the key from method name + arguments + client IP.
  *
- * 为了避免 Key 过长，使用 MD5 进行“压缩”
+ * Uses MD5 to "compress" the key and avoid excessively long values.
  */
 public class ClientIpRateLimiterKeyResolver implements RateLimiterKeyResolver {
 

@@ -17,14 +17,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 拦截声明了 {@link RateLimiter} 注解的方法，实现限流操作
+ * Intercept methods annotated with {@link RateLimiter} to enforce rate limiting.
  */
 @Aspect
 @Slf4j
 public class RateLimiterAspect {
 
     /**
-     * RateLimiterKeyResolver 集合
+     * RateLimiterKeyResolver collection.
      */
     private final Map<Class<? extends RateLimiterKeyResolver>, RateLimiterKeyResolver> keyResolvers;
 
@@ -37,17 +37,17 @@ public class RateLimiterAspect {
 
     @Before("@annotation(rateLimiter)")
     public void beforePointCut(JoinPoint joinPoint, RateLimiter rateLimiter) {
-        // 获得 RateLimiterKeyResolver 对象
+        // Resolve the RateLimiterKeyResolver
         RateLimiterKeyResolver keyResolver = keyResolvers.get(rateLimiter.keyResolver());
-        Assert.notNull(keyResolver, "找不到对应的 RateLimiterKeyResolver");
-        // 解析 Key
+        Assert.notNull(keyResolver, "Could not find the corresponding RateLimiterKeyResolver");
+        // Resolve the key
         String key = keyResolver.resolver(joinPoint, rateLimiter);
 
-        // 获取 1 次限流
+        // Try to acquire one permit
         boolean success = rateLimiterRedisDAO.tryAcquire(key,
                 rateLimiter.count(), rateLimiter.time(), rateLimiter.timeUnit());
         if (!success) {
-            log.info("[beforePointCut][方法({}) 参数({}) request too frequent]", joinPoint.getSignature().toString(), joinPoint.getArgs());
+            log.info("[beforePointCut][method({}) args({}) requests too frequent]", joinPoint.getSignature().toString(), joinPoint.getArgs());
             String message = StrUtil.blankToDefault(rateLimiter.message(),
                     GlobalErrorCodeConstants.TOO_MANY_REQUESTS.getMsg());
             throw new ServiceException(GlobalErrorCodeConstants.TOO_MANY_REQUESTS.getCode(), message);

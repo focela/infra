@@ -22,7 +22,7 @@ import java.util.Objects;
 import static com.focela.platform.framework.redis.config.FocelaRedisAutoConfiguration.buildRedisSerializer;
 
 /**
- * Cache 配置类，基于 Redis 实现
+ * Cache configuration class, backed by Redis.
  */
 @AutoConfiguration
 @EnableConfigurationProperties({CacheProperties.class, FocelaCacheProperties.class})
@@ -32,15 +32,15 @@ public class FocelaCacheAutoConfiguration {
     /**
      * RedisCacheConfiguration Bean
      * <p>
-     * 参考 org.springframework.boot.autoconfigure.cache.RedisCacheConfiguration 的 createConfiguration 方法
+     * Adapted from the createConfiguration method in org.springframework.boot.autoconfigure.cache.RedisCacheConfiguration.
      */
     @Bean
     @Primary
     public RedisCacheConfiguration redisCacheConfiguration(CacheProperties cacheProperties) {
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
-        // 设置使用 : 单冒号，而不是双 :: 冒号，避免 Redis Desktop Manager 多余空格
-        // 详细可见 https://blog.csdn.net/chuixue24/article/details/103928965 博客
-        // 再次修复单冒号，而不是双 :: 冒号问题，Issues 详情：https://gitee.com/zhijiantianya/yudao-cloud/issues/I86VY2
+        // Use a single colon ":" instead of the double "::" to avoid extra whitespace in Redis Desktop Manager.
+        // Details: https://blog.csdn.net/chuixue24/article/details/103928965
+        // Re-fixed the single-colon issue; see https://gitee.com/zhijiantianya/yudao-cloud/issues/I86VY2
         config = config.computePrefixWith(cacheName -> {
             String keyPrefix = cacheProperties.getRedis().getKeyPrefix();
             if (StringUtils.hasText(keyPrefix)) {
@@ -49,11 +49,11 @@ public class FocelaCacheAutoConfiguration {
             }
             return cacheName + StrUtil.COLON;
         });
-        // 设置使用 JSON 序列化方式
+        // Use JSON value serialization
         config = config.serializeValuesWith(
                 RedisSerializationContext.SerializationPair.fromSerializer(buildRedisSerializer()));
 
-        // 设置 CacheProperties.Redis 的属性
+        // Apply CacheProperties.Redis settings
         CacheProperties.Redis redisProperties = cacheProperties.getRedis();
         if (redisProperties.getTimeToLive() != null) {
             config = config.entryTtl(redisProperties.getTimeToLive());
@@ -71,11 +71,11 @@ public class FocelaCacheAutoConfiguration {
     public RedisCacheManager redisCacheManager(RedisTemplate<String, Object> redisTemplate,
                                                RedisCacheConfiguration redisCacheConfiguration,
                                                FocelaCacheProperties focelaCacheProperties) {
-        // 创建 RedisCacheWriter 对象
+        // Build the RedisCacheWriter
         RedisConnectionFactory connectionFactory = Objects.requireNonNull(redisTemplate.getConnectionFactory());
         RedisCacheWriter cacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory,
                 BatchStrategies.scan(focelaCacheProperties.getRedisScanBatchSize()));
-        // 创建 TenantRedisCacheManager 对象
+        // Build the TenantRedisCacheManager
         return new TimeoutRedisCacheManager(cacheWriter, redisCacheConfiguration);
     }
 

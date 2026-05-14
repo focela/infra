@@ -84,9 +84,9 @@ public class PostController {
     @GetMapping(value = {"/list-all-simple", "simple-list"})
     @Operation(summary = "get post all list", description = "only include enabled post, for frontend dropdown options")
     public CommonResult<List<PostSimpleResponse>> getSimplePostList() {
-        // 获得岗位列表，只要开启状态的
+        // get post list, only enabled ones
         List<PostEntity> list = postService.getPostList(null, Collections.singleton(CommonStatusEnum.ENABLE.getStatus()));
-        // 排序后，返回给前端
+        // sort and return to frontend
         list.sort(Comparator.comparing(PostEntity::getSort));
         return success(BeanUtils.toBean(list, PostSimpleResponse.class));
     }
@@ -106,8 +106,8 @@ public class PostController {
     public void export(HttpServletResponse response, @Validated PostPageRequest request) throws IOException {
         request.setPageSize(PageParam.PAGE_SIZE_NONE);
         List<PostEntity> list = postService.getPostPage(request).getList();
-        // 输出
-        ExcelUtils.write(response, "岗位数据.xls", "岗位列表", PostResponse.class,
+        // output
+        ExcelUtils.write(response, "Post Data.xls", "Post List", PostResponse.class,
                 BeanUtils.toBean(list, PostResponse.class));
     }
 

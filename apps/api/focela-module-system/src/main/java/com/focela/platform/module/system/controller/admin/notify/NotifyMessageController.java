@@ -33,7 +33,7 @@ public class NotifyMessageController {
     @Resource
     private NotifyMessageService notifyMessageService;
 
-    // ========== 管理所有的站内信 ==========
+    // ========== manage all in-app messages ==========
 
     @GetMapping("/get")
     @Operation(summary = "get notify message")
@@ -52,7 +52,7 @@ public class NotifyMessageController {
         return success(BeanUtils.toBean(pageResult, NotifyMessageResponse.class));
     }
 
-    // ========== 查看自己的站内信 ==========
+    // ========== view my own in-app messages ==========
 
     @GetMapping("/my-page")
     @Operation(summary = "get my notify message page")
@@ -89,7 +89,7 @@ public class NotifyMessageController {
 
     @GetMapping("/get-unread-count")
     @Operation(summary = "get current user unread notify message count")
-    @ApiAccessLog(enable = false) // 由于前端会不断轮询该接口，记录日志没有意义
+    @ApiAccessLog(enable = false) // the frontend polls this endpoint continuously, so logging is not meaningful
     public CommonResult<Long> getUnreadNotifyMessageCount() {
         return success(notifyMessageService.getUnreadNotifyMessageCount(
                 getLoginUserId(), UserTypeEnum.ADMIN.getValue()));

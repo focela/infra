@@ -5,14 +5,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 拓展多租户的 BaseEntity 基类
+ * BaseEntity extension that supports multi-tenancy
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public abstract class TenantBaseEntity extends BaseEntity {
 
     /**
-     * 多租户编号
+     * Tenant ID
      */
     private Long tenantId;
 

@@ -3,7 +3,7 @@ package com.focela.platform.framework.desensitize.core.slider.handler;
 import com.focela.platform.framework.desensitize.core.slider.annotation.IdCardDesensitize;
 
 /**
- * {@link IdCardDesensitize} 的脱敏处理器
+ * Desensitization handler for {@link IdCardDesensitize}
  */
 public class IdCardDesensitization extends AbstractSliderDesensitizationHandler<IdCardDesensitize> {
     @Override

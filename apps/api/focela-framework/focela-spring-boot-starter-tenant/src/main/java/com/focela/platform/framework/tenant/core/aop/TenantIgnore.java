@@ -5,15 +5,15 @@ import com.focela.platform.framework.tenant.config.TenantProperties;
 import java.lang.annotation.*;
 
 /**
- * 忽略租户，标记指定方法不进行租户的自动过滤
+ * Ignore tenant: mark the specified method so that automatic tenant filtering is skipped.
  *
- * 注意，只有 DB 的场景会过滤，其它场景暂时不过滤：
- * 1、Redis 场景：因为是基于 Key 实现多租户的能力，所以忽略没有意义，不像 DB 是一个 column 实现的
- * 2、MQ 场景：有点难以抉择，目前可以通过 Consumer 手动在消费的方法上，添加 @TenantIgnore 进行忽略
+ * Note: only the DB scenario performs filtering; other scenarios are not filtered for now:
+ * 1. Redis scenario: multi-tenancy is implemented based on Key, so ignoring is meaningless, unlike DB which uses a column.
+ * 2. MQ scenario: somewhat hard to decide; currently the Consumer can manually add @TenantIgnore on the consume method to ignore.
  *
- * 特殊：
- * 1、如果添加到 Controller 类上，则该 URL 自动添加到 {@link TenantProperties#getIgnoreUrls()} 中
- * 2、如果添加到 DO 实体类上，则它对应的表名“相当于”自动添加到 {@link TenantProperties#getIgnoreTables()} 中
+ * Special:
+ * 1. If added to a Controller class, the URL is automatically added to {@link TenantProperties#getIgnoreUrls()}.
+ * 2. If added to a DO entity class, the corresponding table name is effectively automatically added to {@link TenantProperties#getIgnoreTables()}.
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
@@ -21,9 +21,9 @@ import java.lang.annotation.*;
 public @interface TenantIgnore {
 
     /**
-     * 是否开启忽略租户，默认为 true 开启
+     * Whether to enable tenant ignore; default is true (enabled).
      *
-     * 支持 Spring EL 表达式，如果返回 true 则满足条件，进行租户的忽略
+     * Supports Spring EL expressions. If it returns true, the condition is met and the tenant is ignored.
      */
     String enable() default "true";
 

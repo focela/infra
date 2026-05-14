@@ -74,8 +74,8 @@ public class FocelaTenantAutoConfiguration {
     public TenantLineInnerInterceptor tenantLineInnerInterceptor(TenantProperties properties,
                                                                  MybatisPlusInterceptor interceptor) {
         TenantLineInnerInterceptor inner = new TenantLineInnerInterceptor(new TenantDatabaseInterceptor(properties));
-        // 添加到 interceptor 中
-        // 需要加在首个，主要是为了在分页插件前面。这个是 MyBatis Plus 的规定
+        // Add to the interceptor
+        // It must be added first, mainly to be ahead of the pagination plugin. This is a MyBatis Plus requirement.
         MyBatisUtils.addInterceptor(interceptor, inner, 0);
         return inner;
     }
@@ -124,24 +124,24 @@ public class FocelaTenantAutoConfiguration {
     }
 
     /**
-     * 如果 Controller 接口上，有 {@link TenantIgnore} 注解，则添加到忽略租户的 URL 集合中
+     * If a Controller endpoint has the {@link TenantIgnore} annotation, add it to the set of tenant-ignored URLs.
      *
-     * @return 忽略租户的 URL 集合
+     * @return set of tenant-ignored URLs
      */
     private Set<String> getTenantIgnoreUrls() {
         Set<String> ignoreUrls = new HashSet<>();
-        // 获得接口对应的 HandlerMethod 集合
+        // Get the HandlerMethod collection of endpoints
         RequestMappingHandlerMapping requestMappingHandlerMapping = (RequestMappingHandlerMapping)
                 applicationContext.getBean("requestMappingHandlerMapping");
         Map<RequestMappingInfo, HandlerMethod> handlerMethodMap = requestMappingHandlerMapping.getHandlerMethods();
-        // 获得有 @TenantIgnore 注解的接口
+        // Find endpoints annotated with @TenantIgnore
         for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : handlerMethodMap.entrySet()) {
             HandlerMethod handlerMethod = entry.getValue();
-            if (!handlerMethod.hasMethodAnnotation(TenantIgnore.class) // 方法级
-                && !handlerMethod.getBeanType().isAnnotationPresent(TenantIgnore.class)) { // 接口级
+            if (!handlerMethod.hasMethodAnnotation(TenantIgnore.class) // method level
+                && !handlerMethod.getBeanType().isAnnotationPresent(TenantIgnore.class)) { // class level
                 continue;
             }
-            // 添加到忽略的 URL 中
+            // Add to the ignored URLs
             if (entry.getKey().getPatternsCondition() != null) {
                 ignoreUrls.addAll(entry.getKey().getPatternsCondition().getPatterns());
             }
@@ -182,16 +182,16 @@ public class FocelaTenantAutoConfiguration {
     // ========== Redis ==========
 
     @Bean
-    @Primary // 引入租户时，tenantRedisCacheManager 为主 Bean
+    @Primary // when tenant is enabled, tenantRedisCacheManager is the primary Bean
     public RedisCacheManager tenantRedisCacheManager(RedisTemplate<String, Object> redisTemplate,
                                                      RedisCacheConfiguration redisCacheConfiguration,
                                                      FocelaCacheProperties focelaCacheProperties,
                                                      TenantProperties tenantProperties) {
-        // 创建 RedisCacheWriter 对象
+        // Create RedisCacheWriter
         RedisConnectionFactory connectionFactory = Objects.requireNonNull(redisTemplate.getConnectionFactory());
         RedisCacheWriter cacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory,
                 BatchStrategies.scan(focelaCacheProperties.getRedisScanBatchSize()));
-        // 创建 TenantRedisCacheManager 对象
+        // Create TenantRedisCacheManager
         return new TenantRedisCacheManager(cacheWriter, redisCacheConfiguration, tenantProperties.getIgnoreCaches());
     }
 

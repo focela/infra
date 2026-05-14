@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 /**
- * HTTP API 签名的自动配置类
+ * Auto-configuration for HTTP API signatures.
  */
 @AutoConfiguration(after = FocelaRedisAutoConfiguration.class)
 public class FocelaApiSignatureAutoConfiguration {

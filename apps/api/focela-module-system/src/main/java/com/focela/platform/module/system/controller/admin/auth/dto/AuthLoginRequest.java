@@ -24,7 +24,7 @@ public class AuthLoginRequest extends CaptchaVerificationRequest {
     @Schema(description = "account", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudaoyuanma")
     @NotEmpty(message = "login account must not be blank")
     @Length(min = 4, max = 30, message = "account length must be 4-30 characters")
-    @Pattern(regexp = "^[a-zA-Z0-9]{4,30}$", message = "account format is digit 以及letter")
+    @Pattern(regexp = "^[a-zA-Z0-9]{4,30}$", message = "account format must be digits and letters")
     private String username;
 
     @Schema(description = "Password", requiredMode = Schema.RequiredMode.REQUIRED, example = "buzhidao")
@@ -32,7 +32,7 @@ public class AuthLoginRequest extends CaptchaVerificationRequest {
     @Length(min = 4, max = 16, message = "password length must be 4-16 characters")
     private String password;
 
-    // ========== 绑定社交登录时，需要传递如下参数 ==========
+    // ========== when binding social login, the following parameters must be passed ==========
 
     @Schema(description = "social platform type, see SocialTypeEnum enum value", requiredMode = Schema.RequiredMode.REQUIRED, example = "10")
     @InEnum(SocialTypeEnum.class)

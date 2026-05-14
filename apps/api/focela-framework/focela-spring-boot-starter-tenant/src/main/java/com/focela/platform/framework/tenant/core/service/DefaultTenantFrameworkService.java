@@ -12,7 +12,7 @@ import java.time.Duration;
 import java.util.List;
 
 /**
- * Tenant 框架 Service 实现类
+ * Default Tenant framework Service implementation.
  */
 @RequiredArgsConstructor
 public class DefaultTenantFrameworkService implements TenantFrameworkService {
@@ -22,10 +22,10 @@ public class DefaultTenantFrameworkService implements TenantFrameworkService {
     private final TenantContractApi tenantApi;
 
     /**
-     * 针对 {@link #getTenantIds()} 的缓存
+     * Cache for {@link #getTenantIds()}
      */
     private final LoadingCache<Object, List<Long>> getTenantIdsCache = CacheUtils.buildAsyncReloadingCache(
-            Duration.ofMinutes(1L), // 过期时间 1 分钟
+            Duration.ofMinutes(1L), // expiration time: 1 minute
             new CacheLoader<Object, List<Long>>() {
 
                 @Override
@@ -36,10 +36,10 @@ public class DefaultTenantFrameworkService implements TenantFrameworkService {
             });
 
     /**
-     * 针对 {@link #validTenant(Long)} 的缓存
+     * Cache for {@link #validTenant(Long)}
      */
     private final LoadingCache<Long, ServiceException> validTenantCache = CacheUtils.buildAsyncReloadingCache(
-            Duration.ofMinutes(1L), // 过期时间 1 分钟
+            Duration.ofMinutes(1L), // expiration time: 1 minute
             new CacheLoader<Long, ServiceException>() {
 
                 @Override

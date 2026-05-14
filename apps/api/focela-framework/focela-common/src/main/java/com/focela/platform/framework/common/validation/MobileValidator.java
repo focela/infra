@@ -14,11 +14,11 @@ public class MobileValidator implements ConstraintValidator<Mobile, String> {
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        // 如果手机号为空，默认不校验，即校验通过
+        // if mobile is empty, skip validation by default (i.e., pass)
         if (StrUtil.isEmpty(value)) {
             return true;
         }
-        // 校验手机
+        // validate mobile
         return ValidationUtils.isMobile(value);
     }
 

@@ -8,25 +8,25 @@ import java.util.Arrays;
 import java.util.function.Consumer;
 
 /**
- * Object 工具类
+ * Object utility class
  */
 public class ObjectUtils {
 
     /**
-     * 复制对象，并忽略 Id 编号
+     * Clone an object while clearing its ID.
      *
-     * @param object 被复制对象
-     * @param consumer 消费者，可以二次编辑被复制对象
-     * @return 复制后的对象
+     * @param object   object to clone
+     * @param consumer consumer that can further edit the cloned object
+     * @return the cloned object
      */
     public static <T> T cloneIgnoreId(T object, Consumer<T> consumer) {
         T result = ObjectUtil.clone(object);
-        // 忽略 id 编号
+        // clear the id
         Field field = ReflectUtil.getField(object.getClass(), "id");
         if (field != null) {
             ReflectUtil.setFieldValue(result, field, null);
         }
-        // 二次编辑
+        // further edit
         if (result != null) {
             consumer.accept(result);
         }

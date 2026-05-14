@@ -12,31 +12,31 @@
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
-    <description>服务保证，提供分布式锁、幂等、限流、熔断、API 签名等等功能</description>
+    <description>Service protection: distributed lock, idempotency, rate limiting, circuit breaker, API signature, etc.</description>
     <url>https://github.com/YunaiV/ruoyi-vue-pro</url>
 
     <dependencies>
-        <!-- Web 相关 -->
+        <!-- Web related -->
         <dependency>
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-web</artifactId>
-            <scope>provided</scope> <!-- 设置为 provided，只有限流、幂等使用到 -->
+            <scope>provided</scope> <!-- Set to provided; only rate limiting and idempotency use it -->
         </dependency>
 
-        <!-- DB 相关 -->
+        <!-- DB related -->
         <dependency>
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-redis</artifactId>
         </dependency>
 
-        <!-- 服务保障相关 -->
+        <!-- Service protection related -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>lock4j-redisson-spring-boot-starter</artifactId>
             <optional>true</optional>
         </dependency>
 
-        <!-- Test 测试相关 -->
+        <!-- Test related -->
         <dependency>
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-test</artifactId>

@@ -3,7 +3,7 @@ package com.focela.platform.framework.desensitize.core.slider.handler;
 import com.focela.platform.framework.desensitize.core.slider.annotation.BankCardDesensitize;
 
 /**
- * {@link BankCardDesensitize} 的脱敏处理器
+ * Desensitization handler for {@link BankCardDesensitize}
  */
 public class BankCardDesensitization extends AbstractSliderDesensitizationHandler<BankCardDesensitize> {
 

@@ -7,49 +7,49 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
- * 金额工具类
+ * Money utility class
  */
 public class MoneyUtils {
 
     /**
-     * 金额的小数位数
+     * Decimal scale for money amounts
      */
     private static final int PRICE_SCALE = 2;
 
     /**
-     * 百分比对应的 BigDecimal 对象
+     * BigDecimal value representing 100 percent
      */
     public static final BigDecimal PERCENT_100 = BigDecimal.valueOf(100);
 
     /**
-     * 计算百分比金额，四舍五入
+     * Calculate percentage amount, rounded half up
      *
-     * @param price 金额
-     * @param rate  百分比，例如说 56.77% 则传入 56.77
-     * @return 百分比金额
+     * @param price amount
+     * @param rate  percentage, e.g. pass 56.77 for 56.77%
+     * @return percentage amount
      */
     public static Integer calculateRatePrice(Integer price, Double rate) {
         return calculateRatePrice(price, rate, 0, RoundingMode.HALF_UP).intValue();
     }
 
     /**
-     * 计算百分比金额，向下传入
+     * Calculate percentage amount, rounded down (floor)
      *
-     * @param price 金额
-     * @param rate  百分比，例如说 56.77% 则传入 56.77
-     * @return 百分比金额
+     * @param price amount
+     * @param rate  percentage, e.g. pass 56.77 for 56.77%
+     * @return percentage amount
      */
     public static Integer calculateRatePriceFloor(Integer price, Double rate) {
         return calculateRatePrice(price, rate, 0, RoundingMode.FLOOR).intValue();
     }
 
     /**
-     * 计算百分比金额
+     * Calculate percentage amount
      *
-     * @param price   金额（单位分）
-     * @param count   数量
-     * @param percent 折扣（单位分），列如 60.2%，则传入 6020
-     * @return 商品总价
+     * @param price   amount (in cents)
+     * @param count   quantity
+     * @param percent discount (in cents), e.g. pass 6020 for 60.2%
+     * @return total price of the items
      */
     public static Integer calculator(Integer price, Integer count, Integer percent) {
         price = price * count;
@@ -60,48 +60,48 @@ public class MoneyUtils {
     }
 
     /**
-     * 计算百分比金额
+     * Calculate percentage amount
      *
-     * @param price        金额
-     * @param rate         百分比，例如说 56.77% 则传入 56.77
-     * @param scale        保留小数位数
-     * @param roundingMode 舍入模式
+     * @param price        amount
+     * @param rate         percentage, e.g. pass 56.77 for 56.77%
+     * @param scale        number of decimal places to keep
+     * @param roundingMode rounding mode
      */
     public static BigDecimal calculateRatePrice(Number price, Number rate, int scale, RoundingMode roundingMode) {
-        return NumberUtil.toBigDecimal(price).multiply(NumberUtil.toBigDecimal(rate)) // 乘以
-                .divide(BigDecimal.valueOf(100), scale, roundingMode); // 除以 100
+        return NumberUtil.toBigDecimal(price).multiply(NumberUtil.toBigDecimal(rate)) // multiply
+                .divide(BigDecimal.valueOf(100), scale, roundingMode); // divide by 100
     }
 
     /**
-     * 分转元
+     * Convert cents (fen) to yuan
      *
-     * @param fen 分
-     * @return 元
+     * @param fen cents
+     * @return yuan
      */
     public static BigDecimal fenToYuan(int fen) {
         return new Money(0, fen).getAmount();
     }
 
     /**
-     * 分转元（字符串）
+     * Convert cents (fen) to yuan as string
      *
-     * 例如说 fen 为 1 时，则结果为 0.01
+     * For example, when fen is 1, the result is 0.01
      *
-     * @param fen 分
-     * @return 元
+     * @param fen cents
+     * @return yuan
      */
     public static String fenToYuanStr(int fen) {
         return new Money(0, fen).toString();
     }
 
     /**
-     * 金额相乘，默认进行四舍五入
+     * Multiply amounts, rounded half up by default
      *
-     * 位数：{@link #PRICE_SCALE}
+     * Scale: {@link #PRICE_SCALE}
      *
-     * @param price 金额
-     * @param count 数量
-     * @return 金额相乘结果
+     * @param price amount
+     * @param count quantity
+     * @return product of the amounts
      */
     public static BigDecimal priceMultiply(BigDecimal price, BigDecimal count) {
         if (price == null || count == null) {
@@ -111,13 +111,13 @@ public class MoneyUtils {
     }
 
     /**
-     * 金额相乘（百分比），默认进行四舍五入
+     * Multiply amount by percentage, rounded half up by default
      *
-     * 位数：{@link #PRICE_SCALE}
+     * Scale: {@link #PRICE_SCALE}
      *
-     * @param price  金额
-     * @param percent 百分比
-     * @return 金额相乘结果
+     * @param price  amount
+     * @param percent percentage
+     * @return product of amount and percentage
      */
     public static BigDecimal priceMultiplyPercent(BigDecimal price, BigDecimal percent) {
         if (price == null || percent == null) {

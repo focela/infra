@@ -16,23 +16,23 @@ import java.time.LocalDateTime;
 public class PostResponse {
 
     @Schema(description = "Post order", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-    @ExcelProperty("岗位序号")
+    @ExcelProperty("Post ID")
     private Long id;
 
     @Schema(description = "Post name", requiredMode = Schema.RequiredMode.REQUIRED, example = "little potato")
-    @ExcelProperty("岗位名称")
+    @ExcelProperty("Post Name")
     private String name;
 
     @Schema(description = "Post code", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
-    @ExcelProperty("岗位编码")
+    @ExcelProperty("Post Code")
     private String code;
 
     @Schema(description = "Display order", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-    @ExcelProperty("岗位排序")
+    @ExcelProperty("Post Sort")
     private Integer sort;
 
     @Schema(description = "Status, see CommonStatusEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @ExcelProperty(value = "状态", converter = DictionaryConverter.class)
+    @ExcelProperty(value = "Status", converter = DictionaryConverter.class)
     @DictionaryFormat(DictionaryTypeConstants.COMMON_STATUS)
     private Integer status;
 

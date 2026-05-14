@@ -6,13 +6,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Redis 消息抽象基类
+ * Abstract base class for Redis messages.
  */
 @Data
 public abstract class AbstractRedisMessage {
 
     /**
-     * 头
+     * Headers.
      */
     private Map<String, String> headers = new HashMap<>();
 

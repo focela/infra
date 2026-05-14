@@ -5,25 +5,25 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 服务器异常 Exception
+ * Server-side exception.
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public final class ServerException extends RuntimeException {
 
     /**
-     * 全局错误码
+     * Global error code.
      *
      * @see GlobalErrorCodeConstants
      */
     private Integer code;
     /**
-     * 错误提示
+     * Error message
      */
     private String message;
 
     /**
-     * 空构造方法，避免反序列化问题
+     * No-arg constructor to support deserialization.
      */
     public ServerException() {
     }

@@ -5,9 +5,9 @@ import com.focela.platform.framework.websocket.core.sender.WebSocketMessageSende
 import com.focela.platform.framework.websocket.core.session.WebSocketSessionManager;
 
 /**
- * 本地的 {@link WebSocketMessageSender} 实现类
+ * Local {@link WebSocketMessageSender} implementation.
  *
- * 注意：仅仅适合单机场景！！！
+ * Note: only suitable for single-node scenarios!
  */
 public class LocalWebSocketMessageSender extends AbstractWebSocketMessageSender {
 

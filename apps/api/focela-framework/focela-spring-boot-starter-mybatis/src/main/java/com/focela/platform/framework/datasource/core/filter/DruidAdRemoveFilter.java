@@ -10,12 +10,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Druid 底部广告过滤器
+ * Druid bottom-banner ad removal filter
  */
 public class DruidAdRemoveFilter extends OncePerRequestFilter {
 
     /**
-     * common.js 的路径
+     * Path to common.js
      */
     private static final String COMMON_JS_ILE_PATH = "support/http/resources/js/common.js";
 
@@ -23,11 +23,11 @@ public class DruidAdRemoveFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
         chain.doFilter(request, response);
-        // 重置缓冲区，响应头不会被重置
+        // Reset the buffer; response headers are not reset
         response.resetBuffer();
-        // 获取 common.js
+        // Load common.js
         String text = Utils.readFromResource(COMMON_JS_ILE_PATH);
-        // 正则替换 banner, 除去底部的广告信息
+        // Regex replace the banner to strip the bottom ad block
         text = text.replaceAll("<a.*?banner\"></a><br/>", "");
         text = text.replaceAll("powered.*?shrek.wang</a>", "");
         response.getWriter().write(text);

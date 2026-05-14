@@ -4,7 +4,7 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * BusinessTracer配置类
+ * BusinessTracer configuration class.
  */
 @ConfigurationProperties("focela.tracer")
 @Data

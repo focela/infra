@@ -19,11 +19,11 @@ public class InDictionaryCollectionValidator implements ConstraintValidator<InDi
 
     @Override
     public boolean isValid(Collection<?> list, ConstraintValidatorContext context) {
-        // 为空时，默认不校验，即认为通过
+        // When empty, skip validation by default (treat as passing)
         if (CollUtil.isEmpty(list)) {
             return true;
         }
-        // 校验全部通过
+        // All values pass validation
         List<String> dbValues = DictionaryFrameworkUtils.getDictDataValueList(dictType);
         boolean match = list.stream().allMatch(v -> dbValues.stream()
                 .anyMatch(dbValue -> dbValue.equalsIgnoreCase(v.toString())));
@@ -31,11 +31,11 @@ public class InDictionaryCollectionValidator implements ConstraintValidator<InDi
             return true;
         }
 
-        // 校验不通过，自定义提示语句
-        context.disableDefaultConstraintViolation(); // 禁用默认的 message 的值
+        // Validation failed; build a custom error message
+        context.disableDefaultConstraintViolation(); // Disable the default message value
         context.buildConstraintViolationWithTemplate(
                 context.getDefaultConstraintMessageTemplate().replaceAll("\\{value}", dbValues.toString())
-        ).addConstraintViolation(); // 重新添加错误提示语句
+        ).addConstraintViolation(); // Re-add the error message
         return false;
     }
 

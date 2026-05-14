@@ -11,15 +11,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 多租户 Context Web 过滤器
- * 将请求 Header 中的 tenant-id 解析出来，添加到 {@link TenantContextHolder} 中，这样后续的 DB 等操作，可以获得到租户编号。
+ * Multi-tenant Context Web filter
+ * Parses the tenant-id from the request Header and adds it to {@link TenantContextHolder}, so that subsequent DB and other operations can obtain the tenant ID.
  */
 public class TenantContextWebFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
-        // 设置
+        // Set
         Long tenantId = WebFrameworkUtils.getTenantId(request);
         if (tenantId != null) {
             TenantContextHolder.setTenantId(tenantId);
@@ -27,7 +27,7 @@ public class TenantContextWebFilter extends OncePerRequestFilter {
         try {
             chain.doFilter(request, response);
         } finally {
-            // 清理
+            // Clean up
             TenantContextHolder.clear();
         }
     }

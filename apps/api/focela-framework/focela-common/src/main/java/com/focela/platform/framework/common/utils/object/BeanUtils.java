@@ -8,10 +8,11 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * Bean 工具类
+ * Bean utility class
  *
- * 1. 默认使用 {@link cn.hutool.core.bean.BeanUtil} 作为实现类，虽然不同 bean 工具的性能有差别，但是对绝大多数同学的项目，不用在意这点性能
- * 2. 针对复杂的对象转换，可以搜参考 AuthConverter 实现，通过 mapstruct + default 配合实现
+ * 1. Uses {@link cn.hutool.core.bean.BeanUtil} as the default implementation; although different bean utilities have different
+ *    performance characteristics, this is not a concern for most projects.
+ * 2. For complex object conversions, see the AuthConverter implementation, which combines mapstruct with default methods.
  */
 public class BeanUtils {
 

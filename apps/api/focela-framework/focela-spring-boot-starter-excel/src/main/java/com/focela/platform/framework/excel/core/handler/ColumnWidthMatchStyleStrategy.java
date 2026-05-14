@@ -15,11 +15,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Excel 自适应列宽处理器
+ * Excel auto-fit column width handler.
  *
- * 相比 {@link LongestMatchColumnWidthStyleStrategy} 来说，额外处理了 DATE 类型！
+ * Compared with {@link LongestMatchColumnWidthStyleStrategy}, this one additionally handles the DATE type.
  *
- * @see <a href="https://github.com/YunaiV/yudao-cloud/pull/196/">添加自适应列宽处理器，并替换默认列宽策略</a>
+ * @see <a href="https://github.com/YunaiV/yudao-cloud/pull/196/">Add auto-fit column width handler and replace the default column width strategy</a>
  */
 public class ColumnWidthMatchStyleStrategy extends AbstractColumnWidthStyleStrategy {
 

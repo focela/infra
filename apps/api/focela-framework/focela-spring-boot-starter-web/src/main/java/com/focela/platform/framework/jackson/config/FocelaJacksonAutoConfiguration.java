@@ -26,7 +26,7 @@ import java.time.LocalTime;
 public class FocelaJacksonAutoConfiguration {
 
     /**
-     * 从 Builder 源头定制（关键：使用 *ByType，避免 handledType 要求）
+     * Customize from the Builder source (key: use *ByType to avoid the handledType requirement).
      */
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer ldtEpochMillisCustomizer() {
@@ -45,12 +45,12 @@ public class FocelaJacksonAutoConfiguration {
     }
 
     /**
-     * 以 Bean 形式暴露 Module（Boot 会自动注册到所有 ObjectMapper）
+     * Expose the Module as a Bean (Boot will auto-register it on all ObjectMappers).
      */
     @Bean
     public Module timestampSupportModuleBean() {
         SimpleModule m = new SimpleModule("TimestampSupportModule");
-        // Long -> Number，避免前端精度丢失
+        // Long -> Number, to avoid precision loss on the frontend
         m.addSerializer(Long.class, NumberSerializer.INSTANCE);
         m.addSerializer(Long.TYPE, NumberSerializer.INSTANCE);
         // LocalDate / LocalTime
@@ -65,7 +65,7 @@ public class FocelaJacksonAutoConfiguration {
     }
 
     /**
-     * 初始化全局 JsonUtils，直接使用主 ObjectMapper
+     * Initialize the global JsonUtils, using the primary ObjectMapper directly.
      */
     @Bean
     @SuppressWarnings("InstantiationOfUtilityClass")

@@ -30,7 +30,7 @@ public class AreaController {
     @Operation(summary = "Get area tree")
     public CommonResult<List<AreaNodeResponse>> getAreaTree() {
         Area area = AreaUtils.getArea(Area.ID_CHINA);
-        Assert.notNull(area, "获取不到中国");
+        Assert.notNull(area, "Cannot get China");
         return success(BeanUtils.toBean(area.getChildren(), AreaNodeResponse.class));
     }
 
@@ -38,12 +38,12 @@ public class AreaController {
     @Operation(summary = "get IP corresponding area name")
     @Parameter(name = "ip", description = "IP", required = true)
     public CommonResult<String> getAreaByIp(@RequestParam("ip") String ip) {
-        // 获得城市
+        // get city
         Area area = IPUtils.getArea(ip);
         if (area == null) {
-            return success("未知");
+            return success("Unknown");
         }
-        // 格式化返回
+        // format and return
         return success(AreaUtils.format(area.getId()));
     }
 

@@ -19,7 +19,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class FocelaApiLogAutoConfiguration implements WebMvcConfigurer {
 
     /**
-     * 创建 ApiAccessLogFilter Bean，记录 API 请求日志
+     * Create ApiAccessLogFilter Bean to log API requests
      */
     @Bean
     @ConditionalOnProperty(prefix = "focela.access-log", value = "enable", matchIfMissing = true)

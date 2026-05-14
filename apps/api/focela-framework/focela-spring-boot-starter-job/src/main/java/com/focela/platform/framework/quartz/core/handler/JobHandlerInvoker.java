@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 import static cn.hutool.core.exceptions.ExceptionUtil.getRootCauseMessage;
 
 /**
- * 基础 Job 调用者，负责调用 {@link JobHandler#execute(String)} 执行任务
+ * Base Job invoker responsible for calling {@link JobHandler#execute(String)} to execute the job.
  */
 @DisallowConcurrentExecution
 @PersistJobDataAfterExecution
@@ -34,7 +34,7 @@ public class JobHandlerInvoker extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext executionContext) throws JobExecutionException {
-        // 第一步，获得 Job 数据
+        // Step 1: get the job data
         Long jobId = executionContext.getMergedJobDataMap().getLong(JobDataKeyEnum.JOB_ID.name());
         String jobHandlerName = executionContext.getMergedJobDataMap().getString(JobDataKeyEnum.JOB_HANDLER_NAME.name());
         String jobHandlerParam = executionContext.getMergedJobDataMap().getString(JobDataKeyEnum.JOB_HANDLER_PARAM.name());
@@ -42,69 +42,69 @@ public class JobHandlerInvoker extends QuartzJobBean {
         int retryCount = (Integer) executionContext.getMergedJobDataMap().getOrDefault(JobDataKeyEnum.JOB_RETRY_COUNT.name(), 0);
         int retryInterval = (Integer) executionContext.getMergedJobDataMap().getOrDefault(JobDataKeyEnum.JOB_RETRY_INTERVAL.name(), 0);
 
-        // 第二步，执行任务
+        // Step 2: execute the job
         Long jobLogId = null;
         LocalDateTime startTime = LocalDateTime.now();
         String data = null;
         Throwable exception = null;
         try {
-            // 记录 Job 日志（初始）
+            // Record the job log (initial)
             jobLogId = jobLogFrameworkService.createJobLog(jobId, startTime, jobHandlerName, jobHandlerParam, refireCount + 1);
-            // 执行任务
+            // Execute the job
             data = this.executeInternal(jobHandlerName, jobHandlerParam);
         } catch (Throwable ex) {
             exception = ex;
         }
 
-        // 第三步，记录执行日志
+        // Step 3: record the execution log
         this.updateJobLogResultAsync(jobLogId, startTime, data, exception, executionContext);
 
-        // 第四步，处理有异常的情况
+        // Step 4: handle the exception case
         handleException(exception, refireCount, retryCount, retryInterval);
     }
 
     private String executeInternal(String jobHandlerName, String jobHandlerParam) throws Exception {
-        // 获得 JobHandler 对象
+        // Get the JobHandler bean
         JobHandler jobHandler = applicationContext.getBean(jobHandlerName, JobHandler.class);
-        Assert.notNull(jobHandler, "JobHandler 不会为空");
-        // 执行任务
+        Assert.notNull(jobHandler, "JobHandler must not be null");
+        // Execute the job
         return jobHandler.execute(jobHandlerParam);
     }
 
     private void updateJobLogResultAsync(Long jobLogId, LocalDateTime startTime, String data, Throwable exception,
                                          JobExecutionContext executionContext) {
         LocalDateTime endTime = LocalDateTime.now();
-        // 处理是否成功
+        // Determine success
         boolean success = exception == null;
         if (!success) {
             data = getRootCauseMessage(exception);
         }
-        // 更新日志
+        // Update the log
         try {
             jobLogFrameworkService.updateJobLogResultAsync(jobLogId, endTime, (int) LocalDateTimeUtil.between(startTime, endTime).toMillis(), success, data);
         } catch (Exception ex) {
-            log.error("[executeInternal][Job({}) logId({}) 记录execute log failed ({}/{})]",
+            log.error("[executeInternal][Job({}) logId({}) failed to record execute log ({}/{})]",
                     executionContext.getJobDetail().getKey(), jobLogId, success, data);
         }
     }
 
     private void handleException(Throwable exception,
                                  int refireCount, int retryCount, int retryInterval) throws JobExecutionException {
-        // 如果有异常，则进行重试
+        // If there is an exception, retry
         if (exception == null) {
             return;
         }
-        // 情况一：如果到达重试上限，则直接抛出异常即可
+        // Case 1: retry limit reached - simply rethrow the exception
         if (refireCount >= retryCount) {
             throw new JobExecutionException(exception);
         }
 
-        // 情况二：如果未到达重试上限，则 sleep 一定间隔时间，然后重试
-        // 这里使用 sleep 来实现，主要还是希望实现比较简单。因为，同一时间，不会存在大量失败的 Job。
+        // Case 2: retry limit not reached - sleep for the interval, then retry
+        // sleep is used here to keep the implementation simple; at any given moment we don't expect a large number of failed jobs.
         if (retryInterval > 0) {
             ThreadUtil.sleep(retryInterval);
         }
-        // 第二个参数，refireImmediately = true，表示立即重试
+        // Second argument refireImmediately = true means retry immediately
         throw new JobExecutionException(exception, true);
     }
 

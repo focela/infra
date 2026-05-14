@@ -8,10 +8,10 @@ import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
 import static com.focela.platform.framework.web.core.utils.WebFrameworkUtils.HEADER_TENANT_ID;
 
 /**
- * 多租户 {@link AbstractRedisMessage} 拦截器
+ * Multi-tenant {@link AbstractRedisMessage} interceptor
  *
- * 1. Producer 发送消息时，将 {@link TenantContextHolder} 租户编号，添加到消息的 Header 中
- * 2. Consumer 消费消息时，将消息的 Header 的租户编号，添加到 {@link TenantContextHolder} 中
+ * 1. When the Producer sends a message, add the tenant ID from {@link TenantContextHolder} to the message Header.
+ * 2. When the Consumer consumes a message, add the tenant ID from the message Header to {@link TenantContextHolder}.
  */
 public class TenantRedisMessageInterceptor implements RedisMessageInterceptor {
 
@@ -33,7 +33,7 @@ public class TenantRedisMessageInterceptor implements RedisMessageInterceptor {
 
     @Override
     public void consumeMessageAfter(AbstractRedisMessage message) {
-        // 注意，Consumer 是一个逻辑的入口，所以不考虑原本上下文就存在租户编号的情况
+        // Note: the Consumer is a logical entry point, so we do not consider the case where the tenant ID already exists in the context.
         TenantContextHolder.clear();
     }
 

@@ -93,7 +93,7 @@ public class AuthPermissionInfoResponse {
         private Boolean alwaysShow;
 
         /**
-         * 子路由
+         * child routes
          */
         private List<MenuVO> children;
 

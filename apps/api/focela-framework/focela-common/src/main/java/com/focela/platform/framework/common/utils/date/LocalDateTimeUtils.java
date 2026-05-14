@@ -20,24 +20,24 @@ import java.util.List;
 import static cn.hutool.core.date.DatePattern.*;
 
 /**
- * 时间工具类，用于 {@link LocalDateTime}
+ * Time utility class for {@link LocalDateTime}
  */
 public class LocalDateTimeUtils {
 
     /**
-     * 空的 LocalDateTime 对象，主要用于 DB 唯一索引的默认值
+     * Empty LocalDateTime, mainly used as the default value for DB unique indexes
      */
     public static LocalDateTime EMPTY = buildTime(1970, 1, 1);
 
     public static DateTimeFormatter UTC_MS_WITH_XXX_OFFSET_FORMATTER = createFormatter(UTC_MS_WITH_XXX_OFFSET_PATTERN);
 
     /**
-     * 解析时间
+     * Parse a time string
      *
-     * 相比 {@link LocalDateTimeUtil#parse(CharSequence)} 方法来说，会尽量去解析，直到成功
+     * Compared with {@link LocalDateTimeUtil#parse(CharSequence)}, this tries multiple patterns until one succeeds
      *
-     * @param time 时间
-     * @return 时间字符串
+     * @param time time string
+     * @return parsed time
      */
     public static LocalDateTime parse(String time) {
         try {
@@ -64,12 +64,12 @@ public class LocalDateTimeUtils {
     }
 
     /**
-     * 创建指定时间
+     * Build a specific time
      *
-     * @param year  年
-     * @param month 月
-     * @param day   日
-     * @return 指定时间
+     * @param year  year
+     * @param month month
+     * @param day   day
+     * @return the specified time
      */
     public static LocalDateTime buildTime(int year, int month, int day) {
         return LocalDateTime.of(year, month, day, 0, 0, 0);
@@ -81,12 +81,12 @@ public class LocalDateTimeUtils {
     }
 
     /**
-     * 判指定断时间，是否在该时间范围内
+     * Determine whether the given time falls within the time range
      *
-     * @param startTime 开始时间
-     * @param endTime 结束时间
-     * @param time 指定时间
-     * @return 是否
+     * @param startTime start time
+     * @param endTime end time
+     * @param time given time
+     * @return whether it is within the range
      */
     public static boolean isBetween(LocalDateTime startTime, LocalDateTime endTime, Timestamp time) {
         if (startTime == null || endTime == null || time == null) {
@@ -96,12 +96,12 @@ public class LocalDateTimeUtils {
     }
 
     /**
-     * 判指定断时间，是否在该时间范围内
+     * Determine whether the given time falls within the time range
      *
-     * @param startTime 开始时间
-     * @param endTime 结束时间
-     * @param time 指定时间
-     * @return 是否
+     * @param startTime start time
+     * @param endTime end time
+     * @param time given time
+     * @return whether it is within the range
      */
     public static boolean isBetween(LocalDateTime startTime, LocalDateTime endTime, String time) {
         if (startTime == null || endTime == null || time == null) {
@@ -111,11 +111,11 @@ public class LocalDateTimeUtils {
     }
 
     /**
-     * 判断当前时间是否在该时间范围内
+     * Determine whether the current time falls within the time range
      *
-     * @param startTime 开始时间
-     * @param endTime   结束时间
-     * @return 是否
+     * @param startTime start time
+     * @param endTime   end time
+     * @return whether it is within the range
      */
     public static boolean isBetween(LocalDateTime startTime, LocalDateTime endTime) {
         if (startTime == null || endTime == null) {
@@ -125,11 +125,11 @@ public class LocalDateTimeUtils {
     }
 
     /**
-     * 判断当前时间是否在该时间范围内
+     * Determine whether the current time falls within the time range
      *
-     * @param startTime 开始时间
-     * @param endTime   结束时间
-     * @return 是否
+     * @param startTime start time
+     * @param endTime   end time
+     * @return whether it is within the range
      */
     public static boolean isBetween(String startTime, String endTime) {
         if (startTime == null || endTime == null) {
@@ -142,13 +142,13 @@ public class LocalDateTimeUtils {
     }
 
     /**
-     * 判断时间段是否重叠
+     * Determine whether two time ranges overlap
      *
-     * @param startTime1 开始 time1
-     * @param endTime1   结束 time1
-     * @param startTime2 开始 time2
-     * @param endTime2   结束 time2
-     * @return 重叠：true 不重叠：false
+     * @param startTime1 start of time1
+     * @param endTime1   end of time1
+     * @param startTime2 start of time2
+     * @param endTime2   end of time2
+     * @return true if overlapping, false otherwise
      */
     public static boolean isOverlap(LocalTime startTime1, LocalTime endTime1, LocalTime startTime2, LocalTime endTime2) {
         LocalDate nowDate = LocalDate.now();
@@ -157,78 +157,78 @@ public class LocalDateTimeUtils {
     }
 
     /**
-     * 获取指定日期所在的月份的开始时间
-     * 例如：2023-09-30 00:00:00,000
+     * Get the start of the month that contains the given date
+     * For example: 2023-09-30 00:00:00,000
      *
-     * @param date 日期
-     * @return 月份的开始时间
+     * @param date date
+     * @return start of the month
      */
     public static LocalDateTime beginOfMonth(LocalDateTime date) {
         return date.with(TemporalAdjusters.firstDayOfMonth()).with(LocalTime.MIN);
     }
 
     /**
-     * 获取指定日期所在的月份的最后时间
-     * 例如：2023-09-30 23:59:59,999
+     * Get the end of the month that contains the given date
+     * For example: 2023-09-30 23:59:59,999
      *
-     * @param date 日期
-     * @return 月份的结束时间
+     * @param date date
+     * @return end of the month
      */
     public static LocalDateTime endOfMonth(LocalDateTime date) {
         return date.with(TemporalAdjusters.lastDayOfMonth()).with(LocalTime.MAX);
     }
 
     /**
-     * 获得指定日期所在季度
+     * Get the quarter of the year for the given date
      *
-     * @param date 日期
-     * @return 所在季度
+     * @param date date
+     * @return the quarter (1-4)
      */
     public static int getQuarterOfYear(LocalDateTime date) {
         return (date.getMonthValue() - 1) / 3 + 1;
     }
 
     /**
-     * 获取指定日期到现在过了几天，如果指定日期在当前日期之后，获取结果为负
+     * Get the number of days between the given date and now. If the given date is after now, the result is negative.
      *
-     * @param dateTime 日期
-     * @return 相差天数
+     * @param dateTime date
+     * @return days between
      */
     public static Long between(LocalDateTime dateTime) {
         return LocalDateTimeUtil.between(dateTime, LocalDateTime.now(), ChronoUnit.DAYS);
     }
 
     /**
-     * 获取今天的开始时间
+     * Get the start time of today
      *
-     * @return 今天
+     * @return today
      */
     public static LocalDateTime getToday() {
         return LocalDateTimeUtil.beginOfDay(LocalDateTime.now());
     }
 
     /**
-     * 获取昨天的开始时间
+     * Get the start time of yesterday
      *
-     * @return 昨天
+     * @return yesterday
      */
     public static LocalDateTime getYesterday() {
         return LocalDateTimeUtil.beginOfDay(LocalDateTime.now().minusDays(1));
     }
 
     /**
-     * 获取本月的开始时间
+     * Get the start time of this month
      *
-     * @return 本月
+     * @return this month
      */
     public static LocalDateTime getMonth() {
         return beginOfMonth(LocalDateTime.now());
     }
 
     /**
-     * 获取本年的开始时间
+     * Get the start time of this year
      *
-     * @return 本年
+     * @return this year
      */
     public static LocalDateTime getYear() {
         return LocalDateTime.now().with(TemporalAdjusters.firstDayOfYear()).with(LocalTime.MIN);
@@ -237,14 +237,14 @@ public class LocalDateTimeUtils {
     public static List<LocalDateTime[]> getDateRangeList(LocalDateTime startTime,
                                                          LocalDateTime endTime,
                                                          Integer interval) {
-        // 1.1 找到枚举
+        // 1.1 find the enum
         DateIntervalEnum intervalEnum = DateIntervalEnum.valueOf(interval);
-        Assert.notNull(intervalEnum, "interval({}} 找不到对应的枚举", interval);
-        // 1.2 将时间对齐
+        Assert.notNull(intervalEnum, "interval({}} no matching enum found", interval);
+        // 1.2 align times
         startTime = LocalDateTimeUtil.beginOfDay(startTime);
         endTime = LocalDateTimeUtil.endOfDay(endTime);
 
-        // 2. 循环，生成时间范围
+        // 2. loop and build time ranges
         List<LocalDateTime[]> timeRanges = new ArrayList<>();
         switch (intervalEnum) {
             case HOUR:
@@ -292,7 +292,7 @@ public class LocalDateTimeUtils {
             default:
                 throw new IllegalArgumentException("Invalid interval: " + interval);
         }
-        // 3. 兜底，最后一个时间，需要保持在 endTime 之前
+        // 3. fallback: keep the last entry capped at endTime
         LocalDateTime[] lastTimeRange = CollUtil.getLast(timeRanges);
         if (lastTimeRange != null) {
             lastTimeRange[1] = endTime;
@@ -301,19 +301,19 @@ public class LocalDateTimeUtils {
     }
 
     /**
-     * 格式化时间范围
+     * Format a date range
      *
-     * @param startTime 开始时间
-     * @param endTime   结束时间
-     * @param interval  时间间隔
-     * @return 时间范围
+     * @param startTime start time
+     * @param endTime   end time
+     * @param interval  time interval
+     * @return formatted time range
      */
     public static String formatDateRange(LocalDateTime startTime, LocalDateTime endTime, Integer interval) {
-        // 1. 找到枚举
+        // 1. find the enum
         DateIntervalEnum intervalEnum = DateIntervalEnum.valueOf(interval);
-        Assert.notNull(intervalEnum, "interval({}} 找不到对应的枚举", interval);
+        Assert.notNull(intervalEnum, "interval({}} no matching enum found", interval);
 
-        // 2. 循环，生成时间范围
+        // 2. loop and build the time range
         switch (intervalEnum) {
             case HOUR:
                 return LocalDateTimeUtil.format(startTime, DatePattern.NORM_DATETIME_MINUTE_PATTERN);
@@ -321,7 +321,7 @@ public class LocalDateTimeUtils {
                 return LocalDateTimeUtil.format(startTime, DatePattern.NORM_DATE_PATTERN);
             case WEEK:
                 return LocalDateTimeUtil.format(startTime, DatePattern.NORM_DATE_PATTERN)
-                        + StrUtil.format("(第 {} 周)", LocalDateTimeUtil.weekOfYear(startTime));
+                        + StrUtil.format("(Week {})", LocalDateTimeUtil.weekOfYear(startTime));
             case MONTH:
                 return LocalDateTimeUtil.format(startTime, DatePattern.NORM_MONTH_PATTERN);
             case QUARTER:
@@ -334,10 +334,10 @@ public class LocalDateTimeUtils {
     }
 
     /**
-     * 获取指定日期所在季度的第一天
+     * Get the first day of the quarter that contains the given date
      *
-     * @param date 日期
-     * @return 所在季度的第一天
+     * @param date date
+     * @return first day of the quarter
      */
     public static LocalDate getQuarterStart(LocalDate date) {
         Month firstMonthOfQuarter = date.getMonth().firstMonthOfQuarter();
@@ -345,22 +345,22 @@ public class LocalDateTimeUtils {
     }
 
     /**
-     * 获取指定日期所在周的第一天（周一）
+     * Get the first day of the week (Monday) that contains the given date
      *
-     * @param date 日期
-     * @return 所在周的周一
+     * @param date date
+     * @return Monday of the week
      */
     public static LocalDate getWeekStart(LocalDate date) {
         return date.with(DayOfWeek.MONDAY);
     }
 
     /**
-     * 将给定的 {@link LocalDateTime} 转换为自 Unix 纪元时间（1970-01-01T00:00:00Z）以来的秒数。
+     * Convert the given {@link LocalDateTime} to seconds since the Unix epoch (1970-01-01T00:00:00Z).
      *
-     * @param sourceDateTime 需要转换的本地日期时间，不能为空
-     * @return 自 1970-01-01T00:00:00Z 起的秒数（epoch second）
-     * @throws NullPointerException 如果 {@code sourceDateTime} 为 {@code null}
-     * @throws DateTimeException 如果转换过程中发生时间超出范围或其他时间处理异常
+     * @param sourceDateTime local date time to convert, must not be null
+     * @return seconds since 1970-01-01T00:00:00Z (epoch second)
+     * @throws NullPointerException if {@code sourceDateTime} is {@code null}
+     * @throws DateTimeException if the conversion results in an out-of-range value or other date-time error
      */
     public static Long toEpochSecond(LocalDateTime sourceDateTime) {
         return TemporalAccessorUtil.toInstant(sourceDateTime).getEpochSecond();

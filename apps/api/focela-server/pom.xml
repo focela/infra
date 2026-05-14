@@ -14,9 +14,9 @@
 
     <name>${project.artifactId}</name>
     <description>
-        后端 Server 的主项目，通过引入需要 yudao-module-xxx 的依赖，
-        从而实现提供 RESTful API 给 yudao-ui-admin、yudao-ui-user 等前端项目。
-        本质上来说，它就是个空壳（容器）！
+        Backend Server main project. It pulls in the required focela-module-xxx dependencies
+        to provide a RESTful API for frontend projects (admin UI, user UI, etc.).
+        Essentially, it is just an empty shell (container).
     </description>
     <url>https://github.com/YunaiV/ruoyi-vue-pro</url>
 
@@ -32,40 +32,40 @@
             <version>${revision}</version>
         </dependency>
 
-        <!-- 会员中心。默认注释，保证编译速度 -->
+        <!-- Member center. Commented out by default to keep builds fast. -->
 <!--        <dependency>-->
 <!--            <groupId>com.focela.platform</groupId>-->
 <!--            <artifactId>focela-module-member</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
 
-        <!-- 数据报表。默认注释，保证编译速度 -->
+        <!-- Data reports. Commented out by default to keep builds fast. -->
 <!--        <dependency>-->
 <!--            <groupId>com.focela.platform</groupId>-->
 <!--            <artifactId>focela-module-report</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
-        <!-- 工作流。默认注释，保证编译速度 -->
+        <!-- Workflow. Commented out by default to keep builds fast. -->
 <!--        <dependency>-->
 <!--            <groupId>com.focela.platform</groupId>-->
 <!--            <artifactId>focela-module-bpm</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
-        <!-- 支付服务。默认注释，保证编译速度 -->
+        <!-- Payment service. Commented out by default to keep builds fast. -->
 <!--        <dependency>-->
 <!--            <groupId>com.focela.platform</groupId>-->
 <!--            <artifactId>focela-module-pay</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
 
-        <!-- 微信公众号模块。默认注释，保证编译速度 -->
+        <!-- WeChat MP module. Commented out by default to keep builds fast. -->
 <!--        <dependency>-->
 <!--            <groupId>com.focela.platform</groupId>-->
 <!--            <artifactId>focela-module-mp</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
 
-        <!-- 商城相关模块。默认注释，保证编译速度-->
+        <!-- Mall-related modules. Commented out by default to keep builds fast. -->
 <!--        <dependency>-->
 <!--            <groupId>com.focela.platform</groupId>-->
 <!--            <artifactId>focela-module-product</artifactId>-->
@@ -87,55 +87,55 @@
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
 
-        <!-- CRM 相关模块。默认注释，保证编译速度 -->
+        <!-- CRM-related modules. Commented out by default to keep builds fast. -->
 <!--        <dependency>-->
 <!--            <groupId>com.focela.platform</groupId>-->
 <!--            <artifactId>focela-module-crm</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
 
-        <!-- ERP 相关模块。默认注释，保证编译速度 -->
+        <!-- ERP-related modules. Commented out by default to keep builds fast. -->
 <!--        <dependency>-->
 <!--            <groupId>com.focela.platform</groupId>-->
 <!--            <artifactId>focela-module-erp</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
 
-        <!-- AI 大模型相关模块。默认注释，保证编译速度 -->
+        <!-- AI large-model modules. Commented out by default to keep builds fast. -->
 <!--        <dependency>-->
 <!--            <groupId>com.focela.platform</groupId>-->
 <!--            <artifactId>focela-module-ai</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
 
-        <!-- IoT 物联网相关模块。默认注释，保证编译速度 -->
+        <!-- IoT-related modules. Commented out by default to keep builds fast. -->
 <!--        <dependency>-->
 <!--            <groupId>com.focela.platform</groupId>-->
 <!--            <artifactId>focela-module-iot-biz</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
 
-        <!-- MES 制造执行系统相关模块 -->
+        <!-- MES (Manufacturing Execution System) modules. -->
 <!--        <dependency>-->
 <!--            <groupId>com.focela.platform</groupId>-->
 <!--            <artifactId>focela-module-mes</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
 
-        <!-- spring boot 配置所需依赖 -->
+        <!-- Spring Boot configuration dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
 
-        <!-- 服务保障相关 -->
+        <!-- Service protection -->
         <dependency>
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-protection</artifactId>
         </dependency>
 
-        <!-- PostgreSQL（starter-mybatis 中为 optional，使用 PG 时需显式引入） -->
+        <!-- PostgreSQL (optional in starter-mybatis; must be explicitly included when using PG). -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -144,10 +144,10 @@
     </dependencies>
 
     <build>
-        <!-- 设置构建的 jar 包名 -->
+        <!-- Set the built jar filename -->
         <finalName>${project.artifactId}</finalName>
         <plugins>
-            <!-- 打包 -->
+            <!-- Packaging -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -155,7 +155,7 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>repackage</goal> <!-- 将引入的 jar 打入其中 -->
+                            <goal>repackage</goal> <!-- Bundle dependent jars into the artifact -->
                         </goals>
                     </execution>
                 </executions>

@@ -25,7 +25,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * MyBatis 工具类
+ * MyBatis utility class
  */
 public class MyBatisUtils {
 
@@ -36,10 +36,10 @@ public class MyBatisUtils {
     }
 
     public static <T> Page<T> buildPage(PageParam pageParam, Collection<SortingField> sortingFields) {
-        // 页码 + 数量
+        // Page number + size
         Page<T> page = new Page<>(pageParam.getPageNo(), pageParam.getPageSize());
-        page.setOptimizeJoinOfCountSql(false); // 关联 issue：https://gitee.com/zhijiantianya/yudao-cloud/issues/ID2QLL
-        // 排序字段
+        page.setOptimizeJoinOfCountSql(false); // Related issue: see upstream tracker
+        // Sorting fields
         if (CollUtil.isNotEmpty(sortingFields)) {
             for (SortingField sortingField : sortingFields) {
                 page.addOrder(new OrderItem().setAsc(SortingField.ORDER_ASC.equals(sortingField.getOrder()))
@@ -62,7 +62,7 @@ public class MyBatisUtils {
                         StrUtil.toUnderlineCase(sortingField.getField()));
             }
         } else if (wrapper instanceof LambdaQueryWrapper<T>) {
-            // LambdaQueryWrapper 不直接支持字符串字段排序，使用 last 方法拼接 ORDER BY
+            // LambdaQueryWrapper does not directly support ordering by string field names; build ORDER BY via the last method
             LambdaQueryWrapper<T> lambdaQuery = (LambdaQueryWrapper<T>) wrapper;
             StringBuilder orderBy = new StringBuilder();
             for (SortingField sortingField : sortingFields) {

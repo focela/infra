@@ -8,10 +8,10 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 
 /**
- * 社交（三方）用户
+ * Social (third-party) user
  */
 @TableName(value = "system_social_user", autoResultMap = true)
-@KeySequence("system_social_user_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
+@KeySequence("system_social_user_seq") // used for primary key auto-increment in databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Builder
@@ -20,49 +20,49 @@ import lombok.*;
 public class SocialUserEntity extends BaseEntity {
 
     /**
-     * 自增主键
+     * Auto-increment primary key
      */
     @TableId
     private Long id;
     /**
-     * 社交平台的类型
+     * Social platform type
      *
-     * 枚举 {@link SocialTypeEnum}
+     * Enum {@link SocialTypeEnum}
      */
     private Integer type;
 
     /**
-     * 社交 openid
+     * Social openid
      */
     private String openid;
     /**
-     * 社交 token
+     * Social token
      */
     private String token;
     /**
-     * 原始 Token 数据，一般是 JSON 格式
+     * Raw token data, typically in JSON format
      */
     private String rawTokenInfo;
 
     /**
-     * 用户昵称
+     * User nickname
      */
     private String nickname;
     /**
-     * 用户头像
+     * User avatar
      */
     private String avatar;
     /**
-     * 原始用户数据，一般是 JSON 格式
+     * Raw user data, typically in JSON format
      */
     private String rawUserInfo;
 
     /**
-     * 最后一次的认证 code
+     * Last authentication code
      */
     private String code;
     /**
-     * 最后一次的认证 state
+     * Last authentication state
      */
     private String state;
 

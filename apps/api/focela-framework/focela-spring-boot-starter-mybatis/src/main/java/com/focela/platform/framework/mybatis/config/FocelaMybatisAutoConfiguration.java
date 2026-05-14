@@ -27,15 +27,15 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * MyBaits 配置类
+ * MyBatis configuration class
  */
-@AutoConfiguration(before = MybatisPlusAutoConfiguration.class) // 目的：先于 MyBatis Plus 自动配置，避免 @MapperScan 可能扫描不到 Mapper 打印 warn 日志
+@AutoConfiguration(before = MybatisPlusAutoConfiguration.class) // Purpose: run before MyBatis Plus auto-configuration to avoid @MapperScan possibly missing Mappers and printing warn logs
 @MapperScan(value = "${focela.info.base-package}", annotationClass = Mapper.class,
-        lazyInitialization = "${mybatis.lazy-initialization:false}") // Mapper 懒加载，目前仅用于单元测试
+        lazyInitialization = "${mybatis.lazy-initialization:false}") // Mapper lazy initialization, currently used only for unit tests
 public class FocelaMybatisAutoConfiguration {
 
     static {
-        // 动态 SQL 智能优化支持本地缓存加速解析，更完善的租户复杂 XML 动态 SQL 支持，静态注入缓存
+        // Dynamic SQL smart optimization with local-cache-accelerated parsing, better support for complex tenant XML dynamic SQL, statically injected cache
         JsqlParserGlobal.setJsqlParseCache(new JdkSerialCaffeineJsqlParseCache(
                 (cache) -> cache.maximumSize(1024)
                         .expireAfterWrite(5, TimeUnit.SECONDS))
@@ -45,15 +45,15 @@ public class FocelaMybatisAutoConfiguration {
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor mybatisPlusInterceptor = new MybatisPlusInterceptor();
-        mybatisPlusInterceptor.addInnerInterceptor(new PaginationInnerInterceptor()); // 分页插件
-        // ↓↓↓ 按需开启，可能会影响到 updateBatch 的地方：例如说文件配置管理 ↓↓↓
-        // mybatisPlusInterceptor.addInnerInterceptor(new BlockAttackInnerInterceptor()); // 拦截没有指定条件的 update 和 delete 语句
+        mybatisPlusInterceptor.addInnerInterceptor(new PaginationInnerInterceptor()); // Pagination plugin
+        // ↓↓↓ Enable on demand; may affect places using updateBatch, e.g. file config management ↓↓↓
+        // mybatisPlusInterceptor.addInnerInterceptor(new BlockAttackInnerInterceptor()); // Block unconditional update and delete statements
         return mybatisPlusInterceptor;
     }
 
     @Bean
     public MetaObjectHandler defaultMetaObjectHandler() {
-        return new DefaultDBFieldHandler(); // 自动填充参数类
+        return new DefaultDBFieldHandler(); // Auto-fill parameter handler
     }
 
     @Bean
@@ -75,13 +75,13 @@ public class FocelaMybatisAutoConfiguration {
                     return new DmKeyGenerator();
             }
         }
-        // 找不到合适的 IKeyGenerator 实现类
-        throw new IllegalArgumentException(StrUtil.format("DbType{} cannot find suitable IKeyGenerator implementation 类", dbType));
+        // No suitable IKeyGenerator implementation class found
+        throw new IllegalArgumentException(StrUtil.format("DbType{} cannot find suitable IKeyGenerator implementation class", dbType));
     }
 
-    @Bean // 特殊：返回结果使用 Object 而不用 JacksonTypeHandler 的原因，避免因为 JacksonTypeHandler 被 mybatis 全局使用！
+    @Bean // Note: return type is Object rather than JacksonTypeHandler to avoid JacksonTypeHandler being used globally by MyBatis!
     public Object jacksonTypeHandler(List<ObjectMapper> objectMappers) {
-        // 特殊：设置 JacksonTypeHandler 的 ObjectMapper！
+        // Note: set the ObjectMapper for JacksonTypeHandler!
         ObjectMapper objectMapper = CollUtil.getFirst(objectMappers);
         if (objectMapper == null) {
             objectMapper = JsonUtils.getObjectMapper();

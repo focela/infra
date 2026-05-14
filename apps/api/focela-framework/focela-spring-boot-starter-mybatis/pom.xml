@@ -12,7 +12,7 @@
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
-    <description>数据库连接池、多数据源、事务、MyBatis 拓展</description>
+    <description>Database connection pool, multiple data sources, transactions, and MyBatis extensions</description>
     <url>https://github.com/YunaiV/ruoyi-vue-pro</url>
 
     <dependencies>
@@ -21,14 +21,14 @@
             <artifactId>focela-common</artifactId>
         </dependency>
 
-        <!-- Web 相关 -->
+        <!-- Web related -->
         <dependency>
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-security</artifactId>
-            <scope>provided</scope> <!-- 设置为 provided，只有 DefaultDBFieldHandler 使用到 -->
+            <scope>provided</scope> <!-- Set to provided; only DefaultDBFieldHandler uses it -->
         </dependency>
 
-        <!-- DB 相关 -->
+        <!-- DB related -->
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
@@ -83,7 +83,7 @@
         </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>dynamic-datasource-spring-boot3-starter</artifactId> <!-- 多数据源 -->
+            <artifactId>dynamic-datasource-spring-boot3-starter</artifactId> <!-- Multiple data sources -->
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
@@ -94,11 +94,11 @@
 
         <dependency>
             <groupId>com.github.yulichang</groupId>
-            <artifactId>mybatis-plus-join-boot-starter</artifactId> <!-- MyBatis 联表查询 -->
+            <artifactId>mybatis-plus-join-boot-starter</artifactId> <!-- MyBatis join queries -->
         </dependency>
 
         <dependency>
-            <groupId>com.fhs-opensource</groupId> <!-- VO 数据翻译 -->
+            <groupId>com.fhs-opensource</groupId> <!-- VO data translation -->
             <artifactId>easy-trans-spring-boot-starter</artifactId>
         </dependency>
         <dependency>

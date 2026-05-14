@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Bean;
 import java.util.List;
 
 /**
- * 数据权限的自动配置类
+ * Auto-configuration for data permission.
  */
 @AutoConfiguration
 public class FocelaDataPermissionAutoConfiguration {
@@ -27,11 +27,11 @@ public class FocelaDataPermissionAutoConfiguration {
     @Bean
     public DataPermissionRuleHandler dataPermissionRuleHandler(MybatisPlusInterceptor interceptor,
                                                                DataPermissionRuleFactory ruleFactory) {
-        // 创建 DataPermissionInterceptor 拦截器
+        // Create the DataPermissionInterceptor
         DataPermissionRuleHandler handler = new DataPermissionRuleHandler(ruleFactory);
         DataPermissionInterceptor inner = new DataPermissionInterceptor(handler);
-        // 添加到 interceptor 中
-        // 需要加在首个，主要是为了在分页插件前面。这个是 MyBatis Plus 的规定
+        // Add to the interceptor chain.
+        // Must be added at the head, before the pagination plugin. This is MyBatis Plus's rule.
         MyBatisUtils.addInterceptor(interceptor, inner, 0);
         return handler;
     }

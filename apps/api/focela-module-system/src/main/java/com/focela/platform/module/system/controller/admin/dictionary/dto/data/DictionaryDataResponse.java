@@ -16,27 +16,27 @@ import java.time.LocalDateTime;
 public class DictionaryDataResponse {
 
     @Schema(description = "Dictionary data ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-    @ExcelProperty("字典编码")
+    @ExcelProperty("Dictionary Code")
     private Long id;
 
     @Schema(description = "Display order", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-    @ExcelProperty("字典排序")
+    @ExcelProperty("Dictionary Sort")
     private Integer sort;
 
     @Schema(description = "Dictionary label", requiredMode = Schema.RequiredMode.REQUIRED, example = "Acme")
-    @ExcelProperty("字典标签")
+    @ExcelProperty("Dictionary Label")
     private String label;
 
     @Schema(description = "Dictionary value", requiredMode = Schema.RequiredMode.REQUIRED, example = "sample")
-    @ExcelProperty("字典键值")
+    @ExcelProperty("Dictionary Value")
     private String value;
 
     @Schema(description = "Dictionary type", requiredMode = Schema.RequiredMode.REQUIRED, example = "sys_common_sex")
-    @ExcelProperty("字典类型")
+    @ExcelProperty("Dictionary Type")
     private String dictType;
 
     @Schema(description = "Status, see CommonStatusEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @ExcelProperty(value = "状态", converter = DictionaryConverter.class)
+    @ExcelProperty(value = "Status", converter = DictionaryConverter.class)
     @DictionaryFormat(DictionaryTypeConstants.COMMON_STATUS)
     private Integer status;
 

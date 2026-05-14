@@ -11,12 +11,12 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * 短信渠道 DO
+ * SMS channel DO
  *
  * @since 2021-01-25
  */
 @TableName(value = "system_sms_channel", autoResultMap = true)
-@KeySequence("system_sms_channel_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
+@KeySequence("system_sms_channel_seq") // used for primary key auto-increment in databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
@@ -24,39 +24,39 @@ import lombok.ToString;
 public class SmsChannelEntity extends BaseEntity {
 
     /**
-     * 渠道编号
+     * Channel ID
      */
     private Long id;
     /**
-     * 短信签名
+     * SMS signature
      */
     private String signature;
     /**
-     * 渠道编码
+     * Channel code
      *
-     * 枚举 {@link SmsChannelEnum}
+     * Enum {@link SmsChannelEnum}
      */
     private String code;
     /**
-     * 启用状态
+     * Enabled status
      *
-     * 枚举 {@link CommonStatusEnum}
+     * Enum {@link CommonStatusEnum}
      */
     private Integer status;
     /**
-     * 备注
+     * Remarks
      */
     private String remark;
     /**
-     * 短信 API 的账号
+     * SMS API account
      */
     private String apiKey;
     /**
-     * 短信 API 的密钥
+     * SMS API secret key
      */
     private String apiSecret;
     /**
-     * 短信发送回调 URL
+     * SMS send callback URL
      */
     private String callbackUrl;
 

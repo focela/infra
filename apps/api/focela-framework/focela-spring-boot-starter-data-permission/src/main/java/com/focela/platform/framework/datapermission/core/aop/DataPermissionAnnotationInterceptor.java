@@ -12,15 +12,16 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * {@link DataPermission} 注解的拦截器
- * 1. 在执行方法前，将 @DataPermission 注解入栈
- * 2. 在执行方法后，将 @DataPermission 注解出栈
+ * Interceptor for the {@link DataPermission} annotation.
+ * 1. Before method execution, push the @DataPermission annotation onto the stack.
+ * 2. After method execution, pop the @DataPermission annotation off the stack.
  */
-@DataPermission // 该注解，用于 {@link DATA_PERMISSION_NULL} 的空对象
+@DataPermission // This annotation is used as the {@link DATA_PERMISSION_NULL} placeholder
 public class DataPermissionAnnotationInterceptor implements MethodInterceptor {
 
     /**
-     * DataPermission 空对象，用于方法无 {@link DataPermission} 注解时，使用 DATA_PERMISSION_NULL 进行占位
+     * Empty DataPermission placeholder. Used when a method has no {@link DataPermission} annotation,
+     * stored as DATA_PERMISSION_NULL to indicate absence.
      */
     static final DataPermission DATA_PERMISSION_NULL = DataPermissionAnnotationInterceptor.class.getAnnotation(DataPermission.class);
 
@@ -29,16 +30,16 @@ public class DataPermissionAnnotationInterceptor implements MethodInterceptor {
 
     @Override
     public Object invoke(MethodInvocation methodInvocation) throws Throwable {
-        // 入栈
+        // Push
         DataPermission dataPermission = this.findAnnotation(methodInvocation);
         if (dataPermission != null) {
             DataPermissionContextHolder.add(dataPermission);
         }
         try {
-            // 执行逻辑
+            // Execute logic
             return methodInvocation.proceed();
         } finally {
-            // 出栈
+            // Pop
             if (dataPermission != null) {
                 DataPermissionContextHolder.remove();
             }
@@ -46,7 +47,7 @@ public class DataPermissionAnnotationInterceptor implements MethodInterceptor {
     }
 
     private DataPermission findAnnotation(MethodInvocation methodInvocation) {
-        // 1. 从缓存中获取
+        // 1. Try the cache first
         Method method = methodInvocation.getMethod();
         Object targetObject = methodInvocation.getThis();
         Class<?> clazz = targetObject != null ? targetObject.getClass() : method.getDeclaringClass();
@@ -56,13 +57,13 @@ public class DataPermissionAnnotationInterceptor implements MethodInterceptor {
             return dataPermission != DATA_PERMISSION_NULL ? dataPermission : null;
         }
 
-        // 2.1 从方法中获取
+        // 2.1 Look it up from the method
         dataPermission = AnnotationUtils.findAnnotation(method, DataPermission.class);
-        // 2.2 从类上获取
+        // 2.2 Look it up from the class
         if (dataPermission == null) {
             dataPermission = AnnotationUtils.findAnnotation(clazz, DataPermission.class);
         }
-        // 2.3 添加到缓存中
+        // 2.3 Store the result in the cache
         dataPermissionCache.put(methodClassKey, dataPermission != null ? dataPermission : DATA_PERMISSION_NULL);
         return dataPermission;
     }

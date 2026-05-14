@@ -19,7 +19,7 @@ import static com.focela.platform.framework.test.core.utils.RandomUtils.randomSt
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * {@link DefaultDataPermissionRuleFactory} 单元测试
+ * Unit tests for {@link DefaultDataPermissionRuleFactory}.
  */
 class DataPermissionRuleFactoryImplTest extends BaseMockitoUnitTest {
 
@@ -37,66 +37,66 @@ class DataPermissionRuleFactoryImplTest extends BaseMockitoUnitTest {
 
     @Test
     public void testGetDataPermissionRule_02() {
-        // 准备参数
+        // prepare parameters
         String mappedStatementId = randomString();
 
-        // 调用
+        // invoke
         List<DataPermissionRule> result = dataPermissionRuleFactory.getDataPermissionRule(mappedStatementId);
-        // 断言
+        // assert
         assertSame(rules, result);
     }
 
     @Test
     public void testGetDataPermissionRule_03() {
-        // 准备参数
+        // prepare parameters
         String mappedStatementId = randomString();
-        // mock 方法
+        // mock the method
         DataPermissionContextHolder.add(AnnotationUtils.findAnnotation(TestClass03.class, DataPermission.class));
 
-        // 调用
+        // invoke
         List<DataPermissionRule> result = dataPermissionRuleFactory.getDataPermissionRule(mappedStatementId);
-        // 断言
+        // assert
         assertTrue(result.isEmpty());
     }
 
     @Test
     public void testGetDataPermissionRule_04() {
-        // 准备参数
+        // prepare parameters
         String mappedStatementId = randomString();
-        // mock 方法
+        // mock the method
         DataPermissionContextHolder.add(AnnotationUtils.findAnnotation(TestClass04.class, DataPermission.class));
 
-        // 调用
+        // invoke
         List<DataPermissionRule> result = dataPermissionRuleFactory.getDataPermissionRule(mappedStatementId);
-        // 断言
+        // assert
         assertEquals(1, result.size());
         assertEquals(DataPermissionRule01.class, result.get(0).getClass());
     }
 
     @Test
     public void testGetDataPermissionRule_05() {
-        // 准备参数
+        // prepare parameters
         String mappedStatementId = randomString();
-        // mock 方法
+        // mock the method
         DataPermissionContextHolder.add(AnnotationUtils.findAnnotation(TestClass05.class, DataPermission.class));
 
-        // 调用
+        // invoke
         List<DataPermissionRule> result = dataPermissionRuleFactory.getDataPermissionRule(mappedStatementId);
-        // 断言
+        // assert
         assertEquals(1, result.size());
         assertEquals(DataPermissionRule02.class, result.get(0).getClass());
     }
 
     @Test
     public void testGetDataPermissionRule_06() {
-        // 准备参数
+        // prepare parameters
         String mappedStatementId = randomString();
-        // mock 方法
+        // mock the method
         DataPermissionContextHolder.add(AnnotationUtils.findAnnotation(TestClass06.class, DataPermission.class));
 
-        // 调用
+        // invoke
         List<DataPermissionRule> result = dataPermissionRuleFactory.getDataPermissionRule(mappedStatementId);
-        // 断言
+        // assert
         assertSame(rules, result);
     }
 

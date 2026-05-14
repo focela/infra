@@ -11,7 +11,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 滑动脱敏注解
+ * Slider desensitization annotation
  */
 @Documented
 @Target({ElementType.FIELD, ElementType.ANNOTATION_TYPE})
@@ -21,28 +21,28 @@ import java.lang.annotation.Target;
 public @interface SliderDesensitize {
 
     /**
-     * 后缀保留长度
+     * Suffix kept length
      */
     int suffixKeep() default 0;
 
     /**
-     * 替换规则，会将前缀后缀保留后，全部替换成 replacer
+     * Replacement rule: keeps prefix and suffix, replaces everything else with replacer
      *
-     * 例如：prefixKeep = 1; suffixKeep = 2; replacer = "*";
-     * 原始字符串  123456
-     * 脱敏后     1***56
+     * Example: prefixKeep = 1; suffixKeep = 2; replacer = "*";
+     * Original string: 123456
+     * After desensitization: 1***56
      */
     String replacer() default "*";
 
     /**
-     * 前缀保留长度
+     * Prefix kept length
      */
     int prefixKeep() default 0;
 
     /**
-     * 是否禁用脱敏
+     * Whether to disable desensitization
      *
-     * 支持 Spring EL 表达式，如果返回 true 则跳过脱敏
+     * Supports Spring EL expressions; desensitization is skipped if the expression returns true
      */
     String disable() default "";
 

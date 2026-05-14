@@ -8,7 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Xss 请求 Wrapper
+ * XSS request wrapper
  */
 public class XssRequestWrapper extends HttpServletRequestWrapper {
 

@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
- * 通用参数填充实现类
+ * Default field auto-fill handler.
  *
- * 如果没有显式的对通用参数进行赋值，这里会对通用参数进行填充、赋值
+ * If common fields are not explicitly assigned, this handler fills/assigns them.
  */
 public class DefaultDBFieldHandler implements MetaObjectHandler {
 
@@ -22,21 +22,21 @@ public class DefaultDBFieldHandler implements MetaObjectHandler {
             BaseEntity baseDO = (BaseEntity) metaObject.getOriginalObject();
 
             LocalDateTime current = LocalDateTime.now();
-            // 创建时间为空，则以当前时间为插入时间
+            // If create time is null, use the current time as the insert time
             if (Objects.isNull(baseDO.getCreateTime())) {
                 baseDO.setCreateTime(current);
             }
-            // 更新时间为空，则以当前时间为更新时间
+            // If update time is null, use the current time as the update time
             if (Objects.isNull(baseDO.getUpdateTime())) {
                 baseDO.setUpdateTime(current);
             }
 
             Long userId = SecurityFrameworkUtils.getLoginUserId();
-            // 当前登录用户不为空，创建人为空，则当前登录用户为创建人
+            // If the current logged-in user is not null and creator is null, set the current user as creator
             if (Objects.nonNull(userId) && Objects.isNull(baseDO.getCreator())) {
                 baseDO.setCreator(userId.toString());
             }
-            // 当前登录用户不为空，更新人为空，则当前登录用户为更新人
+            // If the current logged-in user is not null and updater is null, set the current user as updater
             if (Objects.nonNull(userId) && Objects.isNull(baseDO.getUpdater())) {
                 baseDO.setUpdater(userId.toString());
             }
@@ -45,13 +45,13 @@ public class DefaultDBFieldHandler implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        // 更新时间为空，则以当前时间为更新时间
+        // If update time is null, use the current time as the update time
         Object modifyTime = getFieldValByName("updateTime", metaObject);
         if (Objects.isNull(modifyTime)) {
             setFieldValByName("updateTime", LocalDateTime.now(), metaObject);
         }
 
-        // 当前登录用户不为空，更新人为空，则当前登录用户为更新人
+        // If the current logged-in user is not null and updater is null, set the current user as updater
         Object modifier = getFieldValByName("updater", metaObject);
         Long userId = SecurityFrameworkUtils.getLoginUserId();
         if (Objects.nonNull(userId) && Objects.isNull(modifier)) {

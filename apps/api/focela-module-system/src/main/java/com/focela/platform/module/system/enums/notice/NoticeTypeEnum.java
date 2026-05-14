@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 通知类型
+ * Notice type
  */
 @Getter
 @AllArgsConstructor
@@ -14,7 +14,7 @@ public enum NoticeTypeEnum {
     ANNOUNCEMENT(2);
 
     /**
-     * 类型
+     * Type
      */
     private final Integer type;
 

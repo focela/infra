@@ -12,7 +12,7 @@
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
-    <description>Redis 封装拓展</description>
+    <description>Redis wrapper extension.</description>
     <url>https://github.com/YunaiV/ruoyi-vue-pro</url>
 
     <dependencies>
@@ -21,7 +21,7 @@
             <artifactId>focela-common</artifactId>
         </dependency>
 
-        <!-- DB 相关 -->
+        <!-- DB related -->
         <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson-spring-boot-starter</artifactId>
@@ -29,7 +29,7 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-cache</artifactId> <!-- 实现对 Caches 的自动化配置 -->
+            <artifactId>spring-boot-starter-cache</artifactId> <!-- Auto-configures the Caches abstraction -->
         </dependency>
 
         <dependency>

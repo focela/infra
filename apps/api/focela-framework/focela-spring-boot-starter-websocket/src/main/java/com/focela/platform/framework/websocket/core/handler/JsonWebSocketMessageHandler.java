@@ -21,15 +21,15 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
- * JSON 格式 {@link WebSocketHandler} 实现类
+ * JSON-format {@link WebSocketHandler} implementation.
  *
- * 基于 {@link JsonWebSocketMessage#getType()} 消息类型，调度到对应的 {@link WebSocketMessageListener} 监听器。
+ * Dispatches to the corresponding {@link WebSocketMessageListener} based on the {@link JsonWebSocketMessage#getType()} message type.
  */
 @Slf4j
 public class JsonWebSocketMessageHandler extends TextWebSocketHandler {
 
     /**
-     * type 与 WebSocketMessageListener 的映射
+     * Mapping from type to WebSocketMessageListener
      */
     private final Map<String, WebSocketMessageListener<Object>> listeners = new HashMap<>();
 
@@ -41,17 +41,17 @@ public class JsonWebSocketMessageHandler extends TextWebSocketHandler {
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        // 1.1 空消息，跳过
+        // 1.1 empty message, skip
         if (message.getPayloadLength() == 0) {
             return;
         }
-        // 1.2 ping 心跳消息，直接返回 pong 消息。
+        // 1.2 ping heartbeat message; reply with pong directly.
         if (message.getPayloadLength() == 4 && Objects.equals(message.getPayload(), "ping")) {
             session.sendMessage(new TextMessage("pong"));
             return;
         }
 
-        // 2.1 解析消息
+        // 2.1 parse the message
         try {
             JsonWebSocketMessage jsonMessage = JsonUtils.parseObject(message.getPayload(), JsonWebSocketMessage.class);
             if (jsonMessage == null) {
@@ -62,13 +62,13 @@ public class JsonWebSocketMessageHandler extends TextWebSocketHandler {
                 log.error("[handleTextMessage][session({}) message({}) type is empty]", session.getId(), message.getPayload());
                 return;
             }
-            // 2.2 获得对应的 WebSocketMessageListener
+            // 2.2 get the corresponding WebSocketMessageListener
             WebSocketMessageListener<Object> messageListener = listeners.get(jsonMessage.getType());
             if (messageListener == null) {
                 log.error("[handleTextMessage][session({}) message({}) listener is empty]", session.getId(), message.getPayload());
                 return;
             }
-            // 2.3 处理消息
+            // 2.3 process the message
             Type type = TypeUtil.getTypeArgument(messageListener.getClass(), 0);
             Object messageObj = JsonUtils.parseObject(jsonMessage.getContent(), type);
             Long tenantId = WebSocketFrameworkUtils.getTenantId(session);

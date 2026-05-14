@@ -21,11 +21,11 @@ public enum SocialTypeEnum implements ArrayValuable<Integer> {
     public static final Integer[] ARRAYS = Arrays.stream(values()).map(SocialTypeEnum::getType).toArray(Integer[]::new);
 
     /**
-     * 类型
+     * Type
      */
     private final Integer type;
     /**
-     * 类型的标识
+     * Type identifier
      */
     private final String source;
 

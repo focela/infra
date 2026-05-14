@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 基于时间戳的 LocalDateTime 序列化器
+ * Timestamp-based LocalDateTime serializer
  */
 @Slf4j
 public class TimestampLocalDateTimeSerializer extends JsonSerializer<LocalDateTime> {
@@ -31,7 +31,7 @@ public class TimestampLocalDateTimeSerializer extends JsonSerializer<LocalDateTi
 
     @Override
     public void serialize(LocalDateTime value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-        // 情况一：有 JsonFormat 自定义注解，则使用它。https://github.com/YunaiV/ruoyi-vue-pro/pull/1019
+        // Case 1: if a custom JsonFormat annotation is present, use it.
         String fieldName = gen.getOutputContext().getCurrentName();
         if (fieldName != null) {
             Object currentValue = gen.getOutputContext().getCurrentValue();
@@ -39,7 +39,7 @@ public class TimestampLocalDateTimeSerializer extends JsonSerializer<LocalDateTi
                 Class<?> clazz = currentValue.getClass();
                 Map<String, Field> fieldMap = FIELD_CACHE.computeIfAbsent(clazz, this::buildFieldMap);
                 Field field = fieldMap.get(fieldName);
-                // 进一步修复：https://gitee.com/zhijiantianya/ruoyi-vue-pro/pulls/1480
+                // Additional fix.
                 if (field != null && field.isAnnotationPresent(JsonFormat.class)) {
                     JsonFormat jsonFormat = field.getAnnotation(JsonFormat.class);
                     try {
@@ -47,22 +47,22 @@ public class TimestampLocalDateTimeSerializer extends JsonSerializer<LocalDateTi
                         gen.writeString(formatter.format(value));
                         return;
                     } catch (Exception ex) {
-                        log.warn("[serialize][({}#{}) use JsonFormat pattern failed, 尝试use 默认 Long time 戳]",
+                        log.warn("[serialize][({}#{}) use JsonFormat pattern failed, fallback to default Long timestamp]",
                                 clazz.getName(), fieldName, ex);
                     }
                 }
             }
         }
 
-        // 情况二：默认将 LocalDateTime 对象，转换为 Long 时间戳
+        // Case 2: by default, convert the LocalDateTime to a Long timestamp
         gen.writeNumber(value.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
     }
 
     /**
-     * 构建字段映射（缓存）
+     * Build the field map (cached)
      *
-     * @param clazz 类
-     * @return 字段映射
+     * @param clazz class
+     * @return field map
      */
     private Map<String, Field> buildFieldMap(Class<?> clazz) {
         Map<String, Field> fieldMap = new HashMap<>();
