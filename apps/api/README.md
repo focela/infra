@@ -71,7 +71,7 @@ com.focela.platform.<bounded-context>/
 | Cross-module RPC Request DTO | `OperateLogCreateRpcRequest`, `MailSendSingleToUserRpcRequest` |
 | Cross-module RPC Response DTO | `UserRpcResponse`, `OperateLogRpcResponse` |
 | Converter | `UserConverter` (MapStruct) |
-| Excel row | `UserImportExcel` |
+| Excel row | `UserImportExcelDto` |
 | Configuration class | `FocelaXxxAutoConfiguration` |
 | Spring contract impl | Behavior-based name — e.g. `JsonAccessDeniedHandler` |
 

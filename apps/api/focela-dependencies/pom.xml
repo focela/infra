@@ -45,6 +45,7 @@
         <podam.version>8.0.2.RELEASE</podam.version>
         <jedis-mock.version>1.1.12</jedis-mock.version>
         <mockito-inline.version>5.2.0</mockito-inline.version>
+        <archunit-junit5.version>1.3.0</archunit-junit5.version>
         <!-- BPM workflow -->
         <flowable.version>7.2.0</flowable.version>
         <!-- Utilities -->
@@ -425,6 +426,12 @@
                 <groupId>uk.co.jemos.podam</groupId> <!-- Unit testing — randomly generate POJOs -->
                 <artifactId>podam</artifactId>
                 <version>${podam.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.tngtech.archunit</groupId> <!-- Architecture rules enforced as unit tests -->
+                <artifactId>archunit-junit5</artifactId>
+                <version>${archunit-junit5.version}</version>
             </dependency>
 
             <!-- Workflow -->

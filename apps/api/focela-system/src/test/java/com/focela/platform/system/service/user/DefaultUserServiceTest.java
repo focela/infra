@@ -11,7 +11,7 @@ import com.focela.platform.infra.api.config.ConfigApi;
 import com.focela.platform.infra.api.file.FileApi;
 import com.focela.platform.system.controller.admin.user.dto.profile.UserProfileUpdatePasswordRequest;
 import com.focela.platform.system.controller.admin.user.dto.profile.UserProfileUpdateRequest;
-import com.focela.platform.system.controller.admin.user.dto.UserImportExcel;
+import com.focela.platform.system.controller.admin.user.dto.UserImportExcelDto;
 import com.focela.platform.system.controller.admin.user.dto.UserImportResponse;
 import com.focela.platform.system.controller.admin.user.dto.UserPageRequest;
 import com.focela.platform.system.controller.admin.user.dto.UserSaveRequest;
@@ -414,7 +414,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testImportUserList_01() {
         // 准备参数
-        UserImportExcel importUser = randomPojo(UserImportExcel.class, o -> {
+        UserImportExcelDto importUser = randomPojo(UserImportExcelDto.class, o -> {
             o.setEmail(randomEmail());
             o.setMobile(randomMobile());
         });
@@ -436,7 +436,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testImportUserList_02() {
         // 准备参数
-        UserImportExcel importUser = randomPojo(UserImportExcel.class, o -> {
+        UserImportExcelDto importUser = randomPojo(UserImportExcelDto.class, o -> {
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // 保证 status 的范围
             o.setSex(randomEle(SexEnum.values()).getSex()); // 保证 sex 的范围
             o.setEmail(randomEmail());
@@ -471,7 +471,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
         UserEntity dbUser = randomAdminUserDO();
         userMapper.insert(dbUser);
         // 准备参数
-        UserImportExcel importUser = randomPojo(UserImportExcel.class, o -> {
+        UserImportExcelDto importUser = randomPojo(UserImportExcelDto.class, o -> {
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // 保证 status 的范围
             o.setSex(randomEle(SexEnum.values()).getSex()); // 保证 sex 的范围
             o.setUsername(dbUser.getUsername());
@@ -503,7 +503,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
         UserEntity dbUser = randomAdminUserDO();
         userMapper.insert(dbUser);
         // 准备参数
-        UserImportExcel importUser = randomPojo(UserImportExcel.class, o -> {
+        UserImportExcelDto importUser = randomPojo(UserImportExcelDto.class, o -> {
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // 保证 status 的范围
             o.setSex(randomEle(SexEnum.values()).getSex()); // 保证 sex 的范围
             o.setUsername(dbUser.getUsername());

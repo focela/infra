@@ -6,7 +6,7 @@ import com.focela.platform.common.utils.collection.CollectionUtils;
 import com.focela.platform.system.controller.admin.auth.dto.AuthRegisterRequest;
 import com.focela.platform.system.controller.admin.user.dto.profile.UserProfileUpdatePasswordRequest;
 import com.focela.platform.system.controller.admin.user.dto.profile.UserProfileUpdateRequest;
-import com.focela.platform.system.controller.admin.user.dto.UserImportExcel;
+import com.focela.platform.system.controller.admin.user.dto.UserImportExcelDto;
 import com.focela.platform.system.controller.admin.user.dto.UserImportResponse;
 import com.focela.platform.system.controller.admin.user.dto.UserPageRequest;
 import com.focela.platform.system.controller.admin.user.dto.UserSaveRequest;
@@ -193,7 +193,7 @@ public interface UserService {
      * @param isUpdateSupport 是否支持更新
      * @return 导入结果
      */
-    UserImportResponse importUserList(List<UserImportExcel> importUsers, boolean isUpdateSupport);
+    UserImportResponse importUserList(List<UserImportExcelDto> importUsers, boolean isUpdateSupport);
 
     /**
      * 获得指定状态的用户们

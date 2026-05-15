@@ -56,5 +56,10 @@
             <groupId>uk.co.jemos.podam</groupId> <!-- unit tests use this to randomly generate POJOs -->
             <artifactId>podam</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.tngtech.archunit</groupId> <!-- architecture rules enforced as unit tests -->
+            <artifactId>archunit-junit5</artifactId>
+        </dependency>
     </dependencies>
 </project>

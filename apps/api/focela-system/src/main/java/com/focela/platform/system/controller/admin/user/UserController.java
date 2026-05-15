@@ -155,14 +155,14 @@ public class UserController {
     @Operation(summary = "get import user template")
     public void importTemplate(HttpServletResponse response) throws IOException {
         // 手动创建导出 demo
-        List<UserImportExcel> list = Arrays.asList(
-                UserImportExcel.builder().username("yunai").deptId(1L).email("admin@example.com").mobile("15601691300")
+        List<UserImportExcelDto> list = Arrays.asList(
+                UserImportExcelDto.builder().username("yunai").deptId(1L).email("admin@example.com").mobile("15601691300")
                         .nickname("芋道").status(CommonStatusEnum.ENABLE.getStatus()).sex(SexEnum.MALE.getSex()).build(),
-                UserImportExcel.builder().username("yuanma").deptId(2L).email("ops@example.com").mobile("15601701300")
+                UserImportExcelDto.builder().username("yuanma").deptId(2L).email("ops@example.com").mobile("15601701300")
                         .nickname("源码").status(CommonStatusEnum.DISABLE.getStatus()).sex(SexEnum.FEMALE.getSex()).build()
         );
         // 输出
-        ExcelUtils.write(response, "用户导入模板.xls", "用户列表", UserImportExcel.class, list);
+        ExcelUtils.write(response, "用户导入模板.xls", "用户列表", UserImportExcelDto.class, list);
     }
 
     @PostMapping("/import")
@@ -174,7 +174,7 @@ public class UserController {
     @PreAuthorize("@ss.hasPermission('system:user:import')")
     public CommonResult<UserImportResponse> importExcel(@RequestParam("file") MultipartFile file,
                                                       @RequestParam(value = "updateSupport", required = false, defaultValue = "false") Boolean updateSupport) throws Exception {
-        List<UserImportExcel> list = ExcelUtils.read(file, UserImportExcel.class);
+        List<UserImportExcelDto> list = ExcelUtils.read(file, UserImportExcelDto.class);
         return success(userService.importUserList(list, updateSupport));
     }
 

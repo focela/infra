@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserImportExcel {
+public class UserImportExcelDto {
 
     @ExcelProperty("登录名称")
     private String username;
