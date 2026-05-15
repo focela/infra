@@ -24,8 +24,8 @@ apps/api/
 ├── focela-framework/                    # Reusable Spring Boot starters
 │   ├── focela-common/                   # Cross-module shared types
 │   └── focela-spring-boot-starter-*/    # 15 starters (web, security, mybatis, redis, mq, …)
-├── focela-module-infra/                 # Infrastructure module (file, job, logger, config, …)
-├── focela-module-system/                # System module (auth, user, role, mail, sms, notify, …)
+├── focela-infra/                        # Infrastructure module (file, job, logger, config, …)
+├── focela-system/                       # System module (auth, user, role, mail, sms, notify, …)
 └── focela-server/                       # Bootable Spring Boot application
 ```
 
@@ -37,7 +37,7 @@ Base Java package: `com.focela.platform.*`
 ```
 com.focela.platform.<bounded-context>/
 ├── api/                  # Module-side RPC surface (XxxApi + LocalXxxApi); cross-module
-│                         # contracts live in framework/common/contract/ as XxxContractApi
+│                         # contracts live in framework/common/api/ as XxxContractApi
 ├── config/               # Module-specific Spring config and integration code
 ├── constants/            # Compile-time constants (ErrorCodeConstants, …)
 ├── controller/
