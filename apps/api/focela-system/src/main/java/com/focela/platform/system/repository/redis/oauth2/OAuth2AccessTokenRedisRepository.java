@@ -20,7 +20,7 @@ import static com.focela.platform.system.repository.redis.RedisKeyConstants.OAUT
  * {@link OAuth2AccessTokenEntity} 的 RedisDAO
  */
 @Repository
-public class OAuth2AccessTokenRedisDAO {
+public class OAuth2AccessTokenRedisRepository {
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
@@ -46,7 +46,7 @@ public class OAuth2AccessTokenRedisDAO {
     }
 
     public void deleteList(Collection<String> accessTokens) {
-        List<String> redisKeys = CollectionUtils.convertList(accessTokens, OAuth2AccessTokenRedisDAO::formatKey);
+        List<String> redisKeys = CollectionUtils.convertList(accessTokens, OAuth2AccessTokenRedisRepository::formatKey);
         stringRedisTemplate.delete(redisKeys);
     }
 

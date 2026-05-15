@@ -21,7 +21,7 @@ import com.focela.platform.system.entity.oauth2.OAuth2RefreshTokenEntity;
 import com.focela.platform.system.entity.user.UserEntity;
 import com.focela.platform.system.repository.mapper.oauth2.OAuth2AccessTokenMapper;
 import com.focela.platform.system.repository.mapper.oauth2.OAuth2RefreshTokenMapper;
-import com.focela.platform.system.repository.redis.oauth2.OAuth2AccessTokenRedisDAO;
+import com.focela.platform.system.repository.redis.oauth2.OAuth2AccessTokenRedisRepository;
 import com.focela.platform.system.service.user.UserService;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Lazy;
@@ -48,7 +48,7 @@ public class DefaultOAuth2TokenService implements OAuth2TokenService {
     private OAuth2RefreshTokenMapper oauth2RefreshTokenMapper;
 
     @Resource
-    private OAuth2AccessTokenRedisDAO oauth2AccessTokenRedisDAO;
+    private OAuth2AccessTokenRedisRepository oauth2AccessTokenRedisDAO;
 
     @Resource
     private OAuth2ClientService oauth2ClientService;

@@ -9,7 +9,7 @@ import com.focela.platform.infra.controller.admin.job.dto.JobSaveRequest;
 import com.focela.platform.infra.entity.job.JobEntity;
 import com.focela.platform.infra.repository.mapper.job.JobMapper;
 import com.focela.platform.infra.enums.job.JobStatusEnum;
-import com.focela.platform.infra.job.job.JobLogCleanJob;
+import com.focela.platform.infra.job.JobLogCleanJob;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;

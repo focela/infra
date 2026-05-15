@@ -14,7 +14,7 @@ import com.focela.platform.system.entity.oauth2.OAuth2RefreshTokenEntity;
 import com.focela.platform.system.entity.user.UserEntity;
 import com.focela.platform.system.repository.mapper.oauth2.OAuth2AccessTokenMapper;
 import com.focela.platform.system.repository.mapper.oauth2.OAuth2RefreshTokenMapper;
-import com.focela.platform.system.repository.redis.oauth2.OAuth2AccessTokenRedisDAO;
+import com.focela.platform.system.repository.redis.oauth2.OAuth2AccessTokenRedisRepository;
 import com.focela.platform.system.service.user.UserService;
 import jakarta.annotation.Resource;
 import org.assertj.core.util.Lists;
@@ -36,7 +36,7 @@ import static org.mockito.Mockito.when;
 /**
  * {@link DefaultOAuth2TokenService} 的单元测试类
  */
-@Import({DefaultOAuth2TokenService.class, OAuth2AccessTokenRedisDAO.class})
+@Import({DefaultOAuth2TokenService.class, OAuth2AccessTokenRedisRepository.class})
 public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
 
     @Resource
@@ -48,7 +48,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
     private OAuth2RefreshTokenMapper oauth2RefreshTokenMapper;
 
     @Resource
-    private OAuth2AccessTokenRedisDAO oauth2AccessTokenRedisDAO;
+    private OAuth2AccessTokenRedisRepository oauth2AccessTokenRedisDAO;
 
     @MockitoBean
     private OAuth2ClientService oauth2ClientService;

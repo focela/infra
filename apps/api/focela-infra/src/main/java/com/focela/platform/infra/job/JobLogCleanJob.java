@@ -1,4 +1,4 @@
-package com.focela.platform.infra.job.job;
+package com.focela.platform.infra.job;
 
 import com.focela.platform.quartz.core.handler.JobHandler;
 import com.focela.platform.tenant.core.aop.TenantIgnore;
