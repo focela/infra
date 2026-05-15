@@ -18,7 +18,7 @@
         to provide a RESTful API for frontend projects (admin UI, user UI, etc.).
         Essentially, it is just an empty shell (container).
     </description>
-    <url>https://github.com/YunaiV/ruoyi-vue-pro</url>
+    <url>https://github.com/focela/starter-kit</url>
 
     <dependencies>
         <dependency>

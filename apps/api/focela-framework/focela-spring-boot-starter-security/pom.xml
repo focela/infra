@@ -16,7 +16,7 @@
         1. security: user authentication and permission checks - "who" can do "what".
         2. operatelog: operate log - records "who" did "what" to "what" at "what time".
     </description>
-    <url>https://github.com/YunaiV/ruoyi-vue-pro</url>
+    <url>https://github.com/focela/starter-kit</url>
 
     <dependencies>
         <dependency>

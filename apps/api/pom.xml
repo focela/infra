@@ -30,7 +30,7 @@
 
     <name>${project.artifactId}</name>
     <description>Project base scaffolding.</description>
-    <url>https://github.com/YunaiV/ruoyi-vue-pro</url>
+    <url>https://github.com/focela/starter-kit</url>
 
     <properties>
         <revision>1.0.0-SNAPSHOT</revision>

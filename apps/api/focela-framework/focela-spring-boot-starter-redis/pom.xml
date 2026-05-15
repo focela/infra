@@ -13,7 +13,7 @@
 
     <name>${project.artifactId}</name>
     <description>Redis wrapper extension.</description>
-    <url>https://github.com/YunaiV/ruoyi-vue-pro</url>
+    <url>https://github.com/focela/starter-kit</url>
 
     <dependencies>
         <dependency>
