@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotEmpty;
  * File client config class based on DB storage
  */
 @Data
-public class DBFileClientConfig implements FileClientConfig {
+public class DbFileClientConfig implements FileClientConfig {
 
     /**
      * Custom domain

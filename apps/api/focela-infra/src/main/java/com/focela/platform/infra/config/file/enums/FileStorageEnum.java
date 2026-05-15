@@ -3,8 +3,8 @@ package com.focela.platform.infra.config.file.enums;
 import cn.hutool.core.util.ArrayUtil;
 import com.focela.platform.infra.config.file.client.FileClient;
 import com.focela.platform.infra.config.file.client.FileClientConfig;
-import com.focela.platform.infra.config.file.client.db.DBFileClient;
-import com.focela.platform.infra.config.file.client.db.DBFileClientConfig;
+import com.focela.platform.infra.config.file.client.db.DbFileClient;
+import com.focela.platform.infra.config.file.client.db.DbFileClientConfig;
 import com.focela.platform.infra.config.file.client.ftp.FtpFileClient;
 import com.focela.platform.infra.config.file.client.ftp.FtpFileClientConfig;
 import com.focela.platform.infra.config.file.client.local.LocalFileClient;
@@ -23,7 +23,7 @@ import lombok.Getter;
 @Getter
 public enum FileStorageEnum {
 
-    DB(1, DBFileClientConfig.class, DBFileClient.class),
+    DB(1, DbFileClientConfig.class, DbFileClient.class),
 
     LOCAL(10, LocalFileClientConfig.class, LocalFileClient.class),
     FTP(11, FtpFileClientConfig.class, FtpFileClient.class),

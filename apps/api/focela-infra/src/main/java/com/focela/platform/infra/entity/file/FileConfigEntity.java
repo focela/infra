@@ -5,7 +5,7 @@ import com.focela.platform.common.utils.json.JsonUtils;
 import com.focela.platform.mybatis.core.entity.BaseEntity;
 import com.focela.platform.tenant.core.aop.TenantIgnore;
 import com.focela.platform.infra.config.file.client.FileClientConfig;
-import com.focela.platform.infra.config.file.client.db.DBFileClientConfig;
+import com.focela.platform.infra.config.file.client.db.DbFileClientConfig;
 import com.focela.platform.infra.config.file.client.ftp.FtpFileClientConfig;
 import com.focela.platform.infra.config.file.client.local.LocalFileClientConfig;
 import com.focela.platform.infra.config.file.client.s3.S3FileClientConfig;
@@ -87,8 +87,8 @@ public class FileConfigEntity extends BaseEntity {
             String className = JsonUtils.parseObject(json, "@class", String.class);
             className = StrUtil.subAfter(className, ".", true);
             switch (className) {
-                case "DBFileClientConfig":
-                    return JsonUtils.parseObject2(json, DBFileClientConfig.class);
+                case "DbFileClientConfig":
+                    return JsonUtils.parseObject2(json, DbFileClientConfig.class);
                 case "FtpFileClientConfig":
                     return JsonUtils.parseObject2(json, FtpFileClientConfig.class);
                 case "LocalFileClientConfig":

@@ -12,11 +12,11 @@ import java.util.List;
 /**
  * File client config class based on DB storage
  */
-public class DBFileClient extends AbstractFileClient<DBFileClientConfig> {
+public class DbFileClient extends AbstractFileClient<DbFileClientConfig> {
 
     private FileContentMapper fileContentMapper;
 
-    public DBFileClient(Long id, DBFileClientConfig config) {
+    public DbFileClient(Long id, DbFileClientConfig config) {
         super(id, config);
     }
 
