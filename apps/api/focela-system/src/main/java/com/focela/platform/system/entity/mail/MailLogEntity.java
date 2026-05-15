@@ -1,9 +1,9 @@
 package com.focela.platform.system.entity.mail;
 
-import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.mybatis.core.entity.BaseEntity;
-import com.focela.platform.framework.mybatis.core.type.StringListTypeHandler;
-import com.focela.platform.framework.tenant.core.aop.TenantIgnore;
+import com.focela.platform.common.enums.UserTypeEnum;
+import com.focela.platform.mybatis.core.entity.BaseEntity;
+import com.focela.platform.mybatis.core.type.StringListTypeHandler;
+import com.focela.platform.tenant.core.aop.TenantIgnore;
 import com.focela.platform.system.enums.mail.MailSendStatusEnum;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableField;

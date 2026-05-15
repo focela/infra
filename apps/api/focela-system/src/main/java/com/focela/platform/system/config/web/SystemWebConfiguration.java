@@ -1,6 +1,6 @@
 package com.focela.platform.system.config.web;
 
-import com.focela.platform.framework.swagger.config.FocelaSwaggerAutoConfiguration;
+import com.focela.platform.swagger.config.FocelaSwaggerAutoConfiguration;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

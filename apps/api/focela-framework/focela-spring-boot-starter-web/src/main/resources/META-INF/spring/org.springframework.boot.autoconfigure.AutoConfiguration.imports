@@ -1,7 +1,7 @@
-com.focela.platform.framework.apilog.config.FocelaApiLogAutoConfiguration
-com.focela.platform.framework.jackson.config.FocelaJacksonAutoConfiguration
-com.focela.platform.framework.swagger.config.FocelaSwaggerAutoConfiguration
-com.focela.platform.framework.web.config.FocelaWebAutoConfiguration
-com.focela.platform.framework.xss.config.FocelaXssAutoConfiguration
-com.focela.platform.framework.banner.config.FocelaBannerAutoConfiguration
-com.focela.platform.framework.encrypt.config.FocelaApiEncryptAutoConfiguration
+com.focela.platform.apilog.config.FocelaApiLogAutoConfiguration
+com.focela.platform.jackson.config.FocelaJacksonAutoConfiguration
+com.focela.platform.swagger.config.FocelaSwaggerAutoConfiguration
+com.focela.platform.web.config.FocelaWebAutoConfiguration
+com.focela.platform.xss.config.FocelaXssAutoConfiguration
+com.focela.platform.banner.config.FocelaBannerAutoConfiguration
+com.focela.platform.encrypt.config.FocelaApiEncryptAutoConfiguration

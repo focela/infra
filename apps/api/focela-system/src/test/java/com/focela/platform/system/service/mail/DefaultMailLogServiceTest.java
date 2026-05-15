@@ -1,9 +1,9 @@
 package com.focela.platform.system.service.mail;
 
 import cn.hutool.core.map.MapUtil;
-import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
+import com.focela.platform.common.enums.UserTypeEnum;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.test.core.support.BaseDbUnitTest;
 import com.focela.platform.system.controller.admin.mail.dto.log.MailLogPageRequest;
 import com.focela.platform.system.entity.mail.MailAccountEntity;
 import com.focela.platform.system.entity.mail.MailLogEntity;
@@ -19,11 +19,11 @@ import java.util.Collection;
 import java.util.Map;
 
 import static cn.hutool.core.util.RandomUtil.randomEle;
-import static com.focela.platform.framework.common.utils.date.LocalDateTimeUtils.buildTime;
-import static com.focela.platform.framework.common.utils.date.LocalDateTimeUtils.buildBetweenTime;
-import static com.focela.platform.framework.common.utils.object.ObjectUtils.cloneIgnoreId;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPojoEquals;
-import static com.focela.platform.framework.test.core.utils.RandomUtils.*;
+import static com.focela.platform.common.utils.date.LocalDateTimeUtils.buildTime;
+import static com.focela.platform.common.utils.date.LocalDateTimeUtils.buildBetweenTime;
+import static com.focela.platform.common.utils.object.ObjectUtils.cloneIgnoreId;
+import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
+import static com.focela.platform.test.core.utils.RandomUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**

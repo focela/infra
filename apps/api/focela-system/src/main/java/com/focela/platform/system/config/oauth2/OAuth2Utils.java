@@ -3,8 +3,8 @@ package com.focela.platform.system.config.oauth2;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.common.utils.http.HttpUtils;
-import com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils;
+import com.focela.platform.common.utils.http.HttpUtils;
+import com.focela.platform.security.core.utils.SecurityFrameworkUtils;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;

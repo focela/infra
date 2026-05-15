@@ -1,7 +1,7 @@
 package com.focela.platform.system.repository.mapper.permission;
 
-import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
-import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
+import com.focela.platform.mybatis.core.mapper.BaseMapperX;
+import com.focela.platform.mybatis.core.query.LambdaQueryWrapperX;
 import com.focela.platform.system.controller.admin.permission.dto.menu.MenuListRequest;
 import com.focela.platform.system.entity.permission.MenuEntity;
 import org.apache.ibatis.annotations.Mapper;

@@ -1,8 +1,8 @@
 package com.focela.platform.system.entity.social;
 
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.tenant.core.db.TenantBaseEntity;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.common.enums.UserTypeEnum;
+import com.focela.platform.tenant.core.db.TenantBaseEntity;
 import com.focela.platform.system.enums.social.SocialTypeEnum;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableId;

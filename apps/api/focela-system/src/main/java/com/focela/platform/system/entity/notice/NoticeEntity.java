@@ -1,7 +1,7 @@
 package com.focela.platform.system.entity.notice;
 
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.mybatis.core.entity.BaseEntity;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.mybatis.core.entity.BaseEntity;
 import com.focela.platform.system.enums.notice.NoticeTypeEnum;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableName;

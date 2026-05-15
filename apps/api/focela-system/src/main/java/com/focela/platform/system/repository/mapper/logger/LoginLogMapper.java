@@ -1,8 +1,8 @@
 package com.focela.platform.system.repository.mapper.logger;
 
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
-import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.mybatis.core.mapper.BaseMapperX;
+import com.focela.platform.mybatis.core.query.LambdaQueryWrapperX;
 import com.focela.platform.system.controller.admin.logger.dto.loginlog.LoginLogPageRequest;
 import com.focela.platform.system.entity.logger.LoginLogEntity;
 import com.focela.platform.system.enums.logger.LoginResultEnum;

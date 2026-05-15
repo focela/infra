@@ -1,7 +1,7 @@
 package com.focela.platform.infra.api.logger;
 
-import com.focela.platform.framework.common.api.infra.logger.ApiErrorLogContractApi;
-import com.focela.platform.framework.common.api.infra.logger.dto.ApiErrorLogCreateRpcRequest;
+import com.focela.platform.common.api.infra.logger.ApiErrorLogContractApi;
+import com.focela.platform.common.api.infra.logger.dto.ApiErrorLogCreateRpcRequest;
 import com.focela.platform.infra.service.logger.ApiErrorLogService;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;

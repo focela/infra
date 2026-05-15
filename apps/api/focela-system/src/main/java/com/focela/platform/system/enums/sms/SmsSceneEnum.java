@@ -1,7 +1,7 @@
 package com.focela.platform.system.enums.sms;
 
 import cn.hutool.core.util.ArrayUtil;
-import com.focela.platform.framework.common.core.ArrayValuable;
+import com.focela.platform.common.core.ArrayValuable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

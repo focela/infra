@@ -1,6 +1,6 @@
 package com.focela.platform.system.service.permission;
 
-import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.common.model.PageResult;
 import com.focela.platform.system.controller.admin.permission.dto.role.RolePageRequest;
 import com.focela.platform.system.controller.admin.permission.dto.role.RoleSaveRequest;
 import com.focela.platform.system.entity.permission.RoleEntity;

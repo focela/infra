@@ -1,8 +1,8 @@
 package com.focela.platform.system.service.user;
 
 import cn.hutool.core.collection.CollUtil;
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.common.utils.collection.CollectionUtils;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.common.utils.collection.CollectionUtils;
 import com.focela.platform.system.controller.admin.auth.dto.AuthRegisterRequest;
 import com.focela.platform.system.controller.admin.user.dto.profile.UserProfileUpdatePasswordRequest;
 import com.focela.platform.system.controller.admin.user.dto.profile.UserProfileUpdateRequest;

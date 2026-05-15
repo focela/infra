@@ -1,6 +1,6 @@
 package com.focela.platform.system.api.user;
 
-import com.focela.platform.framework.common.utils.collection.CollectionUtils;
+import com.focela.platform.common.utils.collection.CollectionUtils;
 import com.focela.platform.system.api.user.dto.UserRpcResponse;
 
 import java.util.Collection;

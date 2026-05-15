@@ -1,6 +1,6 @@
 package com.focela.platform.infra.api.websocket;
 
-import com.focela.platform.framework.common.utils.json.JsonUtils;
+import com.focela.platform.common.utils.json.JsonUtils;
 
 /**
  * WebSocket 发送器的 API 接口

@@ -1,2 +1,2 @@
-com.focela.platform.framework.quartz.config.FocelaQuartzAutoConfiguration
-com.focela.platform.framework.quartz.config.FocelaAsyncAutoConfiguration
+com.focela.platform.quartz.config.FocelaQuartzAutoConfiguration
+com.focela.platform.quartz.config.FocelaAsyncAutoConfiguration

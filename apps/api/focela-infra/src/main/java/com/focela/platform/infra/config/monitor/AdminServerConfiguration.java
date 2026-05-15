@@ -21,7 +21,7 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
  * Spring Boot Admin Server configuration
  *
  * Contains the Admin Server enablement config and security config.
- * The security config is independent of {@link com.focela.platform.framework.security.config.FocelaWebSecurityConfigurerAdapter},
+ * The security config is independent of {@link com.focela.platform.security.config.FocelaWebSecurityConfigurerAdapter},
  * using HTTP Basic authentication to protect Admin Server endpoints, without affecting the existing Token authentication mechanism
  */
 @Configuration(proxyBeanMethods = false)

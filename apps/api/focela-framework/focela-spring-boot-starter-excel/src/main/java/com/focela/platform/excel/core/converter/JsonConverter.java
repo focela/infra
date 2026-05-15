@@ -1,0 +1,32 @@
+package com.focela.platform.excel.core.converter;
+
+import com.focela.platform.common.utils.json.JsonUtils;
+import cn.idev.excel.converters.Converter;
+import cn.idev.excel.enums.CellDataTypeEnum;
+import cn.idev.excel.metadata.GlobalConfiguration;
+import cn.idev.excel.metadata.data.WriteCellData;
+import cn.idev.excel.metadata.property.ExcelContentProperty;
+
+/**
+ * Excel JSON converter.
+ */
+public class JsonConverter implements Converter<Object> {
+
+    @Override
+    public Class<?> supportJavaTypeKey() {
+        throw new UnsupportedOperationException("not supported yet, and not needed");
+    }
+
+    @Override
+    public CellDataTypeEnum supportExcelTypeKey() {
+        throw new UnsupportedOperationException("not supported yet, and not needed");
+    }
+
+    @Override
+    public WriteCellData<String> convertToExcelData(Object value, ExcelContentProperty contentProperty,
+                                                    GlobalConfiguration globalConfiguration) {
+        // Build the Excel cell value
+        return new WriteCellData<>(JsonUtils.toJsonString(value));
+    }
+
+}

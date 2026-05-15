@@ -5,9 +5,9 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.DigestUtil;
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.common.utils.http.HttpUtils;
-import com.focela.platform.framework.common.utils.object.BeanUtils;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.common.utils.http.HttpUtils;
+import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.infra.controller.admin.file.dto.FileCreateRequest;
 import com.focela.platform.infra.controller.admin.file.dto.FilePageRequest;
 import com.focela.platform.infra.controller.admin.file.dto.FilePresignedUrlResponse;
@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static cn.hutool.core.date.DatePattern.PURE_DATE_PATTERN;
-import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
+import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.infra.constants.ErrorCodeConstants.FILE_NOT_EXISTS;
 
 /**

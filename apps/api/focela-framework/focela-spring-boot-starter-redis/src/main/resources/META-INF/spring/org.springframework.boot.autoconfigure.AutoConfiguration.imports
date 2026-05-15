@@ -1,2 +1,2 @@
-com.focela.platform.framework.redis.config.FocelaRedisAutoConfiguration
-com.focela.platform.framework.redis.config.FocelaCacheAutoConfiguration
+com.focela.platform.redis.config.FocelaRedisAutoConfiguration
+com.focela.platform.redis.config.FocelaCacheAutoConfiguration

@@ -2,7 +2,7 @@ package com.focela.platform.infra.config.file.utils;
 
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.common.utils.http.HttpUtils;
+import com.focela.platform.common.utils.http.HttpUtils;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

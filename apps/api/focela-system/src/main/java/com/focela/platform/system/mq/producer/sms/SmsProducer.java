@@ -1,6 +1,6 @@
 package com.focela.platform.system.mq.producer.sms;
 
-import com.focela.platform.framework.common.core.KeyValue;
+import com.focela.platform.common.core.KeyValue;
 import com.focela.platform.system.mq.message.sms.SmsSendMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;

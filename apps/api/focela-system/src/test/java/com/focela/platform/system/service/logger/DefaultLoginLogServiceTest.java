@@ -1,7 +1,7 @@
 package com.focela.platform.system.service.logger;
 
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.test.core.support.BaseDbUnitTest;
 import com.focela.platform.system.api.logger.dto.LoginLogCreateRpcRequest;
 import com.focela.platform.system.controller.admin.logger.dto.loginlog.LoginLogPageRequest;
 import com.focela.platform.system.entity.logger.LoginLogEntity;
@@ -11,11 +11,11 @@ import org.springframework.context.annotation.Import;
 
 import jakarta.annotation.Resource;
 
-import static com.focela.platform.framework.common.utils.date.LocalDateTimeUtils.buildBetweenTime;
-import static com.focela.platform.framework.common.utils.date.LocalDateTimeUtils.buildTime;
-import static com.focela.platform.framework.common.utils.object.ObjectUtils.cloneIgnoreId;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPojoEquals;
-import static com.focela.platform.framework.test.core.utils.RandomUtils.randomPojo;
+import static com.focela.platform.common.utils.date.LocalDateTimeUtils.buildBetweenTime;
+import static com.focela.platform.common.utils.date.LocalDateTimeUtils.buildTime;
+import static com.focela.platform.common.utils.object.ObjectUtils.cloneIgnoreId;
+import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
+import static com.focela.platform.test.core.utils.RandomUtils.randomPojo;
 import static com.focela.platform.system.enums.logger.LoginResultEnum.CAPTCHA_CODE_ERROR;
 import static com.focela.platform.system.enums.logger.LoginResultEnum.SUCCESS;
 import static org.junit.jupiter.api.Assertions.assertEquals;

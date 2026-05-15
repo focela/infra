@@ -1,11 +1,11 @@
 package com.focela.platform.system.controller.admin.ip;
 
 import cn.hutool.core.lang.Assert;
-import com.focela.platform.framework.common.model.CommonResult;
-import com.focela.platform.framework.common.utils.object.BeanUtils;
-import com.focela.platform.framework.ip.core.Area;
-import com.focela.platform.framework.ip.core.utils.AreaUtils;
-import com.focela.platform.framework.ip.core.utils.IPUtils;
+import com.focela.platform.common.model.CommonResult;
+import com.focela.platform.common.utils.object.BeanUtils;
+import com.focela.platform.ip.core.Area;
+import com.focela.platform.ip.core.utils.AreaUtils;
+import com.focela.platform.ip.core.utils.IPUtils;
 import com.focela.platform.system.controller.admin.ip.dto.AreaNodeResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static com.focela.platform.framework.common.model.CommonResult.success;
+import static com.focela.platform.common.model.CommonResult.success;
 
 @Tag(name = "Admin - Area")
 @RestController

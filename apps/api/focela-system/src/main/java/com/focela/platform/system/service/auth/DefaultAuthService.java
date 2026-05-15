@@ -1,13 +1,13 @@
 package com.focela.platform.system.service.auth;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.common.utils.monitor.TracerUtils;
-import com.focela.platform.framework.common.utils.object.BeanUtils;
-import com.focela.platform.framework.common.utils.servlet.ServletUtils;
-import com.focela.platform.framework.common.utils.validation.ValidationUtils;
-import com.focela.platform.framework.datapermission.core.annotation.DataPermission;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.common.enums.UserTypeEnum;
+import com.focela.platform.common.utils.monitor.TracerUtils;
+import com.focela.platform.common.utils.object.BeanUtils;
+import com.focela.platform.common.utils.servlet.ServletUtils;
+import com.focela.platform.common.utils.validation.ValidationUtils;
+import com.focela.platform.datapermission.core.annotation.DataPermission;
 import com.focela.platform.system.api.logger.dto.LoginLogCreateRpcRequest;
 import com.focela.platform.system.api.sms.SmsCodeApi;
 import com.focela.platform.system.api.sms.dto.code.SmsCodeUseRpcRequest;
@@ -40,8 +40,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
-import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.framework.common.utils.servlet.ServletUtils.getClientIP;
+import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
+import static com.focela.platform.common.utils.servlet.ServletUtils.getClientIP;
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 
 /**

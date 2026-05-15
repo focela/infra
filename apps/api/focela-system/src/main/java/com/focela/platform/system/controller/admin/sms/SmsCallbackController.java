@@ -1,8 +1,8 @@
 package com.focela.platform.system.controller.admin.sms;
 
-import com.focela.platform.framework.common.model.CommonResult;
-import com.focela.platform.framework.common.utils.servlet.ServletUtils;
-import com.focela.platform.framework.tenant.core.aop.TenantIgnore;
+import com.focela.platform.common.model.CommonResult;
+import com.focela.platform.common.utils.servlet.ServletUtils;
+import com.focela.platform.tenant.core.aop.TenantIgnore;
 import com.focela.platform.system.config.sms.enums.SmsChannelEnum;
 import com.focela.platform.system.service.sms.SmsSendService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,7 +13,7 @@ import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.HttpServletRequest;
 
-import static com.focela.platform.framework.common.model.CommonResult.success;
+import static com.focela.platform.common.model.CommonResult.success;
 
 @Tag(name = "Admin - SMS callback")
 @RestController

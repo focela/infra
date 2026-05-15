@@ -1,10 +1,10 @@
 package com.focela.platform.system.api.oauth2;
 
-import com.focela.platform.framework.common.api.system.oauth2.OAuth2TokenContractApi;
-import com.focela.platform.framework.common.utils.object.BeanUtils;
-import com.focela.platform.framework.common.api.system.oauth2.dto.OAuth2AccessTokenCheckRpcResponse;
-import com.focela.platform.framework.common.api.system.oauth2.dto.OAuth2AccessTokenCreateRpcRequest;
-import com.focela.platform.framework.common.api.system.oauth2.dto.OAuth2AccessTokenRpcResponse;
+import com.focela.platform.common.api.system.oauth2.OAuth2TokenContractApi;
+import com.focela.platform.common.utils.object.BeanUtils;
+import com.focela.platform.common.api.system.oauth2.dto.OAuth2AccessTokenCheckRpcResponse;
+import com.focela.platform.common.api.system.oauth2.dto.OAuth2AccessTokenCreateRpcRequest;
+import com.focela.platform.common.api.system.oauth2.dto.OAuth2AccessTokenRpcResponse;
 import com.focela.platform.system.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.system.service.oauth2.OAuth2TokenService;
 import org.springframework.stereotype.Service;

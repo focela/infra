@@ -1,9 +1,9 @@
 package com.focela.platform.system.repository.mapper.notify;
 
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
-import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.framework.mybatis.core.query.QueryWrapperX;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.mybatis.core.mapper.BaseMapperX;
+import com.focela.platform.mybatis.core.query.LambdaQueryWrapperX;
+import com.focela.platform.mybatis.core.query.QueryWrapperX;
 import com.focela.platform.system.controller.admin.notify.dto.message.NotifyMessageMyPageRequest;
 import com.focela.platform.system.controller.admin.notify.dto.message.NotifyMessagePageRequest;
 import com.focela.platform.system.entity.notify.NotifyMessageEntity;

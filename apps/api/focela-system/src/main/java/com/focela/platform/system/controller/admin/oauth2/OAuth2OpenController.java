@@ -4,10 +4,10 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.common.model.CommonResult;
-import com.focela.platform.framework.common.utils.http.HttpUtils;
-import com.focela.platform.framework.common.utils.json.JsonUtils;
+import com.focela.platform.common.enums.UserTypeEnum;
+import com.focela.platform.common.model.CommonResult;
+import com.focela.platform.common.utils.http.HttpUtils;
+import com.focela.platform.common.utils.json.JsonUtils;
 import com.focela.platform.system.controller.admin.oauth2.dto.open.OAuth2OpenAccessTokenResponse;
 import com.focela.platform.system.controller.admin.oauth2.dto.open.OAuth2OpenAuthorizeInfoResponse;
 import com.focela.platform.system.controller.admin.oauth2.dto.open.OAuth2OpenCheckTokenResponse;
@@ -36,11 +36,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static com.focela.platform.framework.common.exception.enums.GlobalErrorCodeConstants.BAD_REQUEST;
-import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception0;
-import static com.focela.platform.framework.common.model.CommonResult.success;
-import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertList;
-import static com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils.getLoginUserId;
+import static com.focela.platform.common.exception.enums.GlobalErrorCodeConstants.BAD_REQUEST;
+import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception0;
+import static com.focela.platform.common.model.CommonResult.success;
+import static com.focela.platform.common.utils.collection.CollectionUtils.convertList;
+import static com.focela.platform.security.core.utils.SecurityFrameworkUtils.getLoginUserId;
 
 /**
  * 提供给外部应用调用为主

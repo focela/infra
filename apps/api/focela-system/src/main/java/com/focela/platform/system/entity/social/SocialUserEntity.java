@@ -1,6 +1,6 @@
 package com.focela.platform.system.entity.social;
 
-import com.focela.platform.framework.mybatis.core.entity.BaseEntity;
+import com.focela.platform.mybatis.core.entity.BaseEntity;
 import com.focela.platform.system.enums.social.SocialTypeEnum;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableId;

@@ -1,12 +1,12 @@
 package com.focela.platform.system.service.oauth2;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
-import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.common.exception.ErrorCode;
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.common.utils.date.DateUtils;
-import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
-import com.focela.platform.framework.test.core.support.BaseDbAndRedisUnitTest;
+import com.focela.platform.common.enums.UserTypeEnum;
+import com.focela.platform.common.exception.ErrorCode;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.common.utils.date.DateUtils;
+import com.focela.platform.tenant.core.context.TenantContextHolder;
+import com.focela.platform.test.core.support.BaseDbAndRedisUnitTest;
 import com.focela.platform.system.controller.admin.oauth2.dto.token.OAuth2AccessTokenPageRequest;
 import com.focela.platform.system.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.system.entity.oauth2.OAuth2ClientEntity;
@@ -25,10 +25,10 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.focela.platform.framework.common.utils.object.ObjectUtils.cloneIgnoreId;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPojoEquals;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertServiceException;
-import static com.focela.platform.framework.test.core.utils.RandomUtils.*;
+import static com.focela.platform.common.utils.object.ObjectUtils.cloneIgnoreId;
+import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
+import static com.focela.platform.test.core.utils.AssertUtils.assertServiceException;
+import static com.focela.platform.test.core.utils.RandomUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;

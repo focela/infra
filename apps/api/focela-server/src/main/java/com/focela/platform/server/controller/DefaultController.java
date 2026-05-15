@@ -1,14 +1,14 @@
 package com.focela.platform.server.controller;
 
-import com.focela.platform.framework.common.model.CommonResult;
-import com.focela.platform.framework.common.utils.servlet.ServletUtils;
+import com.focela.platform.common.model.CommonResult;
+import com.focela.platform.common.utils.servlet.ServletUtils;
 import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.focela.platform.framework.common.exception.enums.GlobalErrorCodeConstants.NOT_IMPLEMENTED;
+import static com.focela.platform.common.exception.enums.GlobalErrorCodeConstants.NOT_IMPLEMENTED;
 
 /**
  * Default Controller; handles 404 responses when certain modules are not enabled.

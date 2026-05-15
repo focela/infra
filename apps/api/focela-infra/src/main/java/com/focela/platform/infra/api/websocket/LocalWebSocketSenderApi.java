@@ -1,6 +1,6 @@
 package com.focela.platform.infra.api.websocket;
 
-import com.focela.platform.framework.websocket.core.sender.WebSocketMessageSender;
+import com.focela.platform.websocket.core.sender.WebSocketMessageSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

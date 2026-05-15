@@ -1,8 +1,8 @@
 package com.focela.platform.system.controller.admin.social.dto.client;
 
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.common.validation.InEnum;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.common.enums.UserTypeEnum;
+import com.focela.platform.common.validation.InEnum;
 import com.focela.platform.system.enums.social.SocialTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

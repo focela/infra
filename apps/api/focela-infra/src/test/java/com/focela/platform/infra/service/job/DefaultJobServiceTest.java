@@ -1,9 +1,9 @@
 package com.focela.platform.infra.service.job;
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.quartz.core.scheduler.SchedulerManager;
-import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.quartz.core.scheduler.SchedulerManager;
+import com.focela.platform.test.core.support.BaseDbUnitTest;
 import com.focela.platform.infra.controller.admin.job.dto.JobPageRequest;
 import com.focela.platform.infra.controller.admin.job.dto.JobSaveRequest;
 import com.focela.platform.infra.entity.job.JobEntity;
@@ -17,11 +17,11 @@ import org.quartz.SchedulerException;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
-import static com.focela.platform.framework.common.utils.object.ObjectUtils.cloneIgnoreId;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPojoEquals;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertServiceException;
-import static com.focela.platform.framework.test.core.utils.RandomUtils.randomPojo;
-import static com.focela.platform.framework.test.core.utils.RandomUtils.randomString;
+import static com.focela.platform.common.utils.object.ObjectUtils.cloneIgnoreId;
+import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
+import static com.focela.platform.test.core.utils.AssertUtils.assertServiceException;
+import static com.focela.platform.test.core.utils.RandomUtils.randomPojo;
+import static com.focela.platform.test.core.utils.RandomUtils.randomString;
 import static com.focela.platform.infra.constants.ErrorCodeConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;

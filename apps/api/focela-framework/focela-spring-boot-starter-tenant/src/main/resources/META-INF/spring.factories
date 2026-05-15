@@ -1,2 +1,2 @@
 org.springframework.boot.env.EnvironmentPostProcessor=\
-  com.focela.platform.framework.tenant.core.mq.kafka.TenantKafkaEnvironmentPostProcessor
+  com.focela.platform.tenant.core.mq.kafka.TenantKafkaEnvironmentPostProcessor

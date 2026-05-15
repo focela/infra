@@ -1,8 +1,8 @@
 package com.focela.platform.system.controller.admin.user;
 
 import cn.hutool.core.collection.CollUtil;
-import com.focela.platform.framework.common.model.CommonResult;
-import com.focela.platform.framework.datapermission.core.annotation.DataPermission;
+import com.focela.platform.common.model.CommonResult;
+import com.focela.platform.datapermission.core.annotation.DataPermission;
 import com.focela.platform.system.controller.admin.user.dto.profile.UserProfileResponse;
 import com.focela.platform.system.controller.admin.user.dto.profile.UserProfileUpdatePasswordRequest;
 import com.focela.platform.system.controller.admin.user.dto.profile.UserProfileUpdateRequest;
@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.focela.platform.framework.common.model.CommonResult.success;
-import static com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils.getLoginUserId;
+import static com.focela.platform.common.model.CommonResult.success;
+import static com.focela.platform.security.core.utils.SecurityFrameworkUtils.getLoginUserId;
 
 @Tag(name = "Admin - User profile")
 @RestController

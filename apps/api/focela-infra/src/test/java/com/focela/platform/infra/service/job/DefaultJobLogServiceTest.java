@@ -1,7 +1,7 @@
 package com.focela.platform.infra.service.job;
 
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.test.core.support.BaseDbUnitTest;
 import com.focela.platform.infra.controller.admin.job.dto.log.JobLogPageRequest;
 import com.focela.platform.infra.entity.job.JobLogEntity;
 import com.focela.platform.infra.repository.mapper.job.JobLogMapper;
@@ -14,11 +14,11 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.focela.platform.framework.common.utils.date.LocalDateTimeUtils.addTime;
-import static com.focela.platform.framework.common.utils.date.LocalDateTimeUtils.buildTime;
-import static com.focela.platform.framework.common.utils.object.ObjectUtils.cloneIgnoreId;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPojoEquals;
-import static com.focela.platform.framework.test.core.utils.RandomUtils.*;
+import static com.focela.platform.common.utils.date.LocalDateTimeUtils.addTime;
+import static com.focela.platform.common.utils.date.LocalDateTimeUtils.buildTime;
+import static com.focela.platform.common.utils.object.ObjectUtils.cloneIgnoreId;
+import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
+import static com.focela.platform.test.core.utils.RandomUtils.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 

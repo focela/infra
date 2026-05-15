@@ -1,6 +1,6 @@
 package com.focela.platform.system.controller.admin.permission.dto;
 
-import com.focela.platform.framework.common.validation.InEnum;
+import com.focela.platform.common.validation.InEnum;
 import com.focela.platform.system.enums.permission.DataScopeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

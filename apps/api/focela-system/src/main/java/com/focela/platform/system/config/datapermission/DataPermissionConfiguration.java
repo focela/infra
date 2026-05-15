@@ -2,7 +2,7 @@ package com.focela.platform.system.config.datapermission;
 
 import com.focela.platform.system.entity.department.DepartmentEntity;
 import com.focela.platform.system.entity.user.UserEntity;
-import com.focela.platform.framework.datapermission.core.rule.department.DepartmentDataPermissionRuleCustomizer;
+import com.focela.platform.datapermission.core.rule.department.DepartmentDataPermissionRuleCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

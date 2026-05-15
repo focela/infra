@@ -2,9 +2,9 @@ package com.focela.platform.system.api.user;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjUtil;
-import com.focela.platform.framework.common.utils.object.BeanUtils;
-import com.focela.platform.framework.datapermission.core.annotation.DataPermission;
-import com.focela.platform.framework.datapermission.core.utils.DataPermissionUtils;
+import com.focela.platform.common.utils.object.BeanUtils;
+import com.focela.platform.datapermission.core.annotation.DataPermission;
+import com.focela.platform.datapermission.core.utils.DataPermissionUtils;
 import com.focela.platform.system.api.user.dto.UserRpcResponse;
 import com.focela.platform.system.entity.department.DepartmentEntity;
 import com.focela.platform.system.entity.user.UserEntity;
@@ -18,7 +18,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertSet;
+import static com.focela.platform.common.utils.collection.CollectionUtils.convertSet;
 
 /**
  * Admin user API implementation class

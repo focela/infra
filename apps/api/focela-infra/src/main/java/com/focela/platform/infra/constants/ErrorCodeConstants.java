@@ -1,6 +1,6 @@
 package com.focela.platform.infra.constants;
 
-import com.focela.platform.framework.common.exception.ErrorCode;
+import com.focela.platform.common.exception.ErrorCode;
 
 /**
  * Infra error code enum class

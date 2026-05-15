@@ -1,6 +1,6 @@
 package com.focela.platform.infra.config.security;
 
-import com.focela.platform.framework.security.config.AuthorizeRequestsCustomizer;
+import com.focela.platform.security.config.AuthorizeRequestsCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

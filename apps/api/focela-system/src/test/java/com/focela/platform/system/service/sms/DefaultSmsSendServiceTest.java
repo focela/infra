@@ -1,13 +1,13 @@
 package com.focela.platform.system.service.sms;
 
 import cn.hutool.core.map.MapUtil;
-import com.focela.platform.framework.common.core.KeyValue;
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.enums.UserTypeEnum;
+import com.focela.platform.common.core.KeyValue;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.common.enums.UserTypeEnum;
 import com.focela.platform.system.config.sms.client.SmsClient;
 import com.focela.platform.system.config.sms.client.dto.SmsReceiveRpcResponse;
 import com.focela.platform.system.config.sms.client.dto.SmsSendRpcResponse;
-import com.focela.platform.framework.test.core.support.BaseMockitoUnitTest;
+import com.focela.platform.test.core.support.BaseMockitoUnitTest;
 import com.focela.platform.system.entity.sms.SmsChannelEntity;
 import com.focela.platform.system.entity.sms.SmsTemplateEntity;
 import com.focela.platform.system.entity.user.UserEntity;
@@ -26,8 +26,8 @@ import java.util.List;
 import java.util.Map;
 
 import static cn.hutool.core.util.RandomUtil.randomEle;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertServiceException;
-import static com.focela.platform.framework.test.core.utils.RandomUtils.*;
+import static com.focela.platform.test.core.utils.AssertUtils.assertServiceException;
+import static com.focela.platform.test.core.utils.RandomUtils.*;
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;

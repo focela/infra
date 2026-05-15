@@ -1,10 +1,10 @@
 package com.focela.platform.infra.controller.admin.config;
 
-import com.focela.platform.framework.apilog.core.annotation.ApiAccessLog;
-import com.focela.platform.framework.common.model.CommonResult;
-import com.focela.platform.framework.common.model.PageParam;
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.excel.core.utils.ExcelUtils;
+import com.focela.platform.apilog.core.annotation.ApiAccessLog;
+import com.focela.platform.common.model.CommonResult;
+import com.focela.platform.common.model.PageParam;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.excel.core.utils.ExcelUtils;
 import com.focela.platform.infra.controller.admin.config.dto.ConfigPageRequest;
 import com.focela.platform.infra.controller.admin.config.dto.ConfigResponse;
 import com.focela.platform.infra.controller.admin.config.dto.ConfigSaveRequest;
@@ -25,9 +25,9 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-import static com.focela.platform.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
-import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.framework.common.model.CommonResult.success;
+import static com.focela.platform.apilog.core.enums.OperateTypeEnum.EXPORT;
+import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
+import static com.focela.platform.common.model.CommonResult.success;
 
 @Tag(name = "Admin - System config")
 @RestController

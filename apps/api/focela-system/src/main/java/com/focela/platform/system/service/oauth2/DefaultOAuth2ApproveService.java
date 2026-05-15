@@ -2,7 +2,7 @@ package com.focela.platform.system.service.oauth2;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
-import com.focela.platform.framework.common.utils.date.DateUtils;
+import com.focela.platform.common.utils.date.DateUtils;
 import com.focela.platform.system.entity.oauth2.OAuth2ApproveEntity;
 import com.focela.platform.system.entity.oauth2.OAuth2ClientEntity;
 import com.focela.platform.system.repository.mapper.oauth2.OAuth2ApproveMapper;
@@ -15,7 +15,7 @@ import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertSet;
+import static com.focela.platform.common.utils.collection.CollectionUtils.convertSet;
 
 /**
  * OAuth2 批准 Service 实现类

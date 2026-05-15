@@ -1,9 +1,9 @@
 package com.focela.platform.system.controller.admin.social;
 
-import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.common.model.CommonResult;
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.common.utils.object.BeanUtils;
+import com.focela.platform.common.enums.UserTypeEnum;
+import com.focela.platform.common.model.CommonResult;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.system.api.social.dto.SocialUserBindRpcRequest;
 import com.focela.platform.system.controller.admin.social.dto.user.SocialUserBindRequest;
 import com.focela.platform.system.controller.admin.social.dto.user.SocialUserPageRequest;
@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.focela.platform.framework.common.model.CommonResult.success;
-import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertList;
-import static com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils.getLoginUserId;
+import static com.focela.platform.common.model.CommonResult.success;
+import static com.focela.platform.common.utils.collection.CollectionUtils.convertList;
+import static com.focela.platform.security.core.utils.SecurityFrameworkUtils.getLoginUserId;
 
 @Tag(name = "Admin - Social user")
 @RestController

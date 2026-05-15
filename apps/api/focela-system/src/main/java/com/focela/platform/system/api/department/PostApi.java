@@ -2,7 +2,7 @@ package com.focela.platform.system.api.department;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
-import com.focela.platform.framework.common.utils.collection.CollectionUtils;
+import com.focela.platform.common.utils.collection.CollectionUtils;
 import com.focela.platform.system.api.department.dto.PostRpcResponse;
 
 import java.util.Collection;

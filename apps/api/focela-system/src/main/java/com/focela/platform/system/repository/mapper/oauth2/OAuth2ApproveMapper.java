@@ -1,7 +1,7 @@
 package com.focela.platform.system.repository.mapper.oauth2;
 
-import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
-import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
+import com.focela.platform.mybatis.core.mapper.BaseMapperX;
+import com.focela.platform.mybatis.core.query.LambdaQueryWrapperX;
 import com.focela.platform.system.entity.oauth2.OAuth2ApproveEntity;
 import org.apache.ibatis.annotations.Mapper;
 

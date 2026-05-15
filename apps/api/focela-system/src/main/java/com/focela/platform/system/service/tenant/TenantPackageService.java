@@ -1,6 +1,6 @@
 package com.focela.platform.system.service.tenant;
 
-import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.common.model.PageResult;
 import com.focela.platform.system.controller.admin.tenant.dto.packages.TenantPackagePageRequest;
 import com.focela.platform.system.controller.admin.tenant.dto.packages.TenantPackageSaveRequest;
 import com.focela.platform.system.entity.tenant.TenantPackageEntity;

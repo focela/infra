@@ -2,7 +2,7 @@ package com.focela.platform.system.converter.auth;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjUtil;
-import com.focela.platform.framework.common.utils.object.BeanUtils;
+import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.system.api.sms.dto.code.SmsCodeSendRpcRequest;
 import com.focela.platform.system.api.sms.dto.code.SmsCodeUseRpcRequest;
 import com.focela.platform.system.api.social.dto.SocialUserBindRpcRequest;
@@ -20,8 +20,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertSet;
-import static com.focela.platform.framework.common.utils.collection.CollectionUtils.filterList;
+import static com.focela.platform.common.utils.collection.CollectionUtils.convertSet;
+import static com.focela.platform.common.utils.collection.CollectionUtils.filterList;
 import static com.focela.platform.system.entity.permission.MenuEntity.ID_ROOT;
 
 @Mapper

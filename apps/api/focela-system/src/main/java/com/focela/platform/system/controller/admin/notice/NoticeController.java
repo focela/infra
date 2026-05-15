@@ -1,10 +1,10 @@
 package com.focela.platform.system.controller.admin.notice;
 
 import cn.hutool.core.lang.Assert;
-import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.common.model.CommonResult;
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.common.utils.object.BeanUtils;
+import com.focela.platform.common.enums.UserTypeEnum;
+import com.focela.platform.common.model.CommonResult;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.infra.api.websocket.WebSocketSenderApi;
 import com.focela.platform.system.controller.admin.notice.dto.NoticePageRequest;
 import com.focela.platform.system.controller.admin.notice.dto.NoticeResponse;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.focela.platform.framework.common.model.CommonResult.success;
+import static com.focela.platform.common.model.CommonResult.success;
 
 @Tag(name = "Admin - Notice")
 @RestController

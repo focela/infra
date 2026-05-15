@@ -1,8 +1,8 @@
 package com.focela.platform.system.service.social;
 
-import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
+import com.focela.platform.common.enums.UserTypeEnum;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.test.core.support.BaseDbUnitTest;
 import com.focela.platform.system.api.social.dto.SocialUserBindRpcRequest;
 import com.focela.platform.system.api.social.dto.SocialUserRpcResponse;
 import com.focela.platform.system.controller.admin.social.dto.user.SocialUserPageRequest;
@@ -21,14 +21,14 @@ import java.util.List;
 
 import static cn.hutool.core.util.RandomUtil.randomEle;
 import static cn.hutool.core.util.RandomUtil.randomLong;
-import static com.focela.platform.framework.common.utils.date.LocalDateTimeUtils.buildBetweenTime;
-import static com.focela.platform.framework.common.utils.date.LocalDateTimeUtils.buildTime;
-import static com.focela.platform.framework.common.utils.json.JsonUtils.toJsonString;
-import static com.focela.platform.framework.common.utils.object.ObjectUtils.cloneIgnoreId;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPojoEquals;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertServiceException;
-import static com.focela.platform.framework.test.core.utils.RandomUtils.randomPojo;
-import static com.focela.platform.framework.test.core.utils.RandomUtils.randomString;
+import static com.focela.platform.common.utils.date.LocalDateTimeUtils.buildBetweenTime;
+import static com.focela.platform.common.utils.date.LocalDateTimeUtils.buildTime;
+import static com.focela.platform.common.utils.json.JsonUtils.toJsonString;
+import static com.focela.platform.common.utils.object.ObjectUtils.cloneIgnoreId;
+import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
+import static com.focela.platform.test.core.utils.AssertUtils.assertServiceException;
+import static com.focela.platform.test.core.utils.RandomUtils.randomPojo;
+import static com.focela.platform.test.core.utils.RandomUtils.randomString;
 import static com.focela.platform.system.constants.ErrorCodeConstants.SOCIAL_USER_NOT_FOUND;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.eq;

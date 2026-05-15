@@ -3,8 +3,8 @@ package com.focela.platform.system.service.permission;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.utils.object.BeanUtils;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.system.controller.admin.permission.dto.menu.MenuListRequest;
 import com.focela.platform.system.controller.admin.permission.dto.menu.MenuSaveRequest;
 import com.focela.platform.system.entity.permission.MenuEntity;
@@ -24,9 +24,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
-import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertList;
-import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertMap;
+import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
+import static com.focela.platform.common.utils.collection.CollectionUtils.convertList;
+import static com.focela.platform.common.utils.collection.CollectionUtils.convertMap;
 import static com.focela.platform.system.entity.permission.MenuEntity.ID_ROOT;
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 

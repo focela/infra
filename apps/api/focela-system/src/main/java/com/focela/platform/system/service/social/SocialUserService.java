@@ -1,7 +1,7 @@
 package com.focela.platform.system.service.social;
 
-import com.focela.platform.framework.common.exception.ServiceException;
-import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.common.exception.ServiceException;
+import com.focela.platform.common.model.PageResult;
 import com.focela.platform.system.api.social.dto.SocialUserBindRpcRequest;
 import com.focela.platform.system.api.social.dto.SocialUserRpcResponse;
 import com.focela.platform.system.controller.admin.social.dto.user.SocialUserPageRequest;

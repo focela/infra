@@ -1,8 +1,8 @@
 package com.focela.platform.system.service.department;
 
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.utils.object.ObjectUtils;
-import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.common.utils.object.ObjectUtils;
+import com.focela.platform.test.core.support.BaseDbUnitTest;
 import com.focela.platform.system.controller.admin.department.dto.dept.DepartmentListRequest;
 import com.focela.platform.system.controller.admin.department.dto.dept.DepartmentSaveRequest;
 import com.focela.platform.system.entity.department.DepartmentEntity;
@@ -15,9 +15,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPojoEquals;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertServiceException;
-import static com.focela.platform.framework.test.core.utils.RandomUtils.*;
+import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
+import static com.focela.platform.test.core.utils.AssertUtils.assertServiceException;
+import static com.focela.platform.test.core.utils.RandomUtils.*;
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.*;

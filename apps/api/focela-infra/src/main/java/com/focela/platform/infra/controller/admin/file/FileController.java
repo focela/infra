@@ -3,10 +3,10 @@ package com.focela.platform.infra.controller.admin.file;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
-import com.focela.platform.framework.common.model.CommonResult;
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.common.utils.object.BeanUtils;
-import com.focela.platform.framework.tenant.core.aop.TenantIgnore;
+import com.focela.platform.common.model.CommonResult;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.common.utils.object.BeanUtils;
+import com.focela.platform.tenant.core.aop.TenantIgnore;
 import com.focela.platform.infra.controller.admin.file.dto.*;
 import com.focela.platform.infra.entity.file.FileEntity;
 import com.focela.platform.infra.service.file.FileService;
@@ -30,7 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import static com.focela.platform.framework.common.model.CommonResult.success;
+import static com.focela.platform.common.model.CommonResult.success;
 import static com.focela.platform.infra.config.file.utils.FileTypeUtils.writeAttachment;
 
 @Tag(name = "Admin - File storage")

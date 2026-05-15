@@ -1,7 +1,7 @@
 package com.focela.platform.infra.entity.logger;
 
-import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.mybatis.core.entity.BaseEntity;
+import com.focela.platform.common.enums.UserTypeEnum;
+import com.focela.platform.mybatis.core.entity.BaseEntity;
 import com.focela.platform.infra.enums.logger.ApiErrorLogProcessStatusEnum;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableId;

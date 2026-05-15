@@ -1,8 +1,8 @@
 package com.focela.platform.system.converter.user;
 
-import com.focela.platform.framework.common.utils.collection.CollectionUtils;
-import com.focela.platform.framework.common.utils.collection.MapUtils;
-import com.focela.platform.framework.common.utils.object.BeanUtils;
+import com.focela.platform.common.utils.collection.CollectionUtils;
+import com.focela.platform.common.utils.collection.MapUtils;
+import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.system.controller.admin.department.dto.dept.DepartmentSimpleResponse;
 import com.focela.platform.system.controller.admin.department.dto.post.PostSimpleResponse;
 import com.focela.platform.system.controller.admin.permission.dto.role.RoleSimpleResponse;

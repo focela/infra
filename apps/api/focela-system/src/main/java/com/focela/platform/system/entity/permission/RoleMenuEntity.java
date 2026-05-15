@@ -1,6 +1,6 @@
 package com.focela.platform.system.entity.permission;
 
-import com.focela.platform.framework.tenant.core.db.TenantBaseEntity;
+import com.focela.platform.tenant.core.db.TenantBaseEntity;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;

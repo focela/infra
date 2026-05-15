@@ -1,8 +1,8 @@
 package com.focela.platform.system.entity.sms;
 
-import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.mybatis.core.entity.BaseEntity;
-import com.focela.platform.framework.tenant.core.aop.TenantIgnore;
+import com.focela.platform.common.enums.UserTypeEnum;
+import com.focela.platform.mybatis.core.entity.BaseEntity;
+import com.focela.platform.tenant.core.aop.TenantIgnore;
 import com.focela.platform.system.enums.sms.SmsReceiveStatusEnum;
 import com.focela.platform.system.enums.sms.SmsSendStatusEnum;
 import com.baomidou.mybatisplus.annotation.KeySequence;

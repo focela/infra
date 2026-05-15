@@ -1,6 +1,6 @@
 package com.focela.platform.system.api.user.dto;
 
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
+import com.focela.platform.common.enums.CommonStatusEnum;
 import lombok.Data;
 
 import java.util.Set;

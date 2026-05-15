@@ -9,10 +9,10 @@ import cn.hutool.crypto.digest.DigestUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.focela.platform.framework.common.core.KeyValue;
-import com.focela.platform.framework.common.utils.collection.MapUtils;
-import com.focela.platform.framework.common.utils.http.HttpUtils;
-import com.focela.platform.framework.common.utils.json.JsonUtils;
+import com.focela.platform.common.core.KeyValue;
+import com.focela.platform.common.utils.collection.MapUtils;
+import com.focela.platform.common.utils.http.HttpUtils;
+import com.focela.platform.common.utils.json.JsonUtils;
 import com.focela.platform.system.config.sms.client.dto.SmsReceiveRpcResponse;
 import com.focela.platform.system.config.sms.client.dto.SmsSendRpcResponse;
 import com.focela.platform.system.config.sms.client.dto.SmsTemplateRpcResponse;
@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertList;
+import static com.focela.platform.common.utils.collection.CollectionUtils.convertList;
 
 /**
  * 阿里短信客户端的实现类

@@ -1,10 +1,10 @@
 package com.focela.platform.infra.service.logger;
 
-import com.focela.platform.framework.common.api.infra.logger.dto.ApiAccessLogCreateRpcRequest;
-import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.common.exception.enums.GlobalErrorCodeConstants;
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
+import com.focela.platform.common.api.infra.logger.dto.ApiAccessLogCreateRpcRequest;
+import com.focela.platform.common.enums.UserTypeEnum;
+import com.focela.platform.common.exception.enums.GlobalErrorCodeConstants;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.test.core.support.BaseDbUnitTest;
 import com.focela.platform.infra.controller.admin.logger.dto.apiaccesslog.ApiAccessLogPageRequest;
 import com.focela.platform.infra.entity.logger.ApiAccessLogEntity;
 import com.focela.platform.infra.repository.mapper.logger.ApiAccessLogMapper;
@@ -15,10 +15,10 @@ import org.springframework.context.annotation.Import;
 import java.time.Duration;
 import java.util.List;
 
-import static com.focela.platform.framework.common.utils.date.LocalDateTimeUtils.*;
-import static com.focela.platform.framework.common.utils.object.ObjectUtils.cloneIgnoreId;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPojoEquals;
-import static com.focela.platform.framework.test.core.utils.RandomUtils.randomPojo;
+import static com.focela.platform.common.utils.date.LocalDateTimeUtils.*;
+import static com.focela.platform.common.utils.object.ObjectUtils.cloneIgnoreId;
+import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
+import static com.focela.platform.test.core.utils.RandomUtils.randomPojo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Import(DefaultApiAccessLogService.class)

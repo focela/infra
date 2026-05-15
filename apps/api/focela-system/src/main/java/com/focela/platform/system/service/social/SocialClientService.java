@@ -1,6 +1,6 @@
 package com.focela.platform.system.service.social;
 
-import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.common.model.PageResult;
 import com.focela.platform.system.controller.admin.social.dto.client.SocialClientPageRequest;
 import com.focela.platform.system.controller.admin.social.dto.client.SocialClientSaveRequest;
 import com.focela.platform.system.enums.social.SocialTypeEnum;

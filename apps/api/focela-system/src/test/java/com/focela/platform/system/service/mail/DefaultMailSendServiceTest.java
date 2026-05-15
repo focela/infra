@@ -1,10 +1,10 @@
 package com.focela.platform.system.service.mail;
 
 import cn.hutool.core.map.MapUtil;
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.test.core.support.BaseMockitoUnitTest;
-import com.focela.platform.framework.test.core.utils.RandomUtils;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.common.enums.UserTypeEnum;
+import com.focela.platform.test.core.support.BaseMockitoUnitTest;
+import com.focela.platform.test.core.utils.RandomUtils;
 import com.focela.platform.system.entity.mail.MailAccountEntity;
 import com.focela.platform.system.entity.mail.MailTemplateEntity;
 import com.focela.platform.system.entity.user.UserEntity;
@@ -27,8 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static cn.hutool.core.util.RandomUtil.randomEle;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertServiceException;
-import static com.focela.platform.framework.test.core.utils.RandomUtils.*;
+import static com.focela.platform.test.core.utils.AssertUtils.assertServiceException;
+import static com.focela.platform.test.core.utils.RandomUtils.*;
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;

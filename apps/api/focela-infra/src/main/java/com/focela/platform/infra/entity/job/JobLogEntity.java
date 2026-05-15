@@ -1,8 +1,8 @@
 package com.focela.platform.infra.entity.job;
 
-import com.focela.platform.framework.mybatis.core.entity.BaseEntity;
-import com.focela.platform.framework.quartz.core.handler.JobHandler;
-import com.focela.platform.framework.tenant.core.aop.TenantIgnore;
+import com.focela.platform.mybatis.core.entity.BaseEntity;
+import com.focela.platform.quartz.core.handler.JobHandler;
+import com.focela.platform.tenant.core.aop.TenantIgnore;
 import com.focela.platform.infra.enums.job.JobLogStatusEnum;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableName;

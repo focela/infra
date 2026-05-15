@@ -2,7 +2,7 @@ package com.focela.platform.system.config.operatelog;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.ip.core.utils.AreaUtils;
+import com.focela.platform.ip.core.utils.AreaUtils;
 import com.mzt.logapi.service.IParseFunction;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

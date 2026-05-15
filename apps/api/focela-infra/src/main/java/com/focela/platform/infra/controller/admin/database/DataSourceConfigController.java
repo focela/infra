@@ -1,7 +1,7 @@
 package com.focela.platform.infra.controller.admin.database;
 
-import com.focela.platform.framework.common.model.CommonResult;
-import com.focela.platform.framework.common.utils.object.BeanUtils;
+import com.focela.platform.common.model.CommonResult;
+import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.infra.controller.admin.database.dto.DataSourceConfigResponse;
 import com.focela.platform.infra.controller.admin.database.dto.DataSourceConfigSaveRequest;
 import com.focela.platform.infra.entity.database.DataSourceConfigEntity;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.focela.platform.framework.common.model.CommonResult.success;
+import static com.focela.platform.common.model.CommonResult.success;
 
 @Tag(name = "Admin - Datasource config")
 @RestController

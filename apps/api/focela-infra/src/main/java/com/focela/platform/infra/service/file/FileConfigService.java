@@ -1,6 +1,6 @@
 package com.focela.platform.infra.service.file;
 
-import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.common.model.PageResult;
 import com.focela.platform.infra.controller.admin.file.dto.config.FileConfigPageRequest;
 import com.focela.platform.infra.controller.admin.file.dto.config.FileConfigSaveRequest;
 import com.focela.platform.infra.entity.file.FileConfigEntity;

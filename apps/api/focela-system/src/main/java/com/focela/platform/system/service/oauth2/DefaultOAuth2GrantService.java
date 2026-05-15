@@ -3,7 +3,7 @@ package com.focela.platform.system.service.oauth2;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.common.enums.UserTypeEnum;
+import com.focela.platform.common.enums.UserTypeEnum;
 import com.focela.platform.system.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.system.entity.oauth2.OAuth2CodeEntity;
 import com.focela.platform.system.entity.user.UserEntity;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import jakarta.annotation.Resource;
 import java.util.List;
 
-import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
+import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
 
 /**
  * OAuth2 授予 Service 实现类

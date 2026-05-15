@@ -1,8 +1,8 @@
 package com.focela.platform.system.controller.admin.oauth2;
 
-import com.focela.platform.framework.common.model.CommonResult;
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.common.utils.object.BeanUtils;
+import com.focela.platform.common.model.CommonResult;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.system.controller.admin.oauth2.dto.client.OAuth2ClientPageRequest;
 import com.focela.platform.system.controller.admin.oauth2.dto.client.OAuth2ClientResponse;
 import com.focela.platform.system.controller.admin.oauth2.dto.client.OAuth2ClientSaveRequest;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.focela.platform.framework.common.model.CommonResult.success;
+import static com.focela.platform.common.model.CommonResult.success;
 
 @Tag(name = "Admin - OAuth2 client")
 @RestController

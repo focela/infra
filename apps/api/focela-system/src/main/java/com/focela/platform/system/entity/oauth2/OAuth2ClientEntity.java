@@ -1,8 +1,8 @@
 package com.focela.platform.system.entity.oauth2;
 
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.mybatis.core.entity.BaseEntity;
-import com.focela.platform.framework.tenant.core.aop.TenantIgnore;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.mybatis.core.entity.BaseEntity;
+import com.focela.platform.tenant.core.aop.TenantIgnore;
 import com.focela.platform.system.enums.oauth2.OAuth2GrantTypeEnum;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableField;

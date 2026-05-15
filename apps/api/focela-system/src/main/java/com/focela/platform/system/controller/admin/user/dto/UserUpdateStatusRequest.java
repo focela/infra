@@ -1,8 +1,8 @@
 package com.focela.platform.system.controller.admin.user.dto;
 
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.validation.InEnum;
-import com.focela.platform.framework.dictionary.validation.InDictionary;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.common.validation.InEnum;
+import com.focela.platform.dictionary.validation.InDictionary;
 import com.focela.platform.system.constants.DictionaryTypeConstants;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;

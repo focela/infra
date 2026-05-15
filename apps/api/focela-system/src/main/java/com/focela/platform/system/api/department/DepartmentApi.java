@@ -1,6 +1,6 @@
 package com.focela.platform.system.api.department;
 
-import com.focela.platform.framework.common.utils.collection.CollectionUtils;
+import com.focela.platform.common.utils.collection.CollectionUtils;
 import com.focela.platform.system.api.department.dto.DepartmentRpcResponse;
 
 import java.util.Collection;

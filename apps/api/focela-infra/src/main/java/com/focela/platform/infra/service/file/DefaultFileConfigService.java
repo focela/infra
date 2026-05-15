@@ -2,9 +2,9 @@ package com.focela.platform.infra.service.file;
 
 import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.util.IdUtil;
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.common.utils.json.JsonUtils;
-import com.focela.platform.framework.common.utils.validation.ValidationUtils;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.common.utils.json.JsonUtils;
+import com.focela.platform.common.utils.validation.ValidationUtils;
 import com.focela.platform.infra.controller.admin.file.dto.config.FileConfigPageRequest;
 import com.focela.platform.infra.controller.admin.file.dto.config.FileConfigSaveRequest;
 import com.focela.platform.infra.converter.file.FileConfigConverter;
@@ -29,8 +29,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.framework.common.utils.cache.CacheUtils.buildAsyncReloadingCache;
+import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
+import static com.focela.platform.common.utils.cache.CacheUtils.buildAsyncReloadingCache;
 import static com.focela.platform.infra.constants.ErrorCodeConstants.FILE_CONFIG_DELETE_FAIL_MASTER;
 import static com.focela.platform.infra.constants.ErrorCodeConstants.FILE_CONFIG_NOT_EXISTS;
 

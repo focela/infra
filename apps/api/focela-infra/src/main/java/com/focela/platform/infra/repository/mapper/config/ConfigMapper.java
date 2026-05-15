@@ -1,8 +1,8 @@
 package com.focela.platform.infra.repository.mapper.config;
 
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
-import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.mybatis.core.mapper.BaseMapperX;
+import com.focela.platform.mybatis.core.query.LambdaQueryWrapperX;
 import com.focela.platform.infra.controller.admin.config.dto.ConfigPageRequest;
 import com.focela.platform.infra.entity.config.ConfigEntity;
 import org.apache.ibatis.annotations.Mapper;

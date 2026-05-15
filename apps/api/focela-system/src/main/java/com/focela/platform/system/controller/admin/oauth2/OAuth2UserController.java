@@ -1,8 +1,8 @@
 package com.focela.platform.system.controller.admin.oauth2;
 
 import cn.hutool.core.collection.CollUtil;
-import com.focela.platform.framework.common.model.CommonResult;
-import com.focela.platform.framework.common.utils.object.BeanUtils;
+import com.focela.platform.common.model.CommonResult;
+import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.system.controller.admin.oauth2.dto.user.OAuth2UserInfoResponse;
 import com.focela.platform.system.controller.admin.oauth2.dto.user.OAuth2UserUpdateRequest;
 import com.focela.platform.system.controller.admin.user.dto.profile.UserProfileUpdateRequest;
@@ -23,8 +23,8 @@ import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import java.util.List;
 
-import static com.focela.platform.framework.common.model.CommonResult.success;
-import static com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils.getLoginUserId;
+import static com.focela.platform.common.model.CommonResult.success;
+import static com.focela.platform.security.core.utils.SecurityFrameworkUtils.getLoginUserId;
 
 /**
  * 提供给外部应用调用为主

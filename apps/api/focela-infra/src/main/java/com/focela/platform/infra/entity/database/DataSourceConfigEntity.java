@@ -1,8 +1,8 @@
 package com.focela.platform.infra.entity.database;
 
-import com.focela.platform.framework.mybatis.core.entity.BaseEntity;
-import com.focela.platform.framework.mybatis.core.type.EncryptTypeHandler;
-import com.focela.platform.framework.tenant.core.aop.TenantIgnore;
+import com.focela.platform.mybatis.core.entity.BaseEntity;
+import com.focela.platform.mybatis.core.type.EncryptTypeHandler;
+import com.focela.platform.tenant.core.aop.TenantIgnore;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;

@@ -2,9 +2,9 @@ package com.focela.platform.system.service.permission;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.focela.platform.framework.common.api.system.permission.dto.DepartmentDataPermissionRpcResponse;
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
+import com.focela.platform.common.api.system.permission.dto.DepartmentDataPermissionRpcResponse;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.test.core.support.BaseDbUnitTest;
 import com.focela.platform.system.entity.department.DepartmentEntity;
 import com.focela.platform.system.entity.permission.MenuEntity;
 import com.focela.platform.system.entity.permission.RoleEntity;
@@ -27,10 +27,10 @@ import java.util.List;
 import java.util.Set;
 
 import static cn.hutool.core.collection.ListUtil.toList;
-import static com.focela.platform.framework.common.utils.collection.SetUtils.asSet;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPojoEquals;
-import static com.focela.platform.framework.test.core.utils.RandomUtils.randomLongId;
-import static com.focela.platform.framework.test.core.utils.RandomUtils.randomPojo;
+import static com.focela.platform.common.utils.collection.SetUtils.asSet;
+import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
+import static com.focela.platform.test.core.utils.RandomUtils.randomLongId;
+import static com.focela.platform.test.core.utils.RandomUtils.randomPojo;
 import static java.util.Collections.singleton;
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.*;

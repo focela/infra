@@ -1,7 +1,7 @@
 package com.focela.platform.system.controller.admin.permission.dto.role;
 
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.validation.InEnum;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.common.validation.InEnum;
 import com.mzt.logapi.starter.annotation.DiffLogField;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;

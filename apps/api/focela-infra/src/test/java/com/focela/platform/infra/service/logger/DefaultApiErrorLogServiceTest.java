@@ -1,9 +1,9 @@
 package com.focela.platform.infra.service.logger;
 
-import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
-import com.focela.platform.framework.common.api.infra.logger.dto.ApiErrorLogCreateRpcRequest;
+import com.focela.platform.common.enums.UserTypeEnum;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.test.core.support.BaseDbUnitTest;
+import com.focela.platform.common.api.infra.logger.dto.ApiErrorLogCreateRpcRequest;
 import com.focela.platform.infra.controller.admin.logger.dto.apierrorlog.ApiErrorLogPageRequest;
 import com.focela.platform.infra.entity.logger.ApiErrorLogEntity;
 import com.focela.platform.infra.repository.mapper.logger.ApiErrorLogMapper;
@@ -16,12 +16,12 @@ import java.time.Duration;
 import java.util.List;
 
 import static cn.hutool.core.util.RandomUtil.randomEle;
-import static com.focela.platform.framework.common.utils.date.LocalDateTimeUtils.*;
-import static com.focela.platform.framework.common.utils.object.ObjectUtils.cloneIgnoreId;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPojoEquals;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertServiceException;
-import static com.focela.platform.framework.test.core.utils.RandomUtils.randomLongId;
-import static com.focela.platform.framework.test.core.utils.RandomUtils.randomPojo;
+import static com.focela.platform.common.utils.date.LocalDateTimeUtils.*;
+import static com.focela.platform.common.utils.object.ObjectUtils.cloneIgnoreId;
+import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
+import static com.focela.platform.test.core.utils.AssertUtils.assertServiceException;
+import static com.focela.platform.test.core.utils.RandomUtils.randomLongId;
+import static com.focela.platform.test.core.utils.RandomUtils.randomPojo;
 import static com.focela.platform.infra.constants.ErrorCodeConstants.API_ERROR_LOG_NOT_FOUND;
 import static com.focela.platform.infra.constants.ErrorCodeConstants.API_ERROR_LOG_PROCESSED;
 import static org.junit.jupiter.api.Assertions.assertEquals;

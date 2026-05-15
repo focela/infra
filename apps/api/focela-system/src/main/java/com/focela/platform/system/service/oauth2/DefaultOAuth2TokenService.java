@@ -5,15 +5,15 @@ import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.common.exception.ServiceException;
-import com.focela.platform.framework.common.exception.enums.GlobalErrorCodeConstants;
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.common.utils.date.DateUtils;
-import com.focela.platform.framework.common.utils.object.BeanUtils;
-import com.focela.platform.framework.security.core.LoginUser;
-import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
-import com.focela.platform.framework.tenant.core.utils.TenantUtils;
+import com.focela.platform.common.enums.UserTypeEnum;
+import com.focela.platform.common.exception.ServiceException;
+import com.focela.platform.common.exception.enums.GlobalErrorCodeConstants;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.common.utils.date.DateUtils;
+import com.focela.platform.common.utils.object.BeanUtils;
+import com.focela.platform.security.core.LoginUser;
+import com.focela.platform.tenant.core.context.TenantContextHolder;
+import com.focela.platform.tenant.core.utils.TenantUtils;
 import com.focela.platform.system.controller.admin.oauth2.dto.token.OAuth2AccessTokenPageRequest;
 import com.focela.platform.system.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.system.entity.oauth2.OAuth2ClientEntity;
@@ -33,8 +33,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception0;
-import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertSet;
+import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception0;
+import static com.focela.platform.common.utils.collection.CollectionUtils.convertSet;
 
 /**
  * OAuth2.0 Token Service 实现类
@@ -210,7 +210,7 @@ public class DefaultOAuth2TokenService implements OAuth2TokenService {
     }
 
     /**
-     * 加载用户信息，方便 {@link com.focela.platform.framework.security.core.LoginUser} 获取到昵称、部门等信息
+     * 加载用户信息，方便 {@link com.focela.platform.security.core.LoginUser} 获取到昵称、部门等信息
      *
      * @param userId 用户编号
      * @param userType 用户类型

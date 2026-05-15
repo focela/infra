@@ -1,7 +1,7 @@
 package com.focela.platform.system.entity.permission;
 
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.tenant.core.db.TenantBaseEntity;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.tenant.core.db.TenantBaseEntity;
 import com.focela.platform.system.enums.permission.DataScopeEnum;
 import com.focela.platform.system.enums.permission.RoleTypeEnum;
 import com.baomidou.mybatisplus.annotation.KeySequence;

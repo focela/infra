@@ -4,7 +4,7 @@ import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
-import com.focela.platform.framework.common.utils.http.HttpUtils;
+import com.focela.platform.common.utils.http.HttpUtils;
 import com.focela.platform.infra.config.file.client.AbstractFileClient;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;

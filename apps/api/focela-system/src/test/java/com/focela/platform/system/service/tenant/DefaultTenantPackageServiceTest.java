@@ -1,8 +1,8 @@
 package com.focela.platform.system.service.tenant;
 
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.test.core.support.BaseDbUnitTest;
 import com.focela.platform.system.controller.admin.tenant.dto.packages.TenantPackagePageRequest;
 import com.focela.platform.system.controller.admin.tenant.dto.packages.TenantPackageSaveRequest;
 import com.focela.platform.system.entity.tenant.TenantEntity;
@@ -15,12 +15,12 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.List;
 
-import static com.focela.platform.framework.common.utils.date.LocalDateTimeUtils.buildBetweenTime;
-import static com.focela.platform.framework.common.utils.date.LocalDateTimeUtils.buildTime;
-import static com.focela.platform.framework.common.utils.object.ObjectUtils.cloneIgnoreId;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPojoEquals;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertServiceException;
-import static com.focela.platform.framework.test.core.utils.RandomUtils.*;
+import static com.focela.platform.common.utils.date.LocalDateTimeUtils.buildBetweenTime;
+import static com.focela.platform.common.utils.date.LocalDateTimeUtils.buildTime;
+import static com.focela.platform.common.utils.object.ObjectUtils.cloneIgnoreId;
+import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
+import static com.focela.platform.test.core.utils.AssertUtils.assertServiceException;
+import static com.focela.platform.test.core.utils.RandomUtils.*;
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.*;

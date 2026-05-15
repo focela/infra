@@ -1,7 +1,7 @@
 package com.focela.platform.system.config.sms.client.impl;
 
 import cn.hutool.core.collection.ListUtil;
-import com.focela.platform.framework.common.core.KeyValue;
+import com.focela.platform.common.core.KeyValue;
 import com.focela.platform.system.config.sms.client.SmsClient;
 import com.focela.platform.system.config.sms.client.dto.SmsSendRpcResponse;
 import com.focela.platform.system.config.sms.client.dto.SmsTemplateRpcResponse;

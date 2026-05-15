@@ -1,6 +1,6 @@
 package com.focela.platform.system.api.department;
 
-import com.focela.platform.framework.common.utils.object.BeanUtils;
+import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.system.api.department.dto.DepartmentRpcResponse;
 import com.focela.platform.system.entity.department.DepartmentEntity;
 import com.focela.platform.system.service.department.DepartmentService;

@@ -1,8 +1,8 @@
 package com.focela.platform.system.controller.admin.captcha;
 
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.common.utils.servlet.ServletUtils;
-import com.focela.platform.framework.tenant.core.aop.TenantIgnore;
+import com.focela.platform.common.utils.servlet.ServletUtils;
+import com.focela.platform.tenant.core.aop.TenantIgnore;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaService;

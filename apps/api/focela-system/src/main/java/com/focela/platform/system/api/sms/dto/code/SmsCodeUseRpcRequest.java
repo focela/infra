@@ -1,7 +1,7 @@
 package com.focela.platform.system.api.sms.dto.code;
 
-import com.focela.platform.framework.common.validation.InEnum;
-import com.focela.platform.framework.common.validation.Mobile;
+import com.focela.platform.common.validation.InEnum;
+import com.focela.platform.common.validation.Mobile;
 import com.focela.platform.system.enums.sms.SmsSceneEnum;
 import lombok.Data;
 

@@ -1,2 +1,2 @@
-com.focela.platform.framework.tracer.config.FocelaTracerAutoConfiguration
-com.focela.platform.framework.tracer.config.FocelaMetricsAutoConfiguration
+com.focela.platform.tracer.config.FocelaTracerAutoConfiguration
+com.focela.platform.tracer.config.FocelaMetricsAutoConfiguration

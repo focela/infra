@@ -1,7 +1,7 @@
 package com.focela.platform.system.api.social.dto;
 
-import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.common.validation.InEnum;
+import com.focela.platform.common.enums.UserTypeEnum;
+import com.focela.platform.common.validation.InEnum;
 import com.focela.platform.system.enums.social.SocialTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -2,12 +2,12 @@ package com.focela.platform.system.controller.admin.auth;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.common.model.CommonResult;
-import com.focela.platform.framework.datapermission.core.annotation.DataPermission;
-import com.focela.platform.framework.security.config.SecurityProperties;
-import com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.common.enums.UserTypeEnum;
+import com.focela.platform.common.model.CommonResult;
+import com.focela.platform.datapermission.core.annotation.DataPermission;
+import com.focela.platform.security.config.SecurityProperties;
+import com.focela.platform.security.core.utils.SecurityFrameworkUtils;
 import com.focela.platform.system.controller.admin.auth.dto.*;
 import com.focela.platform.system.converter.auth.AuthConverter;
 import com.focela.platform.system.entity.permission.MenuEntity;
@@ -36,9 +36,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import static com.focela.platform.framework.common.model.CommonResult.success;
-import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertSet;
-import static com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils.getLoginUserId;
+import static com.focela.platform.common.model.CommonResult.success;
+import static com.focela.platform.common.utils.collection.CollectionUtils.convertSet;
+import static com.focela.platform.security.core.utils.SecurityFrameworkUtils.getLoginUserId;
 
 @Tag(name = "Admin - Auth")
 @RestController

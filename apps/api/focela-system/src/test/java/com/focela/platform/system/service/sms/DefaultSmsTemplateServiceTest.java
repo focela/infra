@@ -1,11 +1,11 @@
 package com.focela.platform.system.service.sms;
 
 import cn.hutool.core.map.MapUtil;
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.common.utils.collection.ArrayUtils;
-import com.focela.platform.framework.common.utils.object.ObjectUtils;
-import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.common.utils.collection.ArrayUtils;
+import com.focela.platform.common.utils.object.ObjectUtils;
+import com.focela.platform.test.core.support.BaseDbUnitTest;
 import com.focela.platform.system.controller.admin.sms.dto.template.SmsTemplatePageRequest;
 import com.focela.platform.system.controller.admin.sms.dto.template.SmsTemplateSaveRequest;
 import com.focela.platform.system.entity.sms.SmsChannelEntity;
@@ -26,11 +26,11 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import static cn.hutool.core.util.RandomUtil.randomEle;
-import static com.focela.platform.framework.common.utils.date.LocalDateTimeUtils.buildBetweenTime;
-import static com.focela.platform.framework.common.utils.date.LocalDateTimeUtils.buildTime;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPojoEquals;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertServiceException;
-import static com.focela.platform.framework.test.core.utils.RandomUtils.*;
+import static com.focela.platform.common.utils.date.LocalDateTimeUtils.buildBetweenTime;
+import static com.focela.platform.common.utils.date.LocalDateTimeUtils.buildTime;
+import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
+import static com.focela.platform.test.core.utils.AssertUtils.assertServiceException;
+import static com.focela.platform.test.core.utils.RandomUtils.*;
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;

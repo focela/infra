@@ -1,11 +1,11 @@
 package com.focela.platform.infra.service.logger;
 
-import com.focela.platform.framework.common.api.infra.logger.dto.ApiErrorLogCreateRpcRequest;
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.common.utils.object.BeanUtils;
-import com.focela.platform.framework.common.utils.string.StrUtils;
-import com.focela.platform.framework.tenant.core.context.TenantContextHolder;
-import com.focela.platform.framework.tenant.core.utils.TenantUtils;
+import com.focela.platform.common.api.infra.logger.dto.ApiErrorLogCreateRpcRequest;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.common.utils.object.BeanUtils;
+import com.focela.platform.common.utils.string.StrUtils;
+import com.focela.platform.tenant.core.context.TenantContextHolder;
+import com.focela.platform.tenant.core.utils.TenantUtils;
 import com.focela.platform.infra.controller.admin.logger.dto.apierrorlog.ApiErrorLogPageRequest;
 import com.focela.platform.infra.entity.logger.ApiErrorLogEntity;
 import com.focela.platform.infra.repository.mapper.logger.ApiErrorLogMapper;
@@ -17,7 +17,7 @@ import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
 
-import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
+import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.infra.entity.logger.ApiErrorLogEntity.REQUEST_PARAMS_MAX_LENGTH;
 import static com.focela.platform.infra.constants.ErrorCodeConstants.API_ERROR_LOG_NOT_FOUND;
 import static com.focela.platform.infra.constants.ErrorCodeConstants.API_ERROR_LOG_PROCESSED;

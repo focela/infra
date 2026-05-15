@@ -1,2 +1,2 @@
-com.focela.platform.framework.datapermission.config.FocelaDataPermissionAutoConfiguration
-com.focela.platform.framework.datapermission.config.FocelaDepartmentDataPermissionAutoConfiguration
+com.focela.platform.datapermission.config.FocelaDataPermissionAutoConfiguration
+com.focela.platform.datapermission.config.FocelaDepartmentDataPermissionAutoConfiguration

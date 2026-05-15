@@ -1,7 +1,7 @@
 package com.focela.platform.system.controller.admin.auth.dto;
 
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.common.validation.InEnum;
+import com.focela.platform.common.validation.InEnum;
 import com.focela.platform.system.enums.social.SocialTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

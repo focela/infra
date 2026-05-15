@@ -1,11 +1,11 @@
 package com.focela.platform.system.converter.oauth2;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
-import com.focela.platform.framework.common.core.KeyValue;
-import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.common.utils.collection.CollectionUtils;
-import com.focela.platform.framework.common.utils.object.BeanUtils;
-import com.focela.platform.framework.security.core.utils.SecurityFrameworkUtils;
+import com.focela.platform.common.core.KeyValue;
+import com.focela.platform.common.enums.UserTypeEnum;
+import com.focela.platform.common.utils.collection.CollectionUtils;
+import com.focela.platform.common.utils.object.BeanUtils;
+import com.focela.platform.security.core.utils.SecurityFrameworkUtils;
 import com.focela.platform.system.controller.admin.oauth2.dto.open.OAuth2OpenAccessTokenResponse;
 import com.focela.platform.system.controller.admin.oauth2.dto.open.OAuth2OpenAuthorizeInfoResponse;
 import com.focela.platform.system.controller.admin.oauth2.dto.open.OAuth2OpenCheckTokenResponse;

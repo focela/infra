@@ -1,9 +1,9 @@
 package com.focela.platform.system.service.oauth2;
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.test.core.support.BaseDbUnitTest;
 import com.focela.platform.system.controller.admin.oauth2.dto.client.OAuth2ClientPageRequest;
 import com.focela.platform.system.controller.admin.oauth2.dto.client.OAuth2ClientSaveRequest;
 import com.focela.platform.system.entity.oauth2.OAuth2ClientEntity;
@@ -15,10 +15,10 @@ import org.springframework.context.annotation.Import;
 import jakarta.annotation.Resource;
 import java.util.Collections;
 
-import static com.focela.platform.framework.common.utils.object.ObjectUtils.cloneIgnoreId;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPojoEquals;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertServiceException;
-import static com.focela.platform.framework.test.core.utils.RandomUtils.*;
+import static com.focela.platform.common.utils.object.ObjectUtils.cloneIgnoreId;
+import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
+import static com.focela.platform.test.core.utils.AssertUtils.assertServiceException;
+import static com.focela.platform.test.core.utils.RandomUtils.*;
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;

@@ -1,9 +1,9 @@
 package com.focela.platform.system.service.dictionary;
 
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.common.utils.date.LocalDateTimeUtils;
-import com.focela.platform.framework.common.utils.object.BeanUtils;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.common.utils.date.LocalDateTimeUtils;
+import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.system.controller.admin.dictionary.dto.type.DictionaryTypePageRequest;
 import com.focela.platform.system.controller.admin.dictionary.dto.type.DictionaryTypeSaveRequest;
 import com.focela.platform.system.entity.dictionary.DictionaryTypeEntity;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
+import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 
 /**

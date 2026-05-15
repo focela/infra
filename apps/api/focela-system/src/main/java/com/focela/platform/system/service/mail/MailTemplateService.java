@@ -1,6 +1,6 @@
 package com.focela.platform.system.service.mail;
 
-import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.common.model.PageResult;
 import com.focela.platform.system.controller.admin.mail.dto.template.MailTemplatePageRequest;
 import com.focela.platform.system.controller.admin.mail.dto.template.MailTemplateSaveRequest;
 import com.focela.platform.system.entity.mail.MailTemplateEntity;

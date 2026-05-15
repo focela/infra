@@ -1,6 +1,6 @@
 package com.focela.platform.system.service.mail;
 
-import com.focela.platform.framework.common.enums.UserTypeEnum;
+import com.focela.platform.common.enums.UserTypeEnum;
 import com.focela.platform.system.mq.message.mail.MailSendMessage;
 
 import java.io.File;

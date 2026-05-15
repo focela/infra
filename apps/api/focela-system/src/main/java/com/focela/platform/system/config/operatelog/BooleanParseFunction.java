@@ -1,7 +1,7 @@
 package com.focela.platform.system.config.operatelog;
 
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.dictionary.core.DictionaryFrameworkUtils;
+import com.focela.platform.dictionary.core.DictionaryFrameworkUtils;
 import com.focela.platform.infra.constants.DictionaryTypeConstants;
 import com.mzt.logapi.service.IParseFunction;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,6 @@
 package com.focela.platform.system.controller.admin.oauth2.dto.token;
 
-import com.focela.platform.framework.common.model.PageParam;
+import com.focela.platform.common.model.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -1,10 +1,10 @@
 package com.focela.platform.system.service.dictionary;
 
 import cn.hutool.core.collection.CollUtil;
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.common.utils.collection.CollectionUtils;
-import com.focela.platform.framework.common.utils.object.BeanUtils;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.common.utils.collection.CollectionUtils;
+import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.system.controller.admin.dictionary.dto.data.DictionaryDataPageRequest;
 import com.focela.platform.system.controller.admin.dictionary.dto.data.DictionaryDataSaveRequest;
 import com.focela.platform.system.entity.dictionary.DictionaryDataEntity;
@@ -20,7 +20,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
+import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 
 /**

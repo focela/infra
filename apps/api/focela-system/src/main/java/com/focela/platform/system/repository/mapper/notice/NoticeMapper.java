@@ -1,8 +1,8 @@
 package com.focela.platform.system.repository.mapper.notice;
 
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.mybatis.core.mapper.BaseMapperX;
-import com.focela.platform.framework.mybatis.core.query.LambdaQueryWrapperX;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.mybatis.core.mapper.BaseMapperX;
+import com.focela.platform.mybatis.core.query.LambdaQueryWrapperX;
 import com.focela.platform.system.controller.admin.notice.dto.NoticePageRequest;
 import com.focela.platform.system.entity.notice.NoticeEntity;
 import org.apache.ibatis.annotations.Mapper;

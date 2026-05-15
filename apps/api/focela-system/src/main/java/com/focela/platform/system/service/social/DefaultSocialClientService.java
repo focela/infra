@@ -4,10 +4,10 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.ReflectUtil;
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.common.utils.http.HttpUtils;
-import com.focela.platform.framework.common.utils.object.BeanUtils;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.common.utils.http.HttpUtils;
+import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.system.controller.admin.social.dto.client.SocialClientPageRequest;
 import com.focela.platform.system.controller.admin.social.dto.client.SocialClientSaveRequest;
 import com.focela.platform.system.enums.social.SocialTypeEnum;
@@ -29,8 +29,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 
-import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.framework.common.utils.json.JsonUtils.toJsonString;
+import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
+import static com.focela.platform.common.utils.json.JsonUtils.toJsonString;
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 
 /**

@@ -1,6 +1,6 @@
 package com.focela.platform.system.api.sms.dto.send;
 
-import com.focela.platform.framework.common.validation.Mobile;
+import com.focela.platform.common.validation.Mobile;
 import lombok.Data;
 
 import jakarta.validation.constraints.NotEmpty;

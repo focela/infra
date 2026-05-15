@@ -1,6 +1,6 @@
 package com.focela.platform.system.service.notice;
 
-import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.common.model.PageResult;
 import com.focela.platform.system.controller.admin.notice.dto.NoticePageRequest;
 import com.focela.platform.system.controller.admin.notice.dto.NoticeSaveRequest;
 import com.focela.platform.system.entity.notice.NoticeEntity;

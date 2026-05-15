@@ -2,8 +2,8 @@ package com.focela.platform.system.service.social;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
-import com.focela.platform.framework.common.exception.ServiceException;
-import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.common.exception.ServiceException;
+import com.focela.platform.common.model.PageResult;
 import com.focela.platform.system.api.social.dto.SocialUserBindRpcRequest;
 import com.focela.platform.system.api.social.dto.SocialUserRpcResponse;
 import com.focela.platform.system.controller.admin.social.dto.user.SocialUserPageRequest;
@@ -23,9 +23,9 @@ import org.springframework.validation.annotation.Validated;
 import java.util.Collections;
 import java.util.List;
 
-import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertSet;
-import static com.focela.platform.framework.common.utils.json.JsonUtils.toJsonString;
+import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
+import static com.focela.platform.common.utils.collection.CollectionUtils.convertSet;
+import static com.focela.platform.common.utils.json.JsonUtils.toJsonString;
 import static com.focela.platform.system.constants.ErrorCodeConstants.SOCIAL_USER_NOT_FOUND;
 
 /**

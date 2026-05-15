@@ -9,9 +9,9 @@ import cn.hutool.crypto.digest.HmacAlgorithm;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.focela.platform.framework.common.core.KeyValue;
-import com.focela.platform.framework.common.utils.collection.ArrayUtils;
-import com.focela.platform.framework.common.utils.http.HttpUtils;
+import com.focela.platform.common.core.KeyValue;
+import com.focela.platform.common.utils.collection.ArrayUtils;
+import com.focela.platform.common.utils.http.HttpUtils;
 import com.focela.platform.system.config.sms.client.dto.SmsReceiveRpcResponse;
 import com.focela.platform.system.config.sms.client.dto.SmsSendRpcResponse;
 import com.focela.platform.system.config.sms.client.dto.SmsTemplateRpcResponse;
@@ -23,7 +23,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import static cn.hutool.crypto.digest.DigestUtil.sha256Hex;
-import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertList;
+import static com.focela.platform.common.utils.collection.CollectionUtils.convertList;
 
 /**
  * 腾讯云短信功能实现

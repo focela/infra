@@ -1,6 +1,6 @@
 package com.focela.platform.system.controller.admin.oauth2.dto.open;
 
-import com.focela.platform.framework.common.core.KeyValue;
+import com.focela.platform.common.core.KeyValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,7 +1,7 @@
 package com.focela.platform.system.service.sms;
 
 import cn.hutool.core.map.MapUtil;
-import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
+import com.focela.platform.test.core.support.BaseDbUnitTest;
 import com.focela.platform.system.api.sms.dto.code.SmsCodeSendRpcRequest;
 import com.focela.platform.system.api.sms.dto.code.SmsCodeUseRpcRequest;
 import com.focela.platform.system.api.sms.dto.code.SmsCodeValidateRpcRequest;
@@ -19,9 +19,9 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 import static cn.hutool.core.util.RandomUtil.randomEle;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPojoEquals;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertServiceException;
-import static com.focela.platform.framework.test.core.utils.RandomUtils.randomPojo;
+import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
+import static com.focela.platform.test.core.utils.AssertUtils.assertServiceException;
+import static com.focela.platform.test.core.utils.RandomUtils.randomPojo;
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;

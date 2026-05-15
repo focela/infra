@@ -5,10 +5,10 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.common.utils.collection.CollectionUtils;
-import com.focela.platform.framework.common.utils.object.BeanUtils;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.common.utils.collection.CollectionUtils;
+import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.system.controller.admin.permission.dto.role.RolePageRequest;
 import com.focela.platform.system.controller.admin.permission.dto.role.RoleSaveRequest;
 import com.focela.platform.system.entity.permission.RoleEntity;
@@ -31,8 +31,8 @@ import org.springframework.util.StringUtils;
 
 import java.util.*;
 
-import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertMap;
+import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
+import static com.focela.platform.common.utils.collection.CollectionUtils.convertMap;
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 import static com.focela.platform.system.constants.LogRecordConstants.*;
 

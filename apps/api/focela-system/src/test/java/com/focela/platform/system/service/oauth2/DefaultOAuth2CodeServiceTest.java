@@ -1,9 +1,9 @@
 package com.focela.platform.system.service.oauth2;
 
 import cn.hutool.core.util.RandomUtil;
-import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.common.utils.date.DateUtils;
-import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
+import com.focela.platform.common.enums.UserTypeEnum;
+import com.focela.platform.common.utils.date.DateUtils;
+import com.focela.platform.test.core.support.BaseDbUnitTest;
 import com.focela.platform.system.entity.oauth2.OAuth2CodeEntity;
 import com.focela.platform.system.repository.mapper.oauth2.OAuth2CodeMapper;
 import org.assertj.core.util.Lists;
@@ -14,9 +14,9 @@ import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPojoEquals;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertServiceException;
-import static com.focela.platform.framework.test.core.utils.RandomUtils.*;
+import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
+import static com.focela.platform.test.core.utils.AssertUtils.assertServiceException;
+import static com.focela.platform.test.core.utils.RandomUtils.*;
 import static com.focela.platform.system.constants.ErrorCodeConstants.OAUTH2_CODE_EXPIRE;
 import static com.focela.platform.system.constants.ErrorCodeConstants.OAUTH2_CODE_NOT_EXISTS;
 import static org.junit.jupiter.api.Assertions.*;

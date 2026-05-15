@@ -1,7 +1,7 @@
 package com.focela.platform.infra.api.logger;
 
-import com.focela.platform.framework.common.api.infra.logger.ApiAccessLogContractApi;
-import com.focela.platform.framework.common.api.infra.logger.dto.ApiAccessLogCreateRpcRequest;
+import com.focela.platform.common.api.infra.logger.ApiAccessLogContractApi;
+import com.focela.platform.common.api.infra.logger.dto.ApiAccessLogCreateRpcRequest;
 import com.focela.platform.infra.service.logger.ApiAccessLogService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;

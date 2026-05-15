@@ -8,9 +8,9 @@ import cn.hutool.crypto.SecureUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.focela.platform.framework.common.core.KeyValue;
-import com.focela.platform.framework.common.utils.http.HttpUtils;
-import com.focela.platform.framework.common.utils.json.JsonUtils;
+import com.focela.platform.common.core.KeyValue;
+import com.focela.platform.common.utils.http.HttpUtils;
+import com.focela.platform.common.utils.json.JsonUtils;
 import com.focela.platform.system.config.sms.client.dto.SmsReceiveRpcResponse;
 import com.focela.platform.system.config.sms.client.dto.SmsSendRpcResponse;
 import com.focela.platform.system.config.sms.client.dto.SmsTemplateRpcResponse;
@@ -25,7 +25,7 @@ import java.time.ZoneId;
 import java.util.*;
 
 import static cn.hutool.crypto.digest.DigestUtil.sha256Hex;
-import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertList;
+import static com.focela.platform.common.utils.collection.CollectionUtils.convertList;
 
 /**
  * 华为短信客户端的实现类

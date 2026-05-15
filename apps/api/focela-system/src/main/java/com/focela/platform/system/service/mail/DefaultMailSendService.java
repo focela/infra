@@ -3,8 +3,8 @@ package com.focela.platform.system.service.mail;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.enums.UserTypeEnum;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.common.enums.UserTypeEnum;
 import com.focela.platform.system.entity.mail.MailAccountEntity;
 import com.focela.platform.system.entity.mail.MailTemplateEntity;
 import com.focela.platform.system.entity.user.UserEntity;
@@ -25,7 +25,7 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Map;
 
-import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
+import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 
 /**

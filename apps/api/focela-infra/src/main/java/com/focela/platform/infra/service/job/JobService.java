@@ -1,6 +1,6 @@
 package com.focela.platform.infra.service.job;
 
-import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.common.model.PageResult;
 import com.focela.platform.infra.controller.admin.job.dto.JobPageRequest;
 import com.focela.platform.infra.controller.admin.job.dto.JobSaveRequest;
 import com.focela.platform.infra.entity.job.JobEntity;

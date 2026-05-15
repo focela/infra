@@ -1,11 +1,11 @@
 package com.focela.platform.system.controller.admin.sms;
 
-import com.focela.platform.framework.apilog.core.annotation.ApiAccessLog;
-import com.focela.platform.framework.common.model.CommonResult;
-import com.focela.platform.framework.common.model.PageParam;
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.common.utils.object.BeanUtils;
-import com.focela.platform.framework.excel.core.utils.ExcelUtils;
+import com.focela.platform.apilog.core.annotation.ApiAccessLog;
+import com.focela.platform.common.model.CommonResult;
+import com.focela.platform.common.model.PageParam;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.common.utils.object.BeanUtils;
+import com.focela.platform.excel.core.utils.ExcelUtils;
 import com.focela.platform.system.controller.admin.sms.dto.log.SmsLogPageRequest;
 import com.focela.platform.system.controller.admin.sms.dto.log.SmsLogResponse;
 import com.focela.platform.system.entity.sms.SmsLogEntity;
@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.util.List;
 
-import static com.focela.platform.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
-import static com.focela.platform.framework.common.model.CommonResult.success;
+import static com.focela.platform.apilog.core.enums.OperateTypeEnum.EXPORT;
+import static com.focela.platform.common.model.CommonResult.success;
 
 @Tag(name = "Admin - SMS log")
 @RestController

@@ -2,9 +2,9 @@ package com.focela.platform.system.service.department;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.utils.object.BeanUtils;
-import com.focela.platform.framework.datapermission.core.annotation.DataPermission;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.common.utils.object.BeanUtils;
+import com.focela.platform.datapermission.core.annotation.DataPermission;
 import com.focela.platform.system.controller.admin.department.dto.dept.DepartmentListRequest;
 import com.focela.platform.system.controller.admin.department.dto.dept.DepartmentSaveRequest;
 import com.focela.platform.system.entity.department.DepartmentEntity;
@@ -20,8 +20,8 @@ import org.springframework.validation.annotation.Validated;
 import jakarta.annotation.Resource;
 import java.util.*;
 
-import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertSet;
+import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
+import static com.focela.platform.common.utils.collection.CollectionUtils.convertSet;
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 
 /**

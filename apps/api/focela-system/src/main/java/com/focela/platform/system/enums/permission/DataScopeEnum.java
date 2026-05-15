@@ -1,6 +1,6 @@
 package com.focela.platform.system.enums.permission;
 
-import com.focela.platform.framework.common.core.ArrayValuable;
+import com.focela.platform.common.core.ArrayValuable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

@@ -1,6 +1,6 @@
 package com.focela.platform.system.service.oauth2;
 
-import com.focela.platform.framework.common.model.PageResult;
+import com.focela.platform.common.model.PageResult;
 import com.focela.platform.system.controller.admin.oauth2.dto.token.OAuth2AccessTokenPageRequest;
 import com.focela.platform.system.entity.oauth2.OAuth2AccessTokenEntity;
 

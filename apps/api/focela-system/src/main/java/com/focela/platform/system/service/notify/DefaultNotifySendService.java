@@ -1,7 +1,7 @@
 package com.focela.platform.system.service.notify;
 
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.enums.UserTypeEnum;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.common.enums.UserTypeEnum;
 import com.focela.platform.system.entity.notify.NotifyTemplateEntity;
 import com.google.common.annotations.VisibleForTesting;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,7 @@ import jakarta.annotation.Resource;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
+import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 
 /**

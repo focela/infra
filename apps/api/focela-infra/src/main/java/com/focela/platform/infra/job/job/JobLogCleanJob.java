@@ -1,7 +1,7 @@
 package com.focela.platform.infra.job.job;
 
-import com.focela.platform.framework.quartz.core.handler.JobHandler;
-import com.focela.platform.framework.tenant.core.aop.TenantIgnore;
+import com.focela.platform.quartz.core.handler.JobHandler;
+import com.focela.platform.tenant.core.aop.TenantIgnore;
 import com.focela.platform.infra.service.job.JobLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

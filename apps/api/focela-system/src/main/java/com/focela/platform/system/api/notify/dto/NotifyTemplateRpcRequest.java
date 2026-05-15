@@ -1,7 +1,7 @@
 package com.focela.platform.system.api.notify.dto;
 
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.validation.InEnum;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.common.validation.InEnum;
 import lombok.Data;
 
 import jakarta.validation.constraints.NotEmpty;

@@ -1,7 +1,7 @@
 package com.focela.platform.system.controller.admin.user.dto;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.focela.platform.framework.common.validation.Mobile;
+import com.focela.platform.common.validation.Mobile;
 import com.focela.platform.system.config.operatelog.DepartmentParseFunction;
 import com.focela.platform.system.config.operatelog.PostParseFunction;
 import com.focela.platform.system.config.operatelog.SexParseFunction;

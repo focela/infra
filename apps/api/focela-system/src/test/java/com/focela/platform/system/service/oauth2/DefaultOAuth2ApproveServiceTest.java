@@ -2,9 +2,9 @@ package com.focela.platform.system.service.oauth2;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.ObjectUtil;
-import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.common.utils.date.DateUtils;
-import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
+import com.focela.platform.common.enums.UserTypeEnum;
+import com.focela.platform.common.utils.date.DateUtils;
+import com.focela.platform.test.core.support.BaseDbUnitTest;
 import com.focela.platform.system.entity.oauth2.OAuth2ApproveEntity;
 import com.focela.platform.system.entity.oauth2.OAuth2ClientEntity;
 import com.focela.platform.system.repository.mapper.oauth2.OAuth2ApproveMapper;
@@ -22,9 +22,9 @@ import java.util.List;
 import java.util.Map;
 
 import static cn.hutool.core.util.RandomUtil.*;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertPojoEquals;
-import static com.focela.platform.framework.test.core.utils.RandomUtils.*;
-import static com.focela.platform.framework.test.core.utils.RandomUtils.randomString;
+import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
+import static com.focela.platform.test.core.utils.RandomUtils.*;
+import static com.focela.platform.test.core.utils.RandomUtils.randomString;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;

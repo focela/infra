@@ -2,8 +2,8 @@ package com.focela.platform.system.controller.admin.tenant.dto;
 
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
-import com.focela.platform.framework.excel.core.annotations.DictionaryFormat;
-import com.focela.platform.framework.excel.core.converter.DictionaryConverter;
+import com.focela.platform.excel.core.annotations.DictionaryFormat;
+import com.focela.platform.excel.core.converter.DictionaryConverter;
 import com.focela.platform.system.constants.DictionaryTypeConstants;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

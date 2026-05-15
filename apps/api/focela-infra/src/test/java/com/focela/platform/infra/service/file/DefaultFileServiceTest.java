@@ -1,10 +1,10 @@
 package com.focela.platform.infra.service.file;
 
 import cn.hutool.core.io.resource.ResourceUtil;
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.common.utils.object.ObjectUtils;
-import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
-import com.focela.platform.framework.test.core.utils.AssertUtils;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.common.utils.object.ObjectUtils;
+import com.focela.platform.test.core.support.BaseDbUnitTest;
+import com.focela.platform.test.core.utils.AssertUtils;
 import com.focela.platform.infra.controller.admin.file.dto.FilePageRequest;
 import com.focela.platform.infra.entity.file.FileEntity;
 import com.focela.platform.infra.repository.mapper.file.FileMapper;
@@ -18,9 +18,9 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static com.focela.platform.framework.common.utils.date.LocalDateTimeUtils.buildTime;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertServiceException;
-import static com.focela.platform.framework.test.core.utils.RandomUtils.*;
+import static com.focela.platform.common.utils.date.LocalDateTimeUtils.buildTime;
+import static com.focela.platform.test.core.utils.AssertUtils.assertServiceException;
+import static com.focela.platform.test.core.utils.RandomUtils.*;
 import static com.focela.platform.infra.constants.ErrorCodeConstants.FILE_NOT_EXISTS;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.same;

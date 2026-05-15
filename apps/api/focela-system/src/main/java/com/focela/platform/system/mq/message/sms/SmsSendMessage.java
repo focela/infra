@@ -1,6 +1,6 @@
 package com.focela.platform.system.mq.message.sms;
 
-import com.focela.platform.framework.common.core.KeyValue;
+import com.focela.platform.common.core.KeyValue;
 import lombok.Data;
 
 import jakarta.validation.constraints.NotNull;

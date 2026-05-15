@@ -1,7 +1,7 @@
 package com.focela.platform.system.controller.admin.permission;
 
 import cn.hutool.core.collection.CollUtil;
-import com.focela.platform.framework.common.model.CommonResult;
+import com.focela.platform.common.model.CommonResult;
 import com.focela.platform.system.controller.admin.permission.dto.PermissionAssignRoleDataScopeRequest;
 import com.focela.platform.system.controller.admin.permission.dto.PermissionAssignRoleMenuRequest;
 import com.focela.platform.system.controller.admin.permission.dto.PermissionAssignUserRoleRequest;
@@ -18,7 +18,7 @@ import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import java.util.Set;
 
-import static com.focela.platform.framework.common.model.CommonResult.success;
+import static com.focela.platform.common.model.CommonResult.success;
 
 /**
  * 权限 Controller，提供赋予用户、角色的权限的 API 接口

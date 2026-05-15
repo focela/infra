@@ -1,9 +1,9 @@
 package com.focela.platform.system.service.notify;
 
 import cn.hutool.core.map.MapUtil;
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.enums.UserTypeEnum;
-import com.focela.platform.framework.test.core.support.BaseMockitoUnitTest;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.common.enums.UserTypeEnum;
+import com.focela.platform.test.core.support.BaseMockitoUnitTest;
 import com.focela.platform.system.entity.notify.NotifyTemplateEntity;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Assertions;
@@ -15,8 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static cn.hutool.core.util.RandomUtil.randomEle;
-import static com.focela.platform.framework.test.core.utils.AssertUtils.assertServiceException;
-import static com.focela.platform.framework.test.core.utils.RandomUtils.*;
+import static com.focela.platform.test.core.utils.AssertUtils.assertServiceException;
+import static com.focela.platform.test.core.utils.RandomUtils.*;
 import static com.focela.platform.system.constants.ErrorCodeConstants.NOTICE_NOT_FOUND;
 import static com.focela.platform.system.constants.ErrorCodeConstants.NOTIFY_SEND_TEMPLATE_PARAM_MISS;
 import static org.junit.jupiter.api.Assertions.assertEquals;

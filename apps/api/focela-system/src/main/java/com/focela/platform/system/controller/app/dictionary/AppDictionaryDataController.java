@@ -1,8 +1,8 @@
 package com.focela.platform.system.controller.app.dictionary;
 
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.model.CommonResult;
-import com.focela.platform.framework.common.utils.object.BeanUtils;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.common.model.CommonResult;
+import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.system.controller.app.dictionary.dto.AppDictionaryDataResponse;
 import com.focela.platform.system.entity.dictionary.DictionaryDataEntity;
 import com.focela.platform.system.service.dictionary.DictionaryDataService;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.annotation.Resource;
 import java.util.List;
 
-import static com.focela.platform.framework.common.model.CommonResult.success;
+import static com.focela.platform.common.model.CommonResult.success;
 
 @Tag(name = "User App - Dictionary data")
 @RestController

@@ -1,13 +1,13 @@
 package com.focela.platform.system.controller.admin.tenant;
 
-import com.focela.platform.framework.apilog.core.annotation.ApiAccessLog;
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.model.CommonResult;
-import com.focela.platform.framework.common.model.PageParam;
-import com.focela.platform.framework.common.model.PageResult;
-import com.focela.platform.framework.common.utils.object.BeanUtils;
-import com.focela.platform.framework.excel.core.utils.ExcelUtils;
-import com.focela.platform.framework.tenant.core.aop.TenantIgnore;
+import com.focela.platform.apilog.core.annotation.ApiAccessLog;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.common.model.CommonResult;
+import com.focela.platform.common.model.PageParam;
+import com.focela.platform.common.model.PageResult;
+import com.focela.platform.common.utils.object.BeanUtils;
+import com.focela.platform.excel.core.utils.ExcelUtils;
+import com.focela.platform.tenant.core.aop.TenantIgnore;
 import com.focela.platform.system.controller.admin.tenant.dto.TenantPageRequest;
 import com.focela.platform.system.controller.admin.tenant.dto.TenantResponse;
 import com.focela.platform.system.controller.admin.tenant.dto.TenantSaveRequest;
@@ -28,9 +28,9 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-import static com.focela.platform.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
-import static com.focela.platform.framework.common.model.CommonResult.success;
-import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertList;
+import static com.focela.platform.apilog.core.enums.OperateTypeEnum.EXPORT;
+import static com.focela.platform.common.model.CommonResult.success;
+import static com.focela.platform.common.utils.collection.CollectionUtils.convertList;
 
 @Tag(name = "Admin - Tenant")
 @RestController

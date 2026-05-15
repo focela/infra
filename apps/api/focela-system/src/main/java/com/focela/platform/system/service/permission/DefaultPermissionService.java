@@ -4,10 +4,10 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.common.utils.collection.CollectionUtils;
-import com.focela.platform.framework.datapermission.core.annotation.DataPermission;
-import com.focela.platform.framework.common.api.system.permission.dto.DepartmentDataPermissionRpcResponse;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.common.utils.collection.CollectionUtils;
+import com.focela.platform.datapermission.core.annotation.DataPermission;
+import com.focela.platform.common.api.system.permission.dto.DepartmentDataPermissionRpcResponse;
 import com.focela.platform.system.entity.permission.MenuEntity;
 import com.focela.platform.system.entity.permission.RoleEntity;
 import com.focela.platform.system.entity.permission.RoleMenuEntity;
@@ -33,8 +33,8 @@ import jakarta.annotation.Resource;
 import java.util.*;
 import java.util.function.Supplier;
 
-import static com.focela.platform.framework.common.utils.collection.CollectionUtils.convertSet;
-import static com.focela.platform.framework.common.utils.json.JsonUtils.toJsonString;
+import static com.focela.platform.common.utils.collection.CollectionUtils.convertSet;
+import static com.focela.platform.common.utils.json.JsonUtils.toJsonString;
 
 /**
  * 权限 Service 实现类

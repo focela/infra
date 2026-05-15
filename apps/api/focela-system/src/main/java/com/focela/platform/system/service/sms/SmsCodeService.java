@@ -1,6 +1,6 @@
 package com.focela.platform.system.service.sms;
 
-import com.focela.platform.framework.common.exception.ServiceException;
+import com.focela.platform.common.exception.ServiceException;
 import com.focela.platform.system.api.sms.dto.code.SmsCodeValidateRpcRequest;
 import com.focela.platform.system.api.sms.dto.code.SmsCodeSendRpcRequest;
 import com.focela.platform.system.api.sms.dto.code.SmsCodeUseRpcRequest;

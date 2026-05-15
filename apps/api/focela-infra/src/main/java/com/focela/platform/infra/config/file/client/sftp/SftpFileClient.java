@@ -6,7 +6,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.ftp.FtpConfig;
 import cn.hutool.extra.ssh.JschRuntimeException;
 import cn.hutool.extra.ssh.Sftp;
-import com.focela.platform.framework.common.utils.io.FileUtils;
+import com.focela.platform.common.utils.io.FileUtils;
 import com.focela.platform.infra.config.file.client.AbstractFileClient;
 import com.jcraft.jsch.JSch;
 

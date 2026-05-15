@@ -1,7 +1,7 @@
 package com.focela.platform.system.entity.user;
 
-import com.focela.platform.framework.common.enums.CommonStatusEnum;
-import com.focela.platform.framework.tenant.core.db.TenantBaseEntity;
+import com.focela.platform.common.enums.CommonStatusEnum;
+import com.focela.platform.tenant.core.db.TenantBaseEntity;
 import com.focela.platform.system.enums.common.SexEnum;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableField;

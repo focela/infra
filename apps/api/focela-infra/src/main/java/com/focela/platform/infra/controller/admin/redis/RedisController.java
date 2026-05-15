@@ -1,6 +1,6 @@
 package com.focela.platform.infra.controller.admin.redis;
 
-import com.focela.platform.framework.common.model.CommonResult;
+import com.focela.platform.common.model.CommonResult;
 import com.focela.platform.infra.controller.admin.redis.dto.RedisMonitorResponse;
 import com.focela.platform.infra.converter.redis.RedisConverter;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Properties;
 
-import static com.focela.platform.framework.common.model.CommonResult.success;
+import static com.focela.platform.common.model.CommonResult.success;
 
 @Tag(name = "Admin - Redis monitor")
 @RestController
