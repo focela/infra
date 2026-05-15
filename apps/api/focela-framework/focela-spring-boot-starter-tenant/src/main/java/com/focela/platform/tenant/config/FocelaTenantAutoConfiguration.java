@@ -9,6 +9,7 @@ import com.focela.platform.tenant.core.aop.TenantIgnore;
 import com.focela.platform.tenant.core.aop.TenantIgnoreAspect;
 import com.focela.platform.tenant.core.db.TenantDatabaseInterceptor;
 import com.focela.platform.tenant.core.job.TenantJobAspect;
+import com.focela.platform.tenant.core.mq.kafka.TenantKafkaConsumerInitializer;
 import com.focela.platform.tenant.core.mq.rabbitmq.TenantRabbitMQInitializer;
 import com.focela.platform.tenant.core.mq.redis.TenantRedisMessageInterceptor;
 import com.focela.platform.tenant.core.mq.rocketmq.TenantRocketMQInitializer;
@@ -170,6 +171,12 @@ public class FocelaTenantAutoConfiguration {
     @ConditionalOnClass(name = "org.apache.rocketmq.spring.core.RocketMQTemplate")
     public TenantRocketMQInitializer tenantRocketMQInitializer() {
         return new TenantRocketMQInitializer();
+    }
+
+    @Bean
+    @ConditionalOnClass(name = "org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory")
+    public TenantKafkaConsumerInitializer tenantKafkaConsumerInitializer() {
+        return new TenantKafkaConsumerInitializer();
     }
 
     // ========== Job ==========

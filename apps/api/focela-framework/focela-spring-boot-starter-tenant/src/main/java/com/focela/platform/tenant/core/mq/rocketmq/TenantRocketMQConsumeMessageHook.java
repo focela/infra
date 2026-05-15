@@ -6,16 +6,17 @@ import com.focela.platform.tenant.core.context.TenantContextHolder;
 import org.apache.rocketmq.client.hook.ConsumeMessageContext;
 import org.apache.rocketmq.client.hook.ConsumeMessageHook;
 import org.apache.rocketmq.common.message.MessageExt;
-import org.springframework.messaging.handler.invocation.InvocableHandlerMethod;
 
 import java.util.List;
 
 import static com.focela.platform.web.core.utils.WebFrameworkUtils.HEADER_TENANT_ID;
 
 /**
- * Multi-tenant {@link ConsumeMessageHook} implementation for RocketMQ message queue
- *
- * When the Consumer consumes a message, add the tenant ID from the message Header to {@link TenantContextHolder}, implemented via {@link InvocableHandlerMethod}.
+ * Multi-tenant {@link ConsumeMessageHook} that restores the tenant context on
+ * the RocketMQ consumer side. The tenant ID is read from the message user
+ * property set by the producer-side hook, pushed onto
+ * {@link TenantContextHolder} before the listener body runs, and cleared
+ * after consumption completes.
  */
 public class TenantRocketMQConsumeMessageHook implements ConsumeMessageHook {
 
