@@ -29,57 +29,57 @@ public class DefaultDatabaseTableServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testGetTableList() {
-        // 准备参数
+        // prepare parameters
         Long dataSourceConfigId = randomLongId();
-        // mock 方法
+        // mock the method
         DataSourceConfigEntity dataSourceConfig = new DataSourceConfigEntity().setUsername("sa").setPassword("")
                 .setUrl("jdbc:h2:mem:testdb");
         when(dataSourceConfigService.getDataSourceConfig(eq(dataSourceConfigId)))
                 .thenReturn(dataSourceConfig);
 
-        // 调用
+        // invoke
         List<TableInfo> tables = databaseTableService.getTableList(dataSourceConfigId,
-                "config", "参数");
-        // 断言
+                "config", "Parameter");
+        // assert
         assertEquals(1, tables.size());
         assertTableInfo(tables.get(0));
     }
 
     @Test
     public void testGetTable() {
-        // 准备参数
+        // prepare parameters
         Long dataSourceConfigId = randomLongId();
-        // mock 方法
+        // mock the method
         DataSourceConfigEntity dataSourceConfig = new DataSourceConfigEntity().setUsername("sa").setPassword("")
                 .setUrl("jdbc:h2:mem:testdb");
         when(dataSourceConfigService.getDataSourceConfig(eq(dataSourceConfigId)))
                 .thenReturn(dataSourceConfig);
 
-        // 调用
+        // invoke
         TableInfo tableInfo = databaseTableService.getTable(dataSourceConfigId, "infra_config");
-        // 断言
+        // assert
         assertTableInfo(tableInfo);
     }
 
     private void assertTableInfo(TableInfo tableInfo) {
         assertEquals("infra_config", tableInfo.getName());
-        assertEquals("参数配置表", tableInfo.getComment());
+        assertEquals("Parameter configuration table", tableInfo.getComment());
         assertEquals(13, tableInfo.getFields().size());
-        // id 字段
+        // id field
         TableField idField = tableInfo.getFields().get(0);
         assertEquals("id", idField.getName());
         assertEquals(JdbcType.BIGINT, idField.getMetaInfo().getJdbcType());
-        assertEquals("编号", idField.getComment());
+        assertEquals("ID", idField.getComment());
         assertFalse(idField.getMetaInfo().isNullable());
         assertTrue(idField.isKeyFlag());
         assertTrue(idField.isKeyIdentityFlag());
         assertEquals(DbColumnType.LONG, idField.getColumnType());
         assertEquals("id", idField.getPropertyName());
-        // name 字段
+        // name field
         TableField nameField = tableInfo.getFields().get(3);
         assertEquals("name", nameField.getName());
         assertEquals(JdbcType.VARCHAR, nameField.getMetaInfo().getJdbcType());
-        assertEquals("名字", nameField.getComment());
+        assertEquals("Name", nameField.getComment());
         assertFalse(nameField.getMetaInfo().isNullable());
         assertFalse(nameField.isKeyFlag());
         assertFalse(nameField.isKeyIdentityFlag());
