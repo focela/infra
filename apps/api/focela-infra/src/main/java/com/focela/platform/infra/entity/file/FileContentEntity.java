@@ -2,7 +2,7 @@ package com.focela.platform.infra.entity.file;
 
 import com.focela.platform.framework.mybatis.core.entity.BaseEntity;
 import com.focela.platform.framework.tenant.core.aop.TenantIgnore;
-import com.focela.platform.infra.config.file.core.client.db.DBFileClient;
+import com.focela.platform.infra.config.file.client.db.DBFileClient;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;

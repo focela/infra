@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.system.controller.admin.sms.dto.channel.SmsChannelPageRequest;
 import com.focela.platform.system.controller.admin.sms.dto.channel.SmsChannelSaveRequest;
 import com.focela.platform.system.entity.sms.SmsChannelEntity;
-import com.focela.platform.system.config.sms.core.client.SmsClient;
+import com.focela.platform.system.config.sms.client.SmsClient;
 import jakarta.validation.Valid;
 
 import java.util.List;

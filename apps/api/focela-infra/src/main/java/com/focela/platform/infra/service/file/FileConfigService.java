@@ -4,7 +4,7 @@ import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.infra.controller.admin.file.dto.config.FileConfigPageRequest;
 import com.focela.platform.infra.controller.admin.file.dto.config.FileConfigSaveRequest;
 import com.focela.platform.infra.entity.file.FileConfigEntity;
-import com.focela.platform.infra.config.file.core.client.FileClient;
+import com.focela.platform.infra.config.file.client.FileClient;
 import jakarta.validation.Valid;
 
 import java.util.List;

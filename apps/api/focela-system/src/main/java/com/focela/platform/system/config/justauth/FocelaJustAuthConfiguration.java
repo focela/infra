@@ -1,6 +1,6 @@
 package com.focela.platform.system.config.justauth;
 
-import com.focela.platform.system.config.justauth.core.AuthRequestFactory;
+import com.focela.platform.system.config.justauth.AuthRequestFactory;
 import com.xkcoding.justauth.autoconfigure.JustAuthProperties;
 import com.xkcoding.justauth.support.cache.RedisStateCache;
 import me.zhyd.oauth.cache.AuthStateCache;

@@ -3,7 +3,7 @@ package com.focela.platform.system.controller.admin.sms;
 import com.focela.platform.framework.common.model.CommonResult;
 import com.focela.platform.framework.common.utils.servlet.ServletUtils;
 import com.focela.platform.framework.tenant.core.aop.TenantIgnore;
-import com.focela.platform.system.config.sms.core.enums.SmsChannelEnum;
+import com.focela.platform.system.config.sms.enums.SmsChannelEnum;
 import com.focela.platform.system.service.sms.SmsSendService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

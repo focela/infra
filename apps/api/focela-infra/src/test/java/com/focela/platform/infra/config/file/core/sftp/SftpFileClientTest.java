@@ -1,9 +1,9 @@
-package com.focela.platform.infra.config.file.core.sftp;
+package com.focela.platform.infra.config.file.sftp;
 
 import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.util.IdUtil;
-import com.focela.platform.infra.config.file.core.client.sftp.SftpFileClient;
-import com.focela.platform.infra.config.file.core.client.sftp.SftpFileClientConfig;
+import com.focela.platform.infra.config.file.client.sftp.SftpFileClient;
+import com.focela.platform.infra.config.file.client.sftp.SftpFileClientConfig;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

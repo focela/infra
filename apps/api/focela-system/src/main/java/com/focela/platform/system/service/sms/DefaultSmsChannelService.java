@@ -6,9 +6,9 @@ import com.focela.platform.system.controller.admin.sms.dto.channel.SmsChannelPag
 import com.focela.platform.system.controller.admin.sms.dto.channel.SmsChannelSaveRequest;
 import com.focela.platform.system.entity.sms.SmsChannelEntity;
 import com.focela.platform.system.repository.mapper.sms.SmsChannelMapper;
-import com.focela.platform.system.config.sms.core.client.SmsClient;
-import com.focela.platform.system.config.sms.core.client.SmsClientFactory;
-import com.focela.platform.system.config.sms.core.property.SmsChannelProperties;
+import com.focela.platform.system.config.sms.client.SmsClient;
+import com.focela.platform.system.config.sms.client.SmsClientFactory;
+import com.focela.platform.system.config.sms.property.SmsChannelProperties;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

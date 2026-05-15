@@ -10,10 +10,10 @@ import com.focela.platform.infra.controller.admin.file.dto.config.FileConfigSave
 import com.focela.platform.infra.converter.file.FileConfigConverter;
 import com.focela.platform.infra.entity.file.FileConfigEntity;
 import com.focela.platform.infra.repository.mapper.file.FileConfigMapper;
-import com.focela.platform.infra.config.file.core.client.FileClient;
-import com.focela.platform.infra.config.file.core.client.FileClientConfig;
-import com.focela.platform.infra.config.file.core.client.FileClientFactory;
-import com.focela.platform.infra.config.file.core.enums.FileStorageEnum;
+import com.focela.platform.infra.config.file.client.FileClient;
+import com.focela.platform.infra.config.file.client.FileClientConfig;
+import com.focela.platform.infra.config.file.client.FileClientFactory;
+import com.focela.platform.infra.config.file.enums.FileStorageEnum;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import jakarta.annotation.Resource;

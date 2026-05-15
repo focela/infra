@@ -1,11 +1,11 @@
-package com.focela.platform.system.config.sms.core.client.impl;
+package com.focela.platform.system.config.sms.client.impl;
 
 import cn.hutool.core.collection.ListUtil;
 import com.focela.platform.framework.common.core.KeyValue;
-import com.focela.platform.system.config.sms.core.client.SmsClient;
-import com.focela.platform.system.config.sms.core.client.dto.SmsSendRpcResponse;
-import com.focela.platform.system.config.sms.core.client.dto.SmsTemplateRpcResponse;
-import com.focela.platform.system.config.sms.core.property.SmsChannelProperties;
+import com.focela.platform.system.config.sms.client.SmsClient;
+import com.focela.platform.system.config.sms.client.dto.SmsSendRpcResponse;
+import com.focela.platform.system.config.sms.client.dto.SmsTemplateRpcResponse;
+import com.focela.platform.system.config.sms.property.SmsChannelProperties;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

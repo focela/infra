@@ -1,11 +1,11 @@
-package com.focela.platform.system.config.sms.core.client.impl;
+package com.focela.platform.system.config.sms.client.impl;
 
 import com.focela.platform.framework.common.core.KeyValue;
 import com.focela.platform.framework.common.utils.http.HttpUtils;
 import com.focela.platform.framework.test.core.support.BaseMockitoUnitTest;
-import com.focela.platform.system.config.sms.core.client.dto.SmsReceiveRpcResponse;
-import com.focela.platform.system.config.sms.core.client.dto.SmsSendRpcResponse;
-import com.focela.platform.system.config.sms.core.property.SmsChannelProperties;
+import com.focela.platform.system.config.sms.client.dto.SmsReceiveRpcResponse;
+import com.focela.platform.system.config.sms.client.dto.SmsSendRpcResponse;
+import com.focela.platform.system.config.sms.property.SmsChannelProperties;
 import com.google.common.collect.Lists;
 
 import org.junit.jupiter.api.Test;

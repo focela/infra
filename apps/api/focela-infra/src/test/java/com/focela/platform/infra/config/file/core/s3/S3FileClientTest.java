@@ -1,10 +1,10 @@
-package com.focela.platform.infra.config.file.core.s3;
+package com.focela.platform.infra.config.file.s3;
 
 import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.util.IdUtil;
 import com.focela.platform.framework.common.utils.validation.ValidationUtils;
-import com.focela.platform.infra.config.file.core.client.s3.S3FileClient;
-import com.focela.platform.infra.config.file.core.client.s3.S3FileClientConfig;
+import com.focela.platform.infra.config.file.client.s3.S3FileClient;
+import com.focela.platform.infra.config.file.client.s3.S3FileClientConfig;
 import jakarta.validation.Validation;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

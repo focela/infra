@@ -1,6 +1,6 @@
 package com.focela.platform.system.config.captcha;
 
-import com.focela.platform.system.config.captcha.core.DefaultRedisCaptchaService;
+import com.focela.platform.system.config.captcha.DefaultRedisCaptchaService;
 import com.anji.captcha.config.AjCaptchaAutoConfiguration;
 import com.anji.captcha.properties.AjCaptchaProperties;
 import com.anji.captcha.service.CaptchaCacheService;

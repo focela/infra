@@ -1,10 +1,10 @@
-package com.focela.platform.infra.config.file.core.ftp;
+package com.focela.platform.infra.config.file.ftp;
 
 import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.extra.ftp.FtpMode;
-import com.focela.platform.infra.config.file.core.client.ftp.FtpFileClient;
-import com.focela.platform.infra.config.file.core.client.ftp.FtpFileClientConfig;
+import com.focela.platform.infra.config.file.client.ftp.FtpFileClient;
+import com.focela.platform.infra.config.file.client.ftp.FtpFileClientConfig;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

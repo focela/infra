@@ -1,9 +1,9 @@
-package com.focela.platform.infra.config.file.core.local;
+package com.focela.platform.infra.config.file.local;
 
 import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.util.IdUtil;
-import com.focela.platform.infra.config.file.core.client.local.LocalFileClient;
-import com.focela.platform.infra.config.file.core.client.local.LocalFileClientConfig;
+import com.focela.platform.infra.config.file.client.local.LocalFileClient;
+import com.focela.platform.infra.config.file.client.local.LocalFileClientConfig;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
