@@ -1,4 +1,4 @@
-### 请求 /login 接口 => 成功
+### Request /login endpoint => success
 POST {{baseUrl}}/system/oauth2-client/create
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -7,9 +7,9 @@ tenant-id: {{adminTenantId}}
 {
   "id": "1",
   "secret": "admin123",
-  "name": "芋道源码",
+  "name": "Focela",
   "logo": "https://www.iocoder.cn/images/favicon.ico",
-  "description": "我是描述",
+  "description": "Description",
   "status": 0,
   "accessTokenValiditySeconds": 180,
   "refreshTokenValiditySeconds": 8640,

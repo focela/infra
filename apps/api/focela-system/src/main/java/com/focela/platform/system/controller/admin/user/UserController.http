@@ -1,10 +1,10 @@
-### 请求 /system/user/page 接口 => 没有权限
+### Request /system/user/page endpoint => no permission
 GET {{baseUrl}}/system/user/page?pageNo=1&pageSize=10
 Authorization: Bearer {{token}}
 #Authorization: Bearer test100
 tenant-id: {{adminTenantId}}
 
-### 请求 /system/user/page 接口（测试访问别的租户）
+### Request /system/user/page endpoint (test accessing another tenant)
 GET {{baseUrl}}/system/user/page?pageNo=1&pageSize=10
 Authorization: Bearer {{token}}
 tenant-id: {{adminTenantId}}
