@@ -109,8 +109,8 @@ public class ConfigController {
                              HttpServletResponse response) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
         List<ConfigEntity> list = configService.getConfigPage(exportRequest).getList();
-        // 输出
-        ExcelUtils.write(response, "参数配置.xls", "数据", ConfigResponse.class,
+        // Output
+        ExcelUtils.write(response, "Param config.xls", "Data", ConfigResponse.class,
                 ConfigConverter.INSTANCE.convertList(list));
     }
 

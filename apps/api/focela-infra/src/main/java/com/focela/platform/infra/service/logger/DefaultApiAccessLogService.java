@@ -20,7 +20,7 @@ import static com.focela.platform.infra.entity.logger.ApiAccessLogEntity.REQUEST
 import static com.focela.platform.infra.entity.logger.ApiAccessLogEntity.RESULT_MSG_MAX_LENGTH;
 
 /**
- * API 访问日志 Service 实现类
+ * Implementation class of the API access log Service
  */
 @Slf4j
 @Service
@@ -38,7 +38,7 @@ public class DefaultApiAccessLogService implements ApiAccessLogService {
         if (TenantContextHolder.getTenantId() != null) {
             apiAccessLogMapper.insert(apiAccessLog);
         } else {
-            // 极端情况下，上下文中没有租户时，此时忽略租户上下文，避免插入失败！
+            // In extreme cases the context has no tenant; ignore the tenant context to avoid insert failure.
             TenantUtils.executeIgnore(() -> apiAccessLogMapper.insert(apiAccessLog));
         }
     }
@@ -58,11 +58,11 @@ public class DefaultApiAccessLogService implements ApiAccessLogService {
     public Integer cleanAccessLog(Integer exceedDay, Integer deleteLimit) {
         int count = 0;
         LocalDateTime expireDate = LocalDateTime.now().minusDays(exceedDay);
-        // 循环删除，直到没有满足条件的数据
+        // Delete in a loop until no more matching records remain
         for (int i = 0; i < Short.MAX_VALUE; i++) {
             int deleteCount = apiAccessLogMapper.deleteByCreateTimeLt(expireDate, deleteLimit);
             count += deleteCount;
-            // 达到删除预期条数，说明到底了
+            // Reached the deletion limit, meaning end of batch
             if (deleteCount < deleteLimit) {
                 break;
             }

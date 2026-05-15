@@ -36,15 +36,15 @@ public class DefaultConfigServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testCreateConfig_success() {
-        // 准备参数
+        // Prepare parameters
         ConfigSaveRequest request = randomPojo(ConfigSaveRequest.class)
-                .setId(null); // 防止 id 被赋值，导致唯一性校验失败
+                .setId(null); // prevent id assignment which would fail the uniqueness check
 
-        // 调用
+        // Invoke
         Long configId = configService.createConfig(request);
-        // 断言
+        // Assert
         assertNotNull(configId);
-        // 校验记录的属性是否正确
+        // Verify record properties are correct
         ConfigEntity config = configMapper.selectById(configId);
         assertPojoEquals(request, config, "id");
         assertEquals(ConfigTypeEnum.CUSTOM.getType(), config.getType());
@@ -52,58 +52,58 @@ public class DefaultConfigServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testUpdateConfig_success() {
-        // mock 数据
+        // mock data
         ConfigEntity dbConfig = randomConfigDO();
-        configMapper.insert(dbConfig);// @Sql: 先插入出一条存在的数据
-        // 准备参数
+        configMapper.insert(dbConfig);// @Sql: first insert an existing record
+        // Prepare parameters
         ConfigSaveRequest request = randomPojo(ConfigSaveRequest.class, o -> {
-            o.setId(dbConfig.getId()); // 设置更新的 ID
+            o.setId(dbConfig.getId()); // set the ID to update
         });
 
-        // 调用
+        // Invoke
         configService.updateConfig(request);
-        // 校验是否更新正确
-        ConfigEntity config = configMapper.selectById(request.getId()); // 获取最新的
+        // Verify update is correct
+        ConfigEntity config = configMapper.selectById(request.getId()); // get the latest
         assertPojoEquals(request, config);
     }
 
     @Test
     public void testDeleteConfig_success() {
-        // mock 数据
+        // mock data
         ConfigEntity dbConfig = randomConfigDO(o -> {
-            o.setType(ConfigTypeEnum.CUSTOM.getType()); // 只能删除 CUSTOM 类型
+            o.setType(ConfigTypeEnum.CUSTOM.getType()); // only CUSTOM type can be deleted
         });
-        configMapper.insert(dbConfig);// @Sql: 先插入出一条存在的数据
-        // 准备参数
+        configMapper.insert(dbConfig);// @Sql: first insert an existing record
+        // Prepare parameters
         Long id = dbConfig.getId();
 
-        // 调用
+        // Invoke
         configService.deleteConfig(id);
-        // 校验数据不存在了
+        // Verify data no longer exists
         assertNull(configMapper.selectById(id));
     }
 
     @Test
     public void testDeleteConfig_canNotDeleteSystemType() {
-        // mock 数据
+        // mock data
         ConfigEntity dbConfig = randomConfigDO(o -> {
-            o.setType(ConfigTypeEnum.SYSTEM.getType()); // SYSTEM 不允许删除
+            o.setType(ConfigTypeEnum.SYSTEM.getType()); // SYSTEM is not allowed to be deleted
         });
-        configMapper.insert(dbConfig);// @Sql: 先插入出一条存在的数据
-        // 准备参数
+        configMapper.insert(dbConfig);// @Sql: first insert an existing record
+        // Prepare parameters
         Long id = dbConfig.getId();
 
-        // 调用, 并断言异常
+        // Invoke and verify exception
         assertServiceException(() -> configService.deleteConfig(id), CONFIG_CAN_NOT_DELETE_SYSTEM_TYPE);
     }
 
     @Test
     public void testValidateConfigExists_success() {
-        // mock 数据
+        // mock data
         ConfigEntity dbConfigDO = randomConfigDO();
-        configMapper.insert(dbConfigDO);// @Sql: 先插入出一条存在的数据
+        configMapper.insert(dbConfigDO);// @Sql: first insert an existing record
 
-        // 调用成功
+        // Invoke; succeeds
         configService.validateConfigExists(dbConfigDO.getId());
     }
 
@@ -114,63 +114,63 @@ public class DefaultConfigServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testValidateConfigKeyUnique_success() {
-        // 调用，成功
+        // Invoke; succeeds
         configService.validateConfigKeyUnique(randomLongId(), randomString());
     }
 
     @Test
     public void testValidateConfigKeyUnique_keyDuplicateForCreate() {
-        // 准备参数
+        // Prepare parameters
         String key = randomString();
-        // mock 数据
+        // mock data
         configMapper.insert(randomConfigDO(o -> o.setConfigKey(key)));
 
-        // 调用，校验异常
+        // Invoke and verify exception
         assertServiceException(() -> configService.validateConfigKeyUnique(null, key),
                 CONFIG_KEY_DUPLICATE);
     }
 
     @Test
     public void testValidateConfigKeyUnique_keyDuplicateForUpdate() {
-        // 准备参数
+        // Prepare parameters
         Long id = randomLongId();
         String key = randomString();
-        // mock 数据
+        // mock data
         configMapper.insert(randomConfigDO(o -> o.setConfigKey(key)));
 
-        // 调用，校验异常
+        // Invoke and verify exception
         assertServiceException(() -> configService.validateConfigKeyUnique(id, key),
                 CONFIG_KEY_DUPLICATE);
     }
 
     @Test
     public void testGetConfigPage() {
-        // mock 数据
-        ConfigEntity dbConfig = randomConfigDO(o -> { // 等会查询到
-            o.setName("芋艿");
-            o.setConfigKey("yunai");
+        // mock data
+        ConfigEntity dbConfig = randomConfigDO(o -> { // will be queried later
+            o.setName("focela");
+            o.setConfigKey("focela-key");
             o.setType(ConfigTypeEnum.SYSTEM.getType());
             o.setCreateTime(buildTime(2021, 2, 1));
         });
         configMapper.insert(dbConfig);
-        // 测试 name 不匹配
-        configMapper.insert(cloneIgnoreId(dbConfig, o -> o.setName("土豆")));
-        // 测试 key 不匹配
-        configMapper.insert(cloneIgnoreId(dbConfig, o -> o.setConfigKey("tudou")));
-        // 测试 type 不匹配
+        // Test name mismatch
+        configMapper.insert(cloneIgnoreId(dbConfig, o -> o.setName("potato")));
+        // Test key mismatch
+        configMapper.insert(cloneIgnoreId(dbConfig, o -> o.setConfigKey("potato")));
+        // Test type mismatch
         configMapper.insert(cloneIgnoreId(dbConfig, o -> o.setType(ConfigTypeEnum.CUSTOM.getType())));
-        // 测试 createTime 不匹配
+        // Test createTime mismatch
         configMapper.insert(cloneIgnoreId(dbConfig, o -> o.setCreateTime(buildTime(2021, 1, 1))));
-        // 准备参数
+        // Prepare parameters
         ConfigPageRequest request = new ConfigPageRequest();
-        request.setName("艿");
-        request.setKey("nai");
+        request.setName("focela");
+        request.setKey("focela");
         request.setType(ConfigTypeEnum.SYSTEM.getType());
         request.setCreateTime(buildBetweenTime(2021, 1, 15, 2021, 2, 15));
 
-        // 调用
+        // Invoke
         PageResult<ConfigEntity> pageResult = configService.getConfigPage(request);
-        // 断言
+        // Assert
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
         assertPojoEquals(dbConfig, pageResult.getList().get(0));
@@ -178,40 +178,40 @@ public class DefaultConfigServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testGetConfig() {
-        // mock 数据
+        // mock data
         ConfigEntity dbConfig = randomConfigDO();
-        configMapper.insert(dbConfig);// @Sql: 先插入出一条存在的数据
-        // 准备参数
+        configMapper.insert(dbConfig);// @Sql: first insert an existing record
+        // Prepare parameters
         Long id = dbConfig.getId();
 
-        // 调用
+        // Invoke
         ConfigEntity config = configService.getConfig(id);
-        // 断言
+        // Assert
         assertNotNull(config);
         assertPojoEquals(dbConfig, config);
     }
 
     @Test
     public void testGetConfigByKey() {
-        // mock 数据
+        // mock data
         ConfigEntity dbConfig = randomConfigDO();
-        configMapper.insert(dbConfig);// @Sql: 先插入出一条存在的数据
-        // 准备参数
+        configMapper.insert(dbConfig);// @Sql: first insert an existing record
+        // Prepare parameters
         String key = dbConfig.getConfigKey();
 
-        // 调用
+        // Invoke
         ConfigEntity config = configService.getConfigByKey(key);
-        // 断言
+        // Assert
         assertNotNull(config);
         assertPojoEquals(dbConfig, config);
     }
 
-    // ========== 随机对象 ==========
+    // ========== Random objects ==========
 
     @SafeVarargs
     private static ConfigEntity randomConfigDO(Consumer<ConfigEntity>... consumers) {
         Consumer<ConfigEntity> consumer = (o) -> {
-            o.setType(randomEle(ConfigTypeEnum.values()).getType()); // 保证 key 的范围
+            o.setType(randomEle(ConfigTypeEnum.values()).getType()); // keep the key range constrained
         };
         return RandomUtils.randomPojo(ConfigEntity.class, ArrayUtils.append(consumer, consumers));
     }

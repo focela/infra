@@ -32,37 +32,37 @@ public class DefaultJobLogServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testCreateJobLog() {
-        // 准备参数
+        // Prepare parameters
         JobLogEntity request = randomPojo(JobLogEntity.class, o -> o.setExecuteIndex(1));
 
-        // 调用
+        // Invoke
         Long id = jobLogService.createJobLog(request.getJobId(), request.getBeginTime(),
                 request.getHandlerName(), request.getHandlerParam(), request.getExecuteIndex());
-        // 断言
+        // Assert
         assertNotNull(id);
-        // 校验记录的属性是否正确
+        // Verify record properties are correct
         JobLogEntity job = jobLogMapper.selectById(id);
         assertEquals(JobLogStatusEnum.RUNNING.getStatus(), job.getStatus());
     }
 
     @Test
     public void testUpdateJobLogResultAsync_success() {
-        // mock 数据
+        // mock data
         JobLogEntity log = randomPojo(JobLogEntity.class, o -> {
             o.setExecuteIndex(1);
             o.setStatus(JobLogStatusEnum.RUNNING.getStatus());
         });
         jobLogMapper.insert(log);
-        // 准备参数
+        // Prepare parameters
         Long logId = log.getId();
         LocalDateTime endTime = randomLocalDateTime();
         Integer duration = randomInteger();
         boolean success = true;
         String result = randomString();
 
-        // 调用
+        // Invoke
         jobLogService.updateJobLogResultAsync(logId, endTime, duration, success, result);
-        // 校验记录的属性是否正确
+        // Verify record properties are correct
         JobLogEntity dbLog = jobLogMapper.selectById(log.getId());
         assertEquals(endTime, dbLog.getEndTime());
         assertEquals(duration, dbLog.getDuration());
@@ -72,22 +72,22 @@ public class DefaultJobLogServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testUpdateJobLogResultAsync_failure() {
-        // mock 数据
+        // mock data
         JobLogEntity log = randomPojo(JobLogEntity.class, o -> {
             o.setExecuteIndex(1);
             o.setStatus(JobLogStatusEnum.RUNNING.getStatus());
         });
         jobLogMapper.insert(log);
-        // 准备参数
+        // Prepare parameters
         Long logId = log.getId();
         LocalDateTime endTime = randomLocalDateTime();
         Integer duration = randomInteger();
         boolean success = false;
         String result = randomString();
 
-        // 调用
+        // Invoke
         jobLogService.updateJobLogResultAsync(logId, endTime, duration, success, result);
-        // 校验记录的属性是否正确
+        // Verify record properties are correct
         JobLogEntity dbLog = jobLogMapper.selectById(log.getId());
         assertEquals(endTime, dbLog.getEndTime());
         assertEquals(duration, dbLog.getDuration());
@@ -97,73 +97,73 @@ public class DefaultJobLogServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testCleanJobLog() {
-        // mock 数据
+        // mock data
         JobLogEntity log01 = randomPojo(JobLogEntity.class, o -> o.setCreateTime(addTime(Duration.ofDays(-3))))
                 .setExecuteIndex(1);
         jobLogMapper.insert(log01);
         JobLogEntity log02 = randomPojo(JobLogEntity.class, o -> o.setCreateTime(addTime(Duration.ofDays(-1))))
                 .setExecuteIndex(1);
         jobLogMapper.insert(log02);
-        // 准备参数
+        // Prepare parameters
         Integer exceedDay = 2;
         Integer deleteLimit = 1;
 
-        // 调用
+        // Invoke
         Integer count = jobLogService.cleanJobLog(exceedDay, deleteLimit);
-        // 断言
+        // Assert
         assertEquals(1, count);
         List<JobLogEntity> logs = jobLogMapper.selectList();
         assertEquals(1, logs.size());
-        // TODO:  createTime updateTime 被屏蔽，仅 win11 会复现，建议后续修复。
+        // TODO: createTime and updateTime are blocked; reproduces on win11 only — follow-up fix recommended.
         assertPojoEquals(log02, logs.get(0), "createTime", "updateTime");
     }
 
     @Test
     public void testGetJobLog() {
-        // mock 数据
+        // mock data
         JobLogEntity dbJobLog = randomPojo(JobLogEntity.class, o -> o.setExecuteIndex(1));
         jobLogMapper.insert(dbJobLog);
-        // 准备参数
+        // Prepare parameters
         Long id = dbJobLog.getId();
 
-        // 调用
+        // Invoke
         JobLogEntity jobLog = jobLogService.getJobLog(id);
-        // 断言
+        // Assert
         assertPojoEquals(dbJobLog, jobLog);
     }
 
     @Test
     public void testGetJobPage() {
-        // mock 数据
+        // mock data
         JobLogEntity dbJobLog = randomPojo(JobLogEntity.class, o -> {
             o.setExecuteIndex(1);
-            o.setHandlerName("handlerName 单元测试");
+            o.setHandlerName("handlerName unit test");
             o.setStatus(JobLogStatusEnum.SUCCESS.getStatus());
             o.setBeginTime(buildTime(2021, 1, 8));
             o.setEndTime(buildTime(2021, 1, 8));
         });
         jobLogMapper.insert(dbJobLog);
-        // 测试 jobId 不匹配
+        // Test jobId mismatch
         jobLogMapper.insert(cloneIgnoreId(dbJobLog, o -> o.setJobId(randomLongId())));
-        // 测试 handlerName 不匹配
+        // Test handlerName mismatch
         jobLogMapper.insert(cloneIgnoreId(dbJobLog, o -> o.setHandlerName(randomString())));
-        // 测试 beginTime 不匹配
+        // Test beginTime mismatch
         jobLogMapper.insert(cloneIgnoreId(dbJobLog, o -> o.setBeginTime(buildTime(2021, 1, 7))));
-        // 测试 endTime 不匹配
+        // Test endTime mismatch
         jobLogMapper.insert(cloneIgnoreId(dbJobLog, o -> o.setEndTime(buildTime(2021, 1, 9))));
-        // 测试 status 不匹配
+        // Test status mismatch
         jobLogMapper.insert(cloneIgnoreId(dbJobLog, o -> o.setStatus(JobLogStatusEnum.FAILURE.getStatus())));
-        // 准备参数
+        // Prepare parameters
         JobLogPageRequest reqVo = new JobLogPageRequest();
         reqVo.setJobId(dbJobLog.getJobId());
-        reqVo.setHandlerName("单元");
+        reqVo.setHandlerName("unit");
         reqVo.setBeginTime(dbJobLog.getBeginTime());
         reqVo.setEndTime(dbJobLog.getEndTime());
         reqVo.setStatus(JobLogStatusEnum.SUCCESS.getStatus());
 
-        // 调用
+        // Invoke
         PageResult<JobLogEntity> pageResult = jobLogService.getJobLogPage(reqVo);
-        // 断言
+        // Assert
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
         assertPojoEquals(dbJobLog, pageResult.getList().get(0));

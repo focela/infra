@@ -10,77 +10,77 @@ import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
 
 /**
- * 文件 Service 接口
+ * File Service interface
  */
 public interface FileService {
 
     /**
-     * 获得文件分页
+     * Get a paged list of files.
      *
-     * @param pageRequest 分页查询
-     * @return 文件分页
+     * @param pageRequest paged query
+     * @return paged files
      */
     PageResult<FileEntity> getFilePage(FilePageRequest pageRequest);
 
     /**
-     * 保存文件，并返回文件的访问路径
+     * Save a file and return the access path.
      *
-     * @param content   文件内容
-     * @param name      文件名称，允许空
-     * @param directory 目录，允许空
-     * @param type      文件的 MIME 类型，允许空
-     * @return 文件路径
+     * @param content   file content
+     * @param name      file name, may be empty
+     * @param directory directory, may be empty
+     * @param type      MIME type of the file, may be empty
+     * @return file path
      */
     String createFile(@NotEmpty(message = "file content must not be blank") byte[] content,
                       String name, String directory, String type);
 
     /**
-     * 生成文件预签名地址信息，用于上传
+     * Generate a presigned URL for uploading the file.
      *
-     * @param name      文件名
-     * @param directory 目录
-     * @return 预签名地址信息
+     * @param name      file name
+     * @param directory directory
+     * @return presigned URL info
      */
     FilePresignedUrlResponse presignPutUrl(@NotEmpty(message = "file name must not be blank") String name,
                                          String directory);
     /**
-     * 生成文件预签名地址信息，用于读取
+     * Generate a presigned URL for reading the file.
      *
-     * @param url 完整的文件访问地址
-     * @param expirationSeconds 访问有效期，单位秒
-     * @return 文件预签名地址
+     * @param url full file access URL
+     * @param expirationSeconds expiration in seconds
+     * @return presigned URL
      */
     String presignGetUrl(String url, Integer expirationSeconds);
 
     /**
-     * 创建文件
+     * Create a file record.
      *
-     * @param createRequest 创建信息
-     * @return 编号
+     * @param createRequest creation info
+     * @return ID
      */
     Long createFile(FileCreateRequest createRequest);
     FileEntity getFile(Long id);
 
     /**
-     * 删除文件
+     * Delete a file.
      *
-     * @param id 编号
+     * @param id ID
      */
     void deleteFile(Long id) throws Exception;
 
     /**
-     * 批量删除文件
+     * Batch delete files.
      *
-     * @param ids 编号列表
+     * @param ids ID list
      */
     void deleteFileList(List<Long> ids) throws Exception;
 
     /**
-     * 获得文件内容
+     * Get file content.
      *
-     * @param configId 配置编号
-     * @param path     文件路径
-     * @return 文件内容
+     * @param configId config ID
+     * @param path     file path
+     * @return file content
      */
     byte[] getFileContent(Long configId, String path) throws Exception;
 

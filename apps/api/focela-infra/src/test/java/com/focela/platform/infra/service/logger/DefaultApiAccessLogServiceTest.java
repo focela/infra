@@ -35,40 +35,40 @@ public class DefaultApiAccessLogServiceTest extends BaseDbUnitTest {
         ApiAccessLogEntity apiAccessLogDO = randomPojo(ApiAccessLogEntity.class, o -> {
             o.setUserId(2233L);
             o.setUserType(UserTypeEnum.ADMIN.getValue());
-            o.setApplicationName("yudao-test");
+            o.setApplicationName("focela-test");
             o.setRequestUrl("foo");
             o.setBeginTime(buildTime(2021, 3, 13));
             o.setDuration(1000);
             o.setResultCode(GlobalErrorCodeConstants.SUCCESS.getCode());
         });
         apiAccessLogMapper.insert(apiAccessLogDO);
-        // 测试 userId 不匹配
+        // Test userId mismatch
         apiAccessLogMapper.insert(cloneIgnoreId(apiAccessLogDO, o -> o.setUserId(3344L)));
-        // 测试 userType 不匹配
+        // Test userType mismatch
         apiAccessLogMapper.insert(cloneIgnoreId(apiAccessLogDO, o -> o.setUserType(UserTypeEnum.MEMBER.getValue())));
-        // 测试 applicationName 不匹配
+        // Test applicationName mismatch
         apiAccessLogMapper.insert(cloneIgnoreId(apiAccessLogDO, o -> o.setApplicationName("test")));
-        // 测试 requestUrl 不匹配
+        // Test requestUrl mismatch
         apiAccessLogMapper.insert(cloneIgnoreId(apiAccessLogDO, o -> o.setRequestUrl("bar")));
-        // 测试 beginTime 不匹配：构造一个早期时间 2021-02-06 00:00:00
+        // Test beginTime mismatch: construct an earlier timestamp 2021-02-06 00:00:00
         apiAccessLogMapper.insert(cloneIgnoreId(apiAccessLogDO, o -> o.setBeginTime(buildTime(2021, 2, 6))));
-        // 测试 duration 不匹配
+        // Test duration mismatch
         apiAccessLogMapper.insert(cloneIgnoreId(apiAccessLogDO, o -> o.setDuration(100)));
-        // 测试 resultCode 不匹配
+        // Test resultCode mismatch
         apiAccessLogMapper.insert(cloneIgnoreId(apiAccessLogDO, o -> o.setResultCode(2)));
-        // 准备参数
+        // Prepare parameters
         ApiAccessLogPageRequest request = new ApiAccessLogPageRequest();
         request.setUserId(2233L);
         request.setUserType(UserTypeEnum.ADMIN.getValue());
-        request.setApplicationName("yudao-test");
+        request.setApplicationName("focela-test");
         request.setRequestUrl("foo");
         request.setBeginTime(buildBetweenTime(2021, 3, 13, 2021, 3, 13));
         request.setDuration(1000);
         request.setResultCode(GlobalErrorCodeConstants.SUCCESS.getCode());
 
-        // 调用
+        // Invoke
         PageResult<ApiAccessLogEntity> pageResult = apiAccessLogService.getApiAccessLogPage(request);
-        // 断言，只查到了一条符合条件的
+        // Assert that only one matching record is returned
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
         assertPojoEquals(apiAccessLogDO, pageResult.getList().get(0));
@@ -76,33 +76,33 @@ public class DefaultApiAccessLogServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testCleanJobLog() {
-        // mock 数据
+        // mock data
         ApiAccessLogEntity log01 = randomPojo(ApiAccessLogEntity.class, o -> o.setCreateTime(addTime(Duration.ofDays(-3))));
         apiAccessLogMapper.insert(log01);
         ApiAccessLogEntity log02 = randomPojo(ApiAccessLogEntity.class, o -> o.setCreateTime(addTime(Duration.ofDays(-1))));
         apiAccessLogMapper.insert(log02);
-        // 准备参数
+        // Prepare parameters
         Integer exceedDay = 2;
         Integer deleteLimit = 1;
 
-        // 调用
+        // Invoke
         Integer count = apiAccessLogService.cleanAccessLog(exceedDay, deleteLimit);
-        // 断言
+        // Assert
         assertEquals(1, count);
         List<ApiAccessLogEntity> logs = apiAccessLogMapper.selectList();
         assertEquals(1, logs.size());
-        // TODO:  createTime updateTime 被屏蔽，仅 win11 会复现，建议后续修复。
+        // TODO: createTime and updateTime are blocked; reproduces on win11 only — follow-up fix recommended.
         assertPojoEquals(log02, logs.get(0), "createTime", "updateTime");
     }
 
     @Test
     public void testCreateApiAccessLog() {
-        // 准备参数
+        // Prepare parameters
         ApiAccessLogCreateRpcRequest createDTO = randomPojo(ApiAccessLogCreateRpcRequest.class);
 
-        // 调用
+        // Invoke
         apiAccessLogService.createApiAccessLog(createDTO);
-        // 断言
+        // Assert
         ApiAccessLogEntity apiAccessLogDO = apiAccessLogMapper.selectOne(null);
         assertPojoEquals(createDTO, apiAccessLogDO);
     }

@@ -17,28 +17,28 @@ import java.time.LocalDateTime;
 public class JobResponse {
 
     @Schema(description = "Job ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-    @ExcelProperty("任务编号")
+    @ExcelProperty("Job ID")
     private Long id;
 
     @Schema(description = "Job name", requiredMode = Schema.RequiredMode.REQUIRED, example = "test job")
-    @ExcelProperty("任务名称")
+    @ExcelProperty("Job name")
     private String name;
 
     @Schema(description = "Job status", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @ExcelProperty(value = "任务状态", converter = DictionaryConverter.class)
+    @ExcelProperty(value = "Job status", converter = DictionaryConverter.class)
     @DictionaryFormat(DictionaryTypeConstants.JOB_STATUS)
     private Integer status;
 
     @Schema(description = "Handler name", requiredMode = Schema.RequiredMode.REQUIRED, example = "sysUserSessionTimeoutJob")
-    @ExcelProperty("处理器的名字")
+    @ExcelProperty("Handler name")
     private String handlerName;
 
-    @Schema(description = "Handler params", example = "yudao")
-    @ExcelProperty("处理器的参数")
+    @Schema(description = "Handler params", example = "focela")
+    @ExcelProperty("Handler params")
     private String handlerParam;
 
     @Schema(description = "CRON expression", requiredMode = Schema.RequiredMode.REQUIRED, example = "0/10 * * * * ? *")
-    @ExcelProperty("CRON 表达式")
+    @ExcelProperty("CRON expression")
     private String cronExpression;
 
     @Schema(description = "Retry count", requiredMode = Schema.RequiredMode.REQUIRED, example = "3")
@@ -49,11 +49,11 @@ public class JobResponse {
     private Integer retryInterval;
 
     @Schema(description = "Monitor timeout", example = "1000")
-    @ExcelProperty("监控超时时间")
+    @ExcelProperty("Monitor timeout")
     private Integer monitorTimeout;
 
     @Schema(description = "Created time", requiredMode = Schema.RequiredMode.REQUIRED)
-    @ExcelProperty("创建时间")
+    @ExcelProperty("Created time")
     private LocalDateTime createTime;
 
 }

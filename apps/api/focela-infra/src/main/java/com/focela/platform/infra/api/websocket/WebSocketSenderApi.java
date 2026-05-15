@@ -3,38 +3,38 @@ package com.focela.platform.infra.api.websocket;
 import com.focela.platform.common.utils.json.JsonUtils;
 
 /**
- * WebSocket 发送器的 API 接口
+ * API interface of the WebSocket sender.
  *
- * 对 WebSocketMessageSender 进行封装，提供给其它模块使用
+ * Wraps WebSocketMessageSender and exposes it to other modules.
  */
 public interface WebSocketSenderApi {
 
 
     /**
-     * 发送消息给指定用户
+     * Send a message to the specified user.
      *
-     * @param userType 用户类型
-     * @param userId 用户编号
-     * @param messageType 消息类型
-     * @param messageContent 消息内容，JSON 格式
+     * @param userType user type
+     * @param userId user ID
+     * @param messageType message type
+     * @param messageContent message content, in JSON format
      */
     void send(Integer userType, Long userId, String messageType, String messageContent);
 
     /**
-     * 发送消息给指定用户类型
+     * Send a message to all users of the specified user type.
      *
-     * @param userType 用户类型
-     * @param messageType 消息类型
-     * @param messageContent 消息内容，JSON 格式
+     * @param userType user type
+     * @param messageType message type
+     * @param messageContent message content, in JSON format
      */
     void send(Integer userType, String messageType, String messageContent);
 
     /**
-     * 发送消息给指定 Session
+     * Send a message to the specified Session.
      *
-     * @param sessionId Session 编号
-     * @param messageType 消息类型
-     * @param messageContent 消息内容，JSON 格式
+     * @param sessionId Session ID
+     * @param messageType message type
+     * @param messageContent message content, in JSON format
      */
     void send(String sessionId, String messageType, String messageContent);
 

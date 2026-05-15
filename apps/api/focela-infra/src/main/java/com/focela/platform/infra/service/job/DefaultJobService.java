@@ -27,7 +27,7 @@ import static com.focela.platform.common.utils.collection.CollectionUtils.contai
 import static com.focela.platform.infra.constants.ErrorCodeConstants.*;
 
 /**
- * 定时任务 Service 实现类
+ * Implementation class of the scheduled job Service
  */
 @Service
 @Validated
@@ -44,23 +44,23 @@ public class DefaultJobService implements JobService {
     @Transactional(rollbackFor = Exception.class)
     public Long createJob(JobSaveRequest createRequest) throws SchedulerException {
         validateCronExpression(createRequest.getCronExpression());
-        // 1.1 校验唯一性
+        // 1.1 Validate uniqueness
         if (jobMapper.selectByHandlerName(createRequest.getHandlerName()) != null) {
             throw exception(JOB_HANDLER_EXISTS);
         }
-        // 1.2 校验 JobHandler 是否存在
+        // 1.2 Validate that the JobHandler exists
         validateJobHandlerExists(createRequest.getHandlerName());
 
-        // 2. 插入 JobEntity
+        // 2. Insert JobEntity
         JobEntity job = BeanUtils.toBean(createRequest, JobEntity.class);
         job.setStatus(JobStatusEnum.INIT.getStatus());
         fillJobMonitorTimeoutEmpty(job);
         jobMapper.insert(job);
 
-        // 3.1 添加 Job 到 Quartz 中
+        // 3.1 Add the Job to Quartz
         schedulerManager.addJob(job.getId(), job.getHandlerName(), job.getHandlerParam(), job.getCronExpression(),
                 createRequest.getRetryCount(), createRequest.getRetryInterval());
-        // 3.2 更新 JobEntity
+        // 3.2 Update JobEntity
         JobEntity updateObj = JobEntity.builder().id(job.getId()).status(JobStatusEnum.NORMAL.getStatus()).build();
         jobMapper.updateById(updateObj);
         return job.getId();
@@ -70,21 +70,21 @@ public class DefaultJobService implements JobService {
     @Transactional(rollbackFor = Exception.class)
     public void updateJob(JobSaveRequest updateRequest) throws SchedulerException {
         validateCronExpression(updateRequest.getCronExpression());
-        // 1.1 校验存在
+        // 1.1 Verify it exists
         JobEntity job = validateJobExists(updateRequest.getId());
-        // 1.2 只有开启状态，才可以修改.原因是，如果出暂停状态，修改 Quartz Job 时，会导致任务又开始执行
+        // 1.2 Only allowed when status is NORMAL. Reason: in PAUSED state, updating the Quartz Job would re-start it.
         if (!job.getStatus().equals(JobStatusEnum.NORMAL.getStatus())) {
             throw exception(JOB_UPDATE_ONLY_NORMAL_STATUS);
         }
-        // 1.3 校验 JobHandler 是否存在
+        // 1.3 Validate that the JobHandler exists
         validateJobHandlerExists(updateRequest.getHandlerName());
 
-        // 2. 更新 JobEntity
+        // 2. Update JobEntity
         JobEntity updateObj = BeanUtils.toBean(updateRequest, JobEntity.class);
         fillJobMonitorTimeoutEmpty(updateObj);
         jobMapper.updateById(updateObj);
 
-        // 3. 更新 Job 到 Quartz 中
+        // 3. Update the Job in Quartz
         schedulerManager.updateJob(job.getHandlerName(), updateRequest.getHandlerParam(), updateRequest.getCronExpression(),
                 updateRequest.getRetryCount(), updateRequest.getRetryInterval());
     }
@@ -104,50 +104,50 @@ public class DefaultJobService implements JobService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateJobStatus(Long id, Integer status) throws SchedulerException {
-        // 校验 status
+        // Validate status
         if (!containsAny(status, JobStatusEnum.NORMAL.getStatus(), JobStatusEnum.STOP.getStatus())) {
             throw exception(JOB_CHANGE_STATUS_INVALID);
         }
-        // 校验存在
+        // Verify it exists
         JobEntity job = validateJobExists(id);
-        // 校验是否已经为当前状态
+        // Check whether it is already in the target status
         if (job.getStatus().equals(status)) {
             throw exception(JOB_CHANGE_STATUS_EQUALS);
         }
-        // 更新 Job 状态
+        // Update Job status
         JobEntity updateObj = JobEntity.builder().id(id).status(status).build();
         jobMapper.updateById(updateObj);
 
-        // 更新状态 Job 到 Quartz 中
-        if (JobStatusEnum.NORMAL.getStatus().equals(status)) { // 开启
+        // Update the Job status in Quartz
+        if (JobStatusEnum.NORMAL.getStatus().equals(status)) { // Resume
             schedulerManager.resumeJob(job.getHandlerName());
-        } else { // 暂停
+        } else { // Pause
             schedulerManager.pauseJob(job.getHandlerName());
         }
     }
 
     @Override
     public void triggerJob(Long id) throws SchedulerException {
-        // 校验存在
+        // Verify it exists
         JobEntity job = validateJobExists(id);
 
-        // 触发 Quartz 中的 Job
+        // Trigger the Job in Quartz
         schedulerManager.triggerJob(job.getId(), job.getHandlerName(), job.getHandlerParam());
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void syncJob() throws SchedulerException {
-        // 1. 查询 Job 配置
+        // 1. Query Job configs
         List<JobEntity> jobList = jobMapper.selectList();
 
-        // 2. 遍历处理
+        // 2. Process each
         for (JobEntity job : jobList) {
-            // 2.1 先删除，再创建
+            // 2.1 Delete first, then create
             schedulerManager.deleteJob(job.getHandlerName());
             schedulerManager.addJob(job.getId(), job.getHandlerName(), job.getHandlerParam(), job.getCronExpression(),
                     job.getRetryCount(), job.getRetryInterval());
-            // 2.2 如果 status 为暂停，则需要暂停
+            // 2.2 If status is STOP, pause
             if (Objects.equals(job.getStatus(), JobStatusEnum.STOP.getStatus())) {
                 schedulerManager.pauseJob(job.getHandlerName());
             }
@@ -158,23 +158,23 @@ public class DefaultJobService implements JobService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteJob(Long id) throws SchedulerException {
-        // 校验存在
+        // Verify it exists
         JobEntity job = validateJobExists(id);
-        // 更新
+        // Update
         jobMapper.deleteById(id);
 
-        // 删除 Job 到 Quartz 中
+        // Delete Job from Quartz
         schedulerManager.deleteJob(job.getHandlerName());
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteJobList(List<Long> ids) throws SchedulerException {
-        // 批量删除
+        // Batch delete
         List<JobEntity> jobs = jobMapper.selectByIds(ids);
         jobMapper.deleteByIds(ids);
 
-        // 删除 Job 到 Quartz 中
+        // Delete Jobs from Quartz
         for (JobEntity job : jobs) {
             schedulerManager.deleteJob(job.getHandlerName());
         }

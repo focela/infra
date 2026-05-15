@@ -6,47 +6,47 @@ import com.focela.platform.infra.controller.admin.logger.dto.apierrorlog.ApiErro
 import com.focela.platform.infra.entity.logger.ApiErrorLogEntity;
 
 /**
- * API 错误日志 Service 接口
+ * API error log Service interface
  */
 public interface ApiErrorLogService {
 
     /**
-     * 创建 API 错误日志
+     * Create an API error log.
      *
-     * @param createRequest API 错误日志
+     * @param createRequest API error log
      */
     void createApiErrorLog(ApiErrorLogCreateRpcRequest createRequest);
 
     /**
-     * 获得 API 错误日志
+     * Get an API error log.
      *
-     * @param id 编号
-     * @return API 错误日志
+     * @param id ID
+     * @return API error log
      */
     ApiErrorLogEntity getApiErrorLog(Long id);
 
     /**
-     * 获得 API 错误日志分页
+     * Get a paged list of API error logs.
      *
-     * @param pageRequest 分页查询
-     * @return API 错误日志分页
+     * @param pageRequest paged query
+     * @return paged API error logs
      */
     PageResult<ApiErrorLogEntity> getApiErrorLogPage(ApiErrorLogPageRequest pageRequest);
 
     /**
-     * 更新 API 错误日志已处理
+     * Mark an API error log as processed.
      *
-     * @param id            API 日志编号
-     * @param processStatus 处理结果
-     * @param processUserId 处理人
+     * @param id            API log ID
+     * @param processStatus processing result
+     * @param processUserId processor user ID
      */
     void updateApiErrorLogProcess(Long id, Integer processStatus, Long processUserId);
 
     /**
-     * 清理 exceedDay 天前的错误日志
+     * Clean error logs older than exceedDay days.
      *
-     * @param exceedDay   超过多少天就进行清理
-     * @param deleteLimit 清理的间隔条数
+     * @param exceedDay   delete logs older than this many days
+     * @param deleteLimit number of records to delete per batch
      */
     Integer cleanErrorLog(Integer exceedDay, Integer deleteLimit);
 

@@ -6,38 +6,38 @@ import com.focela.platform.infra.controller.admin.logger.dto.apiaccesslog.ApiAcc
 import com.focela.platform.infra.entity.logger.ApiAccessLogEntity;
 
 /**
- * API 访问日志 Service 接口
+ * API access log Service interface
  */
 public interface ApiAccessLogService {
 
     /**
-     * 创建 API 访问日志
+     * Create an API access log.
      *
-     * @param createRequest API 访问日志
+     * @param createRequest API access log
      */
     void createApiAccessLog(ApiAccessLogCreateRpcRequest createRequest);
 
     /**
-     * 获得 API 访问日志
+     * Get an API access log.
      *
-     * @param id 编号
-     * @return API 访问日志
+     * @param id ID
+     * @return API access log
      */
     ApiAccessLogEntity getApiAccessLog(Long id);
 
     /**
-     * 获得 API 访问日志分页
+     * Get a paged list of API access logs.
      *
-     * @param pageRequest 分页查询
-     * @return API 访问日志分页
+     * @param pageRequest paged query
+     * @return paged API access logs
      */
     PageResult<ApiAccessLogEntity> getApiAccessLogPage(ApiAccessLogPageRequest pageRequest);
 
     /**
-     * 清理 exceedDay 天前的访问日志
+     * Clean access logs older than exceedDay days.
      *
-     * @param exceedDay   超过多少天就进行清理
-     * @param deleteLimit 清理的间隔条数
+     * @param exceedDay   delete logs older than this many days
+     * @param deleteLimit number of records to delete per batch
      */
     Integer cleanAccessLog(Integer exceedDay, Integer deleteLimit);
 

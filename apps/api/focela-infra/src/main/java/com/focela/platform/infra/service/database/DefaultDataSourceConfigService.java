@@ -19,7 +19,7 @@ import static com.focela.platform.infra.constants.ErrorCodeConstants.DATA_SOURCE
 import static com.focela.platform.infra.constants.ErrorCodeConstants.DATA_SOURCE_CONFIG_NOT_OK;
 
 /**
- * 数据源配置 Service 实现类
+ * Implementation class of the datasource config Service
  */
 @Service
 @Validated
@@ -36,28 +36,28 @@ public class DefaultDataSourceConfigService implements DataSourceConfigService {
         DataSourceConfigEntity config = BeanUtils.toBean(createRequest, DataSourceConfigEntity.class);
         validateConnectionOK(config);
 
-        // 插入
+        // Insert
         dataSourceConfigMapper.insert(config);
-        // 返回
+        // Return
         return config.getId();
     }
 
     @Override
     public void updateDataSourceConfig(DataSourceConfigSaveRequest updateRequest) {
-        // 校验存在
+        // Verify it exists
         validateDataSourceConfigExists(updateRequest.getId());
         DataSourceConfigEntity updateObj = BeanUtils.toBean(updateRequest, DataSourceConfigEntity.class);
         validateConnectionOK(updateObj);
 
-        // 更新
+        // Update
         dataSourceConfigMapper.updateById(updateObj);
     }
 
     @Override
     public void deleteDataSourceConfig(Long id) {
-        // 校验存在
+        // Verify it exists
         validateDataSourceConfigExists(id);
-        // 删除
+        // Delete
         dataSourceConfigMapper.deleteById(id);
     }
 
@@ -74,18 +74,18 @@ public class DefaultDataSourceConfigService implements DataSourceConfigService {
 
     @Override
     public DataSourceConfigEntity getDataSourceConfig(Long id) {
-        // 如果 id 为 0，默认为 master 的数据源
+        // If id is 0, default to the master datasource
         if (Objects.equals(id, DataSourceConfigEntity.ID_MASTER)) {
             return buildMasterDataSourceConfig();
         }
-        // 从 DB 中读取
+        // Read from DB
         return dataSourceConfigMapper.selectById(id);
     }
 
     @Override
     public List<DataSourceConfigEntity> getDataSourceConfigList() {
         List<DataSourceConfigEntity> result = dataSourceConfigMapper.selectList();
-        // 补充 master 数据源
+        // Prepend the master datasource
         result.add(0, buildMasterDataSourceConfig());
         return result;
     }

@@ -106,17 +106,15 @@ public class FileController {
     public void getFileContent(HttpServletRequest request,
                                HttpServletResponse response,
                                @PathVariable("configId") Long configId) throws Exception {
-        // 获取请求的路径
+        // Get the request path
         String path = StrUtil.subAfter(request.getRequestURI(), "/get/", false);
         if (StrUtil.isEmpty(path)) {
-            throw new IllegalArgumentException("结尾 path path is required");
+            throw new IllegalArgumentException("trailing path is required");
         }
-        // 解码，解决中文路径的问题
-        // https://gitee.com/zhijiantianya/ruoyi-vue-pro/pulls/807/
-        // https://gitee.com/zhijiantianya/ruoyi-vue-pro/pulls/1432/
+        // Decode to handle non-ASCII paths
         path = URLUtil.decode(path, StandardCharsets.UTF_8, false);
 
-        // 读取内容
+        // Read content
         byte[] content = fileService.getFileContent(configId, path);
         if (content == null) {
             log.warn("[getFileContent][configId({}) path({}) file does not exist]", configId, path);

@@ -133,8 +133,8 @@ public class JobController {
                                HttpServletResponse response) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
         List<JobEntity> list = jobService.getJobPage(exportRequest).getList();
-        // 导出 Excel
-        ExcelUtils.write(response, "定时任务.xls", "数据", JobResponse.class,
+        // Export Excel
+        ExcelUtils.write(response, "Scheduled job.xls", "Data", JobResponse.class,
                 BeanUtils.toBean(list, JobResponse.class));
     }
 

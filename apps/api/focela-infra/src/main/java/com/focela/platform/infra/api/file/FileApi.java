@@ -3,49 +3,49 @@ package com.focela.platform.infra.api.file;
 import jakarta.validation.constraints.NotEmpty;
 
 /**
- * 文件 API 接口
+ * File API interface
  */
 public interface FileApi {
 
     /**
-     * 保存文件，并返回文件的访问路径
+     * Save file and return the access path.
      *
-     * @param content 文件内容
-     * @return 文件路径
+     * @param content file content
+     * @return file path
      */
     default String createFile(byte[] content) {
         return createFile(content, null, null, null);
     }
 
     /**
-     * 保存文件，并返回文件的访问路径
+     * Save file and return the access path.
      *
-     * @param content 文件内容
-     * @param name 文件名称，允许空
-     * @return 文件路径
+     * @param content file content
+     * @param name file name, may be empty
+     * @return file path
      */
     default String createFile(byte[] content, String name) {
         return createFile(content, name, null, null);
     }
 
     /**
-     * 保存文件，并返回文件的访问路径
+     * Save file and return the access path.
      *
-     * @param content 文件内容
-     * @param name 文件名称，允许空
-     * @param directory 目录，允许空
-     * @param type 文件的 MIME 类型，允许空
-     * @return 文件路径
+     * @param content file content
+     * @param name file name, may be empty
+     * @param directory directory, may be empty
+     * @param type MIME type of the file, may be empty
+     * @return file path
      */
     String createFile(@NotEmpty(message = "file content must not be blank") byte[] content,
                       String name, String directory, String type);
 
     /**
-     * 生成文件预签名地址，用于读取
+     * Generate a presigned URL for reading the file.
      *
-     * @param url 完整的文件访问地址
-     * @param expirationSeconds 访问有效期，单位秒
-     * @return 文件预签名地址
+     * @param url full file access URL
+     * @param expirationSeconds expiration in seconds
+     * @return presigned URL
      */
     String presignGetUrl(@NotEmpty(message = "URL must not be blank") String url,
                          Integer expirationSeconds);

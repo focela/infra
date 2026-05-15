@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import jakarta.annotation.Resource;
 
 /**
- * 物理删除 N 天前的任务日志的 Job
+ * Job that physically deletes job logs older than N days.
  */
 @Slf4j
 @Component
@@ -18,12 +18,12 @@ public class JobLogCleanJob implements JobHandler {
     private JobLogService jobLogService;
 
     /**
-     * 清理超过（14）天的日志
+     * Clean logs older than (14) days.
      */
     private static final Integer JOB_CLEAN_RETAIN_DAY = 14;
 
     /**
-     * 每次删除间隔的条数，如果值太高可能会造成数据库的压力过大
+     * Number of records deleted per batch. Setting this too high may overload the database.
      */
     private static final Integer DELETE_LIMIT = 100;
 
@@ -31,8 +31,8 @@ public class JobLogCleanJob implements JobHandler {
     @TenantIgnore
     public String execute(String param) {
         Integer count = jobLogService.cleanJobLog(JOB_CLEAN_RETAIN_DAY, DELETE_LIMIT);
-        log.info("[execute][定when clean 定when job log count ({})]", count);
-        return String.format("定when clean 定when job log count %s", count);
+        log.info("[execute][scheduled clean of job log count ({})]", count);
+        return String.format("scheduled clean of job log count %s", count);
     }
 
 }

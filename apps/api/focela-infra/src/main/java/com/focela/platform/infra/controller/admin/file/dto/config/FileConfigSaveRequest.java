@@ -14,11 +14,11 @@ public class FileConfigSaveRequest {
     private Long id;
 
     @Schema(description = "Config name", requiredMode = Schema.RequiredMode.REQUIRED, example = "S3 - Aliyun")
-    @NotNull(message = "config 名must not be blank")
+    @NotNull(message = "config name must not be blank")
     private String name;
 
     @Schema(description = "Storage, see FileStorageEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @NotNull(message = "storage 器must not be blank")
+    @NotNull(message = "storage must not be blank")
     private Integer storage;
 
     @Schema(description = "storage config,config is dynamic params, so use Map receive", requiredMode = Schema.RequiredMode.REQUIRED)

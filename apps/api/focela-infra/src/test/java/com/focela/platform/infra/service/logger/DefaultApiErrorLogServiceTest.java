@@ -38,40 +38,40 @@ public class DefaultApiErrorLogServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testGetApiErrorLogPage() {
-        // mock 数据
+        // mock data
         ApiErrorLogEntity apiErrorLogDO = randomPojo(ApiErrorLogEntity.class, o -> {
             o.setUserId(2233L);
             o.setUserType(UserTypeEnum.ADMIN.getValue());
-            o.setApplicationName("yudao-test");
+            o.setApplicationName("focela-test");
             o.setRequestUrl("foo");
             o.setExceptionTime(buildTime(2021, 3, 13));
             o.setProcessStatus(ApiErrorLogProcessStatusEnum.INIT.getStatus());
         });
         apiErrorLogMapper.insert(apiErrorLogDO);
-        // 测试 userId 不匹配
+        // Test userId mismatch
         apiErrorLogMapper.insert(cloneIgnoreId(apiErrorLogDO, o -> o.setUserId(3344L)));
-        // 测试 userType 不匹配
+        // Test userType mismatch
         apiErrorLogMapper.insert(cloneIgnoreId(apiErrorLogDO, o -> o.setUserType(UserTypeEnum.MEMBER.getValue())));
-        // 测试 applicationName 不匹配
+        // Test applicationName mismatch
         apiErrorLogMapper.insert(cloneIgnoreId(apiErrorLogDO, o -> o.setApplicationName("test")));
-        // 测试 requestUrl 不匹配
+        // Test requestUrl mismatch
         apiErrorLogMapper.insert(cloneIgnoreId(apiErrorLogDO, o -> o.setRequestUrl("bar")));
-        // 测试 exceptionTime 不匹配：构造一个早期时间 2021-02-06 00:00:00
+        // Test exceptionTime mismatch: construct an earlier timestamp 2021-02-06 00:00:00
         apiErrorLogMapper.insert(cloneIgnoreId(apiErrorLogDO, o -> o.setExceptionTime(buildTime(2021, 2, 6))));
-        // 测试 progressStatus 不匹配
+        // Test progressStatus mismatch
         apiErrorLogMapper.insert(cloneIgnoreId(apiErrorLogDO, logEntity -> logEntity.setProcessStatus(ApiErrorLogProcessStatusEnum.DONE.getStatus())));
-        // 准备参数
+        // Prepare parameters
         ApiErrorLogPageRequest request = new ApiErrorLogPageRequest();
         request.setUserId(2233L);
         request.setUserType(UserTypeEnum.ADMIN.getValue());
-        request.setApplicationName("yudao-test");
+        request.setApplicationName("focela-test");
         request.setRequestUrl("foo");
         request.setExceptionTime(buildBetweenTime(2021, 3, 1, 2021, 3, 31));
         request.setProcessStatus(ApiErrorLogProcessStatusEnum.INIT.getStatus());
 
-        // 调用
+        // Invoke
         PageResult<ApiErrorLogEntity> pageResult = apiErrorLogService.getApiErrorLogPage(request);
-        // 断言，只查到了一条符合条件的
+        // Assert that only one matching record is returned
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
         assertPojoEquals(apiErrorLogDO, pageResult.getList().get(0));
@@ -79,12 +79,12 @@ public class DefaultApiErrorLogServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testCreateApiErrorLog() {
-        // 准备参数
+        // Prepare parameters
         ApiErrorLogCreateRpcRequest createDTO = randomPojo(ApiErrorLogCreateRpcRequest.class);
 
-        // 调用
+        // Invoke
         apiErrorLogService.createApiErrorLog(createDTO);
-        // 断言
+        // Assert
         ApiErrorLogEntity apiErrorLogDO = apiErrorLogMapper.selectOne(null);
         assertPojoEquals(createDTO, apiErrorLogDO);
         assertEquals(ApiErrorLogProcessStatusEnum.INIT.getStatus(), apiErrorLogDO.getProcessStatus());
@@ -92,18 +92,18 @@ public class DefaultApiErrorLogServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testUpdateApiErrorLogProcess_success() {
-        // 准备参数
+        // Prepare parameters
         ApiErrorLogEntity apiErrorLogDO = randomPojo(ApiErrorLogEntity.class,
                 o -> o.setProcessStatus(ApiErrorLogProcessStatusEnum.INIT.getStatus()));
         apiErrorLogMapper.insert(apiErrorLogDO);
-        // 准备参数
+        // Prepare parameters
         Long id = apiErrorLogDO.getId();
         Integer processStatus = randomEle(ApiErrorLogProcessStatusEnum.values()).getStatus();
         Long processUserId = randomLongId();
 
-        // 调用
+        // Invoke
         apiErrorLogService.updateApiErrorLogProcess(id, processStatus, processUserId);
-        // 断言
+        // Assert
         ApiErrorLogEntity dbApiErrorLogDO = apiErrorLogMapper.selectById(apiErrorLogDO.getId());
         assertEquals(processStatus, dbApiErrorLogDO.getProcessStatus());
         assertEquals(processUserId, dbApiErrorLogDO.getProcessUserId());
@@ -112,16 +112,16 @@ public class DefaultApiErrorLogServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testUpdateApiErrorLogProcess_processed() {
-        // 准备参数
+        // Prepare parameters
         ApiErrorLogEntity apiErrorLogDO = randomPojo(ApiErrorLogEntity.class,
                 o -> o.setProcessStatus(ApiErrorLogProcessStatusEnum.DONE.getStatus()));
         apiErrorLogMapper.insert(apiErrorLogDO);
-        // 准备参数
+        // Prepare parameters
         Long id = apiErrorLogDO.getId();
         Integer processStatus = randomEle(ApiErrorLogProcessStatusEnum.values()).getStatus();
         Long processUserId = randomLongId();
 
-        // 调用，并断言异常
+        // Invoke and verify exception
         assertServiceException(() ->
                 apiErrorLogService.updateApiErrorLogProcess(id, processStatus, processUserId),
                 API_ERROR_LOG_PROCESSED);
@@ -129,12 +129,12 @@ public class DefaultApiErrorLogServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testUpdateApiErrorLogProcess_notFound() {
-        // 准备参数
+        // Prepare parameters
         Long id = randomLongId();
         Integer processStatus = randomEle(ApiErrorLogProcessStatusEnum.values()).getStatus();
         Long processUserId = randomLongId();
 
-        // 调用，并断言异常
+        // Invoke and verify exception
         assertServiceException(() ->
                 apiErrorLogService.updateApiErrorLogProcess(id, processStatus, processUserId),
                 API_ERROR_LOG_NOT_FOUND);
@@ -142,22 +142,22 @@ public class DefaultApiErrorLogServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testCleanJobLog() {
-        // mock 数据
+        // mock data
         ApiErrorLogEntity log01 = randomPojo(ApiErrorLogEntity.class, o -> o.setCreateTime(addTime(Duration.ofDays(-3))));
         apiErrorLogMapper.insert(log01);
         ApiErrorLogEntity log02 = randomPojo(ApiErrorLogEntity.class, o -> o.setCreateTime(addTime(Duration.ofDays(-1))));
         apiErrorLogMapper.insert(log02);
-        // 准备参数
+        // Prepare parameters
         Integer exceedDay = 2;
         Integer deleteLimit = 1;
 
-        // 调用
+        // Invoke
         Integer count = apiErrorLogService.cleanErrorLog(exceedDay, deleteLimit);
-        // 断言
+        // Assert
         assertEquals(1, count);
         List<ApiErrorLogEntity> logs = apiErrorLogMapper.selectList();
         assertEquals(1, logs.size());
-        // TODO:  createTime updateTime 被屏蔽，仅 win11 会复现，建议后续修复。
+        // TODO: createTime and updateTime are blocked; reproduces on win11 only — follow-up fix recommended.
         assertPojoEquals(log02, logs.get(0), "createTime", "updateTime");
     }
 

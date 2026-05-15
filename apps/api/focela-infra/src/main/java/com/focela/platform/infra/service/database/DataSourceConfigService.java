@@ -7,51 +7,51 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 /**
- * 数据源配置 Service 接口
+ * Datasource config Service interface
  */
 public interface DataSourceConfigService {
 
     /**
-     * 创建数据源配置
+     * Create a datasource config.
      *
-     * @param createRequest 创建信息
-     * @return 编号
+     * @param createRequest creation info
+     * @return ID
      */
     Long createDataSourceConfig(@Valid DataSourceConfigSaveRequest createRequest);
 
     /**
-     * 更新数据源配置
+     * Update a datasource config.
      *
-     * @param updateRequest 更新信息
+     * @param updateRequest update info
      */
     void updateDataSourceConfig(@Valid DataSourceConfigSaveRequest updateRequest);
 
     /**
-     * 删除数据源配置
+     * Delete a datasource config.
      *
-     * @param id 编号
+     * @param id ID
      */
     void deleteDataSourceConfig(Long id);
 
     /**
-     * 批量删除数据源配置
+     * Batch delete datasource configs.
      *
-     * @param ids 编号列表
+     * @param ids ID list
      */
     void deleteDataSourceConfigList(List<Long> ids);
 
     /**
-     * 获得数据源配置
+     * Get a datasource config.
      *
-     * @param id 编号
-     * @return 数据源配置
+     * @param id ID
+     * @return datasource config
      */
     DataSourceConfigEntity getDataSourceConfig(Long id);
 
     /**
-     * 获得数据源配置列表
+     * Get the list of datasource configs.
      *
-     * @return 数据源配置列表
+     * @return list of datasource configs
      */
     List<DataSourceConfigEntity> getDataSourceConfigList();
 

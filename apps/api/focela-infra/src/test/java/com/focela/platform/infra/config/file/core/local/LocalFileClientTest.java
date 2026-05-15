@@ -14,30 +14,30 @@ public class LocalFileClientTest {
     @Test
     @Disabled
     public void test() {
-        // 创建客户端
+        // Create client
         LocalFileClientConfig config = new LocalFileClientConfig();
         config.setDomain("http://127.0.0.1:48080");
-        config.setBasePath("/Users/yunai/file_test");
+        config.setBasePath("/Users/focela/file_test");
         LocalFileClient client = new LocalFileClient(0L, config);
         client.init();
-        // 上传文件
+        // Upload file
         String path = IdUtil.fastSimpleUUID() + ".jpg";
         byte[] content = ResourceUtil.readBytes("file/erweima.jpg");
         String fullPath = client.upload(content, path, "image/jpeg");
-        System.out.println("访问地址：" + fullPath);
+        System.out.println("Access URL: " + fullPath);
         client.delete(path);
     }
 
     @Test
     @Disabled
     public void testGetContent_notFound() {
-        // 创建客户端
+        // Create client
         LocalFileClientConfig config = new LocalFileClientConfig();
         config.setDomain("http://127.0.0.1:48080");
-        config.setBasePath("/Users/yunai/file_test");
+        config.setBasePath("/Users/focela/file_test");
         LocalFileClient client = new LocalFileClient(0L, config);
         client.init();
-        // 上传文件
+        // Upload file
         byte[] content = client.getContent(randomString());
         System.out.println();
     }

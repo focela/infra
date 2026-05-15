@@ -1,16 +1,16 @@
 package com.focela.platform.infra.api.config;
 
 /**
- * 参数配置 API 接口
+ * Param config API interface
  */
 public interface ConfigApi {
 
 
     /**
-     * 根据参数键查询参数值
+     * Query the param value by param key.
      *
-     * @param key 参数键
-     * @return 参数值
+     * @param key param key
+     * @return param value
      */
     String getConfigValueByKey(String key);
 

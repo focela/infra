@@ -15,13 +15,13 @@ public class ConfigSaveRequest {
     private Long id;
 
     @Schema(description = "param group", requiredMode = Schema.RequiredMode.REQUIRED, example = "biz")
-    @NotEmpty(message = "参数minute 组must not be blank")
-    @Size(max = 50, message = "param name 称must not exceed 50 characters")
+    @NotEmpty(message = "param group must not be blank")
+    @Size(max = 50, message = "param category must not exceed 50 characters")
     private String category;
 
     @Schema(description = "Param name", requiredMode = Schema.RequiredMode.REQUIRED, example = "database name")
-    @NotBlank(message = "param name 称must not be blank")
-    @Size(max = 100, message = "param name 称must not exceed 100 characters")
+    @NotBlank(message = "param name must not be blank")
+    @Size(max = 100, message = "param name must not exceed 100 characters")
     private String name;
 
     @Schema(description = "Param key", requiredMode = Schema.RequiredMode.REQUIRED, example = "yunai.db.username")
@@ -35,7 +35,7 @@ public class ConfigSaveRequest {
     private String value;
 
     @Schema(description = "Visible", requiredMode = Schema.RequiredMode.REQUIRED, example = "true")
-    @NotNull(message = "is 否见must not be blank")
+    @NotNull(message = "visible must not be blank")
     private Boolean visible;
 
     @Schema(description = "Remarks", example = "remarks one next very cool!")

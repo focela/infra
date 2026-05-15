@@ -6,31 +6,31 @@ import com.focela.platform.infra.controller.admin.job.dto.log.JobLogPageRequest;
 import com.focela.platform.infra.entity.job.JobLogEntity;
 
 /**
- * Job 日志 Service 接口
+ * Job log Service interface
  */
 public interface JobLogService extends JobLogFrameworkService {
 
     /**
-     * 获得定时任务
+     * Get a job log.
      *
-     * @param id 编号
-     * @return 定时任务
+     * @param id ID
+     * @return job log
      */
     JobLogEntity getJobLog(Long id);
 
     /**
-     * 获得定时任务分页
+     * Get a paged list of job logs.
      *
-     * @param pageRequest 分页查询
-     * @return 定时任务分页
+     * @param pageRequest paged query
+     * @return paged job logs
      */
     PageResult<JobLogEntity> getJobLogPage(JobLogPageRequest pageRequest);
 
     /**
-     * 清理 exceedDay 天前的任务日志
+     * Clean job logs older than exceedDay days.
      *
-     * @param exceedDay   超过多少天就进行清理
-     * @param deleteLimit 清理的间隔条数
+     * @param exceedDay   delete logs older than this many days
+     * @param deleteLimit number of records to delete per batch
      */
     Integer cleanJobLog(Integer exceedDay, Integer deleteLimit);
 

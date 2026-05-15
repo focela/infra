@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 /**
- * 文件 API 实现类
+ * Implementation class of the file API
  */
 @Service
 @Validated

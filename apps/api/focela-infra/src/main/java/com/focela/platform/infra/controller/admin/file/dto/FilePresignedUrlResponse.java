@@ -19,18 +19,18 @@ public class FilePresignedUrlResponse {
     private String uploadUrl;
 
     /**
-     * 为什么要返回 url 字段？
+     * Why return the url field?
      *
-     * 前端上传完文件后，需要使用该 URL 进行访问
+     * After the frontend uploads the file, it needs to use this URL to access the file.
      */
     @Schema(description = "file access URL", requiredMode = Schema.RequiredMode.REQUIRED,
             example = "https://www.example.com/758d3a5387507358c7236de4c8f96de1c7f5097ff6a7722b34772fb7b76b140f.png")
     private String url;
 
     /**
-     * 为什么要返回 path 字段？
+     * Why return the path field?
      *
-     * 前端上传完文件后，需要调用 createFile 记录下 path 路径
+     * After the frontend uploads the file, it needs to call createFile to record the path.
      */
     @Schema(description = "File path", requiredMode = Schema.RequiredMode.REQUIRED, example = "xxx.png")
     private String path;

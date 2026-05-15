@@ -10,82 +10,82 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 /**
- * 文件配置 Service 接口
+ * File config Service interface
  */
 public interface FileConfigService {
 
     /**
-     * 创建文件配置
+     * Create a file config.
      *
-     * @param createRequest 创建信息
-     * @return 编号
+     * @param createRequest creation info
+     * @return ID
      */
     Long createFileConfig(@Valid FileConfigSaveRequest createRequest);
 
     /**
-     * 更新文件配置
+     * Update a file config.
      *
-     * @param updateRequest 更新信息
+     * @param updateRequest update info
      */
     void updateFileConfig(@Valid FileConfigSaveRequest updateRequest);
 
     /**
-     * 更新文件配置为 Master
+     * Mark a file config as Master.
      *
-     * @param id 编号
+     * @param id ID
      */
     void updateFileConfigMaster(Long id);
 
     /**
-     * 删除文件配置
+     * Delete a file config.
      *
-     * @param id 编号
+     * @param id ID
      */
     void deleteFileConfig(Long id);
 
     /**
-     * 批量删除文件配置
+     * Batch delete file configs.
      *
-     * @param ids 编号列表
+     * @param ids ID list
      */
     void deleteFileConfigList(List<Long> ids);
 
     /**
-     * 获得文件配置
+     * Get a file config.
      *
-     * @param id 编号
-     * @return 文件配置
+     * @param id ID
+     * @return file config
      */
     FileConfigEntity getFileConfig(Long id);
 
     /**
-     * 获得文件配置分页
+     * Get a paged list of file configs.
      *
-     * @param pageRequest 分页查询
-     * @return 文件配置分页
+     * @param pageRequest paged query
+     * @return paged file configs
      */
     PageResult<FileConfigEntity> getFileConfigPage(FileConfigPageRequest pageRequest);
 
     /**
-     * 测试文件配置是否正确，通过上传文件
+     * Test the file config by uploading a file.
      *
-     * @param id 编号
-     * @return 文件 URL
+     * @param id ID
+     * @return file URL
      */
     String testFileConfig(Long id) throws Exception;
 
     /**
-     * 获得指定编号的文件客户端
+     * Get the file client for the specified config ID.
      *
-     * @param id 配置编号
-     * @return 文件客户端
+     * @param id config ID
+     * @return file client
      */
     FileClient getFileClient(Long id);
 
     /**
-     * 获得 Master 文件客户端
+     * Get the Master file client.
      *
-     * @return 文件客户端
+     * @return file client
      */
     FileClient getMasterFileClient();
 

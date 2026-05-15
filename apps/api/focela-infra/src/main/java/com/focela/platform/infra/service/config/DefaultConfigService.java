@@ -19,7 +19,7 @@ import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.e
 import static com.focela.platform.infra.constants.ErrorCodeConstants.*;
 
 /**
- * 参数配置 Service 实现类
+ * Implementation class of the param config Service
  */
 @Service
 @Slf4j
@@ -31,10 +31,10 @@ public class DefaultConfigService implements ConfigService {
 
     @Override
     public Long createConfig(ConfigSaveRequest createRequest) {
-        // 校验参数配置 key 的唯一性
+        // Validate uniqueness of the param config key
         validateConfigKeyUnique(null, createRequest.getKey());
 
-        // 插入参数配置
+        // Insert param config
         ConfigEntity config = ConfigConverter.INSTANCE.convert(createRequest);
         config.setType(ConfigTypeEnum.CUSTOM.getType());
         configMapper.insert(config);
@@ -43,31 +43,31 @@ public class DefaultConfigService implements ConfigService {
 
     @Override
     public void updateConfig(ConfigSaveRequest updateRequest) {
-        // 校验自己存在
+        // Verify it exists
         validateConfigExists(updateRequest.getId());
-        // 校验参数配置 key 的唯一性
+        // Validate uniqueness of the param config key
         validateConfigKeyUnique(updateRequest.getId(), updateRequest.getKey());
 
-        // 更新参数配置
+        // Update param config
         ConfigEntity updateObj = ConfigConverter.INSTANCE.convert(updateRequest);
         configMapper.updateById(updateObj);
     }
 
     @Override
     public void deleteConfig(Long id) {
-        // 校验配置存在
+        // Verify the config exists
         ConfigEntity config = validateConfigExists(id);
-        // 内置配置，不允许删除
+        // Built-in configs cannot be deleted
         if (ConfigTypeEnum.SYSTEM.getType().equals(config.getType())) {
             throw exception(CONFIG_CAN_NOT_DELETE_SYSTEM_TYPE);
         }
-        // 删除
+        // Delete
         configMapper.deleteById(id);
     }
 
     @Override
     public void deleteConfigList(List<Long> ids) {
-        // 校验是否有内置配置
+        // Check whether the list contains a built-in config
         List<ConfigEntity> configs = configMapper.selectByIds(ids);
         configs.forEach(config -> {
             if (ConfigTypeEnum.SYSTEM.getType().equals(config.getType())) {
@@ -75,7 +75,7 @@ public class DefaultConfigService implements ConfigService {
             }
         });
 
-        // 批量删除
+        // Batch delete
         configMapper.deleteByIds(ids);
     }
 
@@ -112,7 +112,7 @@ public class DefaultConfigService implements ConfigService {
         if (config == null) {
             return;
         }
-        // 如果 id 为空，说明不用比较是否为相同 id 的参数配置
+        // If id is null, we do not need to compare to an existing config with the same id
         if (id == null) {
             throw exception(CONFIG_KEY_DUPLICATE);
         }

@@ -16,97 +16,97 @@ import java.time.LocalDateTime;
 public class ApiErrorLogResponse {
 
     @Schema(description = "ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-    @ExcelProperty("编号")
+    @ExcelProperty("ID")
     private Long id;
 
     @Schema(description = "Trace ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "66600cb6-7852-11eb-9439-0242ac130002")
-    @ExcelProperty("链路追踪编号")
+    @ExcelProperty("Trace ID")
     private String traceId;
 
     @Schema(description = "User ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "666")
-    @ExcelProperty("用户编号")
+    @ExcelProperty("User ID")
     private Long userId;
 
     @Schema(description = "User type", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @ExcelProperty(value = "用户类型", converter = DictionaryConverter.class)
+    @ExcelProperty(value = "User type", converter = DictionaryConverter.class)
     @DictionaryFormat(DictionaryTypeConstants.USER_TYPE)
     private Integer userType;
 
     @Schema(description = "Application name", requiredMode = Schema.RequiredMode.REQUIRED, example = "dashboard")
-    @ExcelProperty("应用名")
+    @ExcelProperty("Application name")
     private String applicationName;
 
     @Schema(description = "HTTP method", requiredMode = Schema.RequiredMode.REQUIRED, example = "GET")
-    @ExcelProperty("请求方法名")
+    @ExcelProperty("Request method")
     private String requestMethod;
 
     @Schema(description = "Request URL", requiredMode = Schema.RequiredMode.REQUIRED, example = "/xx/yy")
-    @ExcelProperty("请求地址")
+    @ExcelProperty("Request URL")
     private String requestUrl;
 
     @Schema(description = "Request params", requiredMode = Schema.RequiredMode.REQUIRED)
-    @ExcelProperty("请求参数")
+    @ExcelProperty("Request params")
     private String requestParams;
 
     @Schema(description = "User IP", requiredMode = Schema.RequiredMode.REQUIRED, example = "127.0.0.1")
-    @ExcelProperty("用户 IP")
+    @ExcelProperty("User IP")
     private String userIp;
 
     @Schema(description = "User agent", requiredMode = Schema.RequiredMode.REQUIRED, example = "Mozilla/5.0")
-    @ExcelProperty("浏览器 UA")
+    @ExcelProperty("User agent")
     private String userAgent;
 
     @Schema(description = "Exception time", requiredMode = Schema.RequiredMode.REQUIRED)
-    @ExcelProperty("异常发生时间")
+    @ExcelProperty("Exception time")
     private LocalDateTime exceptionTime;
 
     @Schema(description = "exception name", requiredMode = Schema.RequiredMode.REQUIRED)
-    @ExcelProperty("异常名")
+    @ExcelProperty("Exception name")
     private String exceptionName;
 
     @Schema(description = "exception message", requiredMode = Schema.RequiredMode.REQUIRED)
-    @ExcelProperty("异常导致的消息")
+    @ExcelProperty("Exception message")
     private String exceptionMessage;
 
     @Schema(description = "root exception message", requiredMode = Schema.RequiredMode.REQUIRED)
-    @ExcelProperty("异常导致的根消息")
+    @ExcelProperty("Root exception message")
     private String exceptionRootCauseMessage;
 
     @Schema(description = "exception stack trace", requiredMode = Schema.RequiredMode.REQUIRED)
-    @ExcelProperty("异常的栈轨迹")
+    @ExcelProperty("Exception stack trace")
     private String exceptionStackTrace;
 
     @Schema(description = "exception class FQN", requiredMode = Schema.RequiredMode.REQUIRED)
-    @ExcelProperty("异常发生的类全名")
+    @ExcelProperty("Exception class FQN")
     private String exceptionClassName;
 
     @Schema(description = "exception class file", requiredMode = Schema.RequiredMode.REQUIRED)
-    @ExcelProperty("异常发生的类文件")
+    @ExcelProperty("Exception class file")
     private String exceptionFileName;
 
     @Schema(description = "exception method", requiredMode = Schema.RequiredMode.REQUIRED)
-    @ExcelProperty("异常发生的方法名")
+    @ExcelProperty("Exception method")
     private String exceptionMethodName;
 
     @Schema(description = "exception line", requiredMode = Schema.RequiredMode.REQUIRED)
-    @ExcelProperty("异常发生的方法所在行")
+    @ExcelProperty("Exception line number")
     private Integer exceptionLineNumber;
 
     @Schema(description = "Process status", requiredMode = Schema.RequiredMode.REQUIRED, example = "0")
-    @ExcelProperty(value = "处理状态", converter = DictionaryConverter.class)
+    @ExcelProperty(value = "Process status", converter = DictionaryConverter.class)
     @DictionaryFormat(DictionaryTypeConstants.API_ERROR_LOG_PROCESS_STATUS)
     private Integer processStatus;
 
     @Schema(description = "process time", requiredMode = Schema.RequiredMode.REQUIRED)
-    @ExcelProperty("处理时间")
+    @ExcelProperty("Process time")
     private LocalDateTime processTime;
 
     @Schema(description = "process user ID", example = "233")
-    @ExcelProperty("处理用户编号")
+    @ExcelProperty("Process user ID")
     private Integer processUserId;
 
     @Schema(description = "Created time", requiredMode = Schema.RequiredMode.REQUIRED)
-    @ExcelProperty("创建时间")
+    @ExcelProperty("Created time")
     private LocalDateTime createTime;
 
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import jakarta.annotation.Resource;
 
 /**
- * 物理删除 N 天前的访问日志的 Job
+ * Job that physically deletes access logs older than N days.
  */
 @Component
 @Slf4j
@@ -19,12 +19,12 @@ public class AccessLogCleanJob implements JobHandler {
     private ApiAccessLogService apiAccessLogService;
 
     /**
-     * 清理超过（14）天的日志
+     * Clean logs older than (14) days.
      */
     private static final Integer JOB_CLEAN_RETAIN_DAY = 14;
 
     /**
-     * 每次删除间隔的条数，如果值太高可能会造成数据库的压力过大
+     * Number of records deleted per batch. Setting this too high may overload the database.
      */
     private static final Integer DELETE_LIMIT = 100;
 
@@ -32,8 +32,8 @@ public class AccessLogCleanJob implements JobHandler {
     @TenantIgnore
     public String execute(String param) {
         Integer count = apiAccessLogService.cleanAccessLog(JOB_CLEAN_RETAIN_DAY, DELETE_LIMIT);
-        log.info("[execute][定when clean access log count ({})]", count);
-        return String.format("定when clean access log count %s", count);
+        log.info("[execute][scheduled clean of access log count ({})]", count);
+        return String.format("scheduled clean of access log count %s", count);
     }
 
 }

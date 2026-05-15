@@ -63,8 +63,8 @@ public class JobLogController {
                                   HttpServletResponse response) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
         List<JobLogEntity> list = jobLogService.getJobLogPage(exportRequest).getList();
-        // 导出 Excel
-        ExcelUtils.write(response, "任务日志.xls", "数据", JobLogResponse.class,
+        // Export Excel
+        ExcelUtils.write(response, "Job log.xls", "Data", JobLogResponse.class,
                 BeanUtils.toBean(list, JobLogResponse.class));
     }
 

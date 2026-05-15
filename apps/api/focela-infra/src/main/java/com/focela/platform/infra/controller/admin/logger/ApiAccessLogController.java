@@ -63,8 +63,8 @@ public class ApiAccessLogController {
                                         HttpServletResponse response) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
         List<ApiAccessLogEntity> list = apiAccessLogService.getApiAccessLogPage(exportRequest).getList();
-        // 导出 Excel
-        ExcelUtils.write(response, "API 访问日志.xls", "数据", ApiAccessLogResponse.class,
+        // Export Excel
+        ExcelUtils.write(response, "API access log.xls", "Data", ApiAccessLogResponse.class,
                 BeanUtils.toBean(list, ApiAccessLogResponse.class));
     }
 

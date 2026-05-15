@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 
 /**
- * Infra 模块的 Security 配置
+ * Security configuration for the Infra module
  */
 @Configuration(proxyBeanMethods = false, value = "infraSecurityConfiguration")
 public class SecurityConfiguration {
@@ -18,17 +18,17 @@ public class SecurityConfiguration {
 
             @Override
             public void customize(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry registry) {
-                // Swagger 接口文档
+                // Swagger API documentation
                 registry.requestMatchers("/v3/api-docs/**").permitAll()
                         .requestMatchers("/webjars/**").permitAll()
                         .requestMatchers("/swagger-ui.html").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll();
-                // Spring Boot Actuator 的安全配置
+                // Spring Boot Actuator security configuration
                 registry.requestMatchers("/actuator").permitAll()
                         .requestMatchers("/actuator/**").permitAll();
-                // Druid 监控
+                // Druid monitoring
                 registry.requestMatchers("/druid/**").permitAll();
-                // 文件读取
+                // File read
                 registry.requestMatchers(buildAdminApi("/infra/file/*/get/**")).permitAll();
             }
 

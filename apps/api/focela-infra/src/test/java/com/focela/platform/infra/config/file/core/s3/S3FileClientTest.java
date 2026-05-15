@@ -13,131 +13,131 @@ import org.junit.jupiter.api.Test;
 public class S3FileClientTest {
 
     @Test
-    @Disabled // MinIO，如果要集成测试，可以注释本行
+    @Disabled // MinIO; comment out this line to run as an integration test
     public void testMinIO() throws Exception {
         S3FileClientConfig config = new S3FileClientConfig();
-        // 配置成你自己的
+        // Configure with your own values
         config.setAccessKey("admin");
         config.setAccessSecret("password");
-        config.setBucket("yudaoyuanma");
+        config.setBucket("focela-bucket");
         config.setDomain(null);
-        // 默认 9000 endpoint
+        // Default 9000 endpoint
         config.setEndpoint("http://127.0.0.1:9000");
 
-        // 执行上传
+        // Run upload
         testExecuteUpload(config);
     }
 
     @Test
-    @Disabled // 阿里云 OSS，如果要集成测试，可以注释本行
+    @Disabled // Aliyun OSS; comment out this line to run as an integration test
     public void testAliyun() throws Exception {
         S3FileClientConfig config = new S3FileClientConfig();
-        // 配置成你自己的
+        // Configure with your own values
         config.setAccessKey(System.getenv("ALIYUN_ACCESS_KEY"));
         config.setAccessSecret(System.getenv("ALIYUN_SECRET_KEY"));
-        config.setBucket("yunai-aoteman");
-        config.setDomain(null); // 如果有自定义域名，则可以设置。http://ali-oss.example.com
-        // 默认北京的 endpoint
+        config.setBucket("focela-aliyun-bucket");
+        config.setDomain(null); // Optional custom domain, e.g. http://ali-oss.example.com
+        // Default Beijing endpoint
         config.setEndpoint("oss-cn-beijing.aliyuncs.com");
 
-        // 执行上传
+        // Run upload
         testExecuteUpload(config);
     }
 
     @Test
-    @Disabled // 腾讯云 COS，如果要集成测试，可以注释本行
+    @Disabled // Tencent Cloud COS; comment out this line to run as an integration test
     public void testQCloud() throws Exception {
         S3FileClientConfig config = new S3FileClientConfig();
-        // 配置成你自己的
+        // Configure with your own values
         config.setAccessKey(System.getenv("QCLOUD_ACCESS_KEY"));
         config.setAccessSecret(System.getenv("QCLOUD_SECRET_KEY"));
-        config.setBucket("aoteman-1255880240");
-        config.setDomain(null); // 如果有自定义域名，则可以设置。http://tengxun-oss.example.com
-        // 默认上海的 endpoint
+        config.setBucket("focela-qcloud-1255880240");
+        config.setDomain(null); // Optional custom domain, e.g. http://tencent-oss.example.com
+        // Default Shanghai endpoint
         config.setEndpoint("cos.ap-shanghai.myqcloud.com");
 
-        // 执行上传
+        // Run upload
         testExecuteUpload(config);
     }
 
     @Test
-    @Disabled // 七牛云存储，如果要集成测试，可以注释本行
+    @Disabled // Qiniu Cloud Storage; comment out this line to run as an integration test
     public void testQiniu() throws Exception {
         S3FileClientConfig config = new S3FileClientConfig();
-        // 配置成你自己的
+        // Configure with your own values
 //        config.setAccessKey(System.getenv("QINIU_ACCESS_KEY"));
 //        config.setAccessSecret(System.getenv("QINIU_SECRET_KEY"));
         config.setAccessKey("b7yvuhBSAGjmtPhMFcn9iMOxUOY_I06cA_p0ZUx8");
         config.setAccessSecret("kXM1l5ia1RvSX3QaOEcwI3RLz3Y2rmNszWonKZtP");
-        config.setBucket("ruoyi-vue-pro");
-        config.setDomain("https://www.example.com"); // 如果有自定义域名，则可以设置。https://www.example.com
+        config.setBucket("focela-qiniu");
+        config.setDomain("https://www.example.com"); // Optional custom domain, e.g. https://www.example.com
         config.setEnablePathStyleAccess(false);
-        // 默认上海的 endpoint
+        // Default Shanghai endpoint
         config.setEndpoint("s3-cn-south-1.qiniucs.com");
 
-        // 执行上传
+        // Run upload
         testExecuteUpload(config);
     }
 
     @Test
-    @Disabled // 七牛云存储（读私有桶），如果要集成测试，可以注释本行
+    @Disabled // Qiniu Cloud Storage (read private bucket); comment out this line to run as an integration test
     public void testQiniu_privateGet() {
         S3FileClientConfig config = new S3FileClientConfig();
-        // 配置成你自己的
+        // Configure with your own values
 //        config.setAccessKey(System.getenv("QINIU_ACCESS_KEY"));
 //        config.setAccessSecret(System.getenv("QINIU_SECRET_KEY"));
         config.setAccessKey("b7yvuhBSAGjmtPhMFcn9iMOxUOY_I06cA_p0ZUx8");
         config.setAccessSecret("kXM1l5ia1RvSX3QaOEcwI3RLz3Y2rmNszWonKZtP");
-        config.setBucket("ruoyi-vue-pro-private");
-        config.setDomain("http://t151glocd.hn-bkt.clouddn.com"); // 如果有自定义域名，则可以设置。https://www.example.com
+        config.setBucket("focela-qiniu-private");
+        config.setDomain("http://t151glocd.hn-bkt.clouddn.com"); // Optional custom domain, e.g. https://www.example.com
         config.setEnablePathStyleAccess(false);
-        // 默认上海的 endpoint
+        // Default Shanghai endpoint
         config.setEndpoint("s3-cn-south-1.qiniucs.com");
 
-        // 校验配置
+        // Validate config
         ValidationUtils.validate(Validation.buildDefaultValidatorFactory().getValidator(), config);
-        // 创建 Client
+        // Create Client
         S3FileClient client = new S3FileClient(0L, config);
         client.init();
-        // 执行生成 URL 签名
+        // Generate presigned URL
         String path = "output.png";
         String presignedUrl = client.presignGetUrl(path, 300);
         System.out.println(presignedUrl);
     }
 
     @Test
-    @Disabled // 华为云存储，如果要集成测试，可以注释本行
+    @Disabled // Huawei Cloud Storage; comment out this line to run as an integration test
     public void testHuaweiCloud() throws Exception {
         S3FileClientConfig config = new S3FileClientConfig();
-        // 配置成你自己的
+        // Configure with your own values
 //        config.setAccessKey(System.getenv("HUAWEI_CLOUD_ACCESS_KEY"));
 //        config.setAccessSecret(System.getenv("HUAWEI_CLOUD_SECRET_KEY"));
-        config.setBucket("yudao");
-        config.setDomain(null); // 如果有自定义域名，则可以设置。
-        // 默认上海的 endpoint
+        config.setBucket("focela");
+        config.setDomain(null); // Optional custom domain
+        // Default Shanghai endpoint
         config.setEndpoint("obs.cn-east-3.myhuaweicloud.com");
 
-        // 执行上传
+        // Run upload
         testExecuteUpload(config);
     }
 
     private void testExecuteUpload(S3FileClientConfig config) {
-        // 校验配置
+        // Validate config
         ValidationUtils.validate(Validation.buildDefaultValidatorFactory().getValidator(), config);
-        // 创建 Client
+        // Create Client
         S3FileClient client = new S3FileClient(0L, config);
         client.init();
-        // 上传文件
+        // Upload file
         String path = IdUtil.fastSimpleUUID() + ".jpg";
         byte[] content = ResourceUtil.readBytes("file/erweima.jpg");
         String fullPath = client.upload(content, path, "image/jpeg");
-        System.out.println("访问地址：" + fullPath);
-        // 读取文件
+        System.out.println("Access URL: " + fullPath);
+        // Read file
         if (true) {
             byte[] bytes = client.getContent(path);
-            System.out.println("文件内容：" + bytes.length);
+            System.out.println("File content: " + bytes.length);
         }
-        // 删除文件
+        // Delete file
         if (false) {
             client.delete(path);
         }

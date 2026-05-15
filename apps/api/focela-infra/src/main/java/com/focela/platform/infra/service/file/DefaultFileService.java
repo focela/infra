@@ -27,22 +27,22 @@ import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.e
 import static com.focela.platform.infra.constants.ErrorCodeConstants.FILE_NOT_EXISTS;
 
 /**
- * 文件 Service 实现类
+ * Implementation class of the file Service
  */
 @Service
 public class DefaultFileService implements FileService {
 
     /**
-     * 上传文件的前缀，是否包含日期（yyyyMMdd）
+     * Whether the upload path prefix includes the date (yyyyMMdd).
      *
-     * 目的：按照日期，进行分目录
+     * Purpose: partition stored files by date.
      */
     static boolean PATH_PREFIX_DATE_ENABLE = true;
     /**
-     * 上传文件的后缀，是否包含时间戳
+     * Whether the upload path suffix includes a timestamp.
      *
-     * 目的：保证文件的唯一性，避免覆盖
-     * 定制：可按需调整成 UUID、或者其他方式
+     * Purpose: guarantee file-name uniqueness and avoid overwrites.
+     * Customization: can be replaced with UUID or another scheme.
      */
     static boolean PATH_SUFFIX_TIMESTAMP_ENABLE = true;
 
@@ -60,30 +60,30 @@ public class DefaultFileService implements FileService {
     @Override
     @SneakyThrows
     public String createFile(byte[] content, String name, String directory, String type) {
-        // 1.1 处理 type 为空的情况
+        // 1.1 Handle empty type
         if (StrUtil.isEmpty(type)) {
             type = FileTypeUtils.getMineType(content, name);
         }
-        // 1.2 处理 name 为空的情况
+        // 1.2 Handle empty name
         if (StrUtil.isEmpty(name)) {
             name = DigestUtil.sha256Hex(content);
         }
         if (StrUtil.isEmpty(FileUtil.extName(name))) {
-            // 如果 name 没有后缀 type，则补充后缀
+            // If the name has no extension that matches type, append one
             String extension = FileTypeUtils.getExtension(type);
             if (StrUtil.isNotEmpty(extension)) {
                 name = name + extension;
             }
         }
 
-        // 2.1 生成上传的 path，需要保证唯一
+        // 2.1 Generate the upload path; must be unique
         String path = generateUploadPath(name, directory);
-        // 2.2 上传到文件存储器
+        // 2.2 Upload to the file storage
         FileClient client = fileConfigService.getMasterFileClient();
-        Assert.notNull(client, "客户端(master) 不能为空");
+        Assert.notNull(client, "client (master) must not be null");
         String url = client.upload(content, path, type);
 
-        // 3. 保存到数据库
+        // 3. Save to database
         fileMapper.insert(new FileEntity().setConfigId(client.getId())
                 .setName(name).setPath(path).setUrl(url)
                 .setType(type).setSize((long) content.length));
@@ -92,7 +92,7 @@ public class DefaultFileService implements FileService {
 
     @VisibleForTesting
     String generateUploadPath(String name, String directory) {
-        // 1. 生成前缀、后缀
+        // 1. Generate prefix and suffix
         String prefix = null;
         if (PATH_PREFIX_DATE_ENABLE) {
             prefix = LocalDateTimeUtil.format(LocalDateTimeUtil.now(), PURE_DATE_PATTERN);
@@ -102,7 +102,7 @@ public class DefaultFileService implements FileService {
             suffix = String.valueOf(System.currentTimeMillis());
         }
 
-        // 2.1 先拼接 suffix 后缀
+        // 2.1 Append the suffix
         if (StrUtil.isNotEmpty(suffix)) {
             String ext = FileUtil.extName(name);
             if (StrUtil.isNotEmpty(ext)) {
@@ -111,11 +111,11 @@ public class DefaultFileService implements FileService {
                 name = name + StrUtil.C_UNDERLINE + suffix;
             }
         }
-        // 2.2 再拼接 prefix 前缀
+        // 2.2 Prepend the prefix
         if (StrUtil.isNotEmpty(prefix)) {
             name = prefix + StrUtil.SLASH + name;
         }
-        // 2.3 最后拼接 directory 目录
+        // 2.3 Finally prepend the directory
         if (StrUtil.isNotEmpty(directory)) {
             name = directory + StrUtil.SLASH + name;
         }
@@ -125,10 +125,10 @@ public class DefaultFileService implements FileService {
     @Override
     @SneakyThrows
     public FilePresignedUrlResponse presignPutUrl(String name, String directory) {
-        // 1. 生成上传的 path，需要保证唯一
+        // 1. Generate the upload path; must be unique
         String path = generateUploadPath(name, directory);
 
-        // 2. 获取文件预签名地址
+        // 2. Get presigned URL
         FileClient fileClient = fileConfigService.getMasterFileClient();
         String uploadUrl = fileClient.presignPutUrl(path);
         String visitUrl = fileClient.presignGetUrl(path, null);
@@ -144,7 +144,7 @@ public class DefaultFileService implements FileService {
 
     @Override
     public Long createFile(FileCreateRequest createRequest) {
-        createRequest.setUrl(HttpUtils.removeUrlQuery(createRequest.getUrl())); // 目的：移除私有桶情况下，URL 的签名参数
+        createRequest.setUrl(HttpUtils.removeUrlQuery(createRequest.getUrl())); // Purpose: strip signature params from URLs of private buckets
         FileEntity file = BeanUtils.toBean(createRequest, FileEntity.class);
         fileMapper.insert(file);
         return file.getId();
@@ -157,32 +157,32 @@ public class DefaultFileService implements FileService {
 
     @Override
     public void deleteFile(Long id) throws Exception {
-        // 校验存在
+        // Verify it exists
         FileEntity file = validateFileExists(id);
 
-        // 从文件存储器中删除
+        // Delete from file storage
         FileClient client = fileConfigService.getFileClient(file.getConfigId());
-        Assert.notNull(client, "客户端({}) 不能为空", file.getConfigId());
+        Assert.notNull(client, "client ({}) must not be null", file.getConfigId());
         client.delete(file.getPath());
 
-        // 删除记录
+        // Delete record
         fileMapper.deleteById(id);
     }
 
     @Override
     @SneakyThrows
     public void deleteFileList(List<Long> ids) {
-        // 删除文件
+        // Delete files
         List<FileEntity> files = fileMapper.selectByIds(ids);
         for (FileEntity file : files) {
-            // 获取客户端
+            // Get client
             FileClient client = fileConfigService.getFileClient(file.getConfigId());
-            Assert.notNull(client, "客户端({}) 不能为空", file.getPath());
-            // 删除文件
+            Assert.notNull(client, "client ({}) must not be null", file.getPath());
+            // Delete file
             client.delete(file.getPath());
         }
 
-        // 删除记录
+        // Delete records
         fileMapper.deleteByIds(ids);
     }
 
@@ -197,7 +197,7 @@ public class DefaultFileService implements FileService {
     @Override
     public byte[] getFileContent(Long configId, String path) throws Exception {
         FileClient client = fileConfigService.getFileClient(configId);
-        Assert.notNull(client, "客户端({}) 不能为空", configId);
+        Assert.notNull(client, "client ({}) must not be null", configId);
         return client.getContent(path);
     }
 

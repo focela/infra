@@ -23,7 +23,7 @@ import static com.focela.platform.infra.constants.ErrorCodeConstants.API_ERROR_L
 import static com.focela.platform.infra.constants.ErrorCodeConstants.API_ERROR_LOG_PROCESSED;
 
 /**
- * API 错误日志 Service 实现类
+ * Implementation class of the API error log Service
  */
 @Service
 @Validated
@@ -42,12 +42,12 @@ public class DefaultApiErrorLogService implements ApiErrorLogService {
             if (TenantContextHolder.getTenantId() != null) {
                 apiErrorLogMapper.insert(apiErrorLog);
             } else {
-                // 极端情况下，上下文中没有租户时，此时忽略租户上下文，避免插入失败！
+                // In extreme cases the context has no tenant; ignore the tenant context to avoid insert failure.
                 TenantUtils.executeIgnore(() -> apiErrorLogMapper.insert(apiErrorLog));
             }
         } catch (Exception ex) {
-            // 兜底处理，目前只有 yudao-cloud 会发生：https://gitee.com/yudaocode/yudao-cloud-mini/issues/IC1O0A
-            log.error("[createApiErrorLog][记录when ({}) 发生exception]", createDTO, ex);
+            // Fallback handling.
+            log.error("[createApiErrorLog][record ({}) raised exception]", createDTO, ex);
         }
     }
 
@@ -70,7 +70,7 @@ public class DefaultApiErrorLogService implements ApiErrorLogService {
         if (!ApiErrorLogProcessStatusEnum.INIT.getStatus().equals(errorLog.getProcessStatus())) {
             throw exception(API_ERROR_LOG_PROCESSED);
         }
-        // 标记处理
+        // Mark as processed
         apiErrorLogMapper.updateById(ApiErrorLogEntity.builder().id(id).processStatus(processStatus)
                 .processUserId(processUserId).processTime(LocalDateTime.now()).build());
     }
@@ -80,11 +80,11 @@ public class DefaultApiErrorLogService implements ApiErrorLogService {
     public Integer cleanErrorLog(Integer exceedDay, Integer deleteLimit) {
         int count = 0;
         LocalDateTime expireDate = LocalDateTime.now().minusDays(exceedDay);
-        // 循环删除，直到没有满足条件的数据
+        // Delete in a loop until no more matching records remain
         for (int i = 0; i < Short.MAX_VALUE; i++) {
             int deleteCount = apiErrorLogMapper.deleteByCreateTimeLt(expireDate, deleteLimit);
             count += deleteCount;
-            // 达到删除预期条数，说明到底了
+            // Reached the deletion limit, meaning end of batch
             if (deleteCount < deleteLimit) {
                 break;
             }

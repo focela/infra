@@ -40,7 +40,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 /**
- * {@link DefaultFileConfigService} 的单元测试类
+ * Unit test class for {@link DefaultFileConfigService}
  */
 @Import(DefaultFileConfigService.class)
 public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
@@ -58,145 +58,145 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testCreateFileConfig_success() {
-        // 准备参数
-        Map<String, Object> config = MapUtil.<String, Object>builder().put("basePath", "/yunai")
+        // Prepare parameters
+        Map<String, Object> config = MapUtil.<String, Object>builder().put("basePath", "/focela")
                 .put("domain", "https://www.example.com").build();
         FileConfigSaveRequest request = randomPojo(FileConfigSaveRequest.class,
                 o -> o.setStorage(FileStorageEnum.LOCAL.getStorage()).setConfig(config))
-                .setId(null); // 避免 id 被赋值
+                .setId(null); // avoid id being set
 
-        // 调用
+        // Invoke
         Long fileConfigId = fileConfigService.createFileConfig(request);
-        // 断言
+        // Assert
         assertNotNull(fileConfigId);
-        // 校验记录的属性是否正确
+        // Verify record properties are correct
         FileConfigEntity fileConfig = fileConfigMapper.selectById(fileConfigId);
         assertPojoEquals(request, fileConfig, "id", "config");
         assertFalse(fileConfig.getMaster());
-        assertEquals("/yunai", ((LocalFileClientConfig) fileConfig.getConfig()).getBasePath());
+        assertEquals("/focela", ((LocalFileClientConfig) fileConfig.getConfig()).getBasePath());
         assertEquals("https://www.example.com", ((LocalFileClientConfig) fileConfig.getConfig()).getDomain());
-        // 验证 cache
+        // Verify cache
         assertNull(fileConfigService.getClientCache().getIfPresent(fileConfigId));
     }
 
     @Test
     public void testUpdateFileConfig_success() {
-        // mock 数据
+        // mock data
         FileConfigEntity dbFileConfig = randomPojo(FileConfigEntity.class, o -> o.setStorage(FileStorageEnum.LOCAL.getStorage())
-                .setConfig(new LocalFileClientConfig().setBasePath("/yunai").setDomain("https://www.example.com")));
-        fileConfigMapper.insert(dbFileConfig);// @Sql: 先插入出一条存在的数据
-        // 准备参数
+                .setConfig(new LocalFileClientConfig().setBasePath("/focela").setDomain("https://www.example.com")));
+        fileConfigMapper.insert(dbFileConfig);// @Sql: first insert an existing record
+        // Prepare parameters
         FileConfigSaveRequest request = randomPojo(FileConfigSaveRequest.class, o -> {
-            o.setId(dbFileConfig.getId()); // 设置更新的 ID
+            o.setId(dbFileConfig.getId()); // set the ID to update
             o.setStorage(FileStorageEnum.LOCAL.getStorage());
-            Map<String, Object> config = MapUtil.<String, Object>builder().put("basePath", "/yunai2")
+            Map<String, Object> config = MapUtil.<String, Object>builder().put("basePath", "/focela2")
                     .put("domain", "https://www.example.com").build();
             o.setConfig(config);
         });
 
-        // 调用
+        // Invoke
         fileConfigService.updateFileConfig(request);
-        // 校验是否更新正确
-        FileConfigEntity fileConfig = fileConfigMapper.selectById(request.getId()); // 获取最新的
+        // Verify update is correct
+        FileConfigEntity fileConfig = fileConfigMapper.selectById(request.getId()); // get the latest
         assertPojoEquals(request, fileConfig, "config");
-        assertEquals("/yunai2", ((LocalFileClientConfig) fileConfig.getConfig()).getBasePath());
+        assertEquals("/focela2", ((LocalFileClientConfig) fileConfig.getConfig()).getBasePath());
         assertEquals("https://www.example.com", ((LocalFileClientConfig) fileConfig.getConfig()).getDomain());
-        // 验证 cache
+        // Verify cache
         assertNull(fileConfigService.getClientCache().getIfPresent(fileConfig.getId()));
     }
 
     @Test
     public void testUpdateFileConfig_notExists() {
-        // 准备参数
+        // Prepare parameters
         FileConfigSaveRequest request = randomPojo(FileConfigSaveRequest.class);
 
-        // 调用, 并断言异常
+        // Invoke and verify exception
         assertServiceException(() -> fileConfigService.updateFileConfig(request), FILE_CONFIG_NOT_EXISTS);
     }
 
     @Test
     public void testUpdateFileConfigMaster_success() {
-        // mock 数据
+        // mock data
         FileConfigEntity dbFileConfig = randomFileConfigDO().setMaster(false);
-        fileConfigMapper.insert(dbFileConfig);// @Sql: 先插入出一条存在的数据
+        fileConfigMapper.insert(dbFileConfig);// @Sql: first insert an existing record
         FileConfigEntity masterFileConfig = randomFileConfigDO().setMaster(true);
-        fileConfigMapper.insert(masterFileConfig);// @Sql: 先插入出一条存在的数据
+        fileConfigMapper.insert(masterFileConfig);// @Sql: first insert an existing record
 
-        // 调用
+        // Invoke
         fileConfigService.updateFileConfigMaster(dbFileConfig.getId());
-        // 断言数据
+        // Assert data
         assertTrue(fileConfigMapper.selectById(dbFileConfig.getId()).getMaster());
         assertFalse(fileConfigMapper.selectById(masterFileConfig.getId()).getMaster());
-        // 验证 cache
+        // Verify cache
         assertNull(fileConfigService.getClientCache().getIfPresent(0L));
     }
 
     @Test
     public void testUpdateFileConfigMaster_notExists() {
-        // 调用, 并断言异常
+        // Invoke and verify exception
         assertServiceException(() -> fileConfigService.updateFileConfigMaster(randomLongId()), FILE_CONFIG_NOT_EXISTS);
     }
 
     @Test
     public void testDeleteFileConfig_success() {
-        // mock 数据
+        // mock data
         FileConfigEntity dbFileConfig = randomFileConfigDO().setMaster(false);
-        fileConfigMapper.insert(dbFileConfig);// @Sql: 先插入出一条存在的数据
-        // 准备参数
+        fileConfigMapper.insert(dbFileConfig);// @Sql: first insert an existing record
+        // Prepare parameters
         Long id = dbFileConfig.getId();
 
-        // 调用
+        // Invoke
         fileConfigService.deleteFileConfig(id);
-        // 校验数据不存在了
+        // Verify data no longer exists
         assertNull(fileConfigMapper.selectById(id));
-        // 验证 cache
+        // Verify cache
         assertNull(fileConfigService.getClientCache().getIfPresent(id));
     }
 
     @Test
     public void testDeleteFileConfig_notExists() {
-        // 准备参数
+        // Prepare parameters
         Long id = randomLongId();
 
-        // 调用, 并断言异常
+        // Invoke and verify exception
         assertServiceException(() -> fileConfigService.deleteFileConfig(id), FILE_CONFIG_NOT_EXISTS);
     }
 
     @Test
     public void testDeleteFileConfig_master() {
-        // mock 数据
+        // mock data
         FileConfigEntity dbFileConfig = randomFileConfigDO().setMaster(true);
-        fileConfigMapper.insert(dbFileConfig);// @Sql: 先插入出一条存在的数据
-        // 准备参数
+        fileConfigMapper.insert(dbFileConfig);// @Sql: first insert an existing record
+        // Prepare parameters
         Long id = dbFileConfig.getId();
 
-        // 调用, 并断言异常
+        // Invoke and verify exception
         assertServiceException(() -> fileConfigService.deleteFileConfig(id), FILE_CONFIG_DELETE_FAIL_MASTER);
     }
 
     @Test
     public void testGetFileConfigPage() {
-        // mock 数据
-        FileConfigEntity dbFileConfig = randomFileConfigDO().setName("芋道源码")
+        // mock data
+        FileConfigEntity dbFileConfig = randomFileConfigDO().setName("focela-source")
                 .setStorage(FileStorageEnum.LOCAL.getStorage());
-        dbFileConfig.setCreateTime(LocalDateTimeUtil.parse("2020-01-23", DatePattern.NORM_DATE_PATTERN));// 等会查询到
+        dbFileConfig.setCreateTime(LocalDateTimeUtil.parse("2020-01-23", DatePattern.NORM_DATE_PATTERN));// will be queried later
         fileConfigMapper.insert(dbFileConfig);
-        // 测试 name 不匹配
-        fileConfigMapper.insert(cloneIgnoreId(dbFileConfig, o -> o.setName("源码")));
-        // 测试 storage 不匹配
+        // Test name mismatch
+        fileConfigMapper.insert(cloneIgnoreId(dbFileConfig, o -> o.setName("other")));
+        // Test storage mismatch
         fileConfigMapper.insert(cloneIgnoreId(dbFileConfig, o -> o.setStorage(FileStorageEnum.DB.getStorage())));
-        // 测试 createTime 不匹配
+        // Test createTime mismatch
         fileConfigMapper.insert(cloneIgnoreId(dbFileConfig, o -> o.setCreateTime(LocalDateTimeUtil.parse("2020-11-23", DatePattern.NORM_DATE_PATTERN))));
-        // 准备参数
+        // Prepare parameters
         FileConfigPageRequest request = new FileConfigPageRequest();
-        request.setName("芋道");
+        request.setName("focela");
         request.setStorage(FileStorageEnum.LOCAL.getStorage());
         request.setCreateTime((new LocalDateTime[]{buildTime(2020, 1, 1),
                 buildTime(2020, 1, 24)}));
 
-        // 调用
+        // Invoke
         PageResult<FileConfigEntity> pageResult = fileConfigService.getFileConfigPage(request);
-        // 断言
+        // Assert
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
         assertPojoEquals(dbFileConfig, pageResult.getList().get(0));
@@ -204,64 +204,64 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testFileConfig() throws Exception {
-        // mock 数据
+        // mock data
         FileConfigEntity dbFileConfig = randomFileConfigDO().setMaster(false);
-        fileConfigMapper.insert(dbFileConfig);// @Sql: 先插入出一条存在的数据
-        // 准备参数
+        fileConfigMapper.insert(dbFileConfig);// @Sql: first insert an existing record
+        // Prepare parameters
         Long id = dbFileConfig.getId();
-        // mock 获得 Client
+        // mock the Client
         FileClient fileClient = mock(FileClient.class);
         when(fileClientFactory.getFileClient(eq(id))).thenReturn(fileClient);
         when(fileClient.upload(any(), any(), any())).thenReturn("https://www.example.com");
 
-        // 调用，并断言
+        // Invoke and verify
         assertEquals("https://www.example.com", fileConfigService.testFileConfig(id));
     }
 
     @Test
     public void testGetFileConfig() {
-        // mock 数据
+        // mock data
         FileConfigEntity dbFileConfig = randomFileConfigDO().setMaster(false);
-        fileConfigMapper.insert(dbFileConfig);// @Sql: 先插入出一条存在的数据
-        // 准备参数
+        fileConfigMapper.insert(dbFileConfig);// @Sql: first insert an existing record
+        // Prepare parameters
         Long id = dbFileConfig.getId();
 
-        // 调用，并断言
+        // Invoke and verify
         assertPojoEquals(dbFileConfig, fileConfigService.getFileConfig(id));
     }
 
     @Test
     public void testGetFileClient() {
-        // mock 数据
+        // mock data
         FileConfigEntity fileConfig = randomFileConfigDO().setMaster(false);
         fileConfigMapper.insert(fileConfig);
-        // 准备参数
+        // Prepare parameters
         Long id = fileConfig.getId();
-        // mock 获得 Client
+        // mock the Client
         FileClient fileClient = new LocalFileClient(id, new LocalFileClientConfig());
         when(fileClientFactory.getFileClient(eq(id))).thenReturn(fileClient);
 
-        // 调用，并断言
+        // Invoke and verify
         assertSame(fileClient, fileConfigService.getFileClient(id));
-        // 断言缓存
+        // Assert cache
         verify(fileClientFactory).createOrUpdateFileClient(eq(id), eq(fileConfig.getStorage()),
                 eq(fileConfig.getConfig()));
     }
 
     @Test
     public void testGetMasterFileClient() {
-        // mock 数据
+        // mock data
         FileConfigEntity fileConfig = randomFileConfigDO().setMaster(true);
         fileConfigMapper.insert(fileConfig);
-        // 准备参数
+        // Prepare parameters
         Long id = fileConfig.getId();
-        // mock 获得 Client
+        // mock the Client
         FileClient fileClient = new LocalFileClient(id, new LocalFileClientConfig());
         when(fileClientFactory.getFileClient(eq(fileConfig.getId()))).thenReturn(fileClient);
 
-        // 调用，并断言
+        // Invoke and verify
         assertSame(fileClient, fileConfigService.getMasterFileClient());
-        // 断言缓存
+        // Assert cache
         verify(fileClientFactory).createOrUpdateFileClient(eq(fileConfig.getId()), eq(fileConfig.getStorage()),
                 eq(fileConfig.getConfig()));
     }

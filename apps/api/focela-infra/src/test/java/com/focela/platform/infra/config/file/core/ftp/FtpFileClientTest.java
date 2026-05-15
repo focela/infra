@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
- * {@link FtpFileClient} 集成测试
+ * {@link FtpFileClient} integration test
  */
 public class FtpFileClientTest {
 
@@ -26,7 +26,7 @@ public class FtpFileClientTest {
     @Test
     @Disabled
     public void test() {
-        // 创建客户端
+        // Create client
         FtpFileClientConfig config = new FtpFileClientConfig();
         config.setDomain("http://127.0.0.1:48080");
         config.setBasePath("/home/ftp");
@@ -37,14 +37,14 @@ public class FtpFileClientTest {
         config.setMode(FtpMode.Passive.name());
         FtpFileClient client = new FtpFileClient(0L, config);
         client.init();
-        // 上传文件
+        // Upload file
         String path = IdUtil.fastSimpleUUID() + ".jpg";
         byte[] content = ResourceUtil.readBytes("file/erweima.jpg");
         String fullPath = client.upload(content, path, "image/jpeg");
-        System.out.println("访问地址：" + fullPath);
+        System.out.println("Access URL: " + fullPath);
         if (false) {
             byte[] bytes = client.getContent(path);
-            System.out.println("文件内容：" + bytes);
+            System.out.println("File content: " + bytes);
         }
         if (false) {
             client.delete(path);

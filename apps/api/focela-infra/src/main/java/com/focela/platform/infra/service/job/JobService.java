@@ -10,74 +10,74 @@ import org.quartz.SchedulerException;
 import java.util.List;
 
 /**
- * 定时任务 Service 接口
+ * Scheduled job Service interface
  */
 public interface JobService {
 
     /**
-     * 创建定时任务
+     * Create a scheduled job.
      *
-     * @param createRequest 创建信息
-     * @return 编号
+     * @param createRequest creation info
+     * @return ID
      */
     Long createJob(@Valid JobSaveRequest createRequest) throws SchedulerException;
 
     /**
-     * 更新定时任务
+     * Update a scheduled job.
      *
-     * @param updateRequest 更新信息
+     * @param updateRequest update info
      */
     void updateJob(@Valid JobSaveRequest updateRequest) throws SchedulerException;
 
     /**
-     * 更新定时任务的状态
+     * Update the status of a scheduled job.
      *
-     * @param id     任务编号
-     * @param status 状态
+     * @param id     job ID
+     * @param status status
      */
     void updateJobStatus(Long id, Integer status) throws SchedulerException;
 
     /**
-     * 触发定时任务
+     * Trigger a scheduled job.
      *
-     * @param id 任务编号
+     * @param id job ID
      */
     void triggerJob(Long id) throws SchedulerException;
 
     /**
-     * 同步定时任务
+     * Sync scheduled jobs.
      *
-     * 目的：自己存储的 Job 信息，强制同步到 Quartz 中
+     * Purpose: force-sync the locally stored Job info into Quartz.
      */
     void syncJob() throws SchedulerException;
 
     /**
-     * 删除定时任务
+     * Delete a scheduled job.
      *
-     * @param id 编号
+     * @param id ID
      */
     void deleteJob(Long id) throws SchedulerException;
 
     /**
-     * 批量删除定时任务
+     * Batch delete scheduled jobs.
      *
-     * @param ids 编号列表
+     * @param ids ID list
      */
     void deleteJobList(List<Long> ids) throws SchedulerException;
 
     /**
-     * 获得定时任务
+     * Get a scheduled job.
      *
-     * @param id 编号
-     * @return 定时任务
+     * @param id ID
+     * @return scheduled job
      */
     JobEntity getJob(Long id);
 
     /**
-     * 获得定时任务分页
+     * Get a paged list of scheduled jobs.
      *
-     * @param pageRequest 分页查询
-     * @return 定时任务分页
+     * @param pageRequest paged query
+     * @return paged scheduled jobs
      */
     PageResult<JobEntity> getJobPage(JobPageRequest pageRequest);
 

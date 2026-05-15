@@ -26,8 +26,8 @@ public class FileUploadRequest {
     }
 
     public static boolean isDirectoryValid(String directory) {
-        // 1. 不能包含 .. 防止目录穿越
-        // 2. 不能以 / 或 \ 开头，防止上传到根目录
+        // 1. Must not contain ".." to prevent directory traversal
+        // 2. Must not start with "/" or "\" to prevent uploading to the root directory
         return !StrUtil.contains(directory, "..")
                 && !StrUtil.startWithAny(directory, "/", "\\");
     }

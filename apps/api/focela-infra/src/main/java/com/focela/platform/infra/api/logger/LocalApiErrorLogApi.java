@@ -9,7 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import jakarta.annotation.Resource;
 
 /**
- * API 访问日志的 API 接口
+ * Implementation class of the API error log API
  */
 @Service
 @Validated

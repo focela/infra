@@ -75,8 +75,8 @@ public class ApiErrorLogController {
                                        HttpServletResponse response) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
         List<ApiErrorLogEntity> list = apiErrorLogService.getApiErrorLogPage(exportRequest).getList();
-        // 导出 Excel
-        ExcelUtils.write(response, "API 错误日志.xls", "数据", ApiErrorLogResponse.class,
+        // Export Excel
+        ExcelUtils.write(response, "API error log.xls", "Data", ApiErrorLogResponse.class,
                 BeanUtils.toBean(list, ApiErrorLogResponse.class));
     }
 

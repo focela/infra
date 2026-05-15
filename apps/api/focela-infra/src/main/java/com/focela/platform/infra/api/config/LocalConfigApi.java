@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 /**
- * 参数配置 API 实现类
+ * Implementation class of the param config API
  */
 @Service
 @Validated

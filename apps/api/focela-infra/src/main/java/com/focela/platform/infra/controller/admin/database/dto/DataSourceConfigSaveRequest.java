@@ -16,7 +16,7 @@ public class DataSourceConfigSaveRequest {
     private String name;
 
     @Schema(description = "Datasource URL", requiredMode = Schema.RequiredMode.REQUIRED, example = "jdbc:mysql://127.0.0.1:3306/ruoyi-vue-pro")
-    @NotNull(message = "datasource 连接must not be blank")
+    @NotNull(message = "datasource URL must not be blank")
     private String url;
 
     @Schema(description = "Username", requiredMode = Schema.RequiredMode.REQUIRED, example = "root")

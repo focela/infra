@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * WebSocket 发送器的 API 实现类
+ * Implementation class of the WebSocket sender API
  */
 @Component
 public class LocalWebSocketSenderApi implements WebSocketSenderApi {

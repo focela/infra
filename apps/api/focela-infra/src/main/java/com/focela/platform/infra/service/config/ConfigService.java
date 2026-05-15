@@ -9,60 +9,60 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 /**
- * 参数配置 Service 接口
+ * Param config Service interface
  */
 public interface ConfigService {
 
     /**
-     * 创建参数配置
+     * Create a param config.
      *
-     * @param createRequest 创建信息
-     * @return 配置编号
+     * @param createRequest creation info
+     * @return config ID
      */
     Long createConfig(@Valid ConfigSaveRequest createRequest);
 
     /**
-     * 更新参数配置
+     * Update a param config.
      *
-     * @param updateRequest 更新信息
+     * @param updateRequest update info
      */
     void updateConfig(@Valid ConfigSaveRequest updateRequest);
 
     /**
-     * 删除参数配置
+     * Delete a param config.
      *
-     * @param id 配置编号
+     * @param id config ID
      */
     void deleteConfig(Long id);
 
     /**
-     * 批量删除参数配置
+     * Batch delete param configs.
      *
-     * @param ids 配置编号列表
+     * @param ids config ID list
      */
     void deleteConfigList(List<Long> ids);
 
     /**
-     * 获得参数配置
+     * Get a param config.
      *
-     * @param id 配置编号
-     * @return 参数配置
+     * @param id config ID
+     * @return param config
      */
     ConfigEntity getConfig(Long id);
 
     /**
-     * 根据参数键，获得参数配置
+     * Get a param config by key.
      *
-     * @param key 配置键
-     * @return 参数配置
+     * @param key config key
+     * @return param config
      */
     ConfigEntity getConfigByKey(String key);
 
     /**
-     * 获得参数配置分页列表
+     * Get a paged list of param configs.
      *
-     * @param request 分页条件
-     * @return 分页列表
+     * @param request paging conditions
+     * @return paged list
      */
     PageResult<ConfigEntity> getConfigPage(ConfigPageRequest request);
 
