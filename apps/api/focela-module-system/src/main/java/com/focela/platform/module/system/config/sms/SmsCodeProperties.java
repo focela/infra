@@ -1,4 +1,4 @@
-package com.focela.platform.module.system.config.sms.config;
+package com.focela.platform.module.system.config.sms;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

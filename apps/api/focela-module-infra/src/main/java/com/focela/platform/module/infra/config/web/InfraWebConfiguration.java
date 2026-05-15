@@ -1,4 +1,4 @@
-package com.focela.platform.module.infra.config.web.config;
+package com.focela.platform.module.infra.config.web;
 
 import com.focela.platform.framework.swagger.config.FocelaSwaggerAutoConfiguration;
 import org.springdoc.core.models.GroupedOpenApi;

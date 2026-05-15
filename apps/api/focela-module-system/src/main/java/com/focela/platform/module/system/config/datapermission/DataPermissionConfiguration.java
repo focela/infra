@@ -1,4 +1,4 @@
-package com.focela.platform.module.system.config.datapermission.config;
+package com.focela.platform.module.system.config.datapermission;
 
 import com.focela.platform.module.system.entity.department.DepartmentEntity;
 import com.focela.platform.module.system.entity.user.UserEntity;

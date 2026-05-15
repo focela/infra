@@ -1,4 +1,4 @@
-package com.focela.platform.module.system.config.justauth.config;
+package com.focela.platform.module.system.config.justauth;
 
 import com.focela.platform.module.system.config.justauth.core.AuthRequestFactory;
 import com.xkcoding.justauth.autoconfigure.JustAuthProperties;

@@ -1,4 +1,4 @@
-package com.focela.platform.module.infra.config.monitor.config;
+package com.focela.platform.module.infra.config.monitor;
 
 import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import jakarta.servlet.DispatcherType;

@@ -1,4 +1,4 @@
-package com.focela.platform.module.system.config.sms.config;
+package com.focela.platform.module.system.config.sms;
 
 import com.focela.platform.module.system.config.sms.core.client.SmsClientFactory;
 import com.focela.platform.module.system.config.sms.core.client.impl.DefaultSmsClientFactory;

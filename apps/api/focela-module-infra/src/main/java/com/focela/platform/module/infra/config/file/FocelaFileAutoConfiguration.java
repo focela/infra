@@ -1,4 +1,4 @@
-package com.focela.platform.module.infra.config.file.config;
+package com.focela.platform.module.infra.config.file;
 
 import com.focela.platform.module.infra.config.file.core.client.FileClientFactory;
 import com.focela.platform.module.infra.config.file.core.client.DefaultFileClientFactory;
