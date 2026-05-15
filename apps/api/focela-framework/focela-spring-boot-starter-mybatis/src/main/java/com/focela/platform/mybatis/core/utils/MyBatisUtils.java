@@ -74,7 +74,7 @@ public class MyBatisUtils {
                        .append(SortingField.ORDER_ASC.equals(sortingField.getOrder()) ? "ASC" : "DESC");
             }
             lambdaQuery.last("ORDER BY " + orderBy);
-            // 另外个思路：https://blog.csdn.net/m0_59084856/article/details/138450913
+            // Alternative approach: https://blog.csdn.net/m0_59084856/article/details/138450913
         } else {
             throw new IllegalArgumentException("Unsupported wrapper type: " + wrapper.getClass().getName());
         }
@@ -82,12 +82,12 @@ public class MyBatisUtils {
     }
 
     /**
-     * 将拦截器添加到链中
-     * 由于 MybatisPlusInterceptor 不支持添加拦截器，所以只能全量设置
+     * Add an interceptor to the chain.
+     * Because {@link MybatisPlusInterceptor} does not expose an add method, the full chain must be re-set.
      *
-     * @param interceptor 链
-     * @param inner       拦截器
-     * @param index       位置
+     * @param interceptor the chain
+     * @param inner       the interceptor to add
+     * @param index       position
      */
     public static void addInterceptor(MybatisPlusInterceptor interceptor, InnerInterceptor inner, int index) {
         List<InnerInterceptor> inners = new ArrayList<>(interceptor.getInterceptors());
@@ -96,12 +96,12 @@ public class MyBatisUtils {
     }
 
     /**
-     * 获得 Table 对应的表名
+     * Get the table name for a {@link Table} reference.
      * <p>
-     * 兼容 MySQL 转义表名 `t_xxx`
+     * Strips MySQL-style backtick escaping (`t_xxx`).
      *
-     * @param table 表
-     * @return 去除转移字符后的表名
+     * @param table the table
+     * @return the table name with escape characters removed
      */
     public static String getTableName(Table table) {
         String tableName = table.getName();
@@ -112,12 +112,12 @@ public class MyBatisUtils {
     }
 
     /**
-     * 构建 Column 对象
+     * Build a {@link Column} reference.
      *
-     * @param tableName  表名
-     * @param tableAlias 别名
-     * @param column     字段名
-     * @return Column 对象
+     * @param tableName  table name
+     * @param tableAlias table alias (may be null)
+     * @param column     column name
+     * @return the Column
      */
     public static Column buildColumn(String tableName, Alias tableAlias, String column) {
         if (tableAlias != null) {
@@ -127,11 +127,11 @@ public class MyBatisUtils {
     }
 
     /**
-     * 跨数据库的 find_in_set 实现
+     * Cross-database find_in_set implementation.
      *
-     * @param column 字段名称
-     * @param value  查询值(不带单引号)
-     * @return sql
+     * @param column column name
+     * @param value  query value (without surrounding quotes)
+     * @return SQL fragment
      */
     public static String findInSet(String column, Object value) {
         DbType dbType = JdbcUtils.getDbType();
@@ -141,13 +141,13 @@ public class MyBatisUtils {
     }
 
     /**
-     * 将驼峰命名转换为下划线命名
+     * Convert camelCase field name to snake_case.
      *
-     * 使用场景：
-     * 1. <a href="https://gitee.com/zhijiantianya/ruoyi-vue-pro/pulls/1357/files">fix:修复"商品统计聚合函数的别名与排序字段不符"导致的 SQL 异常</a>
+     * Use cases:
+     * 1. <a href="https://gitee.com/zhijiantianya/ruoyi-vue-pro/pulls/1357/files">fix: SQL exception caused by mismatched alias / sort field on product-statistics aggregation</a>
      *
-     * @param func 字段名函数(驼峰命名)
-     * @return 字段名(下划线命名)
+     * @param func field-name getter (camelCase)
+     * @return field name (snake_case)
      */
     public static <T> String toUnderlineCase(Func1<T, ?> func) {
         String fieldName = LambdaUtil.getFieldName(func);
