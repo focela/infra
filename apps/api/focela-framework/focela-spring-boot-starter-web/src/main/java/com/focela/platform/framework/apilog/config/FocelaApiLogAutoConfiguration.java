@@ -2,7 +2,7 @@ package com.focela.platform.framework.apilog.config;
 
 import com.focela.platform.framework.apilog.core.filter.ApiAccessLogFilter;
 import com.focela.platform.framework.apilog.core.interceptor.ApiAccessLogInterceptor;
-import com.focela.platform.framework.common.contract.infra.logger.ApiAccessLogContractApi;
+import com.focela.platform.framework.common.api.infra.logger.ApiAccessLogContractApi;
 import com.focela.platform.framework.common.enums.WebFilterOrderEnum;
 import com.focela.platform.framework.web.config.WebProperties;
 import com.focela.platform.framework.web.config.FocelaWebAutoConfiguration;

@@ -1,6 +1,6 @@
 package com.focela.platform.system.api.dictionary;
 
-import com.focela.platform.framework.common.contract.system.dictionary.DictionaryDataContractApi;
+import com.focela.platform.framework.common.api.system.dictionary.DictionaryDataContractApi;
 
 import java.util.Collection;
 

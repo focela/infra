@@ -3,7 +3,7 @@ package com.focela.platform.infra.service.logger;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.common.model.PageResult;
 import com.focela.platform.framework.test.core.support.BaseDbUnitTest;
-import com.focela.platform.framework.common.contract.infra.logger.dto.ApiErrorLogCreateRpcRequest;
+import com.focela.platform.framework.common.api.infra.logger.dto.ApiErrorLogCreateRpcRequest;
 import com.focela.platform.infra.controller.admin.logger.dto.apierrorlog.ApiErrorLogPageRequest;
 import com.focela.platform.infra.entity.logger.ApiErrorLogEntity;
 import com.focela.platform.infra.repository.mapper.logger.ApiErrorLogMapper;

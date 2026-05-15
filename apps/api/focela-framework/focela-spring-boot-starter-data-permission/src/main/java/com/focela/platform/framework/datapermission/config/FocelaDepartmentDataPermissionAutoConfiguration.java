@@ -1,6 +1,6 @@
 package com.focela.platform.framework.datapermission.config;
 
-import com.focela.platform.framework.common.contract.system.permission.PermissionContractApi;
+import com.focela.platform.framework.common.api.system.permission.PermissionContractApi;
 import com.focela.platform.framework.datapermission.core.rule.department.DepartmentDataPermissionRule;
 import com.focela.platform.framework.datapermission.core.rule.department.DepartmentDataPermissionRuleCustomizer;
 import com.focela.platform.framework.security.core.LoginUser;

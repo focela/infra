@@ -1,7 +1,7 @@
 package com.focela.platform.system.api.dictionary;
 
 import com.focela.platform.framework.common.utils.object.BeanUtils;
-import com.focela.platform.framework.common.contract.system.dictionary.dto.DictionaryDataRpcResponse;
+import com.focela.platform.framework.common.api.system.dictionary.dto.DictionaryDataRpcResponse;
 import com.focela.platform.system.entity.dictionary.DictionaryDataEntity;
 import com.focela.platform.system.service.dictionary.DictionaryDataService;
 import jakarta.annotation.Resource;

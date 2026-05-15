@@ -2,8 +2,8 @@ package com.focela.platform.framework.security.core.filter;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.framework.common.contract.system.oauth2.OAuth2TokenContractApi;
-import com.focela.platform.framework.common.contract.system.oauth2.dto.OAuth2AccessTokenCheckRpcResponse;
+import com.focela.platform.framework.common.api.system.oauth2.OAuth2TokenContractApi;
+import com.focela.platform.framework.common.api.system.oauth2.dto.OAuth2AccessTokenCheckRpcResponse;
 import com.focela.platform.framework.common.exception.ServiceException;
 import com.focela.platform.framework.common.model.CommonResult;
 import com.focela.platform.framework.common.utils.servlet.ServletUtils;

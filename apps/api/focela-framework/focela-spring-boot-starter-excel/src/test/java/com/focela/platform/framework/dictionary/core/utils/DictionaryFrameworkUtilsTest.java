@@ -1,8 +1,8 @@
 package com.focela.platform.framework.dictionary.core.utils;
 
 import cn.hutool.core.collection.ListUtil;
-import com.focela.platform.framework.common.contract.system.dictionary.DictionaryDataContractApi;
-import com.focela.platform.framework.common.contract.system.dictionary.dto.DictionaryDataRpcResponse;
+import com.focela.platform.framework.common.api.system.dictionary.DictionaryDataContractApi;
+import com.focela.platform.framework.common.api.system.dictionary.dto.DictionaryDataRpcResponse;
 import com.focela.platform.framework.dictionary.core.DictionaryFrameworkUtils;
 import com.focela.platform.framework.test.core.support.BaseMockitoUnitTest;
 import org.junit.jupiter.api.BeforeEach;

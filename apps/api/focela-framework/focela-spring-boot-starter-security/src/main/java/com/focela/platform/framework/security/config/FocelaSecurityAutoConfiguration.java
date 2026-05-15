@@ -1,7 +1,7 @@
 package com.focela.platform.framework.security.config;
 
-import com.focela.platform.framework.common.contract.system.oauth2.OAuth2TokenContractApi;
-import com.focela.platform.framework.common.contract.system.permission.PermissionContractApi;
+import com.focela.platform.framework.common.api.system.oauth2.OAuth2TokenContractApi;
+import com.focela.platform.framework.common.api.system.permission.PermissionContractApi;
 import com.focela.platform.framework.security.core.context.TransmittableThreadLocalSecurityContextHolderStrategy;
 import com.focela.platform.framework.security.core.filter.TokenAuthenticationFilter;
 import com.focela.platform.framework.security.core.handler.JsonAccessDeniedHandler;

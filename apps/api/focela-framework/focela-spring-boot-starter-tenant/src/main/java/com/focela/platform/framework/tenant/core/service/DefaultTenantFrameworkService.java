@@ -1,6 +1,6 @@
 package com.focela.platform.framework.tenant.core.service;
 
-import com.focela.platform.framework.common.contract.system.tenant.TenantContractApi;
+import com.focela.platform.framework.common.api.system.tenant.TenantContractApi;
 import com.focela.platform.framework.common.exception.ServiceException;
 import com.focela.platform.framework.common.utils.cache.CacheUtils;
 import com.google.common.cache.CacheLoader;

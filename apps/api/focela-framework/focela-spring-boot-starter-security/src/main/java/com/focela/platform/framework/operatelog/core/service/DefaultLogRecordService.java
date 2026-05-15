@@ -1,7 +1,7 @@
 package com.focela.platform.framework.operatelog.core.service;
 
-import com.focela.platform.framework.common.contract.system.logger.OperateLogContractApi;
-import com.focela.platform.framework.common.contract.system.logger.dto.OperateLogCreateRpcRequest;
+import com.focela.platform.framework.common.api.system.logger.OperateLogContractApi;
+import com.focela.platform.framework.common.api.system.logger.dto.OperateLogCreateRpcRequest;
 import com.focela.platform.framework.common.utils.monitor.TracerUtils;
 import com.focela.platform.framework.common.utils.servlet.ServletUtils;
 import com.focela.platform.framework.security.core.LoginUser;

@@ -1,6 +1,6 @@
 package com.focela.platform.infra.service.logger;
 
-import com.focela.platform.framework.common.contract.infra.logger.dto.ApiAccessLogCreateRpcRequest;
+import com.focela.platform.framework.common.api.infra.logger.dto.ApiAccessLogCreateRpcRequest;
 import com.focela.platform.framework.common.enums.UserTypeEnum;
 import com.focela.platform.framework.common.exception.enums.GlobalErrorCodeConstants;
 import com.focela.platform.framework.common.model.PageResult;
