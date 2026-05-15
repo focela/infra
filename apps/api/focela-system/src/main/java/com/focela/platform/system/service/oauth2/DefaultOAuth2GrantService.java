@@ -1,0 +1,102 @@
+package com.focela.platform.system.service.oauth2;
+
+import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
+import com.focela.platform.framework.common.enums.UserTypeEnum;
+import com.focela.platform.system.entity.oauth2.OAuth2AccessTokenEntity;
+import com.focela.platform.system.entity.oauth2.OAuth2CodeEntity;
+import com.focela.platform.system.entity.user.UserEntity;
+import com.focela.platform.system.constants.ErrorCodeConstants;
+import com.focela.platform.system.service.auth.AuthService;
+import org.springframework.stereotype.Service;
+
+import jakarta.annotation.Resource;
+import java.util.List;
+
+import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
+
+/**
+ * OAuth2 授予 Service 实现类
+ */
+@Service
+public class DefaultOAuth2GrantService implements OAuth2GrantService {
+
+    @Resource
+    private OAuth2TokenService oauth2TokenService;
+    @Resource
+    private OAuth2CodeService oauth2CodeService;
+    @Resource
+    private AuthService adminAuthService;
+
+    @Override
+    public OAuth2AccessTokenEntity grantImplicit(Long userId, Integer userType,
+                                             String clientId, List<String> scopes) {
+        return oauth2TokenService.createAccessToken(userId, userType, clientId, scopes);
+    }
+
+    @Override
+    public String grantAuthorizationCodeForCode(Long userId, Integer userType,
+                                                String clientId, List<String> scopes,
+                                                String redirectUri, String state) {
+        return oauth2CodeService.createAuthorizationCode(userId, userType, clientId, scopes,
+                redirectUri, state).getCode();
+    }
+
+    @Override
+    public OAuth2AccessTokenEntity grantAuthorizationCodeForAccessToken(String clientId, String code,
+                                                                    String redirectUri, String state) {
+        OAuth2CodeEntity codeDO = oauth2CodeService.consumeAuthorizationCode(code);
+        Assert.notNull(codeDO, "授权码不能为空"); // 防御性编程
+        // 校验 clientId 是否匹配
+        if (!StrUtil.equals(clientId, codeDO.getClientId())) {
+            throw exception(ErrorCodeConstants.OAUTH2_GRANT_CLIENT_ID_MISMATCH);
+        }
+        // 校验 redirectUri 是否匹配
+        if (!StrUtil.equals(redirectUri, codeDO.getRedirectUri())) {
+            throw exception(ErrorCodeConstants.OAUTH2_GRANT_REDIRECT_URI_MISMATCH);
+        }
+        // 校验 state 是否匹配
+        state = StrUtil.nullToDefault(state, ""); // 数据库 state 为 null 时，会设置为 "" 空串
+        if (!StrUtil.equals(state, codeDO.getState())) {
+            throw exception(ErrorCodeConstants.OAUTH2_GRANT_STATE_MISMATCH);
+        }
+
+        // 创建访问令牌
+        return oauth2TokenService.createAccessToken(codeDO.getUserId(), codeDO.getUserType(),
+                codeDO.getClientId(), codeDO.getScopes());
+    }
+
+    @Override
+    public OAuth2AccessTokenEntity grantPassword(String username, String password, String clientId, List<String> scopes) {
+        // 使用账号 + 密码进行登录
+        UserEntity user = adminAuthService.authenticate(username, password);
+        Assert.notNull(user, "用户不能为空！"); // 防御性编程
+
+        // 创建访问令牌
+        return oauth2TokenService.createAccessToken(user.getId(), UserTypeEnum.ADMIN.getValue(), clientId, scopes);
+    }
+
+    @Override
+    public OAuth2AccessTokenEntity grantRefreshToken(String refreshToken, String clientId) {
+        return oauth2TokenService.refreshAccessToken(refreshToken, clientId);
+    }
+
+    @Override
+    public OAuth2AccessTokenEntity grantClientCredentials(String clientId, List<String> scopes) {
+        // 特殊：https://yuanbao.tencent.com/bot/app/share/chat/wFj642xSZHHx
+        return oauth2TokenService.createAccessToken(0L, UserTypeEnum.ADMIN.getValue(), clientId, scopes);
+    }
+
+    @Override
+    public boolean revokeToken(String clientId, String accessToken) {
+        // 先查询，保证 clientId 时匹配的
+        OAuth2AccessTokenEntity accessTokenDO = oauth2TokenService.getAccessToken(accessToken);
+        if (accessTokenDO == null || ObjectUtil.notEqual(clientId, accessTokenDO.getClientId())) {
+            return false;
+        }
+        // 再删除
+        return oauth2TokenService.removeAccessToken(accessToken) != null;
+    }
+
+}

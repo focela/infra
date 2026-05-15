@@ -35,7 +35,7 @@ Base Java package: `com.focela.platform.*`
 ## Package convention (per module)
 
 ```
-com.focela.platform.module.<bounded-context>/
+com.focela.platform.<bounded-context>/
 ├── api/                  # Module-side RPC surface (XxxApi + LocalXxxApi); cross-module
 │                         # contracts live in framework/common/contract/ as XxxContractApi
 ├── config/               # Module-specific Spring config and integration code

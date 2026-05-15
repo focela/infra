@@ -29,39 +29,39 @@ public class BannerApplicationRunner implements ApplicationRunner {
                     "https://t.zsxq.com/02Yf6M7Qn");
 
             // Report module
-            if (isNotPresent("com.focela.platform.module.report.framework.security.config.SecurityConfiguration")) {
+            if (isNotPresent("com.focela.platform.report.framework.security.config.SecurityConfiguration")) {
                 System.out.println("[Report module focela-module-report - disabled][see https://www.example.com/report/ to enable]");
             }
             // Workflow
-            if (isNotPresent("com.focela.platform.module.bpm.framework.flowable.config.BpmFlowableConfiguration")) {
+            if (isNotPresent("com.focela.platform.bpm.framework.flowable.config.BpmFlowableConfiguration")) {
                 System.out.println("[Workflow module focela-module-bpm - disabled][see https://www.example.com/bpm/ to enable]");
             }
             // Mall system
-            if (isNotPresent("com.focela.platform.module.trade.framework.web.config.TradeWebConfiguration")) {
+            if (isNotPresent("com.focela.platform.trade.framework.web.config.TradeWebConfiguration")) {
                 System.out.println("[Mall system focela-module-mall - disabled][see https://www.example.com/mall/build/ to enable]");
             }
             // ERP system
-            if (isNotPresent("com.focela.platform.module.erp.framework.web.config.ErpWebConfiguration")) {
+            if (isNotPresent("com.focela.platform.erp.framework.web.config.ErpWebConfiguration")) {
                 System.out.println("[ERP system focela-module-erp - disabled][see https://www.example.com/erp/build/ to enable]");
             }
             // CRM system
-            if (isNotPresent("com.focela.platform.module.crm.framework.web.config.CrmWebConfiguration")) {
+            if (isNotPresent("com.focela.platform.crm.framework.web.config.CrmWebConfiguration")) {
                 System.out.println("[CRM system focela-module-crm - disabled][see https://www.example.com/crm/build/ to enable]");
             }
             // WeChat MP
-            if (isNotPresent("com.focela.platform.module.mp.framework.mp.config.MpConfiguration")) {
+            if (isNotPresent("com.focela.platform.mp.framework.mp.config.MpConfiguration")) {
                 System.out.println("[WeChat MP focela-module-mp - disabled][see https://www.example.com/mp/build/ to enable]");
             }
             // Payment platform
-            if (isNotPresent("com.focela.platform.module.pay.framework.pay.config.PayConfiguration")) {
+            if (isNotPresent("com.focela.platform.pay.framework.pay.config.PayConfiguration")) {
                 System.out.println("[Payment system focela-module-pay - disabled][see https://www.example.com/pay/build/ to enable]");
             }
             // AI large model
-            if (isNotPresent("com.focela.platform.module.ai.framework.web.config.AiWebConfiguration")) {
+            if (isNotPresent("com.focela.platform.ai.framework.web.config.AiWebConfiguration")) {
                 System.out.println("[AI large model focela-module-ai - disabled][see https://www.example.com/ai/build/ to enable]");
             }
             // IoT
-            if (isNotPresent("com.focela.platform.module.iot.framework.web.config.IotWebConfiguration")) {
+            if (isNotPresent("com.focela.platform.iot.framework.web.config.IotWebConfiguration")) {
                 System.out.println("[IoT focela-module-iot - disabled][see https://www.example.com/iot/build/ to enable]");
             }
         });

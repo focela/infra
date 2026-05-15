@@ -1,1 +1,1 @@
-com.focela.platform.module.system.config.captcha.core.DefaultRedisCaptchaService
+com.focela.platform.system.config.captcha.core.DefaultRedisCaptchaService

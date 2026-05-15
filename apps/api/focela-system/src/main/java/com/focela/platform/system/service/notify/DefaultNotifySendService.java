@@ -1,0 +1,84 @@
+package com.focela.platform.system.service.notify;
+
+import com.focela.platform.framework.common.enums.CommonStatusEnum;
+import com.focela.platform.framework.common.enums.UserTypeEnum;
+import com.focela.platform.system.entity.notify.NotifyTemplateEntity;
+import com.google.common.annotations.VisibleForTesting;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
+
+import jakarta.annotation.Resource;
+import java.util.Map;
+import java.util.Objects;
+
+import static com.focela.platform.framework.common.exception.utils.ServiceExceptionUtils.exception;
+import static com.focela.platform.system.constants.ErrorCodeConstants.*;
+
+/**
+ * 站内信发送 Service 实现类
+ */
+@Service
+@Validated
+@Slf4j
+public class DefaultNotifySendService implements NotifySendService {
+
+    @Resource
+    private NotifyTemplateService notifyTemplateService;
+
+    @Resource
+    private NotifyMessageService notifyMessageService;
+
+    @Override
+    public Long sendSingleNotifyToAdmin(Long userId, String templateCode, Map<String, Object> templateParams) {
+        return sendSingleNotify(userId, UserTypeEnum.ADMIN.getValue(), templateCode, templateParams);
+    }
+
+    @Override
+    public Long sendSingleNotifyToMember(Long userId, String templateCode, Map<String, Object> templateParams) {
+        return sendSingleNotify(userId, UserTypeEnum.MEMBER.getValue(), templateCode, templateParams);
+    }
+
+    @Override
+    public Long sendSingleNotify(Long userId, Integer userType, String templateCode, Map<String, Object> templateParams) {
+        // 校验模版
+        NotifyTemplateEntity template = validateNotifyTemplate(templateCode);
+        if (Objects.equals(template.getStatus(), CommonStatusEnum.DISABLE.getStatus())) {
+            log.info("[sendSingleNotify][template ({})is closed, cannot to user ({}/{})send]", templateCode, userId, userType);
+            return null;
+        }
+        // 校验参数
+        validateTemplateParams(template, templateParams);
+
+        // 发送站内信
+        String content = notifyTemplateService.formatNotifyTemplateContent(template.getContent(), templateParams);
+        return notifyMessageService.createNotifyMessage(userId, userType, template, content, templateParams);
+    }
+
+    @VisibleForTesting
+    public NotifyTemplateEntity validateNotifyTemplate(String templateCode) {
+        // 获得站内信模板。考虑到效率，从缓存中获取
+        NotifyTemplateEntity template = notifyTemplateService.getNotifyTemplateByCodeFromCache(templateCode);
+        // 站内信模板不存在
+        if (template == null) {
+            throw exception(NOTICE_NOT_FOUND);
+        }
+        return template;
+    }
+
+    /**
+     * 校验站内信模版参数是否确实
+     *
+     * @param template 邮箱模板
+     * @param templateParams 参数列表
+     */
+    @VisibleForTesting
+    public void validateTemplateParams(NotifyTemplateEntity template, Map<String, Object> templateParams) {
+        template.getParams().forEach(key -> {
+            Object value = templateParams.get(key);
+            if (value == null) {
+                throw exception(NOTIFY_SEND_TEMPLATE_PARAM_MISS, key);
+            }
+        });
+    }
+}
