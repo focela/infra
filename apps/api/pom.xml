@@ -13,19 +13,19 @@
         <!-- Server main project -->
         <module>focela-server</module>
         <!-- Module extensions -->
-        <module>focela-module-system</module>
-        <module>focela-module-infra</module>
-<!--        <module>focela-module-member</module>-->
-<!--        <module>focela-module-bpm</module>-->
-<!--        <module>focela-module-report</module>-->
-<!--        <module>focela-module-mp</module>-->
-<!--        <module>focela-module-pay</module>-->
-<!--        <module>focela-module-mall</module>-->
-<!--        <module>focela-module-crm</module>-->
-<!--        <module>focela-module-erp</module>-->
-<!--        <module>focela-module-iot</module>-->
-<!--        <module>focela-module-mes</module>-->
-<!--        <module>focela-module-ai</module>-->
+        <module>focela-system</module>
+        <module>focela-infra</module>
+<!--        <module>focela-member</module>-->
+<!--        <module>focela-bpm</module>-->
+<!--        <module>focela-report</module>-->
+<!--        <module>focela-mp</module>-->
+<!--        <module>focela-pay</module>-->
+<!--        <module>focela-mall</module>-->
+<!--        <module>focela-crm</module>-->
+<!--        <module>focela-erp</module>-->
+<!--        <module>focela-iot</module>-->
+<!--        <module>focela-mes</module>-->
+<!--        <module>focela-ai</module>-->
     </modules>
 
     <name>${project.artifactId}</name>

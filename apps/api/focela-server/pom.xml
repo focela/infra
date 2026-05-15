@@ -14,7 +14,7 @@
 
     <name>${project.artifactId}</name>
     <description>
-        Backend Server main project. It pulls in the required focela-module-xxx dependencies
+        Backend Server main project. It pulls in the required focela-xxx dependencies
         to provide a RESTful API for frontend projects (admin UI, user UI, etc.).
         Essentially, it is just an empty shell (container).
     </description>
@@ -23,102 +23,102 @@
     <dependencies>
         <dependency>
             <groupId>com.focela.platform</groupId>
-            <artifactId>focela-module-system</artifactId>
+            <artifactId>focela-system</artifactId>
             <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>com.focela.platform</groupId>
-            <artifactId>focela-module-infra</artifactId>
+            <artifactId>focela-infra</artifactId>
             <version>${revision}</version>
         </dependency>
 
         <!-- Member center. Commented out by default to keep builds fast. -->
 <!--        <dependency>-->
 <!--            <groupId>com.focela.platform</groupId>-->
-<!--            <artifactId>focela-module-member</artifactId>-->
+<!--            <artifactId>focela-member</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
 
         <!-- Data reports. Commented out by default to keep builds fast. -->
 <!--        <dependency>-->
 <!--            <groupId>com.focela.platform</groupId>-->
-<!--            <artifactId>focela-module-report</artifactId>-->
+<!--            <artifactId>focela-report</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
         <!-- Workflow. Commented out by default to keep builds fast. -->
 <!--        <dependency>-->
 <!--            <groupId>com.focela.platform</groupId>-->
-<!--            <artifactId>focela-module-bpm</artifactId>-->
+<!--            <artifactId>focela-bpm</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
         <!-- Payment service. Commented out by default to keep builds fast. -->
 <!--        <dependency>-->
 <!--            <groupId>com.focela.platform</groupId>-->
-<!--            <artifactId>focela-module-pay</artifactId>-->
+<!--            <artifactId>focela-pay</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
 
         <!-- WeChat MP module. Commented out by default to keep builds fast. -->
 <!--        <dependency>-->
 <!--            <groupId>com.focela.platform</groupId>-->
-<!--            <artifactId>focela-module-mp</artifactId>-->
+<!--            <artifactId>focela-mp</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
 
         <!-- Mall-related modules. Commented out by default to keep builds fast. -->
 <!--        <dependency>-->
 <!--            <groupId>com.focela.platform</groupId>-->
-<!--            <artifactId>focela-module-product</artifactId>-->
+<!--            <artifactId>focela-product</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
 <!--        <dependency>-->
 <!--            <groupId>com.focela.platform</groupId>-->
-<!--            <artifactId>focela-module-promotion</artifactId>-->
+<!--            <artifactId>focela-promotion</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
 <!--        <dependency>-->
 <!--            <groupId>com.focela.platform</groupId>-->
-<!--            <artifactId>focela-module-trade</artifactId>-->
+<!--            <artifactId>focela-trade</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
 <!--        <dependency>-->
 <!--            <groupId>com.focela.platform</groupId>-->
-<!--            <artifactId>focela-module-statistics</artifactId>-->
+<!--            <artifactId>focela-statistics</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
 
         <!-- CRM-related modules. Commented out by default to keep builds fast. -->
 <!--        <dependency>-->
 <!--            <groupId>com.focela.platform</groupId>-->
-<!--            <artifactId>focela-module-crm</artifactId>-->
+<!--            <artifactId>focela-crm</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
 
         <!-- ERP-related modules. Commented out by default to keep builds fast. -->
 <!--        <dependency>-->
 <!--            <groupId>com.focela.platform</groupId>-->
-<!--            <artifactId>focela-module-erp</artifactId>-->
+<!--            <artifactId>focela-erp</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
 
         <!-- AI large-model modules. Commented out by default to keep builds fast. -->
 <!--        <dependency>-->
 <!--            <groupId>com.focela.platform</groupId>-->
-<!--            <artifactId>focela-module-ai</artifactId>-->
+<!--            <artifactId>focela-ai</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
 
         <!-- IoT-related modules. Commented out by default to keep builds fast. -->
 <!--        <dependency>-->
 <!--            <groupId>com.focela.platform</groupId>-->
-<!--            <artifactId>focela-module-iot-biz</artifactId>-->
+<!--            <artifactId>focela-iot-biz</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
 
         <!-- MES (Manufacturing Execution System) modules. -->
 <!--        <dependency>-->
 <!--            <groupId>com.focela.platform</groupId>-->
-<!--            <artifactId>focela-module-mes</artifactId>-->
+<!--            <artifactId>focela-mes</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
 

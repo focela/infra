@@ -8,7 +8,7 @@
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>focela-module-infra</artifactId>
+    <artifactId>focela-infra</artifactId>
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
