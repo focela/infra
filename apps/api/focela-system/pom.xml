@@ -13,8 +13,8 @@
 
     <name>${project.artifactId}</name>
     <description>
-        system 模块下，我们放通用业务，支撑上层的核心业务。
-        例如说：用户、部门、权限、数据字典等等
+        System module — provides shared business capabilities that support upper-layer features
+        (users, departments, permissions, dictionaries, etc.).
     </description>
 
     <dependencies>
@@ -24,7 +24,7 @@
             <version>${revision}</version>
         </dependency>
 
-        <!-- 业务组件 -->
+        <!-- Business components -->
         <dependency>
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-data-permission</artifactId>
@@ -38,7 +38,7 @@
             <artifactId>focela-spring-boot-starter-ip</artifactId>
         </dependency>
 
-        <!-- Web 相关 -->
+        <!-- Web -->
         <dependency>
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-security</artifactId>
@@ -49,7 +49,7 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
-        <!-- DB 相关 -->
+        <!-- DB -->
         <dependency>
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-mybatis</artifactId>
@@ -60,26 +60,26 @@
             <artifactId>focela-spring-boot-starter-redis</artifactId>
         </dependency>
 
-        <!-- Job 定时任务相关 -->
+        <!-- Job (scheduled tasks) -->
         <dependency>
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-job</artifactId>
         </dependency>
 
-        <!-- 消息队列相关 -->
+        <!-- Message queue -->
         <dependency>
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-mq</artifactId>
         </dependency>
 
-        <!-- Test 测试相关 -->
+        <!-- Test -->
         <dependency>
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
 
-        <!-- 工具类相关 -->
+        <!-- Utilities -->
         <dependency>
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-excel</artifactId>
@@ -90,10 +90,10 @@
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
 
-        <!-- 三方云服务相关 -->
+        <!-- Third-party cloud services -->
         <dependency>
             <groupId>me.zhyd.oauth</groupId>
-            <artifactId>JustAuth</artifactId> <!-- 社交登陆（例如说，个人微信、企业微信等等） -->
+            <artifactId>JustAuth</artifactId> <!-- Social login (e.g., personal WeChat, WeCom) -->
         </dependency>
         <dependency>
             <groupId>com.xkcoding.justauth</groupId>
@@ -102,21 +102,21 @@
 
         <dependency>
             <groupId>com.github.binarywang</groupId>
-            <artifactId>wx-java-mp-spring-boot-starter</artifactId> <!-- 微信登录（公众号） -->
+            <artifactId>wx-java-mp-spring-boot-starter</artifactId> <!-- WeChat login (Official Account) -->
         </dependency>
         <dependency>
             <groupId>com.github.binarywang</groupId>
-            <artifactId>wx-java-miniapp-spring-boot-starter</artifactId>  <!-- 微信登录（小程序） -->
+            <artifactId>wx-java-miniapp-spring-boot-starter</artifactId>  <!-- WeChat login (Mini Program) -->
         </dependency>
 
         <dependency>
             <groupId>com.anji-plus</groupId>
-            <artifactId>captcha-spring-boot-starter</artifactId> <!-- 验证码，一般用于登录使用 -->
+            <artifactId>captcha-spring-boot-starter</artifactId> <!-- Captcha, typically used during login -->
         </dependency>
 
         <dependency>
             <groupId>org.dromara.hutool</groupId>
-            <artifactId>hutool-extra</artifactId> <!-- 邮件 -->
+            <artifactId>hutool-extra</artifactId> <!-- Mail -->
         </dependency>
 
     </dependencies>

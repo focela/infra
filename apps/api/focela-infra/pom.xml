@@ -13,19 +13,19 @@
 
     <name>${project.artifactId}</name>
     <description>
-        infra 模块，主要提供两块能力：
-            1. 我们放基础设施的运维与管理，支撑上层的通用与核心业务。 例如说：定时任务的管理、服务器的信息等等
-            2. 研发工具，提升研发效率与质量。 例如说：代码生成器、接口文档等等
+        Infra module — provides two capability bundles:
+            1. Infrastructure operations and management for upper-layer features (scheduled job management, server info, etc.)
+            2. Developer tooling that improves dev productivity and quality (code generator, API docs, etc.)
     </description>
 
     <dependencies>
-        <!-- 业务组件 -->
+        <!-- Business components -->
         <dependency>
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-tenant</artifactId>
         </dependency>
 
-        <!-- Web 相关 -->
+        <!-- Web -->
         <dependency>
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-security</artifactId>
@@ -36,14 +36,14 @@
             <artifactId>focela-spring-boot-starter-websocket</artifactId>
         </dependency>
 
-        <!-- DB 相关 -->
+        <!-- DB -->
         <dependency>
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-mybatis</artifactId>
         </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-generator</artifactId> <!-- 代码生成器，使用它解析表结构 -->
+            <artifactId>mybatis-plus-generator</artifactId> <!-- Code generator, used to parse table structure -->
         </dependency>
 
         <dependency>
@@ -51,34 +51,34 @@
             <artifactId>focela-spring-boot-starter-redis</artifactId>
         </dependency>
 
-        <!-- Config 配置中心相关 -->
+        <!-- Config center -->
 
-        <!-- Job 定时任务相关 -->
+        <!-- Job (scheduled tasks) -->
         <dependency>
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-job</artifactId>
         </dependency>
 
-        <!-- 消息队列相关 -->
+        <!-- Message queue -->
         <dependency>
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-mq</artifactId>
         </dependency>
 
-        <!-- Test 测试相关 -->
+        <!-- Test -->
         <dependency>
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
 
-        <!-- 工具类相关 -->
+        <!-- Utilities -->
         <dependency>
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-excel</artifactId>
         </dependency>
 
-        <!-- 监控相关 -->
+        <!-- Monitoring -->
         <dependency>
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-monitor</artifactId>
@@ -86,20 +86,20 @@
 
         <dependency>
             <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-starter-server</artifactId> <!-- 实现 Spring Boot Admin Server 服务端 -->
+            <artifactId>spring-boot-admin-starter-server</artifactId> <!-- Spring Boot Admin Server -->
             <optional>true</optional>
         </dependency>
 
-        <!-- 三方云服务相关 -->
+        <!-- Third-party cloud services -->
         <dependency>
             <groupId>commons-net</groupId>
-            <artifactId>commons-net</artifactId> <!-- 文件客户端：解决 ftp 连接 -->
+            <artifactId>commons-net</artifactId> <!-- File client: FTP support -->
         </dependency>
         <dependency>
             <groupId>com.github.mwiede</groupId>
-            <artifactId>jsch</artifactId> <!-- 文件客户端：解决 sftp 连接 -->
+            <artifactId>jsch</artifactId> <!-- File client: SFTP support -->
         </dependency>
-        <!-- 文件客户端：解决阿里云、腾讯云、minio 等 S3 连接 -->
+        <!-- File client: S3 support (Aliyun, Tencent Cloud, MinIO, etc.) -->
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>s3</artifactId>
@@ -107,7 +107,7 @@
 
         <dependency>
             <groupId>org.apache.tika</groupId>
-            <artifactId>tika-core</artifactId> <!-- 文件客户端：文件类型的识别 -->
+            <artifactId>tika-core</artifactId> <!-- File client: file-type detection -->
         </dependency>
 
     </dependencies>
