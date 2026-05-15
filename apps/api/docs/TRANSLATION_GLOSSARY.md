@@ -129,6 +129,25 @@
 | 芋道 / 芋艿 (yudao project name / author) | DROP — replace with Focela or remove sentence |
 | 芋道源码 | DROP |
 
+## yudao `*X` extension-class convention (DO NOT rename)
+
+Several base classes under `focela-spring-boot-starter-mybatis` carry the `X`
+suffix — a yudao convention meaning *"eXtended version of the upstream
+MyBatis-Plus class with project-specific helpers"*. They are kept as-is to
+preserve compatibility with ~40 mapper classes (and counting) that extend
+them. International readers should treat the `X` as `Ext`.
+
+| Class | Extends | Purpose |
+|---|---|---|
+| `BaseMapperX<T>` | `com.baomidou.mybatisplus.core.mapper.BaseMapper<T>` | Adds joined-table page selects, batch upsert, null-safe `selectList(LambdaQueryWrapperX)` |
+| `QueryWrapperX<T>` | `com.baomidou.mybatisplus.core.conditions.query.QueryWrapper<T>` | Null-safe `eq/in/like/between/likeIfPresent` overrides |
+| `LambdaQueryWrapperX<T>` | `com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<T>` | Lambda-style null-safe wrapper |
+| `MPJLambdaWrapperX<T>` | `com.github.yulichang.wrapper.MPJLambdaWrapper<T>` | mybatis-plus-join lambda wrapper extension |
+
+**Rename rationale (skipped):** each rename would cascade through ~40 callers
+per class and bring no functional improvement. The suffix is documented here
+so it is not treated as an unintentional naming oddity during onboarding.
+
 ## Rules
 
 1. **Do NOT translate** Java code: class names, method names, variable names, package names, annotation values that are technical identifiers.
