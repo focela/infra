@@ -14,7 +14,7 @@ import org.lionsoul.ip2region.xdb.Searcher;
  */
 @Slf4j
 @UtilityClass
-public class IPUtils {
+public class IpUtils {
 
     /**
      * IP searcher, loaded into memory at startup.
@@ -33,9 +33,9 @@ public class IPUtils {
             long now = System.currentTimeMillis();
             byte[] bytes = ResourceUtil.readBytes("ip2region.xdb");
             SEARCHER = Searcher.newWithBuffer(bytes);
-            log.info("init load IPUtils success, elapsed ({}) millisecond", System.currentTimeMillis() - now);
+            log.info("init load IpUtils success, elapsed ({}) millisecond", System.currentTimeMillis() - now);
         } catch (Exception e) {
-            throw new RuntimeException("IPUtils init failed", e);
+            throw new RuntimeException("IpUtils init failed", e);
         }
     }
 
