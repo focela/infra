@@ -16,7 +16,7 @@ import jakarta.validation.constraints.NotEmpty;
 @Builder
 public class AuthSmsLoginRequest {
 
-    @Schema(description = "Mobile number", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudaoyuanma")
+    @Schema(description = "Mobile number", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela")
     @NotEmpty(message = "mobile number must not be blank")
     @Mobile
     private String mobile;

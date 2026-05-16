@@ -19,7 +19,7 @@ import jakarta.validation.constraints.NotNull;
 @Builder
 public class AuthSmsSendRequest extends CaptchaVerificationRequest {
 
-    @Schema(description = "Mobile number", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudaoyuanma")
+    @Schema(description = "Mobile number", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela")
     @NotEmpty(message = "mobile number must not be blank")
     @Mobile
     private String mobile;

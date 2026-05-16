@@ -13,7 +13,7 @@ import static com.focela.platform.common.utils.date.DateUtils.FORMAT_YEAR_MONTH_
 @Data
 public class FilePageRequest extends PageParam {
 
-    @Schema(description = "file path, fuzzy match", example = "yudao")
+    @Schema(description = "file path, fuzzy match", example = "focela")
     private String path;
 
     @Schema(description = "file type, fuzzy match", example = "jpg")

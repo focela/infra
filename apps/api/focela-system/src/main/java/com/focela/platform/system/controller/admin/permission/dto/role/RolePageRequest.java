@@ -18,7 +18,7 @@ public class RolePageRequest extends PageParam {
     @Schema(description = "role name, fuzzy match", example = "Acme")
     private String name;
 
-    @Schema(description = "role code, fuzzy match", example = "yudao")
+    @Schema(description = "role code, fuzzy match", example = "focela")
     private String code;
 
     @Schema(description = "Display status, see CommonStatusEnum", example = "1")

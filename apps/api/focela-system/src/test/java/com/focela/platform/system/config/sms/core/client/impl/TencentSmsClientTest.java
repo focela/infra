@@ -24,14 +24,14 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mockStatic;
 
 /**
- * {@link TencentSmsClient} 的单元测试
+ * {@link TencentSmsClient}  unit test
  */
 public class TencentSmsClientTest extends BaseMockitoUnitTest {
 
     private final SmsChannelProperties properties = new SmsChannelProperties()
-            .setApiKey(randomString() + " " + randomString()) // 随机一个 apiKey，避免构建报错
-            .setApiSecret(randomString()) // 随机一个 apiSecret，避免构建报错
-            .setSignature("芋道源码");
+            .setApiKey(randomString() + " " + randomString()) // random apiKey to avoid build errors
+            .setApiSecret(randomString()) // random apiSecret to avoid build errors
+            .setSignature("Focelasource");
 
     @InjectMocks
     private TencentSmsClient smsClient = new TencentSmsClient(properties);
@@ -39,13 +39,13 @@ public class TencentSmsClientTest extends BaseMockitoUnitTest {
     @Test
     public void testDoSendSms_success() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
-            // 准备参数
+            // prepare parameters
             Long sendLogId = randomLongId();
             String mobile = randomString();
             String apiTemplateId = randomString();
             List<KeyValue<String, Object>> templateParams = Lists.newArrayList(
                     new KeyValue<>("1", 1234), new KeyValue<>("2", "login"));
-            // mock 方法
+            // mock the method
             httpUtilsMockedStatic.when(() -> HttpUtils.post(anyString(), anyMap(), anyString()))
                     .thenReturn("{\n" +
                                     "    \"Response\": {\n" +
@@ -64,10 +64,10 @@ public class TencentSmsClientTest extends BaseMockitoUnitTest {
                                     "    }\n" +
                                     "}");
 
-            // 调用
+            // invoke
             SmsSendRpcResponse result = smsClient.sendSms(sendLogId, mobile,
                     apiTemplateId, templateParams);
-            // 断言
+            // assert
             assertTrue(result.getSuccess());
             assertEquals("5000:1045710669157053657849499619", result.getSerialNo());
             assertEquals("a0aabda6-cf91-4f3e-a81f-9198114a2279", result.getApiRequestId());
@@ -78,14 +78,14 @@ public class TencentSmsClientTest extends BaseMockitoUnitTest {
     @Test
     public void testDoSendSms_fail_01() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
-            // 准备参数
+            // prepare parameters
             Long sendLogId = randomLongId();
             String mobile = randomString();
             String apiTemplateId = randomString();
             List<KeyValue<String, Object>> templateParams = Lists.newArrayList(
                     new KeyValue<>("1", 1234), new KeyValue<>("2", "login"));
 
-            // mock 方法
+            // mock the method
             httpUtilsMockedStatic.when(() -> HttpUtils.post(anyString(), anyMap(), anyString()))
                     .thenReturn("{\n" +
                                     "    \"Response\": {\n" +
@@ -104,10 +104,10 @@ public class TencentSmsClientTest extends BaseMockitoUnitTest {
                                     "    }\n" +
                                     "}");
 
-            // 调用
+            // invoke
             SmsSendRpcResponse result = smsClient.sendSms(sendLogId, mobile,
                     apiTemplateId, templateParams);
-            // 断言
+            // assert
             assertFalse(result.getSuccess());
             assertEquals("5000:1045710669157053657849499619", result.getSerialNo());
             assertEquals("a0aabda6-cf91-4f3e-a81f-9198114a2279", result.getApiRequestId());
@@ -118,21 +118,21 @@ public class TencentSmsClientTest extends BaseMockitoUnitTest {
     @Test
     public void testDoSendSms_fail_02() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
-            // 准备参数
+            // prepare parameters
             Long sendLogId = randomLongId();
             String mobile = randomString();
             String apiTemplateId = randomString();
             List<KeyValue<String, Object>> templateParams = Lists.newArrayList(
                     new KeyValue<>("1", 1234), new KeyValue<>("2", "login"));
 
-            // mock 方法
+            // mock the method
             httpUtilsMockedStatic.when(() -> HttpUtils.post(anyString(), anyMap(), anyString()))
                     .thenReturn("{\"Response\":{\"Error\":{\"Code\":\"AuthFailure.SecretIdNotFound\",\"Message\":\"The SecretId is not found, please ensure that your SecretId is correct.\"},\"RequestId\":\"2a88f82a-261c-4ac6-9fa9-c7d01aaa486a\"}}");
 
-            // 调用
+            // invoke
             SmsSendRpcResponse result = smsClient.sendSms(sendLogId, mobile,
                     apiTemplateId, templateParams);
-            // 断言
+            // assert
             assertFalse(result.getSuccess());
             assertEquals("2a88f82a-261c-4ac6-9fa9-c7d01aaa486a", result.getApiRequestId());
             assertEquals("AuthFailure.SecretIdNotFound", result.getApiCode());
@@ -142,7 +142,7 @@ public class TencentSmsClientTest extends BaseMockitoUnitTest {
 
     @Test
     public void testParseSmsReceiveStatus() {
-        // 准备参数
+        // prepare parameters
         String text = "[\n" +
                 "    {\n" +
                 "        \"user_receive_time\": \"2015-10-17 08:03:04\",\n" +
@@ -150,15 +150,15 @@ public class TencentSmsClientTest extends BaseMockitoUnitTest {
                 "        \"mobile\": \"13900000001\",\n" +
                 "        \"report_status\": \"SUCCESS\",\n" +
                 "        \"errmsg\": \"DELIVRD\",\n" +
-                "        \"description\": \"用户短信送达成功\",\n" +
+                "        \"description\": \"SMS delivered to user successfully\",\n" +
                 "        \"sid\": \"12345\",\n" +
                 "        \"ext\": {\"logId\":\"67890\"}\n" +
                 "    }\n" +
                 "]";
 
-        // 调用
+        // invoke
         List<SmsReceiveRpcResponse> statuses = smsClient.parseSmsReceiveStatus(text);
-        // 断言
+        // assert
         assertEquals(1, statuses.size());
         assertTrue(statuses.get(0).getSuccess());
         assertEquals("DELIVRD", statuses.get(0).getErrorCode());
@@ -170,20 +170,20 @@ public class TencentSmsClientTest extends BaseMockitoUnitTest {
     @Test
     public void testGetSmsTemplate() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
-            // 准备参数
+            // prepare parameters
             String apiTemplateId = "1122";
 
-            // mock 方法
+            // mock the method
             httpUtilsMockedStatic.when(() -> HttpUtils.post(anyString(), anyMap(), anyString()))
                     .thenReturn("{     \"Response\": {\n" +
                             "        \"DescribeTemplateStatusSet\": [\n" +
                             "            {\n" +
-                            "                \"TemplateName\": \"验证码\",\n" +
+                            "                \"TemplateName\": \"verification code\",\n" +
                             "                \"TemplateId\": 1122,\n" +
                             "                \"International\": 0,\n" +
-                            "                \"ReviewReply\": \"审批备注\",\n" +
+                            "                \"ReviewReply\": \"audit reason\",\n" +
                             "                \"CreateTime\": 1617379200,\n" +
-                            "                \"TemplateContent\": \"您的验证码是{1}\",\n" +
+                            "                \"TemplateContent\": \"Your verification code is{1}\",\n" +
                             "                \"StatusCode\": 0\n" +
                             "            },\n" +
                             "            \n" +
@@ -191,13 +191,13 @@ public class TencentSmsClientTest extends BaseMockitoUnitTest {
                             "        \"RequestId\": \"f36e4f00-605e-49b1-ad0d-bfaba81c7325\"\n" +
                             "    }}");
 
-            // 调用
+            // invoke
             SmsTemplateRpcResponse result = smsClient.getSmsTemplate(apiTemplateId);
-            // 断言
+            // assert
             assertEquals("1122", result.getId());
-            assertEquals("您的验证码是{1}", result.getContent());
+            assertEquals("Your verification code is{1}", result.getContent());
             assertEquals(SmsTemplateAuditStatusEnum.SUCCESS.getStatus(), result.getAuditStatus());
-            assertEquals("审批备注", result.getAuditReason());
+            assertEquals("audit reason", result.getAuditReason());
         }
     }
 
@@ -210,7 +210,7 @@ public class TencentSmsClientTest extends BaseMockitoUnitTest {
         assertEquals(SmsTemplateAuditStatusEnum.FAIL.getStatus(),
                 smsClient.convertSmsTemplateAuditStatus(-1));
         assertThrows(IllegalArgumentException.class, () -> smsClient.convertSmsTemplateAuditStatus(3),
-                "未知审核状态(3)");
+                "unknown audit status(3)");
     }
 
 }

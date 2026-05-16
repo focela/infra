@@ -11,7 +11,7 @@ import jakarta.validation.constraints.*;
 @Data
 public class AuthRegisterRequest extends CaptchaVerificationRequest {
 
-    @Schema(description = "Username", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
+    @Schema(description = "Username", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela")
     @NotBlank(message = "user account must not be blank")
     @Pattern(regexp = "^[a-zA-Z0-9]{4,30}$", message = "user account consists of digit, letter consists of")
     @Size(min = 4, max = 30, message = "user account length must be 4-30 characters")

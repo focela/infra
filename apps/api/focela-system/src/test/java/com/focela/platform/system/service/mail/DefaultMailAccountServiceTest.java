@@ -23,7 +23,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 /**
- * {@link DefaultMailAccountService} 的单元测试类
+ * {@link DefaultMailAccountService}  unit test class
  */
 @Import(DefaultMailAccountService.class)
 public class DefaultMailAccountServiceTest extends BaseDbUnitTest {
@@ -39,105 +39,105 @@ public class DefaultMailAccountServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testCreateMailAccount_success() {
-        // 准备参数
+        // prepare parameters
         MailAccountSaveRequest request = randomPojo(MailAccountSaveRequest.class, o -> o.setMail(randomEmail()))
-                .setId(null); // 防止 id 被赋值
+                .setId(null); // prevent id from being assigned
 
-        // 调用
+        // invoke
         Long mailAccountId = mailAccountService.createMailAccount(request);
-        // 断言
+        // assert
         assertNotNull(mailAccountId);
-        // 校验记录的属性是否正确
+        // verify record properties are correct
         MailAccountEntity mailAccount = mailAccountMapper.selectById(mailAccountId);
         assertPojoEquals(request, mailAccount, "id");
     }
 
     @Test
     public void testUpdateMailAccount_success() {
-        // mock 数据
+        // mock data
         MailAccountEntity dbMailAccount = randomPojo(MailAccountEntity.class);
-        mailAccountMapper.insert(dbMailAccount);// @Sql: 先插入出一条存在的数据
-        // 准备参数
+        mailAccountMapper.insert(dbMailAccount);// @Sql: first insert an existing record
+        // prepare parameters
         MailAccountSaveRequest request = randomPojo(MailAccountSaveRequest.class, o -> {
-            o.setId(dbMailAccount.getId()); // 设置更新的 ID
+            o.setId(dbMailAccount.getId()); // set updated ID
             o.setMail(randomEmail());
         });
 
-        // 调用
+        // invoke
         mailAccountService.updateMailAccount(request);
-        // 校验是否更新正确
-        MailAccountEntity mailAccount = mailAccountMapper.selectById(request.getId()); // 获取最新的
+        // verify update is correct
+        MailAccountEntity mailAccount = mailAccountMapper.selectById(request.getId()); // get the latest
         assertPojoEquals(request, mailAccount);
     }
 
     @Test
     public void testUpdateMailAccount_notExists() {
-        // 准备参数
+        // prepare parameters
         MailAccountSaveRequest request = randomPojo(MailAccountSaveRequest.class);
 
-        // 调用, 并断言异常
+        // invoke and assert exception
         assertServiceException(() -> mailAccountService.updateMailAccount(request), MAIL_ACCOUNT_NOT_EXISTS);
     }
 
     @Test
     public void testDeleteMailAccount_success() {
-        // mock 数据
+        // mock data
         MailAccountEntity dbMailAccount = randomPojo(MailAccountEntity.class);
-        mailAccountMapper.insert(dbMailAccount);// @Sql: 先插入出一条存在的数据
-        // 准备参数
+        mailAccountMapper.insert(dbMailAccount);// @Sql: first insert an existing record
+        // prepare parameters
         Long id = dbMailAccount.getId();
-        // mock 方法（无关联模版）
+        // mock the method（no associated template）
         when(mailTemplateService.getMailTemplateCountByAccountId(eq(id))).thenReturn(0L);
 
-        // 调用
+        // invoke
         mailAccountService.deleteMailAccount(id);
-        // 校验数据不存在了
+        // verify data no longer exists
         assertNull(mailAccountMapper.selectById(id));
     }
 
     @Test
     public void testGetMailAccountFromCache() {
-        // mock 数据
+        // mock data
         MailAccountEntity dbMailAccount = randomPojo(MailAccountEntity.class);
-        mailAccountMapper.insert(dbMailAccount);// @Sql: 先插入出一条存在的数据
-        // 准备参数
+        mailAccountMapper.insert(dbMailAccount);// @Sql: first insert an existing record
+        // prepare parameters
         Long id = dbMailAccount.getId();
 
-        // 调用
+        // invoke
         MailAccountEntity mailAccount = mailAccountService.getMailAccountFromCache(id);
-        // 断言
+        // assert
         assertPojoEquals(dbMailAccount, mailAccount);
     }
 
     @Test
     public void testDeleteMailAccount_notExists() {
-        // 准备参数
+        // prepare parameters
         Long id = randomLongId();
 
-        // 调用, 并断言异常
+        // invoke and assert exception
         assertServiceException(() -> mailAccountService.deleteMailAccount(id), MAIL_ACCOUNT_NOT_EXISTS);
     }
 
     @Test
     public void testGetMailAccountPage() {
-        // mock 数据
-        MailAccountEntity dbMailAccount = randomPojo(MailAccountEntity.class, o -> { // 等会查询到
+        // mock data
+        MailAccountEntity dbMailAccount = randomPojo(MailAccountEntity.class, o -> { // will be queried later
             o.setMail("768@qq.com");
             o.setUsername("yunai");
         });
         mailAccountMapper.insert(dbMailAccount);
-        // 测试 mail 不匹配
+        // test mail mismatch
         mailAccountMapper.insert(cloneIgnoreId(dbMailAccount, o -> o.setMail("788@qq.com")));
-        // 测试 username 不匹配
+        // test username mismatch
         mailAccountMapper.insert(cloneIgnoreId(dbMailAccount, o -> o.setUsername("tudou")));
-        // 准备参数
+        // prepare parameters
         MailAccountPageRequest request = new MailAccountPageRequest();
         request.setMail("768");
         request.setUsername("yu");
 
-        // 调用
+        // invoke
         PageResult<MailAccountEntity> pageResult = mailAccountService.getMailAccountPage(request);
-        // 断言
+        // assert
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
         assertPojoEquals(dbMailAccount, pageResult.getList().get(0));
@@ -145,30 +145,30 @@ public class DefaultMailAccountServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testGetMailAccount() {
-        // mock 数据
+        // mock data
         MailAccountEntity dbMailAccount = randomPojo(MailAccountEntity.class);
-        mailAccountMapper.insert(dbMailAccount);// @Sql: 先插入出一条存在的数据
-        // 准备参数
+        mailAccountMapper.insert(dbMailAccount);// @Sql: first insert an existing record
+        // prepare parameters
         Long id = dbMailAccount.getId();
 
-        // 调用
+        // invoke
         MailAccountEntity mailAccount = mailAccountService.getMailAccount(id);
-        // 断言
+        // assert
         assertPojoEquals(dbMailAccount, mailAccount);
     }
 
     @Test
     public void testGetMailAccountList() {
-        // mock 数据
+        // mock data
         MailAccountEntity dbMailAccount01 = randomPojo(MailAccountEntity.class);
         mailAccountMapper.insert(dbMailAccount01);
         MailAccountEntity dbMailAccount02 = randomPojo(MailAccountEntity.class);
         mailAccountMapper.insert(dbMailAccount02);
-        // 准备参数
+        // prepare parameters
 
-        // 调用
+        // invoke
         List<MailAccountEntity> list = mailAccountService.getMailAccountList();
-        // 断言
+        // assert
         assertEquals(2, list.size());
         assertPojoEquals(dbMailAccount01, list.get(0));
         assertPojoEquals(dbMailAccount02, list.get(1));

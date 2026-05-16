@@ -15,7 +15,7 @@ public class MailAccountPageRequest extends PageParam {
     @Schema(description = "Email", requiredMode = Schema.RequiredMode.REQUIRED, example = "user@example.com")
     private String mail;
 
-    @Schema(description = "Username" , requiredMode = Schema.RequiredMode.REQUIRED , example = "yudao")
+    @Schema(description = "Username" , requiredMode = Schema.RequiredMode.REQUIRED , example = "focela")
     private String username;
 
 }

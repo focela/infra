@@ -21,7 +21,7 @@ import jakarta.validation.constraints.Pattern;
 @Builder
 public class AuthLoginRequest extends CaptchaVerificationRequest {
 
-    @Schema(description = "account", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudaoyuanma")
+    @Schema(description = "account", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela")
     @NotEmpty(message = "login account must not be blank")
     @Length(min = 4, max = 30, message = "account length must be 4-30 characters")
     @Pattern(regexp = "^[a-zA-Z0-9]{4,30}$", message = "account format must be digits and letters")

@@ -25,14 +25,14 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mockStatic;
 
 /**
- * {@link com.focela.platform.system.config.sms.client.impl.AliyunSmsClient} 的单元测试
+ * {@link com.focela.platform.system.config.sms.client.impl.AliyunSmsClient}  unit test
  */
 public class AliyunSmsClientTest extends BaseMockitoUnitTest {
 
     private final SmsChannelProperties properties = new SmsChannelProperties()
-            .setApiKey(randomString()) // 随机一个 apiKey，避免构建报错
-            .setApiSecret(randomString()) // 随机一个 apiSecret，避免构建报错
-            .setSignature("芋道源码");
+            .setApiKey(randomString()) // random apiKey to avoid build errors
+            .setApiSecret(randomString()) // random apiSecret to avoid build errors
+            .setSignature("Focelasource");
 
     @InjectMocks
     private final AliyunSmsClient smsClient = new AliyunSmsClient(properties);
@@ -40,22 +40,22 @@ public class AliyunSmsClientTest extends BaseMockitoUnitTest {
     @Test
     public void tesSendSms_success() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
-            // 准备参数
+            // prepare parameters
             Long sendLogId = randomLongId();
             String mobile = randomString();
             String apiTemplateId = randomString();
             List<KeyValue<String, Object>> templateParams = Lists.newArrayList(
                     new KeyValue<>("code", 1234), new KeyValue<>("op", "login"));
-            // mock 方法
+            // mock the method
             httpUtilsMockedStatic.when(() -> HttpUtils.post(anyString(), anyMap(), anyString()))
                     .thenReturn("{\"Message\":\"OK\",\"RequestId\":\"30067CE9-3710-5984-8881-909B21D8DB28\",\"Code\":\"OK\",\"BizId\":\"800025323183427988\"}");
             httpUtilsMockedStatic.when(() -> HttpUtils.encodeUtf8(anyString()))
                     .then((Answer<String>) invocationOnMock -> (String) invocationOnMock.getArguments()[0]);
 
-            // 调用
+            // invoke
             SmsSendRpcResponse result = smsClient.sendSms(sendLogId, mobile,
                     apiTemplateId, templateParams);
-            // 断言
+            // assert
             assertTrue(result.getSuccess());
             assertEquals("30067CE9-3710-5984-8881-909B21D8DB28", result.getApiRequestId());
             assertEquals("OK", result.getApiCode());
@@ -67,32 +67,32 @@ public class AliyunSmsClientTest extends BaseMockitoUnitTest {
     @Test
     public void tesSendSms_fail() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
-            // 准备参数
+            // prepare parameters
             Long sendLogId = randomLongId();
             String mobile = randomString();
             String apiTemplateId = randomString();
             List<KeyValue<String, Object>> templateParams = Lists.newArrayList(
                     new KeyValue<>("code", 1234), new KeyValue<>("op", "login"));
-            // mock 方法
+            // mock the method
             httpUtilsMockedStatic.when(() -> HttpUtils.post(anyString(), anyMap(), anyString()))
-                    .thenReturn("{\"Message\":\"手机号码格式错误\",\"RequestId\":\"B7700B8E-227E-5886-9564-26036172F01F\",\"Code\":\"isv.MOBILE_NUMBER_ILLEGAL\"}");
+                    .thenReturn("{\"Message\":\"Mobile number format is invalid\",\"RequestId\":\"B7700B8E-227E-5886-9564-26036172F01F\",\"Code\":\"isv.MOBILE_NUMBER_ILLEGAL\"}");
             httpUtilsMockedStatic.when(() -> HttpUtils.encodeUtf8(anyString()))
                     .then((Answer<String>) invocationOnMock -> (String) invocationOnMock.getArguments()[0]);
 
-            // 调用
+            // invoke
             SmsSendRpcResponse result = smsClient.sendSms(sendLogId, mobile, apiTemplateId, templateParams);
-            // 断言
+            // assert
             assertFalse(result.getSuccess());
             assertEquals("B7700B8E-227E-5886-9564-26036172F01F", result.getApiRequestId());
             assertEquals("isv.MOBILE_NUMBER_ILLEGAL", result.getApiCode());
-            assertEquals("手机号码格式错误", result.getApiMsg());
+            assertEquals("Mobile number format is invalid", result.getApiMsg());
             assertNull(result.getSerialNo());
         }
     }
 
     @Test
     public void testParseSmsReceiveStatus() {
-        // 准备参数
+        // prepare parameters
         String text = "[\n" +
                 "  {\n" +
                 "    \"phone_number\" : \"13900000001\",\n" +
@@ -100,21 +100,21 @@ public class AliyunSmsClientTest extends BaseMockitoUnitTest {
                 "    \"report_time\" : \"2017-02-02 22:23:24\",\n" +
                 "    \"success\" : true,\n" +
                 "    \"err_code\" : \"DELIVERED\",\n" +
-                "    \"err_msg\" : \"用户接收成功\",\n" +
+                "    \"err_msg\" : \"user received successfully\",\n" +
                 "    \"sms_size\" : \"1\",\n" +
                 "    \"biz_id\" : \"12345\",\n" +
                 "    \"out_id\" : \"67890\"\n" +
                 "  }\n" +
                 "]";
-        // mock 方法
+        // mock the method
 
-        // 调用
+        // invoke
         List<SmsReceiveRpcResponse> statuses = smsClient.parseSmsReceiveStatus(text);
-        // 断言
+        // assert
         assertEquals(1, statuses.size());
         assertTrue(statuses.get(0).getSuccess());
         assertEquals("DELIVERED", statuses.get(0).getErrorCode());
-        assertEquals("用户接收成功", statuses.get(0).getErrorMsg());
+        assertEquals("user received successfully", statuses.get(0).getErrorMsg());
         assertEquals("13900000001", statuses.get(0).getMobile());
         assertEquals(LocalDateTime.of(2017, 2, 2, 22, 23, 24),
                 statuses.get(0).getReceiveTime());
@@ -125,21 +125,21 @@ public class AliyunSmsClientTest extends BaseMockitoUnitTest {
     @Test
     public void testGetSmsTemplate() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
-            // 准备参数
+            // prepare parameters
             String apiTemplateId = randomString();
-            // mock 方法
+            // mock the method
             httpUtilsMockedStatic.when(() -> HttpUtils.post(anyString(), anyMap(), anyString()))
-                    .thenReturn("{\"TemplateCode\":\"SMS_207945135\",\"RequestId\":\"6F4CC077-29C8-5BA5-AB62-5FF95068A5AC\",\"Message\":\"OK\",\"TemplateContent\":\"您的验证码${code}，该验证码5分钟内有效，请勿泄漏于他人！\",\"TemplateName\":\"公告通知\",\"TemplateType\":0,\"Code\":\"OK\",\"CreateDate\":\"2020-12-23 17:34:42\",\"Reason\":\"无审批备注\",\"TemplateStatus\":1}");
+                    .thenReturn("{\"TemplateCode\":\"SMS_207945135\",\"RequestId\":\"6F4CC077-29C8-5BA5-AB62-5FF95068A5AC\",\"Message\":\"OK\",\"TemplateContent\":\"Your verification code ${code},��This verification code is valid for 5 minutes. Do not share it with others!\",\"TemplateName\":\"Announcement\",\"TemplateType\":0,\"Code\":\"OK\",\"CreateDate\":\"2020-12-23 17:34:42\",\"Reason\":\"no audit reason\",\"TemplateStatus\":1}");
             httpUtilsMockedStatic.when(() -> HttpUtils.encodeUtf8(anyString()))
                     .then((Answer<String>) invocationOnMock -> (String) invocationOnMock.getArguments()[0]);
 
-            // 调用
+            // invoke
             SmsTemplateRpcResponse result = smsClient.getSmsTemplate(apiTemplateId);
-            // 断言
+            // assert
             assertEquals("SMS_207945135", result.getId());
-            assertEquals("您的验证码${code}，该验证码5分钟内有效，请勿泄漏于他人！", result.getContent());
+            assertEquals("Your verification code ${code},��This verification code is valid for 5 minutes. Do not share it with others!", result.getContent());
             assertEquals(SmsTemplateAuditStatusEnum.SUCCESS.getStatus(), result.getAuditStatus());
-            assertEquals("无审批备注", result.getAuditReason());
+            assertEquals("no audit reason", result.getAuditReason());
         }
     }
 
@@ -152,7 +152,7 @@ public class AliyunSmsClientTest extends BaseMockitoUnitTest {
         assertEquals(SmsTemplateAuditStatusEnum.FAIL.getStatus(),
                 smsClient.convertSmsTemplateAuditStatus(2));
         assertThrows(IllegalArgumentException.class, () -> smsClient.convertSmsTemplateAuditStatus(3),
-                "未知审核状态(3)");
+                "unknown audit status(3)");
     }
 
 }

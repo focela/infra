@@ -88,48 +88,48 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
 
     @BeforeEach
     public void before() {
-        // mock 初始化密码
-        when(configApi.getConfigValueByKey(USER_INIT_PASSWORD_KEY)).thenReturn("yudaoyuanma");
+        // mock initial password
+        when(configApi.getConfigValueByKey(USER_INIT_PASSWORD_KEY)).thenReturn("focelasecret");
     }
 
     @Test
     public void testCreatUser_success() {
-        // 准备参数
+        // prepare parameters
         UserSaveRequest request = randomPojo(UserSaveRequest.class, o -> {
             o.setSex(RandomUtil.randomEle(SexEnum.values()).getSex());
             o.setMobile(randomString());
             o.setPostIds(asSet(1L, 2L));
-        }).setId(null); // 避免 id 被赋值
-        // mock 账户额度充足
+        }).setId(null); // avoid id being assigned
+        // mock sufficient account quota
         TenantEntity tenant = randomPojo(TenantEntity.class, o -> o.setAccountCount(1));
         doNothing().when(tenantService).handleTenantInfo(argThat(handler -> {
             handler.handle(tenant);
             return true;
         }));
-        // mock deptService 的方法
+        // mock deptService  method
         DepartmentEntity dept = randomPojo(DepartmentEntity.class, o -> {
             o.setId(request.getDeptId());
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
         when(deptService.getDept(eq(dept.getId()))).thenReturn(dept);
-        // mock postService 的方法
+        // mock postService  method
         List<PostEntity> posts = CollectionUtils.convertList(request.getPostIds(), postId ->
                 randomPojo(PostEntity.class, o -> {
                     o.setId(postId);
                     o.setStatus(CommonStatusEnum.ENABLE.getStatus());
                 }));
         when(postService.getPostList(eq(request.getPostIds()), isNull())).thenReturn(posts);
-        // mock passwordEncoder 的方法
-        when(passwordEncoder.encode(eq(request.getPassword()))).thenReturn("yudaoyuanma");
+        // mock passwordEncoder  method
+        when(passwordEncoder.encode(eq(request.getPassword()))).thenReturn("focelasecret");
 
-        // 调用
+        // invoke
         Long userId = userService.createUser(request);
-        // 断言
+        // assert
         UserEntity user = userMapper.selectById(userId);
         assertPojoEquals(request, user, "password", "id");
-        assertEquals("yudaoyuanma", user.getPassword());
+        assertEquals("focelasecret", user.getPassword());
         assertEquals(CommonStatusEnum.ENABLE.getStatus(), user.getStatus());
-        // 断言关联岗位
+        // assert associated post
         List<UserPostEntity> userPosts = userPostMapper.selectListByUserId(user.getId());
         assertEquals(1L, userPosts.get(0).getPostId());
         assertEquals(2L, userPosts.get(1).getPostId());
@@ -137,40 +137,40 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testCreatUser_max() {
-        // 准备参数
+        // prepare parameters
         UserSaveRequest request = randomPojo(UserSaveRequest.class);
-        // mock 账户额度不足
+        // mock insufficient account quota
         TenantEntity tenant = randomPojo(TenantEntity.class, o -> o.setAccountCount(-1));
         doNothing().when(tenantService).handleTenantInfo(argThat(handler -> {
             handler.handle(tenant);
             return true;
         }));
 
-        // 调用，并断言异常
+        // invoke, and assert exception
         assertServiceException(() -> userService.createUser(request), USER_COUNT_MAX, -1);
     }
 
     @Test
     public void testUpdateUser_success() {
-        // mock 数据
+        // mock data
         UserEntity dbUser = randomAdminUserDO(o -> o.setPostIds(asSet(1L, 2L)));
         userMapper.insert(dbUser);
         userPostMapper.insert(new UserPostEntity().setUserId(dbUser.getId()).setPostId(1L));
         userPostMapper.insert(new UserPostEntity().setUserId(dbUser.getId()).setPostId(2L));
-        // 准备参数
+        // prepare parameters
         UserSaveRequest request = randomPojo(UserSaveRequest.class, o -> {
             o.setId(dbUser.getId());
             o.setSex(RandomUtil.randomEle(SexEnum.values()).getSex());
             o.setMobile(randomString());
             o.setPostIds(asSet(2L, 3L));
         });
-        // mock deptService 的方法
+        // mock deptService  method
         DepartmentEntity dept = randomPojo(DepartmentEntity.class, o -> {
             o.setId(request.getDeptId());
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
         when(deptService.getDept(eq(dept.getId()))).thenReturn(dept);
-        // mock postService 的方法
+        // mock postService  method
         List<PostEntity> posts = CollectionUtils.convertList(request.getPostIds(), postId ->
                 randomPojo(PostEntity.class, o -> {
                     o.setId(postId);
@@ -178,12 +178,12 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
                 }));
         when(postService.getPostList(eq(request.getPostIds()), isNull())).thenReturn(posts);
 
-        // 调用
+        // invoke
         userService.updateUser(request);
-        // 断言
+        // assert
         UserEntity user = userMapper.selectById(request.getId());
         assertPojoEquals(request, user, "password");
-        // 断言关联岗位
+        // assert associated post
         List<UserPostEntity> userPosts = userPostMapper.selectListByUserId(user.getId());
         assertEquals(2L, userPosts.get(0).getPostId());
         assertEquals(3L, userPosts.get(1).getPostId());
@@ -191,16 +191,16 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testUpdateUserLogin() {
-        // mock 数据
+        // mock data
         UserEntity user = randomAdminUserDO(o -> o.setLoginDate(null));
         userMapper.insert(user);
-        // 准备参数
+        // prepare parameters
         Long id = user.getId();
         String loginIp = randomString();
 
-        // 调用
+        // invoke
         userService.updateUserLogin(id, loginIp);
-        // 断言
+        // assert
         UserEntity dbUser = userMapper.selectById(id);
         assertEquals(loginIp, dbUser.getLoginIp());
         assertNotNull(dbUser.getLoginDate());
@@ -208,10 +208,10 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testUpdateUserProfile_success() {
-        // mock 数据
+        // mock data
         UserEntity dbUser = randomAdminUserDO();
         userMapper.insert(dbUser);
-        // 准备参数
+        // prepare parameters
         Long userId = dbUser.getId();
         UserProfileUpdateRequest request = randomPojo(UserProfileUpdateRequest.class, o -> {
             o.setMobile(randomString());
@@ -219,144 +219,144 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
             o.setAvatar(randomURL());
         });
 
-        // 调用
+        // invoke
         userService.updateUserProfile(userId, request);
-        // 断言
+        // assert
         UserEntity user = userMapper.selectById(userId);
         assertPojoEquals(request, user);
     }
 
     @Test
     public void testUpdateUserPassword_success() {
-        // mock 数据
+        // mock data
         UserEntity dbUser = randomAdminUserDO(o -> o.setPassword("encode:tudou"));
         userMapper.insert(dbUser);
-        // 准备参数
+        // prepare parameters
         Long userId = dbUser.getId();
         UserProfileUpdatePasswordRequest request = randomPojo(UserProfileUpdatePasswordRequest.class, o -> {
             o.setOldPassword("tudou");
             o.setNewPassword("yuanma");
         });
-        // mock 方法
+        // mock the method
         when(passwordEncoder.encode(anyString())).then(
                 (Answer<String>) invocationOnMock -> "encode:" + invocationOnMock.getArgument(0));
         when(passwordEncoder.matches(eq(request.getOldPassword()), eq(dbUser.getPassword()))).thenReturn(true);
 
-        // 调用
+        // invoke
         userService.updateUserPassword(userId, request);
-        // 断言
+        // assert
         UserEntity user = userMapper.selectById(userId);
         assertEquals("encode:yuanma", user.getPassword());
     }
 
     @Test
     public void testUpdateUserPassword02_success() {
-        // mock 数据
+        // mock data
         UserEntity dbUser = randomAdminUserDO();
         userMapper.insert(dbUser);
-        // 准备参数
+        // prepare parameters
         Long userId = dbUser.getId();
-        String password = "yudao";
-        // mock 方法
+        String password = "focela";
+        // mock the method
         when(passwordEncoder.encode(anyString())).then(
                 (Answer<String>) invocationOnMock -> "encode:" + invocationOnMock.getArgument(0));
 
-        // 调用
+        // invoke
         userService.updateUserPassword(userId, password);
-        // 断言
+        // assert
         UserEntity user = userMapper.selectById(userId);
         assertEquals("encode:" + password, user.getPassword());
     }
 
     @Test
     public void testUpdateUserStatus() {
-        // mock 数据
+        // mock data
         UserEntity dbUser = randomAdminUserDO();
         userMapper.insert(dbUser);
-        // 准备参数
+        // prepare parameters
         Long userId = dbUser.getId();
         Integer status = randomCommonStatus();
 
-        // 调用
+        // invoke
         userService.updateUserStatus(userId, status);
-        // 断言
+        // assert
         UserEntity user = userMapper.selectById(userId);
         assertEquals(status, user.getStatus());
     }
 
     @Test
     public void testDeleteUser_success(){
-        // mock 数据
+        // mock data
         UserEntity dbUser = randomAdminUserDO();
         userMapper.insert(dbUser);
-        // 准备参数
+        // prepare parameters
         Long userId = dbUser.getId();
 
-        // 调用数据
+        // invoke data
         userService.deleteUser(userId);
-        // 校验结果
+        // verify result
         assertNull(userMapper.selectById(userId));
-        // 校验调用次数
+        // verify call count
         verify(permissionService, times(1)).processUserDeleted(eq(userId));
     }
 
     @Test
     public void testGetUserByUsername() {
-        // mock 数据
+        // mock data
         UserEntity dbUser = randomAdminUserDO();
         userMapper.insert(dbUser);
-        // 准备参数
+        // prepare parameters
         String username = dbUser.getUsername();
 
-        // 调用
+        // invoke
         UserEntity user = userService.getUserByUsername(username);
-        // 断言
+        // assert
         assertPojoEquals(dbUser, user);
     }
 
     @Test
     public void testGetUserByMobile() {
-        // mock 数据
+        // mock data
         UserEntity dbUser = randomAdminUserDO();
         userMapper.insert(dbUser);
-        // 准备参数
+        // prepare parameters
         String mobile = dbUser.getMobile();
 
-        // 调用
+        // invoke
         UserEntity user = userService.getUserByMobile(mobile);
-        // 断言
+        // assert
         assertPojoEquals(dbUser, user);
     }
 
     @Test
     public void testGetUserPage() {
-        // mock 数据
+        // mock data
         UserEntity dbUser = initGetUserPageData();
-        // 准备参数
+        // prepare parameters
         UserPageRequest request = new UserPageRequest();
         request.setUsername("tu");
         request.setMobile("1560");
         request.setStatus(CommonStatusEnum.ENABLE.getStatus());
         request.setCreateTime(buildBetweenTime(2020, 12, 1, 2020, 12, 24));
-        request.setDeptId(1L); // 其中，1L 是 2L 的父部门
-        // mock 方法
+        request.setDeptId(1L); // Note: 1L is the parent department of 2L
+        // mock the method
         List<DepartmentEntity> deptList = newArrayList(randomPojo(DepartmentEntity.class, o -> o.setId(2L)));
         when(deptService.getChildDeptList(eq(request.getDeptId()))).thenReturn(deptList);
 
-        // 调用
+        // invoke
         PageResult<UserEntity> pageResult = userService.getUserPage(request);
-        // 断言
+        // assert
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
         assertPojoEquals(dbUser, pageResult.getList().get(0));
     }
 
     /**
-     * 初始化 getUserPage 方法的测试数据
+     * initialize test data for getUserPage method
      */
     private UserEntity initGetUserPageData() {
-        // mock 数据
-        UserEntity dbUser = randomAdminUserDO(o -> { // 等会查询到
+        // mock data
+        UserEntity dbUser = randomAdminUserDO(o -> { // will be queried later
             o.setUsername("tudou");
             o.setMobile("15601691300");
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
@@ -364,66 +364,66 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
             o.setDeptId(2L);
         });
         userMapper.insert(dbUser);
-        // 测试 username 不匹配
+        // test username mismatch
         userMapper.insert(cloneIgnoreId(dbUser, o -> o.setUsername("dou")));
-        // 测试 mobile 不匹配
+        // test mobile mismatch
         userMapper.insert(cloneIgnoreId(dbUser, o -> o.setMobile("18818260888")));
-        // 测试 status 不匹配
+        // test status mismatch
         userMapper.insert(cloneIgnoreId(dbUser, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
-        // 测试 createTime 不匹配
+        // test createTime mismatch
         userMapper.insert(cloneIgnoreId(dbUser, o -> o.setCreateTime(buildTime(2020, 11, 11))));
-        // 测试 dept 不匹配
+        // test dept mismatch
         userMapper.insert(cloneIgnoreId(dbUser, o -> o.setDeptId(0L)));
         return dbUser;
     }
 
     @Test
     public void testGetUser() {
-        // mock 数据
+        // mock data
         UserEntity dbUser = randomAdminUserDO();
         userMapper.insert(dbUser);
-        // 准备参数
+        // prepare parameters
         Long userId = dbUser.getId();
 
-        // 调用
+        // invoke
         UserEntity user = userService.getUser(userId);
-        // 断言
+        // assert
         assertPojoEquals(dbUser, user);
     }
 
     @Test
     public void testGetUserListByDeptIds() {
-        // mock 数据
+        // mock data
         UserEntity dbUser = randomAdminUserDO(o -> o.setDeptId(1L));
         userMapper.insert(dbUser);
-        // 测试 deptId 不匹配
+        // test deptId mismatch
         userMapper.insert(cloneIgnoreId(dbUser, o -> o.setDeptId(2L)));
-        // 准备参数
+        // prepare parameters
         Collection<Long> deptIds = singleton(1L);
 
-        // 调用
+        // invoke
         List<UserEntity> list = userService.getUserListByDeptIds(deptIds);
-        // 断言
+        // assert
         assertEquals(1, list.size());
         assertEquals(dbUser, list.get(0));
     }
 
     /**
-     * 情况一，校验不通过，导致插入失败
+     * Scenario 1: validation fails, causing insert failure
      */
     @Test
     public void testImportUserList_01() {
-        // 准备参数
+        // prepare parameters
         UserImportExcelDto importUser = randomPojo(UserImportExcelDto.class, o -> {
             o.setEmail(randomEmail());
             o.setMobile(randomMobile());
         });
-        // mock 方法，模拟失败
+        // mock the method, simulate failure
         doThrow(new ServiceException(DEPT_NOT_FOUND)).when(deptService).validateDeptList(any());
 
-        // 调用
+        // invoke
         UserImportResponse response = userService.importUserList(newArrayList(importUser), true);
-        // 断言
+        // assert
         assertEquals(0, response.getCreateUsernames().size());
         assertEquals(0, response.getUpdateUsernames().size());
         assertEquals(1, response.getFailureUsernames().size());
@@ -431,29 +431,29 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     /**
-     * 情况二，不存在，进行插入
+     * case 2: does not exist, perform insert
      */
     @Test
     public void testImportUserList_02() {
-        // 准备参数
+        // prepare parameters
         UserImportExcelDto importUser = randomPojo(UserImportExcelDto.class, o -> {
-            o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // 保证 status 的范围
-            o.setSex(randomEle(SexEnum.values()).getSex()); // 保证 sex 的范围
+            o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // ensure status range
+            o.setSex(randomEle(SexEnum.values()).getSex()); // ensure sex range
             o.setEmail(randomEmail());
             o.setMobile(randomMobile());
         });
-        // mock deptService 的方法
+        // mock deptService  method
         DepartmentEntity dept = randomPojo(DepartmentEntity.class, o -> {
             o.setId(importUser.getDeptId());
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
         when(deptService.getDept(eq(dept.getId()))).thenReturn(dept);
-        // mock passwordEncoder 的方法
-        when(passwordEncoder.encode(eq("yudaoyuanma"))).thenReturn("java");
+        // mock passwordEncoder  method
+        when(passwordEncoder.encode(eq("focelasecret"))).thenReturn("java");
 
-        // 调用
+        // invoke
         UserImportResponse response = userService.importUserList(newArrayList(importUser), true);
-        // 断言
+        // assert
         assertEquals(1, response.getCreateUsernames().size());
         UserEntity user = userMapper.selectByUsername(response.getCreateUsernames().get(0));
         assertPojoEquals(importUser, user);
@@ -463,31 +463,31 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     /**
-     * 情况三，存在，但是不强制更新
+     * case 3: exists but no force update
      */
     @Test
     public void testImportUserList_03() {
-        // mock 数据
+        // mock data
         UserEntity dbUser = randomAdminUserDO();
         userMapper.insert(dbUser);
-        // 准备参数
+        // prepare parameters
         UserImportExcelDto importUser = randomPojo(UserImportExcelDto.class, o -> {
-            o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // 保证 status 的范围
-            o.setSex(randomEle(SexEnum.values()).getSex()); // 保证 sex 的范围
+            o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // ensure status range
+            o.setSex(randomEle(SexEnum.values()).getSex()); // ensure sex range
             o.setUsername(dbUser.getUsername());
             o.setEmail(randomEmail());
             o.setMobile(randomMobile());
         });
-        // mock deptService 的方法
+        // mock deptService  method
         DepartmentEntity dept = randomPojo(DepartmentEntity.class, o -> {
             o.setId(importUser.getDeptId());
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
         when(deptService.getDept(eq(dept.getId()))).thenReturn(dept);
 
-        // 调用
+        // invoke
         UserImportResponse response = userService.importUserList(newArrayList(importUser), false);
-        // 断言
+        // assert
         assertEquals(0, response.getCreateUsernames().size());
         assertEquals(0, response.getUpdateUsernames().size());
         assertEquals(1, response.getFailureUsernames().size());
@@ -495,31 +495,31 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     /**
-     * 情况四，存在，强制更新
+     * case 4: exists, force update
      */
     @Test
     public void testImportUserList_04() {
-        // mock 数据
+        // mock data
         UserEntity dbUser = randomAdminUserDO();
         userMapper.insert(dbUser);
-        // 准备参数
+        // prepare parameters
         UserImportExcelDto importUser = randomPojo(UserImportExcelDto.class, o -> {
-            o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // 保证 status 的范围
-            o.setSex(randomEle(SexEnum.values()).getSex()); // 保证 sex 的范围
+            o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // ensure status range
+            o.setSex(randomEle(SexEnum.values()).getSex()); // ensure sex range
             o.setUsername(dbUser.getUsername());
             o.setEmail(randomEmail());
             o.setMobile(randomMobile());
         });
-        // mock deptService 的方法
+        // mock deptService  method
         DepartmentEntity dept = randomPojo(DepartmentEntity.class, o -> {
             o.setId(importUser.getDeptId());
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
         when(deptService.getDept(eq(dept.getId()))).thenReturn(dept);
 
-        // 调用
+        // invoke
         UserImportResponse response = userService.importUserList(newArrayList(importUser), true);
-        // 断言
+        // assert
         assertEquals(0, response.getCreateUsernames().size());
         assertEquals(1, response.getUpdateUsernames().size());
         UserEntity user = userMapper.selectByUsername(response.getUpdateUsernames().get(0));
@@ -534,75 +534,75 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testValidateUsernameUnique_usernameExistsForCreate() {
-        // 准备参数
+        // prepare parameters
         String username = randomString();
-        // mock 数据
+        // mock data
         userMapper.insert(randomAdminUserDO(o -> o.setUsername(username)));
 
-        // 调用，校验异常
+        // invoke, verify exception
         assertServiceException(() -> userService.validateUsernameUnique(null, username),
                 USER_USERNAME_EXISTS);
     }
 
     @Test
     public void testValidateUsernameUnique_usernameExistsForUpdate() {
-        // 准备参数
+        // prepare parameters
         Long id = randomLongId();
         String username = randomString();
-        // mock 数据
+        // mock data
         userMapper.insert(randomAdminUserDO(o -> o.setUsername(username)));
 
-        // 调用，校验异常
+        // invoke, verify exception
         assertServiceException(() -> userService.validateUsernameUnique(id, username),
                 USER_USERNAME_EXISTS);
     }
 
     @Test
     public void testValidateEmailUnique_emailExistsForCreate() {
-        // 准备参数
+        // prepare parameters
         String email = randomString();
-        // mock 数据
+        // mock data
         userMapper.insert(randomAdminUserDO(o -> o.setEmail(email)));
 
-        // 调用，校验异常
+        // invoke, verify exception
         assertServiceException(() -> userService.validateEmailUnique(null, email),
                 USER_EMAIL_EXISTS);
     }
 
     @Test
     public void testValidateEmailUnique_emailExistsForUpdate() {
-        // 准备参数
+        // prepare parameters
         Long id = randomLongId();
         String email = randomString();
-        // mock 数据
+        // mock data
         userMapper.insert(randomAdminUserDO(o -> o.setEmail(email)));
 
-        // 调用，校验异常
+        // invoke, verify exception
         assertServiceException(() -> userService.validateEmailUnique(id, email),
                 USER_EMAIL_EXISTS);
     }
 
     @Test
     public void testValidateMobileUnique_mobileExistsForCreate() {
-        // 准备参数
+        // prepare parameters
         String mobile = randomString();
-        // mock 数据
+        // mock data
         userMapper.insert(randomAdminUserDO(o -> o.setMobile(mobile)));
 
-        // 调用，校验异常
+        // invoke, verify exception
         assertServiceException(() -> userService.validateMobileUnique(null, mobile),
                 USER_MOBILE_EXISTS);
     }
 
     @Test
     public void testValidateMobileUnique_mobileExistsForUpdate() {
-        // 准备参数
+        // prepare parameters
         Long id = randomLongId();
         String mobile = randomString();
-        // mock 数据
+        // mock data
         userMapper.insert(randomAdminUserDO(o -> o.setMobile(mobile)));
 
-        // 调用，校验异常
+        // invoke, verify exception
         assertServiceException(() -> userService.validateMobileUnique(id, mobile),
                 USER_MOBILE_EXISTS);
     }
@@ -615,150 +615,150 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testValidateOldPassword_passwordFailed() {
-        // mock 数据
+        // mock data
         UserEntity user = randomAdminUserDO();
         userMapper.insert(user);
-        // 准备参数
+        // prepare parameters
         Long id = user.getId();
         String oldPassword = user.getPassword();
 
-        // 调用，校验异常
+        // invoke, verify exception
         assertServiceException(() -> userService.validateOldPassword(id, oldPassword),
                 USER_PASSWORD_FAILED);
-        // 校验调用
+        // verify call
         verify(passwordEncoder, times(1)).matches(eq(oldPassword), eq(user.getPassword()));
     }
 
     @Test
     public void testUserListByPostIds() {
-        // 准备参数
+        // prepare parameters
         Collection<Long> postIds = asSet(10L, 20L);
-        // mock user1 数据
+        // mock user1 data
         UserEntity user1 = randomAdminUserDO(o -> o.setPostIds(asSet(10L, 30L)));
         userMapper.insert(user1);
         userPostMapper.insert(new UserPostEntity().setUserId(user1.getId()).setPostId(10L));
         userPostMapper.insert(new UserPostEntity().setUserId(user1.getId()).setPostId(30L));
-        // mock user2 数据
+        // mock user2 data
         UserEntity user2 = randomAdminUserDO(o -> o.setPostIds(singleton(100L)));
         userMapper.insert(user2);
         userPostMapper.insert(new UserPostEntity().setUserId(user2.getId()).setPostId(100L));
 
-        // 调用
+        // invoke
         List<UserEntity> result = userService.getUserListByPostIds(postIds);
-        // 断言
+        // assert
         assertEquals(1, result.size());
         assertEquals(user1, result.get(0));
     }
 
     @Test
     public void testGetUserList() {
-        // mock 数据
+        // mock data
         UserEntity user = randomAdminUserDO();
         userMapper.insert(user);
-        // 测试 id 不匹配
+        // test id mismatch
         userMapper.insert(randomAdminUserDO());
-        // 准备参数
+        // prepare parameters
         Collection<Long> ids = singleton(user.getId());
 
-        // 调用
+        // invoke
         List<UserEntity> result = userService.getUserList(ids);
-        // 断言
+        // assert
         assertEquals(1, result.size());
         assertEquals(user, result.get(0));
     }
 
     @Test
     public void testGetUserMap() {
-        // mock 数据
+        // mock data
         UserEntity user = randomAdminUserDO();
         userMapper.insert(user);
-        // 测试 id 不匹配
+        // test id mismatch
         userMapper.insert(randomAdminUserDO());
-        // 准备参数
+        // prepare parameters
         Collection<Long> ids = singleton(user.getId());
 
-        // 调用
+        // invoke
         Map<Long, UserEntity> result = userService.getUserMap(ids);
-        // 断言
+        // assert
         assertEquals(1, result.size());
         assertEquals(user, result.get(user.getId()));
     }
 
     @Test
     public void testGetUserListByNickname() {
-        // mock 数据
-        UserEntity user = randomAdminUserDO(o -> o.setNickname("芋头"));
+        // mock data
+        UserEntity user = randomAdminUserDO(o -> o.setNickname("Focela"));
         userMapper.insert(user);
-        // 测试 nickname 不匹配
-        userMapper.insert(randomAdminUserDO(o -> o.setNickname("源码")));
-        // 准备参数
-        String nickname = "芋";
+        // test nickname mismatch
+        userMapper.insert(randomAdminUserDO(o -> o.setNickname("source")));
+        // prepare parameters
+        String nickname = "Focela";
 
-        // 调用
+        // invoke
         List<UserEntity> result = userService.getUserListByNickname(nickname);
-        // 断言
+        // assert
         assertEquals(1, result.size());
         assertEquals(user, result.get(0));
     }
 
     @Test
     public void testGetUserListByStatus() {
-        // mock 数据
+        // mock data
         UserEntity user = randomAdminUserDO(o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus()));
         userMapper.insert(user);
-        // 测试 status 不匹配
+        // test status mismatch
         userMapper.insert(randomAdminUserDO(o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus())));
-        // 准备参数
+        // prepare parameters
         Integer status = CommonStatusEnum.DISABLE.getStatus();
 
-        // 调用
+        // invoke
         List<UserEntity> result = userService.getUserListByStatus(status);
-        // 断言
+        // assert
         assertEquals(1, result.size());
         assertEquals(user, result.get(0));
     }
 
     @Test
     public void testValidateUserList_success() {
-        // mock 数据
+        // mock data
         UserEntity userEntity = randomAdminUserDO().setStatus(CommonStatusEnum.ENABLE.getStatus());
         userMapper.insert(userEntity);
-        // 准备参数
+        // prepare parameters
         List<Long> ids = singletonList(userEntity.getId());
 
-        // 调用，无需断言
+        // invoke, no assertion needed
         userService.validateUserList(ids);
     }
 
     @Test
     public void testValidateUserList_notFound() {
-        // 准备参数
+        // prepare parameters
         List<Long> ids = singletonList(randomLongId());
 
-        // 调用, 并断言异常
+        // invoke and assert exception
         assertServiceException(() -> userService.validateUserList(ids), USER_NOT_EXISTS);
     }
 
     @Test
     public void testValidateUserList_notEnable() {
-        // mock 数据
+        // mock data
         UserEntity userEntity = randomAdminUserDO().setStatus(CommonStatusEnum.DISABLE.getStatus());
         userMapper.insert(userEntity);
-        // 准备参数
+        // prepare parameters
         List<Long> ids = singletonList(userEntity.getId());
 
-        // 调用, 并断言异常
+        // invoke and assert exception
         assertServiceException(() -> userService.validateUserList(ids), USER_IS_DISABLE,
                 userEntity.getNickname());
     }
 
-    // ========== 随机对象 ==========
+    // ========== random object ==========
 
     @SafeVarargs
     private static UserEntity randomAdminUserDO(Consumer<UserEntity>... consumers) {
         Consumer<UserEntity> consumer = (o) -> {
-            o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // 保证 status 的范围
-            o.setSex(randomEle(SexEnum.values()).getSex()); // 保证 sex 的范围
+            o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // ensure status range
+            o.setSex(randomEle(SexEnum.values()).getSex()); // ensure sex range
         };
         return randomPojo(UserEntity.class, ArrayUtils.append(consumer, consumers));
     }

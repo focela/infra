@@ -18,7 +18,7 @@ public class MailAccountSaveRequest {
     @Email(message = "must be Email format")
     private String mail;
 
-    @Schema(description = "Username", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
+    @Schema(description = "Username", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela")
     @NotNull(message = "username must not be blank")
     private String username;
 

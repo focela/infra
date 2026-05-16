@@ -34,7 +34,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 /**
- * {@link DefaultOAuth2TokenService} 的单元测试类
+ * {@link DefaultOAuth2TokenService}  unit test class
  */
 @Import({DefaultOAuth2TokenService.class, OAuth2AccessTokenRedisRepository.class})
 public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
@@ -58,24 +58,24 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
     @Test
     public void testCreateAccessToken() {
         TenantContextHolder.setTenantId(0L);
-        // 准备参数
+        // prepare parameters
         Long userId = randomLongId();
         Integer userType = UserTypeEnum.ADMIN.getValue();
         String clientId = randomString();
         List<String> scopes = Lists.newArrayList("read", "write");
-        // mock 方法
+        // mock the method
         OAuth2ClientEntity clientDO = randomPojo(OAuth2ClientEntity.class).setClientId(clientId)
                 .setAccessTokenValiditySeconds(30).setRefreshTokenValiditySeconds(60);
         when(oauth2ClientService.validOAuthClientFromCache(eq(clientId))).thenReturn(clientDO);
-        // mock 数据（用户）
+        // mock data（user）
         UserEntity user = randomPojo(UserEntity.class);
         when(adminUserService.getUser(userId)).thenReturn(user);
 
-        // 调用
+        // invoke
         OAuth2AccessTokenEntity accessTokenDO = oauth2TokenService.createAccessToken(userId, userType, clientId, scopes);
-        // 断言访问令牌
+        // assert access token
         OAuth2AccessTokenEntity dbAccessTokenDO = oauth2AccessTokenMapper.selectByAccessToken(accessTokenDO.getAccessToken());
-        // TODO:  expiresTime 被屏蔽，仅 win11 会复现，建议后续修复。
+        // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
         assertPojoEquals(accessTokenDO, dbAccessTokenDO, "expiresTime", "createTime", "updateTime", "deleted");
         assertEquals(userId, accessTokenDO.getUserId());
         assertEquals(userType, accessTokenDO.getUserType());
@@ -85,11 +85,11 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
         assertEquals(clientId, accessTokenDO.getClientId());
         assertEquals(scopes, accessTokenDO.getScopes());
         assertFalse(DateUtils.isExpired(accessTokenDO.getExpiresTime()));
-        // 断言访问令牌的缓存
+        // assert access token cache
         OAuth2AccessTokenEntity redisAccessTokenDO = oauth2AccessTokenRedisDAO.get(accessTokenDO.getAccessToken());
-        // TODO:  expiresTime 被屏蔽，仅 win11 会复现，建议后续修复。
+        // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
         assertPojoEquals(accessTokenDO, redisAccessTokenDO, "expiresTime", "createTime", "updateTime", "deleted");
-        // 断言刷新令牌
+        // assert refresh token
         OAuth2RefreshTokenEntity refreshTokenDO = oauth2RefreshTokenMapper.selectList().get(0);
         assertPojoEquals(accessTokenDO, refreshTokenDO, "id", "expiresTime", "createTime", "updateTime", "deleted");
         assertFalse(DateUtils.isExpired(refreshTokenDO.getExpiresTime()));
@@ -97,49 +97,49 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
 
     @Test
     public void testRefreshAccessToken_null() {
-        // 准备参数
+        // prepare parameters
         String refreshToken = randomString();
         String clientId = randomString();
-        // mock 方法
+        // mock the method
 
-        // 调用，并断言
+        // invoke, and assert
         assertServiceException(() -> oauth2TokenService.refreshAccessToken(refreshToken, clientId),
                 new ErrorCode(400, "Invalid refresh token"));
     }
 
     @Test
     public void testRefreshAccessToken_clientIdError() {
-        // 准备参数
+        // prepare parameters
         String refreshToken = randomString();
         String clientId = randomString();
-        // mock 方法
+        // mock the method
         OAuth2ClientEntity clientDO = randomPojo(OAuth2ClientEntity.class).setClientId(clientId);
         when(oauth2ClientService.validOAuthClientFromCache(eq(clientId))).thenReturn(clientDO);
-        // mock 数据（访问令牌）
+        // mock data（access token）
         OAuth2RefreshTokenEntity refreshTokenDO = randomPojo(OAuth2RefreshTokenEntity.class)
                 .setRefreshToken(refreshToken).setClientId("error");
         oauth2RefreshTokenMapper.insert(refreshTokenDO);
 
-        // 调用，并断言
+        // invoke, and assert
         assertServiceException(() -> oauth2TokenService.refreshAccessToken(refreshToken, clientId),
                 new ErrorCode(400, "Refresh token client ID is incorrect"));
     }
 
     @Test
     public void testRefreshAccessToken_expired() {
-        // 准备参数
+        // prepare parameters
         String refreshToken = randomString();
         String clientId = randomString();
-        // mock 方法
+        // mock the method
         OAuth2ClientEntity clientDO = randomPojo(OAuth2ClientEntity.class).setClientId(clientId);
         when(oauth2ClientService.validOAuthClientFromCache(eq(clientId))).thenReturn(clientDO);
-        // mock 数据（访问令牌）
+        // mock data（access token）
         OAuth2RefreshTokenEntity refreshTokenDO = randomPojo(OAuth2RefreshTokenEntity.class)
                 .setRefreshToken(refreshToken).setClientId(clientId)
                 .setExpiresTime(LocalDateTime.now().minusDays(1));
         oauth2RefreshTokenMapper.insert(refreshTokenDO);
 
-        // 调用，并断言
+        // invoke, and assert
         assertServiceException(() -> oauth2TokenService.refreshAccessToken(refreshToken, clientId),
                 new ErrorCode(401, "Refresh token has expired"));
         assertEquals(0, oauth2AccessTokenMapper.selectCount());
@@ -148,144 +148,144 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
     @Test
     public void testRefreshAccessToken_success() {
         TenantContextHolder.setTenantId(0L);
-        // 准备参数
+        // prepare parameters
         String refreshToken = randomString();
         String clientId = randomString();
-        // mock 方法
+        // mock the method
         OAuth2ClientEntity clientDO = randomPojo(OAuth2ClientEntity.class).setClientId(clientId)
                 .setAccessTokenValiditySeconds(30);
         when(oauth2ClientService.validOAuthClientFromCache(eq(clientId))).thenReturn(clientDO);
-        // mock 数据（访问令牌）
+        // mock data（access token）
         OAuth2RefreshTokenEntity refreshTokenDO = randomPojo(OAuth2RefreshTokenEntity.class, o ->
                 o.setRefreshToken(refreshToken).setClientId(clientId)
                         .setExpiresTime(LocalDateTime.now().plusDays(1))
                         .setUserType(UserTypeEnum.ADMIN.getValue())
                         .setTenantId(TenantContextHolder.getTenantId()));
         oauth2RefreshTokenMapper.insert(refreshTokenDO);
-        // mock 数据（访问令牌）
+        // mock data（access token）
         OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class).setRefreshToken(refreshToken)
                 .setUserType(refreshTokenDO.getUserType());
         oauth2AccessTokenMapper.insert(accessTokenDO);
         oauth2AccessTokenRedisDAO.set(accessTokenDO);
-        // mock 数据（用户）
+        // mock data（user）
         UserEntity user = randomPojo(UserEntity.class);
         when(adminUserService.getUser(refreshTokenDO.getUserId())).thenReturn(user);
 
-        // 调用
+        // invoke
         OAuth2AccessTokenEntity newAccessTokenDO = oauth2TokenService.refreshAccessToken(refreshToken, clientId);
-        // 断言，老的访问令牌被删除
+        // assert old access token is deleted
         assertNull(oauth2AccessTokenMapper.selectByAccessToken(accessTokenDO.getAccessToken()));
         assertNull(oauth2AccessTokenRedisDAO.get(accessTokenDO.getAccessToken()));
-        // 断言，新的访问令牌
+        // assert new access token
         OAuth2AccessTokenEntity dbAccessTokenDO = oauth2AccessTokenMapper.selectByAccessToken(newAccessTokenDO.getAccessToken());
-        // TODO:  expiresTime 被屏蔽，仅 win11 会复现，建议后续修复。
+        // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
         assertPojoEquals(newAccessTokenDO, dbAccessTokenDO, "expiresTime", "createTime", "updateTime", "deleted");
         assertPojoEquals(newAccessTokenDO, refreshTokenDO, "id", "expiresTime", "createTime", "updateTime", "deleted",
                 "creator", "updater");
         assertFalse(DateUtils.isExpired(newAccessTokenDO.getExpiresTime()));
-        // 断言，新的访问令牌的缓存
+        // assert new access token cache
         OAuth2AccessTokenEntity redisAccessTokenDO = oauth2AccessTokenRedisDAO.get(newAccessTokenDO.getAccessToken());
-        // TODO:  expiresTime 被屏蔽，仅 win11 会复现，建议后续修复。
+        // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
         assertPojoEquals(newAccessTokenDO, redisAccessTokenDO, "expiresTime", "createTime", "updateTime", "deleted");
     }
 
     @Test
     public void testGetAccessToken() {
-        // mock 数据（访问令牌）
+        // mock data（access token）
         OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class)
                 .setExpiresTime(LocalDateTime.now().plusDays(1));
         oauth2AccessTokenMapper.insert(accessTokenDO);
-        // 准备参数
+        // prepare parameters
         String accessToken = accessTokenDO.getAccessToken();
 
-        // 调用
+        // invoke
         OAuth2AccessTokenEntity result = oauth2TokenService.getAccessToken(accessToken);
-        // 断言
-        // TODO:  expiresTime 被屏蔽，仅 win11 会复现，建议后续修复。
+        // assert
+        // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
         assertPojoEquals(accessTokenDO, result, "expiresTime", "createTime", "updateTime", "deleted",
                 "creator", "updater");
-        // TODO:  expiresTime 被屏蔽，仅 win11 会复现，建议后续修复。
+        // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
         assertPojoEquals(accessTokenDO, oauth2AccessTokenRedisDAO.get(accessToken), "expiresTime", "createTime", "updateTime", "deleted",
                 "creator", "updater");
     }
 
     @Test
     public void testCheckAccessToken_null() {
-        // 调研，并断言
+        // invoke, and assert
         assertServiceException(() -> oauth2TokenService.checkAccessToken(randomString()),
                 new ErrorCode(401, "Access token does not exist"));
     }
 
     @Test
     public void testCheckAccessToken_expired() {
-        // mock 数据（访问令牌）
+        // mock data（access token）
         OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class)
                 .setExpiresTime(LocalDateTime.now().minusDays(1));
         oauth2AccessTokenMapper.insert(accessTokenDO);
-        // 准备参数
+        // prepare parameters
         String accessToken = accessTokenDO.getAccessToken();
 
-        // 调研，并断言
+        // invoke, and assert
         assertServiceException(() -> oauth2TokenService.checkAccessToken(accessToken),
                 new ErrorCode(401, "Access token has expired"));
     }
 
     @Test
     public void testCheckAccessToken_refreshToken() {
-        // mock 数据（访问令牌）
+        // mock data（access token）
         OAuth2RefreshTokenEntity refreshTokenDO = randomPojo(OAuth2RefreshTokenEntity.class)
                 .setUserId(0L)
                 .setExpiresTime(LocalDateTime.now().plusDays(1));
         oauth2RefreshTokenMapper.insert(refreshTokenDO);
-        // 准备参数
+        // prepare parameters
         String accessToken = refreshTokenDO.getRefreshToken();
 
-        // 调研，并断言
+        // invoke, and assert
         OAuth2AccessTokenEntity result = oauth2TokenService.getAccessToken(accessToken);
-        // 断言
+        // assert
         assertPojoEquals(refreshTokenDO, result, "expiresTime", "createTime", "updateTime", "deleted",
                 "creator", "updater");
     }
 
     @Test
     public void testCheckAccessToken_success() {
-        // mock 数据（访问令牌）
+        // mock data（access token）
         OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class)
                 .setExpiresTime(LocalDateTime.now().plusDays(1));
         oauth2AccessTokenMapper.insert(accessTokenDO);
-        // 准备参数
+        // prepare parameters
         String accessToken = accessTokenDO.getAccessToken();
 
-        // 调研，并断言
+        // invoke, and assert
         OAuth2AccessTokenEntity result = oauth2TokenService.getAccessToken(accessToken);
-        // 断言
-        // TODO:  expiresTime 被屏蔽，仅 win11 会复现，建议后续修复。
+        // assert
+        // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
         assertPojoEquals(accessTokenDO, result, "expiresTime", "createTime", "updateTime", "deleted",
                 "creator", "updater");
     }
 
     @Test
     public void testRemoveAccessToken_null() {
-        // 调用，并断言
+        // invoke, and assert
         assertNull(oauth2TokenService.removeAccessToken(randomString()));
     }
 
     @Test
     public void testRemoveAccessToken_success() {
-        // mock 数据（访问令牌）
+        // mock data（access token）
         OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class)
                 .setExpiresTime(LocalDateTime.now().plusDays(1));
         oauth2AccessTokenMapper.insert(accessTokenDO);
-        // mock 数据（刷新令牌）
+        // mock data（refresh token）
         OAuth2RefreshTokenEntity refreshTokenDO = randomPojo(OAuth2RefreshTokenEntity.class)
                 .setRefreshToken(accessTokenDO.getRefreshToken());
         oauth2RefreshTokenMapper.insert(refreshTokenDO);
-        // 调用
+        // invoke
         OAuth2AccessTokenEntity result = oauth2TokenService.removeAccessToken(accessTokenDO.getAccessToken());
-        // TODO:  expiresTime 被屏蔽，仅 win11 会复现，建议后续修复。
+        // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
         assertPojoEquals(accessTokenDO, result, "expiresTime", "createTime", "updateTime", "deleted",
                 "creator", "updater");
-        // 断言数据
+        // assert data
         assertNull(oauth2AccessTokenMapper.selectByAccessToken(accessTokenDO.getAccessToken()));
         assertNull(oauth2RefreshTokenMapper.selectByRefreshToken(accessTokenDO.getRefreshToken()));
         assertNull(oauth2AccessTokenRedisDAO.get(accessTokenDO.getAccessToken()));
@@ -294,34 +294,34 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
 
     @Test
     public void testGetAccessTokenPage() {
-        // mock 数据
-        OAuth2AccessTokenEntity dbAccessToken = randomPojo(OAuth2AccessTokenEntity.class, o -> { // 等会查询到
+        // mock data
+        OAuth2AccessTokenEntity dbAccessToken = randomPojo(OAuth2AccessTokenEntity.class, o -> { // will be queried later
             o.setUserId(10L);
             o.setUserType(1);
             o.setClientId("test_client");
             o.setExpiresTime(LocalDateTime.now().plusDays(1));
         });
         oauth2AccessTokenMapper.insert(dbAccessToken);
-        // 测试 userId 不匹配
+        // test userId mismatch
         oauth2AccessTokenMapper.insert(cloneIgnoreId(dbAccessToken, o -> o.setUserId(20L)));
-        // 测试 userType 不匹配
+        // test userType mismatch
         oauth2AccessTokenMapper.insert(cloneIgnoreId(dbAccessToken, o -> o.setUserType(2)));
-        // 测试 userType 不匹配
+        // test userType mismatch
         oauth2AccessTokenMapper.insert(cloneIgnoreId(dbAccessToken, o -> o.setClientId("it_client")));
-        // 测试 expireTime 不匹配
+        // test expireTime mismatch
         oauth2AccessTokenMapper.insert(cloneIgnoreId(dbAccessToken, o -> o.setExpiresTime(LocalDateTimeUtil.now())));
-        // 准备参数
+        // prepare parameters
         OAuth2AccessTokenPageRequest request = new OAuth2AccessTokenPageRequest();
         request.setUserId(10L);
         request.setUserType(1);
         request.setClientId("test");
 
-        // 调用
+        // invoke
         PageResult<OAuth2AccessTokenEntity> pageResult = oauth2TokenService.getAccessTokenPage(request);
-        // 断言
+        // assert
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
-        // TODO:  expiresTime 被屏蔽，仅 win11 会复现，建议后续修复。
+        // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
         assertPojoEquals(dbAccessToken, pageResult.getList().get(0), "expiresTime");
     }
 

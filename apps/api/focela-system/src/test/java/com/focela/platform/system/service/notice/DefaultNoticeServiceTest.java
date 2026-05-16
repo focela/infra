@@ -31,24 +31,24 @@ class DefaultNoticeServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testGetNoticePage_success() {
-        // 插入前置数据
+        // insert prerequisite data
         NoticeEntity dbNotice = randomPojo(NoticeEntity.class, o -> {
-            o.setTitle("尼古拉斯赵四来啦！");
+            o.setTitle("Nicolas Zhao Si is here!");
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
         noticeMapper.insert(dbNotice);
-        // 测试 title 不匹配
-        noticeMapper.insert(cloneIgnoreId(dbNotice, o -> o.setTitle("尼古拉斯凯奇也来啦！")));
-        // 测试 status 不匹配
+        // test title mismatch
+        noticeMapper.insert(cloneIgnoreId(dbNotice, o -> o.setTitle("Nicolas Cage is here too!")));
+        // test status mismatch
         noticeMapper.insert(cloneIgnoreId(dbNotice, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
-        // 准备参数
+        // prepare parameters
         NoticePageRequest request = new NoticePageRequest();
-        request.setTitle("尼古拉斯赵四来啦！");
+        request.setTitle("Nicolas Zhao Si is here!");
         request.setStatus(CommonStatusEnum.ENABLE.getStatus());
 
-        // 调用
+        // invoke
         PageResult<NoticeEntity> pageResult = noticeService.getNoticePage(request);
-        // 验证查询结果经过筛选
+        // verify query result is filtered
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
         assertPojoEquals(dbNotice, pageResult.getList().get(0));
@@ -56,27 +56,27 @@ class DefaultNoticeServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testGetNotice_success() {
-        // 插入前置数据
+        // insert prerequisite data
         NoticeEntity dbNotice = randomPojo(NoticeEntity.class);
         noticeMapper.insert(dbNotice);
 
-        // 查询
+        // query
         NoticeEntity notice = noticeService.getNotice(dbNotice.getId());
 
-        // 验证插入与读取对象是否一致
+        // verify inserted and read objects match
         assertNotNull(notice);
         assertPojoEquals(dbNotice, notice);
     }
 
     @Test
     public void testCreateNotice_success() {
-        // 准备参数
+        // prepare parameters
         NoticeSaveRequest request = randomPojo(NoticeSaveRequest.class)
-                .setId(null); // 避免 id 被赋值
+                .setId(null); // avoid id being assigned
 
-        // 调用
+        // invoke
         Long noticeId = noticeService.createNotice(request);
-        // 校验插入属性是否正确
+        // verify inserted properties are correct
         assertNotNull(noticeId);
         NoticeEntity notice = noticeMapper.selectById(noticeId);
         assertPojoEquals(request, notice, "id");
@@ -84,40 +84,40 @@ class DefaultNoticeServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testUpdateNotice_success() {
-        // 插入前置数据
+        // insert prerequisite data
         NoticeEntity dbNoticeDO = randomPojo(NoticeEntity.class);
         noticeMapper.insert(dbNoticeDO);
 
-        // 准备更新参数
+        // prepare update parameters
         NoticeSaveRequest request = randomPojo(NoticeSaveRequest.class, o -> o.setId(dbNoticeDO.getId()));
 
-        // 更新
+        // update
         noticeService.updateNotice(request);
-        // 检验是否更新成功
+        // verify update succeeded
         NoticeEntity notice = noticeMapper.selectById(request.getId());
         assertPojoEquals(request, notice);
     }
 
     @Test
     public void testDeleteNotice_success() {
-        // 插入前置数据
+        // insert prerequisite data
         NoticeEntity dbNotice = randomPojo(NoticeEntity.class);
         noticeMapper.insert(dbNotice);
 
-        // 删除
+        // delete
         noticeService.deleteNotice(dbNotice.getId());
 
-        // 检查是否删除成功
+        // verify deletion succeeded
         assertNull(noticeMapper.selectById(dbNotice.getId()));
     }
 
     @Test
     public void testValidateNoticeExists_success() {
-        // 插入前置数据
+        // insert prerequisite data
         NoticeEntity dbNotice = randomPojo(NoticeEntity.class);
         noticeMapper.insert(dbNotice);
 
-        // 成功调用
+        // successful invoke
         noticeService.validateNoticeExists(dbNotice.getId());
     }
 

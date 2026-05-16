@@ -28,7 +28,7 @@ public class SmsChannelResponse {
     @Schema(description = "Remarks", example = "tasty!")
     private String remark;
 
-    @Schema(description = "SMS API account", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
+    @Schema(description = "SMS API account", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela")
     @NotNull(message = "SMS API account must not be blank")
     private String apiKey;
 

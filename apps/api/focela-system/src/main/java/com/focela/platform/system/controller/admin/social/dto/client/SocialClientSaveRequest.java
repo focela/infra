@@ -16,7 +16,7 @@ public class SocialClientSaveRequest {
     @Schema(description = "ID", example = "27162")
     private Long id;
 
-    @Schema(description = "Application name", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudaomall")
+    @Schema(description = "Application name", requiredMode = Schema.RequiredMode.REQUIRED, example = "focelamall")
     @NotNull(message = "application name must not be blank")
     private String name;
 

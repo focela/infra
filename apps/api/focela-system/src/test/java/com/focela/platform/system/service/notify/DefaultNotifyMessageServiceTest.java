@@ -27,7 +27,7 @@ import static com.focela.platform.test.core.utils.RandomUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
-* {@link DefaultNotifyMessageService} 的单元测试类
+* {@link DefaultNotifyMessageService}  unit test class
 */
 @Import(DefaultNotifyMessageService.class)
 public class DefaultNotifyMessageServiceTest extends BaseDbUnitTest {
@@ -40,18 +40,18 @@ public class DefaultNotifyMessageServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testCreateNotifyMessage_success() {
-        // 准备参数
+        // prepare parameters
         Long userId = randomLongId();
         Integer userType = randomEle(UserTypeEnum.values()).getValue();
         NotifyTemplateEntity template = randomPojo(NotifyTemplateEntity.class);
         String templateContent = randomString();
         Map<String, Object> templateParams = randomTemplateParams();
-        // mock 方法
+        // mock the method
 
-        // 调用
+        // invoke
         Long messageId = notifyMessageService.createNotifyMessage(userId, userType,
                 template, templateContent, templateParams);
-        // 断言
+        // assert
         NotifyMessageEntity message = notifyMessageMapper.selectById(messageId);
         assertNotNull(message);
         assertEquals(userId, message.getUserId());
@@ -68,8 +68,8 @@ public class DefaultNotifyMessageServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testGetNotifyMessagePage() {
-       // mock 数据
-       NotifyMessageEntity dbNotifyMessage = randomPojo(NotifyMessageEntity.class, o -> { // 等会查询到
+       // mock data
+       NotifyMessageEntity dbNotifyMessage = randomPojo(NotifyMessageEntity.class, o -> { // will be queried later
            o.setUserId(1L);
            o.setUserType(UserTypeEnum.ADMIN.getValue());
            o.setTemplateCode("test_01");
@@ -78,17 +78,17 @@ public class DefaultNotifyMessageServiceTest extends BaseDbUnitTest {
            o.setTemplateParams(randomTemplateParams());
        });
        notifyMessageMapper.insert(dbNotifyMessage);
-       // 测试 userId 不匹配
+       // test userId mismatch
        notifyMessageMapper.insert(cloneIgnoreId(dbNotifyMessage, o -> o.setUserId(2L)));
-       // 测试 userType 不匹配
+       // test userType mismatch
        notifyMessageMapper.insert(cloneIgnoreId(dbNotifyMessage, o -> o.setUserType(UserTypeEnum.MEMBER.getValue())));
-       // 测试 templateCode 不匹配
+       // test templateCode mismatch
        notifyMessageMapper.insert(cloneIgnoreId(dbNotifyMessage, o -> o.setTemplateCode("test_11")));
-       // 测试 templateType 不匹配
+       // test templateType mismatch
        notifyMessageMapper.insert(cloneIgnoreId(dbNotifyMessage, o -> o.setTemplateType(20)));
-       // 测试 createTime 不匹配
+       // test createTime mismatch
        notifyMessageMapper.insert(cloneIgnoreId(dbNotifyMessage, o -> o.setCreateTime(buildTime(2022, 2, 1))));
-       // 准备参数
+       // prepare parameters
        NotifyMessagePageRequest request = new NotifyMessagePageRequest();
        request.setUserId(1L);
        request.setUserType(UserTypeEnum.ADMIN.getValue());
@@ -96,9 +96,9 @@ public class DefaultNotifyMessageServiceTest extends BaseDbUnitTest {
        request.setTemplateType(10);
        request.setCreateTime(buildBetweenTime(2022, 1, 1, 2022, 1, 10));
 
-       // 调用
+       // invoke
        PageResult<NotifyMessageEntity> pageResult = notifyMessageService.getNotifyMessagePage(request);
-       // 断言
+       // assert
        assertEquals(1, pageResult.getTotal());
        assertEquals(1, pageResult.getList().size());
        assertPojoEquals(dbNotifyMessage, pageResult.getList().get(0));
@@ -106,22 +106,22 @@ public class DefaultNotifyMessageServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testGetNotifyMessage() {
-        // mock 数据
+        // mock data
         NotifyMessageEntity dbNotifyMessage = randomPojo(NotifyMessageEntity.class,
                 o -> o.setTemplateParams(randomTemplateParams()));
         notifyMessageMapper.insert(dbNotifyMessage);
-        // 准备参数
+        // prepare parameters
         Long id = dbNotifyMessage.getId();
 
-        // 调用
+        // invoke
         NotifyMessageEntity notifyMessage = notifyMessageService.getNotifyMessage(id);
         assertPojoEquals(dbNotifyMessage, notifyMessage);
     }
 
     @Test
     public void testGetMyNotifyMessagePage() {
-        // mock 数据
-        NotifyMessageEntity dbNotifyMessage = randomPojo(NotifyMessageEntity.class, o -> { // 等会查询到
+        // mock data
+        NotifyMessageEntity dbNotifyMessage = randomPojo(NotifyMessageEntity.class, o -> { // will be queried later
             o.setUserId(1L);
             o.setUserType(UserTypeEnum.ADMIN.getValue());
             o.setReadStatus(true);
@@ -129,24 +129,24 @@ public class DefaultNotifyMessageServiceTest extends BaseDbUnitTest {
             o.setTemplateParams(randomTemplateParams());
         });
         notifyMessageMapper.insert(dbNotifyMessage);
-        // 测试 userId 不匹配
+        // test userId mismatch
         notifyMessageMapper.insert(cloneIgnoreId(dbNotifyMessage, o -> o.setUserId(2L)));
-        // 测试 userType 不匹配
+        // test userType mismatch
         notifyMessageMapper.insert(cloneIgnoreId(dbNotifyMessage, o -> o.setUserType(UserTypeEnum.MEMBER.getValue())));
-        // 测试 readStatus 不匹配
+        // test readStatus mismatch
         notifyMessageMapper.insert(cloneIgnoreId(dbNotifyMessage, o -> o.setReadStatus(false)));
-        // 测试 createTime 不匹配
+        // test createTime mismatch
         notifyMessageMapper.insert(cloneIgnoreId(dbNotifyMessage, o -> o.setCreateTime(buildTime(2022, 2, 1))));
-        // 准备参数
+        // prepare parameters
         Long userId = 1L;
         Integer userType = UserTypeEnum.ADMIN.getValue();
         NotifyMessageMyPageRequest request = new NotifyMessageMyPageRequest();
         request.setReadStatus(true);
         request.setCreateTime(buildBetweenTime(2022, 1, 1, 2022, 1, 10));
 
-        // 调用
+        // invoke
         PageResult<NotifyMessageEntity> pageResult = notifyMessageService.getMyMyNotifyMessagePage(request, userId, userType);
-        // 断言
+        // assert
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
         assertPojoEquals(dbNotifyMessage, pageResult.getList().get(0));
@@ -154,60 +154,60 @@ public class DefaultNotifyMessageServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testGetUnreadNotifyMessageList() {
-        // mock 数据
-        NotifyMessageEntity dbNotifyMessage = randomPojo(NotifyMessageEntity.class, o -> { // 等会查询到
+        // mock data
+        NotifyMessageEntity dbNotifyMessage = randomPojo(NotifyMessageEntity.class, o -> { // will be queried later
             o.setUserId(1L);
             o.setUserType(UserTypeEnum.ADMIN.getValue());
             o.setReadStatus(false);
             o.setTemplateParams(randomTemplateParams());
         });
         notifyMessageMapper.insert(dbNotifyMessage);
-        // 测试 userId 不匹配
+        // test userId mismatch
         notifyMessageMapper.insert(cloneIgnoreId(dbNotifyMessage, o -> o.setUserId(2L)));
-        // 测试 userType 不匹配
+        // test userType mismatch
         notifyMessageMapper.insert(cloneIgnoreId(dbNotifyMessage, o -> o.setUserType(UserTypeEnum.MEMBER.getValue())));
-        // 测试 readStatus 不匹配
+        // test readStatus mismatch
         notifyMessageMapper.insert(cloneIgnoreId(dbNotifyMessage, o -> o.setReadStatus(true)));
-        // 准备参数
+        // prepare parameters
         Long userId = 1L;
         Integer userType = UserTypeEnum.ADMIN.getValue();
         Integer size = 10;
 
-        // 调用
+        // invoke
         List<NotifyMessageEntity> list = notifyMessageService.getUnreadNotifyMessageList(userId, userType, size);
-        // 断言
+        // assert
         assertEquals(1, list.size());
         assertPojoEquals(dbNotifyMessage, list.get(0));
     }
 
     @Test
     public void testGetUnreadNotifyMessageCount() {
-        // mock 数据
-        NotifyMessageEntity dbNotifyMessage = randomPojo(NotifyMessageEntity.class, o -> { // 等会查询到
+        // mock data
+        NotifyMessageEntity dbNotifyMessage = randomPojo(NotifyMessageEntity.class, o -> { // will be queried later
             o.setUserId(1L);
             o.setUserType(UserTypeEnum.ADMIN.getValue());
             o.setReadStatus(false);
             o.setTemplateParams(randomTemplateParams());
         });
         notifyMessageMapper.insert(dbNotifyMessage);
-        // 测试 userId 不匹配
+        // test userId mismatch
         notifyMessageMapper.insert(cloneIgnoreId(dbNotifyMessage, o -> o.setUserId(2L)));
-        // 测试 userType 不匹配
+        // test userType mismatch
         notifyMessageMapper.insert(cloneIgnoreId(dbNotifyMessage, o -> o.setUserType(UserTypeEnum.MEMBER.getValue())));
-        // 测试 readStatus 不匹配
+        // test readStatus mismatch
         notifyMessageMapper.insert(cloneIgnoreId(dbNotifyMessage, o -> o.setReadStatus(true)));
-        // 准备参数
+        // prepare parameters
         Long userId = 1L;
         Integer userType = UserTypeEnum.ADMIN.getValue();
 
-        // 调用，并断言
+        // invoke, and assert
         assertEquals(1, notifyMessageService.getUnreadNotifyMessageCount(userId, userType));
     }
 
     @Test
     public void testUpdateNotifyMessageRead() {
-        // mock 数据
-        NotifyMessageEntity dbNotifyMessage = randomPojo(NotifyMessageEntity.class, o -> { // 等会查询到
+        // mock data
+        NotifyMessageEntity dbNotifyMessage = randomPojo(NotifyMessageEntity.class, o -> { // will be queried later
             o.setUserId(1L);
             o.setUserType(UserTypeEnum.ADMIN.getValue());
             o.setReadStatus(false);
@@ -215,21 +215,21 @@ public class DefaultNotifyMessageServiceTest extends BaseDbUnitTest {
             o.setTemplateParams(randomTemplateParams());
         });
         notifyMessageMapper.insert(dbNotifyMessage);
-        // 测试 userId 不匹配
+        // test userId mismatch
         notifyMessageMapper.insert(cloneIgnoreId(dbNotifyMessage, o -> o.setUserId(2L)));
-        // 测试 userType 不匹配
+        // test userType mismatch
         notifyMessageMapper.insert(cloneIgnoreId(dbNotifyMessage, o -> o.setUserType(UserTypeEnum.MEMBER.getValue())));
-        // 测试 readStatus 不匹配
+        // test readStatus mismatch
         notifyMessageMapper.insert(cloneIgnoreId(dbNotifyMessage, o -> o.setReadStatus(true)));
-        // 准备参数
+        // prepare parameters
         Collection<Long> ids = Arrays.asList(dbNotifyMessage.getId(), dbNotifyMessage.getId() + 1,
                 dbNotifyMessage.getId() + 2, dbNotifyMessage.getId() + 3);
         Long userId = 1L;
         Integer userType = UserTypeEnum.ADMIN.getValue();
 
-        // 调用
+        // invoke
         int updateCount = notifyMessageService.updateNotifyMessageRead(ids, userId, userType);
-        // 断言
+        // assert
         assertEquals(1, updateCount);
         NotifyMessageEntity notifyMessage = notifyMessageMapper.selectById(dbNotifyMessage.getId());
         assertTrue(notifyMessage.getReadStatus());
@@ -238,8 +238,8 @@ public class DefaultNotifyMessageServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testUpdateAllNotifyMessageRead() {
-        // mock 数据
-        NotifyMessageEntity dbNotifyMessage = randomPojo(NotifyMessageEntity.class, o -> { // 等会查询到
+        // mock data
+        NotifyMessageEntity dbNotifyMessage = randomPojo(NotifyMessageEntity.class, o -> { // will be queried later
             o.setUserId(1L);
             o.setUserType(UserTypeEnum.ADMIN.getValue());
             o.setReadStatus(false);
@@ -247,19 +247,19 @@ public class DefaultNotifyMessageServiceTest extends BaseDbUnitTest {
             o.setTemplateParams(randomTemplateParams());
         });
         notifyMessageMapper.insert(dbNotifyMessage);
-        // 测试 userId 不匹配
+        // test userId mismatch
         notifyMessageMapper.insert(cloneIgnoreId(dbNotifyMessage, o -> o.setUserId(2L)));
-        // 测试 userType 不匹配
+        // test userType mismatch
         notifyMessageMapper.insert(cloneIgnoreId(dbNotifyMessage, o -> o.setUserType(UserTypeEnum.MEMBER.getValue())));
-        // 测试 readStatus 不匹配
+        // test readStatus mismatch
         notifyMessageMapper.insert(cloneIgnoreId(dbNotifyMessage, o -> o.setReadStatus(true)));
-        // 准备参数
+        // prepare parameters
         Long userId = 1L;
         Integer userType = UserTypeEnum.ADMIN.getValue();
 
-        // 调用
+        // invoke
         int updateCount = notifyMessageService.updateAllNotifyMessageRead(userId, userType);
-        // 断言
+        // assert
         assertEquals(1, updateCount);
         NotifyMessageEntity notifyMessage = notifyMessageMapper.selectById(dbNotifyMessage.getId());
         assertTrue(notifyMessage.getReadStatus());

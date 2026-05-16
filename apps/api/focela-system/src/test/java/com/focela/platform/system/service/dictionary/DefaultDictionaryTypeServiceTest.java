@@ -41,32 +41,32 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testGetDictTypePage() {
-       // mock 数据
-       DictionaryTypeEntity dbDictType = randomPojo(DictionaryTypeEntity.class, o -> { // 等会查询到
+       // mock data
+       DictionaryTypeEntity dbDictType = randomPojo(DictionaryTypeEntity.class, o -> { // will be queried later
            o.setName("yunai");
-           o.setType("芋艿");
+           o.setType("Focela");
            o.setStatus(CommonStatusEnum.ENABLE.getStatus());
            o.setCreateTime(buildTime(2021, 1, 15));
        });
        dictTypeMapper.insert(dbDictType);
-       // 测试 name 不匹配
+       // test name mismatch
        dictTypeMapper.insert(cloneIgnoreId(dbDictType, o -> o.setName("tudou")));
-       // 测试 type 不匹配
-       dictTypeMapper.insert(cloneIgnoreId(dbDictType, o -> o.setType("土豆")));
-       // 测试 status 不匹配
+       // test type mismatch
+       dictTypeMapper.insert(cloneIgnoreId(dbDictType, o -> o.setType("Potato")));
+       // test status mismatch
        dictTypeMapper.insert(cloneIgnoreId(dbDictType, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
-       // 测试 createTime 不匹配
+       // test createTime mismatch
        dictTypeMapper.insert(cloneIgnoreId(dbDictType, o -> o.setCreateTime(buildTime(2021, 1, 1))));
-       // 准备参数
+       // prepare parameters
        DictionaryTypePageRequest request = new DictionaryTypePageRequest();
        request.setName("nai");
-       request.setType("艿");
+       request.setType("Focela");
        request.setStatus(CommonStatusEnum.ENABLE.getStatus());
        request.setCreateTime(buildBetweenTime(2021, 1, 10, 2021, 1, 20));
 
-       // 调用
+       // invoke
        PageResult<DictionaryTypeEntity> pageResult = dictTypeService.getDictTypePage(request);
-       // 断言
+       // assert
        assertEquals(1, pageResult.getTotal());
        assertEquals(1, pageResult.getList().size());
        assertPojoEquals(dbDictType, pageResult.getList().get(0));
@@ -74,108 +74,108 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testGetDictType_id() {
-        // mock 数据
+        // mock data
         DictionaryTypeEntity dbDictType = randomDictTypeDO();
         dictTypeMapper.insert(dbDictType);
-        // 准备参数
+        // prepare parameters
         Long id = dbDictType.getId();
 
-        // 调用
+        // invoke
         DictionaryTypeEntity dictType = dictTypeService.getDictType(id);
-        // 断言
+        // assert
         assertNotNull(dictType);
         assertPojoEquals(dbDictType, dictType);
     }
 
     @Test
     public void testGetDictType_type() {
-        // mock 数据
+        // mock data
         DictionaryTypeEntity dbDictType = randomDictTypeDO();
         dictTypeMapper.insert(dbDictType);
-        // 准备参数
+        // prepare parameters
         String type = dbDictType.getType();
 
-        // 调用
+        // invoke
         DictionaryTypeEntity dictType = dictTypeService.getDictType(type);
-        // 断言
+        // assert
         assertNotNull(dictType);
         assertPojoEquals(dbDictType, dictType);
     }
 
     @Test
     public void testCreateDictType_success() {
-        // 准备参数
+        // prepare parameters
         DictionaryTypeSaveRequest request = randomPojo(DictionaryTypeSaveRequest.class,
                 o -> o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()))
-                .setId(null); // 避免 id 被赋值
+                .setId(null); // avoid id being assigned
 
-        // 调用
+        // invoke
         Long dictTypeId = dictTypeService.createDictType(request);
-        // 断言
+        // assert
         assertNotNull(dictTypeId);
-        // 校验记录的属性是否正确
+        // verify record properties are correct
         DictionaryTypeEntity dictType = dictTypeMapper.selectById(dictTypeId);
         assertPojoEquals(request, dictType, "id");
     }
 
     @Test
     public void testUpdateDictType_success() {
-        // mock 数据
+        // mock data
         DictionaryTypeEntity dbDictType = randomDictTypeDO();
-        dictTypeMapper.insert(dbDictType);// @Sql: 先插入出一条存在的数据
-        // 准备参数
+        dictTypeMapper.insert(dbDictType);// @Sql: first insert an existing record
+        // prepare parameters
         DictionaryTypeSaveRequest request = randomPojo(DictionaryTypeSaveRequest.class, o -> {
-            o.setId(dbDictType.getId()); // 设置更新的 ID
+            o.setId(dbDictType.getId()); // set updated ID
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus());
         });
 
-        // 调用
+        // invoke
         dictTypeService.updateDictType(request);
-        // 校验是否更新正确
-        DictionaryTypeEntity dictType = dictTypeMapper.selectById(request.getId()); // 获取最新的
+        // verify update is correct
+        DictionaryTypeEntity dictType = dictTypeMapper.selectById(request.getId()); // get the latest
         assertPojoEquals(request, dictType);
     }
 
     @Test
     public void testDeleteDictType_success() {
-        // mock 数据
+        // mock data
         DictionaryTypeEntity dbDictType = randomDictTypeDO();
-        dictTypeMapper.insert(dbDictType);// @Sql: 先插入出一条存在的数据
-        // 准备参数
+        dictTypeMapper.insert(dbDictType);// @Sql: first insert an existing record
+        // prepare parameters
         Long id = dbDictType.getId();
 
-        // 调用
+        // invoke
         dictTypeService.deleteDictType(id);
-        // 校验数据不存在了
+        // verify data no longer exists
         assertNull(dictTypeMapper.selectById(id));
     }
 
     @Test
     public void testDeleteDictType_hasChildren() {
-        // mock 数据
+        // mock data
         DictionaryTypeEntity dbDictType = randomDictTypeDO();
-        dictTypeMapper.insert(dbDictType);// @Sql: 先插入出一条存在的数据
-        // 准备参数
+        dictTypeMapper.insert(dbDictType);// @Sql: first insert an existing record
+        // prepare parameters
         Long id = dbDictType.getId();
-        // mock 方法
+        // mock the method
         when(dictDataService.getDictDataCountByDictType(eq(dbDictType.getType()))).thenReturn(1L);
 
-        // 调用, 并断言异常
+        // invoke and assert exception
         assertServiceException(() -> dictTypeService.deleteDictType(id), DICT_TYPE_HAS_CHILDREN);
     }
 
     @Test
     public void testGetDictTypeList() {
-        // 准备参数
+        // prepare parameters
         DictionaryTypeEntity dictTypeDO01 = randomDictTypeDO();
         dictTypeMapper.insert(dictTypeDO01);
         DictionaryTypeEntity dictTypeDO02 = randomDictTypeDO();
         dictTypeMapper.insert(dictTypeDO02);
-        // mock 方法
+        // mock the method
 
-        // 调用
+        // invoke
         List<DictionaryTypeEntity> dictTypeDOList = dictTypeService.getDictTypeList();
-        // 断言
+        // assert
         assertEquals(2, dictTypeDOList.size());
         assertPojoEquals(dictTypeDO01, dictTypeDOList.get(0));
         assertPojoEquals(dictTypeDO02, dictTypeDOList.get(1));
@@ -183,11 +183,11 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testValidateDictDataExists_success() {
-        // mock 数据
+        // mock data
         DictionaryTypeEntity dbDictType = randomDictTypeDO();
-        dictTypeMapper.insert(dbDictType);// @Sql: 先插入出一条存在的数据
+        dictTypeMapper.insert(dbDictType);// @Sql: first insert an existing record
 
-        // 调用成功
+        // invoke succeeded
         dictTypeService.validateDictTypeExists(dbDictType.getId());
     }
 
@@ -198,72 +198,72 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testValidateDictTypeUnique_success() {
-        // 调用，成功
+        // invoke, succeeded
         dictTypeService.validateDictTypeUnique(randomLongId(), randomString());
     }
 
     @Test
     public void testValidateDictTypeUnique_valueDuplicateForCreate() {
-        // 准备参数
+        // prepare parameters
         String type = randomString();
-        // mock 数据
+        // mock data
         dictTypeMapper.insert(randomDictTypeDO(o -> o.setType(type)));
 
-        // 调用，校验异常
+        // invoke, verify exception
         assertServiceException(() -> dictTypeService.validateDictTypeUnique(null, type),
                 DICT_TYPE_TYPE_DUPLICATE);
     }
 
     @Test
     public void testValidateDictTypeUnique_valueDuplicateForUpdate() {
-        // 准备参数
+        // prepare parameters
         Long id = randomLongId();
         String type = randomString();
-        // mock 数据
+        // mock data
         dictTypeMapper.insert(randomDictTypeDO(o -> o.setType(type)));
 
-        // 调用，校验异常
+        // invoke, verify exception
         assertServiceException(() -> dictTypeService.validateDictTypeUnique(id, type),
                 DICT_TYPE_TYPE_DUPLICATE);
     }
 
     @Test
     public void testValidateDictTypNameUnique_success() {
-        // 调用，成功
+        // invoke, succeeded
         dictTypeService.validateDictTypeNameUnique(randomLongId(), randomString());
     }
 
     @Test
     public void testValidateDictTypeNameUnique_nameDuplicateForCreate() {
-        // 准备参数
+        // prepare parameters
         String name = randomString();
-        // mock 数据
+        // mock data
         dictTypeMapper.insert(randomDictTypeDO(o -> o.setName(name)));
 
-        // 调用，校验异常
+        // invoke, verify exception
         assertServiceException(() -> dictTypeService.validateDictTypeNameUnique(null, name),
                 DICT_TYPE_NAME_DUPLICATE);
     }
 
     @Test
     public void testValidateDictTypeNameUnique_nameDuplicateForUpdate() {
-        // 准备参数
+        // prepare parameters
         Long id = randomLongId();
         String name = randomString();
-        // mock 数据
+        // mock data
         dictTypeMapper.insert(randomDictTypeDO(o -> o.setName(name)));
 
-        // 调用，校验异常
+        // invoke, verify exception
         assertServiceException(() -> dictTypeService.validateDictTypeNameUnique(id, name),
                 DICT_TYPE_NAME_DUPLICATE);
     }
 
-    // ========== 随机对象 ==========
+    // ========== random object ==========
 
     @SafeVarargs
     private static DictionaryTypeEntity randomDictTypeDO(Consumer<DictionaryTypeEntity>... consumers) {
         Consumer<DictionaryTypeEntity> consumer = (o) -> {
-            o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // 保证 status 的范围
+            o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // ensure status range
         };
         return randomPojo(DictionaryTypeEntity.class, ArrayUtils.append(consumer, consumers));
     }

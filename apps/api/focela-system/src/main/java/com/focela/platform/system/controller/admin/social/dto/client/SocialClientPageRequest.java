@@ -12,7 +12,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class SocialClientPageRequest extends PageParam {
 
-    @Schema(description = "Application name", example = "yudaomall")
+    @Schema(description = "Application name", example = "focelamall")
     private String name;
 
     @Schema(description = "Social platform type", example = "31")

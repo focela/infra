@@ -19,10 +19,10 @@ import static com.focela.platform.common.utils.date.DateUtils.FORMAT_YEAR_MONTH_
 @EqualsAndHashCode(callSuper = true)
 public class UserPageRequest extends PageParam {
 
-    @Schema(description = "user account, fuzzy match", example = "yudao")
+    @Schema(description = "user account, fuzzy match", example = "focela")
     private String username;
 
-    @Schema(description = "mobile number, fuzzy match", example = "yudao")
+    @Schema(description = "mobile number, fuzzy match", example = "focela")
     private String mobile;
 
     @Schema(description = "Display status, see CommonStatusEnum", example = "1")

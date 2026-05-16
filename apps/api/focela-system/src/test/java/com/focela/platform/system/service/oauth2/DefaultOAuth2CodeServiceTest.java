@@ -22,7 +22,7 @@ import static com.focela.platform.system.constants.ErrorCodeConstants.OAUTH2_COD
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * {@link DefaultOAuth2CodeService} 的单元测试类
+ * {@link DefaultOAuth2CodeService}  unit test class
  */
 @Import(DefaultOAuth2CodeService.class)
 class DefaultOAuth2CodeServiceTest extends BaseDbUnitTest {
@@ -35,7 +35,7 @@ class DefaultOAuth2CodeServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testCreateAuthorizationCode() {
-        // 准备参数
+        // prepare parameters
         Long userId = randomLongId();
         Integer userType = RandomUtil.randomEle(UserTypeEnum.values()).getValue();
         String clientId = randomString();
@@ -43,12 +43,12 @@ class DefaultOAuth2CodeServiceTest extends BaseDbUnitTest {
         String redirectUri = randomString();
         String state = randomString();
 
-        // 调用
+        // invoke
         OAuth2CodeEntity codeDO = oauth2CodeService.createAuthorizationCode(userId, userType, clientId,
                 scopes, redirectUri, state);
-        // 断言
+        // assert
         OAuth2CodeEntity dbCodeDO = oauth2CodeMapper.selectByCode(codeDO.getCode());
-        // TODO:  expiresTime 被屏蔽，仅 win11 会复现，建议后续修复。
+        // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
         assertPojoEquals(codeDO, dbCodeDO, "expiresTime", "createTime", "updateTime", "deleted");
         assertEquals(userId, codeDO.getUserId());
         assertEquals(userType, codeDO.getUserType());
@@ -61,37 +61,37 @@ class DefaultOAuth2CodeServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testConsumeAuthorizationCode_null() {
-        // 调用，并断言
+        // invoke, and assert
         assertServiceException(() -> oauth2CodeService.consumeAuthorizationCode(randomString()),
                 OAUTH2_CODE_NOT_EXISTS);
     }
 
     @Test
     public void testConsumeAuthorizationCode_expired() {
-        // 准备参数
+        // prepare parameters
         String code = "test_code";
-        // mock 数据
+        // mock data
         OAuth2CodeEntity codeDO = randomPojo(OAuth2CodeEntity.class).setCode(code)
                 .setExpiresTime(LocalDateTime.now().minusDays(1));
         oauth2CodeMapper.insert(codeDO);
 
-        // 调用，并断言
+        // invoke, and assert
         assertServiceException(() -> oauth2CodeService.consumeAuthorizationCode(code),
                 OAUTH2_CODE_EXPIRE);
     }
 
     @Test
     public void testConsumeAuthorizationCode_success() {
-        // 准备参数
+        // prepare parameters
         String code = "test_code";
-        // mock 数据
+        // mock data
         OAuth2CodeEntity codeDO = randomPojo(OAuth2CodeEntity.class).setCode(code)
                 .setExpiresTime(LocalDateTime.now().plusDays(1));
         oauth2CodeMapper.insert(codeDO);
 
-        // 调用
+        // invoke
         OAuth2CodeEntity result = oauth2CodeService.consumeAuthorizationCode(code);
-        // TODO:  expiresTime 被屏蔽，仅 win11 会复现，建议后续修复。
+        // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
         assertPojoEquals(codeDO, result, "expiresTime");
         assertNull(oauth2CodeMapper.selectByCode(code));
     }

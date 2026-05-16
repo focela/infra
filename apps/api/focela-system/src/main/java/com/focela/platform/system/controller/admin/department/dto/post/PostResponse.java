@@ -23,7 +23,7 @@ public class PostResponse {
     @ExcelProperty("Post Name")
     private String name;
 
-    @Schema(description = "Post code", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
+    @Schema(description = "Post code", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela")
     @ExcelProperty("Post Code")
     private String code;
 

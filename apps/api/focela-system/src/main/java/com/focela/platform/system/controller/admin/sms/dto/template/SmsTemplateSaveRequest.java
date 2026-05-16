@@ -24,7 +24,7 @@ public class SmsTemplateSaveRequest {
     @NotNull(message = "template code must not be blank")
     private String code;
 
-    @Schema(description = "Template name", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
+    @Schema(description = "Template name", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela")
     @NotNull(message = "template name must not be blank")
     private String name;
 

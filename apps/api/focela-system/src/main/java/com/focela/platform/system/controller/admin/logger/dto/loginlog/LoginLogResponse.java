@@ -33,7 +33,7 @@ public class LoginLogResponse {
     @Schema(description = "Trace ID", example = "89aca178-a370-411c-ae02-3f0d672be4ab")
     private String traceId;
 
-    @Schema(description = "Username", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
+    @Schema(description = "Username", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela")
     @ExcelProperty("Username")
     private String username;
 

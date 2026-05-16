@@ -53,23 +53,23 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
     private MailProducer mailProducer;
 
     /**
-     * 用于快速测试你的邮箱账号是否正常
+     * Used to quickly test whether your mail account works
      */
     @Test
     @Disabled
     public void testDemo() {
         MailAccount mailAccount = new MailAccount()
-//                .setFrom("奥特曼 <ydym_test@163.com>")
-                .setFrom("ydym_test@163.com") // 邮箱地址
-                .setHost("smtp.163.com").setPort(465).setSslEnable(true) // SMTP 服务器
-                .setAuth(true).setUser("ydym_test@163.com").setPass("WBZTEINMIFVRYSOE".toCharArray()); // 登录账号密码
-        String messageId = MailUtil.send(mailAccount, "7685413@qq.com", "主题", "内容", false);
-        System.out.println("发送结果：" + messageId);
+//                .setFrom("Ultraman <ydym_test@163.com>")
+                .setFrom("ydym_test@163.com") // email address
+                .setHost("smtp.163.com").setPort(465).setSslEnable(true) // SMTP server
+                .setAuth(true).setUser("ydym_test@163.com").setPass("WBZTEINMIFVRYSOE".toCharArray()); // login account/password
+        String messageId = MailUtil.send(mailAccount, "7685413@qq.com", "subject", "content", false);
+        System.out.println("send result: " + messageId);
     }
 
     @Test
     public void testSendSingleMail_success() {
-        // 准备参数
+        // prepare parameters
         Long userId = randomLongId();
         String templateCode = RandomUtils.randomString();
         Map<String, Object> templateParams = MapUtil.<String, Object>builder().put("code", "1234")
@@ -78,14 +78,14 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
         Collection<String> ccMails = Lists.newArrayList("cc@test.com");
         Collection<String> bccMails = Lists.newArrayList("bcc@test.com");
 
-        // mock adminUserService 的方法
+        // mock adminUserService  method
         UserEntity user = randomPojo(UserEntity.class, o -> o.setEmail("admin@example.com"));
         when(adminUserService.getUser(eq(userId))).thenReturn(user);
 
-        // mock MailTemplateService 的方法
+        // mock MailTemplateService  method
         MailTemplateEntity template = randomPojo(MailTemplateEntity.class, o -> {
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
-            o.setContent("验证码为{code}, 操作为{op}");
+            o.setContent("verification code is {code}, operation is{op}");
             o.setParams(Lists.newArrayList("code", "op"));
         });
         when(mailTemplateService.getMailTemplateByCodeFromCache(eq(templateCode))).thenReturn(template);
@@ -95,10 +95,10 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
         String content = RandomUtils.randomString();
         when(mailTemplateService.formatMailTemplateContent(eq(template.getContent()), eq(templateParams)))
                 .thenReturn(content);
-        // mock MailAccountService 的方法
+        // mock MailAccountService  method
         MailAccountEntity account = randomPojo(MailAccountEntity.class);
         when(mailAccountService.getMailAccountFromCache(eq(template.getAccountId()))).thenReturn(account);
-        // mock MailLogService 的方法
+        // mock MailLogService  method
         Long mailLogId = randomLongId();
         when(mailLogService.createMailLog(eq(userId), eq(UserTypeEnum.ADMIN.getValue()),
                 argThat(toMailSet -> toMailSet.contains(user.getEmail()) && toMailSet.contains("admin@test.com")),
@@ -106,12 +106,12 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
                 argThat(bccMailSet -> bccMailSet.contains("bcc@test.com")),
                 eq(account), eq(template), eq(content), eq(templateParams), eq(true))).thenReturn(mailLogId);
 
-        // 调用
+        // invoke
         Long resultMailLogId = mailSendService.sendSingleMail(toMails, ccMails, bccMails, userId,
                 UserTypeEnum.ADMIN.getValue(), templateCode, templateParams, (File[]) null);
-        // 断言
+        // assert
         assertEquals(mailLogId, resultMailLogId);
-        // 断言调用
+        // assert call
         verify(mailProducer).sendMailSendMessage(eq(mailLogId),
                 argThat(toMailSet -> toMailSet.contains(user.getEmail()) && toMailSet.contains("admin@test.com")),
                 argThat(ccMailSet -> ccMailSet.contains("cc@test.com")),
@@ -120,11 +120,11 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
     }
 
     /**
-     * 发送成功，当邮件模板开启时
+     * send succeeds when mail template is enabled
      */
     @Test
     public void testSendSingleMail_successWhenMailTemplateEnable() {
-        // 准备参数
+        // prepare parameters
         String mail = randomEmail();
         Long userId = randomLongId();
         Integer userType = randomEle(UserTypeEnum.values()).getValue();
@@ -133,10 +133,10 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
                 .put("op", "login").build();
         Collection<String> toMails = Lists.newArrayList(mail);
 
-        // mock MailTemplateService 的方法
+        // mock MailTemplateService  method
         MailTemplateEntity template = randomPojo(MailTemplateEntity.class, o -> {
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
-            o.setContent("验证码为{code}, 操作为{op}");
+            o.setContent("verification code is {code}, operation is{op}");
             o.setParams(Lists.newArrayList("code", "op"));
         });
         when(mailTemplateService.getMailTemplateByCodeFromCache(eq(templateCode))).thenReturn(template);
@@ -146,10 +146,10 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
         String content = RandomUtils.randomString();
         when(mailTemplateService.formatMailTemplateContent(eq(template.getContent()), eq(templateParams)))
                 .thenReturn(content);
-        // mock MailAccountService 的方法
+        // mock MailAccountService  method
         MailAccountEntity account = randomPojo(MailAccountEntity.class);
         when(mailAccountService.getMailAccountFromCache(eq(template.getAccountId()))).thenReturn(account);
-        // mock MailLogService 的方法
+        // mock MailLogService  method
         Long mailLogId = randomLongId();
         when(mailLogService.createMailLog(eq(userId), eq(userType),
                 argThat(toMailSet -> toMailSet.contains(mail)),
@@ -157,11 +157,11 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
                 argThat(Collection::isEmpty),
                 eq(account), eq(template), eq(content), eq(templateParams), eq(true))).thenReturn(mailLogId);
 
-        // 调用
+        // invoke
         Long resultMailLogId = mailSendService.sendSingleMail(toMails, null, null, userId, userType, templateCode, templateParams, (java.io.File[]) null);
-        // 断言
+        // assert
         assertEquals(mailLogId, resultMailLogId);
-        // 断言调用
+        // assert call
         verify(mailProducer).sendMailSendMessage(eq(mailLogId),
                 argThat(toMailSet -> toMailSet.contains(mail)),
                 argThat(Collection::isEmpty),
@@ -170,11 +170,11 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
     }
 
     /**
-     * 发送成功，当邮件模板关闭时
+     * send succeeds when mail template is disabled
      */
     @Test
     public void testSendSingleMail_successWhenMailTemplateDisable() {
-        // 准备参数
+        // prepare parameters
         String mail = randomEmail();
         Long userId = randomLongId();
         Integer userType = randomEle(UserTypeEnum.values()).getValue();
@@ -183,10 +183,10 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
                 .put("op", "login").build();
         Collection<String> toMails = Lists.newArrayList(mail);
 
-        // mock MailTemplateService 的方法
+        // mock MailTemplateService  method
         MailTemplateEntity template = randomPojo(MailTemplateEntity.class, o -> {
             o.setStatus(CommonStatusEnum.DISABLE.getStatus());
-            o.setContent("验证码为{code}, 操作为{op}");
+            o.setContent("verification code is {code}, operation is{op}");
             o.setParams(Lists.newArrayList("code", "op"));
         });
         when(mailTemplateService.getMailTemplateByCodeFromCache(eq(templateCode))).thenReturn(template);
@@ -196,10 +196,10 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
         String content = RandomUtils.randomString();
         when(mailTemplateService.formatMailTemplateContent(eq(template.getContent()), eq(templateParams)))
                 .thenReturn(content);
-        // mock MailAccountService 的方法
+        // mock MailAccountService  method
         MailAccountEntity account = randomPojo(MailAccountEntity.class);
         when(mailAccountService.getMailAccountFromCache(eq(template.getAccountId()))).thenReturn(account);
-        // mock MailLogService 的方法
+        // mock MailLogService  method
         Long mailLogId = randomLongId();
         when(mailLogService.createMailLog(eq(userId), eq(userType),
                 argThat(toMailSet -> toMailSet.contains(mail)),
@@ -207,61 +207,61 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
                 argThat(Collection::isEmpty),
                 eq(account), eq(template), eq(content), eq(templateParams), eq(false))).thenReturn(mailLogId);
 
-        // 调用
+        // invoke
         Long resultMailLogId = mailSendService.sendSingleMail(toMails, null, null, userId, userType, templateCode, templateParams, (java.io.File[]) null);
-        // 断言
+        // assert
         assertEquals(mailLogId, resultMailLogId);
-        // 断言调用
+        // assert call
         verify(mailProducer, times(0)).sendMailSendMessage(anyLong(), any(), any(), any(),
                 anyLong(), anyString(), anyString(), anyString(), any());
     }
 
     @Test
     public void testValidateMailTemplateValid_notExists() {
-        // 准备参数
+        // prepare parameters
         String templateCode = RandomUtils.randomString();
-        // mock 方法
+        // mock the method
 
-        // 调用，并断言异常
+        // invoke, and assert exception
         assertServiceException(() -> mailSendService.validateMailTemplate(templateCode),
                 MAIL_TEMPLATE_NOT_EXISTS);
     }
 
     @Test
     public void testValidateTemplateParams_paramMiss() {
-        // 准备参数
+        // prepare parameters
         MailTemplateEntity template = randomPojo(MailTemplateEntity.class,
                 o -> o.setParams(Lists.newArrayList("code")));
         Map<String, Object> templateParams = new HashMap<>();
-        // mock 方法
+        // mock the method
 
-        // 调用，并断言异常
+        // invoke, and assert exception
         assertServiceException(() -> mailSendService.validateTemplateParams(template, templateParams),
                 MAIL_SEND_TEMPLATE_PARAM_MISS, "code");
     }
 
     @Test
     public void testSendSingleMail_noValidEmail() {
-        // 准备参数
+        // prepare parameters
         Long userId = randomLongId();
         String templateCode = RandomUtils.randomString();
         Map<String, Object> templateParams = MapUtil.<String, Object>builder().put("code", "1234")
                 .put("op", "login").build();
-        Collection<String> toMails = Lists.newArrayList("invalid-email"); // 非法邮箱
+        Collection<String> toMails = Lists.newArrayList("invalid-email"); // invalid email
 
-        // mock MailTemplateService 的方法
+        // mock MailTemplateService  method
         MailTemplateEntity template = randomPojo(MailTemplateEntity.class, o -> {
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
-            o.setContent("验证码为{code}, 操作为{op}");
+            o.setContent("verification code is {code}, operation is{op}");
             o.setParams(Lists.newArrayList("code", "op"));
         });
         when(mailTemplateService.getMailTemplateByCodeFromCache(eq(templateCode))).thenReturn(template);
 
-        // mock MailAccountService 的方法
+        // mock MailAccountService  method
         MailAccountEntity account = randomPojo(MailAccountEntity.class);
         when(mailAccountService.getMailAccountFromCache(eq(template.getAccountId()))).thenReturn(account);
 
-        // 调用，并断言异常
+        // invoke, and assert exception
         assertServiceException(() -> mailSendService.sendSingleMail(toMails, null, null, userId,
                 UserTypeEnum.ADMIN.getValue(), templateCode, templateParams, (java.io.File[]) null),
                 MAIL_SEND_MAIL_NOT_EXISTS);
@@ -270,18 +270,18 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
     @Test
     public void testDoSendMail_success() {
         try (final MockedStatic<MailUtil> mailUtilMock = mockStatic(MailUtil.class)) {
-            // 准备参数
-            MailSendMessage message = randomPojo(MailSendMessage.class, o -> o.setNickname("芋艿"));
-            // mock 方法（获得邮箱账号）
+            // prepare parameters
+            MailSendMessage message = randomPojo(MailSendMessage.class, o -> o.setNickname("Focela"));
+            // mock the method（get mail account）
             MailAccountEntity account = randomPojo(MailAccountEntity.class, o -> o.setMail("7685@qq.com"));
             when(mailAccountService.getMailAccountFromCache(eq(message.getAccountId())))
                     .thenReturn(account);
 
-            // mock 方法（发送邮件）
+            // mock the method（send mail）
             String messageId = randomString();
             mailUtilMock.when(() -> MailUtil.send(
                     argThat(mailAccount -> {
-                        assertEquals("芋艿 <7685@qq.com>", mailAccount.getFrom());
+                        assertEquals("Focela <7685@qq.com>", mailAccount.getFrom());
                         assertTrue(mailAccount.isAuth());
                         assertEquals(account.getUsername(), mailAccount.getUser());
                         assertArrayEquals(account.getPassword().toCharArray(), mailAccount.getPass());
@@ -293,9 +293,9 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
                     eq(message.getTitle()), eq(message.getContent()), eq(true), eq(message.getAttachments())))
                     .thenReturn(messageId);
 
-            // 调用
+            // invoke
             mailSendService.doSendMail(message);
-            // 断言
+            // assert
             verify(mailLogService).updateMailSendResult(eq(message.getLogId()), eq(messageId), isNull());
         }
     }
@@ -303,17 +303,17 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
     @Test
     public void testDoSendMail_exception() {
         try (MockedStatic<MailUtil> mailUtilMock = mockStatic(MailUtil.class)) {
-            // 准备参数
-            MailSendMessage message = randomPojo(MailSendMessage.class, o -> o.setNickname("芋艿"));
-            // mock 方法（获得邮箱账号）
+            // prepare parameters
+            MailSendMessage message = randomPojo(MailSendMessage.class, o -> o.setNickname("Focela"));
+            // mock the method（get mail account）
             MailAccountEntity account = randomPojo(MailAccountEntity.class, o -> o.setMail("7685@qq.com"));
             when(mailAccountService.getMailAccountFromCache(eq(message.getAccountId())))
                     .thenReturn(account);
 
-            // mock 方法（发送邮件）
-            Exception e = new NullPointerException("啦啦啦");
+            // mock the method（send mail）
+            Exception e = new NullPointerException("lalala");
             mailUtilMock.when(() -> MailUtil.send(argThat(mailAccount -> {
-                        assertEquals("芋艿 <7685@qq.com>", mailAccount.getFrom());
+                        assertEquals("Focela <7685@qq.com>", mailAccount.getFrom());
                         assertTrue(mailAccount.isAuth());
                         assertEquals(account.getUsername(), mailAccount.getUser());
                         assertArrayEquals(account.getPassword().toCharArray(), mailAccount.getPass());
@@ -324,9 +324,9 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
                     }), eq(message.getToMails()), eq(message.getCcMails()), eq(message.getBccMails()),
                     eq(message.getTitle()), eq(message.getContent()), eq(true), same(message.getAttachments()))).thenThrow(e);
 
-            // 调用
+            // invoke
             mailSendService.doSendMail(message);
-            // 断言
+            // assert
             verify(mailLogService).updateMailSendResult(eq(message.getLogId()), isNull(), same(e));
         }
     }

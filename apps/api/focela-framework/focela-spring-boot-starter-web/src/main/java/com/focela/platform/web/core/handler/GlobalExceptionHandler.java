@@ -395,57 +395,57 @@ public class GlobalExceptionHandler {
         }
         // 1. Report module
         if (message.contains("report_")) {
-            log.error("[Report module yudao-module-report - table schema not imported][see https://cloud.example.com/report/ to enable]");
+            log.error("[Report module focela-report - table schema not imported][see https://cloud.example.com/report/ to enable]");
             return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                    "[Report module yudao-module-report - table schema not imported][see https://cloud.example.com/report/ to enable]");
+                    "[Report module focela-report - table schema not imported][see https://cloud.example.com/report/ to enable]");
         }
         // 2. Workflow module
         if (message.contains("bpm_")) {
-            log.error("[Workflow module yudao-module-bpm - table schema not imported][see https://cloud.example.com/bpm/ to enable]");
+            log.error("[Workflow module focela-bpm - table schema not imported][see https://cloud.example.com/bpm/ to enable]");
             return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                    "[Workflow module yudao-module-bpm - table schema not imported][see https://cloud.example.com/bpm/ to enable]");
+                    "[Workflow module focela-bpm - table schema not imported][see https://cloud.example.com/bpm/ to enable]");
         }
         // 3. WeChat MP
         if (message.contains("mp_")) {
-            log.error("[WeChat MP yudao-module-mp - table schema not imported][see https://cloud.example.com/mp/build/ to enable]");
+            log.error("[WeChat MP focela-mp - table schema not imported][see https://cloud.example.com/mp/build/ to enable]");
             return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                    "[WeChat MP yudao-module-mp - table schema not imported][see https://cloud.example.com/mp/build/ to enable]");
+                    "[WeChat MP focela-mp - table schema not imported][see https://cloud.example.com/mp/build/ to enable]");
         }
         // 4. Mall system
         if (StrUtil.containsAny(message, "product_", "promotion_", "trade_")) {
-            log.error("[Mall system yudao-module-mall - is disabled][see https://cloud.example.com/mall/build/ to enable]");
+            log.error("[Mall system focela-mall - is disabled][see https://cloud.example.com/mall/build/ to enable]");
             return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                    "[Mall system yudao-module-mall - is disabled][see https://cloud.example.com/mall/build/ to enable]");
+                    "[Mall system focela-mall - is disabled][see https://cloud.example.com/mall/build/ to enable]");
         }
         // 5. ERP system
         if (message.contains("erp_")) {
-            log.error("[ERP system yudao-module-erp - table schema not imported][see https://cloud.example.com/erp/build/ to enable]");
+            log.error("[ERP system focela-erp - table schema not imported][see https://cloud.example.com/erp/build/ to enable]");
             return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                    "[ERP system yudao-module-erp - table schema not imported][see https://cloud.example.com/erp/build/ to enable]");
+                    "[ERP system focela-erp - table schema not imported][see https://cloud.example.com/erp/build/ to enable]");
         }
         // 6. CRM system
         if (message.contains("crm_")) {
-            log.error("[CRM system yudao-module-crm - table schema not imported][see https://cloud.example.com/crm/build/ to enable]");
+            log.error("[CRM system focela-crm - table schema not imported][see https://cloud.example.com/crm/build/ to enable]");
             return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                    "[CRM system yudao-module-crm - table schema not imported][see https://cloud.example.com/crm/build/ to enable]");
+                    "[CRM system focela-crm - table schema not imported][see https://cloud.example.com/crm/build/ to enable]");
         }
         // 7. Payment platform
         if (message.contains("pay_")) {
-            log.error("[Payment module yudao-module-pay - table schema not imported][see https://cloud.example.com/pay/build/ to enable]");
+            log.error("[Payment module focela-pay - table schema not imported][see https://cloud.example.com/pay/build/ to enable]");
             return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                    "[Payment module yudao-module-pay - table schema not imported][see https://cloud.example.com/pay/build/ to enable]");
+                    "[Payment module focela-pay - table schema not imported][see https://cloud.example.com/pay/build/ to enable]");
         }
         // 8. AI large model
         if (message.contains("ai_")) {
-            log.error("[AI large model yudao-module-ai - table schema not imported][see https://cloud.example.com/ai/build/ to enable]");
+            log.error("[AI large model focela-ai - table schema not imported][see https://cloud.example.com/ai/build/ to enable]");
             return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                    "[AI large model yudao-module-ai - table schema not imported][see https://cloud.example.com/ai/build/ to enable]");
+                    "[AI large model focela-ai - table schema not imported][see https://cloud.example.com/ai/build/ to enable]");
         }
         // 9. IoT
         if (message.contains("iot_")) {
-            log.error("[IoT yudao-module-iot - table schema not imported][see https://www.example.com/iot/build/ to enable]");
+            log.error("[IoT focela-iot - table schema not imported][see https://www.example.com/iot/build/ to enable]");
             return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                    "[IoT yudao-module-iot - table schema not imported][see https://www.example.com/iot/build/ to enable]");
+                    "[IoT focela-iot - table schema not imported][see https://www.example.com/iot/build/ to enable]");
         }
         return null;
     }

@@ -23,7 +23,7 @@ import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * {@link DefaultDepartmentService} 的单元测试类
+ * {@link DefaultDepartmentService}  unit test class
  */
 @Import(DefaultDepartmentService.class)
 public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
@@ -35,93 +35,93 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testCreateDept() {
-        // 准备参数
+        // prepare parameters
         DepartmentSaveRequest request = randomPojo(DepartmentSaveRequest.class, o -> {
-            o.setId(null); // 防止 id 被设置
+            o.setId(null); // prevent id from being set
             o.setParentId(DepartmentEntity.PARENT_ID_ROOT);
             o.setStatus(randomCommonStatus());
         });
 
-        // 调用
+        // invoke
         Long deptId = deptService.createDept(request);
-        // 断言
+        // assert
         assertNotNull(deptId);
-        // 校验记录的属性是否正确
+        // verify record properties are correct
         DepartmentEntity deptDO = deptMapper.selectById(deptId);
         assertPojoEquals(request, deptDO, "id");
     }
 
     @Test
     public void testUpdateDept() {
-        // mock 数据
+        // mock data
         DepartmentEntity dbDeptDO = randomPojo(DepartmentEntity.class, o -> o.setStatus(randomCommonStatus()));
-        deptMapper.insert(dbDeptDO);// @Sql: 先插入出一条存在的数据
-        // 准备参数
+        deptMapper.insert(dbDeptDO);// @Sql: first insert an existing record
+        // prepare parameters
         DepartmentSaveRequest request = randomPojo(DepartmentSaveRequest.class, o -> {
-            // 设置更新的 ID
+            // set updated ID
             o.setParentId(DepartmentEntity.PARENT_ID_ROOT);
             o.setId(dbDeptDO.getId());
             o.setStatus(randomCommonStatus());
         });
 
-        // 调用
+        // invoke
         deptService.updateDept(request);
-        // 校验是否更新正确
-        DepartmentEntity deptDO = deptMapper.selectById(request.getId()); // 获取最新的
+        // verify update is correct
+        DepartmentEntity deptDO = deptMapper.selectById(request.getId()); // get the latest
         assertPojoEquals(request, deptDO);
     }
 
     @Test
     public void testDeleteDept_success() {
-        // mock 数据
+        // mock data
         DepartmentEntity dbDeptDO = randomPojo(DepartmentEntity.class);
-        deptMapper.insert(dbDeptDO);// @Sql: 先插入出一条存在的数据
-        // 准备参数
+        deptMapper.insert(dbDeptDO);// @Sql: first insert an existing record
+        // prepare parameters
         Long id = dbDeptDO.getId();
 
-        // 调用
+        // invoke
         deptService.deleteDept(id);
-        // 校验数据不存在了
+        // verify data no longer exists
         assertNull(deptMapper.selectById(id));
     }
 
     @Test
     public void testDeleteDept_exitsChildren() {
-        // mock 数据
+        // mock data
         DepartmentEntity parentDept = randomPojo(DepartmentEntity.class);
-        deptMapper.insert(parentDept);// @Sql: 先插入出一条存在的数据
-        // 准备参数
+        deptMapper.insert(parentDept);// @Sql: first insert an existing record
+        // prepare parameters
         DepartmentEntity childrenDeptDO = randomPojo(DepartmentEntity.class, o -> {
             o.setParentId(parentDept.getId());
             o.setStatus(randomCommonStatus());
         });
-        // 插入子部门
+        // insert child department
         deptMapper.insert(childrenDeptDO);
 
-        // 调用, 并断言异常
+        // invoke and assert exception
         assertServiceException(() -> deptService.deleteDept(parentDept.getId()), DEPT_EXITS_CHILDREN);
     }
 
     @Test
     public void testDeleteDeptList_success() {
-        // mock 数据
+        // mock data
         DepartmentEntity deptDO1 = randomPojo(DepartmentEntity.class);
         deptMapper.insert(deptDO1);
         DepartmentEntity deptDO2 = randomPojo(DepartmentEntity.class);
         deptMapper.insert(deptDO2);
-        // 准备参数
+        // prepare parameters
         List<Long> ids = Arrays.asList(deptDO1.getId(), deptDO2.getId());
 
-        // 调用
+        // invoke
         deptService.deleteDeptList(ids);
-        // 校验数据不存在了
+        // verify data no longer exists
         assertNull(deptMapper.selectById(deptDO1.getId()));
         assertNull(deptMapper.selectById(deptDO2.getId()));
     }
 
     @Test
     public void testDeleteDeptList_exitsChildren() {
-        // mock 数据
+        // mock data
         DepartmentEntity parentDept = randomPojo(DepartmentEntity.class);
         deptMapper.insert(parentDept);
         DepartmentEntity childrenDeptDO = randomPojo(DepartmentEntity.class, o -> {
@@ -132,85 +132,85 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
         DepartmentEntity anotherDept = randomPojo(DepartmentEntity.class);
         deptMapper.insert(anotherDept);
 
-        // 准备参数（包含有子部门的 parentDept）
+        // prepare parameters（parentDept that contains child departments）
         List<Long> ids = Arrays.asList(parentDept.getId(), anotherDept.getId());
 
-        // 调用, 并断言异常
+        // invoke and assert exception
         assertServiceException(() -> deptService.deleteDeptList(ids), DEPT_EXITS_CHILDREN);
     }
 
     @Test
     public void testValidateParentDept_parentError() {
-        // 准备参数
+        // prepare parameters
         Long id = randomLongId();
 
-        // 调用, 并断言异常
+        // invoke and assert exception
         assertServiceException(() -> deptService.validateParentDept(id, id),
                 DEPT_PARENT_ERROR);
     }
 
     @Test
     public void testValidateParentDept_parentIsChild() {
-        // mock 数据（父节点）
+        // mock data（parent node）
         DepartmentEntity parentDept = randomPojo(DepartmentEntity.class);
         deptMapper.insert(parentDept);
-        // mock 数据（子节点）
+        // mock data（child node）
         DepartmentEntity childDept = randomPojo(DepartmentEntity.class, o -> {
             o.setParentId(parentDept.getId());
         });
         deptMapper.insert(childDept);
 
-        // 准备参数
+        // prepare parameters
         Long id = parentDept.getId();
         Long parentId = childDept.getId();
 
-        // 调用, 并断言异常
+        // invoke and assert exception
         assertServiceException(() -> deptService.validateParentDept(id, parentId), DEPT_PARENT_IS_CHILD);
     }
 
     @Test
     public void testValidateNameUnique_duplicate() {
-        // mock 数据
+        // mock data
         DepartmentEntity deptDO = randomPojo(DepartmentEntity.class);
         deptMapper.insert(deptDO);
 
-        // 准备参数
+        // prepare parameters
         Long id = randomLongId();
         Long parentId = deptDO.getParentId();
         String name = deptDO.getName();
 
-        // 调用, 并断言异常
+        // invoke and assert exception
         assertServiceException(() -> deptService.validateDeptNameUnique(id, parentId, name),
                 DEPT_NAME_DUPLICATE);
     }
 
     @Test
     public void testGetDept() {
-        // mock 数据
+        // mock data
         DepartmentEntity deptDO = randomPojo(DepartmentEntity.class);
         deptMapper.insert(deptDO);
-        // 准备参数
+        // prepare parameters
         Long id = deptDO.getId();
 
-        // 调用
+        // invoke
         DepartmentEntity dbDept = deptService.getDept(id);
-        // 断言
+        // assert
         assertEquals(deptDO, dbDept);
     }
 
     @Test
     public void testGetDeptList_ids() {
-        // mock 数据
+        // mock data
         DepartmentEntity deptDO01 = randomPojo(DepartmentEntity.class);
         deptMapper.insert(deptDO01);
         DepartmentEntity deptDO02 = randomPojo(DepartmentEntity.class);
         deptMapper.insert(deptDO02);
-        // 准备参数
+        // prepare parameters
         List<Long> ids = Arrays.asList(deptDO01.getId(), deptDO02.getId());
 
-        // 调用
+        // invoke
         List<DepartmentEntity> deptDOList = deptService.getDeptList(ids);
-        // 断言
+        // assert
         assertEquals(2, deptDOList.size());
         assertEquals(deptDO01, deptDOList.get(0));
         assertEquals(deptDO02, deptDOList.get(1));
@@ -218,46 +218,46 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testGetDeptList_reqVO() {
-        // mock 数据
-        DepartmentEntity dept = randomPojo(DepartmentEntity.class, o -> { // 等会查询到
-            o.setName("开发部");
+        // mock data
+        DepartmentEntity dept = randomPojo(DepartmentEntity.class, o -> { // will be queried later
+            o.setName("Development Department");
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
         deptMapper.insert(dept);
-        // 测试 name 不匹配
-        deptMapper.insert(ObjectUtils.cloneIgnoreId(dept, o -> o.setName("发")));
-        // 测试 status 不匹配
+        // test name mismatch
+        deptMapper.insert(ObjectUtils.cloneIgnoreId(dept, o -> o.setName("Sales")));
+        // test status mismatch
         deptMapper.insert(ObjectUtils.cloneIgnoreId(dept, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
-        // 准备参数
+        // prepare parameters
         DepartmentListRequest request = new DepartmentListRequest();
-        request.setName("开");
+        request.setName("Development");
         request.setStatus(CommonStatusEnum.ENABLE.getStatus());
 
-        // 调用
+        // invoke
         List<DepartmentEntity> sysDeptDOS = deptService.getDeptList(request);
-        // 断言
+        // assert
         assertEquals(1, sysDeptDOS.size());
         assertPojoEquals(dept, sysDeptDOS.get(0));
     }
 
     @Test
     public void testGetChildDeptList() {
-        // mock 数据（1 级别子节点）
+        // mock data（1 level child node）
         DepartmentEntity dept1 = randomPojo(DepartmentEntity.class, o -> o.setName("1"));
         deptMapper.insert(dept1);
         DepartmentEntity dept2 = randomPojo(DepartmentEntity.class, o -> o.setName("2"));
         deptMapper.insert(dept2);
-        // mock 数据（2 级子节点）
+        // mock data（2 level child node）
         DepartmentEntity dept1a = randomPojo(DepartmentEntity.class, o -> o.setName("1-a").setParentId(dept1.getId()));
         deptMapper.insert(dept1a);
         DepartmentEntity dept2a = randomPojo(DepartmentEntity.class, o -> o.setName("2-a").setParentId(dept2.getId()));
         deptMapper.insert(dept2a);
-        // 准备参数
+        // prepare parameters
         Long id = dept1.getParentId();
 
-        // 调用
+        // invoke
         List<DepartmentEntity> result = deptService.getChildDeptList(id);
-        // 断言
+        // assert
         assertEquals(result.size(), 2);
         assertPojoEquals(dept1, result.get(0));
         assertPojoEquals(dept1a, result.get(1));
@@ -265,22 +265,22 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testGetChildDeptListFromCache() {
-        // mock 数据（1 级别子节点）
+        // mock data（1 level child node）
         DepartmentEntity dept1 = randomPojo(DepartmentEntity.class, o -> o.setName("1"));
         deptMapper.insert(dept1);
         DepartmentEntity dept2 = randomPojo(DepartmentEntity.class, o -> o.setName("2"));
         deptMapper.insert(dept2);
-        // mock 数据（2 级子节点）
+        // mock data（2 level child node）
         DepartmentEntity dept1a = randomPojo(DepartmentEntity.class, o -> o.setName("1-a").setParentId(dept1.getId()));
         deptMapper.insert(dept1a);
         DepartmentEntity dept2a = randomPojo(DepartmentEntity.class, o -> o.setName("2-a").setParentId(dept2.getId()));
         deptMapper.insert(dept2a);
-        // 准备参数
+        // prepare parameters
         Long id = dept1.getParentId();
 
-        // 调用
+        // invoke
         Set<Long> result = deptService.getChildDeptIdListFromCache(id);
-        // 断言
+        // assert
         assertEquals(result.size(), 2);
         assertTrue(result.contains(dept1.getId()));
         assertTrue(result.contains(dept1a.getId()));
@@ -288,34 +288,34 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testValidateDeptList_success() {
-        // mock 数据
+        // mock data
         DepartmentEntity deptDO = randomPojo(DepartmentEntity.class).setStatus(CommonStatusEnum.ENABLE.getStatus());
         deptMapper.insert(deptDO);
-        // 准备参数
+        // prepare parameters
         List<Long> ids = singletonList(deptDO.getId());
 
-        // 调用，无需断言
+        // invoke, no assertion needed
         deptService.validateDeptList(ids);
     }
 
     @Test
     public void testValidateDeptList_notFound() {
-        // 准备参数
+        // prepare parameters
         List<Long> ids = singletonList(randomLongId());
 
-        // 调用, 并断言异常
+        // invoke and assert exception
         assertServiceException(() -> deptService.validateDeptList(ids), DEPT_NOT_FOUND);
     }
 
     @Test
     public void testValidateDeptList_notEnable() {
-        // mock 数据
+        // mock data
         DepartmentEntity deptDO = randomPojo(DepartmentEntity.class).setStatus(CommonStatusEnum.DISABLE.getStatus());
         deptMapper.insert(deptDO);
-        // 准备参数
+        // prepare parameters
         List<Long> ids = singletonList(deptDO.getId());
 
-        // 调用, 并断言异常
+        // invoke and assert exception
         assertServiceException(() -> deptService.validateDeptList(ids), DEPT_NOT_ENABLE, deptDO.getName());
     }
 

@@ -31,7 +31,7 @@ public class DefaultLoginLogServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testGetLoginLogPage() {
-        // mock 数据
+        // mock data
         LoginLogEntity loginLogDO = randomPojo(LoginLogEntity.class, o -> {
             o.setUserIp("192.168.199.16");
             o.setUsername("wang");
@@ -39,24 +39,24 @@ public class DefaultLoginLogServiceTest extends BaseDbUnitTest {
             o.setCreateTime(buildTime(2021, 3, 6));
         });
         loginLogMapper.insert(loginLogDO);
-        // 测试 status 不匹配
+        // test status mismatch
         loginLogMapper.insert(cloneIgnoreId(loginLogDO, o -> o.setResult(CAPTCHA_CODE_ERROR.getResult())));
-        // 测试 ip 不匹配
+        // test ip mismatch
         loginLogMapper.insert(cloneIgnoreId(loginLogDO, o -> o.setUserIp("192.168.128.18")));
-        // 测试 username 不匹配
+        // test username mismatch
         loginLogMapper.insert(cloneIgnoreId(loginLogDO, o -> o.setUsername("yunai")));
-        // 测试 createTime 不匹配
+        // test createTime mismatch
         loginLogMapper.insert(cloneIgnoreId(loginLogDO, o -> o.setCreateTime(buildTime(2021, 2, 6))));
-        // 构造调用参数
+        // build call parameters
         LoginLogPageRequest request = new LoginLogPageRequest();
         request.setUsername("wang");
         request.setUserIp("192.168.199");
         request.setStatus(true);
         request.setCreateTime(buildBetweenTime(2021, 3, 5, 2021, 3, 7));
 
-        // 调用
+        // invoke
         PageResult<LoginLogEntity> pageResult = loginLogService.getLoginLogPage(request);
-        // 断言，只查到了一条符合条件的
+        // assert only one matching record was found
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
         assertPojoEquals(loginLogDO, pageResult.getList().get(0));
@@ -66,9 +66,9 @@ public class DefaultLoginLogServiceTest extends BaseDbUnitTest {
     public void testCreateLoginLog() {
         LoginLogCreateRpcRequest reqDTO = randomPojo(LoginLogCreateRpcRequest.class);
 
-        // 调用
+        // invoke
         loginLogService.createLoginLog(reqDTO);
-        // 断言
+        // assert
         LoginLogEntity loginLogDO = loginLogMapper.selectOne(null);
         assertPojoEquals(reqDTO, loginLogDO);
     }

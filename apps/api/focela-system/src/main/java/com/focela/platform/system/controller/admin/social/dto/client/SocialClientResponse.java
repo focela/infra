@@ -12,7 +12,7 @@ public class SocialClientResponse {
     @Schema(description = "ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "27162")
     private Long id;
 
-    @Schema(description = "Application name", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudaomall")
+    @Schema(description = "Application name", requiredMode = Schema.RequiredMode.REQUIRED, example = "focelamall")
     private String name;
 
     @Schema(description = "Social platform type", requiredMode = Schema.RequiredMode.REQUIRED, example = "31")

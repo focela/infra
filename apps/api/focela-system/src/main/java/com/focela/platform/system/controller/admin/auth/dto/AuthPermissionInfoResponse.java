@@ -47,7 +47,7 @@ public class AuthPermissionInfoResponse {
         @Schema(description = "Department ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "2048")
         private Long deptId;
 
-        @Schema(description = "Username", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
+        @Schema(description = "Username", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela")
         private String username;
 
         @Schema(description = "Email", example = "user@example.com")

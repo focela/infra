@@ -65,36 +65,36 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
     @BeforeEach
     public void setUp() {
         authService.setCaptchaEnable(true);
-        // 注入一个 Validator 对象
+        // inject a Validator object
         ReflectUtil.setFieldValue(authService, "validator",
                 Validation.buildDefaultValidatorFactory().getValidator());
     }
 
     @Test
     public void testAuthenticate_success() {
-        // 准备参数
+        // prepare parameters
         String username = randomString();
         String password = randomString();
-        // mock user 数据
+        // mock user data
         UserEntity user = randomPojo(UserEntity.class, o -> o.setUsername(username)
                 .setPassword(password).setStatus(CommonStatusEnum.ENABLE.getStatus()));
         when(userService.getUserByUsername(eq(username))).thenReturn(user);
-        // mock password 匹配
+        // mock password match
         when(userService.isPasswordMatch(eq(password), eq(user.getPassword()))).thenReturn(true);
 
-        // 调用
+        // invoke
         UserEntity loginUser = authService.authenticate(username, password);
-        // 校验
+        // verify
         assertPojoEquals(user, loginUser);
     }
 
     @Test
     public void testAuthenticate_userNotFound() {
-        // 准备参数
+        // prepare parameters
         String username = randomString();
         String password = randomString();
 
-        // 调用, 并断言异常
+        // invoke and assert exception
         assertServiceException(() -> authService.authenticate(username, password),
                 AUTH_LOGIN_BAD_CREDENTIALS);
         verify(loginLogService).createLoginLog(
@@ -106,15 +106,15 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testAuthenticate_badCredentials() {
-        // 准备参数
+        // prepare parameters
         String username = randomString();
         String password = randomString();
-        // mock user 数据
+        // mock user data
         UserEntity user = randomPojo(UserEntity.class, o -> o.setUsername(username)
                 .setPassword(password).setStatus(CommonStatusEnum.ENABLE.getStatus()));
         when(userService.getUserByUsername(eq(username))).thenReturn(user);
 
-        // 调用, 并断言异常
+        // invoke and assert exception
         assertServiceException(() -> authService.authenticate(username, password),
                 AUTH_LOGIN_BAD_CREDENTIALS);
         verify(loginLogService).createLoginLog(
@@ -126,17 +126,17 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testAuthenticate_userDisabled() {
-        // 准备参数
+        // prepare parameters
         String username = randomString();
         String password = randomString();
-        // mock user 数据
+        // mock user data
         UserEntity user = randomPojo(UserEntity.class, o -> o.setUsername(username)
                 .setPassword(password).setStatus(CommonStatusEnum.DISABLE.getStatus()));
         when(userService.getUserByUsername(eq(username))).thenReturn(user);
-        // mock password 匹配
+        // mock password match
         when(userService.isPasswordMatch(eq(password), eq(user.getPassword()))).thenReturn(true);
 
-        // 调用, 并断言异常
+        // invoke and assert exception
         assertServiceException(() -> authService.authenticate(username, password),
                 AUTH_LOGIN_USER_DISABLED);
         verify(loginLogService).createLoginLog(
@@ -148,29 +148,29 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testLogin_success() {
-        // 准备参数
+        // prepare parameters
         AuthLoginRequest request = randomPojo(AuthLoginRequest.class, o ->
                 o.setUsername("test_username").setPassword("test_password")
                         .setSocialType(randomEle(SocialTypeEnum.values()).getType()));
 
-        // mock 验证码正确
+        // mock verification code is correct
         authService.setCaptchaEnable(false);
-        // mock user 数据
+        // mock user data
         UserEntity user = randomPojo(UserEntity.class, o -> o.setId(1L).setUsername("test_username")
                 .setPassword("test_password").setStatus(CommonStatusEnum.ENABLE.getStatus()));
         when(userService.getUserByUsername(eq("test_username"))).thenReturn(user);
-        // mock password 匹配
+        // mock password match
         when(userService.isPasswordMatch(eq("test_password"), eq(user.getPassword()))).thenReturn(true);
-        // mock 缓存登录用户到 Redis
+        // mock cache the logged-in user to Redis
         OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class, o -> o.setUserId(1L)
                 .setUserType(UserTypeEnum.ADMIN.getValue()));
         when(oauth2TokenService.createAccessToken(eq(1L), eq(UserTypeEnum.ADMIN.getValue()), eq("default"), isNull()))
                 .thenReturn(accessTokenDO);
 
-        // 调用，并校验
+        // invoke, and verify
         AuthLoginResponse loginResponse = authService.login(request);
         assertPojoEquals(accessTokenDO, loginResponse);
-        // 校验调用参数
+        // verify call parameters
         verify(loginLogService).createLoginLog(
                 argThat(o -> o.getLogType().equals(LoginLogTypeEnum.LOGIN_USERNAME.getType())
                         && o.getResult().equals(LoginResultEnum.SUCCESS.getResult())
@@ -183,17 +183,17 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testSendSmsCode() {
-        // 准备参数
+        // prepare parameters
         String mobile = randomString();
         Integer scene = SmsSceneEnum.ADMIN_MEMBER_LOGIN.getScene();
         AuthSmsSendRequest request = new AuthSmsSendRequest(mobile, scene);
-        // mock 方法（用户信息）
+        // mock the method（user info）
         UserEntity user = randomPojo(UserEntity.class);
         when(userService.getUserByMobile(eq(mobile))).thenReturn(user);
 
-        // 调用
+        // invoke
         authService.sendSmsCode(request);
-        // 断言
+        // assert
         verify(smsCodeApi).sendSmsCode(argThat(sendRequest -> {
             assertEquals(mobile, sendRequest.getMobile());
             assertEquals(scene, sendRequest.getScene());
@@ -203,30 +203,30 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testSmsLogin_success() {
-        // 准备参数
+        // prepare parameters
         String mobile = randomString();
         String code = randomString();
         AuthSmsLoginRequest request = new AuthSmsLoginRequest(mobile, code);
-        // mock 方法（验证码）
+        // mock the method（verification code）
         doNothing().when(smsCodeApi).useSmsCode((argThat(smsCodeUseRequest -> {
             assertEquals(mobile, smsCodeUseRequest.getMobile());
             assertEquals(code, smsCodeUseRequest.getCode());
             assertEquals(SmsSceneEnum.ADMIN_MEMBER_LOGIN.getScene(), smsCodeUseRequest.getScene());
             return true;
         })));
-        // mock 方法（用户信息）
+        // mock the method（user info）
         UserEntity user = randomPojo(UserEntity.class, o -> o.setId(1L));
         when(userService.getUserByMobile(eq(mobile))).thenReturn(user);
-        // mock 缓存登录用户到 Redis
+        // mock cache the logged-in user to Redis
         OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class, o -> o.setUserId(1L)
                 .setUserType(UserTypeEnum.ADMIN.getValue()));
         when(oauth2TokenService.createAccessToken(eq(1L), eq(UserTypeEnum.ADMIN.getValue()), eq("default"), isNull()))
                 .thenReturn(accessTokenDO);
 
-        // 调用，并断言
+        // invoke, and assert
         AuthLoginResponse loginResponse = authService.smsLogin(request);
         assertPojoEquals(accessTokenDO, loginResponse);
-        // 断言调用
+        // assert call
         verify(loginLogService).createLoginLog(
                 argThat(o -> o.getLogType().equals(LoginLogTypeEnum.LOGIN_MOBILE.getType())
                         && o.getResult().equals(LoginResultEnum.SUCCESS.getResult())
@@ -236,25 +236,25 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testSocialLogin_success() {
-        // 准备参数
+        // prepare parameters
         AuthSocialLoginRequest request = randomPojo(AuthSocialLoginRequest.class);
-        // mock 方法（绑定的用户编号）
+        // mock the method（bound user ID）
         Long userId = 1L;
         when(socialUserService.getSocialUserByCode(eq(UserTypeEnum.ADMIN.getValue()), eq(request.getType()),
                 eq(request.getCode()), eq(request.getState()))).thenReturn(new SocialUserRpcResponse(randomString(), randomString(), randomString(), userId));
-        // mock（用户）
+        // mock（user）
         UserEntity user = randomPojo(UserEntity.class, o -> o.setId(userId));
         when(userService.getUser(eq(userId))).thenReturn(user);
-        // mock 缓存登录用户到 Redis
+        // mock cache the logged-in user to Redis
         OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class, o -> o.setUserId(1L)
                 .setUserType(UserTypeEnum.ADMIN.getValue()));
         when(oauth2TokenService.createAccessToken(eq(1L), eq(UserTypeEnum.ADMIN.getValue()), eq("default"), isNull()))
                 .thenReturn(accessTokenDO);
 
-        // 调用，并断言
+        // invoke, and assert
         AuthLoginResponse loginResponse = authService.socialLogin(request);
         assertPojoEquals(accessTokenDO, loginResponse);
-        // 断言调用
+        // assert call
         verify(loginLogService).createLoginLog(
                 argThat(o -> o.getLogType().equals(LoginLogTypeEnum.LOGIN_SOCIAL.getType())
                         && o.getResult().equals(LoginResultEnum.SUCCESS.getResult())
@@ -264,45 +264,45 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testValidateCaptcha_successWithEnable() {
-        // 准备参数
+        // prepare parameters
         AuthLoginRequest request = randomPojo(AuthLoginRequest.class);
 
-        // mock 验证通过
+        // mock validation passed
         when(captchaService.verification(argThat(captchaVO -> {
             assertEquals(request.getCaptchaVerification(), captchaVO.getCaptchaVerification());
             return true;
         }))).thenReturn(ResponseModel.success());
 
-        // 调用，无需断言
+        // invoke, no assertion needed
         authService.validateCaptcha(request);
     }
 
     @Test
     public void testValidateCaptcha_successWithDisable() {
-        // 准备参数
+        // prepare parameters
         AuthLoginRequest request = randomPojo(AuthLoginRequest.class);
 
-        // mock 验证码关闭
+        // mock verification code disabled
         authService.setCaptchaEnable(false);
 
-        // 调用，无需断言
+        // invoke, no assertion needed
         authService.validateCaptcha(request);
     }
 
     @Test
     public void testCaptcha_fail() {
-        // 准备参数
+        // prepare parameters
         AuthLoginRequest request = randomPojo(AuthLoginRequest.class);
 
-        // mock 验证通过
+        // mock validation passed
         when(captchaService.verification(argThat(captchaVO -> {
             assertEquals(request.getCaptchaVerification(), captchaVO.getCaptchaVerification());
             return true;
-        }))).thenReturn(ResponseModel.errorMsg("就是不对"));
+        }))).thenReturn(ResponseModel.errorMsg("just wrong"));
 
-        // 调用, 并断言异常
-        assertServiceException(() -> authService.validateCaptcha(request), AUTH_LOGIN_CAPTCHA_CODE_ERROR, "就是不对");
-        // 校验调用参数
+        // invoke and assert exception
+        assertServiceException(() -> authService.validateCaptcha(request), AUTH_LOGIN_CAPTCHA_CODE_ERROR, "just wrong");
+        // verify call parameters
         verify(loginLogService).createLoginLog(
                 argThat(o -> o.getLogType().equals(LoginLogTypeEnum.LOGIN_USERNAME.getType())
                         && o.getResult().equals(LoginResultEnum.CAPTCHA_CODE_ERROR.getResult()))
@@ -311,47 +311,47 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testRefreshToken() {
-        // 准备参数
+        // prepare parameters
         String refreshToken = randomString();
-        // mock 方法
+        // mock the method
         OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class);
         when(oauth2TokenService.refreshAccessToken(eq(refreshToken), eq("default")))
                 .thenReturn(accessTokenDO);
 
-        // 调用
+        // invoke
         AuthLoginResponse loginResponse = authService.refreshToken(refreshToken);
-        // 断言
+        // assert
         assertPojoEquals(accessTokenDO, loginResponse);
     }
 
     @Test
     public void testLogout_success() {
-        // 准备参数
+        // prepare parameters
         String token = randomString();
         // mock
         OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class, o -> o.setUserId(1L)
                 .setUserType(UserTypeEnum.ADMIN.getValue()));
         when(oauth2TokenService.removeAccessToken(eq(token))).thenReturn(accessTokenDO);
 
-        // 调用
+        // invoke
         authService.logout(token, LoginLogTypeEnum.LOGOUT_SELF.getType());
-        // 校验调用参数
+        // verify call parameters
         verify(loginLogService).createLoginLog(
                 argThat(o -> o.getLogType().equals(LoginLogTypeEnum.LOGOUT_SELF.getType())
                         && o.getResult().equals(LoginResultEnum.SUCCESS.getResult()))
         );
-        // 调用，并校验
+        // invoke, and verify
 
     }
 
     @Test
     public void testLogout_fail() {
-        // 准备参数
+        // prepare parameters
         String token = randomString();
 
-        // 调用
+        // invoke
         authService.logout(token, LoginLogTypeEnum.LOGOUT_SELF.getType());
-        // 校验调用参数
+        // verify call parameters
         verify(loginLogService, never()).createLoginLog(any());
     }
 

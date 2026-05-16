@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class PostPageRequest extends PageParam {
 
-    @Schema(description = "post code, fuzzy match", example = "yudao")
+    @Schema(description = "post code, fuzzy match", example = "focela")
     private String code;
 
     @Schema(description = "post name, fuzzy match", example = "Acme")

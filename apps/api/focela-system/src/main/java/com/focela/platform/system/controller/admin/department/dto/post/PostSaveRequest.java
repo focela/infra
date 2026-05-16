@@ -21,7 +21,7 @@ public class PostSaveRequest {
     @Size(max = 50, message = "post name length must not exceed 50 characters")
     private String name;
 
-    @Schema(description = "Post code", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
+    @Schema(description = "Post code", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela")
     @NotBlank(message = "post code must not be blank")
     @Size(max = 64, message = "post code length must not exceed 64characters")
     private String code;

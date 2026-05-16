@@ -25,7 +25,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mockStatic;
 
 /**
- * {@link DefaultOAuth2ClientService} 的单元测试类
+ * {@link DefaultOAuth2ClientService}  unit test class
  */
 @Import(DefaultOAuth2ClientService.class)
 public class DefaultOAuth2ClientServiceTest extends BaseDbUnitTest {
@@ -38,141 +38,141 @@ public class DefaultOAuth2ClientServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testCreateOAuth2Client_success() {
-        // 准备参数
+        // prepare parameters
         OAuth2ClientSaveRequest request = randomPojo(OAuth2ClientSaveRequest.class,
                 o -> o.setLogo(randomString()))
-                .setId(null); // 防止 id 被赋值
+                .setId(null); // prevent id from being assigned
 
-        // 调用
+        // invoke
         Long oauth2ClientId = oauth2ClientService.createOAuth2Client(request);
-        // 断言
+        // assert
         assertNotNull(oauth2ClientId);
-        // 校验记录的属性是否正确
+        // verify record properties are correct
         OAuth2ClientEntity oAuth2Client = oauth2ClientMapper.selectById(oauth2ClientId);
         assertPojoEquals(request, oAuth2Client, "id");
     }
 
     @Test
     public void testUpdateOAuth2Client_success() {
-        // mock 数据
+        // mock data
         OAuth2ClientEntity dbOAuth2Client = randomPojo(OAuth2ClientEntity.class);
-        oauth2ClientMapper.insert(dbOAuth2Client);// @Sql: 先插入出一条存在的数据
-        // 准备参数
+        oauth2ClientMapper.insert(dbOAuth2Client);// @Sql: first insert an existing record
+        // prepare parameters
         OAuth2ClientSaveRequest request = randomPojo(OAuth2ClientSaveRequest.class, o -> {
-            o.setId(dbOAuth2Client.getId()); // 设置更新的 ID
+            o.setId(dbOAuth2Client.getId()); // set updated ID
             o.setLogo(randomString());
         });
 
-        // 调用
+        // invoke
         oauth2ClientService.updateOAuth2Client(request);
-        // 校验是否更新正确
-        OAuth2ClientEntity oAuth2Client = oauth2ClientMapper.selectById(request.getId()); // 获取最新的
+        // verify update is correct
+        OAuth2ClientEntity oAuth2Client = oauth2ClientMapper.selectById(request.getId()); // get the latest
         assertPojoEquals(request, oAuth2Client);
     }
 
     @Test
     public void testUpdateOAuth2Client_notExists() {
-        // 准备参数
+        // prepare parameters
         OAuth2ClientSaveRequest request = randomPojo(OAuth2ClientSaveRequest.class);
 
-        // 调用, 并断言异常
+        // invoke and assert exception
         assertServiceException(() -> oauth2ClientService.updateOAuth2Client(request), OAUTH2_CLIENT_NOT_EXISTS);
     }
 
     @Test
     public void testDeleteOAuth2Client_success() {
-        // mock 数据
+        // mock data
         OAuth2ClientEntity dbOAuth2Client = randomPojo(OAuth2ClientEntity.class);
-        oauth2ClientMapper.insert(dbOAuth2Client);// @Sql: 先插入出一条存在的数据
-        // 准备参数
+        oauth2ClientMapper.insert(dbOAuth2Client);// @Sql: first insert an existing record
+        // prepare parameters
         Long id = dbOAuth2Client.getId();
 
-        // 调用
+        // invoke
         oauth2ClientService.deleteOAuth2Client(id);
-        // 校验数据不存在了
+        // verify data no longer exists
         assertNull(oauth2ClientMapper.selectById(id));
     }
 
     @Test
     public void testDeleteOAuth2Client_notExists() {
-        // 准备参数
+        // prepare parameters
         Long id = randomLongId();
 
-        // 调用, 并断言异常
+        // invoke and assert exception
         assertServiceException(() -> oauth2ClientService.deleteOAuth2Client(id), OAUTH2_CLIENT_NOT_EXISTS);
     }
 
     @Test
     public void testValidateClientIdExists_withId() {
-        // mock 数据
+        // mock data
         OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class).setClientId("tudou");
         oauth2ClientMapper.insert(client);
-        // 准备参数
+        // prepare parameters
         Long id = randomLongId();
         String clientId = "tudou";
 
-        // 调用，不会报错
+        // invoke, no error
         assertServiceException(() -> oauth2ClientService.validateClientIdExists(id, clientId), OAUTH2_CLIENT_EXISTS);
     }
 
     @Test
     public void testValidateClientIdExists_noId() {
-        // mock 数据
+        // mock data
         OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class).setClientId("tudou");
         oauth2ClientMapper.insert(client);
-        // 准备参数
+        // prepare parameters
         String clientId = "tudou";
 
-        // 调用，不会报错
+        // invoke, no error
         assertServiceException(() -> oauth2ClientService.validateClientIdExists(null, clientId), OAUTH2_CLIENT_EXISTS);
     }
 
     @Test
     public void testGetOAuth2Client() {
-        // mock 数据
+        // mock data
         OAuth2ClientEntity clientDO = randomPojo(OAuth2ClientEntity.class);
         oauth2ClientMapper.insert(clientDO);
-        // 准备参数
+        // prepare parameters
         Long id = clientDO.getId();
 
-        // 调用，并断言
+        // invoke, and assert
         OAuth2ClientEntity dbClientDO = oauth2ClientService.getOAuth2Client(id);
         assertPojoEquals(clientDO, dbClientDO);
     }
 
     @Test
     public void testGetOAuth2ClientFromCache() {
-        // mock 数据
+        // mock data
         OAuth2ClientEntity clientDO = randomPojo(OAuth2ClientEntity.class);
         oauth2ClientMapper.insert(clientDO);
-        // 准备参数
+        // prepare parameters
         String clientId = clientDO.getClientId();
 
-        // 调用，并断言
+        // invoke, and assert
         OAuth2ClientEntity dbClientDO = oauth2ClientService.getOAuth2ClientFromCache(clientId);
         assertPojoEquals(clientDO, dbClientDO);
     }
 
     @Test
     public void testGetOAuth2ClientPage() {
-        // mock 数据
-        OAuth2ClientEntity dbOAuth2Client = randomPojo(OAuth2ClientEntity.class, o -> { // 等会查询到
-            o.setName("潜龙");
+        // mock data
+        OAuth2ClientEntity dbOAuth2Client = randomPojo(OAuth2ClientEntity.class, o -> { // will be queried later
+            o.setName("Hidden Dragon");
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
         oauth2ClientMapper.insert(dbOAuth2Client);
-        // 测试 name 不匹配
-        oauth2ClientMapper.insert(cloneIgnoreId(dbOAuth2Client, o -> o.setName("凤凰")));
-        // 测试 status 不匹配
+        // test name mismatch
+        oauth2ClientMapper.insert(cloneIgnoreId(dbOAuth2Client, o -> o.setName("Phoenix")));
+        // test status mismatch
         oauth2ClientMapper.insert(cloneIgnoreId(dbOAuth2Client, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
-        // 准备参数
+        // prepare parameters
         OAuth2ClientPageRequest request = new OAuth2ClientPageRequest();
-        request.setName("龙");
+        request.setName("Dragon");
         request.setStatus(CommonStatusEnum.ENABLE.getStatus());
 
-        // 调用
+        // invoke
         PageResult<OAuth2ClientEntity> pageResult = oauth2ClientService.getOAuth2ClientPage(request);
-        // 断言
+        // assert
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
         assertPojoEquals(dbOAuth2Client, pageResult.getList().get(0));
@@ -184,7 +184,7 @@ public class DefaultOAuth2ClientServiceTest extends BaseDbUnitTest {
             springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(DefaultOAuth2ClientService.class)))
                     .thenReturn(oauth2ClientService);
 
-            // mock 方法
+            // mock the method
             OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class).setClientId("default")
                     .setStatus(CommonStatusEnum.ENABLE.getStatus());
             oauth2ClientMapper.insert(client);
@@ -192,7 +192,7 @@ public class DefaultOAuth2ClientServiceTest extends BaseDbUnitTest {
                     .setStatus(CommonStatusEnum.DISABLE.getStatus());
             oauth2ClientMapper.insert(client02);
 
-            // 调用，并断言
+            // invoke, and assert
             assertServiceException(() -> oauth2ClientService.validOAuthClientFromCache(randomString(),
                     null, null, null, null), OAUTH2_CLIENT_NOT_EXISTS);
             assertServiceException(() -> oauth2ClientService.validOAuthClientFromCache("disable",
@@ -205,11 +205,11 @@ public class DefaultOAuth2ClientServiceTest extends BaseDbUnitTest {
                     null, null, Collections.singleton(randomString()), null), OAUTH2_CLIENT_SCOPE_OVER);
             assertServiceException(() -> oauth2ClientService.validOAuthClientFromCache("default",
                     null, null, null, "test"), OAUTH2_CLIENT_REDIRECT_URI_NOT_MATCH, "test");
-            // 成功调用（1：参数完整）
+            // successful invoke（1：parameters are complete）
             OAuth2ClientEntity result = oauth2ClientService.validOAuthClientFromCache(client.getClientId(), client.getSecret(),
                     client.getAuthorizedGrantTypes().get(0), client.getScopes(), client.getRedirectUris().get(0));
             assertPojoEquals(client, result);
-            // 成功调用（2：只有 clientId 参数）
+            // successful invoke（2：only clientId parameter）
             result = oauth2ClientService.validOAuthClientFromCache(client.getClientId());
             assertPojoEquals(client, result);
         }

@@ -53,38 +53,38 @@ public class DefaultSmsSendServiceTest extends BaseMockitoUnitTest {
 
     @Test
     public void testSendSingleSmsToAdmin() {
-        // 准备参数
+        // prepare parameters
         Long userId = randomLongId();
         String templateCode = randomString();
         Map<String, Object> templateParams = MapUtil.<String, Object>builder().put("code", "1234")
                 .put("op", "login").build();
-        // mock adminUserService 的方法
+        // mock adminUserService  method
         UserEntity user = randomPojo(UserEntity.class, o -> o.setMobile("15601691300"));
         when(adminUserService.getUser(eq(userId))).thenReturn(user);
 
-        // mock SmsTemplateService 的方法
+        // mock SmsTemplateService  method
         SmsTemplateEntity template = randomPojo(SmsTemplateEntity.class, o -> {
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
-            o.setContent("验证码为{code}, 操作为{op}");
+            o.setContent("verification code is {code}, operation is{op}");
             o.setParams(Lists.newArrayList("code", "op"));
         });
         when(smsTemplateService.getSmsTemplateByCodeFromCache(eq(templateCode))).thenReturn(template);
         String content = randomString();
         when(smsTemplateService.formatSmsTemplateContent(eq(template.getContent()), eq(templateParams)))
                 .thenReturn(content);
-        // mock SmsChannelService 的方法
+        // mock SmsChannelService  method
         SmsChannelEntity smsChannel = randomPojo(SmsChannelEntity.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
         when(smsChannelService.getSmsChannel(eq(template.getChannelId()))).thenReturn(smsChannel);
-        // mock SmsLogService 的方法
+        // mock SmsLogService  method
         Long smsLogId = randomLongId();
         when(smsLogService.createSmsLog(eq(user.getMobile()), eq(userId), eq(UserTypeEnum.ADMIN.getValue()), eq(Boolean.TRUE), eq(template),
                 eq(content), eq(templateParams))).thenReturn(smsLogId);
 
-        // 调用
+        // invoke
         Long resultSmsLogId = smsSendService.sendSingleSmsToAdmin(null, userId, templateCode, templateParams);
-        // 断言
+        // assert
         assertEquals(smsLogId, resultSmsLogId);
-        // 断言调用
+        // assert call
         verify(smsProducer).sendSmsSendMessage(eq(smsLogId), eq(user.getMobile()),
                 eq(template.getChannelId()), eq(template.getApiTemplateId()),
                 eq(Lists.newArrayList(new KeyValue<>("code", "1234"), new KeyValue<>("op", "login"))));
@@ -92,186 +92,186 @@ public class DefaultSmsSendServiceTest extends BaseMockitoUnitTest {
 
     @Test
     public void testSendSingleSmsToUser() {
-        // 准备参数
+        // prepare parameters
         Long userId = randomLongId();
         String templateCode = randomString();
         Map<String, Object> templateParams = MapUtil.<String, Object>builder().put("code", "1234")
                 .put("op", "login").build();
-        // mock memberService 的方法
+        // mock memberService  method
         String mobile = "15601691300";
         when(memberService.getMemberUserMobile(eq(userId))).thenReturn(mobile);
 
-        // mock SmsTemplateService 的方法
+        // mock SmsTemplateService  method
         SmsTemplateEntity template = randomPojo(SmsTemplateEntity.class, o -> {
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
-            o.setContent("验证码为{code}, 操作为{op}");
+            o.setContent("verification code is {code}, operation is{op}");
             o.setParams(Lists.newArrayList("code", "op"));
         });
         when(smsTemplateService.getSmsTemplateByCodeFromCache(eq(templateCode))).thenReturn(template);
         String content = randomString();
         when(smsTemplateService.formatSmsTemplateContent(eq(template.getContent()), eq(templateParams)))
                 .thenReturn(content);
-        // mock SmsChannelService 的方法
+        // mock SmsChannelService  method
         SmsChannelEntity smsChannel = randomPojo(SmsChannelEntity.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
         when(smsChannelService.getSmsChannel(eq(template.getChannelId()))).thenReturn(smsChannel);
-        // mock SmsLogService 的方法
+        // mock SmsLogService  method
         Long smsLogId = randomLongId();
         when(smsLogService.createSmsLog(eq(mobile), eq(userId), eq(UserTypeEnum.MEMBER.getValue()), eq(Boolean.TRUE), eq(template),
                 eq(content), eq(templateParams))).thenReturn(smsLogId);
 
-        // 调用
+        // invoke
         Long resultSmsLogId = smsSendService.sendSingleSmsToMember(null, userId, templateCode, templateParams);
-        // 断言
+        // assert
         assertEquals(smsLogId, resultSmsLogId);
-        // 断言调用
+        // assert call
         verify(smsProducer).sendSmsSendMessage(eq(smsLogId), eq(mobile),
                 eq(template.getChannelId()), eq(template.getApiTemplateId()),
                 eq(Lists.newArrayList(new KeyValue<>("code", "1234"), new KeyValue<>("op", "login"))));
     }
 
     /**
-     * 发送成功，当短信模板开启时
+     * send succeeds when SMS template is enabled
      */
     @Test
     public void testSendSingleSms_successWhenSmsTemplateEnable() {
-        // 准备参数
+        // prepare parameters
         String mobile = randomString();
         Long userId = randomLongId();
         Integer userType = randomEle(UserTypeEnum.values()).getValue();
         String templateCode = randomString();
         Map<String, Object> templateParams = MapUtil.<String, Object>builder().put("code", "1234")
                 .put("op", "login").build();
-        // mock SmsTemplateService 的方法
+        // mock SmsTemplateService  method
         SmsTemplateEntity template = randomPojo(SmsTemplateEntity.class, o -> {
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
-            o.setContent("验证码为{code}, 操作为{op}");
+            o.setContent("verification code is {code}, operation is{op}");
             o.setParams(Lists.newArrayList("code", "op"));
         });
         when(smsTemplateService.getSmsTemplateByCodeFromCache(eq(templateCode))).thenReturn(template);
         String content = randomString();
         when(smsTemplateService.formatSmsTemplateContent(eq(template.getContent()), eq(templateParams)))
                 .thenReturn(content);
-        // mock SmsChannelService 的方法
+        // mock SmsChannelService  method
         SmsChannelEntity smsChannel = randomPojo(SmsChannelEntity.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
         when(smsChannelService.getSmsChannel(eq(template.getChannelId()))).thenReturn(smsChannel);
-        // mock SmsLogService 的方法
+        // mock SmsLogService  method
         Long smsLogId = randomLongId();
         when(smsLogService.createSmsLog(eq(mobile), eq(userId), eq(userType), eq(Boolean.TRUE), eq(template),
                 eq(content), eq(templateParams))).thenReturn(smsLogId);
 
-        // 调用
+        // invoke
         Long resultSmsLogId = smsSendService.sendSingleSms(mobile, userId, userType, templateCode, templateParams);
-        // 断言
+        // assert
         assertEquals(smsLogId, resultSmsLogId);
-        // 断言调用
+        // assert call
         verify(smsProducer).sendSmsSendMessage(eq(smsLogId), eq(mobile),
                 eq(template.getChannelId()), eq(template.getApiTemplateId()),
                 eq(Lists.newArrayList(new KeyValue<>("code", "1234"), new KeyValue<>("op", "login"))));
     }
 
     /**
-     * 发送成功，当短信模板关闭时
+     * send succeeds when SMS template is disabled
      */
     @Test
     public void testSendSingleSms_successWhenSmsTemplateDisable() {
-        // 准备参数
+        // prepare parameters
         String mobile = randomString();
         Long userId = randomLongId();
         Integer userType = randomEle(UserTypeEnum.values()).getValue();
         String templateCode = randomString();
         Map<String, Object> templateParams = MapUtil.<String, Object>builder().put("code", "1234")
                 .put("op", "login").build();
-        // mock SmsTemplateService 的方法
+        // mock SmsTemplateService  method
         SmsTemplateEntity template = randomPojo(SmsTemplateEntity.class, o -> {
             o.setStatus(CommonStatusEnum.DISABLE.getStatus());
-            o.setContent("验证码为{code}, 操作为{op}");
+            o.setContent("verification code is {code}, operation is{op}");
             o.setParams(Lists.newArrayList("code", "op"));
         });
         when(smsTemplateService.getSmsTemplateByCodeFromCache(eq(templateCode))).thenReturn(template);
         String content = randomString();
         when(smsTemplateService.formatSmsTemplateContent(eq(template.getContent()), eq(templateParams)))
                 .thenReturn(content);
-        // mock SmsChannelService 的方法
+        // mock SmsChannelService  method
         SmsChannelEntity smsChannel = randomPojo(SmsChannelEntity.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
         when(smsChannelService.getSmsChannel(eq(template.getChannelId()))).thenReturn(smsChannel);
-        // mock SmsLogService 的方法
+        // mock SmsLogService  method
         Long smsLogId = randomLongId();
         when(smsLogService.createSmsLog(eq(mobile), eq(userId), eq(userType), eq(Boolean.FALSE), eq(template),
                 eq(content), eq(templateParams))).thenReturn(smsLogId);
 
-        // 调用
+        // invoke
         Long resultSmsLogId = smsSendService.sendSingleSms(mobile, userId, userType, templateCode, templateParams);
-        // 断言
+        // assert
         assertEquals(smsLogId, resultSmsLogId);
-        // 断言调用
+        // assert call
         verify(smsProducer, times(0)).sendSmsSendMessage(anyLong(), anyString(),
                 anyLong(), any(), anyList());
     }
 
     @Test
     public void testCheckSmsTemplateValid_notExists() {
-        // 准备参数
+        // prepare parameters
         String templateCode = randomString();
-        // mock 方法
+        // mock the method
 
-        // 调用，并断言异常
+        // invoke, and assert exception
         assertServiceException(() -> smsSendService.validateSmsTemplate(templateCode),
                 SMS_SEND_TEMPLATE_NOT_EXISTS);
     }
 
     @Test
     public void testBuildTemplateParams_paramMiss() {
-        // 准备参数
+        // prepare parameters
         SmsTemplateEntity template = randomPojo(SmsTemplateEntity.class,
                 o -> o.setParams(Lists.newArrayList("code")));
         Map<String, Object> templateParams = new HashMap<>();
-        // mock 方法
+        // mock the method
 
-        // 调用，并断言异常
+        // invoke, and assert exception
         assertServiceException(() -> smsSendService.buildTemplateParams(template, templateParams),
                 SMS_SEND_MOBILE_TEMPLATE_PARAM_MISS, "code");
     }
 
     @Test
     public void testCheckMobile_notExists() {
-        // 准备参数
-        // mock 方法
+        // prepare parameters
+        // mock the method
 
-        // 调用，并断言异常
+        // invoke, and assert exception
         assertServiceException(() -> smsSendService.validateMobile(null),
                 SMS_SEND_MOBILE_NOT_EXISTS);
     }
 
     @Test
     public void testSendBatchNotify() {
-        // 准备参数
-        // mock 方法
+        // prepare parameters
+        // mock the method
 
-        // 调用
+        // invoke
         UnsupportedOperationException exception = Assertions.assertThrows(
                 UnsupportedOperationException.class,
                 () -> smsSendService.sendBatchSms(null, null, null, null, null)
         );
-        // 断言
+        // assert
         assertEquals("temporarily not supported this operation, if interested can implement this feature!", exception.getMessage());
     }
 
     @Test
     @SuppressWarnings("unchecked")
     public void testDoSendSms() throws Throwable {
-        // 准备参数
+        // prepare parameters
         SmsSendMessage message = randomPojo(SmsSendMessage.class);
-        // mock SmsClientFactory 的方法
+        // mock SmsClientFactory  method
         SmsClient smsClient = spy(SmsClient.class);
         when(smsChannelService.getSmsClient(eq(message.getChannelId()))).thenReturn(smsClient);
-        // mock SmsClient 的方法
+        // mock SmsClient  method
         SmsSendRpcResponse sendResult = randomPojo(SmsSendRpcResponse.class);
         when(smsClient.sendSms(eq(message.getLogId()), eq(message.getMobile()), eq(message.getApiTemplateId()),
                 eq(message.getTemplateParams()))).thenReturn(sendResult);
 
-        // 调用
+        // invoke
         smsSendService.doSendSms(message);
-        // 断言
+        // assert
         verify(smsLogService).updateSmsSendResult(eq(message.getLogId()),
                 eq(sendResult.getSuccess()), eq(sendResult.getApiCode()),
                 eq(sendResult.getApiMsg()), eq(sendResult.getApiRequestId()), eq(sendResult.getSerialNo()));
@@ -279,18 +279,18 @@ public class DefaultSmsSendServiceTest extends BaseMockitoUnitTest {
 
     @Test
     public void testReceiveSmsStatus() throws Throwable {
-        // 准备参数
+        // prepare parameters
         String channelCode = randomString();
         String text = randomString();
-        // mock SmsClientFactory 的方法
+        // mock SmsClientFactory  method
         SmsClient smsClient = spy(SmsClient.class);
         when(smsChannelService.getSmsClient(eq(channelCode))).thenReturn(smsClient);
-        // mock SmsClient 的方法
+        // mock SmsClient  method
         List<SmsReceiveRpcResponse> receiveResults = randomPojoList(SmsReceiveRpcResponse.class);
 
-        // 调用
+        // invoke
         smsSendService.receiveSmsStatus(channelCode, text);
-        // 断言
+        // assert
         receiveResults.forEach(result -> smsLogService.updateSmsReceiveResult(eq(result.getLogId()), eq(result.getSerialNo()), eq(result.getSuccess()),
                 eq(result.getReceiveTime()), eq(result.getErrorCode()), eq(result.getErrorCode())));
     }

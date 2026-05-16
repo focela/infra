@@ -49,7 +49,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * {@link OAuth2OpenController} 的单元测试
+ * {@link OAuth2OpenController}  unit test
  */
 public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
 
@@ -67,88 +67,88 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
 
     @Test
     public void testPostAccessToken_authorizationCode() {
-        // 准备参数
+        // prepare parameters
         String granType = OAuth2GrantTypeEnum.AUTHORIZATION_CODE.getGrantType();
         String code = randomString();
         String redirectUri = randomString();
         String state = randomString();
         HttpServletRequest request = mockRequest("test_client_id", "test_client_secret");
-        // mock 方法（client）
+        // mock the method（client）
         OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class).setClientId("test_client_id");
         when(oauth2ClientService.validOAuthClientFromCache(eq("test_client_id"), eq("test_client_secret"), eq(granType), eq(new ArrayList<>()), eq(redirectUri))).thenReturn(client);
 
-        // mock 方法（访问令牌）
+        // mock the method（access token）
         OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class)
                 .setExpiresTime(LocalDateTimeUtil.offset(LocalDateTime.now(), 30000L, ChronoUnit.MILLIS));
         when(oauth2GrantService.grantAuthorizationCodeForAccessToken(eq("test_client_id"),
                 eq(code), eq(redirectUri), eq(state))).thenReturn(accessTokenDO);
 
-        // 调用
+        // invoke
         CommonResult<OAuth2OpenAccessTokenResponse> result = oauth2OpenController.postAccessToken(request, granType,
                 code, redirectUri, state, null, null, null, null);
-        // 断言
+        // assert
         assertEquals(0, result.getCode());
         assertPojoEquals(accessTokenDO, result.getData());
-        assertTrue(ObjectUtils.equalsAny(result.getData().getExpiresIn(), 29L, 30L));  // 执行过程会过去几毫秒
+        assertTrue(ObjectUtils.equalsAny(result.getData().getExpiresIn(), 29L, 30L));  // execution takes a few milliseconds
     }
 
     @Test
     public void testPostAccessToken_password() {
-        // 准备参数
+        // prepare parameters
         String granType = OAuth2GrantTypeEnum.PASSWORD.getGrantType();
         String username = randomString();
         String password = randomString();
         String scope = "write read";
         HttpServletRequest request = mockRequest("test_client_id", "test_client_secret");
-        // mock 方法（client）
+        // mock the method（client）
         OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class).setClientId("test_client_id");
         when(oauth2ClientService.validOAuthClientFromCache(eq("test_client_id"), eq("test_client_secret"),
                 eq(granType), eq(Lists.newArrayList("write", "read")), isNull())).thenReturn(client);
 
-        // mock 方法（访问令牌）
+        // mock the method（access token）
         OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class)
                 .setExpiresTime(LocalDateTimeUtil.offset(LocalDateTime.now(), 30000L, ChronoUnit.MILLIS));
         when(oauth2GrantService.grantPassword(eq(username), eq(password), eq("test_client_id"),
                 eq(Lists.newArrayList("write", "read")))).thenReturn(accessTokenDO);
 
-        // 调用
+        // invoke
         CommonResult<OAuth2OpenAccessTokenResponse> result = oauth2OpenController.postAccessToken(request, granType,
                 null, null, null, username, password, scope, null);
-        // 断言
+        // assert
         assertEquals(0, result.getCode());
         assertPojoEquals(accessTokenDO, result.getData());
-        assertTrue(ObjectUtils.equalsAny(result.getData().getExpiresIn(), 29L, 30L));  // 执行过程会过去几毫秒
+        assertTrue(ObjectUtils.equalsAny(result.getData().getExpiresIn(), 29L, 30L));  // execution takes a few milliseconds
     }
 
     @Test
     public void testPostAccessToken_refreshToken() {
-        // 准备参数
+        // prepare parameters
         String granType = OAuth2GrantTypeEnum.REFRESH_TOKEN.getGrantType();
         String refreshToken = randomString();
         String password = randomString();
         HttpServletRequest request = mockRequest("test_client_id", "test_client_secret");
-        // mock 方法（client）
+        // mock the method（client）
         OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class).setClientId("test_client_id");
         when(oauth2ClientService.validOAuthClientFromCache(eq("test_client_id"), eq("test_client_secret"),
                 eq(granType), eq(Lists.newArrayList()), isNull())).thenReturn(client);
 
-        // mock 方法（访问令牌）
+        // mock the method（access token）
         OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class)
                 .setExpiresTime(LocalDateTimeUtil.offset(LocalDateTime.now(), 30000L, ChronoUnit.MILLIS));
         when(oauth2GrantService.grantRefreshToken(eq(refreshToken), eq("test_client_id"))).thenReturn(accessTokenDO);
 
-        // 调用
+        // invoke
         CommonResult<OAuth2OpenAccessTokenResponse> result = oauth2OpenController.postAccessToken(request, granType,
                 null, null, null, null, password, null, refreshToken);
-        // 断言
+        // assert
         assertEquals(0, result.getCode());
         assertPojoEquals(accessTokenDO, result.getData());
-        assertTrue(ObjectUtils.equalsAny(result.getData().getExpiresIn(), 29L, 30L));  // 执行过程会过去几毫秒
+        assertTrue(ObjectUtils.equalsAny(result.getData().getExpiresIn(), 29L, 30L));  // execution takes a few milliseconds
     }
 
     @Test
     public void testPostAccessToken_implicit() {
-        // 调用，并断言
+        // invoke, and assert
         assertServiceException(() -> oauth2OpenController.postAccessToken(null,
                         OAuth2GrantTypeEnum.IMPLICIT.getGrantType(), null, null, null,
                         null, null, null, null),
@@ -157,56 +157,56 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
 
     @Test
     public void testRevokeToken() {
-        // 准备参数
+        // prepare parameters
         HttpServletRequest request = mockRequest("demo_client_id", "demo_client_secret");
         String token = randomString();
-        // mock 方法（client）
+        // mock the method（client）
         OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class).setClientId("demo_client_id");
         when(oauth2ClientService.validOAuthClientFromCache(eq("demo_client_id"),
                 eq("demo_client_secret"), isNull(), isNull(), isNull())).thenReturn(client);
-        // mock 方法（移除）
+        // mock the method（remove）
         when(oauth2GrantService.revokeToken(eq("demo_client_id"), eq(token))).thenReturn(true);
 
-        // 调用
+        // invoke
         CommonResult<Boolean> result = oauth2OpenController.revokeToken(request, token);
-        // 断言
+        // assert
         assertEquals(0, result.getCode());
         assertTrue(result.getData());
     }
 
     @Test
     public void testCheckToken() {
-        // 准备参数
+        // prepare parameters
         HttpServletRequest request = mockRequest("demo_client_id", "demo_client_secret");
         String token = randomString();
-        // mock 方法
+        // mock the method
         OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class).setUserType(UserTypeEnum.ADMIN.getValue()).setExpiresTime(LocalDateTimeUtil.of(1653485731195L));
         when(oauth2TokenService.checkAccessToken(eq(token))).thenReturn(accessTokenDO);
 
-        // 调用
+        // invoke
         CommonResult<OAuth2OpenCheckTokenResponse> result = oauth2OpenController.checkToken(request, token);
-        // 断言
+        // assert
         assertEquals(0, result.getCode());
         assertPojoEquals(accessTokenDO, result.getData());
-        assertEquals(1653485731L, result.getData().getExp()); // 执行过程会过去几毫秒
+        assertEquals(1653485731L, result.getData().getExp()); // execution takes a few milliseconds
     }
 
     @Test
     public void testAuthorize() {
-        // 准备参数
+        // prepare parameters
         String clientId = randomString();
-        // mock 方法（client）
+        // mock the method（client）
         OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class).setClientId("demo_client_id").setScopes(ListUtil.toList("read", "write", "all"));
         when(oauth2ClientService.validOAuthClientFromCache(eq(clientId))).thenReturn(client);
-        // mock 方法（approve）
+        // mock the method（approve）
         List<OAuth2ApproveEntity> approves = asList(
                 randomPojo(OAuth2ApproveEntity.class).setScope("read").setApproved(true),
                 randomPojo(OAuth2ApproveEntity.class).setScope("write").setApproved(false));
         when(oauth2ApproveService.getApproveList(isNull(), eq(UserTypeEnum.ADMIN.getValue()), eq(clientId))).thenReturn(approves);
 
-        // 调用
+        // invoke
         CommonResult<OAuth2OpenAuthorizeInfoResponse> result = oauth2OpenController.authorize(clientId);
-        // 断言
+        // assert
         assertEquals(0, result.getCode());
         assertPojoEquals(client, result.getData().getClient());
         assertEquals(new KeyValue<>("read", true), result.getData().getScopes().get(0));
@@ -216,111 +216,111 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
 
     @Test
     public void testApproveOrDeny_grantTypeError() {
-        // 调用，并断言
+        // invoke, and assert
         assertServiceException(() -> oauth2OpenController.approveOrDeny(randomString(), null,
                         null, null, null, null),
                 new ErrorCode(400, "response_type parameter value only allows code and token"));
     }
 
-    @Test // autoApprove = true，但是不通过
+    @Test // autoApprove = true, but does not pass
     public void testApproveOrDeny_autoApproveNo() {
-        // 准备参数
+        // prepare parameters
         String responseType = "code";
         String clientId = randomString();
         String scope = "{\"read\": true, \"write\": false}";
         String redirectUri = randomString();
         String state = randomString();
-        // mock 方法
+        // mock the method
         OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class);
         when(oauth2ClientService.validOAuthClientFromCache(eq(clientId), isNull(), eq("authorization_code"),
                 eq(asSet("read", "write")), eq(redirectUri))).thenReturn(client);
 
-        // 调用
+        // invoke
         CommonResult<String> result = oauth2OpenController.approveOrDeny(responseType, clientId,
                 scope, redirectUri, true, state);
-        // 断言
+        // assert
         assertEquals(0, result.getCode());
         assertNull(result.getData());
     }
 
-    @Test // autoApprove = false，但是不通过
+    @Test // autoApprove = false, but does not pass
     public void testApproveOrDeny_ApproveNo() {
-        // 准备参数
+        // prepare parameters
         String responseType = "token";
         String clientId = randomString();
         String scope = "{\"read\": true, \"write\": false}";
         String redirectUri = "https://www.example.com";
         String state = "test";
-        // mock 方法
+        // mock the method
         OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class);
         when(oauth2ClientService.validOAuthClientFromCache(eq(clientId), isNull(), eq("implicit"),
                 eq(asSet("read", "write")), eq(redirectUri))).thenReturn(client);
 
-        // 调用
+        // invoke
         CommonResult<String> result = oauth2OpenController.approveOrDeny(responseType, clientId,
                 scope, redirectUri, false, state);
-        // 断言
+        // assert
         assertEquals(0, result.getCode());
         assertEquals("https://www.example.com#error=access_denied&error_description=User%20denied%20access&state=test", result.getData());
     }
 
-    @Test // autoApprove = true，通过 + token
+    @Test // autoApprove = true, pass + token
     public void testApproveOrDeny_autoApproveWithToken() {
-        // 准备参数
+        // prepare parameters
         String responseType = "token";
         String clientId = randomString();
         String scope = "{\"read\": true, \"write\": false}";
         String redirectUri = "https://www.example.com";
         String state = "test";
-        // mock 方法（client)
+        // mock the method（client)
         OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class).setClientId(clientId).setAdditionalInformation(null);
         when(oauth2ClientService.validOAuthClientFromCache(eq(clientId), isNull(), eq("implicit"),
                 eq(asSet("read", "write")), eq(redirectUri))).thenReturn(client);
-        // mock 方法（场景一）
+        // mock the method（scenario 1）
         when(oauth2ApproveService.checkForPreApproval(isNull(), eq(UserTypeEnum.ADMIN.getValue()),
                 eq(clientId), eq(SetUtils.asSet("read", "write")))).thenReturn(true);
-        // mock 方法（访问令牌）
+        // mock the method（access token）
         OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class)
                 .setAccessToken("test_access_token").setExpiresTime(LocalDateTimeUtil.offset(LocalDateTime.now(), 30010L, ChronoUnit.MILLIS));
         when(oauth2GrantService.grantImplicit(isNull(), eq(UserTypeEnum.ADMIN.getValue()),
                 eq(clientId), eq(ListUtil.toList("read")))).thenReturn(accessTokenDO);
 
-        // 调用
+        // invoke
         CommonResult<String> result = oauth2OpenController.approveOrDeny(responseType, clientId,
                 scope, redirectUri, true, state);
-        // 断言
+        // assert
         assertEquals(0, result.getCode());
-        assertThat(result.getData(), anyOf( // 29 和 30 都有一定概率，主要是时间计算
+        assertThat(result.getData(), anyOf( // 29 30 also has some probability, mainly due to time calculation
                 is("https://www.example.com#access_token=test_access_token&token_type=bearer&state=test&expires_in=29&scope=read"),
                 is("https://www.example.com#access_token=test_access_token&token_type=bearer&state=test&expires_in=30&scope=read")
         ));
     }
 
-    @Test // autoApprove = false，通过 + code
+    @Test // autoApprove = false, pass + code
     public void testApproveOrDeny_approveWithCode() {
-        // 准备参数
+        // prepare parameters
         String responseType = "code";
         String clientId = randomString();
         String scope = "{\"read\": true, \"write\": false}";
         String redirectUri = "https://www.example.com";
         String state = "test";
-        // mock 方法（client)
+        // mock the method（client)
         OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class).setClientId(clientId).setAdditionalInformation(null);
         when(oauth2ClientService.validOAuthClientFromCache(eq(clientId), isNull(), eq("authorization_code"),
                 eq(asSet("read", "write")), eq(redirectUri))).thenReturn(client);
-        // mock 方法（场景二）
+        // mock the method（scenario 2）
         when(oauth2ApproveService.updateAfterApproval(isNull(), eq(UserTypeEnum.ADMIN.getValue()), eq(clientId),
                 eq(MapUtil.builder(new LinkedHashMap<String, Boolean>()).put("read", true).put("write", false).build())))
                 .thenReturn(true);
-        // mock 方法（访问令牌）
+        // mock the method（access token）
         String authorizationCode = "test_code";
         when(oauth2GrantService.grantAuthorizationCodeForCode(isNull(), eq(UserTypeEnum.ADMIN.getValue()),
                 eq(clientId), eq(ListUtil.toList("read")), eq(redirectUri), eq(state))).thenReturn(authorizationCode);
 
-        // 调用
+        // invoke
         CommonResult<String> result = oauth2OpenController.approveOrDeny(responseType, clientId,
                 scope, redirectUri, false, state);
-        // 断言
+        // assert
         assertEquals(0, result.getCode());
         assertEquals("https://www.example.com?code=test_code&state=test", result.getData());
     }

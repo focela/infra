@@ -26,14 +26,14 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mockStatic;
 
 /**
- * {@link QiniuSmsClient} 的单元测试
+ * {@link QiniuSmsClient}  unit test
  */
 public class QiniuSmsClientTest extends BaseMockitoUnitTest {
 
     private final SmsChannelProperties properties = new SmsChannelProperties()
-            .setApiKey(randomString())// 随机一个 apiKey，避免构建报错
-            .setApiSecret(randomString()) // 随机一个 apiSecret，避免构建报错
-            .setSignature("芋道源码");
+            .setApiKey(randomString())// random apiKey to avoid build errors
+            .setApiSecret(randomString()) // random apiSecret to avoid build errors
+            .setSignature("Focelasource");
 
     @InjectMocks
     private QiniuSmsClient smsClient = new QiniuSmsClient(properties);
@@ -41,19 +41,19 @@ public class QiniuSmsClientTest extends BaseMockitoUnitTest {
     @Test
     public void testDoSendSms_success() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
-            // 准备参数
+            // prepare parameters
             Long sendLogId = randomLongId();
             String mobile = randomString();
             String apiTemplateId = randomString() + " " + randomString();
             List<KeyValue<String, Object>> templateParams = Lists.newArrayList(
                     new KeyValue<>("1", 1234), new KeyValue<>("2", "login"));
-            // mock 方法
+            // mock the method
             httpUtilsMockedStatic.when(() -> HttpUtils.post(anyString(), anyMap(), anyString()))
                     .thenReturn("{\"message_id\":\"17245678901\"}");
-            // 调用
+            // invoke
             SmsSendRpcResponse result = smsClient.sendSms(sendLogId, mobile,
                     apiTemplateId, templateParams);
-            // 断言
+            // assert
             assertTrue(result.getSuccess());
             assertEquals("17245678901", result.getSerialNo());
         }
@@ -62,19 +62,19 @@ public class QiniuSmsClientTest extends BaseMockitoUnitTest {
     @Test
     public void testDoSendSms_fail() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
-            // 准备参数
+            // prepare parameters
             Long sendLogId = randomLongId();
             String mobile = randomString();
             String apiTemplateId = randomString() + " " + randomString();
             List<KeyValue<String, Object>> templateParams = Lists.newArrayList(
                     new KeyValue<>("1", 1234), new KeyValue<>("2", "login"));
-            // mock 方法
+            // mock the method
             httpUtilsMockedStatic.when(() -> HttpUtils.post(anyString(), anyMap(), anyString()))
                     .thenReturn("{\"error\":\"BadToken\",\"message\":\"Your authorization token is invalid\",\"request_id\":\"etziWcJFo1C8Ne8X\"}");
-            // 调用
+            // invoke
             SmsSendRpcResponse result = smsClient.sendSms(sendLogId, mobile,
                     apiTemplateId, templateParams);
-            // 断言
+            // assert
             assertFalse(result.getSuccess());
             assertEquals("BadToken", result.getApiCode());
             assertEquals("Your authorization token is invalid", result.getApiMsg());
@@ -85,16 +85,16 @@ public class QiniuSmsClientTest extends BaseMockitoUnitTest {
     @Test
     public void testGetSmsTemplate() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
-            // 准备参数
+            // prepare parameters
             String apiTemplateId = randomString();
-            // mock 方法
+            // mock the method
             httpUtilsMockedStatic.when(() -> HttpUtils.get(anyString(), anyMap()))
-                    .thenReturn("{\"audit_status\":\"passed\",\"created_at\":1724231187,\"description\":\"\",\"disable_broadcast\":false,\"disable_broadcast_reason\":\"\",\"disable_reason\":\"\",\"disabled\":false,\"id\":\"1826184073773596672\",\"is_oversea\":false,\"name\":\"dd\",\"parameters\":[\"code\"],\"reject_reason\":\"\",\"signature_id\":\"1826099896017498112\",\"signature_text\":\"yudao\",\"template\":\"您的验证码为：${code}\",\"type\":\"verification\",\"uid\":1383022432,\"updated_at\":1724288561,\"variable_count\":0}");
-            // 调用
+                    .thenReturn("{\"audit_status\":\"passed\",\"created_at\":1724231187,\"description\":\"\",\"disable_broadcast\":false,\"disable_broadcast_reason\":\"\",\"disable_reason\":\"\",\"disabled\":false,\"id\":\"1826184073773596672\",\"is_oversea\":false,\"name\":\"dd\",\"parameters\":[\"code\"],\"reject_reason\":\"\",\"signature_id\":\"1826099896017498112\",\"signature_text\":\"focela\",\"template\":\"Your verification code is: ${code}\",\"type\":\"verification\",\"uid\":1383022432,\"updated_at\":1724288561,\"variable_count\":0}");
+            // invoke
             SmsTemplateRpcResponse result = smsClient.getSmsTemplate(apiTemplateId);
-            // 断言
+            // assert
             assertEquals("1826184073773596672", result.getId());
-            assertEquals("您的验证码为：${code}", result.getContent());
+            assertEquals("Your verification code is: ${code}", result.getContent());
             assertEquals(SmsTemplateAuditStatusEnum.SUCCESS.getStatus(), result.getAuditStatus());
             assertEquals("", result.getAuditReason());
         }
@@ -102,14 +102,14 @@ public class QiniuSmsClientTest extends BaseMockitoUnitTest {
 
     @Test
     public void testParseSmsReceiveStatus() {
-        // 准备参数
+        // prepare parameters
         long deliveredAt = 1724591666L;
         String text = "{\"items\":[{\"mobile\":\"18881234567\",\"message_id\":\"10135515063508004167\",\"status\":\"DELIVRD\",\"delivrd_at\":" + deliveredAt + ",\"error\":\"DELIVRD\",\"seq\":\"123\"}]}";
         LocalDateTime expectedReceiveTime = LocalDateTime.ofInstant(
                 Instant.ofEpochSecond(deliveredAt), ZoneId.systemDefault());
-        // 调用
+        // invoke
         List<SmsReceiveRpcResponse> statuses = smsClient.parseSmsReceiveStatus(text);
-        // 断言
+        // assert
         assertEquals(1, statuses.size());
         SmsReceiveRpcResponse status = statuses.get(0);
         assertTrue(status.getSuccess());
@@ -129,6 +129,6 @@ public class QiniuSmsClientTest extends BaseMockitoUnitTest {
         assertEquals(SmsTemplateAuditStatusEnum.FAIL.getStatus(),
                 smsClient.convertSmsTemplateAuditStatus("rejected"));
         assertThrows(IllegalArgumentException.class, () -> smsClient.convertSmsTemplateAuditStatus("unknown"),
-                "未知审核状态(3)");
+                "unknown audit status(3)");
     }
 }

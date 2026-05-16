@@ -22,14 +22,14 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mockStatic;
 
 /**
- * {@link HuaweiSmsClient} 的单元测试
+ * {@link HuaweiSmsClient}  unit test
  */
 public class HuaweiSmsClientTest extends BaseMockitoUnitTest {
 
     private final SmsChannelProperties properties = new SmsChannelProperties()
-            .setApiKey(randomString() + " " + randomString()) // 随机一个 apiKey，避免构建报错
-            .setApiSecret(randomString()) // 随机一个 apiSecret，避免构建报错
-            .setSignature("芋道源码");
+            .setApiKey(randomString() + " " + randomString()) // random apiKey to avoid build errors
+            .setApiSecret(randomString()) // random apiSecret to avoid build errors
+            .setSignature("Focelasource");
 
     @InjectMocks
     private HuaweiSmsClient smsClient = new HuaweiSmsClient(properties);
@@ -37,21 +37,21 @@ public class HuaweiSmsClientTest extends BaseMockitoUnitTest {
     @Test
     public void testDoSendSms_success() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
-            // 准备参数
+            // prepare parameters
             Long sendLogId = randomLongId();
             String mobile = randomString();
             String apiTemplateId = randomString() + " " + randomString();
             List<KeyValue<String, Object>> templateParams = Lists.newArrayList(
                     new KeyValue<>("1", 1234), new KeyValue<>("2", "login"));
 
-            // mock 方法
+            // mock the method
             httpUtilsMockedStatic.when(() -> HttpUtils.post(anyString(), anyMap(), anyString()))
                     .thenReturn("{\"result\":[{\"originTo\":\"+86155****5678\",\"createTime\":\"2018-05-25T16:34:34Z\",\"from\":\"1069********0012\",\"smsMsgId\":\"d6e3cdd0-522b-4692-8304-a07553cdf591_8539659\",\"status\":\"000000\",\"countryId\":\"CN\",\"total\":2}],\"code\":\"000000\",\"description\":\"Success\"}\n");
 
-            // 调用
+            // invoke
             SmsSendRpcResponse result = smsClient.sendSms(sendLogId, mobile,
                     apiTemplateId, templateParams);
-            // 断言
+            // assert
             assertTrue(result.getSuccess());
             assertEquals("d6e3cdd0-522b-4692-8304-a07553cdf591_8539659", result.getSerialNo());
             assertEquals("000000", result.getApiCode());
@@ -61,21 +61,21 @@ public class HuaweiSmsClientTest extends BaseMockitoUnitTest {
     @Test
     public void testDoSendSms_fail_01() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
-            // 准备参数
+            // prepare parameters
             Long sendLogId = randomLongId();
             String mobile = randomString();
             String apiTemplateId = randomString() + " " + randomString();
             List<KeyValue<String, Object>> templateParams = Lists.newArrayList(
                     new KeyValue<>("1", 1234), new KeyValue<>("2", "login"));
 
-            // mock 方法
+            // mock the method
             httpUtilsMockedStatic.when(() -> HttpUtils.post(anyString(), anyMap(), anyString()))
                     .thenReturn("{\"result\":[{\"total\":1,\"originTo\":\"17321315478\",\"createTime\":\"2024-08-18T11:32:20Z\",\"from\":\"x8824060312575\",\"smsMsgId\":\"06e4b966-ad87-479f-8b74-f57fb7aafb60_304613461\",\"countryId\":\"CN\",\"status\":\"E200033\"}],\"code\":\"E000510\",\"description\":\"The SMS fails to be sent. For details, see status.\"}");
 
-            // 调用
+            // invoke
             SmsSendRpcResponse result = smsClient.sendSms(sendLogId, mobile,
                     apiTemplateId, templateParams);
-            // 断言
+            // assert
             assertFalse(result.getSuccess());
             assertEquals("06e4b966-ad87-479f-8b74-f57fb7aafb60_304613461", result.getSerialNo());
             assertEquals("E200033", result.getApiCode());
@@ -85,21 +85,21 @@ public class HuaweiSmsClientTest extends BaseMockitoUnitTest {
     @Test
     public void testDoSendSms_fail_02() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
-            // 准备参数
+            // prepare parameters
             Long sendLogId = randomLongId();
             String mobile = randomString();
             String apiTemplateId = randomString() + " " + randomString();
             List<KeyValue<String, Object>> templateParams = Lists.newArrayList(
                     new KeyValue<>("1", 1234), new KeyValue<>("2", "login"));
 
-            // mock 方法
+            // mock the method
             httpUtilsMockedStatic.when(() -> HttpUtils.post(anyString(), anyMap(), anyString()))
                     .thenReturn("{\"code\":\"E000102\",\"description\":\"Invalid app_key.\"}");
 
-            // 调用
+            // invoke
             SmsSendRpcResponse result = smsClient.sendSms(sendLogId, mobile,
                     apiTemplateId, templateParams);
-            // 断言
+            // assert
             assertFalse(result.getSuccess());
             assertEquals("E000102", result.getApiCode());
             assertEquals("Invalid app_key.", result.getApiMsg());
@@ -108,12 +108,12 @@ public class HuaweiSmsClientTest extends BaseMockitoUnitTest {
 
     @Test
     public void testParseSmsReceiveStatus() {
-        // 准备参数
+        // prepare parameters
         String text = "sequence=1&total=1&statusDesc=%E7%94%A8%E6%88%B7%E5%B7%B2%E6%88%90%E5%8A%9F%E6%94%B6%E5%88%B0%E7%9F%AD%E4%BF%A1&updateTime=2024-08-15T03%3A00%3A34Z&source=2&smsMsgId=70207ed7-1d02-41b0-8537-bb25fd1c2364_143684459&status=DELIVRD&extend=176";
 
-        // 调用
+        // invoke
         List<SmsReceiveRpcResponse> statuses = smsClient.parseSmsReceiveStatus(text);
-        // 断言
+        // assert
         assertEquals(1, statuses.size());
         SmsReceiveRpcResponse status = statuses.get(0);
         assertTrue(status.getSuccess());

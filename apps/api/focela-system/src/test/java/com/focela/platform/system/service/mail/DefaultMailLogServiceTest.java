@@ -27,7 +27,7 @@ import static com.focela.platform.test.core.utils.RandomUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * {@link DefaultMailLogService} 的单元测试类
+ * {@link DefaultMailLogService}  unit test class
  */
 @Import(DefaultMailLogService.class)
 public class DefaultMailLogServiceTest extends BaseDbUnitTest {
@@ -40,7 +40,7 @@ public class DefaultMailLogServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testCreateMailLog() {
-        // 准备参数
+        // prepare parameters
         Long userId = randomLongId();
         Integer userType = randomEle(UserTypeEnum.values()).getValue();
         Collection<String> toMails = Lists.newArrayList(randomEmail(), randomEmail());
@@ -51,12 +51,12 @@ public class DefaultMailLogServiceTest extends BaseDbUnitTest {
         String templateContent = randomString();
         Map<String, Object> templateParams = randomTemplateParams();
         Boolean isSend = true;
-        // mock 方法
+        // mock the method
 
-        // 调用
+        // invoke
         Long logId = mailLogService.createMailLog(userId, userType, toMails, ccMails, bccMails,
                 account, template, templateContent, templateParams, isSend);
-        // 断言
+        // assert
         MailLogEntity log = mailLogMapper.selectById(logId);
         assertNotNull(log);
         assertEquals(MailSendStatusEnum.INIT.getStatus(), log.getSendStatus());
@@ -80,20 +80,20 @@ public class DefaultMailLogServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testUpdateMailSendResult_success() {
-        // mock 数据
+        // mock data
         MailLogEntity log = randomPojo(MailLogEntity.class, o -> {
             o.setSendStatus(MailSendStatusEnum.INIT.getStatus());
             o.setSendTime(null).setSendMessageId(null).setSendException(null)
                     .setTemplateParams(randomTemplateParams());
         });
         mailLogMapper.insert(log);
-        // 准备参数
+        // prepare parameters
         Long logId = log.getId();
         String messageId = randomString();
 
-        // 调用
+        // invoke
         mailLogService.updateMailSendResult(logId, messageId, null);
-        // 断言
+        // assert
         MailLogEntity dbLog = mailLogMapper.selectById(logId);
         assertEquals(MailSendStatusEnum.SUCCESS.getStatus(), dbLog.getSendStatus());
         assertNotNull(dbLog.getSendTime());
@@ -103,20 +103,20 @@ public class DefaultMailLogServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testUpdateMailSendResult_exception() {
-        // mock 数据
+        // mock data
         MailLogEntity log = randomPojo(MailLogEntity.class, o -> {
             o.setSendStatus(MailSendStatusEnum.INIT.getStatus());
             o.setSendTime(null).setSendMessageId(null).setSendException(null)
                     .setTemplateParams(randomTemplateParams());
         });
         mailLogMapper.insert(log);
-        // 准备参数
+        // prepare parameters
         Long logId = log.getId();
         Exception exception = new NullPointerException("test exception");
 
-        // 调用
+        // invoke
         mailLogService.updateMailSendResult(logId, null, exception);
-        // 断言
+        // assert
         MailLogEntity dbLog = mailLogMapper.selectById(logId);
         assertEquals(MailSendStatusEnum.FAILURE.getStatus(), dbLog.getSendStatus());
         assertNotNull(dbLog.getSendTime());
@@ -126,22 +126,22 @@ public class DefaultMailLogServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testGetMailLog() {
-        // mock 数据
+        // mock data
         MailLogEntity dbMailLog = randomPojo(MailLogEntity.class, o -> o.setTemplateParams(randomTemplateParams()));
         mailLogMapper.insert(dbMailLog);
-        // 准备参数
+        // prepare parameters
         Long id = dbMailLog.getId();
 
-        // 调用
+        // invoke
         MailLogEntity mailLog = mailLogService.getMailLog(id);
-        // 断言
+        // assert
         assertPojoEquals(dbMailLog, mailLog);
     }
 
     @Test
     public void testGetMailLogPage() {
-       // mock 数据
-       MailLogEntity dbMailLog = randomPojo(MailLogEntity.class, o -> { // 等会查询到
+       // mock data
+       MailLogEntity dbMailLog = randomPojo(MailLogEntity.class, o -> { // will be queried later
            o.setUserId(1L);
            o.setUserType(UserTypeEnum.ADMIN.getValue());
            o.setToMails(Lists.newArrayList("768@qq.com"));
@@ -154,21 +154,21 @@ public class DefaultMailLogServiceTest extends BaseDbUnitTest {
            o.setTemplateParams(randomTemplateParams());
        });
        mailLogMapper.insert(dbMailLog);
-       // 测试 userId 不匹配
+       // test userId mismatch
        mailLogMapper.insert(cloneIgnoreId(dbMailLog, o -> o.setUserId(2L)));
-       // 测试 userType 不匹配
+       // test userType mismatch
        mailLogMapper.insert(cloneIgnoreId(dbMailLog, o -> o.setUserType(UserTypeEnum.MEMBER.getValue())));
-       // 测试 toMails 不匹配（特殊：find_in_set 无法单测）
+       // test toMails mismatch（Special note: find_in_set cannot be unit-tested）
 //       mailLogMapper.insert(cloneIgnoreId(dbMailLog, o -> o.setToMails(Lists.newArrayList("788@qq.com"))));
-       // 测试 accountId 不匹配
+       // test accountId mismatch
        mailLogMapper.insert(cloneIgnoreId(dbMailLog, o -> o.setAccountId(11L)));
-       // 测试 templateId 不匹配
+       // test templateId mismatch
        mailLogMapper.insert(cloneIgnoreId(dbMailLog, o -> o.setTemplateId(101L)));
-       // 测试 sendStatus 不匹配
+       // test sendStatus mismatch
        mailLogMapper.insert(cloneIgnoreId(dbMailLog, o -> o.setSendStatus(MailSendStatusEnum.SUCCESS.getStatus())));
-       // 测试 sendTime 不匹配
+       // test sendTime mismatch
        mailLogMapper.insert(cloneIgnoreId(dbMailLog, o -> o.setSendTime(buildTime(2023, 3, 10))));
-       // 准备参数
+       // prepare parameters
        MailLogPageRequest request = new MailLogPageRequest();
        request.setUserId(1L);
        request.setUserType(UserTypeEnum.ADMIN.getValue());
@@ -178,9 +178,9 @@ public class DefaultMailLogServiceTest extends BaseDbUnitTest {
        request.setSendStatus(MailSendStatusEnum.INIT.getStatus());
        request.setSendTime((buildBetweenTime(2023, 2, 1, 2023, 2, 15)));
 
-       // 调用
+       // invoke
        PageResult<MailLogEntity> pageResult = mailLogService.getMailLogPage(request);
-       // 断言
+       // assert
        assertEquals(1, pageResult.getTotal());
        assertEquals(1, pageResult.getList().size());
        assertPojoEquals(dbMailLog, pageResult.getList().get(0));

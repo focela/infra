@@ -36,114 +36,114 @@ class DefaultNotifySendServiceTest extends BaseMockitoUnitTest {
 
     @Test
     public void testSendSingleNotifyToAdmin() {
-        // 准备参数
+        // prepare parameters
         Long userId = randomLongId();
         String templateCode = randomString();
         Map<String, Object> templateParams = MapUtil.<String, Object>builder().put("code", "1234")
                 .put("op", "login").build();
-        // mock NotifyTemplateService 的方法
+        // mock NotifyTemplateService  method
         NotifyTemplateEntity template = randomPojo(NotifyTemplateEntity.class, o -> {
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
-            o.setContent("验证码为{code}, 操作为{op}");
+            o.setContent("verification code is {code}, operation is{op}");
             o.setParams(Lists.newArrayList("code", "op"));
         });
         when(notifyTemplateService.getNotifyTemplateByCodeFromCache(eq(templateCode))).thenReturn(template);
         String content = randomString();
         when(notifyTemplateService.formatNotifyTemplateContent(eq(template.getContent()), eq(templateParams)))
                 .thenReturn(content);
-        // mock NotifyMessageService 的方法
+        // mock NotifyMessageService  method
         Long messageId = randomLongId();
         when(notifyMessageService.createNotifyMessage(eq(userId), eq(UserTypeEnum.ADMIN.getValue()),
                 eq(template), eq(content), eq(templateParams))).thenReturn(messageId);
 
-        // 调用
+        // invoke
         Long resultMessageId = notifySendService.sendSingleNotifyToAdmin(userId, templateCode, templateParams);
-        // 断言
+        // assert
         assertEquals(messageId, resultMessageId);
     }
 
     @Test
     public void testSendSingleNotifyToMember() {
-        // 准备参数
+        // prepare parameters
         Long userId = randomLongId();
         String templateCode = randomString();
         Map<String, Object> templateParams = MapUtil.<String, Object>builder().put("code", "1234")
                 .put("op", "login").build();
-        // mock NotifyTemplateService 的方法
+        // mock NotifyTemplateService  method
         NotifyTemplateEntity template = randomPojo(NotifyTemplateEntity.class, o -> {
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
-            o.setContent("验证码为{code}, 操作为{op}");
+            o.setContent("verification code is {code}, operation is{op}");
             o.setParams(Lists.newArrayList("code", "op"));
         });
         when(notifyTemplateService.getNotifyTemplateByCodeFromCache(eq(templateCode))).thenReturn(template);
         String content = randomString();
         when(notifyTemplateService.formatNotifyTemplateContent(eq(template.getContent()), eq(templateParams)))
                 .thenReturn(content);
-        // mock NotifyMessageService 的方法
+        // mock NotifyMessageService  method
         Long messageId = randomLongId();
         when(notifyMessageService.createNotifyMessage(eq(userId), eq(UserTypeEnum.MEMBER.getValue()),
                 eq(template), eq(content), eq(templateParams))).thenReturn(messageId);
 
-        // 调用
+        // invoke
         Long resultMessageId = notifySendService.sendSingleNotifyToMember(userId, templateCode, templateParams);
-        // 断言
+        // assert
         assertEquals(messageId, resultMessageId);
     }
 
     /**
-     * 发送成功，当短信模板开启时
+     * send succeeds when SMS template is enabled
      */
     @Test
     public void testSendSingleNotify_successWhenMailTemplateEnable() {
-        // 准备参数
+        // prepare parameters
         Long userId = randomLongId();
         Integer userType = randomEle(UserTypeEnum.values()).getValue();
         String templateCode = randomString();
         Map<String, Object> templateParams = MapUtil.<String, Object>builder().put("code", "1234")
                 .put("op", "login").build();
-        // mock NotifyTemplateService 的方法
+        // mock NotifyTemplateService  method
         NotifyTemplateEntity template = randomPojo(NotifyTemplateEntity.class, o -> {
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
-            o.setContent("验证码为{code}, 操作为{op}");
+            o.setContent("verification code is {code}, operation is{op}");
             o.setParams(Lists.newArrayList("code", "op"));
         });
         when(notifyTemplateService.getNotifyTemplateByCodeFromCache(eq(templateCode))).thenReturn(template);
         String content = randomString();
         when(notifyTemplateService.formatNotifyTemplateContent(eq(template.getContent()), eq(templateParams)))
                 .thenReturn(content);
-        // mock NotifyMessageService 的方法
+        // mock NotifyMessageService  method
         Long messageId = randomLongId();
         when(notifyMessageService.createNotifyMessage(eq(userId), eq(userType),
                 eq(template), eq(content), eq(templateParams))).thenReturn(messageId);
 
-        // 调用
+        // invoke
         Long resultMessageId = notifySendService.sendSingleNotify(userId, userType, templateCode, templateParams);
-        // 断言
+        // assert
         assertEquals(messageId, resultMessageId);
     }
 
     /**
-     * 发送成功，当短信模板关闭时
+     * send succeeds when SMS template is disabled
      */
     @Test
     public void testSendSingleMail_successWhenSmsTemplateDisable() {
-        // 准备参数
+        // prepare parameters
         Long userId = randomLongId();
         Integer userType = randomEle(UserTypeEnum.values()).getValue();
         String templateCode = randomString();
         Map<String, Object> templateParams = MapUtil.<String, Object>builder().put("code", "1234")
                 .put("op", "login").build();
-        // mock NotifyTemplateService 的方法
+        // mock NotifyTemplateService  method
         NotifyTemplateEntity template = randomPojo(NotifyTemplateEntity.class, o -> {
             o.setStatus(CommonStatusEnum.DISABLE.getStatus());
-            o.setContent("验证码为{code}, 操作为{op}");
+            o.setContent("verification code is {code}, operation is{op}");
             o.setParams(Lists.newArrayList("code", "op"));
         });
         when(notifyTemplateService.getNotifyTemplateByCodeFromCache(eq(templateCode))).thenReturn(template);
 
-        // 调用
+        // invoke
         Long resultMessageId = notifySendService.sendSingleNotify(userId, userType, templateCode, templateParams);
-        // 断言
+        // assert
         assertNull(resultMessageId);
         verify(notifyTemplateService, never()).formatNotifyTemplateContent(anyString(), anyMap());
         verify(notifyMessageService, never()).createNotifyMessage(anyLong(), anyInt(), any(), anyString(), anyMap());
@@ -151,39 +151,39 @@ class DefaultNotifySendServiceTest extends BaseMockitoUnitTest {
 
     @Test
     public void testCheckMailTemplateValid_notExists() {
-        // 准备参数
+        // prepare parameters
         String templateCode = randomString();
-        // mock 方法
+        // mock the method
 
-        // 调用，并断言异常
+        // invoke, and assert exception
         assertServiceException(() -> notifySendService.validateNotifyTemplate(templateCode),
                 NOTICE_NOT_FOUND);
     }
 
     @Test
     public void testCheckTemplateParams_paramMiss() {
-        // 准备参数
+        // prepare parameters
         NotifyTemplateEntity template = randomPojo(NotifyTemplateEntity.class,
                 o -> o.setParams(Lists.newArrayList("code")));
         Map<String, Object> templateParams = new HashMap<>();
-        // mock 方法
+        // mock the method
 
-        // 调用，并断言异常
+        // invoke, and assert exception
         assertServiceException(() -> notifySendService.validateTemplateParams(template, templateParams),
                 NOTIFY_SEND_TEMPLATE_PARAM_MISS, "code");
     }
 
     @Test
     public void testSendBatchNotify() {
-        // 准备参数
-        // mock 方法
+        // prepare parameters
+        // mock the method
 
-        // 调用
+        // invoke
         UnsupportedOperationException exception = Assertions.assertThrows(
                 UnsupportedOperationException.class,
                 () -> notifySendService.sendBatchNotify(null, null, null, null, null)
         );
-        // 断言
+        // assert
         assertEquals("temporarily not supported this operation, if interested can implement this feature!", exception.getMessage());
     }
 

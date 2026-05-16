@@ -26,7 +26,7 @@ import static com.focela.platform.system.constants.ErrorCodeConstants.MAIL_TEMPL
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * {@link DefaultMailTemplateService} 的单元测试类
+ * {@link DefaultMailTemplateService}  unit test class
  */
 @Import(DefaultMailTemplateService.class)
 public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
@@ -39,100 +39,100 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testCreateMailTemplate_success() {
-        // 准备参数
+        // prepare parameters
         MailTemplateSaveRequest request = randomPojo(MailTemplateSaveRequest.class)
-                .setId(null); // 防止 id 被赋值
+                .setId(null); // prevent id from being assigned
 
-        // 调用
+        // invoke
         Long mailTemplateId = mailTemplateService.createMailTemplate(request);
-        // 断言
+        // assert
         assertNotNull(mailTemplateId);
-        // 校验记录的属性是否正确
+        // verify record properties are correct
         MailTemplateEntity mailTemplate = mailTemplateMapper.selectById(mailTemplateId);
         assertPojoEquals(request, mailTemplate, "id");
     }
 
     @Test
     public void testUpdateMailTemplate_success() {
-        // mock 数据
+        // mock data
         MailTemplateEntity dbMailTemplate = randomPojo(MailTemplateEntity.class);
-        mailTemplateMapper.insert(dbMailTemplate);// @Sql: 先插入出一条存在的数据
-        // 准备参数
+        mailTemplateMapper.insert(dbMailTemplate);// @Sql: first insert an existing record
+        // prepare parameters
         MailTemplateSaveRequest request = randomPojo(MailTemplateSaveRequest.class, o -> {
-            o.setId(dbMailTemplate.getId()); // 设置更新的 ID
+            o.setId(dbMailTemplate.getId()); // set updated ID
         });
 
-        // 调用
+        // invoke
         mailTemplateService.updateMailTemplate(request);
-        // 校验是否更新正确
-        MailTemplateEntity mailTemplate = mailTemplateMapper.selectById(request.getId()); // 获取最新的
+        // verify update is correct
+        MailTemplateEntity mailTemplate = mailTemplateMapper.selectById(request.getId()); // get the latest
         assertPojoEquals(request, mailTemplate);
     }
 
     @Test
     public void testUpdateMailTemplate_notExists() {
-        // 准备参数
+        // prepare parameters
         MailTemplateSaveRequest request = randomPojo(MailTemplateSaveRequest.class);
 
-        // 调用, 并断言异常
+        // invoke and assert exception
         assertServiceException(() -> mailTemplateService.updateMailTemplate(request), MAIL_TEMPLATE_NOT_EXISTS);
     }
 
     @Test
     public void testDeleteMailTemplate_success() {
-        // mock 数据
+        // mock data
         MailTemplateEntity dbMailTemplate = randomPojo(MailTemplateEntity.class);
-        mailTemplateMapper.insert(dbMailTemplate);// @Sql: 先插入出一条存在的数据
-        // 准备参数
+        mailTemplateMapper.insert(dbMailTemplate);// @Sql: first insert an existing record
+        // prepare parameters
         Long id = dbMailTemplate.getId();
 
-        // 调用
+        // invoke
         mailTemplateService.deleteMailTemplate(id);
-        // 校验数据不存在了
+        // verify data no longer exists
         assertNull(mailTemplateMapper.selectById(id));
     }
 
     @Test
     public void testDeleteMailTemplate_notExists() {
-        // 准备参数
+        // prepare parameters
         Long id = randomLongId();
 
-        // 调用, 并断言异常
+        // invoke and assert exception
         assertServiceException(() -> mailTemplateService.deleteMailTemplate(id), MAIL_TEMPLATE_NOT_EXISTS);
     }
 
     @Test
     public void testGetMailTemplatePage() {
-        // mock 数据
-        MailTemplateEntity dbMailTemplate = randomPojo(MailTemplateEntity.class, o -> { // 等会查询到
-            o.setName("源码");
+        // mock data
+        MailTemplateEntity dbMailTemplate = randomPojo(MailTemplateEntity.class, o -> { // will be queried later
+            o.setName("source");
             o.setCode("test_01");
             o.setAccountId(1L);
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
             o.setCreateTime(buildTime(2023, 2, 3));
         });
         mailTemplateMapper.insert(dbMailTemplate);
-        // 测试 name 不匹配
-        mailTemplateMapper.insert(cloneIgnoreId(dbMailTemplate, o -> o.setName("芋道")));
-        // 测试 code 不匹配
+        // test name mismatch
+        mailTemplateMapper.insert(cloneIgnoreId(dbMailTemplate, o -> o.setName("Focela")));
+        // test code mismatch
         mailTemplateMapper.insert(cloneIgnoreId(dbMailTemplate, o -> o.setCode("test_02")));
-        // 测试 accountId 不匹配
+        // test accountId mismatch
         mailTemplateMapper.insert(cloneIgnoreId(dbMailTemplate, o -> o.setAccountId(2L)));
-        // 测试 status 不匹配
+        // test status mismatch
         mailTemplateMapper.insert(cloneIgnoreId(dbMailTemplate, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
-        // 测试 createTime 不匹配
+        // test createTime mismatch
         mailTemplateMapper.insert(cloneIgnoreId(dbMailTemplate, o -> o.setCreateTime(buildTime(2023, 1, 5))));
-        // 准备参数
+        // prepare parameters
         MailTemplatePageRequest request = new MailTemplatePageRequest();
-        request.setName("源");
+        request.setName("source");
         request.setCode("est_01");
         request.setAccountId(1L);
         request.setStatus(CommonStatusEnum.ENABLE.getStatus());
         request.setCreateTime(buildBetweenTime(2023, 2, 1, 2023, 2, 5));
 
-        // 调用
+        // invoke
         PageResult<MailTemplateEntity> pageResult = mailTemplateService.getMailTemplatePage(request);
-        // 断言
+        // assert
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
         assertPojoEquals(dbMailTemplate, pageResult.getList().get(0));
@@ -140,15 +140,15 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testGetMailTemplateList() {
-        // mock 数据
+        // mock data
         MailTemplateEntity dbMailTemplate01 = randomPojo(MailTemplateEntity.class);
         mailTemplateMapper.insert(dbMailTemplate01);
         MailTemplateEntity dbMailTemplate02 = randomPojo(MailTemplateEntity.class);
         mailTemplateMapper.insert(dbMailTemplate02);
 
-        // 调用
+        // invoke
         List<MailTemplateEntity> list = mailTemplateService.getMailTemplateList();
-        // 断言
+        // assert
         assertEquals(2, list.size());
         assertEquals(dbMailTemplate01, list.get(0));
         assertEquals(dbMailTemplate02, list.get(1));
@@ -156,123 +156,123 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testGetMailTemplate() {
-        // mock 数据
+        // mock data
         MailTemplateEntity dbMailTemplate = randomPojo(MailTemplateEntity.class);
         mailTemplateMapper.insert(dbMailTemplate);
-        // 准备参数
+        // prepare parameters
         Long id = dbMailTemplate.getId();
 
-        // 调用
+        // invoke
         MailTemplateEntity mailTemplate = mailTemplateService.getMailTemplate(id);
-        // 断言
+        // assert
         assertPojoEquals(dbMailTemplate, mailTemplate);
     }
 
     @Test
     public void testGetMailTemplateByCodeFromCache() {
-        // mock 数据
+        // mock data
         MailTemplateEntity dbMailTemplate = randomPojo(MailTemplateEntity.class);
         mailTemplateMapper.insert(dbMailTemplate);
-        // 准备参数
+        // prepare parameters
         String code = dbMailTemplate.getCode();
 
-        // 调用
+        // invoke
         MailTemplateEntity mailTemplate = mailTemplateService.getMailTemplateByCodeFromCache(code);
-        // 断言
+        // assert
         assertPojoEquals(dbMailTemplate, mailTemplate);
     }
 
     @Test
     public void testFormatMailTemplateContent() {
-        // 准备参数
+        // prepare parameters
         Map<String, Object> params = new HashMap<>();
-        params.put("name", "小红");
-        params.put("what", "饭");
+        params.put("name", "Xiaohong");
+        params.put("what", "rice");
 
-        // 调用，并断言
-        assertEquals("小红，你好，饭吃了吗？",
-                mailTemplateService.formatMailTemplateContent("{name}，你好，{what}吃了吗？", params));
+        // invoke and assert
+        assertEquals("Xiaohong, hello, have you eaten rice?",
+                mailTemplateService.formatMailTemplateContent("{name}, hello, have you eaten {what}?", params));
     }
 
     @Test
     public void testFormatMailTemplateContent_htmlUnescape() {
-        // 准备参数
+        // prepare parameters
         Map<String, Object> params = new HashMap<>();
-        params.put("title", "测试标题");
+        params.put("title", "test title");
 
-        // 测试HTML反转义
-        String content = "<h1>{title}</h1>&lt;p&gt;这是一个测试&lt;/p&gt;&amp;nbsp;空格";
-        String expected = "<h1>测试标题</h1><p>这是一个测试</p> 空格";
-        // 调用，并断言
+        // test HTML unescape
+        String content = "<h1>{title}</h1>&lt;p&gt;this is a test&lt;/p&gt;&amp;nbsp;space";
+        String expected = "<h1>test title</h1><p>this is a test</p> space";
+        // invoke, and assert
         assertEquals(expected,
                 mailTemplateService.formatMailTemplateContent(content, params));
     }
 
     @Test
     public void testFormatMailTemplateContent_codeBlockFormatting() {
-        // 准备参数
+        // prepare parameters
         Map<String, Object> params = new HashMap<>();
-        params.put("name", "测试");
+        params.put("name", "test");
 
-        // 测试代码块格式化
+        // test code block formatting
         String content = "<pre><code>public class Test {\n    public static void main(String[] args) {\n        System.out.println(\"Hello {name}\"));\n    }\n}</code></pre>";
 
-        // 调用，并断言结果
+        // invoke, and assert result
         String result = mailTemplateService.formatMailTemplateContent(content, params);
-        // 断言 pre 标签被替换为 div 标签
+        // assert pre tag is replaced by div tag
         assertTrue(result.contains("<div><code>public class Test {"));
-        assertTrue(result.contains("System.out.println(\"Hello 测试\""));
+        assertTrue(result.contains("System.out.println(\"Hello test\""));
         assertTrue(result.contains("</code></div>"));
     }
 
     @Test
     public void testFormatMailTemplateContent_preToDiv() {
-        // 准备参数
+        // prepare parameters
         Map<String, Object> params = new HashMap<>();
-        params.put("content", "测试内容");
+        params.put("content", "test content");
 
-        // 测试 pre 标签替换为 div 标签
+        // test pre tag replacement to div tag
         String content = "<pre><code>{content}</code></pre>";
         String result = mailTemplateService.formatMailTemplateContent(content, params);
-        // 断言结果中包含 div 标签，而不包含 pre 标签
-        assertTrue(result.contains("<div><code>测试内容</code></div>"));
+        // assert result contains div tags but not pre tags
+        assertTrue(result.contains("<div><code>test content</code></div>"));
     }
 
     @Test
     public void testFormatMailTemplateContent_completeHtml() {
-        // 准备参数
+        // prepare parameters
         Map<String, Object> params = new HashMap<>();
         params.put("username", "testuser");
-        params.put("company", "测试公司");
+        params.put("company", "Test Company");
 
-        // 测试完整的 HTML 邮件模板
-        String content = "<!DOCTYPE html>\n <html lang=\"en\">\n <head>\n  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n  <meta charset=\"UTF-8\">\n  <title>Title</title>\n </head>\n <body>\n <div>\n  <includetail>\n      <div>\n          <div class=\"open_email\" style=\"margin: 8px; \">\n              <div>\n                  <br>\n                  <span class=\"genEmailContent\">\n                      <div id=\"cTMail-Wrap\" style=\"word-break: break-all;box-sizing:border-box;text-align:left;min-width:320px; max-width:660px; border:1px solid #f6f6f6; background-color:#f7f8fa; margin:auto; padding:20px 0 30px; font-family:'helvetica neue',PingFangSC-Light,arial,'hiragino sans gb','microsoft yahei ui','microsoft yahei',simsun,sans-serif\">\n                          <div class=\"main-content\">\n                              <table style=\"width:100%;font-weight:300;margin-bottom:10px;border-collapse:collapse\">\n                                  <tbody>\n                                  <tr style=\"font-weight:300\">\n                                      <td style=\"width:3%;max-width:30px;\"></td>\n                                      <td style=\"max-width:600px;\">\n                                          <div id=\"cTMail-logo\" style=\"width:92px; height:36px;\">\n                                              <a href=\"\">\n                                                  <img border=\"0\" src=\"左上角图片logo\" style=\"width:120px; height:36px;display:block\">\n                                              </a>\n                                          </div>\n                                          <div style=\"color: #C2C5C9;width: 260px;float: right;font-size: 12px;\">此邮件由系统发出，请勿直接回复或转发他人</div>\n                                          <p style=\"height:2px;background-color: #00a4ff;border: 0;font-size:0;padding:0;width:100%;margin-top:20px;\"></p>\n                                          <div id=\"cTMail-inner\" style=\"background-color:#fff; padding:23px 0 20px;box-shadow: 0px 1px 1px 0px rgba(122, 55, 55, 0.2);text-align:left;\">\n                                              <table style=\"width:100%;font-weight:300;margin-bottom:10px;border-collapse:collapse;\">\n                                                  <tbody>\n                                                  <tr style=\"font-weight:300\">\n                                                      <td style=\"width:3.2%;max-width:30px;\"></td>\n                                                      <td style=\"max-width:480px;\">\n                                                          <h1 id=\"cTMail-title\" style=\"font-size: 20px; line-height: 36px; margin: 0px 0px 22px;\">\n                                                              尊敬的 {username}，\n                                                          </h1>\n                                                          <dl style=\"font-size: 14px; color: #595E65; line-height: 18px;\">\n                                                              <dd style=\"margin: 0px 0px 6px; padding: 0px; font-size: 14px; line-height: 22px;\">\n                                                                  <p id=\"cTMail-sender\" style=\"font-size: 14px; line-height: 26px; word-wrap: break-word; word-break: break-all; margin-top: 32px;\">\n                                                                     内容<br>\n 内容<br>\n 内容123<br><br>\n\n 如果您在使用过程中遇到任何问题或者有任何建议，都可以随时联系我们的客户团队，我们将竭诚为您服务。\n\n\n\n\n <br>\n                                                                      <br>\n                                                                      {company}<br>\n                                                                      地址：xxxxx<br>\n                                                                      邮箱：lambc77@163.com\n                                                                  </p>\n                                                              </dd>\n                                                          </dl>\n                                                          <hr style=\"border: 0.1px solid #e5e5e5;\"/>\n                                                           <dl style=\"font-size: 14px; color: #595E65; line-height: 18px;\">\n                                                               <div style=\"color: #93979B;\">\n                                                                   <strong>声明：本邮件含有保密信息，仅限于收件人所用。禁止任何人未经发件人许可，以任何形式（包括但不限于部分的泄露、复制或散发）不当的使用本邮件中的信息。如果您错收了本邮件，请您立即电话或邮件通知发件人并删除本邮件，谢谢！\n </strong><br>\n                                                               </div>\n                                                           </dl>\n                                                      </td>\n                                                      <td style=\"width:3.2%;max-width:30px;\"></td>\n                                                  </tr>\n                                                  </tbody>\n                                              </table>\n                                          </div>\n                                      </td>\n                                      <td style=\"width:3%;max-width:30px;\"></td>\n                                  </tr>\n                                  </tbody>\n                              </table>\n                          </div>\n                      </div>\n                  </span>\n              </div>\n          </div>\n      </div>\n  </includetail>\n </div>\n </body>\n <script>\n\n </script>\n </html>";
+        // test full HTML email template
+        String content = "<!DOCTYPE html>\n <html lang=\"en\">\n <head>\n  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n  <meta charset=\"UTF-8\">\n  <title>Title</title>\n </head>\n <body>\n <div>\n  <includetail>\n      <div>\n          <div class=\"open_email\" style=\"margin: 8px; \">\n              <div>\n                  <br>\n                  <span class=\"genEmailContent\">\n                      <div id=\"cTMail-Wrap\" style=\"word-break: break-all;box-sizing:border-box;text-align:left;min-width:320px; max-width:660px; border:1px solid #f6f6f6; background-color:#f7f8fa; margin:auto; padding:20px 0 30px; font-family:'helvetica neue',PingFangSC-Light,arial,'hiragino sans gb','microsoft yahei ui','microsoft yahei',simsun,sans-serif\">\n                          <div class=\"main-content\">\n                              <table style=\"width:100%;font-weight:300;margin-bottom:10px;border-collapse:collapse\">\n                                  <tbody>\n                                  <tr style=\"font-weight:300\">\n                                      <td style=\"width:3%;max-width:30px;\"></td>\n                                      <td style=\"max-width:600px;\">\n                                          <div id=\"cTMail-logo\" style=\"width:92px; height:36px;\">\n                                              <a href=\"\">\n                                                  <img border=\"0\" src=\"top-left logo image\" style=\"width:120px; height:36px;display:block\">\n                                              </a>\n                                          </div>\n                                          <div style=\"color: #C2C5C9;width: 260px;float: right;font-size: 12px;\">This email is sent by the system. Please do not reply directly or forward it to others.</div>\n                                          <p style=\"height:2px;background-color: #00a4ff;border: 0;font-size:0;padding:0;width:100%;margin-top:20px;\"></p>\n                                          <div id=\"cTMail-inner\" style=\"background-color:#fff; padding:23px 0 20px;box-shadow: 0px 1px 1px 0px rgba(122, 55, 55, 0.2);text-align:left;\">\n                                              <table style=\"width:100%;font-weight:300;margin-bottom:10px;border-collapse:collapse;\">\n                                                  <tbody>\n                                                  <tr style=\"font-weight:300\">\n                                                      <td style=\"width:3.2%;max-width:30px;\"></td>\n                                                      <td style=\"max-width:480px;\">\n                                                          <h1 id=\"cTMail-title\" style=\"font-size: 20px; line-height: 36px; margin: 0px 0px 22px;\">\n                                                              Dear {username}, \n                                                          </h1>\n                                                          <dl style=\"font-size: 14px; color: #595E65; line-height: 18px;\">\n                                                              <dd style=\"margin: 0px 0px 6px; padding: 0px; font-size: 14px; line-height: 22px;\">\n                                                                  <p id=\"cTMail-sender\" style=\"font-size: 14px; line-height: 26px; word-wrap: break-word; word-break: break-all; margin-top: 32px;\">\n                                                                     content<br>\n content<br>\n content123<br><br>\n\n If you encounter any issues or have suggestions during use, please feel free to contact our customer team at any time. We will be happy to serve you.\n\n\n\n\n <br>\n                                                                      <br>\n                                                                      {company}<br>\n                                                                      address: xxxxx<br>\n                                                                      email: lambc77@163.com\n                                                                  </p>\n                                                              </dd>\n                                                          </dl>\n                                                          <hr style=\"border: 0.1px solid #e5e5e5;\"/>\n                                                           <dl style=\"font-size: 14px; color: #595E65; line-height: 18px;\">\n                                                               <div style=\"color: #93979B;\">\n                                                                   <strong>Statement: This email contains confidential information and is intended only for the recipient. No one is allowed, without the sender's permission, in any form（including but not limited to partial disclosure, copying, or distribution）to improperly use the information in this email. If you received this email by mistake, please immediately notify the sender by phone or email and delete this email. Thank you!\n </strong><br>\n                                                               </div>\n                                                           </dl>\n                                                      </td>\n                                                      <td style=\"width:3.2%;max-width:30px;\"></td>\n                                                  </tr>\n                                                  </tbody>\n                                              </table>\n                                          </div>\n                                      </td>\n                                      <td style=\"width:3%;max-width:30px;\"></td>\n                                  </tr>\n                                  </tbody>\n                              </table>\n                          </div>\n                      </div>\n                  </span>\n              </div>\n          </div>\n      </div>\n  </includetail>\n </div>\n </body>\n <script>\n\n </script>\n </html>";
 
-        // 调用，并断言成功处理
+        // invoke, and assert successful handling
         String result = mailTemplateService.formatMailTemplateContent(content, params);
-        // 断言结果中包含替换后的变量
-        assertTrue(result.contains("尊敬的 testuser"));
-        assertTrue(result.contains("测试公司"));
-        // 断言结果是有效的 HTML
+        // assert result contains substituted variables
+        assertTrue(result.contains("Dear testuser"));
+        assertTrue(result.contains("Test Company"));
+        // assert result is valid HTML
         assertTrue(result.startsWith("<!DOCTYPE html>"));
     }
 
     @Test
     public void testFormatMailTemplateContent_emptyContent() {
-        // 准备参数
+        // prepare parameters
         Map<String, Object> params = new HashMap<>();
 
-        // 测试空内容
+        // test empty content
         String result = mailTemplateService.formatMailTemplateContent("", params);
         assertEquals("", result);
     }
 
     @Test
     public void testFormatMailTemplateContent_noParams() {
-        // 准备参数
+        // prepare parameters
         Map<String, Object> params = new HashMap<>();
 
-        // 测试没有参数需要替换的情况
+        // test case with no parameters to substitute
         String content = "<pre><code>System.out.println(\"Hello World\");</code></pre>";
         String result = mailTemplateService.formatMailTemplateContent(content, params);
         assertTrue(result.contains("<div><code>System.out.println(\"Hello World\");</code></div>"));
@@ -280,52 +280,52 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testFormatMailTemplateContent_multiplePreTags() {
-        // 准备参数
+        // prepare parameters
         Map<String, Object> params = new HashMap<>();
         params.put("param1", "value1");
         params.put("param2", "value2");
 
-        // 测试多个 pre 标签的情况
+        // test multiple pre tags case
         String content = "<pre><code>First code block: {param1}</code></pre>\n" +
                 "<p>Some text between code blocks</p>\n" +
                 "<pre><code>Second code block: {param2}</code></pre>";
         String result = mailTemplateService.formatMailTemplateContent(content, params);
-        // 断言两个pre标签都被替换为div标签
+        // assert both pre tags are replaced by div tags
         assertTrue(result.contains("<div><code>First code block: value1</code></div>"));
         assertTrue(result.contains("<div><code>Second code block: value2</code></div>"));
     }
 
     @Test
     public void testFormatMailTemplateContent_specialCharacters() {
-        // 准备参数
+        // prepare parameters
         Map<String, Object> params = new HashMap<>();
 
-        // 简化测试，只测试基本的 HTML 特殊字符
-        String content = "&lt;div&gt;测试 &amp; 特殊字符&lt;/div&gt;";
+        // Simplified test, only basic HTML special characters
+        String content = "&lt;div&gt;test &amp; special character&lt;/div&gt;";
         String result = mailTemplateService.formatMailTemplateContent(content, params);
-        // 断言特殊字符被正确反转义
-        assertTrue(result.contains("<div>测试 & 特殊字符</div>"));
+        // assert special characters are correctly unescaped
+        assertTrue(result.contains("<div>test & special character</div>"));
     }
 
     @Test
     public void testCountByAccountId() {
-        // mock 数据
+        // mock data
         MailTemplateEntity dbMailTemplate = randomPojo(MailTemplateEntity.class);
         mailTemplateMapper.insert(dbMailTemplate);
-        // 测试 accountId 不匹配
+        // test accountId mismatch
         mailTemplateMapper.insert(cloneIgnoreId(dbMailTemplate, o -> o.setAccountId(2L)));
-        // 准备参数
+        // prepare parameters
         Long accountId = dbMailTemplate.getAccountId();
 
-        // 调用
+        // invoke
         long count = mailTemplateService.getMailTemplateCountByAccountId(accountId);
-        // 断言
+        // assert
         assertEquals(1, count);
     }
 
     @Test
     public void testDifferenceWithHtmlContent() {
-        // 准备包含 HTML 格式的模板内容
+        // prepare template content containing HTML format
         String content = "<div style='font-family: Arial, sans-serif; color: #333;'>" +
                 "<h1>Welcome, {username}!</h1>" +
                 "<p>Your account has been created successfully.</p>" +
@@ -345,34 +345,34 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
         params.put("role", "admin");
         params.put("activationLink", "https://example.com/activate?code=12345");
 
-        // 1. 使用 parseTemplateContentParams：只提取参数名称，忽略了 HTML 格式
+        // 1. Use parseTemplateContentParams: extract only parameter names, ignoring HTML format
         List<String> parsedParams = mailTemplateService.parseTemplateContentParams(content);
-        System.out.println("parseTemplateContentParams结果：" + parsedParams);
+        System.out.println("parseTemplateContentParamsresult: " + parsedParams);
 
-        // 断言：只提取了纯参数名称，没有 HTML 格式
+        // assert: only plain parameter names are extracted, no HTML
         assertEquals(6, parsedParams.size());
-        // 检查所有参数类型
+        // check all parameter types
         assertEquals(3, parsedParams.stream().filter("username"::equals).count());
         assertEquals(1, parsedParams.stream().filter("email"::equals).count());
         assertEquals(1, parsedParams.stream().filter("role"::equals).count());
         assertEquals(1, parsedParams.stream().filter("activationLink"::equals).count());
-        // 断言：没有包含任何 HTML 标签
+        // assert: no HTML tags are present
         for (String param : parsedParams) {
             assertFalse(param.contains("<"));
             assertFalse(param.contains(">"));
         }
 
-        // 2. 使用 formatMailTemplateContent：处理 HTML 格式，生成最终内容
+        // 2. Use formatMailTemplateContent: handle HTML format and generate final content
         String formattedContent = mailTemplateService.formatMailTemplateContent(content, params);
-        System.out.println("formatMailTemplateContent结果：" + formattedContent);
+        System.out.println("formatMailTemplateContentresult: " + formattedContent);
 
-        // 断言：HTML 格式被保留并处理
+        // assert: HTML format is preserved and processed
         assertTrue(formattedContent.contains("<div style='font-family: Arial, sans-serif; color: #333;'>"));
         assertTrue(formattedContent.contains("<h1>Welcome, testuser!</h1>"));
         assertTrue(formattedContent.contains("<a href='https://example.com/activate?code=12345'>here</a>"));
         assertTrue(formattedContent.contains("<div><code>public class WelcomeMessage {"));
         assertTrue(formattedContent.contains("</code></div>"));
-        // 断言：所有参数都被正确替换
+        // assert: all parameters are correctly substituted
         assertFalse(formattedContent.contains("{username}"));
         assertFalse(formattedContent.contains("{email}"));
         assertFalse(formattedContent.contains("{role}"));

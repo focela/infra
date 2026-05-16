@@ -12,11 +12,11 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 /**
- * 各种 {@link SmsClient} 的集成测试
+ * various {@link SmsClient}  integration test
  */
 public class SmsClientTest {
 
-    // ========== 阿里云 ==========
+    // ========== Aliyun ==========
 
     @Test
     @Disabled
@@ -25,11 +25,11 @@ public class SmsClientTest {
                 .setApiKey(System.getenv("SMS_ALIYUN_ACCESS_KEY"))
                 .setApiSecret(System.getenv("SMS_ALIYUN_SECRET_KEY"));
         AliyunSmsClient client = new AliyunSmsClient(properties);
-        // 准备参数
+        // prepare parameters
         String apiTemplateId = "SMS_207945135";
-        // 调用
+        // invoke
         SmsTemplateRpcResponse template = client.getSmsTemplate(apiTemplateId);
-        // 打印结果
+        // print result
         System.out.println(template);
     }
 
@@ -41,17 +41,17 @@ public class SmsClientTest {
                 .setApiSecret(System.getenv("SMS_ALIYUN_SECRET_KEY"))
                 .setSignature("Ballcat");
         AliyunSmsClient client = new AliyunSmsClient(properties);
-        // 准备参数
+        // prepare parameters
         Long sendLogId = System.currentTimeMillis();
         String mobile = "15601691323";
         String apiTemplateId = "SMS_207945135";
-        // 调用
+        // invoke
         SmsSendRpcResponse sendResponse = client.sendSms(sendLogId, mobile, apiTemplateId, ListUtil.of(new KeyValue<>("code", "1024")));
-        // 打印结果
+        // print result
         System.out.println(sendResponse);
     }
 
-    // ========== 腾讯云 ==========
+    // ========== Tencent Cloud ==========
 
     @Test
     @Disabled
@@ -60,15 +60,15 @@ public class SmsClientTest {
         SmsChannelProperties properties = new SmsChannelProperties()
                 .setApiKey(System.getenv("SMS_TENCENT_ACCESS_KEY") + " " + sdkAppId)
                 .setApiSecret(System.getenv("SMS_TENCENT_SECRET_KEY"))
-                .setSignature("芋道源码");
+                .setSignature("Focelasource");
         TencentSmsClient client = new TencentSmsClient(properties);
-        // 准备参数
+        // prepare parameters
         Long sendLogId = System.currentTimeMillis();
         String mobile = "15601691323";
         String apiTemplateId = "358212";
-        // 调用
+        // invoke
         SmsSendRpcResponse sendResponse = client.sendSms(sendLogId, mobile, apiTemplateId, ListUtil.of(new KeyValue<>("code", "1024")));
-        // 打印结果
+        // print result
         System.out.println(sendResponse);
     }
 
@@ -79,17 +79,17 @@ public class SmsClientTest {
         SmsChannelProperties properties = new SmsChannelProperties()
                 .setApiKey(System.getenv("SMS_TENCENT_ACCESS_KEY") + " " + sdkAppId)
                 .setApiSecret(System.getenv("SMS_TENCENT_SECRET_KEY"))
-                .setSignature("芋道源码");
+                .setSignature("Focelasource");
         TencentSmsClient client = new TencentSmsClient(properties);
-        // 准备参数
+        // prepare parameters
         String apiTemplateId = "358212";
-        // 调用
+        // invoke
         SmsTemplateRpcResponse template = client.getSmsTemplate(apiTemplateId);
-        // 打印结果
+        // print result
         System.out.println(template);
     }
 
-    // ========== 华为云 ==========
+    // ========== Huawei Cloud ==========
 
     @Test
     @Disabled
@@ -100,18 +100,18 @@ public class SmsClientTest {
                 .setApiSecret(System.getenv("SMS_HUAWEI_SECRET_KEY"))
                 .setSignature("runpu");
         HuaweiSmsClient client = new HuaweiSmsClient(properties);
-        // 准备参数
+        // prepare parameters
         Long sendLogId = System.currentTimeMillis();
         String mobile = "17321315478";
         String apiTemplateId = "3644cdab863546a3b718d488659a99ef";
         List<KeyValue<String, Object>> templateParams = ListUtil.of(new KeyValue<>("code", "1024"));
-        // 调用
+        // invoke
         SmsSendRpcResponse smsSendResponse = client.sendSms(sendLogId, mobile, apiTemplateId, templateParams);
-        // 打印结果
+        // print result
         System.out.println(smsSendResponse);
     }
 
-    // ========== 七牛云 ==========
+    // ========== Qiniu Cloud ==========
 
     @Test
     @Disabled
@@ -120,14 +120,14 @@ public class SmsClientTest {
                 .setApiKey("SMS_QINIU_ACCESS_KEY")
                 .setApiSecret("SMS_QINIU_SECRET_KEY");
         QiniuSmsClient client = new QiniuSmsClient(properties);
-        // 准备参数
+        // prepare parameters
         Long sendLogId = System.currentTimeMillis();
         String mobile = "17321315478";
         String apiTemplateId = "3644cdab863546a3b718d488659a99ef";
         List<KeyValue<String, Object>> templateParams = ListUtil.of(new KeyValue<>("code", "1122"));
-        // 调用
+        // invoke
         SmsSendRpcResponse smsSendResponse = client.sendSms(sendLogId, mobile, apiTemplateId, templateParams);
-        // 打印结果
+        // print result
         System.out.println(smsSendResponse);
     }
 
@@ -138,11 +138,11 @@ public class SmsClientTest {
                 .setApiKey("SMS_QINIU_ACCESS_KEY")
                 .setApiSecret("SMS_QINIU_SECRET_KEY");
         QiniuSmsClient client = new QiniuSmsClient(properties);
-        // 准备参数
+        // prepare parameters
         String apiTemplateId = "3644cdab863546a3b718d488659a99ef";
-        // 调用
+        // invoke
         SmsTemplateRpcResponse template = client.getSmsTemplate(apiTemplateId);
-        // 打印结果
+        // print result
         System.out.println(template);
     }
 }
