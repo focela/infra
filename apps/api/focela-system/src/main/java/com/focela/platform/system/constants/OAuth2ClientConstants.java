@@ -1,4 +1,4 @@
-package com.focela.platform.system.constants.oauth2;
+package com.focela.platform.system.constants;
 
 /**
  * Common enumeration for OAuth2.0 clients

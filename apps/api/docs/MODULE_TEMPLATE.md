@@ -265,9 +265,68 @@ Violations of these rules fail the build via
 Exception: `OAuth2`, `S3FileClient`, `S3FileClientConfig` (brand names);
 the four `*X` yudao extension classes (see Decision D).
 
-## 12. Checklist when adding a new module
+## 12. Notes on internal structure
 
-(Section number changed from 9 — the new sections 9–11 above must be read first.)
+These are observations from the structural audit, codified here so
+future contributors know which patterns are intentional.
+
+### 12.1 `mq/` feature subdirectory convention
+
+Within each module's `mq/` package, the canonical layout is:
+
+```
+mq/
+├── producer/<feature>/<X>Producer.java
+├── consumer/<feature>/<X>Consumer.java
+└── message/<feature>/<X>Message.java
+```
+
+`focela-system/mq/` follows this (e.g., `producer/sms/`, `consumer/mail/`).
+`focela-infra/mq/` currently has only empty placeholders — new MQ code
+added here must follow the same `<sub>/<feature>/` shape.
+
+### 12.2 Empty placeholder packages are acceptable
+
+Some packages exist as forward-looking placeholders containing only a
+`package-info.java`:
+
+- `focela-system/job/` — no scheduled jobs yet.
+- `focela-infra/mq/{producer,consumer,message}/` — no MQ code yet.
+
+These are kept (rather than deleted) so that contributors can drop new
+code into the expected location without having to recreate the
+directory and rediscover the convention. Each has a `package-info.java`
+documenting the intended use.
+
+### 12.3 Hybrid `job/` layout when jobs span multiple features
+
+`focela-infra/job/` mixes flat and feature-nested files on purpose:
+
+```
+job/
+├── JobLogCleanJob.java       ← cleans the job feature's own table; lives at root because there is no sibling
+└── logger/                   ← cleans the logger feature's tables
+    ├── AccessLogCleanJob.java
+    └── ErrorLogCleanJob.java
+```
+
+Each clean job lives next to the feature it serves. If a feature has
+two or more jobs, they get their own `job/<feature>/` directory; a
+single one stays at `job/` root rather than creating a one-file
+subdirectory like `job/job/`.
+
+### 12.4 `constants/` is flat
+
+`*Constants` classes live directly under each module's `constants/`
+package (no sub-directories). This is enforced by ArchUnit's
+`CONSTANTS_RESIDES_IN_CONSTANTS_PACKAGE` rule. If a constants class
+grows large enough that grouping helps, split it into multiple
+top-level `*Constants` classes (e.g., `OAuth2ClientConstants` +
+`OAuth2TokenConstants`) rather than nesting into a subdirectory.
+
+## 13. Checklist when adding a new module
+
+(Section number changed from 9 — the new sections 9–12 above must be read first.)
 
 - [ ] Module directory `focela-<X>/` created from `focela-infra/` template
 - [ ] `apps/api/pom.xml` lists `<module>focela-<X></module>`

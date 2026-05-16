@@ -19,7 +19,7 @@ import com.focela.platform.system.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.system.entity.user.UserEntity;
 import com.focela.platform.system.enums.logger.LoginLogTypeEnum;
 import com.focela.platform.system.enums.logger.LoginResultEnum;
-import com.focela.platform.system.constants.oauth2.OAuth2ClientConstants;
+import com.focela.platform.system.constants.OAuth2ClientConstants;
 import com.focela.platform.system.enums.sms.SmsSceneEnum;
 import com.focela.platform.system.service.logger.LoginLogService;
 import com.focela.platform.system.service.member.MemberService;
