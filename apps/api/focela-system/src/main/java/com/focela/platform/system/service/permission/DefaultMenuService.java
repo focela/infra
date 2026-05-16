@@ -31,7 +31,7 @@ import static com.focela.platform.system.entity.permission.MenuEntity.ID_ROOT;
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 
 /**
- * 菜单 Service 实现
+ * Menu Service implementation
  */
 @Service
 @Slf4j
@@ -42,42 +42,42 @@ public class DefaultMenuService implements MenuService {
     @Resource
     private PermissionService permissionService;
     @Resource
-    @Lazy // 延迟，避免循环依赖报错
+    @Lazy // Lazy to avoid circular dependency errors
     private TenantService tenantService;
 
     @Override
     @CacheEvict(value = RedisKeyConstants.PERMISSION_MENU_ID_LIST, key = "#createRequest.permission",
             condition = "#createRequest.permission != null")
     public Long createMenu(MenuSaveRequest createRequest) {
-        // 校验父菜单存在
+        // Validate that the parent menu exists
         validateParentMenu(createRequest.getParentId(), null);
-        // 校验菜单（自己）
+        // Validate the menu (itself)
         validateMenuName(createRequest.getParentId(), createRequest.getName(), null);
         validateMenuComponentName(createRequest.getComponentName(), null);
 
-        // 插入数据库
+        // Insert into the database
         MenuEntity menu = BeanUtils.toBean(createRequest, MenuEntity.class);
         initMenuProperty(menu);
         menuMapper.insert(menu);
-        // 返回
+        // Return
         return menu.getId();
     }
 
     @Override
     @CacheEvict(value = RedisKeyConstants.PERMISSION_MENU_ID_LIST,
-            allEntries = true) // allEntries 清空所有缓存，因为 permission 如果变更，涉及到新老两个 permission。直接清理，简单有效
+            allEntries = true) // allEntries clears all caches because a permission change involves both old and new permissions; clearing all is simple and effective
     public void updateMenu(MenuSaveRequest updateRequest) {
-        // 校验更新的菜单是否存在
+        // Validate that the menu to update exists
         if (menuMapper.selectById(updateRequest.getId()) == null) {
             throw exception(MENU_NOT_EXISTS);
         }
-        // 校验父菜单存在
+        // Validate that the parent menu exists
         validateParentMenu(updateRequest.getParentId(), updateRequest.getId());
-        // 校验菜单（自己）
+        // Validate the menu (itself)
         validateMenuName(updateRequest.getParentId(), updateRequest.getName(), updateRequest.getId());
         validateMenuComponentName(updateRequest.getComponentName(), updateRequest.getId());
 
-        // 更新到数据库
+        // Update in the database
         MenuEntity updateObj = BeanUtils.toBean(updateRequest, MenuEntity.class);
         initMenuProperty(updateObj);
         menuMapper.updateById(updateObj);
@@ -86,37 +86,37 @@ public class DefaultMenuService implements MenuService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(value = RedisKeyConstants.PERMISSION_MENU_ID_LIST,
-            allEntries = true) // allEntries 清空所有缓存，因为此时不知道 id 对应的 permission 是多少。直接清理，简单有效
+            allEntries = true) // allEntries clears all caches because the permission corresponding to id is unknown here; clearing all is simple and effective
     public void deleteMenu(Long id) {
-        // 校验是否还有子菜单
+        // Validate whether there are still sub-menus
         if (menuMapper.selectCountByParentId(id) > 0) {
             throw exception(MENU_EXISTS_CHILDREN);
         }
-        // 校验删除的菜单是否存在
+        // Validate that the menu to delete exists
         if (menuMapper.selectById(id) == null) {
             throw exception(MENU_NOT_EXISTS);
         }
-        // 标记删除
+        // Mark as deleted
         menuMapper.deleteById(id);
-        // 删除授予给角色的权限
+        // Remove the permission granted to roles
         permissionService.processMenuDeleted(id);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(value = RedisKeyConstants.PERMISSION_MENU_ID_LIST,
-            allEntries = true) // allEntries 清空所有缓存，因为 Spring Cache 不支持按照 ids 批量删除
+            allEntries = true) // allEntries clears all caches because Spring Cache does not support batch deletion by ids
     public void deleteMenuList(List<Long> ids) {
-        // 校验是否还有子菜单
+        // Validate whether there are still sub-menus
         ids.forEach(id -> {
             if (menuMapper.selectCountByParentId(id) > 0) {
                 throw exception(MENU_EXISTS_CHILDREN);
             }
         });
 
-        // 标记删除
+        // Mark as deleted
         menuMapper.deleteByIds(ids);
-        // 删除授予给角色的权限
+        // Remove the permission granted to roles
         ids.forEach(id -> permissionService.processMenuDeleted(id));
     }
 
@@ -127,9 +127,9 @@ public class DefaultMenuService implements MenuService {
 
     @Override
     public List<MenuEntity> getMenuListByTenant(MenuListRequest request) {
-        // 查询所有菜单，并过滤掉关闭的节点
+        // Query all menus and filter out disabled nodes
         List<MenuEntity> menus = getMenuList(request);
-        // 开启多租户的情况下，需要过滤掉未开通的菜单
+        // When multi-tenancy is enabled, filter out menus not granted to the tenant
         tenantService.handleTenantMenu(menuIds -> menus.removeIf(menu -> !CollUtil.contains(menuIds, menu.getId())));
         return menus;
     }
@@ -141,9 +141,9 @@ public class DefaultMenuService implements MenuService {
         }
         Map<Long, MenuEntity> menuMap = convertMap(menuList, MenuEntity::getId);
 
-        // 遍历 menu 菜单，查找不是禁用的菜单，添加到 enabledMenus 结果
+        // Iterate menus, find the non-disabled ones, and add them to enabledMenus
         List<MenuEntity> enabledMenus = new ArrayList<>();
-        Set<Long> disabledMenuCache = new HashSet<>(); // 存下递归搜索过被禁用的菜单，防止重复的搜索
+        Set<Long> disabledMenuCache = new HashSet<>(); // remember menus already determined disabled to avoid repeated searches
         for (MenuEntity menu : menuList) {
             if (isMenuDisabled(menu, menuMap, disabledMenuCache)) {
                 continue;
@@ -154,24 +154,24 @@ public class DefaultMenuService implements MenuService {
     }
 
     private boolean isMenuDisabled(MenuEntity node, Map<Long, MenuEntity> menuMap, Set<Long> disabledMenuCache) {
-        // 如果已经判定是禁用的节点，直接结束
+        // If already determined as disabled, return immediately
         if (disabledMenuCache.contains(node.getId())) {
             return true;
         }
 
-        // 1. 先判断自身是否禁用
+        // 1. Check whether the node itself is disabled
         if (CommonStatusEnum.isDisable(node.getStatus())) {
             disabledMenuCache.add(node.getId());
             return true;
         }
 
-        // 2. 遍历到 parentId 为根节点，则无需判断
+        // 2. When parentId reaches the root node, no further check is needed
         Long parentId = node.getParentId();
         if (ObjUtil.equal(parentId, ID_ROOT)) {
             return false;
         }
 
-        // 3. 继续遍历 parent 节点
+        // 3. Continue traversing the parent node
         MenuEntity parent = menuMap.get(parentId);
         if (parent == null || isMenuDisabled(parent, menuMap, disabledMenuCache)) {
             disabledMenuCache.add(node.getId());
@@ -199,7 +199,7 @@ public class DefaultMenuService implements MenuService {
 
     @Override
     public List<MenuEntity> getMenuList(Collection<Long> ids) {
-        // 当 ids 为空时，返回一个空的实例对象
+        // When ids is empty, return an empty list
         if (CollUtil.isEmpty(ids)) {
             return Lists.newArrayList();
         }
@@ -207,30 +207,30 @@ public class DefaultMenuService implements MenuService {
     }
 
     /**
-     * 校验父菜单是否合法
+     * Validate whether the parent menu is valid
      * <p>
-     * 1. 不能设置自己为父菜单
-     * 2. 父菜单不存在
-     * 3. 父菜单必须是 {@link MenuTypeEnum#MENU} 菜单类型
+     * 1. Cannot set itself as the parent menu
+     * 2. The parent menu does not exist
+     * 3. The parent menu must be of {@link MenuTypeEnum#MENU} type
      *
-     * @param parentId 父菜单编号
-     * @param childId  当前菜单编号
+     * @param parentId parent menu ID
+     * @param childId  current menu ID
      */
     @VisibleForTesting
     void validateParentMenu(Long parentId, Long childId) {
         if (parentId == null || ID_ROOT.equals(parentId)) {
             return;
         }
-        // 不能设置自己为父菜单
+        // Cannot set itself as the parent menu
         if (parentId.equals(childId)) {
             throw exception(MENU_PARENT_ERROR);
         }
         MenuEntity menu = menuMapper.selectById(parentId);
-        // 父菜单不存在
+        // Parent menu does not exist
         if (menu == null) {
             throw exception(MENU_PARENT_NOT_EXISTS);
         }
-        // 父菜单必须是目录或者菜单类型
+        // The parent menu must be of dir or menu type
         if (!MenuTypeEnum.DIR.getType().equals(menu.getType())
                 && !MenuTypeEnum.MENU.getType().equals(menu.getType())) {
             throw exception(MENU_PARENT_NOT_DIR_OR_MENU);
@@ -238,13 +238,13 @@ public class DefaultMenuService implements MenuService {
     }
 
     /**
-     * 校验菜单是否合法
+     * Validate whether the menu is valid
      * <p>
-     * 1. 校验相同父菜单编号下，是否存在相同的菜单名
+     * 1. Validate whether the same menu name exists under the same parent menu ID
      *
-     * @param name     菜单名字
-     * @param parentId 父菜单编号
-     * @param id       菜单编号
+     * @param name     menu name
+     * @param parentId parent menu ID
+     * @param id       menu ID
      */
     @VisibleForTesting
     void validateMenuName(Long parentId, String name, Long id) {
@@ -252,7 +252,7 @@ public class DefaultMenuService implements MenuService {
         if (menu == null) {
             return;
         }
-        // 如果 id 为空，说明不用比较是否为相同 id 的菜单
+        // If id is null, no need to compare whether it is the same menu id
         if (id == null) {
             throw exception(MENU_NAME_DUPLICATE);
         }
@@ -262,10 +262,10 @@ public class DefaultMenuService implements MenuService {
     }
 
     /**
-     * 校验菜单组件名是否合法
+     * Validate whether the menu component name is valid
      *
-     * @param componentName 组件名
-     * @param id            菜单编号
+     * @param componentName component name
+     * @param id            menu ID
      */
     @VisibleForTesting
     void validateMenuComponentName(String componentName, Long id) {
@@ -276,7 +276,7 @@ public class DefaultMenuService implements MenuService {
         if (menu == null) {
             return;
         }
-        // 如果 id 为空，说明不用比较是否为相同 id 的菜单
+        // If id is null, no need to compare whether it is the same menu id
         if (id == null) {
             throw exception(MENU_COMPONENT_NAME_DUPLICATE);
         }
@@ -286,14 +286,14 @@ public class DefaultMenuService implements MenuService {
     }
 
     /**
-     * 初始化菜单的通用属性。
+     * Initialize common menu properties.
      * <p>
-     * 例如说，只有目录或者菜单类型的菜单，才设置 icon
+     * For example, only dir or menu types should have an icon set.
      *
-     * @param menu 菜单
+     * @param menu menu
      */
     private void initMenuProperty(MenuEntity menu) {
-        // 菜单为按钮类型时，无需 component、icon、path 属性，进行置空
+        // When the menu is a button type, clear out component, icon and path
         if (MenuTypeEnum.BUTTON.getType().equals(menu.getType())) {
             menu.setComponent("");
             menu.setComponentName("");

@@ -16,14 +16,14 @@ import static com.focela.platform.system.constants.ErrorCodeConstants.OAUTH2_COD
 import static com.focela.platform.system.constants.ErrorCodeConstants.OAUTH2_CODE_NOT_EXISTS;
 
 /**
- * OAuth2.0 授权码 Service 实现类
+ * OAuth2.0 Authorization Code Service implementation class
  */
 @Service
 @Validated
 public class DefaultOAuth2CodeService implements OAuth2CodeService {
 
     /**
-     * 授权码的过期时间，默认 5 分钟
+     * Expiration time of the authorization code, default 5 minutes
      */
     private static final Integer TIMEOUT = 5 * 60;
 

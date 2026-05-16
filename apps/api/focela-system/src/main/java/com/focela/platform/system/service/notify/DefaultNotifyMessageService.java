@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 站内信 Service 实现类
+ * In-site notification Service implementation class
  */
 @Service
 @Validated

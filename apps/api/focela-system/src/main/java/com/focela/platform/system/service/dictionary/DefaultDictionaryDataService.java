@@ -24,14 +24,14 @@ import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.e
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 
 /**
- * 字典数据 Service 实现类
+ * Dictionary data Service implementation class
  */
 @Service
 @Slf4j
 public class DefaultDictionaryDataService implements DictionaryDataService {
 
     /**
-     * 排序 dictType > sort
+     * Sort by dictType, then by sort
      */
     private static final Comparator<DictionaryDataEntity> COMPARATOR_TYPE_AND_SORT = Comparator
             .comparing(DictionaryDataEntity::getDictType)
@@ -62,12 +62,12 @@ public class DefaultDictionaryDataService implements DictionaryDataService {
 
     @Override
     public Long createDictData(DictionaryDataSaveRequest createRequest) {
-        // 校验字典类型有效
+        // Validate that the dictionary type is valid
         validateDictTypeExists(createRequest.getDictType());
-        // 校验字典数据的值的唯一性
+        // Validate uniqueness of the dictionary data value
         validateDictDataValueUnique(null, createRequest.getDictType(), createRequest.getValue());
 
-        // 插入字典类型
+        // Insert dictionary data
         DictionaryDataEntity dictData = BeanUtils.toBean(createRequest, DictionaryDataEntity.class);
         dictDataMapper.insert(dictData);
         return dictData.getId();
@@ -75,24 +75,24 @@ public class DefaultDictionaryDataService implements DictionaryDataService {
 
     @Override
     public void updateDictData(DictionaryDataSaveRequest updateRequest) {
-        // 校验自己存在
+        // Validate that the dictionary data exists
         validateDictDataExists(updateRequest.getId());
-        // 校验字典类型有效
+        // Validate that the dictionary type is valid
         validateDictTypeExists(updateRequest.getDictType());
-        // 校验字典数据的值的唯一性
+        // Validate uniqueness of the dictionary data value
         validateDictDataValueUnique(updateRequest.getId(), updateRequest.getDictType(), updateRequest.getValue());
 
-        // 更新字典类型
+        // Update dictionary data
         DictionaryDataEntity updateObj = BeanUtils.toBean(updateRequest, DictionaryDataEntity.class);
         dictDataMapper.updateById(updateObj);
     }
 
     @Override
     public void deleteDictData(Long id) {
-        // 校验是否存在
+        // Validate existence
         validateDictDataExists(id);
 
-        // 删除字典数据
+        // Delete dictionary data
         dictDataMapper.deleteById(id);
     }
 
@@ -112,7 +112,7 @@ public class DefaultDictionaryDataService implements DictionaryDataService {
         if (dictData == null) {
             return;
         }
-        // 如果 id 为空，说明不用比较是否为相同 id 的字典数据
+        // If id is null, no need to compare whether it is the same dictionary data id
         if (id == null) {
             throw exception(DICT_DATA_VALUE_DUPLICATE);
         }
@@ -150,7 +150,7 @@ public class DefaultDictionaryDataService implements DictionaryDataService {
         }
         Map<String, DictionaryDataEntity> dictDataMap = CollectionUtils.convertMap(
                 dictDataMapper.selectByDictTypeAndValues(dictType, values), DictionaryDataEntity::getValue);
-        // 校验
+        // Validate
         values.forEach(value -> {
             DictionaryDataEntity dictData = dictDataMap.get(value);
             if (dictData == null) {

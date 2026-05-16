@@ -17,18 +17,18 @@ import java.awt.image.BufferedImage;
 import java.util.Properties;
 
 /**
- * 图片文字验证码
+ * Picture word captcha
  *
  * @since 2025/7/23 20:44
  */
 public class DefaultPictureWordCaptchaService extends AbstractCaptchaService {
 
     /**
-     * 验证码的基础字符
+     * Base characters for the captcha
      */
     private static final String CHARACTERS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
     /**
-     * 验证码长度
+     * Captcha length
      */
     private static final Integer LENGTH = 4;
 
@@ -55,7 +55,7 @@ public class DefaultPictureWordCaptchaService extends AbstractCaptchaService {
     public ResponseModel get(CaptchaVO captchaVO) {
         String text = generateRandomText(LENGTH);
         CaptchaVO imageData = getImageData(text);
-        // pointJson 不传到前端，只做后端校验，测试时放开
+        // pointJson is not sent to the frontend; backend validation only, enable during testing
 //        imageData.setPointJson(text);
         return ResponseModel.successData(imageData);
     }
@@ -67,31 +67,31 @@ public class DefaultPictureWordCaptchaService extends AbstractCaptchaService {
             return r;
         }
 
-        // 取出验证码
+        // Retrieve the captcha
         String codeKey = String.format(REDIS_CAPTCHA_KEY, captchaVO.getToken());
         if (!CaptchaServiceFactory.getCache(cacheType).exists(codeKey)) {
             return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_INVALID);
         }
-        // 正确的验证码
+        // Correct captcha
         String codeValue = CaptchaServiceFactory.getCache(cacheType).get(codeKey);
         String code = getCodeByCodeValue(codeValue);
         String secretKey = getSecretKeyByCodeValue(codeValue);
-        // 验证码只用一次，即刻失效
+        // Captcha is single-use; invalidate immediately
         CaptchaServiceFactory.getCache(cacheType).delete(codeKey);
 
-        // 用户输入的验证码(CaptchaVO 中 没有预留字段，暂时用 pointJson 无需加解密)
+        // User-entered captcha (CaptchaVO has no reserved field; temporarily use pointJson without encryption/decryption)
         String userCode = captchaVO.getPointJson();
         if (!Strings.CI.equals(code, userCode)) {
             afterValidateFail(captchaVO);
             return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_COORDINATE_ERROR);
         }
 
-        // 校验成功，将信息存入缓存
+        // Validation succeeded; store the info in cache
         String value;
         try {
             value = AESUtil.aesEncrypt(captchaVO.getToken().concat("---").concat(userCode), secretKey);
         } catch (Exception e) {
-            logger.error("AES 加密失败", e);
+            logger.error("AES encryption failed", e);
             afterValidateFail(captchaVO);
             return ResponseModel.errorMsg(e.getMessage());
         }
@@ -113,10 +113,10 @@ public class DefaultPictureWordCaptchaService extends AbstractCaptchaService {
             if (!CaptchaServiceFactory.getCache(cacheType).exists(codeKey)) {
                 return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_INVALID);
             }
-            // 二次校验取值后，即刻失效
+            // Invalidate immediately after retrieving the value for the second validation
             CaptchaServiceFactory.getCache(cacheType).delete(codeKey);
         } catch (Exception e) {
-            logger.error("验证码解析失败", e);
+            logger.error("Captcha parse failed", e);
             return ResponseModel.errorMsg(e.getMessage());
         }
         return ResponseModel.success();
@@ -128,10 +128,10 @@ public class DefaultPictureWordCaptchaService extends AbstractCaptchaService {
         BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = image.createGraphics();
 
-        // 设置背景色
+        // Set background color
         g.setColor(getRandomColor(200, 250));
         g.fillRect(0, 0, WIDTH, HEIGHT);
-        // 绘制干扰线
+        // Draw noise lines
         for (int i = 0; i < LINES; i++) {
             g.setColor(getRandomColor(100, 200));
             int x1 = RandomUtil.randomInt(WIDTH);
@@ -140,21 +140,21 @@ public class DefaultPictureWordCaptchaService extends AbstractCaptchaService {
             int y2 = RandomUtil.randomInt(HEIGHT);
             g.drawLine(x1, y1, x2, y2);
         }
-        // 设置字体
+        // Set font
         g.setFont(new Font("Arial", Font.BOLD, 24));
-        // 绘制验证码文本
+        // Draw captcha text
         for (int i = 0; i < text.length(); i++) {
             g.setColor(getRandomColor(20, 130));
-            // 文字旋转
+            // Text rotation
             AffineTransform affineTransform = new AffineTransform();
             int x = 20 + i * 20;
             int y = 24 + RandomUtil.randomInt(8);
-            // 旋转范围 -45 ~ 45
+            // Rotation range -45 ~ 45
             affineTransform.setToRotation(Math.toRadians(RandomUtil.randomInt(-45, 45)), x, y);
             g.setTransform(affineTransform);
             g.drawString(text.charAt(i) + "", x, y);
         }
-        // 添加噪点
+        // Add noise dots
         for (int i = 0; i < 100; i++) {
             int x = RandomUtil.randomInt(WIDTH);
             int y = RandomUtil.randomInt(HEIGHT);
@@ -171,7 +171,7 @@ public class DefaultPictureWordCaptchaService extends AbstractCaptchaService {
         dataVO.setOriginalImageBase64(ImageUtils.getImageToBase64Str(image).replaceAll("\r|\n", ""));
         dataVO.setToken(RandomUtils.getUUID());
 //        dataVO.setSecretKey(secretKey);
-        // 将坐标信息存入 redis 中
+        // Store coordinate info into redis
         String codeKey = String.format(REDIS_CAPTCHA_KEY, dataVO.getToken());
         CaptchaServiceFactory.getCache(cacheType).set(codeKey, getCodeValue(text, secretKey), EXPIRESIN_SECONDS);
         return dataVO;
@@ -199,9 +199,9 @@ public class DefaultPictureWordCaptchaService extends AbstractCaptchaService {
     }
 
     /**
-     * 生成指定长度的随机字符串
+     * Generate a random string of the specified length
      *
-     * @param length 长度
+     * @param length length
      * @return {@link String}
      */
     public static String generateRandomText(int length) {

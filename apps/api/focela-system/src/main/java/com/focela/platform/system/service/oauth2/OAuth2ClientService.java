@@ -10,85 +10,85 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * OAuth2.0 Client Service 接口
+ * OAuth2.0 Client Service interface
  *
- * 从功能上，和 JdbcClientDetailsService 的功能，提供客户端的操作
+ * Functionally similar to JdbcClientDetailsService, provides client operations
  */
 public interface OAuth2ClientService {
 
     /**
-     * 创建 OAuth2 客户端
+     * Create an OAuth2 client
      *
-     * @param createRequest 创建信息
-     * @return 编号
+     * @param createRequest create information
+     * @return ID
      */
     Long createOAuth2Client(@Valid OAuth2ClientSaveRequest createRequest);
 
     /**
-     * 更新 OAuth2 客户端
+     * Update an OAuth2 client
      *
-     * @param updateRequest 更新信息
+     * @param updateRequest update information
      */
     void updateOAuth2Client(@Valid OAuth2ClientSaveRequest updateRequest);
 
     /**
-     * 删除 OAuth2 客户端
+     * Delete an OAuth2 client
      *
-     * @param id 编号
+     * @param id ID
      */
     void deleteOAuth2Client(Long id);
 
     /**
-     * 批量删除 OAuth2 客户端
+     * Batch delete OAuth2 clients
      *
-     * @param ids 编号数组
+     * @param ids ID array
      */
     void deleteOAuth2ClientList(List<Long> ids);
 
     /**
-     * 获得 OAuth2 客户端
+     * Get an OAuth2 client
      *
-     * @param id 编号
-     * @return OAuth2 客户端
+     * @param id ID
+     * @return OAuth2 client
      */
     OAuth2ClientEntity getOAuth2Client(Long id);
 
     /**
-     * 获得 OAuth2 客户端，从缓存中
+     * Get an OAuth2 client from cache
      *
-     * @param clientId 客户端编号
-     * @return OAuth2 客户端
+     * @param clientId client ID
+     * @return OAuth2 client
      */
     OAuth2ClientEntity getOAuth2ClientFromCache(String clientId);
 
     /**
-     * 获得 OAuth2 客户端分页
+     * Get the paginated OAuth2 clients
      *
-     * @param pageRequest 分页查询
-     * @return OAuth2 客户端分页
+     * @param pageRequest page query
+     * @return paginated OAuth2 clients
      */
     PageResult<OAuth2ClientEntity> getOAuth2ClientPage(OAuth2ClientPageRequest pageRequest);
 
     /**
-     * 从缓存中，校验客户端是否合法
+     * Validate whether a client is legitimate, from cache
      *
-     * @return 客户端
+     * @return client
      */
     default OAuth2ClientEntity validOAuthClientFromCache(String clientId) {
         return validOAuthClientFromCache(clientId, null, null, null, null);
     }
 
     /**
-     * 从缓存中，校验客户端是否合法
+     * Validate whether a client is legitimate, from cache
      *
-     * 非空时，进行校验
+     * Non-null fields will be validated
      *
-     * @param clientId 客户端编号
-     * @param clientSecret 客户端密钥
-     * @param authorizedGrantType 授权方式
-     * @param scopes 授权范围
-     * @param redirectUri 重定向地址
-     * @return 客户端
+     * @param clientId client ID
+     * @param clientSecret client secret
+     * @param authorizedGrantType grant type
+     * @param scopes authorization scope
+     * @param redirectUri redirect URI
+     * @return client
      */
     OAuth2ClientEntity validOAuthClientFromCache(String clientId, String clientSecret, String authorizedGrantType,
                                              Collection<String> scopes, String redirectUri);

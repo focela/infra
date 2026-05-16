@@ -6,13 +6,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * system 模块的 web 组件的 Configuration
+ * Configuration for the web components of the system module
  */
 @Configuration(proxyBeanMethods = false)
 public class SystemWebConfiguration {
 
     /**
-     * system 模块的 API 分组
+     * API group of the system module
      */
     @Bean
     public GroupedOpenApi systemGroupedOpenApi() {

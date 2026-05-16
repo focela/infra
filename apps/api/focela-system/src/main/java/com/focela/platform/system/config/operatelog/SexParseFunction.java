@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
- * 行业的 {@link IParseFunction} 实现类
+ * {@link IParseFunction} implementation for sex
  */
 @Component
 @Slf4j
@@ -18,7 +18,7 @@ public class SexParseFunction implements IParseFunction {
 
     @Override
     public boolean executeBefore() {
-        return true; // 先转换值后对比
+        return true; // convert the value first, then compare
     }
 
     @Override

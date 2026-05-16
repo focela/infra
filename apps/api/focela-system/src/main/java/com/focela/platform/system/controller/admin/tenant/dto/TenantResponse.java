@@ -17,23 +17,23 @@ import java.util.List;
 public class TenantResponse {
 
     @Schema(description = "Tenant ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-    @ExcelProperty("租户编号")
+    @ExcelProperty("Tenant ID")
     private Long id;
 
     @Schema(description = "Tenant name", requiredMode = Schema.RequiredMode.REQUIRED, example = "Acme")
-    @ExcelProperty("租户名")
+    @ExcelProperty("Tenant name")
     private String name;
 
     @Schema(description = "Contact name", requiredMode = Schema.RequiredMode.REQUIRED, example = "Alice")
-    @ExcelProperty("联系人")
+    @ExcelProperty("Contact name")
     private String contactName;
 
     @Schema(description = "Contact phone", example = "15601691300")
-    @ExcelProperty("联系手机")
+    @ExcelProperty("Contact mobile")
     private String contactMobile;
 
     @Schema(description = "Tenant status", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @ExcelProperty(value = "状态", converter = DictionaryConverter.class)
+    @ExcelProperty(value = "Status", converter = DictionaryConverter.class)
     @DictionaryFormat(DictionaryTypeConstants.COMMON_STATUS)
     private Integer status;
 
@@ -50,7 +50,7 @@ public class TenantResponse {
     private Integer accountCount;
 
     @Schema(description = "Created time", requiredMode = Schema.RequiredMode.REQUIRED)
-    @ExcelProperty("创建时间")
+    @ExcelProperty("Created time")
     private LocalDateTime createTime;
 
 }

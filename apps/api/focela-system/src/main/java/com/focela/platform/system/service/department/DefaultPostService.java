@@ -22,7 +22,7 @@ import static com.focela.platform.common.utils.collection.CollectionUtils.conver
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 
 /**
- * 岗位 Service 实现类
+ * Post Service implementation class
  */
 @Service
 @Validated
@@ -33,10 +33,10 @@ public class DefaultPostService implements PostService {
 
     @Override
     public Long createPost(PostSaveRequest createRequest) {
-        // 校验正确性
+        // Validate
         validatePostForCreateOrUpdate(null, createRequest.getName(), createRequest.getCode());
 
-        // 插入岗位
+        // Insert post
         PostEntity post = BeanUtils.toBean(createRequest, PostEntity.class);
         postMapper.insert(post);
         return post.getId();
@@ -44,19 +44,19 @@ public class DefaultPostService implements PostService {
 
     @Override
     public void updatePost(PostSaveRequest updateRequest) {
-        // 校验正确性
+        // Validate
         validatePostForCreateOrUpdate(updateRequest.getId(), updateRequest.getName(), updateRequest.getCode());
 
-        // 更新岗位
+        // Update post
         PostEntity updateObj = BeanUtils.toBean(updateRequest, PostEntity.class);
         postMapper.updateById(updateObj);
     }
 
     @Override
     public void deletePost(Long id) {
-        // 校验是否存在
+        // Validate existence
         validatePostExists(id);
-        // 删除岗位
+        // Delete post
         postMapper.deleteById(id);
     }
 
@@ -66,11 +66,11 @@ public class DefaultPostService implements PostService {
     }
 
     private void validatePostForCreateOrUpdate(Long id, String name, String code) {
-        // 校验自己存在
+        // Validate that this entity exists
         validatePostExists(id);
-        // 校验岗位名的唯一性
+        // Validate the uniqueness of the post name
         validatePostNameUnique(id, name);
-        // 校验岗位编码的唯一性
+        // Validate the uniqueness of the post code
         validatePostCodeUnique(id, code);
     }
 
@@ -79,7 +79,7 @@ public class DefaultPostService implements PostService {
         if (post == null) {
             return;
         }
-        // 如果 id 为空，说明不用比较是否为相同 id 的岗位
+        // If id is null, no need to compare whether it is a post with the same id
         if (id == null) {
             throw exception(POST_NAME_DUPLICATE);
         }
@@ -93,7 +93,7 @@ public class DefaultPostService implements PostService {
         if (post == null) {
             return;
         }
-        // 如果 id 为空，说明不用比较是否为相同 id 的岗位
+        // If id is null, no need to compare whether it is a post with the same id
         if (id == null) {
             throw exception(POST_CODE_DUPLICATE);
         }
@@ -139,10 +139,10 @@ public class DefaultPostService implements PostService {
         if (CollUtil.isEmpty(ids)) {
             return;
         }
-        // 获得岗位信息
+        // Get post information
         List<PostEntity> posts = postMapper.selectByIds(ids);
         Map<Long, PostEntity> postMap = convertMap(posts, PostEntity::getId);
-        // 校验
+        // Validate
         ids.forEach(id -> {
             PostEntity post = postMap.get(id);
             if (post == null) {

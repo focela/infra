@@ -9,68 +9,68 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 /**
- * 租户套餐 Service 接口
+ * Tenant package Service interface
  */
 public interface TenantPackageService {
 
     /**
-     * 创建租户套餐
+     * Create tenant package
      *
-     * @param createRequest 创建信息
-     * @return 编号
+     * @param createRequest create info
+     * @return ID
      */
     Long createTenantPackage(@Valid TenantPackageSaveRequest createRequest);
 
     /**
-     * 更新租户套餐
+     * Update tenant package
      *
-     * @param updateRequest 更新信息
+     * @param updateRequest update info
      */
     void updateTenantPackage(@Valid TenantPackageSaveRequest updateRequest);
 
     /**
-     * 删除租户套餐
+     * Delete tenant package
      *
-     * @param id 编号
+     * @param id ID
      */
     void deleteTenantPackage(Long id);
 
     /**
-     * 批量删除租户套餐
+     * Batch delete tenant packages
      *
-     * @param ids 编号数组
+     * @param ids ID array
      */
     void deleteTenantPackageList(List<Long> ids);
 
     /**
-     * 获得租户套餐
+     * Get tenant package
      *
-     * @param id 编号
-     * @return 租户套餐
+     * @param id ID
+     * @return tenant package
      */
     TenantPackageEntity getTenantPackage(Long id);
 
     /**
-     * 获得租户套餐分页
+     * Get tenant package page
      *
-     * @param pageRequest 分页查询
-     * @return 租户套餐分页
+     * @param pageRequest page query
+     * @return tenant package page
      */
     PageResult<TenantPackageEntity> getTenantPackagePage(TenantPackagePageRequest pageRequest);
 
     /**
-     * 校验租户套餐
+     * Validate tenant package
      *
-     * @param id 编号
-     * @return 租户套餐
+     * @param id ID
+     * @return tenant package
      */
     TenantPackageEntity validTenantPackage(Long id);
 
     /**
-     * 获得指定状态的租户套餐列表
+     * Get the tenant package list of the specified status
      *
-     * @param status 状态
-     * @return 租户套餐
+     * @param status status
+     * @return tenant packages
      */
     List<TenantPackageEntity> getTenantPackageListByStatus(Integer status);
 

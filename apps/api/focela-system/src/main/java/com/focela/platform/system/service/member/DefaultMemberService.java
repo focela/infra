@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
- * Member Service 实现类
+ * Member Service implementation class
  */
 @Service
 public class DefaultMemberService implements MemberService {

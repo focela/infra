@@ -32,7 +32,7 @@ import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.e
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 
 /**
- * 短信模板 Service 实现类
+ * SMS template Service implementation class
  *
  * @since 2021/1/25 9:25
  */
@@ -41,7 +41,7 @@ import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 public class DefaultSmsTemplateService implements SmsTemplateService {
 
     /**
-     * 正则表达式，匹配 {} 中的变量
+     * Regular expression matching variables inside {}
      */
     private static final Pattern PATTERN_PARAMS = Pattern.compile("\\{(.*?)}");
 
@@ -53,36 +53,36 @@ public class DefaultSmsTemplateService implements SmsTemplateService {
 
     @Override
     public Long createSmsTemplate(SmsTemplateSaveRequest createRequest) {
-        // 校验短信渠道
+        // validate SMS channel
         SmsChannelEntity channelDO = validateSmsChannel(createRequest.getChannelId());
-        // 校验短信编码是否重复
+        // validate SMS code is not duplicated
         validateSmsTemplateCodeDuplicate(null, createRequest.getCode());
-        // 校验短信模板
+        // validate SMS template
         validateApiTemplate(createRequest.getChannelId(), createRequest.getApiTemplateId());
 
-        // 插入
+        // insert
         SmsTemplateEntity template = BeanUtils.toBean(createRequest, SmsTemplateEntity.class);
         template.setParams(parseTemplateContentParams(template.getContent()));
         template.setChannelCode(channelDO.getCode());
         smsTemplateMapper.insert(template);
-        // 返回
+        // return
         return template.getId();
     }
 
     @Override
     @CacheEvict(cacheNames = RedisKeyConstants.SMS_TEMPLATE,
-            allEntries = true) // allEntries 清空所有缓存，因为可能修改到 code 字段，不好清理
+            allEntries = true) // allEntries clears all caches because the code field may have changed, which is hard to clear
     public void updateSmsTemplate(SmsTemplateSaveRequest updateRequest) {
-        // 校验存在
+        // validate existence
         validateSmsTemplateExists(updateRequest.getId());
-        // 校验短信渠道
+        // validate SMS channel
         SmsChannelEntity channelDO = validateSmsChannel(updateRequest.getChannelId());
-        // 校验短信编码是否重复
+        // validate SMS code is not duplicated
         validateSmsTemplateCodeDuplicate(updateRequest.getId(), updateRequest.getCode());
-        // 校验短信模板
+        // validate SMS template
         validateApiTemplate(updateRequest.getChannelId(), updateRequest.getApiTemplateId());
 
-        // 更新
+        // update
         SmsTemplateEntity updateObj = BeanUtils.toBean(updateRequest, SmsTemplateEntity.class);
         updateObj.setParams(parseTemplateContentParams(updateObj.getContent()));
         updateObj.setChannelCode(channelDO.getCode());
@@ -91,17 +91,17 @@ public class DefaultSmsTemplateService implements SmsTemplateService {
 
     @Override
     @CacheEvict(cacheNames = RedisKeyConstants.SMS_TEMPLATE,
-            allEntries = true) // allEntries 清空所有缓存，因为 id 不是直接的缓存 code，不好清理
+            allEntries = true) // allEntries clears all caches because id is not directly the cached code, hard to clear individually
     public void deleteSmsTemplate(Long id) {
-        // 校验存在
+        // validate existence
         validateSmsTemplateExists(id);
-        // 更新
+        // update
         smsTemplateMapper.deleteById(id);
     }
 
     @Override
     @CacheEvict(cacheNames = RedisKeyConstants.SMS_TEMPLATE,
-            allEntries = true) // allEntries 清空所有缓存，因为 id 不是直接的缓存 code，不好清理
+            allEntries = true) // allEntries clears all caches because id is not directly the cached code, hard to clear individually
     public void deleteSmsTemplateList(List<Long> ids) {
         smsTemplateMapper.deleteByIds(ids);
     }
@@ -152,7 +152,7 @@ public class DefaultSmsTemplateService implements SmsTemplateService {
         if (template == null) {
             return;
         }
-        // 如果 id 为空，说明不用比较是否为相同 id 的字典类型
+        // if id is null, no need to compare against a dictionary type with the same id
         if (id == null) {
             throw exception(SMS_TEMPLATE_CODE_DUPLICATE, code);
         }
@@ -162,14 +162,14 @@ public class DefaultSmsTemplateService implements SmsTemplateService {
     }
 
     /**
-     * 校验 API 短信平台的模板是否有效
+     * Validate whether the API SMS platform template is valid
      *
-     * @param channelId 渠道编号
-     * @param apiTemplateId API 模板编号
+     * @param channelId channel ID
+     * @param apiTemplateId API template ID
      */
     @VisibleForTesting
     void validateApiTemplate(Long channelId, String apiTemplateId) {
-        // 获得短信模板
+        // get the SMS template
         SmsClient smsClient = smsChannelService.getSmsClient(channelId);
         Assert.notNull(smsClient, String.format("SMS client (%d) does not exist", channelId));
         SmsTemplateRpcResponse template;
@@ -178,7 +178,7 @@ public class DefaultSmsTemplateService implements SmsTemplateService {
         } catch (Throwable ex) {
             throw exception(SMS_TEMPLATE_API_ERROR, ExceptionUtil.getRootCauseMessage(ex));
         }
-        // 校验短信模版
+        // validate the SMS template
         if (template == null) {
             throw exception(SMS_TEMPLATE_API_NOT_FOUND);
         }

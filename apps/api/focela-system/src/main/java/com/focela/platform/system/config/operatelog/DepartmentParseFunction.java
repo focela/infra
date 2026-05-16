@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
- * 部门名字的 {@link IParseFunction} 实现类
+ * {@link IParseFunction} implementation for department name
  */
 @Slf4j
 @Component
@@ -32,10 +32,10 @@ public class DepartmentParseFunction implements IParseFunction {
             return "";
         }
 
-        // 获取部门信息
+        // get department information
         DepartmentEntity dept = deptService.getDept(Convert.toLong(value));
         if (dept == null) {
-            log.warn("[apply][get department {{}}is empty", value);
+            log.warn("[apply][get department {{}} is empty", value);
             return "";
         }
         return dept.getName();

@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 import static com.focela.platform.system.repository.redis.RedisKeyConstants.OAUTH2_ACCESS_TOKEN;
 
 /**
- * {@link OAuth2AccessTokenEntity} 的 RedisDAO
+ * RedisDAO for {@link OAuth2AccessTokenEntity}
  */
 @Repository
 public class OAuth2AccessTokenRedisRepository {
@@ -32,7 +32,7 @@ public class OAuth2AccessTokenRedisRepository {
 
     public void set(OAuth2AccessTokenEntity accessTokenDO) {
         String redisKey = formatKey(accessTokenDO.getAccessToken());
-        // 清理多余字段，避免缓存
+        // clean redundant fields to avoid caching
         accessTokenDO.setUpdater(null).setUpdateTime(null).setCreateTime(null).setCreator(null).setDeleted(null);
         long time = LocalDateTimeUtil.between(LocalDateTime.now(), accessTokenDO.getExpiresTime(), ChronoUnit.SECONDS);
         if (time > 0) {

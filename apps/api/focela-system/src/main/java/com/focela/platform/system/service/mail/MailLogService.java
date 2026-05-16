@@ -11,42 +11,42 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 邮件日志 Service 接口
+ * Mail log Service interface
  *
  * @since 2022-03-21
  */
 public interface MailLogService {
 
     /**
-     * 邮件日志分页
+     * Get paginated mail logs
      *
-     * @param pageVO 分页参数
-     * @return 分页结果
+     * @param pageVO pagination parameters
+     * @return paginated result
      */
     PageResult<MailLogEntity> getMailLogPage(MailLogPageRequest pageVO);
 
     /**
-     * 获得指定编号的邮件日志
+     * Get the mail log with the specified ID
      *
-     * @param id 日志编号
-     * @return 邮件日志
+     * @param id log ID
+     * @return mail log
      */
     MailLogEntity getMailLog(Long id);
 
     /**
-     * 创建邮件日志
+     * Create a mail log
      *
-     * @param userId          用户编码
-     * @param userType        用户类型
-     * @param toMails         收件人邮件
-     * @param ccMails         收件人邮件
-     * @param bccMails        收件人邮件
-     * @param account         邮件账号信息
-     * @param template        模版信息
-     * @param templateContent 模版内容
-     * @param templateParams  模版参数
-     * @param isSend          是否发送成功
-     * @return 日志编号
+     * @param userId          user ID
+     * @param userType        user type
+     * @param toMails         recipient emails
+     * @param ccMails         cc recipient emails
+     * @param bccMails        bcc recipient emails
+     * @param account         mail account info
+     * @param template        template info
+     * @param templateContent template content
+     * @param templateParams  template parameters
+     * @param isSend          whether send succeeded
+     * @return log ID
      */
     Long createMailLog(Long userId, Integer userType,
                        Collection<String> toMails, Collection<String> ccMails, Collection<String> bccMails,
@@ -54,11 +54,11 @@ public interface MailLogService {
                        String templateContent, Map<String, Object> templateParams, Boolean isSend);
 
     /**
-     * 更新邮件发送结果
+     * Update mail send result
      *
-     * @param logId  日志编号
-     * @param messageId 发送后的消息编号
-     * @param exception 发送异常
+     * @param logId  log ID
+     * @param messageId message ID after sending
+     * @param exception send exception
      */
     void updateMailSendResult(Long logId, String messageId, Exception exception);
 

@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * 短信日志 Service 实现类
+ * SMS log Service implementation class
  */
 @Slf4j
 @Service
@@ -30,21 +30,21 @@ public class DefaultSmsLogService implements SmsLogService {
     public Long createSmsLog(String mobile, Long userId, Integer userType, Boolean isSend,
                              SmsTemplateEntity template, String templateContent, Map<String, Object> templateParams) {
         SmsLogEntity.SmsLogEntityBuilder logBuilder = SmsLogEntity.builder();
-        // 根据是否要发送，设置状态
+        // set status based on whether we are sending
         logBuilder.sendStatus(Objects.equals(isSend, true) ? SmsSendStatusEnum.INIT.getStatus()
                 : SmsSendStatusEnum.IGNORE.getStatus());
-        // 设置手机相关字段
+        // set mobile-related fields
         logBuilder.mobile(mobile).userId(userId).userType(userType);
-        // 设置模板相关字段
+        // set template-related fields
         logBuilder.templateId(template.getId()).templateCode(template.getCode()).templateType(template.getType());
         logBuilder.templateContent(templateContent).templateParams(templateParams)
                 .apiTemplateId(template.getApiTemplateId());
-        // 设置渠道相关字段
+        // set channel-related fields
         logBuilder.channelId(template.getChannelId()).channelCode(template.getChannelCode());
-        // 设置接收相关字段
+        // set receive-related fields
         logBuilder.receiveStatus(SmsReceiveStatusEnum.INIT.getStatus());
 
-        // 插入数据库
+        // insert into database
         SmsLogEntity logEntity = logBuilder.build();
         smsLogMapper.insert(logEntity);
         return logEntity.getId();

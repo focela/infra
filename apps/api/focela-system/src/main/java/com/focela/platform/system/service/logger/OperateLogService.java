@@ -7,38 +7,38 @@ import com.focela.platform.system.controller.admin.logger.dto.operatelog.Operate
 import com.focela.platform.system.entity.logger.OperateLogEntity;
 
 /**
- * 操作日志 Service 接口
+ * Operate log Service interface
  */
 public interface OperateLogService {
 
     /**
-     * 记录操作日志
+     * Record an operate log
      *
-     * @param createRequest 创建请求
+     * @param createRequest create request
      */
     void createOperateLog(OperateLogCreateRpcRequest createRequest);
 
     /**
-     * 获得操作日志
+     * Get operate log
      *
-     * @param id 编号
-     * @return 操作日志
+     * @param id ID
+     * @return operate log
      */
     OperateLogEntity getOperateLog(Long id);
 
     /**
-     * 获得操作日志分页列表
+     * Get operate log page
      *
-     * @param pageRequest 分页条件
-     * @return 操作日志分页列表
+     * @param pageRequest page query
+     * @return operate log page
      */
     PageResult<OperateLogEntity> getOperateLogPage(OperateLogPageRequest pageRequest);
 
     /**
-     * 获得操作日志分页列表
+     * Get operate log page
      *
-     * @param pageRequest 分页条件
-     * @return 操作日志分页列表
+     * @param pageRequest page query
+     * @return operate log page
      */
     PageResult<OperateLogEntity> getOperateLogPage(OperateLogPageRpcRequest pageRequest);
 

@@ -100,12 +100,12 @@ public class UserController {
     @Operation(summary = "get user page list")
     @PreAuthorize("@ss.hasPermission('system:user:query')")
     public CommonResult<PageResult<UserResponse>> getUserPage(@Valid UserPageRequest pageRequest) {
-        // 获得用户分页列表
+        // Get user page list
         PageResult<UserEntity> pageResult = userService.getUserPage(pageRequest);
         if (CollUtil.isEmpty(pageResult.getList())) {
             return success(new PageResult<>(pageResult.getTotal()));
         }
-        // 拼接数据
+        // Assemble data
         Map<Long, DepartmentEntity> deptMap = deptService.getDeptMap(
                 convertList(pageResult.getList(), UserEntity::getDeptId));
         return success(new PageResult<>(UserConverter.INSTANCE.convertList(pageResult.getList(), deptMap),
@@ -116,7 +116,7 @@ public class UserController {
     @Operation(summary = "get user simplified info list", description = "only include enabled user, for frontend dropdown options")
     public CommonResult<List<UserSimpleResponse>> getSimpleUserList() {
         List<UserEntity> list = userService.getUserListByStatus(CommonStatusEnum.ENABLE.getStatus());
-        // 拼接数据
+        // Assemble data
         Map<Long, DepartmentEntity> deptMap = deptService.getDeptMap(
                 convertList(list, UserEntity::getDeptId));
         return success(UserConverter.INSTANCE.convertSimpleList(list, deptMap));
@@ -131,7 +131,7 @@ public class UserController {
         if (user == null) {
             return success(null);
         }
-        // 拼接数据
+        // Assemble data
         DepartmentEntity dept = deptService.getDept(user.getDeptId());
         return success(UserConverter.INSTANCE.convert(user, dept));
     }
@@ -144,25 +144,25 @@ public class UserController {
                                HttpServletResponse response) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
         List<UserEntity> list = userService.getUserPage(exportRequest).getList();
-        // 输出 Excel
+        // Output Excel
         Map<Long, DepartmentEntity> deptMap = deptService.getDeptMap(
                 convertList(list, UserEntity::getDeptId));
-        ExcelUtils.write(response, "用户数据.xls", "数据", UserResponse.class,
+        ExcelUtils.write(response, "User data.xls", "Data", UserResponse.class,
                 UserConverter.INSTANCE.convertList(list, deptMap));
     }
 
     @GetMapping("/get-import-template")
     @Operation(summary = "get import user template")
     public void importTemplate(HttpServletResponse response) throws IOException {
-        // 手动创建导出 demo
+        // Manually build the export demo
         List<UserImportExcelDto> list = Arrays.asList(
-                UserImportExcelDto.builder().username("yunai").deptId(1L).email("admin@example.com").mobile("15601691300")
-                        .nickname("芋道").status(CommonStatusEnum.ENABLE.getStatus()).sex(SexEnum.MALE.getSex()).build(),
-                UserImportExcelDto.builder().username("yuanma").deptId(2L).email("ops@example.com").mobile("15601701300")
-                        .nickname("源码").status(CommonStatusEnum.DISABLE.getStatus()).sex(SexEnum.FEMALE.getSex()).build()
+                UserImportExcelDto.builder().username("alice").deptId(1L).email("admin@example.com").mobile("15601691300")
+                        .nickname("Focela").status(CommonStatusEnum.ENABLE.getStatus()).sex(SexEnum.MALE.getSex()).build(),
+                UserImportExcelDto.builder().username("bob").deptId(2L).email("ops@example.com").mobile("15601701300")
+                        .nickname("Source").status(CommonStatusEnum.DISABLE.getStatus()).sex(SexEnum.FEMALE.getSex()).build()
         );
-        // 输出
-        ExcelUtils.write(response, "用户导入模板.xls", "用户列表", UserImportExcelDto.class, list);
+        // Output
+        ExcelUtils.write(response, "User import template.xls", "User list", UserImportExcelDto.class, list);
     }
 
     @PostMapping("/import")

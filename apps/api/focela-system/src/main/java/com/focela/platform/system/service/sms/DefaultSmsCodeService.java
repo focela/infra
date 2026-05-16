@@ -22,7 +22,7 @@ import static com.focela.platform.common.utils.date.DateUtils.isToday;
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 
 /**
- * 短信验证码 Service 实现类
+ * SMS verification code Service implementation class
  */
 @Service
 @Validated
@@ -40,31 +40,31 @@ public class DefaultSmsCodeService implements SmsCodeService {
     @Override
     public void sendSmsCode(SmsCodeSendRpcRequest reqDTO) {
         SmsSceneEnum sceneEnum = SmsSceneEnum.getCodeByScene(reqDTO.getScene());
-        Assert.notNull(sceneEnum, "验证码场景({}) 查找不到配置", reqDTO.getScene());
-        // 创建验证码
+        Assert.notNull(sceneEnum, "verification code scene ({}) configuration not found", reqDTO.getScene());
+        // create the verification code
         String code = createSmsCode(reqDTO.getMobile(), reqDTO.getScene(), reqDTO.getCreateIp());
-        // 发送验证码
+        // send the verification code
         smsSendService.sendSingleSms(reqDTO.getMobile(), null, null,
                 sceneEnum.getTemplateCode(), MapUtil.of("code", code));
     }
 
     private String createSmsCode(String mobile, Integer scene, String ip) {
-        // 校验是否可以发送验证码，不用筛选场景
+        // validate whether a code can be sent; scenes are not filtered
         SmsCodeEntity lastSmsCode = smsCodeMapper.selectLastByMobile(mobile, null, null);
         if (lastSmsCode != null) {
             if (LocalDateTimeUtil.between(lastSmsCode.getCreateTime(), LocalDateTime.now()).toMillis()
-                    < smsCodeProperties.getSendFrequency().toMillis()) { // 发送过于频繁
+                    < smsCodeProperties.getSendFrequency().toMillis()) { // sent too frequently
                 throw exception(SMS_CODE_SEND_TOO_FAST);
             }
-            if (isToday(lastSmsCode.getCreateTime()) && // 必须是今天，才能计算超过当天的上限
-                    lastSmsCode.getTodayIndex() >= smsCodeProperties.getSendMaximumQuantityPerDay()) { // 超过当天发送的上限。
+            if (isToday(lastSmsCode.getCreateTime()) && // must be today to count against today's limit
+                    lastSmsCode.getTodayIndex() >= smsCodeProperties.getSendMaximumQuantityPerDay()) { // exceeds today's send limit.
                 throw exception(SMS_CODE_EXCEED_SEND_MAXIMUM_QUANTITY_PER_DAY);
             }
-            // TODO 芋艿：提升，每个 IP 每天可发送数量
-            // TODO 芋艿：提升，每个 IP 每小时可发送数量
+            // TODO Focela: enhancement, daily quota per IP
+            // TODO Focela: enhancement, hourly quota per IP
         }
 
-        // 创建验证码记录
+        // create the verification code record
         String code = String.format("%0" + smsCodeProperties.getEndCode().toString().length() + "d",
                 randomInt(smsCodeProperties.getBeginCode(), smsCodeProperties.getEndCode() + 1));
         SmsCodeEntity newSmsCode = SmsCodeEntity.builder().mobile(mobile).code(code).scene(scene)
@@ -76,9 +76,9 @@ public class DefaultSmsCodeService implements SmsCodeService {
 
     @Override
     public void useSmsCode(SmsCodeUseRpcRequest reqDTO) {
-        // 检测验证码是否有效
+        // check whether the verification code is valid
         SmsCodeEntity lastSmsCode = validateSmsCode0(reqDTO.getMobile(), reqDTO.getCode(), reqDTO.getScene());
-        // 使用验证码
+        // consume the verification code
         smsCodeMapper.updateById(SmsCodeEntity.builder().id(lastSmsCode.getId())
                 .used(true).usedTime(LocalDateTime.now()).usedIp(reqDTO.getUsedIp()).build());
     }
@@ -89,18 +89,18 @@ public class DefaultSmsCodeService implements SmsCodeService {
     }
 
     private SmsCodeEntity validateSmsCode0(String mobile, String code, Integer scene) {
-        // 校验验证码
+        // validate the verification code
         SmsCodeEntity lastSmsCode = smsCodeMapper.selectLastByMobile(mobile, code, scene);
-        // 若验证码不存在，抛出异常
+        // if the verification code does not exist, throw an exception
         if (lastSmsCode == null) {
             throw exception(SMS_CODE_NOT_FOUND);
         }
-        // 超过时间
+        // expired
         if (LocalDateTimeUtil.between(lastSmsCode.getCreateTime(), LocalDateTime.now()).toMillis()
-                >= smsCodeProperties.getExpireTimes().toMillis()) { // 验证码已过期
+                >= smsCodeProperties.getExpireTimes().toMillis()) { // verification code expired
             throw exception(SMS_CODE_EXPIRED);
         }
-        // 判断验证码是否已被使用
+        // check whether the verification code has been used
         if (Boolean.TRUE.equals(lastSmsCode.getUsed())) {
             throw exception(SMS_CODE_USED);
         }

@@ -8,92 +8,92 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 菜单 Service 接口
+ * Menu Service interface
  */
 public interface MenuService {
 
     /**
-     * 创建菜单
+     * Create a menu
      *
-     * @param createRequest 菜单信息
-     * @return 创建出来的菜单编号
+     * @param createRequest menu info
+     * @return ID of the created menu
      */
     Long createMenu(MenuSaveRequest createRequest);
 
     /**
-     * 更新菜单
+     * Update a menu
      *
-     * @param updateRequest 菜单信息
+     * @param updateRequest menu info
      */
     void updateMenu(MenuSaveRequest updateRequest);
 
     /**
-     * 删除菜单
+     * Delete a menu
      *
-     * @param id 菜单编号
+     * @param id menu ID
      */
     void deleteMenu(Long id);
 
     /**
-     * 批量删除菜单
+     * Batch delete menus
      *
-     * @param ids 菜单编号数组
+     * @param ids menu ID array
      */
     void deleteMenuList(List<Long> ids);
 
     /**
-     * 获得所有菜单列表
+     * Get the list of all menus
      *
-     * @return 菜单列表
+     * @return menu list
      */
     List<MenuEntity> getMenuList();
 
     /**
-     * 基于租户，筛选菜单列表
-     * 注意，如果是系统租户，返回的还是全菜单
+     * Filter menu list by tenant.
+     * Note: for the system tenant, the full menu list is returned.
      *
-     * @param request 筛选条件请求 VO
-     * @return 菜单列表
+     * @param request filter conditions request VO
+     * @return menu list
      */
     List<MenuEntity> getMenuListByTenant(MenuListRequest request);
 
     /**
-     * 过滤掉关闭的菜单及其子菜单
+     * Filter out disabled menus and their sub-menus
      *
-     * @param list 菜单列表
-     * @return 过滤后的菜单列表
+     * @param list menu list
+     * @return filtered menu list
      */
     List<MenuEntity> filterDisableMenus(List<MenuEntity> list);
 
     /**
-     * 筛选菜单列表
+     * Filter menu list
      *
-     * @param request 筛选条件请求 VO
-     * @return 菜单列表
+     * @param request filter conditions request VO
+     * @return menu list
      */
     List<MenuEntity> getMenuList(MenuListRequest request);
 
     /**
-     * 获得权限对应的菜单编号数组
+     * Get the menu ID array corresponding to a permission
      *
-     * @param permission 权限标识
-     * @return 数组
+     * @param permission permission identifier
+     * @return array
      */
     List<Long> getMenuIdListByPermissionFromCache(String permission);
 
     /**
-     * 获得菜单
+     * Get a menu
      *
-     * @param id 菜单编号
-     * @return 菜单
+     * @param id menu ID
+     * @return menu
      */
     MenuEntity getMenu(Long id);
 
     /**
-     * 获得菜单数组
+     * Get menu array
      *
-     * @param ids 菜单编号数组
-     * @return 菜单数组
+     * @param ids menu ID array
+     * @return menu array
      */
     List<MenuEntity> getMenuList(Collection<Long> ids);
 

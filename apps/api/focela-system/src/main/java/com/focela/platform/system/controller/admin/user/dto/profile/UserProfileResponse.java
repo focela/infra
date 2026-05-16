@@ -16,7 +16,7 @@ public class UserProfileResponse {
     @Schema(description = "User ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Long id;
 
-    @Schema(description = "Username", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
+    @Schema(description = "Username", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela")
     private String username;
 
     @Schema(description = "Nickname", requiredMode = Schema.RequiredMode.REQUIRED, example = "Alice")
@@ -44,15 +44,15 @@ public class UserProfileResponse {
     private LocalDateTime createTime;
 
     /**
-     * 所属角色
+     * Roles the user belongs to
      */
     private List<RoleSimpleResponse> roles;
     /**
-     * 所在部门
+     * Department the user belongs to
      */
     private DepartmentSimpleResponse dept;
     /**
-     * 所属岗位数组
+     * Post array the user belongs to
      */
     private List<PostSimpleResponse> posts;
 

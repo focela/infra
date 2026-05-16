@@ -10,69 +10,69 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 站内信模版 Service 接口
+ * In-site notification template Service interface
  */
 public interface NotifyTemplateService {
 
     /**
-     * 创建站内信模版
+     * Create in-site notification template
      *
-     * @param createRequest 创建信息
-     * @return 编号
+     * @param createRequest create info
+     * @return ID
      */
     Long createNotifyTemplate(@Valid NotifyTemplateSaveRequest createRequest);
 
     /**
-     * 更新站内信模版
+     * Update in-site notification template
      *
-     * @param updateRequest 更新信息
+     * @param updateRequest update info
      */
     void updateNotifyTemplate(@Valid NotifyTemplateSaveRequest updateRequest);
 
     /**
-     * 删除站内信模版
+     * Delete in-site notification template
      *
-     * @param id 编号
+     * @param id ID
      */
     void deleteNotifyTemplate(Long id);
 
     /**
-     * 批量删除站内信模版
+     * Batch delete in-site notification templates
      *
-     * @param ids 编号列表
+     * @param ids ID list
      */
     void deleteNotifyTemplateList(List<Long> ids);
 
     /**
-     * 获得站内信模版
+     * Get in-site notification template
      *
-     * @param id 编号
-     * @return 站内信模版
+     * @param id ID
+     * @return in-site notification template
      */
     NotifyTemplateEntity getNotifyTemplate(Long id);
 
     /**
-     * 获得站内信模板，从缓存中
+     * Get in-site notification template from cache
      *
-     * @param code 模板编码
-     * @return 站内信模板
+     * @param code template code
+     * @return in-site notification template
      */
     NotifyTemplateEntity getNotifyTemplateByCodeFromCache(String code);
 
     /**
-     * 获得站内信模版分页
+     * Get in-site notification template page
      *
-     * @param pageRequest 分页查询
-     * @return 站内信模版分页
+     * @param pageRequest page query
+     * @return in-site notification template page
      */
     PageResult<NotifyTemplateEntity> getNotifyTemplatePage(NotifyTemplatePageRequest pageRequest);
 
     /**
-     * 格式化站内信内容
+     * Format in-site notification content
      *
-     * @param content 站内信模板的内容
-     * @param params 站内信内容的参数
-     * @return 格式化后的内容
+     * @param content template content
+     * @param params content parameters
+     * @return formatted content
      */
     String formatNotifyTemplateContent(String content, Map<String, Object> params);
 

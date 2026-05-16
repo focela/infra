@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * system 模块的数据权限 Configuration
+ * Data permission Configuration for the system module
  */
 @Configuration(proxyBeanMethods = false)
 public class DataPermissionConfiguration {

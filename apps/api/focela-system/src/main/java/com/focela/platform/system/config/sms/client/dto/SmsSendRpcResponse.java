@@ -3,38 +3,38 @@ package com.focela.platform.system.config.sms.client.dto;
 import lombok.Data;
 
 /**
- * 短信发送 Response DTO
+ * SMS send Response DTO
  */
 @Data
 public class SmsSendRpcResponse {
 
     /**
-     * 是否成功
+     * Whether succeeded
      */
     private Boolean success;
 
     /**
-     * API 请求编号
+     * API request ID
      */
     private String apiRequestId;
 
-    // ==================== 成功时字段 ====================
+    // ==================== Fields when succeeded ====================
 
     /**
-     * 短信 API 发送返回的序号
+     * Serial number returned by the SMS API
      */
     private String serialNo;
 
-    // ==================== 失败时字段 ====================
+    // ==================== Fields when failed ====================
 
     /**
-     * API 返回错误码
+     * API returned error code
      *
-     * 由于第三方的错误码可能是字符串，所以使用 String 类型
+     * Use String type because third-party error codes may be strings
      */
     private String apiCode;
     /**
-     * API 返回提示
+     * API returned message
      */
     private String apiMsg;
 

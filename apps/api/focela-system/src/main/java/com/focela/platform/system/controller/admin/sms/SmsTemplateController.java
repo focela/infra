@@ -96,8 +96,8 @@ public class SmsTemplateController {
                                        HttpServletResponse response) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
         List<SmsTemplateEntity> list = smsTemplateService.getSmsTemplatePage(exportRequest).getList();
-        // 导出 Excel
-        ExcelUtils.write(response, "短信模板.xls", "数据", SmsTemplateResponse.class,
+        // Export Excel
+        ExcelUtils.write(response, "SMS template.xls", "Data", SmsTemplateResponse.class,
                 BeanUtils.toBean(list, SmsTemplateResponse.class));
     }
 

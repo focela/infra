@@ -37,7 +37,7 @@ import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 import static com.focela.platform.system.constants.LogRecordConstants.*;
 
 /**
- * 角色 Service 实现类
+ * Role Service implementation class
  */
 @Service
 @Slf4j
@@ -54,17 +54,17 @@ public class DefaultRoleService implements RoleService {
     @LogRecord(type = SYSTEM_ROLE_TYPE, subType = SYSTEM_ROLE_CREATE_SUB_TYPE, bizNo = "{{#role.id}}",
             success = SYSTEM_ROLE_CREATE_SUCCESS)
     public Long createRole(RoleSaveRequest createRequest, Integer type) {
-        // 1. 校验角色
+        // 1. Validate the role
         validateRoleDuplicate(createRequest.getName(), createRequest.getCode(), null);
 
-        // 2. 插入到数据库
+        // 2. Insert into the database
         RoleEntity role = BeanUtils.toBean(createRequest, RoleEntity.class)
                 .setType(ObjectUtil.defaultIfNull(type, RoleTypeEnum.CUSTOM.getType()))
                 .setStatus(ObjUtil.defaultIfNull(createRequest.getStatus(), CommonStatusEnum.ENABLE.getStatus()))
-                .setDataScope(DataScopeEnum.ALL.getScope()); // 默认可查看所有数据。原因是，可能一些项目不需要项目权限
+                .setDataScope(DataScopeEnum.ALL.getScope()); // Default to view all data, since some projects may not need project-level permissions
         roleMapper.insert(role);
 
-        // 3. 记录操作日志上下文
+        // 3. Record operate log context
         LogRecordContext.putVariable("role", role);
         return role.getId();
     }
@@ -74,16 +74,16 @@ public class DefaultRoleService implements RoleService {
     @LogRecord(type = SYSTEM_ROLE_TYPE, subType = SYSTEM_ROLE_UPDATE_SUB_TYPE, bizNo = "{{#updateRequest.id}}",
             success = SYSTEM_ROLE_UPDATE_SUCCESS)
     public void updateRole(RoleSaveRequest updateRequest) {
-        // 1.1 校验是否可以更新
+        // 1.1 Validate whether it can be updated
         RoleEntity role = validateRoleForUpdate(updateRequest.getId());
-        // 1.2 校验角色的唯一字段是否重复
+        // 1.2 Validate uniqueness of the role's unique fields
         validateRoleDuplicate(updateRequest.getName(), updateRequest.getCode(), updateRequest.getId());
 
-        // 2. 更新到数据库
+        // 2. Update in the database
         RoleEntity updateObj = BeanUtils.toBean(updateRequest, RoleEntity.class);
         roleMapper.updateById(updateObj);
 
-        // 3. 记录操作日志上下文
+        // 3. Record operate log context
         LogRecordContext.putVariable(DiffParseFunction.OLD_OBJECT, BeanUtils.toBean(role, RoleSaveRequest.class));
         LogRecordContext.putVariable("role", role);
     }
@@ -91,10 +91,10 @@ public class DefaultRoleService implements RoleService {
     @Override
     @CacheEvict(value = RedisKeyConstants.ROLE, key = "#id")
     public void updateRoleDataScope(Long id, Integer dataScope, Set<Long> dataScopeDeptIds) {
-        // 校验是否可以更新
+        // Validate whether it can be updated
         validateRoleForUpdate(id);
 
-        // 更新数据范围
+        // Update data scope
         RoleEntity updateObject = new RoleEntity();
         updateObject.setId(id);
         updateObject.setDataScope(dataScope);
@@ -108,56 +108,56 @@ public class DefaultRoleService implements RoleService {
     @LogRecord(type = SYSTEM_ROLE_TYPE, subType = SYSTEM_ROLE_DELETE_SUB_TYPE, bizNo = "{{#id}}",
             success = SYSTEM_ROLE_DELETE_SUCCESS)
     public void deleteRole(Long id) {
-        // 1. 校验是否可以更新
+        // 1. Validate whether it can be updated
         RoleEntity role = validateRoleForUpdate(id);
 
-        // 2.1 标记删除
+        // 2.1 Mark as deleted
         roleMapper.deleteById(id);
-        // 2.2 删除相关数据
+        // 2.2 Delete related data
         permissionService.processRoleDeleted(id);
 
-        // 3. 记录操作日志上下文
+        // 3. Record operate log context
         LogRecordContext.putVariable("role", role);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteRoleList(List<Long> ids) {
-        // 1. 校验是否可以删除
+        // 1. Validate whether they can be deleted
         ids.forEach(this::validateRoleForUpdate);
 
-        // 2.1 标记删除
+        // 2.1 Mark as deleted
         roleMapper.deleteByIds(ids);
-        // 2.2 删除相关数据
+        // 2.2 Delete related data
         ids.forEach(id -> permissionService.processRoleDeleted(id));
     }
 
     /**
-     * 校验角色的唯一字段是否重复
+     * Validate uniqueness of the role's unique fields
      *
-     * 1. 是否存在相同名字的角色
-     * 2. 是否存在相同编码的角色
+     * 1. Whether a role with the same name exists
+     * 2. Whether a role with the same code exists
      *
-     * @param name 角色名字
-     * @param code 角色额编码
-     * @param id 角色编号
+     * @param name role name
+     * @param code role code
+     * @param id role ID
      */
     @VisibleForTesting
     void validateRoleDuplicate(String name, String code, Long id) {
-        // 0. 超级管理员，不允许创建
+        // 0. Super admin is not allowed to be created
         if (RoleCodeEnum.isSuperAdmin(code)) {
             throw exception(ROLE_ADMIN_CODE_ERROR, code);
         }
-        // 1. 该 name 名字被其它角色所使用
+        // 1. The name is already used by another role
         RoleEntity role = roleMapper.selectByName(name);
         if (role != null && !role.getId().equals(id)) {
             throw exception(ROLE_NAME_DUPLICATE, name);
         }
-        // 2. 是否存在相同编码的角色
+        // 2. Whether a role with the same code exists
         if (!StringUtils.hasText(code)) {
             return;
         }
-        // 该 code 编码被其它角色所使用
+        // The code is already used by another role
         role = roleMapper.selectByCode(code);
         if (role != null && !role.getId().equals(id)) {
             throw exception(ROLE_CODE_DUPLICATE, code);
@@ -165,9 +165,9 @@ public class DefaultRoleService implements RoleService {
     }
 
     /**
-     * 校验角色是否可以被更新
+     * Validate whether the role can be updated
      *
-     * @param id 角色编号
+     * @param id role ID
      */
     @VisibleForTesting
     RoleEntity validateRoleForUpdate(Long id) {
@@ -175,7 +175,7 @@ public class DefaultRoleService implements RoleService {
         if (role == null) {
             throw exception(ROLE_NOT_EXISTS);
         }
-        // 内置角色，不允许删除
+        // Built-in roles cannot be deleted
         if (RoleTypeEnum.SYSTEM.getType().equals(role.getType())) {
             throw exception(ROLE_CAN_NOT_UPDATE_SYSTEM_TYPE_ROLE);
         }
@@ -218,7 +218,7 @@ public class DefaultRoleService implements RoleService {
         if (CollectionUtil.isEmpty(ids)) {
             return Collections.emptyList();
         }
-        // 这里采用 for 循环从缓存中获取，主要考虑 Spring CacheManager 无法批量操作的问题
+        // Use a for loop to fetch from cache, mainly because Spring CacheManager does not support batch operations
         DefaultRoleService self = getSelf();
         return CollectionUtils.convertList(ids, self::getRoleFromCache);
     }
@@ -245,10 +245,10 @@ public class DefaultRoleService implements RoleService {
         if (CollUtil.isEmpty(ids)) {
             return;
         }
-        // 获得角色信息
+        // Get role info
         List<RoleEntity> roles = roleMapper.selectByIds(ids);
         Map<Long, RoleEntity> roleMap = convertMap(roles, RoleEntity::getId);
-        // 校验
+        // Validate
         ids.forEach(id -> {
             RoleEntity role = roleMap.get(id);
             if (role == null) {
@@ -261,9 +261,9 @@ public class DefaultRoleService implements RoleService {
     }
 
     /**
-     * 获得自身的代理对象，解决 AOP 生效问题
+     * Get the self proxy object to make AOP work
      *
-     * @return 自己
+     * @return self
      */
     private DefaultRoleService getSelf() {
         return SpringUtil.getBean(getClass());

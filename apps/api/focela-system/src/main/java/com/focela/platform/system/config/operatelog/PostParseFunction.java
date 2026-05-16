@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
- * 岗位名字的 {@link IParseFunction} 实现类
+ * {@link IParseFunction} implementation for post name
  */
 @Slf4j
 @Component
@@ -32,10 +32,10 @@ public class PostParseFunction implements IParseFunction {
             return "";
         }
 
-        // 获取岗位信息
+        // get post information
         PostEntity post = postService.getPost(Convert.toLong(value));
         if (post == null) {
-            log.warn("[apply][get post {{}}is empty", value);
+            log.warn("[apply][get post {{}} is empty", value);
             return "";
         }
         return post.getName();

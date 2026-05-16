@@ -34,12 +34,12 @@ public class OAuth2UserInfoResponse {
     private String avatar;
 
     /**
-     * 所在部门
+     * Department the user belongs to
      */
     private Department dept;
 
     /**
-     * 所属岗位数组
+     * Post array the user belongs to
      */
     private List<Post> posts;
 

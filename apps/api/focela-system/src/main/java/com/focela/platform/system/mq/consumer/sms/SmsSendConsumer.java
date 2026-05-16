@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import jakarta.annotation.Resource;
 
 /**
- * 针对 {@link SmsSendMessage} 的消费者
+ * Consumer for {@link SmsSendMessage}
  */
 @Component
 @Slf4j
@@ -20,7 +20,7 @@ public class SmsSendConsumer {
     private SmsSendService smsSendService;
 
     @EventListener
-    @Async // Spring Event 默认在 Producer 发送的线程，通过 @Async 实现异步
+    @Async // Spring Event runs on the producer's sending thread by default; @Async makes it asynchronous
     public void onMessage(SmsSendMessage message) {
         log.info("[onMessage][message content ({})]", message);
         smsSendService.doSendSms(message);

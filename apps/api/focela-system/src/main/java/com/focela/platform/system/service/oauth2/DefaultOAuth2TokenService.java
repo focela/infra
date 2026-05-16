@@ -37,7 +37,7 @@ import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.e
 import static com.focela.platform.common.utils.collection.CollectionUtils.convertSet;
 
 /**
- * OAuth2.0 Token Service 实现类
+ * OAuth2.0 Token Service implementation class
  */
 @Service
 public class DefaultOAuth2TokenService implements OAuth2TokenService {
@@ -53,72 +53,72 @@ public class DefaultOAuth2TokenService implements OAuth2TokenService {
     @Resource
     private OAuth2ClientService oauth2ClientService;
     @Resource
-    @Lazy // 懒加载，避免循环依赖
+    @Lazy // lazy loading to avoid circular dependency
     private UserService adminUserService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public OAuth2AccessTokenEntity createAccessToken(Long userId, Integer userType, String clientId, List<String> scopes) {
         OAuth2ClientEntity clientDO = oauth2ClientService.validOAuthClientFromCache(clientId);
-        // 创建刷新令牌
+        // Create refresh token
         OAuth2RefreshTokenEntity refreshTokenDO = createOAuth2RefreshToken(userId, userType, clientDO, scopes);
-        // 创建访问令牌
+        // Create access token
         return createOAuth2AccessToken(refreshTokenDO, clientDO);
     }
 
     @Override
     @Transactional(noRollbackFor = ServiceException.class)
     public OAuth2AccessTokenEntity refreshAccessToken(String refreshToken, String clientId) {
-        // 查询访问令牌
+        // Query the refresh token
         OAuth2RefreshTokenEntity refreshTokenDO = oauth2RefreshTokenMapper.selectByRefreshToken(refreshToken);
         if (refreshTokenDO == null) {
             throw exception0(GlobalErrorCodeConstants.BAD_REQUEST.getCode(), "Invalid refresh token");
         }
 
-        // 校验 Client 匹配
+        // Validate that the Client matches
         OAuth2ClientEntity clientDO = oauth2ClientService.validOAuthClientFromCache(clientId);
         if (ObjectUtil.notEqual(clientId, refreshTokenDO.getClientId())) {
-            throw exception0(GlobalErrorCodeConstants.BAD_REQUEST.getCode(), "刷新令牌的客户端编号不正确");
+            throw exception0(GlobalErrorCodeConstants.BAD_REQUEST.getCode(), "Refresh token client ID is incorrect");
         }
 
-        // 移除相关的访问令牌
+        // Remove the related access tokens
         List<OAuth2AccessTokenEntity> accessTokenDOs = oauth2AccessTokenMapper.selectListByRefreshToken(refreshToken);
         if (CollUtil.isNotEmpty(accessTokenDOs)) {
             oauth2AccessTokenMapper.deleteByIds(convertSet(accessTokenDOs, OAuth2AccessTokenEntity::getId));
             oauth2AccessTokenRedisDAO.deleteList(convertSet(accessTokenDOs, OAuth2AccessTokenEntity::getAccessToken));
         }
 
-        // 已过期的情况下，删除刷新令牌
+        // When expired, delete the refresh token
         if (DateUtils.isExpired(refreshTokenDO.getExpiresTime())) {
             oauth2RefreshTokenMapper.deleteById(refreshTokenDO.getId());
-            throw exception0(GlobalErrorCodeConstants.UNAUTHORIZED.getCode(), "刷新令牌已过期");
+            throw exception0(GlobalErrorCodeConstants.UNAUTHORIZED.getCode(), "Refresh token has expired");
         }
 
-        // 创建访问令牌
+        // Create access token
         return createOAuth2AccessToken(refreshTokenDO, clientDO);
     }
 
     @Override
     public OAuth2AccessTokenEntity getAccessToken(String accessToken) {
-        // 优先从 Redis 中获取
+        // Prefer fetching from Redis
         OAuth2AccessTokenEntity accessTokenDO = oauth2AccessTokenRedisDAO.get(accessToken);
         if (accessTokenDO != null) {
             return accessTokenDO;
         }
 
-        // 获取不到，从 MySQL 中获取访问令牌
+        // If not found, fetch the access token from MySQL
         accessTokenDO = oauth2AccessTokenMapper.selectByAccessToken(accessToken);
         if (accessTokenDO == null) {
-            // 特殊：从 MySQL 中获取刷新令牌。原因：解决部分场景不方便刷新访问令牌场景
-            // 例如说，积木报表只允许传递 token，不允许传递 refresh_token，导致无法刷新访问令牌
-            // 再例如说，前端 WebSocket 的 token 直接跟在 url 上，无法传递 refresh_token
+            // Special: fetch the refresh token from MySQL. Reason: handle scenarios where refreshing the access token is inconvenient.
+            // For example, JimuReport only allows passing token and not refresh_token, so the access token cannot be refreshed.
+            // Another example: the frontend WebSocket token is passed directly in the URL and cannot pass refresh_token.
             OAuth2RefreshTokenEntity refreshTokenDO = oauth2RefreshTokenMapper.selectByRefreshToken(accessToken);
             if (refreshTokenDO != null && !DateUtils.isExpired(refreshTokenDO.getExpiresTime())) {
                 accessTokenDO = convertToAccessToken(refreshTokenDO);
             }
         }
 
-        // 如果在 MySQL 存在，则往 Redis 中写入
+        // If it exists in MySQL, write it back to Redis
         if (accessTokenDO != null && !DateUtils.isExpired(accessTokenDO.getExpiresTime())) {
             oauth2AccessTokenRedisDAO.set(accessTokenDO);
         }
@@ -129,10 +129,10 @@ public class DefaultOAuth2TokenService implements OAuth2TokenService {
     public OAuth2AccessTokenEntity checkAccessToken(String accessToken) {
         OAuth2AccessTokenEntity accessTokenDO = getAccessToken(accessToken);
         if (accessTokenDO == null) {
-            throw exception0(GlobalErrorCodeConstants.UNAUTHORIZED.getCode(), "访问令牌不存在");
+            throw exception0(GlobalErrorCodeConstants.UNAUTHORIZED.getCode(), "Access token does not exist");
         }
         if (DateUtils.isExpired(accessTokenDO.getExpiresTime())) {
-            throw exception0(GlobalErrorCodeConstants.UNAUTHORIZED.getCode(), "访问令牌已过期");
+            throw exception0(GlobalErrorCodeConstants.UNAUTHORIZED.getCode(), "Access token has expired");
         }
         return accessTokenDO;
     }
@@ -140,14 +140,14 @@ public class DefaultOAuth2TokenService implements OAuth2TokenService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public OAuth2AccessTokenEntity removeAccessToken(String accessToken) {
-        // 删除访问令牌
+        // Delete the access token
         OAuth2AccessTokenEntity accessTokenDO = oauth2AccessTokenMapper.selectByAccessToken(accessToken);
         if (accessTokenDO == null) {
             return null;
         }
         oauth2AccessTokenMapper.deleteById(accessTokenDO.getId());
         oauth2AccessTokenRedisDAO.delete(accessToken);
-        // 删除刷新令牌
+        // Delete the refresh token
         oauth2RefreshTokenMapper.deleteByRefreshToken(accessTokenDO.getRefreshToken());
         return accessTokenDO;
     }
@@ -159,10 +159,10 @@ public class DefaultOAuth2TokenService implements OAuth2TokenService {
             return;
         }
         accessTokens.forEach(accessToken -> {
-            // 删除访问令牌
+            // Delete the access token
             oauth2AccessTokenMapper.deleteById(accessToken.getId());
             oauth2AccessTokenRedisDAO.delete(accessToken.getAccessToken());
-            // 删除刷新令牌
+            // Delete the refresh token
             oauth2RefreshTokenMapper.deleteByRefreshToken(accessToken.getRefreshToken());
         });
     }
@@ -179,15 +179,15 @@ public class DefaultOAuth2TokenService implements OAuth2TokenService {
                 .setClientId(clientDO.getClientId()).setScopes(refreshTokenDO.getScopes())
                 .setRefreshToken(refreshTokenDO.getRefreshToken())
                 .setExpiresTime(LocalDateTime.now().plusSeconds(clientDO.getAccessTokenValiditySeconds()));
-        // 优先从 refreshToken 获取租户编号，避免 ThreadLocal 被污染时导致 tenantId 为 null
-        // 可能关联的 issue：https://t.zsxq.com/JIi5G
+        // Prefer obtaining the tenant ID from refreshToken to avoid tenantId being null when ThreadLocal is polluted
+        // Possible related issue: https://t.zsxq.com/JIi5G
         Long tenantId = refreshTokenDO.getTenantId();
         if (tenantId == null) {
             tenantId = TenantContextHolder.getTenantId();
         }
         accessTokenDO.setTenantId(tenantId);
         oauth2AccessTokenMapper.insert(accessTokenDO);
-        // 记录到 Redis 中
+        // Record into Redis
         oauth2AccessTokenRedisDAO.set(accessTokenDO);
         return accessTokenDO;
     }
@@ -210,11 +210,11 @@ public class DefaultOAuth2TokenService implements OAuth2TokenService {
     }
 
     /**
-     * 加载用户信息，方便 {@link com.focela.platform.security.core.LoginUser} 获取到昵称、部门等信息
+     * Load user information so {@link com.focela.platform.security.core.LoginUser} can access nickname, department, etc.
      *
-     * @param userId 用户编号
-     * @param userType 用户类型
-     * @return 用户信息
+     * @param userId user ID
+     * @param userType user type
+     * @return user information
      */
     private Map<String, String> buildUserInfo(Long userId, Integer userType) {
         if (userId == null || userId <= 0) {
@@ -225,7 +225,7 @@ public class DefaultOAuth2TokenService implements OAuth2TokenService {
             return MapUtil.builder(LoginUser.INFO_KEY_NICKNAME, user.getNickname())
                     .put(LoginUser.INFO_KEY_DEPT_ID, StrUtil.toStringOrNull(user.getDeptId())).build();
         } else if (userType.equals(UserTypeEnum.MEMBER.getValue())) {
-            // 注意：目前 Member 暂时不读取，可以按需实现
+            // Note: currently Member is not read, can be implemented on demand
             return Collections.emptyMap();
         }
         throw new IllegalArgumentException("unknown user type:" + userType);

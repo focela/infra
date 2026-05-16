@@ -33,49 +33,49 @@ public interface AuthConverter {
         return AuthPermissionInfoResponse.builder()
                 .user(BeanUtils.toBean(user, AuthPermissionInfoResponse.UserVO.class))
                 .roles(convertSet(roleList, RoleEntity::getCode))
-                // 权限标识信息
+                // permission identifier information
                 .permissions(convertSet(menuList, MenuEntity::getPermission))
-                // 菜单树
+                // menu tree
                 .menus(buildMenuTree(menuList))
                 .build();
     }
 
     /**
-     * 将菜单列表，构建成菜单树
+     * Build a menu tree from a menu list
      *
-     * @param menuList 菜单列表
-     * @return 菜单树
+     * @param menuList menu list
+     * @return menu tree
      */
     default List<AuthPermissionInfoResponse.MenuVO> buildMenuTree(List<MenuEntity> menuList) {
         if (CollUtil.isEmpty(menuList)) {
             return Collections.emptyList();
         }
-        // 移除按钮
+        // remove buttons
         menuList.removeIf(menu -> menu.getType().equals(MenuTypeEnum.BUTTON.getType()));
-        // 排序，保证菜单的有序性
+        // sort to keep menus in order
         menuList.sort(Comparator.comparing(MenuEntity::getSort));
 
-        // 构建菜单树
-        // 使用 LinkedHashMap 的原因，是为了排序 。实际也可以用 Stream API ，就是太丑了。
+        // build the menu tree
+        // LinkedHashMap is used to preserve order. Stream API could also work but would be uglier.
         Map<Long, AuthPermissionInfoResponse.MenuVO> treeNodeMap = new LinkedHashMap<>();
         menuList.forEach(menu -> treeNodeMap.put(menu.getId(),
                 BeanUtils.toBean(menu, AuthPermissionInfoResponse.MenuVO.class)));
-        // 处理父子关系
+        // process parent-child relations
         treeNodeMap.values().stream().filter(node -> ObjUtil.notEqual(node.getParentId(), ID_ROOT)).forEach(childNode -> {
-            // 获得父节点
+            // get the parent node
             AuthPermissionInfoResponse.MenuVO parentNode = treeNodeMap.get(childNode.getParentId());
             if (parentNode == null) {
-                LoggerFactory.getLogger(getClass()).error("[buildRouterTree][resource({}) 找不到父资源({})]",
+                LoggerFactory.getLogger(getClass()).error("[buildRouterTree][resource({}) cannot find parent resource({})]",
                         childNode.getId(), childNode.getParentId());
                 return;
             }
-            // 将自己添加到父节点中
+            // add itself to the parent node
             if (parentNode.getChildren() == null) {
                 parentNode.setChildren(new ArrayList<>());
             }
             parentNode.getChildren().add(childNode);
         });
-        // 获得到所有的根节点
+        // get all root nodes
         return filterList(treeNodeMap.values(), node -> ID_ROOT.equals(node.getParentId()));
     }
 

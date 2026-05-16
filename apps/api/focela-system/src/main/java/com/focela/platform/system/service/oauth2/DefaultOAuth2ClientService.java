@@ -28,7 +28,7 @@ import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.e
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 
 /**
- * OAuth2.0 Client Service 实现类
+ * OAuth2.0 Client Service implementation class
  */
 @Service
 @Validated
@@ -41,7 +41,7 @@ public class DefaultOAuth2ClientService implements OAuth2ClientService {
     @Override
     public Long createOAuth2Client(OAuth2ClientSaveRequest createRequest) {
         validateClientIdExists(null, createRequest.getClientId());
-        // 插入
+        // Insert
         OAuth2ClientEntity client = BeanUtils.toBean(createRequest, OAuth2ClientEntity.class);
         oauth2ClientMapper.insert(client);
         return client.getId();
@@ -49,31 +49,31 @@ public class DefaultOAuth2ClientService implements OAuth2ClientService {
 
     @Override
     @CacheEvict(cacheNames = RedisKeyConstants.OAUTH_CLIENT,
-            allEntries = true) // allEntries 清空所有缓存，因为可能修改到 clientId 字段，不好清理
+            allEntries = true) // allEntries clears all caches because the clientId field may be modified and is hard to clean up
     public void updateOAuth2Client(OAuth2ClientSaveRequest updateRequest) {
-        // 校验存在
+        // Validate existence
         validateOAuth2ClientExists(updateRequest.getId());
-        // 校验 Client 未被占用
+        // Validate Client is not occupied
         validateClientIdExists(updateRequest.getId(), updateRequest.getClientId());
 
-        // 更新
+        // Update
         OAuth2ClientEntity updateObj = BeanUtils.toBean(updateRequest, OAuth2ClientEntity.class);
         oauth2ClientMapper.updateById(updateObj);
     }
 
     @Override
     @CacheEvict(cacheNames = RedisKeyConstants.OAUTH_CLIENT,
-            allEntries = true) // allEntries 清空所有缓存，因为 id 不是直接的缓存 key，不好清理
+            allEntries = true) // allEntries clears all caches because id is not the direct cache key and is hard to clean up
     public void deleteOAuth2Client(Long id) {
-        // 校验存在
+        // Validate existence
         validateOAuth2ClientExists(id);
-        // 删除
+        // Delete
         oauth2ClientMapper.deleteById(id);
     }
 
     @Override
     @CacheEvict(cacheNames = RedisKeyConstants.OAUTH_CLIENT,
-            allEntries = true) // allEntries 清空所有缓存，因为 id 不是直接的缓存 key，不好清理
+            allEntries = true) // allEntries clears all caches because id is not the direct cache key and is hard to clean up
     public void deleteOAuth2ClientList(List<Long> ids) {
         oauth2ClientMapper.deleteByIds(ids);
     }
@@ -90,7 +90,7 @@ public class DefaultOAuth2ClientService implements OAuth2ClientService {
         if (client == null) {
             return;
         }
-        // 如果 id 为空，说明不用比较是否为相同 id 的客户端
+        // If id is null, no need to compare whether it is a client with the same id
         if (id == null) {
             throw exception(OAUTH2_CLIENT_EXISTS);
         }
@@ -119,7 +119,7 @@ public class DefaultOAuth2ClientService implements OAuth2ClientService {
     @Override
     public OAuth2ClientEntity validOAuthClientFromCache(String clientId, String clientSecret, String authorizedGrantType,
                                                     Collection<String> scopes, String redirectUri) {
-        // 校验客户端存在、且开启
+        // Validate that the client exists and is enabled
         OAuth2ClientEntity client = getSelf().getOAuth2ClientFromCache(clientId);
         if (client == null) {
             throw exception(OAUTH2_CLIENT_NOT_EXISTS);
@@ -128,19 +128,19 @@ public class DefaultOAuth2ClientService implements OAuth2ClientService {
             throw exception(OAUTH2_CLIENT_DISABLE);
         }
 
-        // 校验客户端密钥
+        // Validate the client secret
         if (StrUtil.isNotEmpty(clientSecret) && ObjectUtil.notEqual(client.getSecret(), clientSecret)) {
             throw exception(OAUTH2_CLIENT_CLIENT_SECRET_ERROR);
         }
-        // 校验授权方式
+        // Validate the grant type
         if (StrUtil.isNotEmpty(authorizedGrantType) && !CollUtil.contains(client.getAuthorizedGrantTypes(), authorizedGrantType)) {
             throw exception(OAUTH2_CLIENT_AUTHORIZED_GRANT_TYPE_NOT_EXISTS);
         }
-        // 校验授权范围
+        // Validate the authorization scope
         if (CollUtil.isNotEmpty(scopes) && !CollUtil.containsAll(client.getScopes(), scopes)) {
             throw exception(OAUTH2_CLIENT_SCOPE_OVER);
         }
-        // 校验回调地址
+        // Validate the redirect URI
         if (StrUtil.isNotEmpty(redirectUri) && !StrUtils.startWithAny(redirectUri, client.getRedirectUris())) {
             throw exception(OAUTH2_CLIENT_REDIRECT_URI_NOT_MATCH, redirectUri);
         }
@@ -148,9 +148,9 @@ public class DefaultOAuth2ClientService implements OAuth2ClientService {
     }
 
     /**
-     * 获得自身的代理对象，解决 AOP 生效问题
+     * Get the self proxy object to ensure AOP takes effect
      *
-     * @return 自己
+     * @return self
      */
     private DefaultOAuth2ClientService getSelf() {
         return SpringUtil.getBean(getClass());

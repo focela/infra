@@ -40,7 +40,7 @@ public class RoleSaveRequest {
     private Integer status;
 
     @Schema(description = "Remarks", example = "I am a role")
-    @Size(max = 500, message = "备注length must not exceed 500 characters")
+    @Size(max = 500, message = "remarks length must not exceed 500 characters")
     @DiffLogField(name = "Remarks")
     private String remark;
 

@@ -52,7 +52,7 @@ import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 import static com.focela.platform.system.constants.LogRecordConstants.*;
 
 /**
- * 后台用户 Service 实现类
+ * Admin User Service implementation class
  */
 @Service("adminUserService")
 @Slf4j
@@ -74,10 +74,10 @@ public class DefaultUserService implements UserService {
     @Resource
     private PasswordEncoder passwordEncoder;
     @Resource
-    @Lazy // 延迟，避免循环依赖报错
+    @Lazy // lazy loading to avoid circular dependency errors
     private TenantService tenantService;
     @Resource
-    @Lazy // 懒加载，避免循环依赖
+    @Lazy // lazy loading to avoid circular dependency
     private OAuth2TokenService oauth2TokenService;
 
     @Resource
@@ -91,52 +91,52 @@ public class DefaultUserService implements UserService {
     @LogRecord(type = SYSTEM_USER_TYPE, subType = SYSTEM_USER_CREATE_SUB_TYPE, bizNo = "{{#user.id}}",
             success = SYSTEM_USER_CREATE_SUCCESS)
     public Long createUser(UserSaveRequest createRequest) {
-        // 1.1 校验账户配合
+        // 1.1 Validate the account count
         tenantService.handleTenantInfo(tenant -> {
             long count = userMapper.selectCount();
             if (count >= tenant.getAccountCount()) {
                 throw exception(USER_COUNT_MAX, tenant.getAccountCount());
             }
         });
-        // 1.2 校验正确性
+        // 1.2 Validate
         validateUserForCreateOrUpdate(null, createRequest.getUsername(),
                 createRequest.getMobile(), createRequest.getEmail(), createRequest.getDeptId(), createRequest.getPostIds());
-        // 2.1 插入用户
+        // 2.1 Insert user
         UserEntity user = BeanUtils.toBean(createRequest, UserEntity.class);
-        user.setStatus(CommonStatusEnum.ENABLE.getStatus()); // 默认开启
-        user.setPassword(encodePassword(createRequest.getPassword())); // 加密密码
+        user.setStatus(CommonStatusEnum.ENABLE.getStatus()); // enabled by default
+        user.setPassword(encodePassword(createRequest.getPassword())); // encode password
         userMapper.insert(user);
-        // 2.2 插入关联岗位
+        // 2.2 Insert associated posts
         if (CollectionUtil.isNotEmpty(user.getPostIds())) {
             userPostMapper.insertBatch(convertList(user.getPostIds(),
                     postId -> new UserPostEntity().setUserId(user.getId()).setPostId(postId)));
         }
 
-        // 3. 记录操作日志上下文
+        // 3. Record operation log context
         LogRecordContext.putVariable("user", user);
         return user.getId();
     }
 
     @Override
     public Long registerUser(AuthRegisterRequest registerRequest) {
-        // 1.1 校验是否开启注册
+        // 1.1 Validate whether registration is enabled
         if (ObjUtil.notEqual(configApi.getConfigValueByKey(USER_REGISTER_ENABLED_KEY), "true")) {
             throw exception(USER_REGISTER_DISABLED);
         }
-        // 1.2 校验账户配合
+        // 1.2 Validate the account count
         tenantService.handleTenantInfo(tenant -> {
             long count = userMapper.selectCount();
             if (count >= tenant.getAccountCount()) {
                 throw exception(USER_COUNT_MAX, tenant.getAccountCount());
             }
         });
-        // 1.3 校验正确性
+        // 1.3 Validate
         validateUserForCreateOrUpdate(null, registerRequest.getUsername(), null, null, null, null);
 
-        // 2. 插入用户
+        // 2. Insert user
         UserEntity user = BeanUtils.toBean(registerRequest, UserEntity.class);
-        user.setStatus(CommonStatusEnum.ENABLE.getStatus()); // 默认开启
-        user.setPassword(encodePassword(registerRequest.getPassword())); // 加密密码
+        user.setStatus(CommonStatusEnum.ENABLE.getStatus()); // enabled by default
+        user.setPassword(encodePassword(registerRequest.getPassword())); // encode password
         userMapper.insert(user);
         return user.getId();
     }
@@ -146,18 +146,18 @@ public class DefaultUserService implements UserService {
     @LogRecord(type = SYSTEM_USER_TYPE, subType = SYSTEM_USER_UPDATE_SUB_TYPE, bizNo = "{{#updateRequest.id}}",
             success = SYSTEM_USER_UPDATE_SUCCESS)
     public void updateUser(UserSaveRequest updateRequest) {
-        updateRequest.setPassword(null); // 特殊：此处不更新密码
-        // 1. 校验正确性
+        updateRequest.setPassword(null); // Special: password is not updated here
+        // 1. Validate
         UserEntity oldUser = validateUserForCreateOrUpdate(updateRequest.getId(), updateRequest.getUsername(),
                 updateRequest.getMobile(), updateRequest.getEmail(), updateRequest.getDeptId(), updateRequest.getPostIds());
 
-        // 2.1 更新用户
+        // 2.1 Update user
         UserEntity updateObj = BeanUtils.toBean(updateRequest, UserEntity.class);
         userMapper.updateById(updateObj);
-        // 2.2 更新岗位
+        // 2.2 Update posts
         updateUserPost(updateRequest, updateObj);
 
-        // 3. 记录操作日志上下文
+        // 3. Record operation log context
         LogRecordContext.putVariable(DiffParseFunction.OLD_OBJECT, BeanUtils.toBean(oldUser, UserSaveRequest.class));
         LogRecordContext.putVariable("user", oldUser);
     }
@@ -165,11 +165,11 @@ public class DefaultUserService implements UserService {
     private void updateUserPost(UserSaveRequest request, UserEntity updateObj) {
         Long userId = request.getId();
         Set<Long> dbPostIds = convertSet(userPostMapper.selectListByUserId(userId), UserPostEntity::getPostId);
-        // 计算新增和删除的岗位编号
+        // Compute the post IDs to add and delete
         Set<Long> postIds = CollUtil.emptyIfNull(updateObj.getPostIds());
         Collection<Long> createPostIds = CollUtil.subtract(postIds, dbPostIds);
         Collection<Long> deletePostIds = CollUtil.subtract(dbPostIds, postIds);
-        // 执行新增和删除。对于已经授权的岗位，不用做任何处理
+        // Execute insertion and deletion. For already authorized posts, no action needed
         if (!CollectionUtil.isEmpty(createPostIds)) {
             userPostMapper.insertBatch(convertList(createPostIds,
                     postId -> new UserPostEntity().setUserId(userId).setPostId(postId)));
@@ -186,21 +186,21 @@ public class DefaultUserService implements UserService {
 
     @Override
     public void updateUserProfile(Long id, UserProfileUpdateRequest request) {
-        // 校验正确性
+        // Validate
         validateUserExists(id);
         validateEmailUnique(id, request.getEmail());
         validateMobileUnique(id, request.getMobile());
-        // 执行更新
+        // Execute update
         userMapper.updateById(BeanUtils.toBean(request, UserEntity.class).setId(id));
     }
 
     @Override
     public void updateUserPassword(Long id, UserProfileUpdatePasswordRequest request) {
-        // 校验旧密码密码
+        // Validate the old password
         validateOldPassword(id, request.getOldPassword());
-        // 执行更新
+        // Execute update
         UserEntity updateObj = new UserEntity().setId(id);
-        updateObj.setPassword(encodePassword(request.getNewPassword())); // 加密密码
+        updateObj.setPassword(encodePassword(request.getNewPassword())); // encode password
         userMapper.updateById(updateObj);
     }
 
@@ -208,31 +208,31 @@ public class DefaultUserService implements UserService {
     @LogRecord(type = SYSTEM_USER_TYPE, subType = SYSTEM_USER_UPDATE_PASSWORD_SUB_TYPE, bizNo = "{{#id}}",
             success = SYSTEM_USER_UPDATE_PASSWORD_SUCCESS)
     public void updateUserPassword(Long id, String password) {
-        // 1. 校验用户存在
+        // 1. Validate that the user exists
         UserEntity user = validateUserExists(id);
 
-        // 2. 更新密码
+        // 2. Update password
         UserEntity updateObj = new UserEntity();
         updateObj.setId(id);
-        updateObj.setPassword(encodePassword(password)); // 加密密码
+        updateObj.setPassword(encodePassword(password)); // encode password
         userMapper.updateById(updateObj);
 
-        // 3. 记录操作日志上下文
+        // 3. Record operate log context
         LogRecordContext.putVariable("user", user);
         LogRecordContext.putVariable("newPassword", updateObj.getPassword());
     }
 
     @Override
     public void updateUserStatus(Long id, Integer status) {
-        // 校验用户存在
+        // Validate that the user exists
         validateUserExists(id);
-        // 更新状态
+        // Update status
         UserEntity updateObj = new UserEntity();
         updateObj.setId(id);
         updateObj.setStatus(status);
         userMapper.updateById(updateObj);
 
-        // 如果是禁用用户，则删除其 Token 信息
+        // If disabling the user, also remove their Token
         if (CommonStatusEnum.isDisable(status)) {
             oauth2TokenService.removeAccessToken(id, UserTypeEnum.ADMIN.getValue());
         }
@@ -243,27 +243,27 @@ public class DefaultUserService implements UserService {
     @LogRecord(type = SYSTEM_USER_TYPE, subType = SYSTEM_USER_DELETE_SUB_TYPE, bizNo = "{{#id}}",
             success = SYSTEM_USER_DELETE_SUCCESS)
     public void deleteUser(Long id) {
-        // 1. 校验用户存在
+        // 1. Validate that the user exists
         UserEntity user = validateUserExists(id);
 
-        // 2.1 删除用户
+        // 2.1 Delete the user
         userMapper.deleteById(id);
-        // 2.2 删除用户关联数据
+        // 2.2 Delete the user's related data
         permissionService.processUserDeleted(id);
-        // 2.2 删除用户岗位
+        // 2.3 Delete the user's posts
         userPostMapper.deleteByUserId(id);
 
-        // 3. 记录操作日志上下文
+        // 3. Record operate log context
         LogRecordContext.putVariable("user", user);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteUserList(List<Long> ids) {
-        // 1. 批量删除用户
+        // 1. Batch delete users
         userMapper.deleteByIds(ids);
 
-        // 2. 批量删除用户关联数据
+        // 2. Batch delete users' related data
         ids.forEach(id -> {
             permissionService.processUserDeleted(id);
             userPostMapper.deleteByUserId(id);
@@ -282,7 +282,7 @@ public class DefaultUserService implements UserService {
 
     @Override
     public PageResult<UserEntity> getUserPage(UserPageRequest request) {
-        // 如果有角色编号，查询角色对应的用户编号
+        // If a role ID is provided, look up the user IDs for that role
         Set<Long> userIds = null;
         if (request.getRoleId() != null) {
             userIds = permissionService.getUserRoleIdListByRoleId(singleton(request.getRoleId()));
@@ -291,7 +291,7 @@ public class DefaultUserService implements UserService {
             }
         }
 
-        // 分页查询
+        // Paginated query
         return userMapper.selectPage(request, getDeptCondition(request.getDeptId()), userIds);
     }
 
@@ -333,10 +333,10 @@ public class DefaultUserService implements UserService {
         if (CollUtil.isEmpty(ids)) {
             return;
         }
-        // 获得岗位信息
+        // Get user info
         List<UserEntity> users = userMapper.selectByIds(ids);
         Map<Long, UserEntity> userMap = CollectionUtils.convertMap(users, UserEntity::getId);
-        // 校验
+        // Validate
         ids.forEach(id -> {
             UserEntity user = userMap.get(id);
             if (user == null) {
@@ -354,35 +354,35 @@ public class DefaultUserService implements UserService {
     }
 
     /**
-     * 获得部门条件：查询指定部门的子部门编号们，包括自身
+     * Get the department condition: query the child department IDs of the specified department, including itself
      *
-     * @param deptId 部门编号
-     * @return 部门编号集合
+     * @param deptId department ID
+     * @return department ID set
      */
     private Set<Long> getDeptCondition(Long deptId) {
         if (deptId == null) {
             return Collections.emptySet();
         }
         Set<Long> deptIds = convertSet(deptService.getChildDeptList(deptId), DepartmentEntity::getId);
-        deptIds.add(deptId); // 包括自身
+        deptIds.add(deptId); // include the department itself
         return deptIds;
     }
 
     private UserEntity validateUserForCreateOrUpdate(Long id, String username, String mobile, String email,
                                                Long deptId, Set<Long> postIds) {
-        // 关闭数据权限，避免因为没有数据权限，查询不到数据，进而导致唯一校验不正确
+        // Disable data permission, otherwise data may not be found and uniqueness validation could be wrong
         return DataPermissionUtils.executeIgnore(() -> {
-            // 校验用户存在
+            // Validate that the user exists
             UserEntity user = validateUserExists(id);
-            // 校验用户名唯一
+            // Validate uniqueness of username
             validateUsernameUnique(id, username);
-            // 校验手机号唯一
+            // Validate uniqueness of mobile
             validateMobileUnique(id, mobile);
-            // 校验邮箱唯一
+            // Validate uniqueness of email
             validateEmailUnique(id, email);
-            // 校验部门处于开启状态
+            // Validate that the department is enabled
             deptService.validateDeptList(CollectionUtils.singleton(deptId));
-            // 校验岗位处于开启状态
+            // Validate that the posts are enabled
             postService.validatePostList(postIds);
             return user;
         });
@@ -409,7 +409,7 @@ public class DefaultUserService implements UserService {
         if (user == null) {
             return;
         }
-        // 如果 id 为空，说明不用比较是否为相同 id 的用户
+        // If id is null, no need to compare whether it is the same user id
         if (id == null) {
             throw exception(USER_USERNAME_EXISTS);
         }
@@ -427,7 +427,7 @@ public class DefaultUserService implements UserService {
         if (user == null) {
             return;
         }
-        // 如果 id 为空，说明不用比较是否为相同 id 的用户
+        // If id is null, no need to compare whether it is the same user id
         if (id == null) {
             throw exception(USER_EMAIL_EXISTS);
         }
@@ -445,7 +445,7 @@ public class DefaultUserService implements UserService {
         if (user == null) {
             return;
         }
-        // 如果 id 为空，说明不用比较是否为相同 id 的用户
+        // If id is null, no need to compare whether it is the same user id
         if (id == null) {
             throw exception(USER_MOBILE_EXISTS);
         }
@@ -455,9 +455,9 @@ public class DefaultUserService implements UserService {
     }
 
     /**
-     * 校验旧密码
-     * @param id          用户 id
-     * @param oldPassword 旧密码
+     * Validate the old password
+     * @param id          user id
+     * @param oldPassword old password
      */
     @VisibleForTesting
     void validateOldPassword(Long id, String oldPassword) {
@@ -471,33 +471,33 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class) // 添加事务，异常则回滚所有导入
+    @Transactional(rollbackFor = Exception.class) // wrap in a transaction so any exception rolls back the entire import
     public UserImportResponse importUserList(List<UserImportExcelDto> importUsers, boolean isUpdateSupport) {
-        // 1.1 参数校验
+        // 1.1 Validate parameters
         if (CollUtil.isEmpty(importUsers)) {
             throw exception(USER_IMPORT_LIST_IS_EMPTY);
         }
-        // 1.2 初始化密码不能为空
+        // 1.2 Initial password must not be blank
         String initPassword = configApi.getConfigValueByKey(USER_INIT_PASSWORD_KEY);
         if (StrUtil.isEmpty(initPassword)) {
             throw exception(USER_IMPORT_INIT_PASSWORD);
         }
 
-        // 2. 遍历，逐个创建 or 更新
+        // 2. Iterate and create or update one by one
         UserImportResponse response = UserImportResponse.builder().createUsernames(new ArrayList<>())
                 .updateUsernames(new ArrayList<>()).failureUsernames(new LinkedHashMap<>()).build();
         AtomicInteger index = new AtomicInteger(1);
         importUsers.forEach(importUser -> {
             int currentIndex = index.getAndIncrement();
-            // 2.1.1 校验字段是否符合要求
+            // 2.1.1 Validate fields
             try {
                 ValidationUtils.validate(BeanUtils.toBean(importUser, UserSaveRequest.class).setPassword(initPassword));
             } catch (ConstraintViolationException ex) {
-                String key = StrUtil.blankToDefault(importUser.getUsername(), "第 " + currentIndex + " 行");
+                String key = StrUtil.blankToDefault(importUser.getUsername(), "Row " + currentIndex);
                 response.getFailureUsernames().put(key, ex.getMessage());
                 return;
             }
-            // 2.1.2 校验，判断是否有不符合的原因
+            // 2.1.2 Validate, check whether there is a non-conformance reason
             try {
                 validateUserForCreateOrUpdate(null, null, importUser.getMobile(), importUser.getEmail(),
                         importUser.getDeptId(), null);
@@ -506,15 +506,15 @@ public class DefaultUserService implements UserService {
                 return;
             }
 
-            // 2.2.1 判断如果不存在，在进行插入
+            // 2.2.1 If the user does not exist, insert
             UserEntity existUser = userMapper.selectByUsername(importUser.getUsername());
             if (existUser == null) {
                 userMapper.insert(BeanUtils.toBean(importUser, UserEntity.class)
-                        .setPassword(encodePassword(initPassword)).setPostIds(new HashSet<>())); // 设置默认密码及空岗位编号数组
+                        .setPassword(encodePassword(initPassword)).setPostIds(new HashSet<>())); // set default password and empty post ID array
                 response.getCreateUsernames().add(importUser.getUsername());
                 return;
             }
-            // 2.2.2 如果存在，判断是否允许更新
+            // 2.2.2 If the user exists, check whether updates are allowed
             if (!isUpdateSupport) {
                 response.getFailureUsernames().put(importUser.getUsername(), USER_USERNAME_EXISTS.getMsg());
                 return;
@@ -538,10 +538,10 @@ public class DefaultUserService implements UserService {
     }
 
     /**
-     * 对密码进行加密
+     * Encode the password
      *
-     * @param password 密码
-     * @return 加密后的密码
+     * @param password password
+     * @return encoded password
      */
     private String encodePassword(String password) {
         return passwordEncoder.encode(password);

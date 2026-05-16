@@ -10,77 +10,77 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 /**
- * 短信渠道 Service 接口
+ * SMS channel Service interface
  *
  * @since 2021/1/25 9:24
  */
 public interface SmsChannelService {
 
     /**
-     * 创建短信渠道
+     * Create SMS channel
      *
-     * @param createRequest 创建信息
-     * @return 编号
+     * @param createRequest create info
+     * @return ID
      */
     Long createSmsChannel(@Valid SmsChannelSaveRequest createRequest);
 
     /**
-     * 更新短信渠道
+     * Update SMS channel
      *
-     * @param updateRequest 更新信息
+     * @param updateRequest update info
      */
     void updateSmsChannel(@Valid SmsChannelSaveRequest updateRequest);
 
     /**
-     * 删除短信渠道
+     * Delete SMS channel
      *
-     * @param id 编号
+     * @param id ID
      */
     void deleteSmsChannel(Long id);
 
     /**
-     * 批量删除短信渠道
+     * Batch delete SMS channels
      *
-     * @param ids 编号数组
+     * @param ids ID array
      */
     void deleteSmsChannelList(List<Long> ids);
 
     /**
-     * 获得短信渠道
+     * Get SMS channel
      *
-     * @param id 编号
-     * @return 短信渠道
+     * @param id ID
+     * @return SMS channel
      */
     SmsChannelEntity getSmsChannel(Long id);
 
     /**
-     * 获得所有短信渠道列表
+     * Get the list of all SMS channels
      *
-     * @return 短信渠道列表
+     * @return SMS channel list
      */
     List<SmsChannelEntity> getSmsChannelList();
 
     /**
-     * 获得短信渠道分页
+     * Get SMS channel page
      *
-     * @param pageRequest 分页查询
-     * @return 短信渠道分页
+     * @param pageRequest page query
+     * @return SMS channel page
      */
     PageResult<SmsChannelEntity> getSmsChannelPage(SmsChannelPageRequest pageRequest);
 
     /**
-     * 获得短信客户端
+     * Get SMS client
      *
-     * @param id 编号
-     * @return 短信客户端
+     * @param id ID
+     * @return SMS client
      */
     SmsClient getSmsClient(Long id);
 
     /**
-     * 获得短信客户端
+     * Get SMS client
      *
-     * @param code 编码
-     * @return 短信客户端
+     * @param code code
+     * @return SMS client
      */
     SmsClient getSmsClient(String code);
 

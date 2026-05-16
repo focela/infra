@@ -16,6 +16,6 @@ public class PermissionAssignUserRoleRequest {
     private Long userId;
 
     @Schema(description = "role ID list", example = "1,3,5")
-    private Set<Long> roleIds = Collections.emptySet(); // 兜底
+    private Set<Long> roleIds = Collections.emptySet(); // fallback
 
 }

@@ -7,43 +7,44 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * OAuth2 批准 Service 接口
+ * OAuth2 Approve Service interface
  *
- * 从功能上，和 Spring Security OAuth 的 ApprovalStoreUserApprovalHandler 的功能，记录用户针对指定客户端的授权，减少手动确定。
+ * Functionally similar to Spring Security OAuth's ApprovalStoreUserApprovalHandler,
+ * records user approvals for specific clients to reduce manual confirmation.
  */
 public interface OAuth2ApproveService {
 
     /**
-     * 获得指定用户，针对指定客户端的指定授权，是否通过
+     * Check whether the specified user's approval for the specified client and scopes has been granted
      *
-     * 参考 ApprovalStoreUserApprovalHandler 的 checkForPreApproval 方法
+     * Refer to the checkForPreApproval method in ApprovalStoreUserApprovalHandler
      *
-     * @param userId 用户编号
-     * @param userType 用户类型
-     * @param clientId 客户端编号
-     * @param requestedScopes 授权范围
-     * @return 是否授权通过
+     * @param userId user ID
+     * @param userType user type
+     * @param clientId client ID
+     * @param requestedScopes authorization scope
+     * @return whether authorization is granted
      */
     boolean checkForPreApproval(Long userId, Integer userType, String clientId, Collection<String> requestedScopes);
 
     /**
-     * 在用户发起批准时，基于 scopes 的选项，计算最终是否通过
+     * When a user initiates approval, compute the final result based on the scopes options
      *
-     * @param userId 用户编号
-     * @param userType 用户类型
-     * @param clientId 客户端编号
-     * @param requestedScopes 授权范围
-     * @return 是否授权通过
+     * @param userId user ID
+     * @param userType user type
+     * @param clientId client ID
+     * @param requestedScopes authorization scope
+     * @return whether authorization is granted
      */
     boolean updateAfterApproval(Long userId, Integer userType, String clientId, Map<String, Boolean> requestedScopes);
 
     /**
-     * 获得用户的批准列表，排除已过期的
+     * Get the user's approval list, excluding expired ones
      *
-     * @param userId 用户编号
-     * @param userType 用户类型
-     * @param clientId 客户端编号
-     * @return 是否授权通过
+     * @param userId user ID
+     * @param userType user type
+     * @param clientId client ID
+     * @return whether authorization is granted
      */
     List<OAuth2ApproveEntity> getApproveList(Long userId, Integer userType, String clientId);
 

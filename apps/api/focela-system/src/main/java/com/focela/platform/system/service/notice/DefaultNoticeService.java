@@ -16,7 +16,7 @@ import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.e
 import static com.focela.platform.system.constants.ErrorCodeConstants.NOTICE_NOT_FOUND;
 
 /**
- * 通知公告 Service 实现类
+ * Notice Service implementation class
  */
 @Service
 public class DefaultNoticeService implements NoticeService {
@@ -33,18 +33,18 @@ public class DefaultNoticeService implements NoticeService {
 
     @Override
     public void updateNotice(NoticeSaveRequest updateRequest) {
-        // 校验是否存在
+        // Validate existence
         validateNoticeExists(updateRequest.getId());
-        // 更新通知公告
+        // Update notice
         NoticeEntity updateObj = BeanUtils.toBean(updateRequest, NoticeEntity.class);
         noticeMapper.updateById(updateObj);
     }
 
     @Override
     public void deleteNotice(Long id) {
-        // 校验是否存在
+        // Validate existence
         validateNoticeExists(id);
-        // 删除通知公告
+        // Delete notice
         noticeMapper.deleteById(id);
     }
 

@@ -41,14 +41,14 @@ public interface OAuth2OpenConverter {
     }
 
     default OAuth2OpenAuthorizeInfoResponse convert(OAuth2ClientEntity client, List<OAuth2ApproveEntity> approves) {
-        // 构建 scopes
+        // build scopes
         List<KeyValue<String, Boolean>> scopes = new ArrayList<>(client.getScopes().size());
         Map<String, OAuth2ApproveEntity> approveMap = CollectionUtils.convertMap(approves, OAuth2ApproveEntity::getScope);
         client.getScopes().forEach(scope -> {
             OAuth2ApproveEntity approve = approveMap.get(scope);
             scopes.add(new KeyValue<>(scope, approve != null ? approve.getApproved() : false));
         });
-        // 拼接返回
+        // assemble and return
         return new OAuth2OpenAuthorizeInfoResponse(
                 new OAuth2OpenAuthorizeInfoResponse.Client(client.getName(), client.getLogo()), scopes);
     }

@@ -19,7 +19,7 @@ import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.e
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 
 /**
- * 字典类型 Service 实现类
+ * Dictionary type Service implementation class
  */
 @Service
 public class DefaultDictionaryTypeService implements DictionaryTypeService {
@@ -47,47 +47,47 @@ public class DefaultDictionaryTypeService implements DictionaryTypeService {
 
     @Override
     public Long createDictType(DictionaryTypeSaveRequest createRequest) {
-        // 校验字典类型的名字的唯一性
+        // Validate uniqueness of the dictionary type name
         validateDictTypeNameUnique(null, createRequest.getName());
-        // 校验字典类型的类型的唯一性
+        // Validate uniqueness of the dictionary type code
         validateDictTypeUnique(null, createRequest.getType());
 
-        // 插入字典类型
+        // Insert dictionary type
         DictionaryTypeEntity dictType = BeanUtils.toBean(createRequest, DictionaryTypeEntity.class);
-        dictType.setDeletedTime(LocalDateTimeUtils.EMPTY); // 唯一索引，避免 null 值
+        dictType.setDeletedTime(LocalDateTimeUtils.EMPTY); // unique index, avoid null value
         dictTypeMapper.insert(dictType);
         return dictType.getId();
     }
 
     @Override
     public void updateDictType(DictionaryTypeSaveRequest updateRequest) {
-        // 校验自己存在
+        // Validate that the dictionary type exists
         validateDictTypeExists(updateRequest.getId());
-        // 校验字典类型的名字的唯一性
+        // Validate uniqueness of the dictionary type name
         validateDictTypeNameUnique(updateRequest.getId(), updateRequest.getName());
-        // 校验字典类型的类型的唯一性
+        // Validate uniqueness of the dictionary type code
         validateDictTypeUnique(updateRequest.getId(), updateRequest.getType());
 
-        // 更新字典类型
+        // Update dictionary type
         DictionaryTypeEntity updateObj = BeanUtils.toBean(updateRequest, DictionaryTypeEntity.class);
         dictTypeMapper.updateById(updateObj);
     }
 
     @Override
     public void deleteDictType(Long id) {
-        // 校验是否存在
+        // Validate existence
         DictionaryTypeEntity dictType = validateDictTypeExists(id);
-        // 校验是否有字典数据
+        // Validate whether dictionary data exists
         if (dictDataService.getDictDataCountByDictType(dictType.getType()) > 0) {
             throw exception(DICT_TYPE_HAS_CHILDREN);
         }
-        // 删除字典类型
+        // Delete dictionary type
         dictTypeMapper.updateToDelete(id, LocalDateTime.now());
     }
 
     @Override
     public void deleteDictTypeList(List<Long> ids) {
-        // 1. 校验是否有字典数据
+        // 1. Validate whether dictionary data exists
         List<DictionaryTypeEntity> dictTypes = dictTypeMapper.selectByIds(ids);
         dictTypes.forEach(dictType -> {
             if (dictDataService.getDictDataCountByDictType(dictType.getType()) > 0) {
@@ -95,7 +95,7 @@ public class DefaultDictionaryTypeService implements DictionaryTypeService {
             }
         });
 
-        // 2. 批量删除字典类型
+        // 2. Batch delete dictionary types
         LocalDateTime now = LocalDateTime.now();
         ids.forEach(id -> dictTypeMapper.updateToDelete(id, now));
     }
@@ -111,7 +111,7 @@ public class DefaultDictionaryTypeService implements DictionaryTypeService {
         if (dictType == null) {
             return;
         }
-        // 如果 id 为空，说明不用比较是否为相同 id 的字典类型
+        // If id is null, no need to compare whether it is the same dictionary type id
         if (id == null) {
             throw exception(DICT_TYPE_NAME_DUPLICATE);
         }
@@ -129,7 +129,7 @@ public class DefaultDictionaryTypeService implements DictionaryTypeService {
         if (dictType == null) {
             return;
         }
-        // 如果 id 为空，说明不用比较是否为相同 id 的字典类型
+        // If id is null, no need to compare whether it is the same dictionary type id
         if (id == null) {
             throw exception(DICT_TYPE_TYPE_DUPLICATE);
         }

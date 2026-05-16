@@ -3,105 +3,105 @@ package com.focela.platform.system.repository.redis;
 import com.focela.platform.system.entity.oauth2.OAuth2AccessTokenEntity;
 
 /**
- * System Redis Key 枚举类
+ * System Redis Key enum
  */
 public interface RedisKeyConstants {
 
     /**
-     * 指定部门的所有子部门编号数组的缓存
+     * Cache of child department ID array for a given department
      * <p>
-     * KEY 格式：dept_children_ids:{id}
-     * VALUE 数据类型：String 子部门编号集合
+     * KEY format: dept_children_ids:{id}
+     * VALUE type: String collection of child department IDs
      */
     String DEPT_CHILDREN_ID_LIST = "dept_children_ids";
 
     /**
-     * 角色的缓存
+     * Cache of role
      * <p>
-     * KEY 格式：role:{id}
-     * VALUE 数据类型：String 角色信息
+     * KEY format: role:{id}
+     * VALUE type: String role information
      */
     String ROLE = "role";
 
     /**
-     * 用户拥有的角色编号的缓存
+     * Cache of role IDs owned by a user
      * <p>
-     * KEY 格式：user_role_ids:{userId}
-     * VALUE 数据类型：String 角色编号集合
+     * KEY format: user_role_ids:{userId}
+     * VALUE type: String collection of role IDs
      */
     String USER_ROLE_ID_LIST = "user_role_ids";
 
     /**
-     * 拥有指定菜单的角色编号的缓存
+     * Cache of role IDs owning a given menu
      * <p>
-     * KEY 格式：user_role_ids:{menuId}
-     * VALUE 数据类型：String 角色编号集合
+     * KEY format: user_role_ids:{menuId}
+     * VALUE type: String collection of role IDs
      */
     String MENU_ROLE_ID_LIST = "menu_role_ids";
 
     /**
-     * 拥有权限对应的菜单编号数组的缓存
+     * Cache of menu ID array for a given permission
      * <p>
-     * KEY 格式：permission_menu_ids:{permission}
-     * VALUE 数据类型：String 菜单编号数组
+     * KEY format: permission_menu_ids:{permission}
+     * VALUE type: String menu ID array
      */
     String PERMISSION_MENU_ID_LIST = "permission_menu_ids";
 
     /**
-     * OAuth2 客户端的缓存
+     * Cache of OAuth2 client
      * <p>
-     * KEY 格式：oauth_client:{id}
-     * VALUE 数据类型：String 客户端信息
+     * KEY format: oauth_client:{id}
+     * VALUE type: String client information
      */
     String OAUTH_CLIENT = "oauth_client";
 
     /**
-     * 访问令牌的缓存
+     * Cache of access token
      * <p>
-     * KEY 格式：oauth2_access_token:{token}
-     * VALUE 数据类型：String 访问令牌信息 {@link OAuth2AccessTokenEntity}
+     * KEY format: oauth2_access_token:{token}
+     * VALUE type: String access token information {@link OAuth2AccessTokenEntity}
      * <p>
-     * 由于动态过期时间，使用 RedisTemplate 操作
+     * Because the expiration time is dynamic, use RedisTemplate to operate
      */
     String OAUTH2_ACCESS_TOKEN = "oauth2_access_token:%s";
 
     /**
-     * 站内信模版的缓存
+     * Cache of notification template
      * <p>
-     * KEY 格式：notify_template:{code}
-     * VALUE 数据格式：String 模版信息
+     * KEY format: notify_template:{code}
+     * VALUE format: String template information
      */
     String NOTIFY_TEMPLATE = "notify_template";
 
     /**
-     * 邮件账号的缓存
+     * Cache of email account
      * <p>
-     * KEY 格式：mail_account:{id}
-     * VALUE 数据格式：String 账号信息
+     * KEY format: mail_account:{id}
+     * VALUE format: String account information
      */
     String MAIL_ACCOUNT = "mail_account";
 
     /**
-     * 邮件模版的缓存
+     * Cache of email template
      * <p>
-     * KEY 格式：mail_template:{code}
-     * VALUE 数据格式：String 模版信息
+     * KEY format: mail_template:{code}
+     * VALUE format: String template information
      */
     String MAIL_TEMPLATE = "mail_template";
 
     /**
-     * 短信模版的缓存
+     * Cache of SMS template
      * <p>
-     * KEY 格式：sms_template:{id}
-     * VALUE 数据格式：String 模版信息
+     * KEY format: sms_template:{id}
+     * VALUE format: String template information
      */
     String SMS_TEMPLATE = "sms_template";
 
     /**
-     * 小程序订阅模版的缓存
+     * Cache of mini-program subscribe template
      *
-     * KEY 格式：wxa_subscribe_template:{userType}
-     * VALUE 数据格式 String, 模版信息
+     * KEY format: wxa_subscribe_template:{userType}
+     * VALUE format: String template information
      */
     String WXA_SUBSCRIBE_TEMPLATE = "wxa_subscribe_template";
 

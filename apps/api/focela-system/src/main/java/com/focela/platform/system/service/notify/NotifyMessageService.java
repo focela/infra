@@ -11,84 +11,84 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 站内信 Service 接口
+ * In-site notification Service interface
  */
 public interface NotifyMessageService {
 
     /**
-     * 创建站内信
+     * Create an in-site notification
      *
-     * @param userId 用户编号
-     * @param userType 用户类型
-     * @param template 模版信息
-     * @param templateContent 模版内容
-     * @param templateParams 模版参数
-     * @return 站内信编号
+     * @param userId user ID
+     * @param userType user type
+     * @param template template info
+     * @param templateContent template content
+     * @param templateParams template parameters
+     * @return notification ID
      */
     Long createNotifyMessage(Long userId, Integer userType,
                              NotifyTemplateEntity template, String templateContent, Map<String, Object> templateParams);
 
     /**
-     * 获得站内信分页
+     * Get in-site notification page
      *
-     * @param pageRequest 分页查询
-     * @return 站内信分页
+     * @param pageRequest page query
+     * @return notification page
      */
     PageResult<NotifyMessageEntity> getNotifyMessagePage(NotifyMessagePageRequest pageRequest);
 
     /**
-     * 获得【我的】站内信分页
+     * Get [My] in-site notification page
      *
-     * @param pageRequest 分页查询
-     * @param userId 用户编号
-     * @param userType 用户类型
-     * @return 站内信分页
+     * @param pageRequest page query
+     * @param userId user ID
+     * @param userType user type
+     * @return notification page
      */
     PageResult<NotifyMessageEntity> getMyMyNotifyMessagePage(NotifyMessageMyPageRequest pageRequest, Long userId, Integer userType);
 
     /**
-     * 获得站内信
+     * Get in-site notification
      *
-     * @param id 编号
-     * @return 站内信
+     * @param id ID
+     * @return notification
      */
     NotifyMessageEntity getNotifyMessage(Long id);
 
     /**
-     * 获得【我的】未读站内信列表
+     * Get [My] unread in-site notification list
      *
-     * @param userId   用户编号
-     * @param userType 用户类型
-     * @param size     数量
-     * @return 站内信列表
+     * @param userId   user ID
+     * @param userType user type
+     * @param size     count
+     * @return notification list
      */
     List<NotifyMessageEntity> getUnreadNotifyMessageList(Long userId, Integer userType, Integer size);
 
     /**
-     * 统计用户未读站内信条数
+     * Count user's unread in-site notifications
      *
-     * @param userId   用户编号
-     * @param userType 用户类型
-     * @return 返回未读站内信条数
+     * @param userId   user ID
+     * @param userType user type
+     * @return unread notification count
      */
     Long getUnreadNotifyMessageCount(Long userId, Integer userType);
 
     /**
-     * 标记站内信为已读
+     * Mark in-site notifications as read
      *
-     * @param ids    站内信编号集合
-     * @param userId 用户编号
-     * @param userType 用户类型
-     * @return 更新到的条数
+     * @param ids    notification ID collection
+     * @param userId user ID
+     * @param userType user type
+     * @return number of rows updated
      */
     int updateNotifyMessageRead(Collection<Long> ids, Long userId, Integer userType);
 
     /**
-     * 标记所有站内信为已读
+     * Mark all in-site notifications as read
      *
-     * @param userId   用户编号
-     * @param userType 用户类型
-     * @return 更新到的条数
+     * @param userId   user ID
+     * @param userType user type
+     * @return number of rows updated
      */
     int updateAllNotifyMessageRead(Long userId, Integer userType);
 

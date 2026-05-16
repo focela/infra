@@ -18,7 +18,7 @@ import java.util.*;
 import static cn.hutool.core.exceptions.ExceptionUtil.getRootCauseMessage;
 
 /**
- * 邮件日志 Service 实现类
+ * Mail Log Service implementation class
  *
  * @since 2022-03-21
  */
@@ -45,18 +45,18 @@ public class DefaultMailLogService implements MailLogService {
                               MailAccountEntity account, MailTemplateEntity template,
                               String templateContent, Map<String, Object> templateParams, Boolean isSend) {
         MailLogEntity.MailLogEntityBuilder logEntityBuilder = MailLogEntity.builder();
-        // 根据是否要发送，设置状态
+        // Set status based on whether to send
         logEntityBuilder.sendStatus(Objects.equals(isSend, true) ? MailSendStatusEnum.INIT.getStatus()
                 : MailSendStatusEnum.IGNORE.getStatus())
-                // 用户信息
+                // User information
                 .userId(userId).userType(userType)
                 .toMails(ListUtil.toList(toMails)).ccMails(ListUtil.toList(ccMails)).bccMails(ListUtil.toList(bccMails))
                 .accountId(account.getId()).fromMail(account.getMail())
-                // 模板相关字段
+                // Template-related fields
                 .templateId(template.getId()).templateCode(template.getCode()).templateNickname(template.getNickname())
                 .templateTitle(template.getTitle()).templateContent(templateContent).templateParams(templateParams);
 
-        // 插入数据库
+        // Insert into database
         MailLogEntity logEntity = logEntityBuilder.build();
         mailLogMapper.insert(logEntity);
         return logEntity.getId();
@@ -64,13 +64,13 @@ public class DefaultMailLogService implements MailLogService {
 
     @Override
     public void updateMailSendResult(Long logId, String messageId, Exception exception) {
-        // 1. 成功
+        // 1. Success
         if (exception == null) {
             mailLogMapper.updateById(new MailLogEntity().setId(logId).setSendTime(LocalDateTime.now())
                     .setSendStatus(MailSendStatusEnum.SUCCESS.getStatus()).setSendMessageId(messageId));
             return;
         }
-        // 2. 失败
+        // 2. Failure
         mailLogMapper.updateById(new MailLogEntity().setId(logId).setSendTime(LocalDateTime.now())
                 .setSendStatus(MailSendStatusEnum.FAILURE.getStatus()).setSendException(getRootCauseMessage(exception)));
 

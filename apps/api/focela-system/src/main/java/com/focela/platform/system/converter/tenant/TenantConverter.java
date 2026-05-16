@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 /**
- * 租户 Convert
+ * Tenant Convert
  */
 @Mapper
 public interface TenantConverter {

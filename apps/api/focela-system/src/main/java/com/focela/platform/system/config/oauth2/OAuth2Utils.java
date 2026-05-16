@@ -11,19 +11,19 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 /**
- * OAuth2 相关的工具类
+ * OAuth2 related utility class
  */
 public class OAuth2Utils {
 
     /**
-     * 构建授权码模式下，重定向的 URI
+     * Build the redirect URI for the authorization code grant
      *
-     * copy from Spring Security OAuth2 的 AuthorizationEndpoint 类的 getSuccessfulRedirect 方法
+     * Copied from the getSuccessfulRedirect method of Spring Security OAuth2's AuthorizationEndpoint class
      *
-     * @param redirectUri 重定向 URI
-     * @param authorizationCode 授权码
-     * @param state 状态
-     * @return 授权码模式下的重定向 URI
+     * @param redirectUri       redirect URI
+     * @param authorizationCode authorization code
+     * @param state             state
+     * @return redirect URI for the authorization code grant
      */
     public static String buildAuthorizationCodeRedirectUri(String redirectUri, String authorizationCode, String state) {
         Map<String, String> query = new LinkedHashMap<>();
@@ -35,17 +35,17 @@ public class OAuth2Utils {
     }
 
     /**
-     * 构建简化模式下，重定向的 URI
+     * Build the redirect URI for the implicit grant
      *
-     * copy from Spring Security OAuth2 的 AuthorizationEndpoint 类的 appendAccessToken 方法
+     * Copied from the appendAccessToken method of Spring Security OAuth2's AuthorizationEndpoint class
      *
-     * @param redirectUri 重定向 URI
-     * @param accessToken 访问令牌
-     * @param state 状态
-     * @param expireTime 过期时间
-     * @param scopes 授权范围
-     * @param additionalInformation 附加信息
-     * @return 简化授权模式下的重定向 URI
+     * @param redirectUri           redirect URI
+     * @param accessToken           access token
+     * @param state                 state
+     * @param expireTime            expiration time
+     * @param scopes                authorization scopes
+     * @param additionalInformation additional information
+     * @return redirect URI for the implicit grant
      */
     public static String buildImplicitRedirectUri(String redirectUri, String accessToken, String state, LocalDateTime expireTime,
                                                   Collection<String> scopes, Map<String, Object> additionalInformation) {

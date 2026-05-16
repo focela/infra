@@ -18,24 +18,24 @@ import java.util.Set;
 public class RoleResponse {
 
     @Schema(description = "Role ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @ExcelProperty("角色序号")
+    @ExcelProperty("Role ID")
     private Long id;
 
     @Schema(description = "Role name", requiredMode = Schema.RequiredMode.REQUIRED, example = "admin")
-    @ExcelProperty("角色名称")
+    @ExcelProperty("Role name")
     private String name;
 
     @Schema(description = "Role code", requiredMode = Schema.RequiredMode.REQUIRED, example = "admin")
     @NotBlank(message = "role code must not be blank")
-    @ExcelProperty("角色标志")
+    @ExcelProperty("Role code")
     private String code;
 
     @Schema(description = "Display order", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-    @ExcelProperty("角色排序")
+    @ExcelProperty("Role sort")
     private Integer sort;
 
     @Schema(description = "Status, see CommonStatusEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @ExcelProperty(value = "角色状态", converter = DictionaryConverter.class)
+    @ExcelProperty(value = "Role status", converter = DictionaryConverter.class)
     @DictionaryFormat(DictionaryTypeConstants.COMMON_STATUS)
     private Integer status;
 
@@ -46,7 +46,7 @@ public class RoleResponse {
     private String remark;
 
     @Schema(description = "Data scope, see DataScopeEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @ExcelProperty(value = "数据范围", converter = DictionaryConverter.class)
+    @ExcelProperty(value = "Data scope", converter = DictionaryConverter.class)
     @DictionaryFormat(DictionaryTypeConstants.DATA_SCOPE)
     private Integer dataScope;
 

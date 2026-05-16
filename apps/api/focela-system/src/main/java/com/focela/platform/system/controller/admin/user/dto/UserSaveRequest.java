@@ -21,7 +21,7 @@ public class UserSaveRequest {
     @Schema(description = "User ID", example = "1024")
     private Long id;
 
-    @Schema(description = "Username", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
+    @Schema(description = "Username", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela")
     @NotBlank(message = "user account must not be blank")
     @Pattern(regexp = "^[a-zA-Z0-9]{4,30}$", message = "user account consists of digit, letter consists of")
     @Size(min = 4, max = 30, message = "user account length must be 4-30 characters")
@@ -64,7 +64,7 @@ public class UserSaveRequest {
     @DiffLogField(name = "Avatar")
     private String avatar;
 
-    // ========== 仅【创建】时，需要传递的字段 ==========
+    // ========== Fields required only on [create] ==========
 
     @Schema(description = "Password", requiredMode = Schema.RequiredMode.REQUIRED, example = "123456")
     @Length(min = 4, max = 16, message = "password length must be 4-16 characters")
@@ -73,8 +73,8 @@ public class UserSaveRequest {
     @AssertTrue(message = "password must not be blank")
     @JsonIgnore
     public boolean isPasswordValid() {
-        return id != null // 修改时，不需要传递
-                || (ObjectUtil.isAllNotEmpty(password)); // 新增时，必须都传递 password
+        return id != null // not required on update
+                || (ObjectUtil.isAllNotEmpty(password)); // on create, password must be provided
     }
 
 }

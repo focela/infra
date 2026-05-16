@@ -122,7 +122,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
 
         // 调用，并断言
         assertServiceException(() -> oauth2TokenService.refreshAccessToken(refreshToken, clientId),
-                new ErrorCode(400, "刷新令牌的客户端编号不正确"));
+                new ErrorCode(400, "Refresh token client ID is incorrect"));
     }
 
     @Test
@@ -141,7 +141,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
 
         // 调用，并断言
         assertServiceException(() -> oauth2TokenService.refreshAccessToken(refreshToken, clientId),
-                new ErrorCode(401, "刷新令牌已过期"));
+                new ErrorCode(401, "Refresh token has expired"));
         assertEquals(0, oauth2AccessTokenMapper.selectCount());
     }
 
@@ -213,7 +213,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
     public void testCheckAccessToken_null() {
         // 调研，并断言
         assertServiceException(() -> oauth2TokenService.checkAccessToken(randomString()),
-                new ErrorCode(401, "访问令牌不存在"));
+                new ErrorCode(401, "Access token does not exist"));
     }
 
     @Test
@@ -227,7 +227,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
 
         // 调研，并断言
         assertServiceException(() -> oauth2TokenService.checkAccessToken(accessToken),
-                new ErrorCode(401, "访问令牌已过期"));
+                new ErrorCode(401, "Access token has expired"));
     }
 
     @Test

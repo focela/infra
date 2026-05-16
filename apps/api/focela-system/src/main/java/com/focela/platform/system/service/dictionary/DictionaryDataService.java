@@ -10,105 +10,105 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 字典数据 Service 接口
+ * Dictionary data Service interface
  */
 public interface DictionaryDataService {
 
     /**
-     * 创建字典数据
+     * Create dictionary data
      *
-     * @param createRequest 字典数据信息
-     * @return 字典数据编号
+     * @param createRequest dictionary data info
+     * @return dictionary data ID
      */
     Long createDictData(DictionaryDataSaveRequest createRequest);
 
     /**
-     * 更新字典数据
+     * Update dictionary data
      *
-     * @param updateRequest 字典数据信息
+     * @param updateRequest dictionary data info
      */
     void updateDictData(DictionaryDataSaveRequest updateRequest);
 
     /**
-     * 删除字典数据
+     * Delete dictionary data
      *
-     * @param id 字典数据编号
+     * @param id dictionary data ID
      */
     void deleteDictData(Long id);
 
     /**
-     * 批量删除字典数据
+     * Batch delete dictionary data
      *
-     * @param ids 字典数据编号列表
+     * @param ids dictionary data ID list
      */
     void deleteDictDataList(List<Long> ids);
 
     /**
-     * 获得字典数据列表
+     * Get the dictionary data list
      *
-     * @param status   状态
-     * @param dictType 字典类型
-     * @return 字典数据全列表
+     * @param status   status
+     * @param dictType dictionary type
+     * @return full dictionary data list
      */
     List<DictionaryDataEntity> getDictDataList(@Nullable Integer status, @Nullable String dictType);
 
     /**
-     * 获得字典数据分页列表
+     * Get paginated dictionary data list
      *
-     * @param pageRequest 分页请求
-     * @return 字典数据分页列表
+     * @param pageRequest pagination request
+     * @return paginated dictionary data list
      */
     PageResult<DictionaryDataEntity> getDictDataPage(DictionaryDataPageRequest pageRequest);
 
     /**
-     * 获得字典数据详情
+     * Get dictionary data details
      *
-     * @param id 字典数据编号
-     * @return 字典数据
+     * @param id dictionary data ID
+     * @return dictionary data
      */
     DictionaryDataEntity getDictData(Long id);
 
     /**
-     * 获得指定字典类型的数据数量
+     * Get the count of data for the specified dictionary type
      *
-     * @param dictType 字典类型
-     * @return 数据数量
+     * @param dictType dictionary type
+     * @return data count
      */
     long getDictDataCountByDictType(String dictType);
 
     /**
-     * 校验字典数据们是否有效。如下情况，视为无效：
-     * 1. 字典数据不存在
-     * 2. 字典数据被禁用
+     * Validate whether the dictionary data entries are valid. The following cases are considered invalid:
+     * 1. The dictionary data does not exist
+     * 2. The dictionary data is disabled
      *
-     * @param dictType 字典类型
-     * @param values   字典数据值的数组
+     * @param dictType dictionary type
+     * @param values   array of dictionary data values
      */
     void validateDictDataList(String dictType, Collection<String> values);
 
     /**
-     * 获得指定的字典数据
+     * Get the specified dictionary data
      *
-     * @param dictType 字典类型
-     * @param value    字典数据值
-     * @return 字典数据
+     * @param dictType dictionary type
+     * @param value    dictionary data value
+     * @return dictionary data
      */
     DictionaryDataEntity getDictData(String dictType, String value);
 
     /**
-     * 解析获得指定的字典数据，从缓存中
+     * Parse and get the specified dictionary data, from cache
      *
-     * @param dictType 字典类型
-     * @param label    字典数据标签
-     * @return 字典数据
+     * @param dictType dictionary type
+     * @param label    dictionary data label
+     * @return dictionary data
      */
     DictionaryDataEntity parseDictData(String dictType, String label);
 
     /**
-     * 获得指定数据类型的字典数据列表
+     * Get the dictionary data list for the specified data type
      *
-     * @param dictType 字典类型
-     * @return 字典数据列表
+     * @param dictType dictionary type
+     * @return dictionary data list
      */
     List<DictionaryDataEntity> getDictDataListByDictType(String dictType);
 

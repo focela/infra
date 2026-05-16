@@ -27,10 +27,10 @@ import static com.focela.platform.common.model.CommonResult.success;
 import static com.focela.platform.security.core.utils.SecurityFrameworkUtils.getLoginUserId;
 
 /**
- * 提供给外部应用调用为主
+ * Mainly intended for external application calls
  *
- * 1. 在 getUserInfo 方法上，添加 @PreAuthorize("@ss.hasScope('user.read')") 注解，声明需要满足 scope = user.read
- * 2. 在 updateUserInfo 方法上，添加 @PreAuthorize("@ss.hasScope('user.write')") 注解，声明需要满足 scope = user.write
+ * 1. On the getUserInfo method, add @PreAuthorize("@ss.hasScope('user.read')") to declare that scope = user.read is required
+ * 2. On the updateUserInfo method, add @PreAuthorize("@ss.hasScope('user.write')") to declare that scope = user.write is required
  */
 @Tag(name = "Admin - OAuth2.0 user")
 @RestController
@@ -50,15 +50,15 @@ public class OAuth2UserController {
     @Operation(summary = "get user basic info")
     @PreAuthorize("@ss.hasScope('user.read')") //
     public CommonResult<OAuth2UserInfoResponse> getUserInfo() {
-        // 获得用户基本信息
+        // Get user basic info
         UserEntity user = userService.getUser(getLoginUserId());
         OAuth2UserInfoResponse resp = BeanUtils.toBean(user, OAuth2UserInfoResponse.class);
-        // 获得部门信息
+        // Get department info
         if (user.getDeptId() != null) {
             DepartmentEntity dept = deptService.getDept(user.getDeptId());
             resp.setDept(BeanUtils.toBean(dept, OAuth2UserInfoResponse.Department.class));
         }
-        // 获得岗位信息
+        // Get post info
         if (CollUtil.isNotEmpty(user.getPostIds())) {
             List<PostEntity> posts = postService.getPostList(user.getPostIds());
             resp.setPosts(BeanUtils.toBean(posts, OAuth2UserInfoResponse.Post.class));
@@ -70,8 +70,8 @@ public class OAuth2UserController {
     @Operation(summary = "update user basic info")
     @PreAuthorize("@ss.hasScope('user.write')")
     public CommonResult<Boolean> updateUserInfo(@Valid @RequestBody OAuth2UserUpdateRequest request) {
-        // 这里将 UserProfileUpdateRequest =》UserProfileUpdateRequest 对象，实现接口的复用。
-        // 主要是，UserService 没有自己的 BO 对象，所以复用只能这么做
+        // Here we convert UserProfileUpdateRequest =>UserProfileUpdateRequest object to reuse the interface.
+        // The reason is that UserService has no BO object of its own, so reuse can only be done this way
         userService.updateUserProfile(getLoginUserId(), BeanUtils.toBean(request, UserProfileUpdateRequest.class));
         return success(true);
     }

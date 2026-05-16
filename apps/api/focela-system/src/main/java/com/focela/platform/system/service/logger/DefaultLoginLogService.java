@@ -12,7 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import jakarta.annotation.Resource;
 
 /**
- * 登录日志 Service 实现
+ * Login log Service implementation
  */
 @Service
 @Validated

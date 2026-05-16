@@ -23,6 +23,6 @@ public class PermissionAssignRoleDataScopeRequest {
     private Integer dataScope;
 
     @Schema(description = "department ID list, only has scope type as DEPT_CUSTOM when, this field is required", example = "1,3,5")
-    private Set<Long> dataScopeDeptIds = Collections.emptySet(); // 兜底
+    private Set<Long> dataScopeDeptIds = Collections.emptySet(); // fallback
 
 }

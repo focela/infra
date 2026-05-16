@@ -63,8 +63,8 @@ public class SmsLogController {
                                   HttpServletResponse response) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
         List<SmsLogEntity> list = smsLogService.getSmsLogPage(exportRequest).getList();
-        // 导出 Excel
-        ExcelUtils.write(response, "短信日志.xls", "数据", SmsLogResponse.class,
+        // Export Excel
+        ExcelUtils.write(response, "SMS log.xls", "Data", SmsLogResponse.class,
                 BeanUtils.toBean(list, SmsLogResponse.class));
     }
 

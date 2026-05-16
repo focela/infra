@@ -10,7 +10,7 @@ import java.io.File;
 import java.util.Collection;
 
 /**
- * Mail 邮件相关消息的 Producer
+ * Producer for Mail-related messages
  *
  * @since 2021/4/19 13:33
  */
@@ -22,17 +22,17 @@ public class MailProducer {
     private ApplicationContext applicationContext;
 
     /**
-     * 发送 {@link MailSendMessage} 消息
+     * Send a {@link MailSendMessage} message
      *
-     * @param sendLogId   发送日志编码
-     * @param toMails     接收邮件地址
-     * @param ccMails     抄送邮件地址
-     * @param bccMails    密送邮件地址
-     * @param accountId   邮件账号编号
-     * @param nickname    邮件发件人
-     * @param title       邮件标题
-     * @param content     邮件内容
-     * @param attachments 附件
+     * @param sendLogId   send log ID
+     * @param toMails     recipient email addresses
+     * @param ccMails     cc email addresses
+     * @param bccMails    bcc email addresses
+     * @param accountId   email account ID
+     * @param nickname    email sender
+     * @param title       email title
+     * @param content     email content
+     * @param attachments attachments
      */
     public void sendMailSendMessage(Long sendLogId,
                                     Collection<String> toMails, Collection<String> ccMails, Collection<String> bccMails,

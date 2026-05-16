@@ -29,7 +29,7 @@ import static com.focela.platform.common.utils.json.JsonUtils.toJsonString;
 import static com.focela.platform.system.constants.ErrorCodeConstants.SOCIAL_USER_NOT_FOUND;
 
 /**
- * 社交用户 Service 实现类
+ * Social user Service implementation class
  */
 @Service
 @Validated
@@ -46,31 +46,31 @@ public class DefaultSocialUserService implements SocialUserService {
 
     @Override
     public List<SocialUserEntity> getSocialUserList(Long userId, Integer userType) {
-        // 获得绑定
+        // Get bindings
         List<SocialUserBindEntity> socialUserBinds = socialUserBindMapper.selectListByUserIdAndUserType(userId, userType);
         if (CollUtil.isEmpty(socialUserBinds)) {
             return Collections.emptyList();
         }
-        // 获得社交用户
+        // Get social users
         return socialUserMapper.selectByIds(convertSet(socialUserBinds, SocialUserBindEntity::getSocialUserId));
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public String bindSocialUser(SocialUserBindRpcRequest reqDTO) {
-        // 获得社交用户
+        // Get the social user
         SocialUserEntity socialUser = authSocialUser(reqDTO.getSocialType(), reqDTO.getUserType(),
                 reqDTO.getCode(), reqDTO.getState());
-        Assert.notNull(socialUser, "社交用户不能为空");
+        Assert.notNull(socialUser, "Social user must not be null");
 
-        // 社交用户可能之前绑定过别的用户，需要进行解绑
+        // The social user may have previously been bound to another user; unbind it
         socialUserBindMapper.deleteByUserTypeAndSocialUserId(reqDTO.getUserType(), socialUser.getId());
 
-        // 用户可能之前已经绑定过该社交类型，需要进行解绑
+        // The user may have already been bound to this social type; unbind it
         socialUserBindMapper.deleteByUserTypeAndUserIdAndSocialType(reqDTO.getUserType(), reqDTO.getUserId(),
                 socialUser.getType());
 
-        // 绑定当前登录的社交用户
+        // Bind the currently logged-in social user
         SocialUserBindEntity socialUserBind = SocialUserBindEntity.builder()
                 .userId(reqDTO.getUserId()).userType(reqDTO.getUserType())
                 .socialUserId(socialUser.getId()).socialType(socialUser.getType()).build();
@@ -80,37 +80,37 @@ public class DefaultSocialUserService implements SocialUserService {
 
     @Override
     public void unbindSocialUser(Long userId, Integer userType, Integer socialType, String openid) {
-        // 获得 openid 对应的 SocialUserEntity 社交用户
+        // Get the SocialUserEntity for the given openid
         SocialUserEntity socialUser = socialUserMapper.selectByTypeAndOpenid(socialType, openid);
         if (socialUser == null) {
             throw exception(SOCIAL_USER_NOT_FOUND);
         }
 
-        // 获得对应的社交绑定关系
+        // Delete the corresponding social binding relationship
         socialUserBindMapper.deleteByUserTypeAndUserIdAndSocialType(userType, userId, socialUser.getType());
     }
 
     @Override
     public SocialUserRpcResponse getSocialUserByUserId(Integer userType, Long userId, Integer socialType) {
-        // 获得绑定用户
+        // Get the bound user
         SocialUserBindEntity socialUserBind = socialUserBindMapper.selectByUserIdAndUserTypeAndSocialType(userId, userType, socialType);
         if (socialUserBind == null) {
             return null;
         }
-        // 获得社交用户
+        // Get the social user
         SocialUserEntity socialUser = socialUserMapper.selectById(socialUserBind.getSocialUserId());
-        Assert.notNull(socialUser, "社交用户不能为空");
+        Assert.notNull(socialUser, "Social user must not be null");
         return new SocialUserRpcResponse(socialUser.getOpenid(), socialUser.getNickname(), socialUser.getAvatar(),
                 socialUserBind.getUserId());
     }
 
     @Override
     public SocialUserRpcResponse getSocialUserByCode(Integer userType, Integer socialType, String code, String state) {
-        // 获得社交用户
+        // Get the social user
         SocialUserEntity socialUser = authSocialUser(socialType, userType, code, state);
-        Assert.notNull(socialUser, "社交用户不能为空");
+        Assert.notNull(socialUser, "Social user must not be null");
 
-        // 获得绑定用户
+        // Get the bound user
         SocialUserBindEntity socialUserBind = socialUserBindMapper.selectByUserTypeAndSocialUserId(userType,
                 socialUser.getId());
         return new SocialUserRpcResponse(socialUser.getOpenid(), socialUser.getNickname(), socialUser.getAvatar(),
@@ -118,46 +118,46 @@ public class DefaultSocialUserService implements SocialUserService {
     }
 
     /**
-     * 授权获得对应的社交用户
-     * 如果授权失败，则会抛出 {@link ServiceException} 异常
+     * Authorize and obtain the corresponding social user.
+     * If authorization fails, a {@link ServiceException} is thrown.
      *
-     * @param socialType 社交平台的类型 {@link SocialTypeEnum}
-     * @param userType 用户类型
-     * @param code     授权码
+     * @param socialType social platform type {@link SocialTypeEnum}
+     * @param userType user type
+     * @param code     authorization code
      * @param state    state
-     * @return 授权用户
+     * @return authorized user
      */
     @NotNull
     public SocialUserEntity authSocialUser(Integer socialType, Integer userType, String code, String state) {
-        // 优先从 DB 中获取，因为 code 有且可以使用一次。
-        // 在社交登录时，当未绑定 User 时，需要绑定登录，此时需要 code 使用两次
+        // Prefer fetching from DB because code is single-use.
+        // During social login, when the user is not yet bound, a binding login is required, in which case code is used twice.
         SocialUserEntity socialUser = socialUserMapper.selectByTypeAndCodeAnState(socialType, code, state);
         if (socialUser != null) {
             return socialUser;
         }
 
-        // 请求获取
+        // Request to fetch
         AuthUser authUser = socialClientService.getAuthUser(socialType, userType, code, state);
-        Assert.notNull(authUser, "三方用户不能为空");
+        Assert.notNull(authUser, "Third-party user must not be null");
 
-        // 保存到 DB 中
+        // Save to DB
         socialUser = socialUserMapper.selectByTypeAndOpenid(socialType, authUser.getUuid());
         if (socialUser == null) {
             socialUser = new SocialUserEntity();
         }
-        socialUser.setType(socialType).setCode(code).setState(state) // 需要保存 code + state 字段，保证后续可查询
+        socialUser.setType(socialType).setCode(code).setState(state) // must save code + state for later querying
                 .setOpenid(authUser.getUuid()).setToken(authUser.getToken().getAccessToken()).setRawTokenInfo((toJsonString(authUser.getToken())))
                 .setNickname(authUser.getNickname()).setAvatar(authUser.getAvatar()).setRawUserInfo(toJsonString(authUser.getRawUserInfo()));
         if (socialUser.getId() == null) {
             socialUserMapper.insert(socialUser);
         } else {
-            socialUser.clean(); // 避免 updateTime 不更新：https://gitee.com/yudaocode/yudao-boot-mini/issues/ID7FUL
+            socialUser.clean(); // avoid updateTime not being refreshed
             socialUserMapper.updateById(socialUser);
         }
         return socialUser;
     }
 
-    // ==================== 社交用户 CRUD ====================
+    // ==================== Social user CRUD ====================
 
     @Override
     public SocialUserEntity getSocialUser(Long id) {

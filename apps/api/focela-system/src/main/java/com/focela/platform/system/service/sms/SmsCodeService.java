@@ -8,30 +8,30 @@ import com.focela.platform.system.api.sms.dto.code.SmsCodeUseRpcRequest;
 import jakarta.validation.Valid;
 
 /**
- * 短信验证码 Service 接口
+ * SMS verification code Service interface
  */
 public interface SmsCodeService {
 
     /**
-     * 创建短信验证码，并进行发送
+     * Create an SMS verification code and send it
      *
-     * @param reqDTO 发送请求
+     * @param reqDTO send request
      */
     void sendSmsCode(@Valid SmsCodeSendRpcRequest reqDTO);
 
     /**
-     * 验证短信验证码，并进行使用
-     * 如果正确，则将验证码标记成已使用
-     * 如果错误，则抛出 {@link ServiceException} 异常
+     * Validate the SMS verification code and consume it.
+     * If correct, mark the code as used.
+     * If incorrect, throw {@link ServiceException}.
      *
-     * @param reqDTO 使用请求
+     * @param reqDTO use request
      */
     void useSmsCode(@Valid SmsCodeUseRpcRequest reqDTO);
 
     /**
-     * 检查验证码是否有效
+     * Check whether the verification code is valid
      *
-     * @param reqDTO 校验请求
+     * @param reqDTO validate request
      */
     void validateSmsCode(@Valid SmsCodeValidateRpcRequest reqDTO);
 

@@ -5,32 +5,32 @@ import com.focela.platform.system.entity.oauth2.OAuth2CodeEntity;
 import java.util.List;
 
 /**
- * OAuth2.0 授权码 Service 接口
+ * OAuth2.0 Authorization Code Service interface
  *
- * 从功能上，和 Spring Security OAuth 的 JdbcAuthorizationCodeServices 的功能，提供授权码的操作
+ * Functionally similar to Spring Security OAuth's JdbcAuthorizationCodeServices, provides authorization code operations
  */
 public interface OAuth2CodeService {
 
     /**
-     * 创建授权码
+     * Create an authorization code
      *
-     * 参考 JdbcAuthorizationCodeServices 的 createAuthorizationCode 方法
+     * Refer to the createAuthorizationCode method in JdbcAuthorizationCodeServices
      *
-     * @param userId 用户编号
-     * @param userType 用户类型
-     * @param clientId 客户端编号
-     * @param scopes 授权范围
-     * @param redirectUri 重定向 URI
-     * @param state 状态
-     * @return 授权码的信息
+     * @param userId user ID
+     * @param userType user type
+     * @param clientId client ID
+     * @param scopes authorization scope
+     * @param redirectUri redirect URI
+     * @param state state
+     * @return authorization code information
      */
     OAuth2CodeEntity createAuthorizationCode(Long userId, Integer userType, String clientId,
                                          List<String> scopes, String redirectUri, String state);
 
     /**
-     * 使用授权码
+     * Consume an authorization code
      *
-     * @param code 授权码
+     * @param code authorization code
      */
     OAuth2CodeEntity consumeAuthorizationCode(String code);
 

@@ -13,34 +13,34 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * 短信客户端工厂接口
+ * SMS client factory implementation
  */
 @Validated
 @Slf4j
 public class DefaultSmsClientFactory implements SmsClientFactory {
 
     /**
-     * 短信客户端 Map
-     * key：渠道编号，使用 {@link SmsChannelProperties#getId()}
+     * SMS client Map
+     * key: channel ID, using {@link SmsChannelProperties#getId()}
      */
     private final ConcurrentMap<Long, AbstractSmsClient> channelIdClients = new ConcurrentHashMap<>();
 
     /**
-     * 短信客户端 Map
-     * key：渠道编码，使用 {@link SmsChannelProperties#getCode()} ()}
+     * SMS client Map
+     * key: channel code, using {@link SmsChannelProperties#getCode()} ()}
      *
-     * 注意，一些场景下，需要获得某个渠道类型的客户端，所以需要使用它。
-     * 例如说，解析短信接收结果，是相对通用的，不需要使用某个渠道编号的 {@link #channelIdClients}
+     * Note: in some scenarios we need to obtain the client for a specific channel type, so this map is needed.
+     * For example, parsing SMS receive results is fairly generic and does not need to use {@link #channelIdClients} keyed by a specific channel ID.
      */
     private final ConcurrentMap<String, AbstractSmsClient> channelCodeClients = new ConcurrentHashMap<>();
 
     public DefaultSmsClientFactory() {
-        // 初始化 channelCodeClients 集合
+        // initialize the channelCodeClients map
         Arrays.stream(SmsChannelEnum.values()).forEach(channel -> {
-            // 创建一个空的 SmsChannelProperties 对象
+            // create an empty SmsChannelProperties object
             SmsChannelProperties properties = new SmsChannelProperties().setCode(channel.getCode())
                     .setApiKey("default default").setApiSecret("default");
-            // 创建 Sms 客户端
+            // create the SMS client
             AbstractSmsClient smsClient = createSmsClient(properties);
             channelCodeClients.put(channel.getCode(), smsClient);
         });
@@ -72,7 +72,7 @@ public class DefaultSmsClientFactory implements SmsClientFactory {
     private AbstractSmsClient createSmsClient(SmsChannelProperties properties) {
         SmsChannelEnum channelEnum = SmsChannelEnum.getByCode(properties.getCode());
         Assert.notNull(channelEnum, String.format("channel type (%s) is empty", channelEnum));
-        // 创建客户端
+        // create the client
         switch (channelEnum) {
             case ALIYUN: return new AliyunSmsClient(properties);
             case DEBUG_DING_TALK: return new DebugDingTalkSmsClient(properties);
@@ -80,7 +80,7 @@ public class DefaultSmsClientFactory implements SmsClientFactory {
             case HUAWEI: return  new HuaweiSmsClient(properties);
             case QINIU: return new QiniuSmsClient(properties);
         }
-        // 创建失败，错误日志 + 抛出异常
+        // creation failed: error log + throw exception
         log.error("[createSmsClient][config ({}) cannot find suitable client implementation]", properties);
         throw new IllegalArgumentException(String.format("config (%s) cannot find suitable client implementation", properties));
     }

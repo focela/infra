@@ -6,47 +6,47 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 短信发送 Service 接口
+ * SMS send Service interface
  */
 public interface SmsSendService {
 
     /**
-     * 发送单条短信给管理后台的用户
+     * Send a single SMS to a backoffice admin user.
      *
-     * 在 mobile 为空时，使用 userId 加载对应管理员的手机号
+     * When mobile is empty, use userId to load the admin's mobile number.
      *
-     * @param mobile 手机号
-     * @param userId 用户编号
-     * @param templateCode 短信模板编号
-     * @param templateParams 短信模板参数
-     * @return 发送日志编号
+     * @param mobile mobile number
+     * @param userId user ID
+     * @param templateCode SMS template code
+     * @param templateParams SMS template parameters
+     * @return send log ID
      */
     Long sendSingleSmsToAdmin(String mobile, Long userId,
                               String templateCode, Map<String, Object> templateParams);
 
     /**
-     * 发送单条短信给用户 APP 的用户
+     * Send a single SMS to a user APP user.
      *
-     * 在 mobile 为空时，使用 userId 加载对应会员的手机号
+     * When mobile is empty, use userId to load the member's mobile number.
      *
-     * @param mobile 手机号
-     * @param userId 用户编号
-     * @param templateCode 短信模板编号
-     * @param templateParams 短信模板参数
-     * @return 发送日志编号
+     * @param mobile mobile number
+     * @param userId user ID
+     * @param templateCode SMS template code
+     * @param templateParams SMS template parameters
+     * @return send log ID
      */
     Long sendSingleSmsToMember(String mobile, Long userId,
                                String templateCode, Map<String, Object> templateParams);
 
     /**
-     * 发送单条短信给用户
+     * Send a single SMS to a user
      *
-     * @param mobile 手机号
-     * @param userId 用户编号
-     * @param userType 用户类型
-     * @param templateCode 短信模板编号
-     * @param templateParams 短信模板参数
-     * @return 发送日志编号
+     * @param mobile mobile number
+     * @param userId user ID
+     * @param userType user type
+     * @param templateCode SMS template code
+     * @param templateParams SMS template parameters
+     * @return send log ID
      */
     Long sendSingleSms(String mobile, Long userId, Integer userType,
                        String templateCode, Map<String, Object> templateParams);
@@ -57,19 +57,19 @@ public interface SmsSendService {
     }
 
     /**
-     * 执行真正的短信发送
-     * 注意，该方法仅仅提供给 MQ Consumer 使用
+     * Execute the actual SMS sending.
+     * Note: this method is intended for use only by the MQ Consumer.
      *
-     * @param message 短信
+     * @param message SMS
      */
     void doSendSms(SmsSendMessage message);
 
     /**
-     * 接收短信的接收结果
+     * Receive the SMS delivery result
      *
-     * @param channelCode 渠道编码
-     * @param text 结果内容
-     * @throws Throwable 处理失败时，抛出异常
+     * @param channelCode channel code
+     * @param text result content
+     * @throws Throwable thrown when processing fails
      */
     void receiveSmsStatus(String channelCode, String text) throws Throwable;
 

@@ -45,7 +45,7 @@ import static com.focela.platform.common.utils.servlet.ServletUtils.getClientIP;
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 
 /**
- * Auth Service 实现类
+ * Auth Service implementation class
  */
 @Service
 @Slf4j
@@ -69,16 +69,16 @@ public class DefaultAuthService implements AuthService {
     private SmsCodeApi smsCodeApi;
 
     /**
-     * 验证码的开关，默认为 true
+     * Captcha switch, defaults to true
      */
     @Value("${focela.captcha.enable:true}")
-    @Setter // 为了单测：开启或者关闭验证码
+    @Setter // for unit tests: enable or disable captcha
     private Boolean captchaEnable;
 
     @Override
     public UserEntity authenticate(String username, String password) {
         final LoginLogTypeEnum logTypeEnum = LoginLogTypeEnum.LOGIN_USERNAME;
-        // 校验账号是否存在
+        // Validate whether the account exists
         UserEntity user = userService.getUserByUsername(username);
         if (user == null) {
             createLoginLog(null, username, logTypeEnum, LoginResultEnum.BAD_CREDENTIALS);
@@ -88,7 +88,7 @@ public class DefaultAuthService implements AuthService {
             createLoginLog(user.getId(), username, logTypeEnum, LoginResultEnum.BAD_CREDENTIALS);
             throw exception(AUTH_LOGIN_BAD_CREDENTIALS);
         }
-        // 校验是否禁用
+        // Validate whether the user is disabled
         if (CommonStatusEnum.isDisable(user.getStatus())) {
             createLoginLog(user.getId(), username, logTypeEnum, LoginResultEnum.USER_DISABLED);
             throw exception(AUTH_LOGIN_USER_DISABLED);
@@ -99,24 +99,24 @@ public class DefaultAuthService implements AuthService {
     @Override
     @DataPermission(enable = false)
     public AuthLoginResponse login(AuthLoginRequest request) {
-        // 校验验证码
+        // Validate captcha
         validateCaptcha(request);
 
-        // 使用账号密码，进行登录
+        // Log in with account and password
         UserEntity user = authenticate(request.getUsername(), request.getPassword());
 
-        // 如果 socialType 非空，说明需要绑定社交用户
+        // If socialType is not null, it means the social user needs to be bound
         if (request.getSocialType() != null) {
             socialUserService.bindSocialUser(new SocialUserBindRpcRequest(user.getId(), getUserType().getValue(),
                     request.getSocialType(), request.getSocialCode(), request.getSocialState()));
         }
-        // 创建 Token 令牌，记录登录日志
+        // Create token and record login log
         return createTokenAfterLoginSuccess(user.getId(), request.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME);
     }
 
     @Override
     public void sendSmsCode(AuthSmsSendRequest request) {
-        // 如果是重置密码场景，需要校验图形验证码是否正确
+        // For reset-password scenario, verify the image captcha is correct
         if (Objects.equals(SmsSceneEnum.ADMIN_MEMBER_RESET_PASSWORD.getScene(), request.getScene())) {
             ResponseModel response = doValidateCaptcha(request);
             if (!response.isSuccess()) {
@@ -124,32 +124,32 @@ public class DefaultAuthService implements AuthService {
             }
         }
 
-        // 登录场景，验证是否存在
+        // For login scenario, verify that the user exists
         if (userService.getUserByMobile(request.getMobile()) == null) {
             throw exception(AUTH_MOBILE_NOT_EXISTS);
         }
-        // 发送验证码
+        // Send verification code
         smsCodeApi.sendSmsCode(AuthConverter.INSTANCE.convert(request).setCreateIp(getClientIP()));
     }
 
     @Override
     public AuthLoginResponse smsLogin(AuthSmsLoginRequest request) {
-        // 校验验证码
+        // Validate verification code
         smsCodeApi.useSmsCode(AuthConverter.INSTANCE.convert(request, SmsSceneEnum.ADMIN_MEMBER_LOGIN.getScene(), getClientIP()));
 
-        // 获得用户信息
+        // Get user info
         UserEntity user = userService.getUserByMobile(request.getMobile());
         if (user == null) {
             throw exception(USER_NOT_EXISTS);
         }
 
-        // 创建 Token 令牌，记录登录日志
+        // Create token and record login log
         return createTokenAfterLoginSuccess(user.getId(), request.getMobile(), LoginLogTypeEnum.LOGIN_MOBILE);
     }
 
     private void createLoginLog(Long userId, String username,
                                 LoginLogTypeEnum logTypeEnum, LoginResultEnum loginResult) {
-        // 插入登录日志
+        // Insert login log
         LoginLogCreateRpcRequest reqDTO = new LoginLogCreateRpcRequest();
         reqDTO.setLogType(logTypeEnum.getType());
         reqDTO.setTraceId(TracerUtils.getTraceId());
@@ -160,7 +160,7 @@ public class DefaultAuthService implements AuthService {
         reqDTO.setUserIp(ServletUtils.getClientIP());
         reqDTO.setResult(loginResult.getResult());
         loginLogService.createLoginLog(reqDTO);
-        // 更新最后登录时间
+        // Update last login time
         if (userId != null && Objects.equals(LoginResultEnum.SUCCESS.getResult(), loginResult.getResult())) {
             userService.updateUserLogin(userId, ServletUtils.getClientIP());
         }
@@ -168,36 +168,36 @@ public class DefaultAuthService implements AuthService {
 
     @Override
     public AuthLoginResponse socialLogin(AuthSocialLoginRequest request) {
-        // 使用 code 授权码，进行登录。然后，获得到绑定的用户编号
+        // Use the authorization code to log in, then obtain the bound user ID
         SocialUserRpcResponse socialUser = socialUserService.getSocialUserByCode(UserTypeEnum.ADMIN.getValue(), request.getType(),
                 request.getCode(), request.getState());
         if (socialUser == null || socialUser.getUserId() == null) {
             throw exception(AUTH_THIRD_LOGIN_NOT_BIND);
         }
 
-        // 获得用户
+        // Get user
         UserEntity user = userService.getUser(socialUser.getUserId());
         if (user == null) {
             throw exception(USER_NOT_EXISTS);
         }
 
-        // 创建 Token 令牌，记录登录日志
+        // Create token and record login log
         return createTokenAfterLoginSuccess(user.getId(), user.getUsername(), LoginLogTypeEnum.LOGIN_SOCIAL);
     }
 
     @VisibleForTesting
     void validateCaptcha(AuthLoginRequest request) {
         ResponseModel response = doValidateCaptcha(request);
-        // 校验验证码
+        // Validate captcha
         if (!response.isSuccess()) {
-            // 创建登录失败日志（验证码不正确)
+            // Create login-failed log (captcha incorrect)
             createLoginLog(null, request.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME, LoginResultEnum.CAPTCHA_CODE_ERROR);
             throw exception(AUTH_LOGIN_CAPTCHA_CODE_ERROR, response.getRepMsg());
         }
     }
 
     private ResponseModel doValidateCaptcha(CaptchaVerificationRequest request) {
-        // 如果验证码关闭，则不进行校验
+        // If captcha is disabled, skip validation
         if (!captchaEnable) {
             return ResponseModel.success();
         }
@@ -208,12 +208,12 @@ public class DefaultAuthService implements AuthService {
     }
 
     private AuthLoginResponse createTokenAfterLoginSuccess(Long userId, String username, LoginLogTypeEnum logType) {
-        // 插入登陆日志
+        // Insert login log
         createLoginLog(userId, username, logType, LoginResultEnum.SUCCESS);
-        // 创建访问令牌
+        // Create access token
         OAuth2AccessTokenEntity accessTokenDO = oauth2TokenService.createAccessToken(userId, getUserType().getValue(),
                 OAuth2ClientConstants.CLIENT_ID_DEFAULT, null);
-        // 构建返回结果
+        // Build return result
         return BeanUtils.toBean(accessTokenDO, AuthLoginResponse.class);
     }
 
@@ -225,12 +225,12 @@ public class DefaultAuthService implements AuthService {
 
     @Override
     public void logout(String token, Integer logType) {
-        // 删除访问令牌
+        // Delete access token
         OAuth2AccessTokenEntity accessTokenDO = oauth2TokenService.removeAccessToken(token);
         if (accessTokenDO == null) {
             return;
         }
-        // 删除成功，则记录登出日志
+        // On successful deletion, record the logout log
         createLogoutLog(accessTokenDO.getUserId(), accessTokenDO.getUserType(), logType);
     }
 
@@ -265,20 +265,20 @@ public class DefaultAuthService implements AuthService {
 
     @Override
     public AuthLoginResponse register(AuthRegisterRequest registerRequest) {
-        // 1. 校验验证码
+        // 1. Validate captcha
         validateCaptcha(registerRequest);
 
-        // 2. 校验用户名是否已存在
+        // 2. Validate whether the username already exists
         Long userId = userService.registerUser(registerRequest);
 
-        // 3. 创建 Token 令牌，记录登录日志
+        // 3. Create token and record login log
         return createTokenAfterLoginSuccess(userId, registerRequest.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME);
     }
 
     @VisibleForTesting
     void validateCaptcha(AuthRegisterRequest request) {
         ResponseModel response = doValidateCaptcha(request);
-        // 验证不通过
+        // Validation failed
         if (!response.isSuccess()) {
             throw exception(AUTH_REGISTER_CAPTCHA_CODE_ERROR, response.getRepMsg());
         }

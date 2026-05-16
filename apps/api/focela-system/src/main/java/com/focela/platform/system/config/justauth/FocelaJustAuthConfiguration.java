@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 
 /**
- * JustAuth 配置类 TODO 芋艿：等 justauth 1.4.1 版本发布！！！
+ * JustAuth configuration class TODO: waiting for justauth 1.4.1 release!
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties({JustAuthProperties.class})

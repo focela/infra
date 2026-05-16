@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
- * 管理员名字的 {@link IParseFunction} 实现类
+ * {@link IParseFunction} implementation for admin user name
  */
 @Slf4j
 @Component
@@ -32,13 +32,13 @@ public class AdminUserParseFunction implements IParseFunction {
             return "";
         }
 
-        // 获取用户信息
+        // get user information
         UserEntity user = adminUserService.getUser(Convert.toLong(value));
         if (user == null) {
-            log.warn("[apply][get user {{}}is empty", value);
+            log.warn("[apply][get user {{}} is empty", value);
             return "";
         }
-        // 返回格式 芋道源码(13888888888)
+        // return format: Focela(13888888888)
         String nickname = user.getNickname();
         if (StrUtil.isEmpty(user.getMobile())) {
             return nickname;

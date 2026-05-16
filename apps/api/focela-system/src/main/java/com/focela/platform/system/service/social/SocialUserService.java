@@ -12,75 +12,75 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 /**
- * 社交用户 Service 接口，例如说社交平台的授权登录
+ * Social user Service interface, e.g. social platform authorization login
  */
 public interface SocialUserService {
 
     /**
-     * 获得指定用户的社交用户列表
+     * Get the social user list for the specified user
      *
-     * @param userId   用户编号
-     * @param userType 用户类型
-     * @return 社交用户列表
+     * @param userId   user ID
+     * @param userType user type
+     * @return social user list
      */
     List<SocialUserEntity> getSocialUserList(Long userId, Integer userType);
 
     /**
-     * 绑定社交用户
+     * Bind a social user
      *
-     * @param reqDTO 绑定信息
-     * @return 社交用户 openid
+     * @param reqDTO bind info
+     * @return social user openid
      */
     String bindSocialUser(@Valid SocialUserBindRpcRequest reqDTO);
 
     /**
-     * 取消绑定社交用户
+     * Unbind a social user
      *
-     * @param userId 用户编号
-     * @param userType 全局用户类型
-     * @param socialType 社交平台的类型 {@link SocialTypeEnum}
-     * @param openid 社交平台的 openid
+     * @param userId user ID
+     * @param userType global user type
+     * @param socialType social platform type {@link SocialTypeEnum}
+     * @param openid social platform openid
      */
     void unbindSocialUser(Long userId, Integer userType, Integer socialType, String openid);
 
     /**
-     * 获得社交用户，基于 userId
+     * Get social user by userId
      *
-     * @param userType 用户类型
-     * @param userId 用户编号
-     * @param socialType 社交平台的类型
-     * @return 社交用户
+     * @param userType user type
+     * @param userId user ID
+     * @param socialType social platform type
+     * @return social user
      */
     SocialUserRpcResponse getSocialUserByUserId(Integer userType, Long userId, Integer socialType);
 
     /**
-     * 获得社交用户
+     * Get social user.
      *
-     * 在认证信息不正确的情况下，也会抛出 {@link ServiceException} 业务异常
+     * If authentication info is incorrect, a {@link ServiceException} business exception will also be thrown.
      *
-     * @param userType 用户类型
-     * @param socialType 社交平台的类型
-     * @param code 授权码
+     * @param userType user type
+     * @param socialType social platform type
+     * @param code authorization code
      * @param state state
-     * @return 社交用户
+     * @return social user
      */
     SocialUserRpcResponse getSocialUserByCode(Integer userType, Integer socialType, String code, String state);
 
-    // ==================== 社交用户 CRUD ====================
+    // ==================== Social user CRUD ====================
 
     /**
-     * 获得社交用户
+     * Get social user
      *
-     * @param id 编号
-     * @return 社交用户
+     * @param id ID
+     * @return social user
      */
     SocialUserEntity getSocialUser(Long id);
 
     /**
-     * 获得社交用户分页
+     * Get paginated social users
      *
-     * @param pageRequest 分页查询
-     * @return 社交用户分页
+     * @param pageRequest pagination query
+     * @return paginated social users
      */
     PageResult<SocialUserEntity> getSocialUserPage(SocialUserPageRequest pageRequest);
 

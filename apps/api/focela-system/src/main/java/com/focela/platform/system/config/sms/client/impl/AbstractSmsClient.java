@@ -5,7 +5,7 @@ import com.focela.platform.system.config.sms.property.SmsChannelProperties;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 短信客户端的抽象类，提供模板方法，减少子类的冗余代码
+ * Abstract SMS client providing template methods to reduce redundant code in subclasses
  *
  * @since 2021/2/1 9:28
  */
@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 public abstract class AbstractSmsClient implements SmsClient {
 
     /**
-     * 短信渠道配置
+     * SMS channel configuration
      */
     protected volatile SmsChannelProperties properties;
 
@@ -22,20 +22,20 @@ public abstract class AbstractSmsClient implements SmsClient {
     }
 
     /**
-     * 初始化
+     * Initialize
      */
     public final void init() {
         log.debug("[init][config ({}) init complete]", properties);
     }
 
     public final void refresh(SmsChannelProperties properties) {
-        // 判断是否更新
+        // check whether an update is needed
         if (properties.equals(this.properties)) {
             return;
         }
-        log.info("[refresh][config ({})changed, re-init]", properties);
+        log.info("[refresh][config ({}) changed, re-init]", properties);
         this.properties = properties;
-        // 初始化
+        // initialize
         this.init();
     }
 

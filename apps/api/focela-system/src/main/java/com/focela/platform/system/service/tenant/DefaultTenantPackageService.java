@@ -23,7 +23,7 @@ import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.e
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 
 /**
- * 租户套餐 Service 实现类
+ * Tenant package Service implementation class
  */
 @Service
 @Validated
@@ -33,31 +33,31 @@ public class DefaultTenantPackageService implements TenantPackageService {
     private TenantPackageMapper tenantPackageMapper;
 
     @Resource
-    @Lazy // 避免循环依赖的报错
+    @Lazy // avoid circular dependency error
     private TenantService tenantService;
 
     @Override
     public Long createTenantPackage(TenantPackageSaveRequest createRequest) {
-        // 校验套餐名是否重复
+        // validate package name is not duplicated
         validateTenantPackageNameUnique(null, createRequest.getName());
-        // 插入
+        // insert
         TenantPackageEntity tenantPackage = BeanUtils.toBean(createRequest, TenantPackageEntity.class);
         tenantPackageMapper.insert(tenantPackage);
-        // 返回
+        // return
         return tenantPackage.getId();
     }
 
     @Override
-    @DSTransactional // 多数据源，使用 @DSTransactional 保证本地事务，以及数据源的切换
+    @DSTransactional // multi datasource: use @DSTransactional to guarantee local transactions and datasource switching
     public void updateTenantPackage(TenantPackageSaveRequest updateRequest) {
-        // 校验存在
+        // validate existence
         TenantPackageEntity tenantPackage = validateTenantPackageExists(updateRequest.getId());
-        // 校验套餐名是否重复
+        // validate package name is not duplicated
         validateTenantPackageNameUnique(updateRequest.getId(), updateRequest.getName());
-        // 更新
+        // update
         TenantPackageEntity updateObj = BeanUtils.toBean(updateRequest, TenantPackageEntity.class);
         tenantPackageMapper.updateById(updateObj);
-        // 如果菜单发生变化，则修改每个租户的菜单
+        // if the menus changed, update each tenant's menus
         if (!CollUtil.isEqualList(tenantPackage.getMenuIds(), updateRequest.getMenuIds())) {
             List<TenantEntity> tenants = tenantService.getTenantListByPackageId(tenantPackage.getId());
             tenants.forEach(tenant -> tenantService.updateTenantRoleMenu(tenant.getId(), updateRequest.getMenuIds()));
@@ -66,24 +66,24 @@ public class DefaultTenantPackageService implements TenantPackageService {
 
     @Override
     public void deleteTenantPackage(Long id) {
-        // 校验存在
+        // validate existence
         validateTenantPackageExists(id);
-        // 校验正在使用
+        // validate in use
         validateTenantUsed(id);
-        // 删除
+        // delete
         tenantPackageMapper.deleteById(id);
     }
 
     @Override
     public void deleteTenantPackageList(List<Long> ids) {
-        // 1. 校验是否有租户正在使用该套餐
+        // 1. validate whether any tenant is using this package
         for (Long id : ids) {
             if (tenantService.getTenantCountByPackageId(id) > 0) {
                 throw exception(TENANT_PACKAGE_USED);
             }
         }
 
-        // 2. 批量删除
+        // 2. batch delete
         tenantPackageMapper.deleteByIds(ids);
     }
 
@@ -138,7 +138,7 @@ public class DefaultTenantPackageService implements TenantPackageService {
         if (tenantPackage == null) {
             return;
         }
-        // 如果 id 为空，说明不用比较是否为相同 id 的用户
+        // if id is null, no need to compare against a user with the same id
         if (id == null) {
             throw exception(TENANT_PACKAGE_NAME_DUPLICATE);
         }

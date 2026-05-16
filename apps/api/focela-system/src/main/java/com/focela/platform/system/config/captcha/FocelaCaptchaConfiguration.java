@@ -12,10 +12,10 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 /**
- * 验证码的配置类
+ * Captcha configuration class
  */
 @Configuration(proxyBeanMethods = false)
-@ImportAutoConfiguration(AjCaptchaAutoConfiguration.class) // 目的：解决 aj-captcha 针对 SpringBoot 3.X 自动配置不生效的问题
+@ImportAutoConfiguration(AjCaptchaAutoConfiguration.class) // Purpose: work around aj-captcha auto-configuration not taking effect on SpringBoot 3.x
 public class FocelaCaptchaConfiguration {
 
     @Bean(name = "AjCaptchaCacheService")

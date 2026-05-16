@@ -16,7 +16,7 @@ public class AppAreaNodeResponse {
     private String name;
 
     /**
-     * 子节点
+     * Child nodes
      */
     private List<AppAreaNodeResponse> children;
 

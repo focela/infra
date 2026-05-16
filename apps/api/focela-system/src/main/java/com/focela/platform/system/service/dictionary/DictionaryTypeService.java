@@ -8,67 +8,67 @@ import com.focela.platform.system.entity.dictionary.DictionaryTypeEntity;
 import java.util.List;
 
 /**
- * 字典类型 Service 接口
+ * Dictionary type Service interface
  */
 public interface DictionaryTypeService {
 
     /**
-     * 创建字典类型
+     * Create a dictionary type
      *
-     * @param createRequest 字典类型信息
-     * @return 字典类型编号
+     * @param createRequest dictionary type info
+     * @return dictionary type ID
      */
     Long createDictType(DictionaryTypeSaveRequest createRequest);
 
     /**
-     * 更新字典类型
+     * Update a dictionary type
      *
-     * @param updateRequest 字典类型信息
+     * @param updateRequest dictionary type info
      */
     void updateDictType(DictionaryTypeSaveRequest updateRequest);
 
     /**
-     * 删除字典类型
+     * Delete a dictionary type
      *
-     * @param id 字典类型编号
+     * @param id dictionary type ID
      */
     void deleteDictType(Long id);
 
     /**
-     * 批量删除字典类型
+     * Batch delete dictionary types
      *
-     * @param ids 字典类型编号列表
+     * @param ids dictionary type ID list
      */
     void deleteDictTypeList(List<Long> ids);
 
     /**
-     * 获得字典类型分页列表
+     * Get paginated list of dictionary types
      *
-     * @param pageRequest 分页请求
-     * @return 字典类型分页列表
+     * @param pageRequest pagination request
+     * @return paginated dictionary type list
      */
     PageResult<DictionaryTypeEntity> getDictTypePage(DictionaryTypePageRequest pageRequest);
 
     /**
-     * 获得字典类型详情
+     * Get dictionary type details
      *
-     * @param id 字典类型编号
-     * @return 字典类型
+     * @param id dictionary type ID
+     * @return dictionary type
      */
     DictionaryTypeEntity getDictType(Long id);
 
     /**
-     * 获得字典类型详情
+     * Get dictionary type details
      *
-     * @param type 字典类型
-     * @return 字典类型详情
+     * @param type dictionary type
+     * @return dictionary type details
      */
     DictionaryTypeEntity getDictType(String type);
 
     /**
-     * 获得全部字典类型列表
+     * Get the full list of dictionary types
      *
-     * @return 字典类型列表
+     * @return dictionary type list
      */
     List<DictionaryTypeEntity> getDictTypeList();
 

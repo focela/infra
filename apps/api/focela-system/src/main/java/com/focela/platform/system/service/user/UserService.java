@@ -19,157 +19,157 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 后台用户 Service 接口
+ * Admin User Service interface
  */
 public interface UserService {
 
     /**
-     * 创建用户
+     * Create a user
      *
-     * @param createRequest 用户信息
-     * @return 用户编号
+     * @param createRequest user information
+     * @return user ID
      */
     Long createUser(@Valid UserSaveRequest createRequest);
 
     /**
-     * 注册用户
+     * Register a user
      *
-     * @param registerRequest 用户信息
-     * @return 用户编号
+     * @param registerRequest user information
+     * @return user ID
      */
     Long registerUser(@Valid AuthRegisterRequest registerRequest);
 
     /**
-     * 修改用户
+     * Update a user
      *
-     * @param updateRequest 用户信息
+     * @param updateRequest user information
      */
     void updateUser(@Valid UserSaveRequest updateRequest);
 
     /**
-     * 更新用户的最后登陆信息
+     * Update the last login info of a user
      *
-     * @param id 用户编号
-     * @param loginIp 登陆 IP
+     * @param id user ID
+     * @param loginIp login IP
      */
     void updateUserLogin(Long id, String loginIp);
 
     /**
-     * 修改用户个人信息
+     * Update a user's personal profile
      *
-     * @param id 用户编号
-     * @param request 用户个人信息
+     * @param id user ID
+     * @param request user profile information
      */
     void updateUserProfile(Long id, @Valid UserProfileUpdateRequest request);
 
     /**
-     * 修改用户个人密码
+     * Update a user's personal password
      *
-     * @param id 用户编号
-     * @param request 更新用户个人密码
+     * @param id user ID
+     * @param request update user personal password
      */
     void updateUserPassword(Long id, @Valid UserProfileUpdatePasswordRequest request);
 
     /**
-     * 修改密码
+     * Update password
      *
-     * @param id       用户编号
-     * @param password 密码
+     * @param id       user ID
+     * @param password password
      */
     void updateUserPassword(Long id, String password);
 
     /**
-     * 修改状态
+     * Update status
      *
-     * @param id     用户编号
-     * @param status 状态
+     * @param id     user ID
+     * @param status status
      */
     void updateUserStatus(Long id, Integer status);
 
     /**
-     * 删除用户
+     * Delete a user
      *
-     * @param id 用户编号
+     * @param id user ID
      */
     void deleteUser(Long id);
 
     /**
-     * 批量删除用户
+     * Batch delete users
      *
-     * @param ids 用户编号数组
+     * @param ids user ID array
      */
     void deleteUserList(List<Long> ids);
 
     /**
-     * 通过用户名查询用户
+     * Get a user by username
      *
-     * @param username 用户名
-     * @return 用户对象信息
+     * @param username username
+     * @return user object information
      */
     UserEntity getUserByUsername(String username);
 
     /**
-     * 通过手机号获取用户
+     * Get a user by mobile number
      *
-     * @param mobile 手机号
-     * @return 用户对象信息
+     * @param mobile mobile number
+     * @return user object information
      */
     UserEntity getUserByMobile(String mobile);
 
     /**
-     * 获得用户分页列表
+     * Get the paginated user list
      *
-     * @param request 分页条件
-     * @return 分页列表
+     * @param request page query parameters
+     * @return paginated list
      */
     PageResult<UserEntity> getUserPage(UserPageRequest request);
 
     /**
-     * 通过用户 ID 查询用户
+     * Get a user by user ID
      *
-     * @param id 用户ID
-     * @return 用户对象信息
+     * @param id user ID
+     * @return user object information
      */
     UserEntity getUser(Long id);
 
     /**
-     * 获得指定部门的用户数组
+     * Get the user list for specified departments
      *
-     * @param deptIds 部门数组
-     * @return 用户数组
+     * @param deptIds department ID array
+     * @return user array
      */
     List<UserEntity> getUserListByDeptIds(Collection<Long> deptIds);
 
     /**
-     * 获得指定岗位的用户数组
+     * Get the user list for specified posts
      *
-     * @param postIds 岗位数组
-     * @return 用户数组
+     * @param postIds post ID array
+     * @return user array
      */
     List<UserEntity> getUserListByPostIds(Collection<Long> postIds);
 
     /**
-     * 获得用户列表
+     * Get the user list
      *
-     * @param ids 用户编号数组
-     * @return 用户列表
+     * @param ids user ID array
+     * @return user list
      */
     List<UserEntity> getUserList(Collection<Long> ids);
 
     /**
-     * 校验用户们是否有效。如下情况，视为无效：
-     * 1. 用户编号不存在
-     * 2. 用户被禁用
+     * Validate whether the users are valid. The following are considered invalid:
+     * 1. User ID does not exist
+     * 2. User is disabled
      *
-     * @param ids 用户编号数组
+     * @param ids user ID array
      */
     void validateUserList(Collection<Long> ids);
 
     /**
-     * 获得用户 Map
+     * Get a user Map
      *
-     * @param ids 用户编号数组
-     * @return 用户 Map
+     * @param ids user ID array
+     * @return user Map
      */
     default Map<Long, UserEntity> getUserMap(Collection<Long> ids) {
         if (CollUtil.isEmpty(ids)) {
@@ -179,36 +179,36 @@ public interface UserService {
     }
 
     /**
-     * 获得用户列表，基于昵称模糊匹配
+     * Get the user list by fuzzy matching nickname
      *
-     * @param nickname 昵称
-     * @return 用户列表
+     * @param nickname nickname
+     * @return user list
      */
     List<UserEntity> getUserListByNickname(String nickname);
 
     /**
-     * 批量导入用户
+     * Batch import users
      *
-     * @param importUsers     导入用户列表
-     * @param isUpdateSupport 是否支持更新
-     * @return 导入结果
+     * @param importUsers     user list to import
+     * @param isUpdateSupport whether update is supported
+     * @return import result
      */
     UserImportResponse importUserList(List<UserImportExcelDto> importUsers, boolean isUpdateSupport);
 
     /**
-     * 获得指定状态的用户们
+     * Get users by status
      *
-     * @param status 状态
-     * @return 用户们
+     * @param status status
+     * @return users
      */
     List<UserEntity> getUserListByStatus(Integer status);
 
     /**
-     * 判断密码是否匹配
+     * Determine whether the password matches
      *
-     * @param rawPassword 未加密的密码
-     * @param encodedPassword 加密后的密码
-     * @return 是否匹配
+     * @param rawPassword the raw password
+     * @param encodedPassword the encoded password
+     * @return whether it matches
      */
     boolean isPasswordMatch(String rawPassword, String encodedPassword);
 

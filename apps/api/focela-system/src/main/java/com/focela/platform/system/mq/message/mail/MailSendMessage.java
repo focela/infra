@@ -8,52 +8,52 @@ import java.io.File;
 import java.util.Collection;
 
 /**
- * 邮箱发送消息
+ * Email send message
  */
 @Data
 public class MailSendMessage {
 
     /**
-     * 邮件日志编号
+     * Email log ID
      */
     @NotNull(message = "email log ID must not be blank")
     private Long logId;
     /**
-     * 接收邮件地址
+     * Recipient email addresses
      */
     @NotEmpty(message = "receive email address must not be blank")
     private Collection<String> toMails;
     /**
-     * 抄送邮件地址
+     * CC email addresses
      */
     private Collection<String> ccMails;
     /**
-     * 密送邮件地址
+     * BCC email addresses
      */
     private Collection<String> bccMails;
     /**
-     * 邮件账号编号
+     * Email account ID
      */
     @NotNull(message = "email account ID must not be blank")
     private Long accountId;
 
     /**
-     * 邮件发件人
+     * Email sender nickname
      */
     private String nickname;
     /**
-     * 邮件标题
+     * Email title
      */
     @NotEmpty(message = "email title must not be blank")
     private String title;
     /**
-     * 邮件内容
+     * Email content
      */
     @NotEmpty(message = "email content must not be blank")
     private String content;
 
     /**
-     * 附件
+     * Attachments
      */
     private File[] attachments;
 

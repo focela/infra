@@ -16,6 +16,6 @@ public class PermissionAssignRoleMenuRequest {
     private Long roleId;
 
     @Schema(description = "menu ID list", example = "1,3,5")
-    private Set<Long> menuIds = Collections.emptySet(); // 兜底
+    private Set<Long> menuIds = Collections.emptySet(); // fallback
 
 }

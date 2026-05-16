@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 
 /**
- * OAuth2 客户端 Mapper
+ * OAuth2 client Mapper
  */
 @Mapper
 public interface OAuth2ClientMapper extends BaseMapperX<OAuth2ClientEntity> {

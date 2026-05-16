@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 import static com.focela.platform.common.utils.collection.CollectionUtils.convertList;
 
 /**
- * 阿里短信客户端的实现类
+ * Aliyun SMS client implementation
  *
  * @since 2021/1/25 14:17
  */
@@ -43,16 +43,16 @@ public class AliyunSmsClient extends AbstractSmsClient {
 
     public AliyunSmsClient(SmsChannelProperties properties) {
         super(properties);
-        Assert.notEmpty(properties.getApiKey(), "apiKey 不能为空");
-        Assert.notEmpty(properties.getApiSecret(), "apiSecret 不能为空");
+        Assert.notEmpty(properties.getApiKey(), "apiKey must not be blank");
+        Assert.notEmpty(properties.getApiSecret(), "apiSecret must not be blank");
     }
 
     @Override
     public SmsSendRpcResponse sendSms(Long sendLogId, String mobile, String apiTemplateId,
                                   List<KeyValue<String, Object>> templateParams) throws Throwable {
-        Assert.notBlank(properties.getSignature(), "短信签名不能为空");
-        // 1. 执行请求
-        // 参考链接 https://api.aliyun.com/document/Dysmsapi/2017-05-25/SendSms
+        Assert.notBlank(properties.getSignature(), "SMS signature must not be blank");
+        // 1. execute the request
+        // Reference: https://api.aliyun.com/document/Dysmsapi/2017-05-25/SendSms
         TreeMap<String, Object> queryParam = new TreeMap<>();
         queryParam.put("PhoneNumbers", mobile);
         queryParam.put("SignName", properties.getSignature());
@@ -61,7 +61,7 @@ public class AliyunSmsClient extends AbstractSmsClient {
         queryParam.put("OutId", sendLogId);
         JSONObject response = request("SendSms", queryParam);
 
-        // 2. 解析请求
+        // 2. parse the response
         return new SmsSendRpcResponse()
                 .setSuccess(Objects.equals(response.getStr("Code"), RESPONSE_CODE_SUCCESS))
                 .setSerialNo(response.getStr("BizId"))
@@ -73,35 +73,35 @@ public class AliyunSmsClient extends AbstractSmsClient {
     @Override
     public List<SmsReceiveRpcResponse> parseSmsReceiveStatus(String text) {
         JSONArray statuses = JSONUtil.parseArray(text);
-        // 字段参考 https://help.aliyun.com/zh/sms/developer-reference/smsreport-2
+        // Field reference: https://help.aliyun.com/zh/sms/developer-reference/smsreport-2
         return convertList(statuses, status -> {
             JSONObject statusObj = (JSONObject) status;
             return new SmsReceiveRpcResponse()
-                    .setSuccess(statusObj.getBool("success")) // 是否接收成功
-                    .setErrorCode(statusObj.getStr("err_code")) // 状态报告编码
-                    .setErrorMsg(statusObj.getStr("err_msg")) // 状态报告说明
-                    .setMobile(statusObj.getStr("phone_number")) // 手机号
-                    .setReceiveTime(statusObj.getLocalDateTime("report_time", null)) // 状态报告时间
-                    .setSerialNo(statusObj.getStr("biz_id")) // 发送序列号
-                    .setLogId(statusObj.getLong("out_id")); // 用户序列号
+                    .setSuccess(statusObj.getBool("success")) // whether received successfully
+                    .setErrorCode(statusObj.getStr("err_code")) // status report code
+                    .setErrorMsg(statusObj.getStr("err_msg")) // status report description
+                    .setMobile(statusObj.getStr("phone_number")) // mobile number
+                    .setReceiveTime(statusObj.getLocalDateTime("report_time", null)) // status report time
+                    .setSerialNo(statusObj.getStr("biz_id")) // send serial number
+                    .setLogId(statusObj.getLong("out_id")); // user serial number
         });
     }
 
     @Override
     public SmsTemplateRpcResponse getSmsTemplate(String apiTemplateId) throws Throwable {
-        // 1. 执行请求
-        // 参考链接 https://api.aliyun.com/document/Dysmsapi/2017-05-25/GetSmsTemplate
+        // 1. execute the request
+        // Reference: https://api.aliyun.com/document/Dysmsapi/2017-05-25/GetSmsTemplate
         TreeMap<String, Object> queryParam = new TreeMap<>();
         queryParam.put("TemplateCode", apiTemplateId);
         JSONObject response = request("GetSmsTemplate", queryParam);
 
-        // 2.1 请求失败
+        // 2.1 request failed
         String code = response.getStr("Code");
         if (ObjectUtil.notEqual(code, RESPONSE_CODE_SUCCESS)) {
             log.error("[getSmsTemplate][template ID ({}) invalid response ({})]", apiTemplateId, response);
             return null;
         }
-        // 2.2 请求成功
+        // 2.2 request succeeded
         return new SmsTemplateRpcResponse()
                 .setId(response.getStr("TemplateCode"))
                 .setContent(response.getStr("TemplateContent"))
@@ -121,24 +121,24 @@ public class AliyunSmsClient extends AbstractSmsClient {
     }
 
     /**
-     * 请求阿里云短信
+     * Send a request to Aliyun SMS
      *
-     * @see <a href="https://help.aliyun.com/zh/sdk/product-overview/v3-request-structure-and-signature">V3 版本请求体&签名机制</>
-     * @param apiName 请求的 API 名称
-     * @param queryParams 请求参数
-     * @return 请求结果
+     * @see <a href="https://help.aliyun.com/zh/sdk/product-overview/v3-request-structure-and-signature">V3 request body and signature mechanism</a>
+     * @param apiName     name of the API to request
+     * @param queryParams request parameters
+     * @return request result
      */
     private JSONObject request(String apiName, TreeMap<String, Object> queryParams) {
-        // 1. 请求参数
+        // 1. request parameters
         String queryString = queryParams.entrySet().stream()
                 .map(entry -> percentCode(entry.getKey()) + "=" + percentCode(String.valueOf(entry.getValue())))
                 .collect(Collectors.joining("&"));
 
-        // 2. 请求 Body
-        String requestBody = ""; // 短信 API 为 RPC 接口，query parameters 在 uri 中拼接，因此 request body 如果没有特殊要求，设置为空
+        // 2. request body
+        String requestBody = ""; // The SMS API is an RPC interface; query parameters are appended in the URI, so the request body is left empty unless special handling is required.
         String hashedRequestPayload = DigestUtil.sha256Hex(requestBody);
 
-        // 3.1 请求 Header
+        // 3.1 request headers
         TreeMap<String, String> headers = new TreeMap<>();
         headers.put("host", HOST);
         headers.put("x-acs-version", VERSION);
@@ -147,9 +147,9 @@ public class AliyunSmsClient extends AbstractSmsClient {
         headers.put("x-acs-signature-nonce", IdUtil.randomUUID());
         headers.put("x-acs-content-sha256", hashedRequestPayload);
 
-        // 3.2 构建签名 Header
-        StringBuilder canonicalHeaders = new StringBuilder(); // 构造请求头，多个规范化消息头，按照消息头名称（小写）的字符代码顺序以升序排列后拼接在一起
-        StringBuilder signedHeadersBuilder = new StringBuilder(); // 已签名消息头列表，多个请求头名称（小写）按首字母升序排列并以英文分号（;）分隔
+        // 3.2 build the signed headers
+        StringBuilder canonicalHeaders = new StringBuilder(); // build the canonical headers; multiple canonical message headers are concatenated in ascending order by the (lowercase) header name's character code
+        StringBuilder signedHeadersBuilder = new StringBuilder(); // list of signed headers; multiple header names (lowercase) are sorted in ascending order by first letter and separated by semicolons (;)
         headers.entrySet().stream().filter(entry -> entry.getKey().toLowerCase().startsWith("x-acs-")
                         || "host".equalsIgnoreCase(entry.getKey())
                         || "content-type".equalsIgnoreCase(entry.getKey()))
@@ -160,7 +160,7 @@ public class AliyunSmsClient extends AbstractSmsClient {
                 });
         String signedHeaders = signedHeadersBuilder.substring(0, signedHeadersBuilder.length() - 1);
 
-        // 4. 构建 Authorization 签名
+        // 4. build the Authorization signature
         String canonicalRequest = "POST" + "\n" +
                 "/" + "\n" +
                 queryString + "\n" +
@@ -169,28 +169,28 @@ public class AliyunSmsClient extends AbstractSmsClient {
                 hashedRequestPayload;
         String hashedCanonicalRequest = DigestUtil.sha256Hex(canonicalRequest);
         String stringToSign = "ACS3-HMAC-SHA256" + "\n" + hashedCanonicalRequest;
-        String signature = SecureUtil.hmacSha256(properties.getApiSecret()).digestHex(stringToSign); // 计算签名
+        String signature = SecureUtil.hmacSha256(properties.getApiSecret()).digestHex(stringToSign); // compute the signature
         headers.put("Authorization", "ACS3-HMAC-SHA256" + " " + "Credential=" + properties.getApiKey()
                 + ", " + "SignedHeaders=" + signedHeaders + ", " + "Signature=" + signature);
 
-        // 5. 发起请求
+        // 5. send the request
         String responseBody = HttpUtils.post(URL + "?" + queryString, headers, requestBody);
         return JSONUtil.parseObj(responseBody);
     }
 
     /**
-     * 对指定的字符串进行 URL 编码，并对特定的字符进行替换，以符合URL编码规范
+     * URL-encode the given string and replace specific characters to conform to URL encoding spec
      *
-     * @param str 需要进行 URL 编码的字符串
-     * @return 编码后的字符串
+     * @param str string to URL-encode
+     * @return encoded string
      */
     @SneakyThrows
     private static String percentCode(String str) {
-        Assert.notNull(str, "str 不能为空");
+        Assert.notNull(str, "str must not be null");
         return HttpUtils.encodeUtf8(str)
-                .replace("+", "%20") // 加号 "+" 被替换为 "%20"
-                .replace("*", "%2A") // 星号 "*" 被替换为 "%2A"
-                .replace("%7E", "~"); // 波浪号 "%7E" 被替换为 "~"
+                .replace("+", "%20") // plus sign "+" is replaced by "%20"
+                .replace("*", "%2A") // asterisk "*" is replaced by "%2A"
+                .replace("%7E", "~"); // tilde "%7E" is replaced by "~"
     }
 
 }

@@ -20,7 +20,7 @@ import static com.focela.platform.system.constants.ErrorCodeConstants.SMS_CHANNE
 import static com.focela.platform.system.constants.ErrorCodeConstants.SMS_CHANNEL_NOT_EXISTS;
 
 /**
- * 短信渠道 Service 实现类
+ * SMS channel Service implementation class
  */
 @Service
 @Slf4j
@@ -44,35 +44,35 @@ public class DefaultSmsChannelService implements SmsChannelService {
 
     @Override
     public void updateSmsChannel(SmsChannelSaveRequest updateRequest) {
-        // 校验存在
+        // Validate existence
         validateSmsChannelExists(updateRequest.getId());
-        // 更新
+        // Update
         SmsChannelEntity updateObj = BeanUtils.toBean(updateRequest, SmsChannelEntity.class);
         smsChannelMapper.updateById(updateObj);
     }
 
     @Override
     public void deleteSmsChannel(Long id) {
-        // 校验存在
+        // Validate existence
         validateSmsChannelExists(id);
-        // 校验是否有在使用该账号的模版
+        // Validate whether templates are still using this channel
         if (smsTemplateService.getSmsTemplateCountByChannelId(id) > 0) {
             throw exception(SMS_CHANNEL_HAS_CHILDREN);
         }
-        // 删除
+        // Delete
         smsChannelMapper.deleteById(id);
     }
 
     @Override
     public void deleteSmsChannelList(List<Long> ids) {
-        // 1. 校验是否有在使用该账号的模版
+        // 1. Validate whether templates are still using this channel
         ids.forEach(id -> {
             if (smsTemplateService.getSmsTemplateCountByChannelId(id) > 0) {
                 throw exception(SMS_CHANNEL_HAS_CHILDREN);
             }
         });
 
-        // 2. 批量删除
+        // 2. Batch delete
         smsChannelMapper.deleteByIds(ids);
     }
 

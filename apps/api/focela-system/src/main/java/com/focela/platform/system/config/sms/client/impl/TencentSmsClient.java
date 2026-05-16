@@ -26,9 +26,9 @@ import static cn.hutool.crypto.digest.DigestUtil.sha256Hex;
 import static com.focela.platform.common.utils.collection.CollectionUtils.convertList;
 
 /**
- * 腾讯云短信功能实现
+ * Tencent Cloud SMS client implementation
  *
- * 参见 <a href="https://cloud.tencent.com/document/product/382/52077">文档</a>
+ * See <a href="https://cloud.tencent.com/document/product/382/52077">documentation</a>
  */
 public class TencentSmsClient extends AbstractSmsClient {
 
@@ -37,38 +37,38 @@ public class TencentSmsClient extends AbstractSmsClient {
     private static final String REGION = "ap-guangzhou";
 
     /**
-     * 调用成功 code
+     * Code indicating a successful call
      */
     public static final String API_CODE_SUCCESS = "Ok";
 
     /**
-     * 是否国际/港澳台短信：
+     * Whether it is an international / HK-Macau-Taiwan SMS:
      *
-     * 0：表示国内短信。
-     * 1：表示国际/港澳台短信。
+     * 0: domestic SMS.
+     * 1: international / HK-Macau-Taiwan SMS.
      */
     private static final long INTERNATIONAL_CHINA = 0L;
 
     public TencentSmsClient(SmsChannelProperties properties) {
         super(properties);
-        Assert.notEmpty(properties.getApiSecret(), "apiSecret 不能为空");
+        Assert.notEmpty(properties.getApiSecret(), "apiSecret must not be blank");
         validateSdkAppId(properties);
     }
 
     /**
-     * 参数校验腾讯云的 SDK AppId
+     * Validate Tencent Cloud's SDK AppId parameter
      *
-     * 原因是：腾讯云发放短信的时候，需要额外的参数 sdkAppId
+     * Reason: sending SMS via Tencent Cloud requires an additional parameter sdkAppId.
      *
-     * 解决方案：考虑到不破坏原有的 apiKey + apiSecret 的结构，所以将 secretId 拼接到 apiKey 字段中，格式为 "secretId sdkAppId"。
+     * Solution: to avoid breaking the existing apiKey + apiSecret structure, the secretId is concatenated into the apiKey field with the format "secretId sdkAppId".
      *
-     * @param properties 配置
+     * @param properties config
      */
     private static void validateSdkAppId(SmsChannelProperties properties) {
         String combineKey = properties.getApiKey();
-        Assert.notEmpty(combineKey, "apiKey 不能为空");
+        Assert.notEmpty(combineKey, "apiKey must not be blank");
         String[] keys = combineKey.trim().split(" ");
-        Assert.isTrue(keys.length == 2, "腾讯云短信 apiKey 配置格式错误，请配置 为[secretId sdkAppId]");
+        Assert.isTrue(keys.length == 2, "Tencent Cloud SMS apiKey config format is incorrect, please configure as [secretId sdkAppId]");
     }
 
     private String getSdkAppId() {
@@ -82,8 +82,8 @@ public class TencentSmsClient extends AbstractSmsClient {
     @Override
     public SmsSendRpcResponse sendSms(Long sendLogId, String mobile,
                                   String apiTemplateId, List<KeyValue<String, Object>> templateParams) throws Throwable {
-        // 1. 执行请求
-        // 参考链接 https://cloud.tencent.com/document/product/382/55981
+        // 1. execute the request
+        // Reference: https://cloud.tencent.com/document/product/382/55981
         TreeMap<String, Object> body = new TreeMap<>();
         body.put("PhoneNumberSet", new String[]{mobile});
         body.put("SmsSdkAppId", getSdkAppId());
@@ -92,7 +92,7 @@ public class TencentSmsClient extends AbstractSmsClient {
         body.put("TemplateParamSet", ArrayUtils.toArray(templateParams, param -> String.valueOf(param.getValue())));
         JSONObject response = request("SendSms", body);
 
-        // 2. 解析请求
+        // 2. parse the response
         JSONObject responseResult = response.getJSONObject("Response");
         JSONObject error = responseResult.getJSONObject("Error");
         if (error != null) {
@@ -111,29 +111,29 @@ public class TencentSmsClient extends AbstractSmsClient {
     @Override
     public List<SmsReceiveRpcResponse> parseSmsReceiveStatus(String text) {
         JSONArray statuses = JSONUtil.parseArray(text);
-        // 字段参考
+        // field reference
         return convertList(statuses, status -> {
             JSONObject statusObj = (JSONObject) status;
             return new SmsReceiveRpcResponse()
-                    .setSuccess("SUCCESS".equals(statusObj.getStr("report_status"))) // 是否接收成功
-                    .setErrorCode(statusObj.getStr("errmsg")) // 状态报告编码
-                    .setErrorMsg(statusObj.getStr("description")) // 状态报告描述
-                    .setMobile(statusObj.getStr("mobile")) // 手机号
-                    .setReceiveTime(statusObj.getLocalDateTime("user_receive_time", null)) // 状态报告时间
-                    .setSerialNo(statusObj.getStr("sid")); // 发送序列号
+                    .setSuccess("SUCCESS".equals(statusObj.getStr("report_status"))) // whether received successfully
+                    .setErrorCode(statusObj.getStr("errmsg")) // status report code
+                    .setErrorMsg(statusObj.getStr("description")) // status report description
+                    .setMobile(statusObj.getStr("mobile")) // mobile number
+                    .setReceiveTime(statusObj.getLocalDateTime("user_receive_time", null)) // status report time
+                    .setSerialNo(statusObj.getStr("sid")); // send serial number
         });
     }
 
     @Override
     public SmsTemplateRpcResponse getSmsTemplate(String apiTemplateId) throws Throwable {
-        // 1. 构建请求
-        // 参考链接 https://cloud.tencent.com/document/product/382/52067
+        // 1. build the request
+        // Reference: https://cloud.tencent.com/document/product/382/52067
         TreeMap<String, Object> body = new TreeMap<>();
         body.put("International", INTERNATIONAL_CHINA);
         body.put("TemplateIdSet", new Integer[]{Integer.valueOf(apiTemplateId)});
         JSONObject response = request("DescribeSmsTemplateList", body);
 
-        // 2. 解析请求
+        // 2. parse the response
         JSONObject statusResult = response.getJSONObject("Response")
                 .getJSONArray("DescribeTemplateStatusSet").getJSONObject(0);
         return new SmsTemplateRpcResponse().setId(apiTemplateId)
@@ -153,16 +153,16 @@ public class TencentSmsClient extends AbstractSmsClient {
     }
 
     /**
-     * 请求腾讯云短信
+     * Send a request to Tencent Cloud SMS
      *
-     * @see <a href="https://cloud.tencent.com/document/product/382/52072">签名方法 v3</a>
+     * @see <a href="https://cloud.tencent.com/document/product/382/52072">Signature method v3</a>
      *
-     * @param action 请求的 API 名称
-     * @param body 请求参数
-     * @return 请求结果
+     * @param action name of the API to request
+     * @param body   request parameters
+     * @return request result
      */
     private JSONObject request(String action, TreeMap<String, Object> body) {
-        // 1.1 请求 Header
+        // 1.1 request headers
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json; charset=utf-8");
         headers.put("Host", HOST);
@@ -173,7 +173,7 @@ public class TencentSmsClient extends AbstractSmsClient {
         headers.put("X-TC-Version", VERSION);
         headers.put("X-TC-Region", REGION);
 
-        // 1.2 构建签名 Header
+        // 1.2 build the signed headers
         String canonicalQueryString = "";
         String canonicalHeaders = "content-type:application/json; charset=utf-8\n"
                 + "host:" + HOST + "\n" + "x-tc-action:" + action.toLowerCase() + "\n";
@@ -188,7 +188,7 @@ public class TencentSmsClient extends AbstractSmsClient {
         headers.put("Authorization", "TC3-HMAC-SHA256" + " " + "Credential=" + getApiKey() + "/" + credentialScope + ", "
                 + "SignedHeaders=" + signedHeaders + ", " + "Signature=" + signature);
 
-        // 2. 发起请求
+        // 2. send the request
         String responseBody = HttpUtils.post("https://" + HOST, headers, JSONUtil.toJsonStr(body));
         return JSONUtil.parseObj(responseBody);
     }

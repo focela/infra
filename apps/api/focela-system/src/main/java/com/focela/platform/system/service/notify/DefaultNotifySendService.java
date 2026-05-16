@@ -16,7 +16,7 @@ import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.e
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 
 /**
- * 站内信发送 Service 实现类
+ * In-site notification send Service implementation class
  */
 @Service
 @Validated
@@ -41,25 +41,25 @@ public class DefaultNotifySendService implements NotifySendService {
 
     @Override
     public Long sendSingleNotify(Long userId, Integer userType, String templateCode, Map<String, Object> templateParams) {
-        // 校验模版
+        // validate template
         NotifyTemplateEntity template = validateNotifyTemplate(templateCode);
         if (Objects.equals(template.getStatus(), CommonStatusEnum.DISABLE.getStatus())) {
             log.info("[sendSingleNotify][template ({})is closed, cannot to user ({}/{})send]", templateCode, userId, userType);
             return null;
         }
-        // 校验参数
+        // validate parameters
         validateTemplateParams(template, templateParams);
 
-        // 发送站内信
+        // send in-site notification
         String content = notifyTemplateService.formatNotifyTemplateContent(template.getContent(), templateParams);
         return notifyMessageService.createNotifyMessage(userId, userType, template, content, templateParams);
     }
 
     @VisibleForTesting
     public NotifyTemplateEntity validateNotifyTemplate(String templateCode) {
-        // 获得站内信模板。考虑到效率，从缓存中获取
+        // get notification template; for efficiency, fetch from cache
         NotifyTemplateEntity template = notifyTemplateService.getNotifyTemplateByCodeFromCache(templateCode);
-        // 站内信模板不存在
+        // template does not exist
         if (template == null) {
             throw exception(NOTICE_NOT_FOUND);
         }
@@ -67,10 +67,10 @@ public class DefaultNotifySendService implements NotifySendService {
     }
 
     /**
-     * 校验站内信模版参数是否确实
+     * Validate that the in-site notification template parameters are present
      *
-     * @param template 邮箱模板
-     * @param templateParams 参数列表
+     * @param template email template
+     * @param templateParams parameter list
      */
     @VisibleForTesting
     public void validateTemplateParams(NotifyTemplateEntity template, Map<String, Object> templateParams) {

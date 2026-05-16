@@ -15,7 +15,7 @@ import java.util.List;
 public class OAuth2OpenAuthorizeInfoResponse {
 
     /**
-     * 客户端
+     * Client
      */
     private Client client;
 

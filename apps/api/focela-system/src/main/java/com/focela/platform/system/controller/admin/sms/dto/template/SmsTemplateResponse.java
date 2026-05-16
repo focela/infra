@@ -17,53 +17,53 @@ import java.util.List;
 public class SmsTemplateResponse {
 
     @Schema(description = "ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-    @ExcelProperty("编号")
+    @ExcelProperty("ID")
     private Long id;
 
     @Schema(description = "SMS template type, see SmsTemplateTypeEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @ExcelProperty(value = "短信签名", converter = DictionaryConverter.class)
+    @ExcelProperty(value = "SMS signature", converter = DictionaryConverter.class)
     @DictionaryFormat(DictionaryTypeConstants.SMS_TEMPLATE_TYPE)
     private Integer type;
 
     @Schema(description = "Enable status, see CommonStatusEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @ExcelProperty(value = "开启状态", converter = DictionaryConverter.class)
+    @ExcelProperty(value = "Enable status", converter = DictionaryConverter.class)
     @DictionaryFormat(DictionaryTypeConstants.COMMON_STATUS)
     private Integer status;
 
     @Schema(description = "Template code", requiredMode = Schema.RequiredMode.REQUIRED, example = "test_01")
-    @ExcelProperty("模板编码")
+    @ExcelProperty("Template code")
     private String code;
 
-    @Schema(description = "Template name", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
-    @ExcelProperty("模板名称")
+    @Schema(description = "Template name", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela")
+    @ExcelProperty("Template name")
     private String name;
 
     @Schema(description = "Template content", requiredMode = Schema.RequiredMode.REQUIRED, example = "hello, {name}. you tall too {like}!")
-    @ExcelProperty("模板内容")
+    @ExcelProperty("Template content")
     private String content;
 
     @Schema(description = "Param array", example = "name,code")
     private List<String> params;
 
     @Schema(description = "Remarks", example = "")
-    @ExcelProperty("备注")
+    @ExcelProperty("Remarks")
     private String remark;
 
     @Schema(description = "SMS API template ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "4383920")
-    @ExcelProperty("短信 API 的模板编号")
+    @ExcelProperty("SMS API template ID")
     private String apiTemplateId;
 
     @Schema(description = "SMS channel ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "10")
-    @ExcelProperty("短信渠道编号")
+    @ExcelProperty("SMS channel ID")
     private Long channelId;
 
     @Schema(description = "SMS channel code", requiredMode = Schema.RequiredMode.REQUIRED, example = "ALIYUN")
-    @ExcelProperty(value = "短信渠道编码", converter = DictionaryConverter.class)
+    @ExcelProperty(value = "SMS channel code", converter = DictionaryConverter.class)
     @DictionaryFormat(DictionaryTypeConstants.SMS_CHANNEL_CODE)
     private String channelCode;
 
     @Schema(description = "Created time", requiredMode = Schema.RequiredMode.REQUIRED)
-    @ExcelProperty("创建时间")
+    @ExcelProperty("Created time")
     private LocalDateTime createTime;
 
 }

@@ -9,69 +9,69 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 /**
- * 邮箱账号 Service 接口
+ * Mail account Service interface
  *
  * @since 2022-03-21
  */
 public interface MailAccountService {
 
     /**
-     * 创建邮箱账号
+     * Create a mail account
      *
-     * @param createRequest 邮箱账号信息
-     * @return 编号
+     * @param createRequest mail account info
+     * @return ID
      */
     Long createMailAccount(@Valid MailAccountSaveRequest createRequest);
 
     /**
-     * 修改邮箱账号
+     * Update a mail account
      *
-     * @param updateRequest 邮箱账号信息
+     * @param updateRequest mail account info
      */
     void updateMailAccount(@Valid MailAccountSaveRequest updateRequest);
 
     /**
-     * 删除邮箱账号
+     * Delete a mail account
      *
-     * @param id 编号
+     * @param id ID
      */
     void deleteMailAccount(Long id);
 
     /**
-     * 批量删除邮箱账号
+     * Batch delete mail accounts
      *
-     * @param ids 编号列表
+     * @param ids ID list
      */
     void deleteMailAccountList(List<Long> ids);
 
     /**
-     * 获取邮箱账号信息
+     * Get mail account info
      *
-     * @param id 编号
-     * @return 邮箱账号信息
+     * @param id ID
+     * @return mail account info
      */
     MailAccountEntity getMailAccount(Long id);
 
     /**
-     * 从缓存中获取邮箱账号
+     * Get mail account from cache
      *
-     * @param id 编号
-     * @return 邮箱账号
+     * @param id ID
+     * @return mail account
      */
     MailAccountEntity getMailAccountFromCache(Long id);
 
     /**
-     * 获取邮箱账号分页信息
+     * Get paginated mail account info
      *
-     * @param pageRequest 邮箱账号分页参数
-     * @return 邮箱账号分页信息
+     * @param pageRequest mail account pagination parameters
+     * @return paginated mail account info
      */
     PageResult<MailAccountEntity> getMailAccountPage(MailAccountPageRequest pageRequest);
 
     /**
-     * 获取邮箱数组信息
+     * Get list of mail accounts
      *
-     * @return 邮箱账号信息数组
+     * @return mail account list
      */
     List<MailAccountEntity> getMailAccountList();
 

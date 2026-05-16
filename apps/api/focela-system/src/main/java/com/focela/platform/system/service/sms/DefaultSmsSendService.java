@@ -31,7 +31,7 @@ import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.e
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 
 /**
- * 短信发送 Service 发送的实现
+ * SMS send Service implementation
  */
 @Service
 @Slf4j
@@ -52,49 +52,50 @@ public class DefaultSmsSendService implements SmsSendService {
     private SmsProducer smsProducer;
 
     @Override
-    @DataPermission(enable = false) // 发送短信时，无需考虑数据权限
+    @DataPermission(enable = false) // when sending SMS, data permission need not be considered
     public Long sendSingleSmsToAdmin(String mobile, Long userId, String templateCode, Map<String, Object> templateParams) {
-        // 如果 mobile 为空，则加载用户编号对应的手机号
+        // if mobile is empty, load the mobile number corresponding to the user ID
         if (StrUtil.isEmpty(mobile)) {
             UserEntity user = adminUserService.getUser(userId);
             if (user != null) {
                 mobile = user.getMobile();
             }
         }
-        // 执行发送
+        // perform sending
         return sendSingleSms(mobile, userId, UserTypeEnum.ADMIN.getValue(), templateCode, templateParams);
     }
 
     @Override
     public Long sendSingleSmsToMember(String mobile, Long userId, String templateCode, Map<String, Object> templateParams) {
-        // 如果 mobile 为空，则加载用户编号对应的手机号
+        // if mobile is empty, load the mobile number corresponding to the user ID
         if (StrUtil.isEmpty(mobile)) {
             mobile = memberService.getMemberUserMobile(userId);
         }
-        // 执行发送
+        // perform sending
         return sendSingleSms(mobile, userId, UserTypeEnum.MEMBER.getValue(), templateCode, templateParams);
     }
 
     @Override
     public Long sendSingleSms(String mobile, Long userId, Integer userType,
                               String templateCode, Map<String, Object> templateParams) {
-        // 校验短信模板是否合法
+        // validate the SMS template
         SmsTemplateEntity template = validateSmsTemplate(templateCode);
-        // 校验短信渠道是否合法
+        // validate the SMS channel
         SmsChannelEntity smsChannel = validateSmsChannel(template.getChannelId());
 
-        // 校验手机号码是否存在
+        // validate that the mobile number exists
         mobile = validateMobile(mobile);
-        // 构建有序的模板参数。为什么放在这个位置，是提前保证模板参数的正确性，而不是到了插入发送日志
+        // build ordered template parameters. The reason this is placed here is to ensure template parameter correctness
+        // up front, rather than at the point of inserting the send log.
         List<KeyValue<String, Object>> newTemplateParams = buildTemplateParams(template, templateParams);
 
-        // 创建发送日志。如果模板被禁用，则不发送短信，只记录日志
+        // create the send log. If the template is disabled, do not send the SMS; only record the log.
         Boolean isSend = CommonStatusEnum.ENABLE.getStatus().equals(template.getStatus())
                 && CommonStatusEnum.ENABLE.getStatus().equals(smsChannel.getStatus());
         String content = smsTemplateService.formatSmsTemplateContent(template.getContent(), templateParams);
         Long sendLogId = smsLogService.createSmsLog(mobile, userId, userType, isSend, template, content, templateParams);
 
-        // 发送 MQ 消息，异步执行发送短信
+        // send MQ message; SMS is sent asynchronously
         if (isSend) {
             smsProducer.sendSmsSendMessage(sendLogId, mobile, template.getChannelId(),
                     template.getApiTemplateId(), newTemplateParams);
@@ -104,9 +105,9 @@ public class DefaultSmsSendService implements SmsSendService {
 
     @VisibleForTesting
     SmsChannelEntity validateSmsChannel(Long channelId) {
-        // 获得短信模板。考虑到效率，从缓存中获取
+        // get the SMS channel; for efficiency, fetch from cache
         SmsChannelEntity channelDO = smsChannelService.getSmsChannel(channelId);
-        // 短信模板不存在
+        // SMS channel does not exist
         if (channelDO == null) {
             throw exception(SMS_CHANNEL_NOT_EXISTS);
         }
@@ -115,9 +116,9 @@ public class DefaultSmsSendService implements SmsSendService {
 
     @VisibleForTesting
     SmsTemplateEntity validateSmsTemplate(String templateCode) {
-        // 获得短信模板。考虑到效率，从缓存中获取
+        // get the SMS template; for efficiency, fetch from cache
         SmsTemplateEntity template = smsTemplateService.getSmsTemplateByCodeFromCache(templateCode);
-        // 短信模板不存在
+        // SMS template does not exist
         if (template == null) {
             throw exception(SMS_SEND_TEMPLATE_NOT_EXISTS);
         }
@@ -125,13 +126,14 @@ public class DefaultSmsSendService implements SmsSendService {
     }
 
     /**
-     * 将参数模板，处理成有序的 KeyValue 数组
+     * Convert the template parameters into an ordered KeyValue array.
      * <p>
-     * 原因是，部分短信平台并不是使用 key 作为参数，而是数组下标，例如说 <a href="https://cloud.tencent.com/document/product/382/39023">腾讯云</a>
+     * The reason is that some SMS platforms use array indexes rather than keys for parameters,
+     * for example <a href="https://cloud.tencent.com/document/product/382/39023">Tencent Cloud</a>.
      *
-     * @param template       短信模板
-     * @param templateParams 原始参数
-     * @return 处理后的参数
+     * @param template       SMS template
+     * @param templateParams raw parameters
+     * @return processed parameters
      */
     @VisibleForTesting
     List<KeyValue<String, Object>> buildTemplateParams(SmsTemplateEntity template, Map<String, Object> templateParams) {
@@ -154,10 +156,10 @@ public class DefaultSmsSendService implements SmsSendService {
 
     @Override
     public void doSendSms(SmsSendMessage message) {
-        // 获得渠道对应的 SmsClient 客户端
+        // get the SmsClient for the channel
         SmsClient smsClient = smsChannelService.getSmsClient(message.getChannelId());
-        Assert.notNull(smsClient, "短信客户端({}) 不存在", message.getChannelId());
-        // 发送短信
+        Assert.notNull(smsClient, "SMS client ({}) does not exist", message.getChannelId());
+        // send SMS
         try {
             SmsSendRpcResponse sendResponse = smsClient.sendSms(message.getLogId(), message.getMobile(),
                     message.getApiTemplateId(), message.getTemplateParams());
@@ -173,15 +175,15 @@ public class DefaultSmsSendService implements SmsSendService {
 
     @Override
     public void receiveSmsStatus(String channelCode, String text) throws Throwable {
-        // 获得渠道对应的 SmsClient 客户端
+        // get the SmsClient for the channel
         SmsClient smsClient = smsChannelService.getSmsClient(channelCode);
-        Assert.notNull(smsClient, "短信客户端({}) 不存在", channelCode);
-        // 解析内容
+        Assert.notNull(smsClient, "SMS client ({}) does not exist", channelCode);
+        // parse content
         List<SmsReceiveRpcResponse> receiveResults = smsClient.parseSmsReceiveStatus(text);
         if (CollUtil.isEmpty(receiveResults)) {
             return;
         }
-        // 更新短信日志的接收结果. 因为量一般不大，所以先使用 for 循环更新
+        // update the receive result of the SMS log. Because volume is usually small, a for-loop update is sufficient.
         receiveResults.forEach(result -> smsLogService.updateSmsReceiveResult(result.getLogId(), result.getSerialNo(),
                 result.getSuccess(), result.getReceiveTime(), result.getErrorCode(), result.getErrorMsg()));
     }

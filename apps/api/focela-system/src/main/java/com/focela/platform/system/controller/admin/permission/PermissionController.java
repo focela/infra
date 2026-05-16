@@ -21,7 +21,7 @@ import java.util.Set;
 import static com.focela.platform.common.model.CommonResult.success;
 
 /**
- * 权限 Controller，提供赋予用户、角色的权限的 API 接口
+ * Permission Controller, provides API endpoints for assigning permissions to users and roles
  */
 @Tag(name = "Admin - permission")
 @RestController
@@ -45,10 +45,10 @@ public class PermissionController {
     @Operation(summary = "grant role menus")
     @PreAuthorize("@ss.hasPermission('system:permission:assign-role-menu')")
     public CommonResult<Boolean> assignRoleMenu(@Validated @RequestBody PermissionAssignRoleMenuRequest request) {
-        // 开启多租户的情况下，需要过滤掉未开通的菜单
+        // When multi-tenancy is enabled, filter out menus not opened for this tenant
         tenantService.handleTenantMenu(menuIds -> request.getMenuIds().removeIf(menuId -> !CollUtil.contains(menuIds, menuId)));
 
-        // 执行菜单的分配
+        // Perform menu assignment
         permissionService.assignRoleMenu(request.getRoleId(), request.getMenuIds());
         return success(true);
     }

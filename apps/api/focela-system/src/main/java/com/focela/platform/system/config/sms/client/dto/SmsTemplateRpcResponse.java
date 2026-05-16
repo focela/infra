@@ -4,27 +4,27 @@ import com.focela.platform.system.config.sms.enums.SmsTemplateAuditStatusEnum;
 import lombok.Data;
 
 /**
- * 短信模板 Response DTO
+ * SMS template Response DTO
  */
 @Data
 public class SmsTemplateRpcResponse {
 
     /**
-     * 模板编号
+     * Template ID
      */
     private String id;
     /**
-     * 短信内容
+     * SMS content
      */
     private String content;
     /**
-     * 审核状态
+     * Audit status
      *
-     * 枚举 {@link SmsTemplateAuditStatusEnum}
+     * Enum {@link SmsTemplateAuditStatusEnum}
      */
     private Integer auditStatus;
     /**
-     * 审核未通过的理由
+     * Reason for audit rejection
      */
     private String auditReason;
 

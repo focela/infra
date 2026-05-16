@@ -29,7 +29,7 @@ public class AppAreaController {
     @PermitAll
     public CommonResult<List<AppAreaNodeResponse>> getAreaTree() {
         Area area = AreaUtils.getArea(Area.ID_CHINA);
-        Assert.notNull(area, "获取不到中国");
+        Assert.notNull(area, "Cannot find China");
         return success(BeanUtils.toBean(area.getChildren(), AppAreaNodeResponse.class));
     }
 

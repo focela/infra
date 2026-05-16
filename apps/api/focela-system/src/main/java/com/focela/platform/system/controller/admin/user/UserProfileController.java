@@ -49,15 +49,15 @@ public class UserProfileController {
 
     @GetMapping("/get")
     @Operation(summary = "get login user info")
-    @DataPermission(enable = false) // 关闭数据权限，避免只查看自己时，查询不到部门。
+    @DataPermission(enable = false) // disable data permission to avoid the department being unreachable when viewing only one's own info.
     public CommonResult<UserProfileResponse> getUserProfile() {
-        // 获得用户基本信息
+        // Get user basic info
         UserEntity user = userService.getUser(getLoginUserId());
-        // 获得用户角色
+        // Get user roles
         List<RoleEntity> userRoles = roleService.getRoleListFromCache(permissionService.getUserRoleIdListByUserId(user.getId()));
-        // 获得部门信息
+        // Get department info
         DepartmentEntity dept = user.getDeptId() != null ? deptService.getDept(user.getDeptId()) : null;
-        // 获得岗位信息
+        // Get post info
         List<PostEntity> posts = CollUtil.isNotEmpty(user.getPostIds()) ? postService.getPostList(user.getPostIds()) : null;
         return success(UserConverter.INSTANCE.convert(user, userRoles, dept, posts));
     }

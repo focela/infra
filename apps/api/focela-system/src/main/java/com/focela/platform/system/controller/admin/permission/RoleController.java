@@ -103,8 +103,8 @@ public class RoleController {
     public void export(HttpServletResponse response, @Validated RolePageRequest exportRequest) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
         List<RoleEntity> list = roleService.getRolePage(exportRequest).getList();
-        // 输出
-        ExcelUtils.write(response, "角色数据.xls", "数据", RoleResponse.class,
+        // Output
+        ExcelUtils.write(response, "Role data.xls", "Data", RoleResponse.class,
                 BeanUtils.toBean(list, RoleResponse.class));
     }
 

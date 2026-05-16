@@ -132,8 +132,8 @@ public class TenantController {
     public void exportTenantExcel(@Valid TenantPageRequest exportRequest, HttpServletResponse response) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
         List<TenantEntity> list = tenantService.getTenantPage(exportRequest).getList();
-        // 导出 Excel
-        ExcelUtils.write(response, "租户.xls", "数据", TenantResponse.class,
+        // Export Excel
+        ExcelUtils.write(response, "Tenant.xls", "Data", TenantResponse.class,
                 BeanUtils.toBean(list, TenantResponse.class));
     }
 

@@ -8,52 +8,52 @@ import com.focela.platform.system.entity.notice.NoticeEntity;
 import java.util.List;
 
 /**
- * 通知公告 Service 接口
+ * Notice Service interface
  */
 public interface NoticeService {
 
     /**
-     * 创建通知公告
+     * Create a notice
      *
-     * @param createRequest 通知公告
-     * @return 编号
+     * @param createRequest notice
+     * @return ID
      */
     Long createNotice(NoticeSaveRequest createRequest);
 
     /**
-     * 更新通知公告
+     * Update a notice
      *
-     * @param request 通知公告
+     * @param request notice
      */
     void updateNotice(NoticeSaveRequest request);
 
     /**
-     * 删除通知公告
+     * Delete a notice
      *
-     * @param id 编号
+     * @param id ID
      */
     void deleteNotice(Long id);
 
     /**
-     * 批量删除通知公告
+     * Batch delete notices
      *
-     * @param ids 编号列表
+     * @param ids ID list
      */
     void deleteNoticeList(List<Long> ids);
 
     /**
-     * 获得通知公告分页列表
+     * Get paginated list of notices
      *
-     * @param request 分页条件
-     * @return 部门分页列表
+     * @param request pagination conditions
+     * @return paginated notice list
      */
     PageResult<NoticeEntity> getNoticePage(NoticePageRequest request);
 
     /**
-     * 获得通知公告
+     * Get a notice
      *
-     * @param id 编号
-     * @return 通知公告
+     * @param id ID
+     * @return notice
      */
     NoticeEntity getNotice(Long id);
 

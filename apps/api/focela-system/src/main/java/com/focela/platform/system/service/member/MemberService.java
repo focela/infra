@@ -1,23 +1,23 @@
 package com.focela.platform.system.service.member;
 
 /**
- * Member Service 接口
+ * Member Service interface
  */
 public interface MemberService {
 
     /**
-     * 获得会员用户的手机号码
+     * Get the mobile number of a member user
      *
-     * @param id 会员用户编号
-     * @return 手机号码
+     * @param id member user ID
+     * @return mobile number
      */
     String getMemberUserMobile(Long id);
 
     /**
-     * 获得会员用户的邮箱
+     * Get the email of a member user
      *
-     * @param id 会员用户编号
-     * @return 邮箱
+     * @param id member user ID
+     * @return email
      */
     String getMemberUserEmail(Long id);
 

@@ -7,33 +7,33 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 /**
- * 短信发送消息
+ * SMS send message
  */
 @Data
 public class SmsSendMessage {
 
     /**
-     * 短信日志编号
+     * SMS log ID
      */
     @NotNull(message = "SMS log ID must not be blank")
     private Long logId;
     /**
-     * 手机号
+     * Mobile number
      */
     @NotNull(message = "mobile number must not be blank")
     private String mobile;
     /**
-     * 短信渠道编号
+     * SMS channel ID
      */
     @NotNull(message = "SMS channel ID must not be blank")
     private Long channelId;
     /**
-     * 短信 API 的模板编号
+     * SMS API template ID
      */
     @NotNull(message = "SMS API template ID must not be blank")
     private String apiTemplateId;
     /**
-     * 短信模板参数
+     * SMS template parameters
      */
     private List<KeyValue<String, Object>> templateParams;
 

@@ -8,68 +8,68 @@ import com.focela.platform.system.entity.department.DepartmentEntity;
 import java.util.*;
 
 /**
- * 部门 Service 接口
+ * Department Service interface
  */
 public interface DepartmentService {
 
     /**
-     * 创建部门
+     * Create a department
      *
-     * @param createRequest 部门信息
-     * @return 部门编号
+     * @param createRequest department information
+     * @return department ID
      */
     Long createDept(DepartmentSaveRequest createRequest);
 
     /**
-     * 更新部门
+     * Update a department
      *
-     * @param updateRequest 部门信息
+     * @param updateRequest department information
      */
     void updateDept(DepartmentSaveRequest updateRequest);
 
     /**
-     * 删除部门
+     * Delete a department
      *
-     * @param id 部门编号
+     * @param id department ID
      */
     void deleteDept(Long id);
 
     /**
-     * 批量删除部门
+     * Batch delete departments
      *
-     * @param ids 部门编号数组
+     * @param ids department ID array
      */
     void deleteDeptList(List<Long> ids);
 
     /**
-     * 获得部门信息
+     * Get department information
      *
-     * @param id 部门编号
-     * @return 部门信息
+     * @param id department ID
+     * @return department information
      */
     DepartmentEntity getDept(Long id);
 
     /**
-     * 获得部门信息数组
+     * Get the department information array
      *
-     * @param ids 部门编号数组
-     * @return 部门信息数组
+     * @param ids department ID array
+     * @return department information array
      */
     List<DepartmentEntity> getDeptList(Collection<Long> ids);
 
     /**
-     * 筛选部门列表
+     * Filter the department list
      *
-     * @param request 筛选条件请求 VO
-     * @return 部门列表
+     * @param request filter request DTO
+     * @return department list
      */
     List<DepartmentEntity> getDeptList(DepartmentListRequest request);
 
     /**
-     * 获得指定编号的部门 Map
+     * Get a department Map by the specified IDs
      *
-     * @param ids 部门编号数组
-     * @return 部门 Map
+     * @param ids department ID array
+     * @return department Map
      */
     default Map<Long, DepartmentEntity> getDeptMap(Collection<Long> ids) {
         List<DepartmentEntity> list = getDeptList(ids);
@@ -77,45 +77,45 @@ public interface DepartmentService {
     }
 
     /**
-     * 获得指定部门的所有子部门
+     * Get all child departments of the specified department
      *
-     * @param id 部门编号
-     * @return 子部门列表
+     * @param id department ID
+     * @return child department list
      */
     default List<DepartmentEntity> getChildDeptList(Long id) {
         return getChildDeptList(Collections.singleton(id));
     }
 
     /**
-     * 获得指定部门的所有子部门
+     * Get all child departments of the specified departments
      *
-     * @param ids 部门编号数组
-     * @return 子部门列表
+     * @param ids department ID array
+     * @return child department list
      */
     List<DepartmentEntity> getChildDeptList(Collection<Long> ids);
 
     /**
-     * 获得指定领导者的部门列表
+     * Get the department list for the specified leader
      *
-     * @param id 领导者编号
-     * @return 部门列表
+     * @param id leader ID
+     * @return department list
      */
     List<DepartmentEntity> getDeptListByLeaderUserId(Long id);
 
     /**
-     * 获得所有子部门，从缓存中
+     * Get all child departments from cache
      *
-     * @param id 父部门编号
-     * @return 子部门列表
+     * @param id parent department ID
+     * @return child department list
      */
     Set<Long> getChildDeptIdListFromCache(Long id);
 
     /**
-     * 校验部门们是否有效。如下情况，视为无效：
-     * 1. 部门编号不存在
-     * 2. 部门被禁用
+     * Validate whether the departments are valid. The following are considered invalid:
+     * 1. Department ID does not exist
+     * 2. Department is disabled
      *
-     * @param ids 角色编号数组
+     * @param ids role ID array
      */
     void validateDeptList(Collection<Long> ids);
 

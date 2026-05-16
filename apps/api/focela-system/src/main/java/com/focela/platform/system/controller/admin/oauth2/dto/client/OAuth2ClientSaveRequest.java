@@ -43,16 +43,16 @@ public class OAuth2ClientSaveRequest {
     private Integer status;
 
     @Schema(description = "Access token TTL", requiredMode = Schema.RequiredMode.REQUIRED, example = "8640")
-    @NotNull(message = "access token valid 期must not be blank")
+    @NotNull(message = "access token validity period must not be blank")
     private Integer accessTokenValiditySeconds;
 
     @Schema(description = "Refresh token TTL", requiredMode = Schema.RequiredMode.REQUIRED, example = "8640000")
-    @NotNull(message = "refresh token valid 期must not be blank")
+    @NotNull(message = "refresh token validity period must not be blank")
     private Integer refreshTokenValiditySeconds;
 
     @Schema(description = "Allowed redirect URIs", requiredMode = Schema.RequiredMode.REQUIRED, example = "https://www.example.com")
-    @NotNull(message = "重定向 URI address must not be blank")
-    private List<@NotEmpty(message = "重定向 URI must not be blank") @URL(message = "重定向 URI format is invalid") String> redirectUris;
+    @NotNull(message = "redirect URI address must not be blank")
+    private List<@NotEmpty(message = "redirect URI must not be blank") @URL(message = "redirect URI format is invalid") String> redirectUris;
 
     @Schema(description = "Grant type, see OAuth2GrantTypeEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "password")
     @NotNull(message = "authorize type must not be blank")
@@ -73,7 +73,7 @@ public class OAuth2ClientSaveRequest {
     @Schema(description = "Extra info", example = "{yunai: true}")
     private String additionalInformation;
 
-    @AssertTrue(message = "附加信息must be JSON format")
+    @AssertTrue(message = "additional information must be JSON format")
     public boolean isAdditionalInformationJson() {
         return StrUtil.isEmpty(additionalInformation) || JsonUtils.isJson(additionalInformation);
     }

@@ -29,7 +29,7 @@ import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.e
 import static com.focela.platform.system.constants.ErrorCodeConstants.*;
 
 /**
- * 邮箱发送 Service 实现类
+ * Mail send Service implementation class
  *
  * @since 2022-03-21
  */
@@ -58,14 +58,14 @@ public class DefaultMailSendService implements MailSendService {
                                Long userId, Integer userType,
                                String templateCode, Map<String, Object> templateParams,
                                File... attachments) {
-        // 1.1 校验邮箱模版是否合法
+        // 1.1 Validate the mail template
         MailTemplateEntity template = validateMailTemplate(templateCode);
-        // 1.2 校验邮箱账号是否合法
+        // 1.2 Validate the mail account
         MailAccountEntity account = validateMailAccount(template.getAccountId());
-        // 1.3 校验邮件参数是否缺失
+        // 1.3 Validate that mail parameters are not missing
         validateTemplateParams(template, templateParams);
 
-        // 2. 组装邮箱
+        // 2. Assemble the recipient lists
         String userMail = getUserMail(userId, userType);
         Collection<String> toMailSet = new LinkedHashSet<>();
         Collection<String> ccMailSet = new LinkedHashSet<>();
@@ -86,13 +86,13 @@ public class DefaultMailSendService implements MailSendService {
             throw exception(MAIL_SEND_MAIL_NOT_EXISTS);
         }
 
-        // 创建发送日志。如果模板被禁用，则不发送短信，只记录日志
+        // Create the send log. If the template is disabled, do not send the mail, only record the log
         Boolean isSend = CommonStatusEnum.ENABLE.getStatus().equals(template.getStatus());
         String title = mailTemplateService.formatMailTemplateContent(template.getTitle(), templateParams);
         String content = mailTemplateService.formatMailTemplateContent(template.getContent(), templateParams);
         Long sendLogId = mailLogService.createMailLog(userId, userType, toMailSet, ccMailSet, bccMailSet,
                 account, template, content, templateParams, isSend);
-        // 发送 MQ 消息，异步执行发送短信
+        // Send an MQ message to asynchronously send the mail
         if (isSend) {
             mailProducer.sendMailSendMessage(sendLogId, toMailSet, ccMailSet, bccMailSet,
                     account.getId(), template.getNickname(), title, content, attachments);
@@ -118,17 +118,17 @@ public class DefaultMailSendService implements MailSendService {
 
     @Override
     public void doSendMail(MailSendMessage message) {
-        // 1. 创建发送账号
+        // 1. Build the sending account
         MailAccountEntity account = validateMailAccount(message.getAccountId());
         MailAccount mailAccount  = buildMailAccount(account, message.getNickname());
-        // 2. 发送邮件
+        // 2. Send the mail
         try {
             String messageId = MailUtil.send(mailAccount, message.getToMails(), message.getCcMails(), message.getBccMails(),
                     message.getTitle(), message.getContent(), true, message.getAttachments());
-            // 3. 更新结果（成功）
+            // 3. Update result (success)
             mailLogService.updateMailSendResult(message.getLogId(), messageId, null);
         } catch (Exception e) {
-            // 3. 更新结果（异常）
+            // 3. Update result (exception)
             mailLogService.updateMailSendResult(message.getLogId(), null, e);
         }
     }
@@ -143,9 +143,9 @@ public class DefaultMailSendService implements MailSendService {
 
     @VisibleForTesting
     MailTemplateEntity validateMailTemplate(String templateCode) {
-        // 获得邮件模板。考虑到效率，从缓存中获取
+        // Get the mail template. For efficiency, fetch from cache
         MailTemplateEntity template = mailTemplateService.getMailTemplateByCodeFromCache(templateCode);
-        // 邮件模板不存在
+        // Mail template does not exist
         if (template == null) {
             throw exception(MAIL_TEMPLATE_NOT_EXISTS);
         }
@@ -154,9 +154,9 @@ public class DefaultMailSendService implements MailSendService {
 
     @VisibleForTesting
     MailAccountEntity validateMailAccount(Long accountId) {
-        // 获得邮箱账号。考虑到效率，从缓存中获取
+        // Get the mail account. For efficiency, fetch from cache
         MailAccountEntity account = mailAccountService.getMailAccountFromCache(accountId);
-        // 邮箱账号不存在
+        // Mail account does not exist
         if (account == null) {
             throw exception(MAIL_ACCOUNT_NOT_EXISTS);
         }
@@ -164,10 +164,10 @@ public class DefaultMailSendService implements MailSendService {
     }
 
     /**
-     * 校验邮件参数是否缺失
+     * Validate that mail parameters are not missing
      *
-     * @param template 邮箱模板
-     * @param templateParams 参数列表
+     * @param template mail template
+     * @param templateParams parameter list
      */
     @VisibleForTesting
     void validateTemplateParams(MailTemplateEntity template, Map<String, Object> templateParams) {

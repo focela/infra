@@ -10,79 +10,79 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 短信模板 Service 接口
+ * SMS template Service interface
  *
  * @since 2021/1/25 9:24
  */
 public interface SmsTemplateService {
 
     /**
-     * 创建短信模板
+     * Create SMS template
      *
-     * @param createRequest 创建信息
-     * @return 编号
+     * @param createRequest create info
+     * @return ID
      */
     Long createSmsTemplate(@Valid SmsTemplateSaveRequest createRequest);
 
     /**
-     * 更新短信模板
+     * Update SMS template
      *
-     * @param updateRequest 更新信息
+     * @param updateRequest update info
      */
     void updateSmsTemplate(@Valid SmsTemplateSaveRequest updateRequest);
 
     /**
-     * 删除短信模板
+     * Delete SMS template
      *
-     * @param id 编号
+     * @param id ID
      */
     void deleteSmsTemplate(Long id);
 
     /**
-     * 批量删除短信模板
+     * Batch delete SMS templates
      *
-     * @param ids 编号数组
+     * @param ids ID array
      */
     void deleteSmsTemplateList(List<Long> ids);
 
     /**
-     * 获得短信模板
+     * Get SMS template
      *
-     * @param id 编号
-     * @return 短信模板
+     * @param id ID
+     * @return SMS template
      */
     SmsTemplateEntity getSmsTemplate(Long id);
 
     /**
-     * 获得短信模板，从缓存中
+     * Get SMS template from cache
      *
-     * @param code 模板编码
-     * @return 短信模板
+     * @param code template code
+     * @return SMS template
      */
     SmsTemplateEntity getSmsTemplateByCodeFromCache(String code);
 
     /**
-     * 获得短信模板分页
+     * Get SMS template page
      *
-     * @param pageRequest 分页查询
-     * @return 短信模板分页
+     * @param pageRequest page query
+     * @return SMS template page
      */
     PageResult<SmsTemplateEntity> getSmsTemplatePage(SmsTemplatePageRequest pageRequest);
 
     /**
-     * 获得指定短信渠道下的短信模板数量
+     * Get the SMS template count of the specified SMS channel
      *
-     * @param channelId 短信渠道编号
-     * @return 数量
+     * @param channelId SMS channel ID
+     * @return count
      */
     Long getSmsTemplateCountByChannelId(Long channelId);
 
     /**
-     * 格式化短信内容
+     * Format SMS content
      *
-     * @param content 短信模板的内容
-     * @param params 内容的参数
-     * @return 格式化后的内容
+     * @param content SMS template content
+     * @param params content parameters
+     * @return formatted content
      */
     String formatSmsTemplateContent(String content, Map<String, Object> params);
 

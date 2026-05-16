@@ -50,9 +50,9 @@ public class TenantSaveRequest {
     @NotNull(message = "account count must not be blank")
     private Integer accountCount;
 
-    // ========== 仅【创建】时，需要传递的字段 ==========
+    // ========== Fields required only on [create] ==========
 
-    @Schema(description = "Username", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
+    @Schema(description = "Username", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela")
     @Pattern(regexp = "^[a-zA-Z0-9]{4,30}$", message = "user account consists of digit, letter consists of")
     @Size(min = 4, max = 30, message = "user account length must be 4-30 characters")
     private String username;
@@ -64,8 +64,8 @@ public class TenantSaveRequest {
     @AssertTrue(message = "user account, password must not be blank")
     @JsonIgnore
     public boolean isUsernameValid() {
-        return id != null // 修改时，不需要传递
-                || (ObjectUtil.isAllNotEmpty(username, password)); // 新增时，必须都传递 username、password
+        return id != null // not required on update
+                || (ObjectUtil.isAllNotEmpty(username, password)); // on create, both username and password must be provided
     }
 
 }

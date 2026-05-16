@@ -8,23 +8,23 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * 邮件发送 Service 接口
+ * Mail send Service interface
  *
  * @since 2022-03-21
  */
 public interface MailSendService {
 
     /**
-     * 发送单条邮件给管理后台的用户
+     * Send a single mail to an admin user
      *
-     * @param userId 用户编码
-     * @param toMails 收件邮箱
-     * @param ccMails 抄送邮箱
-     * @param bccMails 密送邮箱
-     * @param templateCode 邮件模版编码
-     * @param templateParams 邮件模版参数
-     * @param attachments 附件
-     * @return 发送日志编号
+     * @param userId user ID
+     * @param toMails recipient emails
+     * @param ccMails cc emails
+     * @param bccMails bcc emails
+     * @param templateCode mail template code
+     * @param templateParams mail template parameters
+     * @param attachments attachments
+     * @return send log ID
      */
     default Long sendSingleMailToAdmin(Long userId,
                                        Collection<String> toMails, Collection<String> ccMails, Collection<String> bccMails,
@@ -35,16 +35,16 @@ public interface MailSendService {
     }
 
     /**
-     * 发送单条邮件给用户 APP 的用户
+     * Send a single mail to a member (user app)
      *
-     * @param userId 用户编码
-     * @param toMails 收件邮箱
-     * @param ccMails 抄送邮箱
-     * @param bccMails 密送邮箱
-     * @param templateCode 邮件模版编码
-     * @param templateParams 邮件模版参数
-     * @param attachments 附件
-     * @return 发送日志编号
+     * @param userId user ID
+     * @param toMails recipient emails
+     * @param ccMails cc emails
+     * @param bccMails bcc emails
+     * @param templateCode mail template code
+     * @param templateParams mail template parameters
+     * @param attachments attachments
+     * @return send log ID
      */
     default Long sendSingleMailToMember(Long userId,
                                         Collection<String> toMails, Collection<String> ccMails, Collection<String> bccMails,
@@ -55,17 +55,17 @@ public interface MailSendService {
     }
 
     /**
-     * 发送单条邮件
+     * Send a single mail
      *
-     * @param toMails 收件邮箱
-     * @param ccMails 抄送邮箱
-     * @param bccMails 密送邮箱
-     * @param userId 用户编号
-     * @param userType 用户类型
-     * @param templateCode 邮件模版编码
-     * @param templateParams 邮件模版参数
-     * @param attachments 附件
-     * @return 发送日志编号
+     * @param toMails recipient emails
+     * @param ccMails cc emails
+     * @param bccMails bcc emails
+     * @param userId user ID
+     * @param userType user type
+     * @param templateCode mail template code
+     * @param templateParams mail template parameters
+     * @param attachments attachments
+     * @return send log ID
      */
     Long sendSingleMail(Collection<String> toMails, Collection<String> ccMails, Collection<String> bccMails,
                         Long userId, Integer userType,
@@ -73,10 +73,10 @@ public interface MailSendService {
                         File... attachments);
 
     /**
-     * 执行真正的邮件发送
-     * 注意，该方法仅仅提供给 MQ Consumer 使用
+     * Perform the actual mail sending.
+     * Note: this method is intended only for MQ Consumer use.
      *
-     * @param message 邮件
+     * @param message mail
      */
     void doSendMail(MailSendMessage message);
 

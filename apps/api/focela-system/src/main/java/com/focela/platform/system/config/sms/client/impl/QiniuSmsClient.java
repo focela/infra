@@ -25,7 +25,7 @@ import java.util.function.Function;
 import static com.focela.platform.common.utils.collection.CollectionUtils.convertList;
 
 /**
- * 七牛云短信客户端的实现类
+ * Qiniu Cloud SMS client implementation
  *
  * @since 2024/08/26 15:35
  */
@@ -36,14 +36,14 @@ public class QiniuSmsClient extends AbstractSmsClient {
 
     public QiniuSmsClient(SmsChannelProperties properties) {
         super(properties);
-        Assert.notEmpty(properties.getApiKey(), "apiKey 不能为空");
-        Assert.notEmpty(properties.getApiSecret(), "apiSecret 不能为空");
+        Assert.notEmpty(properties.getApiKey(), "apiKey must not be blank");
+        Assert.notEmpty(properties.getApiSecret(), "apiSecret must not be blank");
     }
 
     public SmsSendRpcResponse sendSms(Long sendLogId, String mobile, String apiTemplateId,
                                   List<KeyValue<String, Object>> templateParams) throws Throwable {
-        // 1. 执行请求
-        // 参考链接 https://developer.qiniu.com/sms/5824/through-the-api-send-text-messages
+        // 1. execute the request
+        // Reference: https://developer.qiniu.com/sms/5824/through-the-api-send-text-messages
         LinkedHashMap<String, Object> body = new LinkedHashMap<>();
         body.put("template_id", apiTemplateId);
         body.put("mobile", mobile);
@@ -51,9 +51,9 @@ public class QiniuSmsClient extends AbstractSmsClient {
         body.put("seq", Long.toString(sendLogId));
         JSONObject response = request("POST", body, "/v1/message/single");
 
-        // 2. 解析请求
+        // 2. parse the response
         if (ObjectUtil.isNotEmpty(response.getStr("error"))) {
-            // 短信请求失败
+            // SMS request failed
             return new SmsSendRpcResponse().setSuccess(false)
                     .setApiCode(response.getStr("error"))
                     .setApiRequestId(response.getStr("request_id"))
@@ -64,24 +64,24 @@ public class QiniuSmsClient extends AbstractSmsClient {
     }
 
     /**
-     * 请求七牛云短信
+     * Send a request to Qiniu Cloud SMS
      *
-     * @see <a href="https://developer.qiniu.com/sms/5842/sms-api-authentication"</>
-     * @param httpMethod http请求方法
-     * @param body http请求消息体
-     * @param path URL path
-     * @return 请求结果
+     * @see <a href="https://developer.qiniu.com/sms/5842/sms-api-authentication">SMS API authentication</a>
+     * @param httpMethod HTTP request method
+     * @param body       HTTP request body
+     * @param path       URL path
+     * @return request result
      */
     private JSONObject request(String httpMethod, LinkedHashMap<String, Object> body, String path) {
         String signDate = DateUtil.date().setTimeZone(TimeZone.getTimeZone("UTC")).toString("yyyyMMdd'T'HHmmss'Z'");
-        // 1. 请求头
+        // 1. request headers
         Map<String, String> header = new HashMap<>(4);
         header.put("HOST", HOST);
         header.put("Authorization", getSignature(httpMethod, path, body != null ? JSONUtil.toJsonStr(body) : "", signDate));
         header.put("Content-Type", "application/json");
         header.put("X-Qiniu-Date", signDate);
 
-        // 2. 发起请求
+        // 2. send the request
         String responseBody;
         if (Objects.equals(httpMethod, "POST")){
             responseBody = HttpUtils.post("https://" + HOST + path, header, JSONUtil.toJsonStr(body));
@@ -109,19 +109,19 @@ public class QiniuSmsClient extends AbstractSmsClient {
     @Override
     public List<SmsReceiveRpcResponse> parseSmsReceiveStatus(String text) {
         JSONObject status = JSONUtil.parseObj(text);
-        // 字段参考 https://developer.qiniu.com/sms/5910/message-push
+        // Field reference: https://developer.qiniu.com/sms/5910/message-push
         return convertList(status.getJSONArray("items"), new Function<Object, SmsReceiveRpcResponse>() {
 
             @Override
             public SmsReceiveRpcResponse apply(Object item) {
                 JSONObject statusObj = (JSONObject) item;
                 return new SmsReceiveRpcResponse()
-                        .setSuccess("DELIVRD".equals(statusObj.getStr("status"))) // 是否接收成功
-                        .setErrorMsg(statusObj.getStr("status")) // 状态报告编码
-                        .setMobile(statusObj.getStr("mobile")) // 手机号
-                        .setReceiveTime(LocalDateTimeUtil.of(statusObj.getLong("delivrd_at") * 1000L)) // 状态报告时间
-                        .setSerialNo(statusObj.getStr("message_id")) // 发送序列号
-                        .setLogId(statusObj.getLong("seq")); // 用户序列号
+                        .setSuccess("DELIVRD".equals(statusObj.getStr("status"))) // whether received successfully
+                        .setErrorMsg(statusObj.getStr("status")) // status report code
+                        .setMobile(statusObj.getStr("mobile")) // mobile number
+                        .setReceiveTime(LocalDateTimeUtil.of(statusObj.getLong("delivrd_at") * 1000L)) // status report time
+                        .setSerialNo(statusObj.getStr("message_id")) // send serial number
+                        .setLogId(statusObj.getLong("seq")); // user serial number
             }
 
         });
@@ -129,11 +129,11 @@ public class QiniuSmsClient extends AbstractSmsClient {
 
     @Override
     public SmsTemplateRpcResponse getSmsTemplate(String apiTemplateId) throws Throwable {
-        // 1. 执行请求
-        // 参考链接 https://developer.qiniu.com/sms/5969/query-a-single-template
+        // 1. execute the request
+        // Reference: https://developer.qiniu.com/sms/5969/query-a-single-template
         JSONObject response = request("GET", null, "/v1/template/" + apiTemplateId);
 
-        // 2.2 解析请求
+        // 2.2 parse the response
         return new SmsTemplateRpcResponse()
                 .setId(response.getStr("id"))
                 .setContent(response.getStr("template"))

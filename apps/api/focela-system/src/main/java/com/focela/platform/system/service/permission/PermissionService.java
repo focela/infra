@@ -8,136 +8,136 @@ import java.util.Set;
 import static java.util.Collections.singleton;
 
 /**
- * 权限 Service 接口
+ * Permission Service interface
  * <p>
- * 提供用户-角色、角色-菜单、角色-部门的关联权限处理
+ * Provides user-role, role-menu, and role-department associated permission handling
  */
 public interface PermissionService {
 
     /**
-     * 判断是否有权限，任一一个即可
+     * Check whether the user has any of the given permissions
      *
-     * @param userId      用户编号
-     * @param permissions 权限
-     * @return 是否
+     * @param userId      user ID
+     * @param permissions permissions
+     * @return whether granted
      */
     boolean hasAnyPermissions(Long userId, String... permissions);
 
     /**
-     * 判断是否有角色，任一一个即可
+     * Check whether the user has any of the given roles
      *
-     * @param roles 角色数组
-     * @return 是否
+     * @param roles role array
+     * @return whether granted
      */
     boolean hasAnyRoles(Long userId, String... roles);
 
-    // ========== 角色-菜单的相关方法  ==========
+    // ========== Role-menu related methods ==========
 
     /**
-     * 设置角色菜单
+     * Assign menus to a role
      *
-     * @param roleId  角色编号
-     * @param menuIds 菜单编号集合
+     * @param roleId  role ID
+     * @param menuIds menu ID set
      */
     void assignRoleMenu(Long roleId, Set<Long> menuIds);
 
     /**
-     * 处理角色删除时，删除关联授权数据
+     * Handle removal of related authorization data when a role is deleted
      *
-     * @param roleId 角色编号
+     * @param roleId role ID
      */
     void processRoleDeleted(Long roleId);
 
     /**
-     * 处理菜单删除时，删除关联授权数据
+     * Handle removal of related authorization data when a menu is deleted
      *
-     * @param menuId 菜单编号
+     * @param menuId menu ID
      */
     void processMenuDeleted(Long menuId);
 
     /**
-     * 获得角色拥有的菜单编号集合
+     * Get the menu ID set owned by a role
      *
-     * @param roleId 角色编号
-     * @return 菜单编号集合
+     * @param roleId role ID
+     * @return menu ID set
      */
     default Set<Long> getRoleMenuListByRoleId(Long roleId) {
         return getRoleMenuListByRoleId(singleton(roleId));
     }
 
     /**
-     * 获得角色们拥有的菜单编号集合
+     * Get the menu ID set owned by the given roles
      *
-     * @param roleIds 角色编号数组
-     * @return 菜单编号集合
+     * @param roleIds role ID array
+     * @return menu ID set
      */
     Set<Long> getRoleMenuListByRoleId(Collection<Long> roleIds);
 
     /**
-     * 获得拥有指定菜单的角色编号数组，从缓存中获取
+     * Get the role ID array that owns the specified menu, from cache
      *
-     * @param menuId 菜单编号
-     * @return 角色编号数组
+     * @param menuId menu ID
+     * @return role ID array
      */
     Set<Long> getMenuRoleIdListByMenuIdFromCache(Long menuId);
 
-    // ========== 用户-角色的相关方法  ==========
+    // ========== User-role related methods ==========
 
     /**
-     * 设置用户角色
+     * Assign roles to a user
      *
-     * @param userId  角色编号
-     * @param roleIds 角色编号集合
+     * @param userId  user ID
+     * @param roleIds role ID set
      */
     void assignUserRole(Long userId, Set<Long> roleIds);
 
     /**
-     * 处理用户删除时，删除关联授权数据
+     * Handle removal of related authorization data when a user is deleted
      *
-     * @param userId 用户编号
+     * @param userId user ID
      */
     void processUserDeleted(Long userId);
 
     /**
-     * 获得拥有多个角色的用户编号集合
+     * Get the user ID set that owns the given roles
      *
-     * @param roleIds 角色编号集合
-     * @return 用户编号集合
+     * @param roleIds role ID set
+     * @return user ID set
      */
     Set<Long> getUserRoleIdListByRoleId(Collection<Long> roleIds);
 
     /**
-     * 获得用户拥有的角色编号集合
+     * Get the role ID set owned by a user
      *
-     * @param userId 用户编号
-     * @return 角色编号集合
+     * @param userId user ID
+     * @return role ID set
      */
     Set<Long> getUserRoleIdListByUserId(Long userId);
 
     /**
-     * 获得用户拥有的角色编号集合，从缓存中获取
+     * Get the role ID set owned by a user, from cache
      *
-     * @param userId 用户编号
-     * @return 角色编号集合
+     * @param userId user ID
+     * @return role ID set
      */
     Set<Long> getUserRoleIdListByUserIdFromCache(Long userId);
 
-    // ========== 用户-部门的相关方法  ==========
+    // ========== User-department related methods ==========
 
     /**
-     * 设置角色的数据权限
+     * Set the data permission for a role
      *
-     * @param roleId           角色编号
-     * @param dataScope        数据范围
-     * @param dataScopeDeptIds 部门编号数组
+     * @param roleId           role ID
+     * @param dataScope        data scope
+     * @param dataScopeDeptIds department ID array
      */
     void assignRoleDataScope(Long roleId, Integer dataScope, Set<Long> dataScopeDeptIds);
 
     /**
-     * 获得登陆用户的部门数据权限
+     * Get the department data permission for the logged-in user
      *
-     * @param userId 用户编号
-     * @return 部门数据权限
+     * @param userId user ID
+     * @return department data permission
      */
     DepartmentDataPermissionRpcResponse getDeptDataPermission(Long userId);
 

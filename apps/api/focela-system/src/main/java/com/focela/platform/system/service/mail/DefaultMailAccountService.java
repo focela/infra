@@ -21,7 +21,7 @@ import static com.focela.platform.system.constants.ErrorCodeConstants.MAIL_ACCOU
 import static com.focela.platform.system.constants.ErrorCodeConstants.MAIL_ACCOUNT_RELATE_TEMPLATE_EXISTS;
 
 /**
- * 邮箱账号 Service 实现类
+ * Mail account Service implementation class
  *
  * @since 2022-03-21
  */
@@ -46,10 +46,10 @@ public class DefaultMailAccountService implements MailAccountService {
     @Override
     @CacheEvict(value = RedisKeyConstants.MAIL_ACCOUNT, key = "#updateRequest.id")
     public void updateMailAccount(MailAccountSaveRequest updateRequest) {
-        // 校验是否存在
+        // Validate existence
         validateMailAccountExists(updateRequest.getId());
 
-        // 更新
+        // Update
         MailAccountEntity updateObj = BeanUtils.toBean(updateRequest, MailAccountEntity.class);
         mailAccountMapper.updateById(updateObj);
     }
@@ -57,29 +57,29 @@ public class DefaultMailAccountService implements MailAccountService {
     @Override
     @CacheEvict(value = RedisKeyConstants.MAIL_ACCOUNT, key = "#id")
     public void deleteMailAccount(Long id) {
-        // 校验是否存在账号
+        // Validate account existence
         validateMailAccountExists(id);
-        // 校验是否存在关联模版
+        // Validate whether associated templates exist
         if (mailTemplateService.getMailTemplateCountByAccountId(id) > 0) {
             throw exception(MAIL_ACCOUNT_RELATE_TEMPLATE_EXISTS);
         }
 
-        // 删除
+        // Delete
         mailAccountMapper.deleteById(id);
     }
 
     @Override
     @CacheEvict(value = RedisKeyConstants.MAIL_ACCOUNT,
-            allEntries = true) // allEntries 清空所有缓存，因为 Spring Cache 不支持按照 ids 批量删除
+            allEntries = true) // allEntries clears all caches because Spring Cache does not support batch deletion by ids
     public void deleteMailAccountList(List<Long> ids) {
-        // 1. 校验是否存在关联模版
+        // 1. Validate whether associated templates exist
         for (Long id : ids) {
             if (mailTemplateService.getMailTemplateCountByAccountId(id) > 0) {
                 throw exception(MAIL_ACCOUNT_RELATE_TEMPLATE_EXISTS);
             }
         }
 
-        // 2. 批量删除
+        // 2. Batch delete
         mailAccountMapper.deleteByIds(ids);
     }
 

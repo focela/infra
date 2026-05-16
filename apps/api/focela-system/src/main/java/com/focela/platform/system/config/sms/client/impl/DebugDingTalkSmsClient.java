@@ -22,31 +22,31 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * 基于钉钉 WebHook 实现的调试的短信客户端实现类
+ * Debug SMS client implementation based on DingTalk WebHook
  *
- * 考虑到省钱，我们使用钉钉 WebHook 模拟发送短信，方便调试。
+ * To save costs, we use a DingTalk WebHook to simulate sending SMS, which is convenient for debugging.
  */
 public class DebugDingTalkSmsClient extends AbstractSmsClient {
 
     public DebugDingTalkSmsClient(SmsChannelProperties properties) {
         super(properties);
-        Assert.notEmpty(properties.getApiKey(), "apiKey 不能为空");
-        Assert.notEmpty(properties.getApiSecret(), "apiSecret 不能为空");
+        Assert.notEmpty(properties.getApiKey(), "apiKey must not be blank");
+        Assert.notEmpty(properties.getApiSecret(), "apiSecret must not be blank");
     }
 
     @Override
     public SmsSendRpcResponse sendSms(Long sendLogId, String mobile,
                                   String apiTemplateId, List<KeyValue<String, Object>> templateParams) throws Throwable {
-        // 构建请求
+        // build the request
         String url = buildUrl("robot/send");
         Map<String, Object> params = new HashMap<>();
         params.put("msgtype", "text");
-        String content = String.format("[mock SMS]\nmobile number: %s\nSMS log ID: %d\ntemplate 参数: %s",
+        String content = String.format("[mock SMS]\nmobile number: %s\nSMS log ID: %d\ntemplate parameters: %s",
                 mobile, sendLogId, MapUtils.convertMap(templateParams));
         params.put("text", MapUtil.builder().put("content", content).build());
-        // 执行请求
+        // execute the request
         String responseText = HttpUtil.post(url, JsonUtils.toJsonString(params));
-        // 解析结果
+        // parse the result
         Map<?, ?> responseObj = JsonUtils.parseObject(responseText, Map.class);
         String errorCode = MapUtil.getStr(responseObj, "errcode");
         return new SmsSendRpcResponse().setSuccess(Objects.equals(errorCode, "0")).setSerialNo(StrUtil.uuid())
@@ -54,23 +54,23 @@ public class DebugDingTalkSmsClient extends AbstractSmsClient {
     }
 
     /**
-     * 构建请求地址
+     * Build the request URL
      *
-     * 参见 <a href="https://developers.dingtalk.com/document/app/custom-robot-access/title-nfv-794-g71">文档</a>
+     * See <a href="https://developers.dingtalk.com/document/app/custom-robot-access/title-nfv-794-g71">documentation</a>
      *
-     * @param path 请求路径
-     * @return 请求地址
+     * @param path request path
+     * @return request URL
      */
     @SuppressWarnings("SameParameterValue")
     private String buildUrl(String path) {
-        // 生成 timestamp
+        // generate timestamp
         long timestamp = System.currentTimeMillis();
-        // 生成 sign
+        // generate sign
         String secret = properties.getApiSecret();
         String stringToSign = timestamp + "\n" + secret;
         byte[] signData = DigestUtil.hmac(HmacAlgorithm.HmacSHA256, StrUtil.bytes(secret)).digest(stringToSign);
         String sign = Base64.encode(signData);
-        // 构建最终 URL
+        // build the final URL
         return String.format("https://oapi.dingtalk.com/%s?access_token=%s&timestamp=%d&sign=%s",
                 path, properties.getApiKey(), timestamp, sign);
     }

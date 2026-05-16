@@ -10,86 +10,86 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 邮件模版 Service 接口
+ * Mail Template Service interface
  *
  * @since 2022-03-21
  */
 public interface MailTemplateService {
 
     /**
-     * 邮件模版创建
+     * Create a mail template
      *
-     * @param createRequest 邮件信息
-     * @return 编号
+     * @param createRequest mail information
+     * @return ID
      */
     Long createMailTemplate(@Valid MailTemplateSaveRequest createRequest);
 
     /**
-     * 邮件模版修改
+     * Update a mail template
      *
-     * @param updateRequest 邮件信息
+     * @param updateRequest mail information
      */
     void updateMailTemplate(@Valid MailTemplateSaveRequest updateRequest);
 
     /**
-     * 邮件模版删除
+     * Delete a mail template
      *
-     * @param id 编号
+     * @param id ID
      */
     void deleteMailTemplate(Long id);
 
     /**
-     * 批量删除邮件模版
+     * Batch delete mail templates
      *
-     * @param ids 编号列表
+     * @param ids ID list
      */
     void deleteMailTemplateList(List<Long> ids);
 
     /**
-     * 获取邮件模版
+     * Get a mail template
      *
-     * @param id 编号
-     * @return 邮件模版
+     * @param id ID
+     * @return mail template
      */
     MailTemplateEntity getMailTemplate(Long id);
 
     /**
-     * 获取邮件模版分页
+     * Get the paginated mail templates
      *
-     * @param pageRequest 模版信息
-     * @return 邮件模版分页信息
+     * @param pageRequest template information
+     * @return paginated mail templates
      */
     PageResult<MailTemplateEntity> getMailTemplatePage(MailTemplatePageRequest pageRequest);
 
     /**
-     * 获取邮件模板数组
+     * Get the mail template list
      *
-     * @return 模版数组
+     * @return template list
      */
     List<MailTemplateEntity> getMailTemplateList();
 
     /**
-     * 从缓存中获取邮件模版
+     * Get a mail template from cache
      *
-     * @param code 模板编码
-     * @return 邮件模板
+     * @param code template code
+     * @return mail template
      */
     MailTemplateEntity getMailTemplateByCodeFromCache(String code);
 
     /**
-     * 邮件模版内容合成
+     * Format the mail template content
      *
-     * @param content 邮件模版
-     * @param params 合成参数
-     * @return 格式化后的内容
+     * @param content mail template
+     * @param params parameters to merge
+     * @return formatted content
      */
     String formatMailTemplateContent(String content, Map<String, Object> params);
 
     /**
-     * 获得指定邮件账号下的邮件模板数量
+     * Get the number of mail templates under the specified mail account
      *
-     * @param accountId 账号编号
-     * @return 数量
+     * @param accountId account ID
+     * @return count
      */
     long getMailTemplateCountByAccountId(Long accountId);
 

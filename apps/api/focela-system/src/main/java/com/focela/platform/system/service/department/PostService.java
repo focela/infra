@@ -10,79 +10,79 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 岗位 Service 接口
+ * Post Service interface
  */
 public interface PostService {
 
     /**
-     * 创建岗位
+     * Create a post
      *
-     * @param createRequest 岗位信息
-     * @return 岗位编号
+     * @param createRequest post information
+     * @return post ID
      */
     Long createPost(PostSaveRequest createRequest);
 
     /**
-     * 更新岗位
+     * Update a post
      *
-     * @param updateRequest 岗位信息
+     * @param updateRequest post information
      */
     void updatePost(PostSaveRequest updateRequest);
 
     /**
-     * 删除岗位信息
+     * Delete a post
      *
-     * @param id 岗位编号
+     * @param id post ID
      */
     void deletePost(Long id);
 
     /**
-     * 批量删除岗位信息
+     * Batch delete posts
      *
-     * @param ids 岗位编号数组
+     * @param ids post ID array
      */
     void deletePostList(List<Long> ids);
 
     /**
-     * 获得岗位列表
+     * Get the post list
      *
-     * @param ids 岗位编号数组
-     * @return 部门列表
+     * @param ids post ID array
+     * @return post list
      */
     List<PostEntity> getPostList(@Nullable Collection<Long> ids);
 
     /**
-     * 获得符合条件的岗位列表
+     * Get the post list matching the criteria
      *
-     * @param ids 岗位编号数组。如果为空，不进行筛选
-     * @param statuses 状态数组。如果为空，不进行筛选
-     * @return 部门列表
+     * @param ids post ID array. If null, no filtering
+     * @param statuses status array. If null, no filtering
+     * @return post list
      */
     List<PostEntity> getPostList(@Nullable Collection<Long> ids,
                              @Nullable Collection<Integer> statuses);
 
     /**
-     * 获得岗位分页列表
+     * Get the paginated post list
      *
-     * @param request 分页条件
-     * @return 部门分页列表
+     * @param request page query parameters
+     * @return paginated post list
      */
     PageResult<PostEntity> getPostPage(PostPageRequest request);
 
     /**
-     * 获得岗位信息
+     * Get post information
      *
-     * @param id 岗位编号
-     * @return 岗位信息
+     * @param id post ID
+     * @return post information
      */
     PostEntity getPost(Long id);
 
     /**
-     * 校验岗位们是否有效。如下情况，视为无效：
-     * 1. 岗位编号不存在
-     * 2. 岗位被禁用
+     * Validate whether the posts are valid. The following are considered invalid:
+     * 1. Post ID does not exist
+     * 2. Post is disabled
      *
-     * @param ids 岗位编号数组
+     * @param ids post ID array
      */
     void validatePostList(Collection<Long> ids);
 

@@ -8,30 +8,30 @@ import com.focela.platform.system.entity.logger.LoginLogEntity;
 import jakarta.validation.Valid;
 
 /**
- * 登录日志 Service 接口
+ * Login log Service interface
  */
 public interface LoginLogService {
 
     /**
-     * 获得登录日志
+     * Get login log
      *
-     * @param id 编号
-     * @return 登录日志
+     * @param id ID
+     * @return login log
      */
     LoginLogEntity getLoginLog(Long id);
 
     /**
-     * 获得登录日志分页
+     * Get login log page
      *
-     * @param pageRequest 分页条件
-     * @return 登录日志分页
+     * @param pageRequest page query
+     * @return login log page
      */
     PageResult<LoginLogEntity> getLoginLogPage(LoginLogPageRequest pageRequest);
 
     /**
-     * 创建登录日志
+     * Create login log
      *
-     * @param reqDTO 日志信息
+     * @param reqDTO log info
      */
     void createLoginLog(@Valid LoginLogCreateRpcRequest reqDTO);
 
