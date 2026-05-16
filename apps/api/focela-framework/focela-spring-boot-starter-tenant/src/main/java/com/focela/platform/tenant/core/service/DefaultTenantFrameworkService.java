@@ -36,7 +36,7 @@ public class DefaultTenantFrameworkService implements TenantFrameworkService {
             });
 
     /**
-     * Cache for {@link #validTenant(Long)}
+     * Cache for {@link #validateTenant(Long)}
      */
     private final LoadingCache<Long, ServiceException> validTenantCache = CacheUtils.buildAsyncReloadingCache(
             Duration.ofMinutes(1L), // expiration time: 1 minute
@@ -61,7 +61,7 @@ public class DefaultTenantFrameworkService implements TenantFrameworkService {
     }
 
     @Override
-    public void validTenant(Long id) {
+    public void validateTenant(Long id) {
         ServiceException serviceException = validTenantCache.getUnchecked(id);
         if (serviceException != SERVICE_EXCEPTION_NULL) {
             throw serviceException;

@@ -66,7 +66,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
         // mock the method
         OAuth2ClientEntity clientDO = randomPojo(OAuth2ClientEntity.class).setClientId(clientId)
                 .setAccessTokenValiditySeconds(30).setRefreshTokenValiditySeconds(60);
-        when(oauth2ClientService.validOAuthClientFromCache(eq(clientId))).thenReturn(clientDO);
+        when(oauth2ClientService.validateOAuthClientFromCache(eq(clientId))).thenReturn(clientDO);
         // mock data（user）
         UserEntity user = randomPojo(UserEntity.class);
         when(adminUserService.getUser(userId)).thenReturn(user);
@@ -114,7 +114,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
         String clientId = randomString();
         // mock the method
         OAuth2ClientEntity clientDO = randomPojo(OAuth2ClientEntity.class).setClientId(clientId);
-        when(oauth2ClientService.validOAuthClientFromCache(eq(clientId))).thenReturn(clientDO);
+        when(oauth2ClientService.validateOAuthClientFromCache(eq(clientId))).thenReturn(clientDO);
         // mock data（access token）
         OAuth2RefreshTokenEntity refreshTokenDO = randomPojo(OAuth2RefreshTokenEntity.class)
                 .setRefreshToken(refreshToken).setClientId("error");
@@ -132,7 +132,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
         String clientId = randomString();
         // mock the method
         OAuth2ClientEntity clientDO = randomPojo(OAuth2ClientEntity.class).setClientId(clientId);
-        when(oauth2ClientService.validOAuthClientFromCache(eq(clientId))).thenReturn(clientDO);
+        when(oauth2ClientService.validateOAuthClientFromCache(eq(clientId))).thenReturn(clientDO);
         // mock data（access token）
         OAuth2RefreshTokenEntity refreshTokenDO = randomPojo(OAuth2RefreshTokenEntity.class)
                 .setRefreshToken(refreshToken).setClientId(clientId)
@@ -154,7 +154,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
         // mock the method
         OAuth2ClientEntity clientDO = randomPojo(OAuth2ClientEntity.class).setClientId(clientId)
                 .setAccessTokenValiditySeconds(30);
-        when(oauth2ClientService.validOAuthClientFromCache(eq(clientId))).thenReturn(clientDO);
+        when(oauth2ClientService.validateOAuthClientFromCache(eq(clientId))).thenReturn(clientDO);
         // mock data（access token）
         OAuth2RefreshTokenEntity refreshTokenDO = randomPojo(OAuth2RefreshTokenEntity.class, o ->
                 o.setRefreshToken(refreshToken).setClientId(clientId)

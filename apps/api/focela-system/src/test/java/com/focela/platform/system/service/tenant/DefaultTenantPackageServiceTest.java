@@ -176,7 +176,7 @@ public class DefaultTenantPackageServiceTest extends BaseDbUnitTest {
         tenantPackageMapper.insert(dbTenantPackage);// @Sql: first insert an existing record
 
         // invoke
-        TenantPackageEntity result = tenantPackageService.validTenantPackage(dbTenantPackage.getId());
+        TenantPackageEntity result = tenantPackageService.validateTenantPackage(dbTenantPackage.getId());
         // assert
         assertPojoEquals(dbTenantPackage, result);
     }
@@ -187,7 +187,7 @@ public class DefaultTenantPackageServiceTest extends BaseDbUnitTest {
         Long id = randomLongId();
 
         // invoke and assert exception
-        assertServiceException(() -> tenantPackageService.validTenantPackage(id), TENANT_PACKAGE_NOT_EXISTS);
+        assertServiceException(() -> tenantPackageService.validateTenantPackage(id), TENANT_PACKAGE_NOT_EXISTS);
     }
 
     @Test
@@ -198,7 +198,7 @@ public class DefaultTenantPackageServiceTest extends BaseDbUnitTest {
         tenantPackageMapper.insert(dbTenantPackage);// @Sql: first insert an existing record
 
         // invoke and assert exception
-        assertServiceException(() -> tenantPackageService.validTenantPackage(dbTenantPackage.getId()),
+        assertServiceException(() -> tenantPackageService.validateTenantPackage(dbTenantPackage.getId()),
                 TENANT_PACKAGE_DISABLE, dbTenantPackage.getName());
     }
 

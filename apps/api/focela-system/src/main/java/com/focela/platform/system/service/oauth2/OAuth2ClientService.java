@@ -74,8 +74,8 @@ public interface OAuth2ClientService {
      *
      * @return client
      */
-    default OAuth2ClientEntity validOAuthClientFromCache(String clientId) {
-        return validOAuthClientFromCache(clientId, null, null, null, null);
+    default OAuth2ClientEntity validateOAuthClientFromCache(String clientId) {
+        return validateOAuthClientFromCache(clientId, null, null, null, null);
     }
 
     /**
@@ -90,7 +90,7 @@ public interface OAuth2ClientService {
      * @param redirectUri redirect URI
      * @return client
      */
-    OAuth2ClientEntity validOAuthClientFromCache(String clientId, String clientSecret, String authorizedGrantType,
+    OAuth2ClientEntity validateOAuthClientFromCache(String clientId, String clientSecret, String authorizedGrantType,
                                              Collection<String> scopes, String redirectUri);
 
 }

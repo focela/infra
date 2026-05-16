@@ -193,24 +193,24 @@ public class DefaultOAuth2ClientServiceTest extends BaseDbUnitTest {
             oauth2ClientMapper.insert(client02);
 
             // invoke, and assert
-            assertServiceException(() -> oauth2ClientService.validOAuthClientFromCache(randomString(),
+            assertServiceException(() -> oauth2ClientService.validateOAuthClientFromCache(randomString(),
                     null, null, null, null), OAUTH2_CLIENT_NOT_EXISTS);
-            assertServiceException(() -> oauth2ClientService.validOAuthClientFromCache("disable",
+            assertServiceException(() -> oauth2ClientService.validateOAuthClientFromCache("disable",
                     null, null, null, null), OAUTH2_CLIENT_DISABLE);
-            assertServiceException(() -> oauth2ClientService.validOAuthClientFromCache("default",
+            assertServiceException(() -> oauth2ClientService.validateOAuthClientFromCache("default",
                     randomString(), null, null, null), OAUTH2_CLIENT_CLIENT_SECRET_ERROR);
-            assertServiceException(() -> oauth2ClientService.validOAuthClientFromCache("default",
+            assertServiceException(() -> oauth2ClientService.validateOAuthClientFromCache("default",
                     null, randomString(), null, null), OAUTH2_CLIENT_AUTHORIZED_GRANT_TYPE_NOT_EXISTS);
-            assertServiceException(() -> oauth2ClientService.validOAuthClientFromCache("default",
+            assertServiceException(() -> oauth2ClientService.validateOAuthClientFromCache("default",
                     null, null, Collections.singleton(randomString()), null), OAUTH2_CLIENT_SCOPE_OVER);
-            assertServiceException(() -> oauth2ClientService.validOAuthClientFromCache("default",
+            assertServiceException(() -> oauth2ClientService.validateOAuthClientFromCache("default",
                     null, null, null, "test"), OAUTH2_CLIENT_REDIRECT_URI_NOT_MATCH, "test");
             // successful invoke（1：parameters are complete）
-            OAuth2ClientEntity result = oauth2ClientService.validOAuthClientFromCache(client.getClientId(), client.getSecret(),
+            OAuth2ClientEntity result = oauth2ClientService.validateOAuthClientFromCache(client.getClientId(), client.getSecret(),
                     client.getAuthorizedGrantTypes().get(0), client.getScopes(), client.getRedirectUris().get(0));
             assertPojoEquals(client, result);
             // successful invoke（2：only clientId parameter）
-            result = oauth2ClientService.validOAuthClientFromCache(client.getClientId());
+            result = oauth2ClientService.validateOAuthClientFromCache(client.getClientId());
             assertPojoEquals(client, result);
         }
     }

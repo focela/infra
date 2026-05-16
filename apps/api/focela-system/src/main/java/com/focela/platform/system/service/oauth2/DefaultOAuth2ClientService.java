@@ -117,7 +117,7 @@ public class DefaultOAuth2ClientService implements OAuth2ClientService {
     }
 
     @Override
-    public OAuth2ClientEntity validOAuthClientFromCache(String clientId, String clientSecret, String authorizedGrantType,
+    public OAuth2ClientEntity validateOAuthClientFromCache(String clientId, String clientSecret, String authorizedGrantType,
                                                     Collection<String> scopes, String redirectUri) {
         // Validate that the client exists and is enabled
         OAuth2ClientEntity client = getSelf().getOAuth2ClientFromCache(clientId);

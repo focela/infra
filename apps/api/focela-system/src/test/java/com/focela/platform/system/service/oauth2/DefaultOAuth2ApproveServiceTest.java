@@ -52,7 +52,7 @@ public class DefaultOAuth2ApproveServiceTest extends BaseDbUnitTest {
         String clientId = randomString();
         List<String> requestedScopes = Lists.newArrayList("read");
         // mock the method
-        when(oauth2ClientService.validOAuthClientFromCache(eq(clientId)))
+        when(oauth2ClientService.validateOAuthClientFromCache(eq(clientId)))
                 .thenReturn(randomPojo(OAuth2ClientEntity.class).setAutoApproveScopes(requestedScopes));
 
         // invoke
@@ -78,7 +78,7 @@ public class DefaultOAuth2ApproveServiceTest extends BaseDbUnitTest {
         String clientId = randomString();
         List<String> requestedScopes = Lists.newArrayList("read");
         // mock the method
-        when(oauth2ClientService.validOAuthClientFromCache(eq(clientId)))
+        when(oauth2ClientService.validateOAuthClientFromCache(eq(clientId)))
                 .thenReturn(randomPojo(OAuth2ClientEntity.class).setAutoApproveScopes(null));
         // mock data
         OAuth2ApproveEntity approve = randomPojo(OAuth2ApproveEntity.class).setUserId(userId)
@@ -101,7 +101,7 @@ public class DefaultOAuth2ApproveServiceTest extends BaseDbUnitTest {
         String clientId = randomString();
         List<String> requestedScopes = Lists.newArrayList("read");
         // mock the method
-        when(oauth2ClientService.validOAuthClientFromCache(eq(clientId)))
+        when(oauth2ClientService.validateOAuthClientFromCache(eq(clientId)))
                 .thenReturn(randomPojo(OAuth2ClientEntity.class).setAutoApproveScopes(null));
         // mock data
         OAuth2ApproveEntity approve = randomPojo(OAuth2ApproveEntity.class).setUserId(userId)

@@ -14,6 +14,6 @@ public interface RoleApi {
      *
      * @param ids role IDs
      */
-    void validRoleList(Collection<Long> ids);
+    void validateRoleList(Collection<Long> ids);
 
 }

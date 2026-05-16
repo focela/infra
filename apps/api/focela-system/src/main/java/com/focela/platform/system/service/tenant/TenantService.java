@@ -138,6 +138,6 @@ public interface TenantService {
      *
      * @param id tenant ID
      */
-    void validTenant(Long id);
+    void validateTenant(Long id);
 
 }

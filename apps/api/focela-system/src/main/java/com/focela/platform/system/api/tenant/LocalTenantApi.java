@@ -23,7 +23,7 @@ public class LocalTenantApi implements TenantContractApi {
 
     @Override
     public void validateTenant(Long id) {
-        tenantService.validTenant(id);
+        tenantService.validateTenant(id);
     }
 
 }

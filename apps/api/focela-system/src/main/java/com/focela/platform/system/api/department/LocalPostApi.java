@@ -20,7 +20,7 @@ public class LocalPostApi implements PostApi {
     private PostService postService;
 
     @Override
-    public void validPostList(Collection<Long> ids) {
+    public void validatePostList(Collection<Long> ids) {
         postService.validatePostList(ids);
     }
 

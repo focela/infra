@@ -92,7 +92,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testValidTenant_notExists() {
-        assertServiceException(() -> tenantService.validTenant(randomLongId()), TENANT_NOT_EXISTS);
+        assertServiceException(() -> tenantService.validateTenant(randomLongId()), TENANT_NOT_EXISTS);
     }
 
     @Test
@@ -102,7 +102,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
         tenantMapper.insert(tenant);
 
         // invoke, and assert business exception
-        assertServiceException(() -> tenantService.validTenant(1L), TENANT_DISABLE, tenant.getName());
+        assertServiceException(() -> tenantService.validateTenant(1L), TENANT_DISABLE, tenant.getName());
     }
 
     @Test
@@ -113,7 +113,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
         tenantMapper.insert(tenant);
 
         // invoke, and assert business exception
-        assertServiceException(() -> tenantService.validTenant(1L), TENANT_EXPIRE, tenant.getName());
+        assertServiceException(() -> tenantService.validateTenant(1L), TENANT_EXPIRE, tenant.getName());
     }
 
     @Test
@@ -124,14 +124,14 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
         tenantMapper.insert(tenant);
 
         // invoke, and assert business exception
-        tenantService.validTenant(1L);
+        tenantService.validateTenant(1L);
     }
 
     @Test
     public void testCreateTenant() {
         // mock package 100L
         TenantPackageEntity tenantPackage = randomPojo(TenantPackageEntity.class, o -> o.setId(100L));
-        when(tenantPackageService.validTenantPackage(eq(100L))).thenReturn(tenantPackage);
+        when(tenantPackageService.validateTenantPackage(eq(100L))).thenReturn(tenantPackage);
         // mock role 200L
         when(roleService.createRole(argThat(role -> {
             assertEquals(RoleCodeEnum.TENANT_ADMIN.getName(), role.getName());
@@ -189,7 +189,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
         // mock package
         TenantPackageEntity tenantPackage = randomPojo(TenantPackageEntity.class,
                 o -> o.setMenuIds(asSet(200L, 201L)));
-        when(tenantPackageService.validTenantPackage(eq(request.getPackageId()))).thenReturn(tenantPackage);
+        when(tenantPackageService.validateTenantPackage(eq(request.getPackageId()))).thenReturn(tenantPackage);
         // mock all roles
         RoleEntity role100 = randomPojo(RoleEntity.class, o -> o.setId(100L).setCode(RoleCodeEnum.TENANT_ADMIN.getCode()));
         role100.setTenantId(dbTenant.getId());

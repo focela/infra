@@ -59,7 +59,7 @@ public class DefaultOAuth2TokenService implements OAuth2TokenService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public OAuth2AccessTokenEntity createAccessToken(Long userId, Integer userType, String clientId, List<String> scopes) {
-        OAuth2ClientEntity clientDO = oauth2ClientService.validOAuthClientFromCache(clientId);
+        OAuth2ClientEntity clientDO = oauth2ClientService.validateOAuthClientFromCache(clientId);
         // Create refresh token
         OAuth2RefreshTokenEntity refreshTokenDO = createOAuth2RefreshToken(userId, userType, clientDO, scopes);
         // Create access token
@@ -76,7 +76,7 @@ public class DefaultOAuth2TokenService implements OAuth2TokenService {
         }
 
         // Validate that the Client matches
-        OAuth2ClientEntity clientDO = oauth2ClientService.validOAuthClientFromCache(clientId);
+        OAuth2ClientEntity clientDO = oauth2ClientService.validateOAuthClientFromCache(clientId);
         if (ObjectUtil.notEqual(clientId, refreshTokenDO.getClientId())) {
             throw exception0(GlobalErrorCodeConstants.BAD_REQUEST.getCode(), "Refresh token client ID is incorrect");
         }

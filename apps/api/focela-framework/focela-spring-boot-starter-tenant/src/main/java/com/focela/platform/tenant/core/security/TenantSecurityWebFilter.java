@@ -92,7 +92,7 @@ public class TenantSecurityWebFilter extends ApiRequestFilter {
             }
             // 3. Verify the tenant is valid, e.g., not disabled, not expired
             try {
-                tenantFrameworkService.validTenant(tenantId);
+                tenantFrameworkService.validateTenant(tenantId);
             } catch (Throwable ex) {
                 CommonResult<?> result = globalExceptionHandler.allExceptionHandler(request, ex);
                 ServletUtils.writeJSON(response, result);

@@ -64,7 +64,7 @@ public interface TenantPackageService {
      * @param id ID
      * @return tenant package
      */
-    TenantPackageEntity validTenantPackage(Long id);
+    TenantPackageEntity validateTenantPackage(Long id);
 
     /**
      * Get the tenant package list of the specified status

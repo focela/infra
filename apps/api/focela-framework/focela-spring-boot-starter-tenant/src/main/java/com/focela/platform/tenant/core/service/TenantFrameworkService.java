@@ -19,6 +19,6 @@ public interface TenantFrameworkService {
      *
      * @param id tenant ID
      */
-    void validTenant(Long id);
+    void validateTenant(Long id);
 
 }

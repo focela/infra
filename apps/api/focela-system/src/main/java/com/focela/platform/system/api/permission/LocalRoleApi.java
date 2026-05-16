@@ -16,7 +16,7 @@ public class LocalRoleApi implements RoleApi {
     private RoleService roleService;
 
     @Override
-    public void validRoleList(Collection<Long> ids) {
+    public void validateRoleList(Collection<Long> ids) {
         roleService.validateRoleList(ids);
     }
 }

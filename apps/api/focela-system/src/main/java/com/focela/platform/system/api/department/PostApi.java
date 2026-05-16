@@ -21,7 +21,7 @@ public interface PostApi {
      *
      * @param ids post IDs
      */
-    void validPostList(Collection<Long> ids);
+    void validatePostList(Collection<Long> ids);
 
     List<PostRpcResponse> getPostList(Collection<Long> ids);
 

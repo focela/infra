@@ -79,7 +79,7 @@ public class DefaultTenantService implements TenantService {
     }
 
     @Override
-    public void validTenant(Long id) {
+    public void validateTenant(Long id) {
         TenantEntity tenant = getTenant(id);
         if (tenant == null) {
             throw exception(TENANT_NOT_EXISTS);
@@ -101,7 +101,7 @@ public class DefaultTenantService implements TenantService {
         // validate that the tenant website is not duplicated
         validTenantWebsiteDuplicate(createRequest.getWebsites(), null);
         // validate that the package is not disabled
-        TenantPackageEntity tenantPackage = tenantPackageService.validTenantPackage(createRequest.getPackageId());
+        TenantPackageEntity tenantPackage = tenantPackageService.validateTenantPackage(createRequest.getPackageId());
 
         // create tenant
         TenantEntity tenant = BeanUtils.toBean(createRequest, TenantEntity.class);
@@ -147,7 +147,7 @@ public class DefaultTenantService implements TenantService {
         // validate that the tenant website is not duplicated
         validTenantWebsiteDuplicate(updateRequest.getWebsites(), updateRequest.getId());
         // validate that the package is not disabled
-        TenantPackageEntity tenantPackage = tenantPackageService.validTenantPackage(updateRequest.getPackageId());
+        TenantPackageEntity tenantPackage = tenantPackageService.validateTenantPackage(updateRequest.getPackageId());
 
         // update tenant
         TenantEntity updateObj = BeanUtils.toBean(updateRequest, TenantEntity.class);

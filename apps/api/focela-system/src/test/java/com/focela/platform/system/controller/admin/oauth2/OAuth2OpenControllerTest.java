@@ -75,7 +75,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
         HttpServletRequest request = mockRequest("test_client_id", "test_client_secret");
         // mock the method（client）
         OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class).setClientId("test_client_id");
-        when(oauth2ClientService.validOAuthClientFromCache(eq("test_client_id"), eq("test_client_secret"), eq(granType), eq(new ArrayList<>()), eq(redirectUri))).thenReturn(client);
+        when(oauth2ClientService.validateOAuthClientFromCache(eq("test_client_id"), eq("test_client_secret"), eq(granType), eq(new ArrayList<>()), eq(redirectUri))).thenReturn(client);
 
         // mock the method（access token）
         OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class)
@@ -102,7 +102,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
         HttpServletRequest request = mockRequest("test_client_id", "test_client_secret");
         // mock the method（client）
         OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class).setClientId("test_client_id");
-        when(oauth2ClientService.validOAuthClientFromCache(eq("test_client_id"), eq("test_client_secret"),
+        when(oauth2ClientService.validateOAuthClientFromCache(eq("test_client_id"), eq("test_client_secret"),
                 eq(granType), eq(Lists.newArrayList("write", "read")), isNull())).thenReturn(client);
 
         // mock the method（access token）
@@ -129,7 +129,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
         HttpServletRequest request = mockRequest("test_client_id", "test_client_secret");
         // mock the method（client）
         OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class).setClientId("test_client_id");
-        when(oauth2ClientService.validOAuthClientFromCache(eq("test_client_id"), eq("test_client_secret"),
+        when(oauth2ClientService.validateOAuthClientFromCache(eq("test_client_id"), eq("test_client_secret"),
                 eq(granType), eq(Lists.newArrayList()), isNull())).thenReturn(client);
 
         // mock the method（access token）
@@ -162,7 +162,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
         String token = randomString();
         // mock the method（client）
         OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class).setClientId("demo_client_id");
-        when(oauth2ClientService.validOAuthClientFromCache(eq("demo_client_id"),
+        when(oauth2ClientService.validateOAuthClientFromCache(eq("demo_client_id"),
                 eq("demo_client_secret"), isNull(), isNull(), isNull())).thenReturn(client);
         // mock the method（remove）
         when(oauth2GrantService.revokeToken(eq("demo_client_id"), eq(token))).thenReturn(true);
@@ -197,7 +197,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
         String clientId = randomString();
         // mock the method（client）
         OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class).setClientId("demo_client_id").setScopes(ListUtil.toList("read", "write", "all"));
-        when(oauth2ClientService.validOAuthClientFromCache(eq(clientId))).thenReturn(client);
+        when(oauth2ClientService.validateOAuthClientFromCache(eq(clientId))).thenReturn(client);
         // mock the method（approve）
         List<OAuth2ApproveEntity> approves = asList(
                 randomPojo(OAuth2ApproveEntity.class).setScope("read").setApproved(true),
@@ -232,7 +232,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
         String state = randomString();
         // mock the method
         OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class);
-        when(oauth2ClientService.validOAuthClientFromCache(eq(clientId), isNull(), eq("authorization_code"),
+        when(oauth2ClientService.validateOAuthClientFromCache(eq(clientId), isNull(), eq("authorization_code"),
                 eq(asSet("read", "write")), eq(redirectUri))).thenReturn(client);
 
         // invoke
@@ -253,7 +253,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
         String state = "test";
         // mock the method
         OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class);
-        when(oauth2ClientService.validOAuthClientFromCache(eq(clientId), isNull(), eq("implicit"),
+        when(oauth2ClientService.validateOAuthClientFromCache(eq(clientId), isNull(), eq("implicit"),
                 eq(asSet("read", "write")), eq(redirectUri))).thenReturn(client);
 
         // invoke
@@ -274,7 +274,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
         String state = "test";
         // mock the method（client)
         OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class).setClientId(clientId).setAdditionalInformation(null);
-        when(oauth2ClientService.validOAuthClientFromCache(eq(clientId), isNull(), eq("implicit"),
+        when(oauth2ClientService.validateOAuthClientFromCache(eq(clientId), isNull(), eq("implicit"),
                 eq(asSet("read", "write")), eq(redirectUri))).thenReturn(client);
         // mock the method（scenario 1）
         when(oauth2ApproveService.checkForPreApproval(isNull(), eq(UserTypeEnum.ADMIN.getValue()),
@@ -306,7 +306,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
         String state = "test";
         // mock the method（client)
         OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class).setClientId(clientId).setAdditionalInformation(null);
-        when(oauth2ClientService.validOAuthClientFromCache(eq(clientId), isNull(), eq("authorization_code"),
+        when(oauth2ClientService.validateOAuthClientFromCache(eq(clientId), isNull(), eq("authorization_code"),
                 eq(asSet("read", "write")), eq(redirectUri))).thenReturn(client);
         // mock the method（scenario 2）
         when(oauth2ApproveService.updateAfterApproval(isNull(), eq(UserTypeEnum.ADMIN.getValue()), eq(clientId),

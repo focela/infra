@@ -114,7 +114,7 @@ public class OAuth2OpenController {
 
         // 1.2 Validate client
         String[] clientIdAndSecret = obtainBasicAuthorization(request);
-        OAuth2ClientEntity client = oauth2ClientService.validOAuthClientFromCache(clientIdAndSecret[0], clientIdAndSecret[1],
+        OAuth2ClientEntity client = oauth2ClientService.validateOAuthClientFromCache(clientIdAndSecret[0], clientIdAndSecret[1],
                 grantType, scopes, redirectUri);
 
         // 2. Obtain access token based on grant mode
@@ -147,7 +147,7 @@ public class OAuth2OpenController {
                                              @RequestParam("token") String token) {
         // Validate client
         String[] clientIdAndSecret = obtainBasicAuthorization(request);
-        OAuth2ClientEntity client = oauth2ClientService.validOAuthClientFromCache(clientIdAndSecret[0], clientIdAndSecret[1],
+        OAuth2ClientEntity client = oauth2ClientService.validateOAuthClientFromCache(clientIdAndSecret[0], clientIdAndSecret[1],
                 null, null, null);
 
         // Delete access token
@@ -165,7 +165,7 @@ public class OAuth2OpenController {
                                                                @RequestParam("token") String token) {
         // Validate client
         String[] clientIdAndSecret = obtainBasicAuthorization(request);
-        oauth2ClientService.validOAuthClientFromCache(clientIdAndSecret[0], clientIdAndSecret[1],
+        oauth2ClientService.validateOAuthClientFromCache(clientIdAndSecret[0], clientIdAndSecret[1],
                 null, null, null);
 
         // Validate token
@@ -184,7 +184,7 @@ public class OAuth2OpenController {
         // 0. Validate that the user is logged in. Implemented via Spring Security
 
         // 1. Get Client info
-        OAuth2ClientEntity client = oauth2ClientService.validOAuthClientFromCache(clientId);
+        OAuth2ClientEntity client = oauth2ClientService.validateOAuthClientFromCache(clientId);
         // 2. Get info about scopes the user has already approved
         List<OAuth2ApproveEntity> approves = oauth2ApproveService.getApproveList(getLoginUserId(), getUserType(), clientId);
         // Assemble and return
@@ -225,7 +225,7 @@ public class OAuth2OpenController {
         // 1.1 Validate that responseType matches either code or token
         OAuth2GrantTypeEnum grantTypeEnum = getGrantTypeEnum(responseType);
         // 1.2 Validate that the redirectUri domain is legal + validate that scope is within the Client's authorized scope
-        OAuth2ClientEntity client = oauth2ClientService.validOAuthClientFromCache(clientId, null,
+        OAuth2ClientEntity client = oauth2ClientService.validateOAuthClientFromCache(clientId, null,
                 grantTypeEnum.getGrantType(), scopes.keySet(), redirectUri);
 
         // 2.1 If approved is null, scenario 1 applies

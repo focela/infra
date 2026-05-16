@@ -112,7 +112,7 @@ public class DefaultTenantPackageService implements TenantPackageService {
     }
 
     @Override
-    public TenantPackageEntity validTenantPackage(Long id) {
+    public TenantPackageEntity validateTenantPackage(Long id) {
         TenantPackageEntity tenantPackage = tenantPackageMapper.selectById(id);
         if (tenantPackage == null) {
             throw exception(TENANT_PACKAGE_NOT_EXISTS);

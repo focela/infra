@@ -39,7 +39,7 @@ public class DefaultOAuth2ApproveService implements OAuth2ApproveService {
     @Transactional
     public boolean checkForPreApproval(Long userId, Integer userType, String clientId, Collection<String> requestedScopes) {
         // Step 1: based on the client's auto-approve calculation; if all scopes are in auto-approve, return true (approved)
-        OAuth2ClientEntity clientDO = oauth2ClientService.validOAuthClientFromCache(clientId);
+        OAuth2ClientEntity clientDO = oauth2ClientService.validateOAuthClientFromCache(clientId);
         Assert.notNull(clientDO, "Client must not be blank"); // defensive programming
         if (CollUtil.containsAll(clientDO.getAutoApproveScopes(), requestedScopes)) {
             // gh-877 - if all scopes are auto approved, approvals still need to be added to the approval store.
