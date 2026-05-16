@@ -28,7 +28,7 @@ import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.e
 import static com.focela.platform.common.utils.collection.CollectionUtils.convertList;
 import static com.focela.platform.common.utils.collection.CollectionUtils.convertMap;
 import static com.focela.platform.system.entity.permission.MenuEntity.ID_ROOT;
-import static com.focela.platform.system.constants.ErrorCodeConstants.*;
+import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
 
 /**
  * Menu Service implementation

@@ -22,8 +22,8 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.system.constants.ErrorCodeConstants.NOTIFY_TEMPLATE_CODE_DUPLICATE;
-import static com.focela.platform.system.constants.ErrorCodeConstants.NOTIFY_TEMPLATE_NOT_EXISTS;
+import static com.focela.platform.system.constants.SystemErrorCodeConstants.NOTIFY_TEMPLATE_CODE_DUPLICATE;
+import static com.focela.platform.system.constants.SystemErrorCodeConstants.NOTIFY_TEMPLATE_NOT_EXISTS;
 
 /**
  * In-site notification template Service implementation class

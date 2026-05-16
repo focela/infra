@@ -7,7 +7,7 @@ import com.focela.platform.common.exception.ErrorCode;
  *
  * infra system, uses 1-001-000-000 segment
  */
-public interface ErrorCodeConstants {
+public interface InfraErrorCodeConstants {
 
     // ========== Config 1-001-000-000 ==========
     ErrorCode CONFIG_NOT_EXISTS = new ErrorCode(1_001_000_001, "Config does not exist");

@@ -25,7 +25,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.system.constants.ErrorCodeConstants.*;
+import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
 
 /**
  * OAuth2.0 Client Service implementation class

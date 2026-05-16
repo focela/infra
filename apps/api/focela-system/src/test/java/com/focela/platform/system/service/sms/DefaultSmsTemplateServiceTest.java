@@ -31,7 +31,7 @@ import static com.focela.platform.common.utils.date.LocalDateTimeUtils.buildTime
 import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
 import static com.focela.platform.test.core.utils.AssertUtils.assertServiceException;
 import static com.focela.platform.test.core.utils.RandomUtils.*;
-import static com.focela.platform.system.constants.ErrorCodeConstants.*;
+import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;

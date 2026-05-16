@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.system.constants.ErrorCodeConstants.*;
+import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
 
 /**
  * In-site notification send Service implementation class

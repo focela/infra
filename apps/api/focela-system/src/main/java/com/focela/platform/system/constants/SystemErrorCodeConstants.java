@@ -7,7 +7,7 @@ import com.focela.platform.common.exception.ErrorCode;
  *
  * system module uses the 1-002-000-000 segment
  */
-public interface ErrorCodeConstants {
+public interface SystemErrorCodeConstants {
 
     // ========== AUTH module 1-002-000-000 ==========
     ErrorCode AUTH_LOGIN_BAD_CREDENTIALS = new ErrorCode(1_002_000_000, "Login failed, username or password is incorrect");

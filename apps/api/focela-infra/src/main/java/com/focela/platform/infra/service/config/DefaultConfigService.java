@@ -16,7 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import java.util.List;
 
 import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.infra.constants.ErrorCodeConstants.*;
+import static com.focela.platform.infra.constants.InfraErrorCodeConstants.*;
 
 /**
  * Implementation class of the param config Service

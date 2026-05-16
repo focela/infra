@@ -17,7 +17,7 @@ import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
 import static com.focela.platform.test.core.utils.AssertUtils.assertServiceException;
 import static com.focela.platform.test.core.utils.RandomUtils.randomLongId;
 import static com.focela.platform.test.core.utils.RandomUtils.randomPojo;
-import static com.focela.platform.system.constants.ErrorCodeConstants.NOTICE_NOT_FOUND;
+import static com.focela.platform.system.constants.SystemErrorCodeConstants.NOTICE_NOT_FOUND;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Import(DefaultNoticeService.class)

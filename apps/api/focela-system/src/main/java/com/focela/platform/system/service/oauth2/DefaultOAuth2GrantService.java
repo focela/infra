@@ -7,7 +7,7 @@ import com.focela.platform.common.enums.UserTypeEnum;
 import com.focela.platform.system.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.system.entity.oauth2.OAuth2CodeEntity;
 import com.focela.platform.system.entity.user.UserEntity;
-import com.focela.platform.system.constants.ErrorCodeConstants;
+import com.focela.platform.system.constants.SystemErrorCodeConstants;
 import com.focela.platform.system.service.auth.AuthService;
 import org.springframework.stereotype.Service;
 
@@ -50,16 +50,16 @@ public class DefaultOAuth2GrantService implements OAuth2GrantService {
         Assert.notNull(codeDO, "Authorization code must not be blank"); // defensive programming
         // Validate that clientId matches
         if (!StrUtil.equals(clientId, codeDO.getClientId())) {
-            throw exception(ErrorCodeConstants.OAUTH2_GRANT_CLIENT_ID_MISMATCH);
+            throw exception(SystemErrorCodeConstants.OAUTH2_GRANT_CLIENT_ID_MISMATCH);
         }
         // Validate that redirectUri matches
         if (!StrUtil.equals(redirectUri, codeDO.getRedirectUri())) {
-            throw exception(ErrorCodeConstants.OAUTH2_GRANT_REDIRECT_URI_MISMATCH);
+            throw exception(SystemErrorCodeConstants.OAUTH2_GRANT_REDIRECT_URI_MISMATCH);
         }
         // Validate that state matches
         state = StrUtil.nullToDefault(state, ""); // when database state is null, it will be set to empty string ""
         if (!StrUtil.equals(state, codeDO.getState())) {
-            throw exception(ErrorCodeConstants.OAUTH2_GRANT_STATE_MISMATCH);
+            throw exception(SystemErrorCodeConstants.OAUTH2_GRANT_STATE_MISMATCH);
         }
 
         // Create access token

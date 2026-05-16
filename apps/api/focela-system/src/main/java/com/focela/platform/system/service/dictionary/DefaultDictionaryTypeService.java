@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.system.constants.ErrorCodeConstants.*;
+import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
 
 /**
  * Dictionary type Service implementation class

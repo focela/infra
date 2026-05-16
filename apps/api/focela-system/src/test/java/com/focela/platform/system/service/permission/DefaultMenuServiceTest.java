@@ -24,7 +24,7 @@ import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
 import static com.focela.platform.test.core.utils.AssertUtils.assertServiceException;
 import static com.focela.platform.test.core.utils.RandomUtils.*;
 import static com.focela.platform.system.entity.permission.MenuEntity.ID_ROOT;
-import static com.focela.platform.system.constants.ErrorCodeConstants.*;
+import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.argThat;

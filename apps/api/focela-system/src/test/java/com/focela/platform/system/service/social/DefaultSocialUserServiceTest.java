@@ -29,7 +29,7 @@ import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
 import static com.focela.platform.test.core.utils.AssertUtils.assertServiceException;
 import static com.focela.platform.test.core.utils.RandomUtils.randomPojo;
 import static com.focela.platform.test.core.utils.RandomUtils.randomString;
-import static com.focela.platform.system.constants.ErrorCodeConstants.SOCIAL_USER_NOT_FOUND;
+import static com.focela.platform.system.constants.SystemErrorCodeConstants.SOCIAL_USER_NOT_FOUND;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.when;

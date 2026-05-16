@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.system.constants.ErrorCodeConstants.*;
+import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
 
 /**
  * SMS send Service implementation

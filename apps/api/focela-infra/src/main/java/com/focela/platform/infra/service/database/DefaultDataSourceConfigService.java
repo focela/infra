@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.infra.constants.ErrorCodeConstants.DATA_SOURCE_CONFIG_NOT_EXISTS;
-import static com.focela.platform.infra.constants.ErrorCodeConstants.DATA_SOURCE_CONFIG_NOT_OK;
+import static com.focela.platform.infra.constants.InfraErrorCodeConstants.DATA_SOURCE_CONFIG_NOT_EXISTS;
+import static com.focela.platform.infra.constants.InfraErrorCodeConstants.DATA_SOURCE_CONFIG_NOT_OK;
 
 /**
  * Implementation class of the datasource config Service

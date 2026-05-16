@@ -22,7 +22,7 @@ import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
 import static com.focela.platform.test.core.utils.AssertUtils.assertServiceException;
 import static com.focela.platform.test.core.utils.RandomUtils.randomPojo;
 import static com.focela.platform.test.core.utils.RandomUtils.randomString;
-import static com.focela.platform.infra.constants.ErrorCodeConstants.*;
+import static com.focela.platform.infra.constants.InfraErrorCodeConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mockStatic;

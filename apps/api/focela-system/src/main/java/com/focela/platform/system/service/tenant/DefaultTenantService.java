@@ -42,7 +42,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.system.constants.ErrorCodeConstants.*;
+import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
 import static java.util.Collections.singleton;
 
 /**

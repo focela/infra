@@ -24,7 +24,7 @@ import java.util.Objects;
 
 import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.common.utils.collection.CollectionUtils.containsAny;
-import static com.focela.platform.infra.constants.ErrorCodeConstants.*;
+import static com.focela.platform.infra.constants.InfraErrorCodeConstants.*;
 
 /**
  * Implementation class of the scheduled job Service

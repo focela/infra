@@ -19,8 +19,8 @@ import java.time.LocalDateTime;
 
 import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.infra.entity.logger.ApiErrorLogEntity.REQUEST_PARAMS_MAX_LENGTH;
-import static com.focela.platform.infra.constants.ErrorCodeConstants.API_ERROR_LOG_NOT_FOUND;
-import static com.focela.platform.infra.constants.ErrorCodeConstants.API_ERROR_LOG_PROCESSED;
+import static com.focela.platform.infra.constants.InfraErrorCodeConstants.API_ERROR_LOG_NOT_FOUND;
+import static com.focela.platform.infra.constants.InfraErrorCodeConstants.API_ERROR_LOG_PROCESSED;
 
 /**
  * Implementation class of the API error log Service

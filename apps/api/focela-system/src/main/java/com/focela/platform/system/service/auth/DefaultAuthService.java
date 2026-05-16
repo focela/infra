@@ -42,7 +42,7 @@ import java.util.Objects;
 
 import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.common.utils.servlet.ServletUtils.getClientIP;
-import static com.focela.platform.system.constants.ErrorCodeConstants.*;
+import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
 
 /**
  * Auth Service implementation class

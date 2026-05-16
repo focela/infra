@@ -25,7 +25,7 @@ import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
 import static com.focela.platform.test.core.utils.AssertUtils.assertServiceException;
 import static com.focela.platform.test.core.utils.RandomUtils.randomLongId;
 import static com.focela.platform.test.core.utils.RandomUtils.randomPojo;
-import static com.focela.platform.infra.constants.ErrorCodeConstants.DATA_SOURCE_CONFIG_NOT_EXISTS;
+import static com.focela.platform.infra.constants.InfraErrorCodeConstants.DATA_SOURCE_CONFIG_NOT_EXISTS;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;

@@ -19,7 +19,7 @@ import java.util.Map;
 
 import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.common.utils.collection.CollectionUtils.convertMap;
-import static com.focela.platform.system.constants.ErrorCodeConstants.*;
+import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
 
 /**
  * Post Service implementation class

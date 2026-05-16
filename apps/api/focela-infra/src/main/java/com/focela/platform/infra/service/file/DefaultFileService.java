@@ -24,7 +24,7 @@ import java.util.List;
 
 import static cn.hutool.core.date.DatePattern.PURE_DATE_PATTERN;
 import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.infra.constants.ErrorCodeConstants.FILE_NOT_EXISTS;
+import static com.focela.platform.infra.constants.InfraErrorCodeConstants.FILE_NOT_EXISTS;
 
 /**
  * Implementation class of the file Service

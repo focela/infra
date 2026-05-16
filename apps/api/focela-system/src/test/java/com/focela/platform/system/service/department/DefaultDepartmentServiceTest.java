@@ -18,7 +18,7 @@ import java.util.Set;
 import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
 import static com.focela.platform.test.core.utils.AssertUtils.assertServiceException;
 import static com.focela.platform.test.core.utils.RandomUtils.*;
-import static com.focela.platform.system.constants.ErrorCodeConstants.*;
+import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.*;
 

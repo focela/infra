@@ -29,7 +29,7 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.system.constants.ErrorCodeConstants.*;
+import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
 
 /**
  * SMS template Service implementation class

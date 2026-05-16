@@ -10,7 +10,7 @@ import com.focela.platform.infra.controller.admin.config.dto.ConfigResponse;
 import com.focela.platform.infra.controller.admin.config.dto.ConfigSaveRequest;
 import com.focela.platform.infra.converter.config.ConfigConverter;
 import com.focela.platform.infra.entity.config.ConfigEntity;
-import com.focela.platform.infra.constants.ErrorCodeConstants;
+import com.focela.platform.infra.constants.InfraErrorCodeConstants;
 import com.focela.platform.infra.service.config.ConfigService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -88,7 +88,7 @@ public class ConfigController {
             return success(null);
         }
         if (!config.getVisible()) {
-            throw exception(ErrorCodeConstants.CONFIG_GET_VALUE_ERROR_IF_VISIBLE);
+            throw exception(InfraErrorCodeConstants.CONFIG_GET_VALUE_ERROR_IF_VISIBLE);
         }
         return success(config.getValue());
     }

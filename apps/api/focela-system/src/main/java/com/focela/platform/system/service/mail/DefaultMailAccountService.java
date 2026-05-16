@@ -17,8 +17,8 @@ import org.springframework.validation.annotation.Validated;
 import java.util.List;
 
 import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.system.constants.ErrorCodeConstants.MAIL_ACCOUNT_NOT_EXISTS;
-import static com.focela.platform.system.constants.ErrorCodeConstants.MAIL_ACCOUNT_RELATE_TEMPLATE_EXISTS;
+import static com.focela.platform.system.constants.SystemErrorCodeConstants.MAIL_ACCOUNT_NOT_EXISTS;
+import static com.focela.platform.system.constants.SystemErrorCodeConstants.MAIL_ACCOUNT_RELATE_TEMPLATE_EXISTS;
 
 /**
  * Mail account Service implementation class
