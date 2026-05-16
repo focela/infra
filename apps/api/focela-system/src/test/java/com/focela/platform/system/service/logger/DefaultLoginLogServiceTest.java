@@ -64,13 +64,13 @@ public class DefaultLoginLogServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testCreateLoginLog() {
-        LoginLogCreateRpcRequest reqDTO = randomPojo(LoginLogCreateRpcRequest.class);
+        LoginLogCreateRpcRequest request = randomPojo(LoginLogCreateRpcRequest.class);
 
         // invoke
-        loginLogService.createLoginLog(reqDTO);
+        loginLogService.createLoginLog(request);
         // assert
         LoginLogEntity loginLogDO = loginLogMapper.selectOne(null);
-        assertPojoEquals(reqDTO, loginLogDO);
+        assertPojoEquals(request, loginLogDO);
     }
 
 }

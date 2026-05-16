@@ -16,15 +16,15 @@ public class LocalNotifyMessageSendApi implements NotifyMessageSendApi {
     private NotifySendService notifySendService;
 
     @Override
-    public Long sendSingleMessageToAdmin(NotifySendSingleToUserRpcRequest reqDTO) {
-        return notifySendService.sendSingleNotifyToAdmin(reqDTO.getUserId(),
-                reqDTO.getTemplateCode(), reqDTO.getTemplateParams());
+    public Long sendSingleMessageToAdmin(NotifySendSingleToUserRpcRequest request) {
+        return notifySendService.sendSingleNotifyToAdmin(request.getUserId(),
+                request.getTemplateCode(), request.getTemplateParams());
     }
 
     @Override
-    public Long sendSingleMessageToMember(NotifySendSingleToUserRpcRequest reqDTO) {
-        return notifySendService.sendSingleNotifyToMember(reqDTO.getUserId(),
-                reqDTO.getTemplateCode(), reqDTO.getTemplateParams());
+    public Long sendSingleMessageToMember(NotifySendSingleToUserRpcRequest request) {
+        return notifySendService.sendSingleNotifyToMember(request.getUserId(),
+                request.getTemplateCode(), request.getTemplateParams());
     }
 
 }

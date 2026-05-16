@@ -20,14 +20,14 @@ public class LocalSocialUserApi implements SocialUserApi {
     private SocialUserService socialUserService;
 
     @Override
-    public String bindSocialUser(SocialUserBindRpcRequest reqDTO) {
-        return socialUserService.bindSocialUser(reqDTO);
+    public String bindSocialUser(SocialUserBindRpcRequest request) {
+        return socialUserService.bindSocialUser(request);
     }
 
     @Override
-    public void unbindSocialUser(SocialUserUnbindRpcRequest reqDTO) {
-        socialUserService.unbindSocialUser(reqDTO.getUserId(), reqDTO.getUserType(),
-                reqDTO.getSocialType(), reqDTO.getOpenid());
+    public void unbindSocialUser(SocialUserUnbindRpcRequest request) {
+        socialUserService.unbindSocialUser(request.getUserId(), request.getUserType(),
+                request.getSocialType(), request.getOpenid());
     }
 
     @Override

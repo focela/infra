@@ -31,8 +31,8 @@ public interface LoginLogService {
     /**
      * Create login log
      *
-     * @param reqDTO log info
+     * @param request log info
      */
-    void createLoginLog(@Valid LoginLogCreateRpcRequest reqDTO);
+    void createLoginLog(@Valid LoginLogCreateRpcRequest request);
 
 }

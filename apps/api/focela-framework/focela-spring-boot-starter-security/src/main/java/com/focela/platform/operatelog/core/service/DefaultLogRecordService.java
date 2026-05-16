@@ -27,53 +27,53 @@ public class DefaultLogRecordService implements ILogRecordService {
 
     @Override
     public void record(LogRecord logRecord) {
-        OperateLogCreateRpcRequest reqDTO = new OperateLogCreateRpcRequest();
+        OperateLogCreateRpcRequest request = new OperateLogCreateRpcRequest();
         try {
-            reqDTO.setTraceId(TracerUtils.getTraceId());
+            request.setTraceId(TracerUtils.getTraceId());
             // Fill in user information
-            fillUserFields(reqDTO);
+            fillUserFields(request);
             // Fill in module information
-            fillModuleFields(reqDTO, logRecord);
+            fillModuleFields(request, logRecord);
             // Fill in request information
-            fillRequestFields(reqDTO);
+            fillRequestFields(request);
 
             // 2. Record the log asynchronously
-            operateLogApi.createOperateLogAsync(reqDTO);
+            operateLogApi.createOperateLogAsync(request);
         } catch (Throwable ex) {
             // Because this is invoked asynchronously via @Async, log here so issues are easier to trace
-            log.error("[record][url({}) log({}) exception occurred]", reqDTO.getRequestUrl(), reqDTO, ex);
+            log.error("[record][url({}) log({}) exception occurred]", request.getRequestUrl(), request, ex);
         }
     }
 
-    private static void fillUserFields(OperateLogCreateRpcRequest reqDTO) {
+    private static void fillUserFields(OperateLogCreateRpcRequest request) {
         // Use SecurityFrameworkUtils because rpc, mq, and job are not necessarily web contexts.
         LoginUser loginUser = SecurityFrameworkUtils.getLoginUser();
         if (loginUser == null) {
             return;
         }
-        reqDTO.setUserId(loginUser.getId());
-        reqDTO.setUserType(loginUser.getUserType());
+        request.setUserId(loginUser.getId());
+        request.setUserType(loginUser.getUserType());
     }
 
-    public static void fillModuleFields(OperateLogCreateRpcRequest reqDTO, LogRecord logRecord) {
-        reqDTO.setType(logRecord.getType()); // Major module type, e.g. CRM customer
-        reqDTO.setSubType(logRecord.getSubType());// Operation name, e.g. transfer customer
-        reqDTO.setBizId(Long.parseLong(logRecord.getBizNo())); // Business ID, e.g. customer ID
-        reqDTO.setAction(logRecord.getAction());// Operation content, e.g. update user with ID 1 - change gender from male to female and update the name.
-        reqDTO.setExtra(logRecord.getExtra()); // Extra field; some complex business operations need to record extra fields (JSON format), e.g. recording the order ID: { orderId: "1" }
+    public static void fillModuleFields(OperateLogCreateRpcRequest request, LogRecord logRecord) {
+        request.setType(logRecord.getType()); // Major module type, e.g. CRM customer
+        request.setSubType(logRecord.getSubType());// Operation name, e.g. transfer customer
+        request.setBizId(Long.parseLong(logRecord.getBizNo())); // Business ID, e.g. customer ID
+        request.setAction(logRecord.getAction());// Operation content, e.g. update user with ID 1 - change gender from male to female and update the name.
+        request.setExtra(logRecord.getExtra()); // Extra field; some complex business operations need to record extra fields (JSON format), e.g. recording the order ID: { orderId: "1" }
     }
 
-    private static void fillRequestFields(OperateLogCreateRpcRequest reqDTO) {
+    private static void fillRequestFields(OperateLogCreateRpcRequest createRequest) {
         // Get the Request object
         HttpServletRequest request = ServletUtils.getRequest();
         if (request == null) {
             return;
         }
         // Fill in request information
-        reqDTO.setRequestMethod(request.getMethod());
-        reqDTO.setRequestUrl(request.getRequestURI());
-        reqDTO.setUserIp(ServletUtils.getClientIP(request));
-        reqDTO.setUserAgent(ServletUtils.getUserAgent(request));
+        createRequest.setRequestMethod(request.getMethod());
+        createRequest.setRequestUrl(request.getRequestURI());
+        createRequest.setUserIp(ServletUtils.getClientIP(request));
+        createRequest.setUserAgent(ServletUtils.getUserAgent(request));
     }
 
     @Override

@@ -57,22 +57,22 @@ public class DefaultSocialUserService implements SocialUserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String bindSocialUser(SocialUserBindRpcRequest reqDTO) {
+    public String bindSocialUser(SocialUserBindRpcRequest request) {
         // Get the social user
-        SocialUserEntity socialUser = authSocialUser(reqDTO.getSocialType(), reqDTO.getUserType(),
-                reqDTO.getCode(), reqDTO.getState());
+        SocialUserEntity socialUser = authSocialUser(request.getSocialType(), request.getUserType(),
+                request.getCode(), request.getState());
         Assert.notNull(socialUser, "Social user must not be null");
 
         // The social user may have previously been bound to another user; unbind it
-        socialUserBindMapper.deleteByUserTypeAndSocialUserId(reqDTO.getUserType(), socialUser.getId());
+        socialUserBindMapper.deleteByUserTypeAndSocialUserId(request.getUserType(), socialUser.getId());
 
         // The user may have already been bound to this social type; unbind it
-        socialUserBindMapper.deleteByUserTypeAndUserIdAndSocialType(reqDTO.getUserType(), reqDTO.getUserId(),
+        socialUserBindMapper.deleteByUserTypeAndUserIdAndSocialType(request.getUserType(), request.getUserId(),
                 socialUser.getType());
 
         // Bind the currently logged-in social user
         SocialUserBindEntity socialUserBind = SocialUserBindEntity.builder()
-                .userId(reqDTO.getUserId()).userType(reqDTO.getUserType())
+                .userId(request.getUserId()).userType(request.getUserType())
                 .socialUserId(socialUser.getId()).socialType(socialUser.getType()).build();
         socialUserBindMapper.insert(socialUserBind);
         return socialUser.getOpenid();

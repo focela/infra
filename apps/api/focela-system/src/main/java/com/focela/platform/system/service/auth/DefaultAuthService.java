@@ -150,16 +150,16 @@ public class DefaultAuthService implements AuthService {
     private void createLoginLog(Long userId, String username,
                                 LoginLogTypeEnum logTypeEnum, LoginResultEnum loginResult) {
         // Insert login log
-        LoginLogCreateRpcRequest reqDTO = new LoginLogCreateRpcRequest();
-        reqDTO.setLogType(logTypeEnum.getType());
-        reqDTO.setTraceId(TracerUtils.getTraceId());
-        reqDTO.setUserId(userId);
-        reqDTO.setUserType(getUserType().getValue());
-        reqDTO.setUsername(username);
-        reqDTO.setUserAgent(ServletUtils.getUserAgent());
-        reqDTO.setUserIp(ServletUtils.getClientIP());
-        reqDTO.setResult(loginResult.getResult());
-        loginLogService.createLoginLog(reqDTO);
+        LoginLogCreateRpcRequest request = new LoginLogCreateRpcRequest();
+        request.setLogType(logTypeEnum.getType());
+        request.setTraceId(TracerUtils.getTraceId());
+        request.setUserId(userId);
+        request.setUserType(getUserType().getValue());
+        request.setUsername(username);
+        request.setUserAgent(ServletUtils.getUserAgent());
+        request.setUserIp(ServletUtils.getClientIP());
+        request.setResult(loginResult.getResult());
+        loginLogService.createLoginLog(request);
         // Update last login time
         if (userId != null && Objects.equals(LoginResultEnum.SUCCESS.getResult(), loginResult.getResult())) {
             userService.updateUserLogin(userId, ServletUtils.getClientIP());
@@ -235,20 +235,20 @@ public class DefaultAuthService implements AuthService {
     }
 
     private void createLogoutLog(Long userId, Integer userType, Integer logType) {
-        LoginLogCreateRpcRequest reqDTO = new LoginLogCreateRpcRequest();
-        reqDTO.setLogType(logType);
-        reqDTO.setTraceId(TracerUtils.getTraceId());
-        reqDTO.setUserId(userId);
-        reqDTO.setUserType(userType);
+        LoginLogCreateRpcRequest request = new LoginLogCreateRpcRequest();
+        request.setLogType(logType);
+        request.setTraceId(TracerUtils.getTraceId());
+        request.setUserId(userId);
+        request.setUserType(userType);
         if (ObjectUtil.equal(getUserType().getValue(), userType)) {
-            reqDTO.setUsername(getUsername(userId));
+            request.setUsername(getUsername(userId));
         } else {
-            reqDTO.setUsername(memberService.getMemberUserMobile(userId));
+            request.setUsername(memberService.getMemberUserMobile(userId));
         }
-        reqDTO.setUserAgent(ServletUtils.getUserAgent());
-        reqDTO.setUserIp(ServletUtils.getClientIP());
-        reqDTO.setResult(LoginResultEnum.SUCCESS.getResult());
-        loginLogService.createLoginLog(reqDTO);
+        request.setUserAgent(ServletUtils.getUserAgent());
+        request.setUserIp(ServletUtils.getClientIP());
+        request.setResult(LoginResultEnum.SUCCESS.getResult());
+        loginLogService.createLoginLog(request);
     }
 
     private String getUsername(Long userId) {

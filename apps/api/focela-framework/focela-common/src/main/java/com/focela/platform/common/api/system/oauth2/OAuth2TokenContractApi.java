@@ -14,10 +14,10 @@ public interface OAuth2TokenContractApi {
     /**
      * Create an access token.
      *
-     * @param reqDTO access token creation info
+     * @param request access token creation info
      * @return access token info
      */
-    OAuth2AccessTokenRpcResponse createAccessToken(@Valid OAuth2AccessTokenCreateRpcRequest reqDTO);
+    OAuth2AccessTokenRpcResponse createAccessToken(@Valid OAuth2AccessTokenCreateRpcRequest request);
 
     /**
      * Validate an access token.

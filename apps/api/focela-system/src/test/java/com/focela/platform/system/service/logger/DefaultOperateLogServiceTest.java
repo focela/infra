@@ -97,13 +97,13 @@ public class DefaultOperateLogServiceTest extends BaseDbUnitTest {
         operateLogMapper.insert(cloneIgnoreId(operateLogDO, o -> o.setType("refund")));
 
         // build call parameters
-        OperateLogPageRpcRequest reqDTO = new OperateLogPageRpcRequest();
-        reqDTO.setUserId(2048L);
-        reqDTO.setBizId(999L);
-        reqDTO.setType("order");
+        OperateLogPageRpcRequest request = new OperateLogPageRpcRequest();
+        request.setUserId(2048L);
+        request.setBizId(999L);
+        request.setType("order");
 
         // invoke
-        PageResult<OperateLogEntity> pageResult = DefaultoperateLogService.getOperateLogPage(reqDTO);
+        PageResult<OperateLogEntity> pageResult = DefaultoperateLogService.getOperateLogPage(request);
         // assert only one matching record was found
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());

@@ -129,7 +129,7 @@ public class AliyunSmsClientTest extends BaseMockitoUnitTest {
             String apiTemplateId = randomString();
             // mock the method
             httpUtilsMockedStatic.when(() -> HttpUtils.post(anyString(), anyMap(), anyString()))
-                    .thenReturn("{\"TemplateCode\":\"SMS_207945135\",\"RequestId\":\"6F4CC077-29C8-5BA5-AB62-5FF95068A5AC\",\"Message\":\"OK\",\"TemplateContent\":\"Your verification code ${code},¼ŒThis verification code is valid for 5 minutes. Do not share it with others!\",\"TemplateName\":\"Announcement\",\"TemplateType\":0,\"Code\":\"OK\",\"CreateDate\":\"2020-12-23 17:34:42\",\"Reason\":\"no audit reason\",\"TemplateStatus\":1}");
+                    .thenReturn("{\"TemplateCode\":\"SMS_207945135\",\"RequestId\":\"6F4CC077-29C8-5BA5-AB62-5FF95068A5AC\",\"Message\":\"OK\",\"TemplateContent\":\"Your verification code ${code}, This verification code is valid for 5 minutes. Do not share it with others!\",\"TemplateName\":\"Announcement\",\"TemplateType\":0,\"Code\":\"OK\",\"CreateDate\":\"2020-12-23 17:34:42\",\"Reason\":\"no audit reason\",\"TemplateStatus\":1}");
             httpUtilsMockedStatic.when(() -> HttpUtils.encodeUtf8(anyString()))
                     .then((Answer<String>) invocationOnMock -> (String) invocationOnMock.getArguments()[0]);
 
@@ -137,7 +137,7 @@ public class AliyunSmsClientTest extends BaseMockitoUnitTest {
             SmsTemplateRpcResponse result = smsClient.getSmsTemplate(apiTemplateId);
             // assert
             assertEquals("SMS_207945135", result.getId());
-            assertEquals("Your verification code ${code},¼ŒThis verification code is valid for 5 minutes. Do not share it with others!", result.getContent());
+            assertEquals("Your verification code ${code}, This verification code is valid for 5 minutes. Do not share it with others!", result.getContent());
             assertEquals(SmsTemplateAuditStatusEnum.SUCCESS.getStatus(), result.getAuditStatus());
             assertEquals("no audit reason", result.getAuditReason());
         }

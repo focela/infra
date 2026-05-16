@@ -32,8 +32,8 @@ public class DefaultLoginLogService implements LoginLogService {
     }
 
     @Override
-    public void createLoginLog(LoginLogCreateRpcRequest reqDTO) {
-        LoginLogEntity loginLog = BeanUtils.toBean(reqDTO, LoginLogEntity.class);
+    public void createLoginLog(LoginLogCreateRpcRequest request) {
+        LoginLogEntity loginLog = BeanUtils.toBean(request, LoginLogEntity.class);
         loginLogMapper.insert(loginLog);
     }
 

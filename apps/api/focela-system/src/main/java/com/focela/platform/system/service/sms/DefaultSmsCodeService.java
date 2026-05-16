@@ -38,13 +38,13 @@ public class DefaultSmsCodeService implements SmsCodeService {
     private SmsSendService smsSendService;
 
     @Override
-    public void sendSmsCode(SmsCodeSendRpcRequest reqDTO) {
-        SmsSceneEnum sceneEnum = SmsSceneEnum.getCodeByScene(reqDTO.getScene());
-        Assert.notNull(sceneEnum, "verification code scene ({}) configuration not found", reqDTO.getScene());
+    public void sendSmsCode(SmsCodeSendRpcRequest request) {
+        SmsSceneEnum sceneEnum = SmsSceneEnum.getCodeByScene(request.getScene());
+        Assert.notNull(sceneEnum, "verification code scene ({}) configuration not found", request.getScene());
         // create the verification code
-        String code = createSmsCode(reqDTO.getMobile(), reqDTO.getScene(), reqDTO.getCreateIp());
+        String code = createSmsCode(request.getMobile(), request.getScene(), request.getCreateIp());
         // send the verification code
-        smsSendService.sendSingleSms(reqDTO.getMobile(), null, null,
+        smsSendService.sendSingleSms(request.getMobile(), null, null,
                 sceneEnum.getTemplateCode(), MapUtil.of("code", code));
     }
 
@@ -75,17 +75,17 @@ public class DefaultSmsCodeService implements SmsCodeService {
     }
 
     @Override
-    public void useSmsCode(SmsCodeUseRpcRequest reqDTO) {
+    public void useSmsCode(SmsCodeUseRpcRequest request) {
         // check whether the verification code is valid
-        SmsCodeEntity lastSmsCode = validateSmsCode0(reqDTO.getMobile(), reqDTO.getCode(), reqDTO.getScene());
+        SmsCodeEntity lastSmsCode = validateSmsCode0(request.getMobile(), request.getCode(), request.getScene());
         // consume the verification code
         smsCodeMapper.updateById(SmsCodeEntity.builder().id(lastSmsCode.getId())
-                .used(true).usedTime(LocalDateTime.now()).usedIp(reqDTO.getUsedIp()).build());
+                .used(true).usedTime(LocalDateTime.now()).usedIp(request.getUsedIp()).build());
     }
 
     @Override
-    public void validateSmsCode(SmsCodeValidateRpcRequest reqDTO) {
-        validateSmsCode0(reqDTO.getMobile(), reqDTO.getCode(), reqDTO.getScene());
+    public void validateSmsCode(SmsCodeValidateRpcRequest request) {
+        validateSmsCode0(request.getMobile(), request.getCode(), request.getScene());
     }
 
     private SmsCodeEntity validateSmsCode0(String mobile, String code, Integer scene) {

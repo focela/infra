@@ -12,8 +12,8 @@ public interface LoginLogApi {
     /**
      * Create a login log
      *
-     * @param reqDTO log information
+     * @param request log information
      */
-    void createLoginLog(@Valid LoginLogCreateRpcRequest reqDTO);
+    void createLoginLog(@Valid LoginLogCreateRpcRequest request);
 
 }

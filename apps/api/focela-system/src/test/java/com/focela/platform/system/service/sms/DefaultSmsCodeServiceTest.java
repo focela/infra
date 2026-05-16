@@ -55,21 +55,21 @@ public class DefaultSmsCodeServiceTest extends BaseDbUnitTest {
     @Test
     public void sendSmsCode_success() {
         // prepare parameters
-        SmsCodeSendRpcRequest reqDTO = randomPojo(SmsCodeSendRpcRequest.class, o -> {
+        SmsCodeSendRpcRequest request = randomPojo(SmsCodeSendRpcRequest.class, o -> {
             o.setMobile("15601691300");
             o.setScene(SmsSceneEnum.MEMBER_LOGIN.getScene());
         });
 
         // invoke
-        smsCodeService.sendSmsCode(reqDTO);
+        smsCodeService.sendSmsCode(request);
         // assert code
         SmsCodeEntity smsCodeDO = smsCodeMapper.selectOne(null);
-        assertPojoEquals(reqDTO, smsCodeDO);
+        assertPojoEquals(request, smsCodeDO);
         assertEquals("9999", smsCodeDO.getCode());
         assertEquals(1, smsCodeDO.getTodayIndex());
         assertFalse(smsCodeDO.getUsed());
         // assert call
-        verify(smsSendService).sendSingleSms(eq(reqDTO.getMobile()), isNull(), isNull(),
+        verify(smsSendService).sendSingleSms(eq(request.getMobile()), isNull(), isNull(),
                 eq("user-sms-login"), eq(MapUtil.of("code", "9999")));
     }
 
@@ -80,13 +80,13 @@ public class DefaultSmsCodeServiceTest extends BaseDbUnitTest {
                 o -> o.setMobile("15601691300").setTodayIndex(1));
         smsCodeMapper.insert(smsCodeDO);
         // prepare parameters
-        SmsCodeSendRpcRequest reqDTO = randomPojo(SmsCodeSendRpcRequest.class, o -> {
+        SmsCodeSendRpcRequest request = randomPojo(SmsCodeSendRpcRequest.class, o -> {
             o.setMobile("15601691300");
             o.setScene(SmsSceneEnum.MEMBER_LOGIN.getScene());
         });
 
         // invoke, and assert exception
-        assertServiceException(() -> smsCodeService.sendSmsCode(reqDTO),
+        assertServiceException(() -> smsCodeService.sendSmsCode(request),
                 SMS_CODE_SEND_TOO_FAST);
     }
 
@@ -97,94 +97,94 @@ public class DefaultSmsCodeServiceTest extends BaseDbUnitTest {
                 o -> o.setMobile("15601691300").setTodayIndex(10).setCreateTime(LocalDateTime.now()));
         smsCodeMapper.insert(smsCodeDO);
         // prepare parameters
-        SmsCodeSendRpcRequest reqDTO = randomPojo(SmsCodeSendRpcRequest.class, o -> {
+        SmsCodeSendRpcRequest request = randomPojo(SmsCodeSendRpcRequest.class, o -> {
             o.setMobile("15601691300");
             o.setScene(SmsSceneEnum.MEMBER_LOGIN.getScene());
         });
         when(smsCodeProperties.getSendFrequency()).thenReturn(Duration.ofMillis(0));
 
         // invoke, and assert exception
-        assertServiceException(() -> smsCodeService.sendSmsCode(reqDTO),
+        assertServiceException(() -> smsCodeService.sendSmsCode(request),
                 SMS_CODE_EXCEED_SEND_MAXIMUM_QUANTITY_PER_DAY);
     }
 
     @Test
     public void testUseSmsCode_success() {
         // prepare parameters
-        SmsCodeUseRpcRequest reqDTO = randomPojo(SmsCodeUseRpcRequest.class, o -> {
+        SmsCodeUseRpcRequest request = randomPojo(SmsCodeUseRpcRequest.class, o -> {
             o.setMobile("15601691300");
             o.setScene(randomEle(SmsSceneEnum.values()).getScene());
         });
         smsCodeMapper.insert(randomPojo(SmsCodeEntity.class, o -> {
-            o.setMobile(reqDTO.getMobile()).setScene(reqDTO.getScene())
-                    .setCode(reqDTO.getCode()).setUsed(false);
+            o.setMobile(request.getMobile()).setScene(request.getScene())
+                    .setCode(request.getCode()).setUsed(false);
         }));
 
         // invoke
-        smsCodeService.useSmsCode(reqDTO);
+        smsCodeService.useSmsCode(request);
         // assert
         SmsCodeEntity smsCodeDO = smsCodeMapper.selectOne(null);
         assertTrue(smsCodeDO.getUsed());
         assertNotNull(smsCodeDO.getUsedTime());
-        assertEquals(reqDTO.getUsedIp(), smsCodeDO.getUsedIp());
+        assertEquals(request.getUsedIp(), smsCodeDO.getUsedIp());
     }
 
     @Test
     public void validateSmsCode_success() {
         // prepare parameters
-        SmsCodeValidateRpcRequest reqDTO = randomPojo(SmsCodeValidateRpcRequest.class, o -> {
+        SmsCodeValidateRpcRequest request = randomPojo(SmsCodeValidateRpcRequest.class, o -> {
             o.setMobile("15601691300");
             o.setScene(randomEle(SmsSceneEnum.values()).getScene());
         });
-        smsCodeMapper.insert(randomPojo(SmsCodeEntity.class, o -> o.setMobile(reqDTO.getMobile())
-                .setScene(reqDTO.getScene()).setCode(reqDTO.getCode()).setUsed(false)));
+        smsCodeMapper.insert(randomPojo(SmsCodeEntity.class, o -> o.setMobile(request.getMobile())
+                .setScene(request.getScene()).setCode(request.getCode()).setUsed(false)));
 
         // invoke
-        smsCodeService.validateSmsCode(reqDTO);
+        smsCodeService.validateSmsCode(request);
     }
 
     @Test
     public void validateSmsCode_notFound() {
         // prepare parameters
-        SmsCodeValidateRpcRequest reqDTO = randomPojo(SmsCodeValidateRpcRequest.class, o -> {
+        SmsCodeValidateRpcRequest request = randomPojo(SmsCodeValidateRpcRequest.class, o -> {
             o.setMobile("15601691300");
             o.setScene(randomEle(SmsSceneEnum.values()).getScene());
         });
 
         // invoke, and assert exception
-        assertServiceException(() -> smsCodeService.validateSmsCode(reqDTO),
+        assertServiceException(() -> smsCodeService.validateSmsCode(request),
                 SMS_CODE_NOT_FOUND);
     }
 
     @Test
     public void validateSmsCode_expired() {
         // prepare parameters
-        SmsCodeValidateRpcRequest reqDTO = randomPojo(SmsCodeValidateRpcRequest.class, o -> {
+        SmsCodeValidateRpcRequest request = randomPojo(SmsCodeValidateRpcRequest.class, o -> {
             o.setMobile("15601691300");
             o.setScene(randomEle(SmsSceneEnum.values()).getScene());
         });
-        smsCodeMapper.insert(randomPojo(SmsCodeEntity.class, o -> o.setMobile(reqDTO.getMobile())
-                .setScene(reqDTO.getScene()).setCode(reqDTO.getCode()).setUsed(false)
+        smsCodeMapper.insert(randomPojo(SmsCodeEntity.class, o -> o.setMobile(request.getMobile())
+                .setScene(request.getScene()).setCode(request.getCode()).setUsed(false)
                 .setCreateTime(LocalDateTime.now().minusMinutes(6))));
 
         // invoke, and assert exception
-        assertServiceException(() -> smsCodeService.validateSmsCode(reqDTO),
+        assertServiceException(() -> smsCodeService.validateSmsCode(request),
                 SMS_CODE_EXPIRED);
     }
 
     @Test
     public void validateSmsCode_used() {
         // prepare parameters
-        SmsCodeValidateRpcRequest reqDTO = randomPojo(SmsCodeValidateRpcRequest.class, o -> {
+        SmsCodeValidateRpcRequest request = randomPojo(SmsCodeValidateRpcRequest.class, o -> {
             o.setMobile("15601691300");
             o.setScene(randomEle(SmsSceneEnum.values()).getScene());
         });
-        smsCodeMapper.insert(randomPojo(SmsCodeEntity.class, o -> o.setMobile(reqDTO.getMobile())
-                .setScene(reqDTO.getScene()).setCode(reqDTO.getCode()).setUsed(true)
+        smsCodeMapper.insert(randomPojo(SmsCodeEntity.class, o -> o.setMobile(request.getMobile())
+                .setScene(request.getScene()).setCode(request.getCode()).setUsed(true)
                 .setCreateTime(LocalDateTime.now())));
 
         // invoke, and assert exception
-        assertServiceException(() -> smsCodeService.validateSmsCode(reqDTO),
+        assertServiceException(() -> smsCodeService.validateSmsCode(request),
                 SMS_CODE_USED);
     }
 

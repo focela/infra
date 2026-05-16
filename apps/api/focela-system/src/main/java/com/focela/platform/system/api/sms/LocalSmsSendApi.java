@@ -18,15 +18,15 @@ public class LocalSmsSendApi implements SmsSendApi {
     private SmsSendService smsSendService;
 
     @Override
-    public Long sendSingleSmsToAdmin(SmsSendSingleToUserRpcRequest reqDTO) {
-        return smsSendService.sendSingleSmsToAdmin(reqDTO.getMobile(), reqDTO.getUserId(),
-                reqDTO.getTemplateCode(), reqDTO.getTemplateParams());
+    public Long sendSingleSmsToAdmin(SmsSendSingleToUserRpcRequest request) {
+        return smsSendService.sendSingleSmsToAdmin(request.getMobile(), request.getUserId(),
+                request.getTemplateCode(), request.getTemplateParams());
     }
 
     @Override
-    public Long sendSingleSmsToMember(SmsSendSingleToUserRpcRequest reqDTO) {
-        return smsSendService.sendSingleSmsToMember(reqDTO.getMobile(), reqDTO.getUserId(),
-                reqDTO.getTemplateCode(), reqDTO.getTemplateParams());
+    public Long sendSingleSmsToMember(SmsSendSingleToUserRpcRequest request) {
+        return smsSendService.sendSingleSmsToMember(request.getMobile(), request.getUserId(),
+                request.getTemplateCode(), request.getTemplateParams());
     }
 
 }

@@ -28,10 +28,10 @@ public interface SocialUserService {
     /**
      * Bind a social user
      *
-     * @param reqDTO bind info
+     * @param request bind info
      * @return social user openid
      */
-    String bindSocialUser(@Valid SocialUserBindRpcRequest reqDTO);
+    String bindSocialUser(@Valid SocialUserBindRpcRequest request);
 
     /**
      * Unbind a social user

@@ -14,19 +14,19 @@ public interface SmsSendApi {
      *
      * When mobile is empty, use userId to load the mobile number of the corresponding Admin
      *
-     * @param reqDTO send request
+     * @param request send request
      * @return send log ID
      */
-    Long sendSingleSmsToAdmin(@Valid SmsSendSingleToUserRpcRequest reqDTO);
+    Long sendSingleSmsToAdmin(@Valid SmsSendSingleToUserRpcRequest request);
 
     /**
      * Send a single SMS to a Member user
      *
      * When mobile is empty, use userId to load the mobile number of the corresponding Member
      *
-     * @param reqDTO send request
+     * @param request send request
      * @return send log ID
      */
-    Long sendSingleSmsToMember(@Valid SmsSendSingleToUserRpcRequest reqDTO);
+    Long sendSingleSmsToMember(@Valid SmsSendSingleToUserRpcRequest request);
 
 }

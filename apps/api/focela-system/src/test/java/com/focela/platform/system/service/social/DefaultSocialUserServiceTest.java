@@ -76,12 +76,12 @@ public class DefaultSocialUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testBindSocialUser() {
         // prepare parameters
-        SocialUserBindRpcRequest reqDTO = new SocialUserBindRpcRequest()
+        SocialUserBindRpcRequest request = new SocialUserBindRpcRequest()
                 .setUserId(1L).setUserType(UserTypeEnum.ADMIN.getValue())
                 .setSocialType(SocialTypeEnum.GITEE.getType()).setCode("test_code").setState("test_state");
         // mock data: get social user
-        SocialUserEntity socialUser = randomPojo(SocialUserEntity.class).setType(reqDTO.getSocialType())
-                .setCode(reqDTO.getCode()).setState(reqDTO.getState());
+        SocialUserEntity socialUser = randomPojo(SocialUserEntity.class).setType(request.getSocialType())
+                .setCode(request.getCode()).setState(request.getState());
         socialUserMapper.insert(socialUser);
         // mock data: user may have already bound this social type
         socialUserBindMapper.insert(randomPojo(SocialUserBindEntity.class).setUserId(1L).setUserType(UserTypeEnum.ADMIN.getValue())
@@ -91,7 +91,7 @@ public class DefaultSocialUserServiceTest extends BaseDbUnitTest {
                 .setSocialType(SocialTypeEnum.GITEE.getType()).setSocialUserId(socialUser.getId()));
 
         // invoke
-        String openid = socialUserService.bindSocialUser(reqDTO);
+        String openid = socialUserService.bindSocialUser(request);
         // assert
         List<SocialUserBindEntity> socialUserBinds = socialUserBindMapper.selectList();
         assertEquals(1, socialUserBinds.size());

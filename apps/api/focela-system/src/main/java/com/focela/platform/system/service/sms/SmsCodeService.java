@@ -15,24 +15,24 @@ public interface SmsCodeService {
     /**
      * Create an SMS verification code and send it
      *
-     * @param reqDTO send request
+     * @param request send request
      */
-    void sendSmsCode(@Valid SmsCodeSendRpcRequest reqDTO);
+    void sendSmsCode(@Valid SmsCodeSendRpcRequest request);
 
     /**
      * Validate the SMS verification code and consume it.
      * If correct, mark the code as used.
      * If incorrect, throw {@link ServiceException}.
      *
-     * @param reqDTO use request
+     * @param request use request
      */
-    void useSmsCode(@Valid SmsCodeUseRpcRequest reqDTO);
+    void useSmsCode(@Valid SmsCodeUseRpcRequest request);
 
     /**
      * Check whether the verification code is valid
      *
-     * @param reqDTO validate request
+     * @param request validate request
      */
-    void validateSmsCode(@Valid SmsCodeValidateRpcRequest reqDTO);
+    void validateSmsCode(@Valid SmsCodeValidateRpcRequest request);
 
 }

@@ -20,18 +20,18 @@ public class LocalSmsCodeApi implements SmsCodeApi {
     private SmsCodeService smsCodeService;
 
     @Override
-    public void sendSmsCode(SmsCodeSendRpcRequest reqDTO) {
-        smsCodeService.sendSmsCode(reqDTO);
+    public void sendSmsCode(SmsCodeSendRpcRequest request) {
+        smsCodeService.sendSmsCode(request);
     }
 
     @Override
-    public void useSmsCode(SmsCodeUseRpcRequest reqDTO) {
-        smsCodeService.useSmsCode(reqDTO);
+    public void useSmsCode(SmsCodeUseRpcRequest request) {
+        smsCodeService.useSmsCode(request);
     }
 
     @Override
-    public void validateSmsCode(SmsCodeValidateRpcRequest reqDTO) {
-        smsCodeService.validateSmsCode(reqDTO);
+    public void validateSmsCode(SmsCodeValidateRpcRequest request) {
+        smsCodeService.validateSmsCode(request);
     }
 
 }

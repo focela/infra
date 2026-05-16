@@ -14,19 +14,19 @@ public interface MailSendApi {
      *
      * When mail is empty, use userId to load the email of the corresponding Admin
      *
-     * @param reqDTO send request
+     * @param request send request
      * @return send log ID
      */
-    Long sendSingleMailToAdmin(@Valid MailSendSingleToUserRpcRequest reqDTO);
+    Long sendSingleMailToAdmin(@Valid MailSendSingleToUserRpcRequest request);
 
     /**
      * Send a single email to a Member user
      *
      * When mail is empty, use userId to load the email of the corresponding Member
      *
-     * @param reqDTO send request
+     * @param request send request
      * @return send log ID
      */
-    Long sendSingleMailToMember(@Valid MailSendSingleToUserRpcRequest reqDTO);
+    Long sendSingleMailToMember(@Valid MailSendSingleToUserRpcRequest request);
 
 }

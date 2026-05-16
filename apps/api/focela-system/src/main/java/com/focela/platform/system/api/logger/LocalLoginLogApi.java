@@ -18,8 +18,8 @@ public class LocalLoginLogApi implements LoginLogApi {
     private LoginLogService loginLogService;
 
     @Override
-    public void createLoginLog(LoginLogCreateRpcRequest reqDTO) {
-        loginLogService.createLoginLog(reqDTO);
+    public void createLoginLog(LoginLogCreateRpcRequest request) {
+        loginLogService.createLoginLog(request);
     }
 
 }

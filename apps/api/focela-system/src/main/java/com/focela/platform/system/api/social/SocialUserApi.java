@@ -14,17 +14,17 @@ public interface SocialUserApi {
     /**
      * Bind a social user
      *
-     * @param reqDTO bind info
+     * @param request bind info
      * @return social user openid
      */
-    String bindSocialUser(@Valid SocialUserBindRpcRequest reqDTO);
+    String bindSocialUser(@Valid SocialUserBindRpcRequest request);
 
     /**
      * Unbind a social user
      *
-     * @param reqDTO unbind request
+     * @param request unbind request
      */
-    void unbindSocialUser(@Valid SocialUserUnbindRpcRequest reqDTO);
+    void unbindSocialUser(@Valid SocialUserUnbindRpcRequest request);
 
     /**
      * Get a social user by userId

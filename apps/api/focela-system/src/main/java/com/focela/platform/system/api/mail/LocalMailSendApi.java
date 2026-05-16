@@ -18,17 +18,17 @@ public class LocalMailSendApi implements MailSendApi {
     private MailSendService mailSendService;
 
     @Override
-    public Long sendSingleMailToAdmin(MailSendSingleToUserRpcRequest reqDTO) {
-        return mailSendService.sendSingleMailToAdmin(reqDTO.getUserId(),
-                reqDTO.getToMails(), reqDTO.getCcMails(), reqDTO.getBccMails(),
-                reqDTO.getTemplateCode(), reqDTO.getTemplateParams(), reqDTO.getAttachments());
+    public Long sendSingleMailToAdmin(MailSendSingleToUserRpcRequest request) {
+        return mailSendService.sendSingleMailToAdmin(request.getUserId(),
+                request.getToMails(), request.getCcMails(), request.getBccMails(),
+                request.getTemplateCode(), request.getTemplateParams(), request.getAttachments());
     }
 
     @Override
-    public Long sendSingleMailToMember(MailSendSingleToUserRpcRequest reqDTO) {
-        return mailSendService.sendSingleMailToMember(reqDTO.getUserId(),
-                reqDTO.getToMails(), reqDTO.getCcMails(), reqDTO.getBccMails(),
-                reqDTO.getTemplateCode(), reqDTO.getTemplateParams(), reqDTO.getAttachments());
+    public Long sendSingleMailToMember(MailSendSingleToUserRpcRequest request) {
+        return mailSendService.sendSingleMailToMember(request.getUserId(),
+                request.getToMails(), request.getCcMails(), request.getBccMails(),
+                request.getTemplateCode(), request.getTemplateParams(), request.getAttachments());
     }
 
 }

@@ -12,17 +12,17 @@ public interface NotifyMessageSendApi {
     /**
      * Send a single notification message to an Admin user
      *
-     * @param reqDTO send request
+     * @param request send request
      * @return sent message ID
      */
-    Long sendSingleMessageToAdmin(@Valid NotifySendSingleToUserRpcRequest reqDTO);
+    Long sendSingleMessageToAdmin(@Valid NotifySendSingleToUserRpcRequest request);
 
     /**
      * Send a single notification message to a Member user
      *
-     * @param reqDTO send request
+     * @param request send request
      * @return sent message ID
      */
-    Long sendSingleMessageToMember(@Valid NotifySendSingleToUserRpcRequest reqDTO);
+    Long sendSingleMessageToMember(@Valid NotifySendSingleToUserRpcRequest request);
 
 }

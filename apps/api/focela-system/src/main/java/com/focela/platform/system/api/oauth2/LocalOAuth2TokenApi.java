@@ -21,9 +21,9 @@ public class LocalOAuth2TokenApi implements OAuth2TokenContractApi {
     private OAuth2TokenService oauth2TokenService;
 
     @Override
-    public OAuth2AccessTokenRpcResponse createAccessToken(OAuth2AccessTokenCreateRpcRequest reqDTO) {
+    public OAuth2AccessTokenRpcResponse createAccessToken(OAuth2AccessTokenCreateRpcRequest request) {
         OAuth2AccessTokenEntity accessTokenDO = oauth2TokenService.createAccessToken(
-                reqDTO.getUserId(), reqDTO.getUserType(), reqDTO.getClientId(), reqDTO.getScopes());
+                request.getUserId(), request.getUserType(), request.getClientId(), request.getScopes());
         return BeanUtils.toBean(accessTokenDO, OAuth2AccessTokenRpcResponse.class);
     }
 
