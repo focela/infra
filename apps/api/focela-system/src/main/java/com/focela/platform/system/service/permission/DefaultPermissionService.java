@@ -14,7 +14,7 @@ import com.focela.platform.system.entity.permission.RoleMenuEntity;
 import com.focela.platform.system.entity.permission.UserRoleEntity;
 import com.focela.platform.system.repository.mapper.permission.RoleMenuMapper;
 import com.focela.platform.system.repository.mapper.permission.UserRoleMapper;
-import com.focela.platform.system.repository.redis.RedisKeyConstants;
+import com.focela.platform.system.constants.RedisKeyConstants;
 import com.focela.platform.system.enums.permission.DataScopeEnum;
 import com.focela.platform.system.service.department.DepartmentService;
 import com.focela.platform.system.service.user.UserService;

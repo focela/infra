@@ -6,7 +6,7 @@ import com.focela.platform.system.controller.admin.mail.dto.account.MailAccountP
 import com.focela.platform.system.controller.admin.mail.dto.account.MailAccountSaveRequest;
 import com.focela.platform.system.entity.mail.MailAccountEntity;
 import com.focela.platform.system.repository.mapper.mail.MailAccountMapper;
-import com.focela.platform.system.repository.redis.RedisKeyConstants;
+import com.focela.platform.system.constants.RedisKeyConstants;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;

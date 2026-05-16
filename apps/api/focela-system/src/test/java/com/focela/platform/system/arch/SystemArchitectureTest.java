@@ -34,6 +34,21 @@ class SystemArchitectureTest {
     }
 
     @Test
+    void configurationLocation() {
+        ArchitectureRules.CONFIGURATION_RESIDES_IN_CONFIG_PACKAGE.check(classes);
+    }
+
+    @Test
+    void constantsLocation() {
+        ArchitectureRules.CONSTANTS_RESIDES_IN_CONSTANTS_PACKAGE.check(classes);
+    }
+
+    @Test
+    void enumLocation() {
+        ArchitectureRules.ENUM_RESIDES_IN_ENUMS_PACKAGE.check(classes);
+    }
+
+    @Test
     void controllerDoesNotUseRepository() {
         ArchitectureRules.CONTROLLER_DOES_NOT_USE_REPOSITORY.check(classes);
     }

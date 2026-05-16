@@ -12,7 +12,7 @@ import com.focela.platform.system.controller.admin.oauth2.dto.client.OAuth2Clien
 import com.focela.platform.system.controller.admin.oauth2.dto.client.OAuth2ClientSaveRequest;
 import com.focela.platform.system.entity.oauth2.OAuth2ClientEntity;
 import com.focela.platform.system.repository.mapper.oauth2.OAuth2ClientMapper;
-import com.focela.platform.system.repository.redis.RedisKeyConstants;
+import com.focela.platform.system.constants.RedisKeyConstants;
 import com.google.common.annotations.VisibleForTesting;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;

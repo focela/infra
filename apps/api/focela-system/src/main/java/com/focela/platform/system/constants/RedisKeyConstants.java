@@ -1,4 +1,4 @@
-package com.focela.platform.system.repository.redis;
+package com.focela.platform.system.constants;
 
 import com.focela.platform.system.entity.oauth2.OAuth2AccessTokenEntity;
 

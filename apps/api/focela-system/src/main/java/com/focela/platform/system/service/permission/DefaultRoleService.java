@@ -13,7 +13,7 @@ import com.focela.platform.system.controller.admin.permission.dto.role.RolePageR
 import com.focela.platform.system.controller.admin.permission.dto.role.RoleSaveRequest;
 import com.focela.platform.system.entity.permission.RoleEntity;
 import com.focela.platform.system.repository.mapper.permission.RoleMapper;
-import com.focela.platform.system.repository.redis.RedisKeyConstants;
+import com.focela.platform.system.constants.RedisKeyConstants;
 import com.focela.platform.system.enums.permission.DataScopeEnum;
 import com.focela.platform.system.enums.permission.RoleCodeEnum;
 import com.focela.platform.system.enums.permission.RoleTypeEnum;

@@ -54,6 +54,25 @@ public final class ArchitectureRules {
                     .should().resideInAPackage("..repository.mapper..")
                     .as("MyBatis mappers (*Mapper) must live under the repository/mapper/ package");
 
+    // Spring @Configuration classes (excluding *AutoConfiguration — those are framework-starter
+    // SPI and live under <starter>/config) must live in the module's config/ package.
+    public static final ArchRule CONFIGURATION_RESIDES_IN_CONFIG_PACKAGE =
+            classes().that().haveSimpleNameEndingWith("Configuration")
+                    .and().haveSimpleNameNotEndingWith("AutoConfiguration")
+                    .should().resideInAPackage("..config..")
+                    .as("*Configuration classes must live under the config/ package "
+                            + "(Focela*AutoConfiguration is the starter-SPI variant and is exempt)");
+
+    public static final ArchRule CONSTANTS_RESIDES_IN_CONSTANTS_PACKAGE =
+            classes().that().haveSimpleNameEndingWith("Constants")
+                    .should().resideInAPackage("..constants..")
+                    .as("Constants holders (*Constants) must live under the constants/ package");
+
+    public static final ArchRule ENUM_RESIDES_IN_ENUMS_PACKAGE =
+            classes().that().haveSimpleNameEndingWith("Enum")
+                    .should().resideInAPackage("..enums..")
+                    .as("Enum classes (*Enum) must live under an enums/ package");
+
     // ---- Layered dependency direction ----
 
     public static final ArchRule CONTROLLER_DOES_NOT_USE_REPOSITORY =

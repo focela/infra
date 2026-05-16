@@ -9,7 +9,7 @@ import com.focela.platform.system.controller.admin.permission.dto.menu.MenuListR
 import com.focela.platform.system.controller.admin.permission.dto.menu.MenuSaveRequest;
 import com.focela.platform.system.entity.permission.MenuEntity;
 import com.focela.platform.system.repository.mapper.permission.MenuMapper;
-import com.focela.platform.system.repository.redis.RedisKeyConstants;
+import com.focela.platform.system.constants.RedisKeyConstants;
 import com.focela.platform.system.enums.permission.MenuTypeEnum;
 import com.focela.platform.system.service.tenant.TenantService;
 import com.google.common.annotations.VisibleForTesting;

@@ -9,7 +9,7 @@ import com.focela.platform.system.controller.admin.mail.dto.template.MailTemplat
 import com.focela.platform.system.controller.admin.mail.dto.template.MailTemplateSaveRequest;
 import com.focela.platform.system.entity.mail.MailTemplateEntity;
 import com.focela.platform.system.repository.mapper.mail.MailTemplateMapper;
-import com.focela.platform.system.repository.redis.RedisKeyConstants;
+import com.focela.platform.system.constants.RedisKeyConstants;
 import com.google.common.annotations.VisibleForTesting;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;

@@ -9,7 +9,7 @@ import com.focela.platform.system.controller.admin.department.dto.dept.Departmen
 import com.focela.platform.system.controller.admin.department.dto.dept.DepartmentSaveRequest;
 import com.focela.platform.system.entity.department.DepartmentEntity;
 import com.focela.platform.system.repository.mapper.department.DepartmentMapper;
-import com.focela.platform.system.repository.redis.RedisKeyConstants;
+import com.focela.platform.system.constants.RedisKeyConstants;
 import com.google.common.annotations.VisibleForTesting;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;

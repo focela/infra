@@ -12,7 +12,7 @@ import com.focela.platform.system.controller.admin.sms.dto.template.SmsTemplateS
 import com.focela.platform.system.entity.sms.SmsChannelEntity;
 import com.focela.platform.system.entity.sms.SmsTemplateEntity;
 import com.focela.platform.system.repository.mapper.sms.SmsTemplateMapper;
-import com.focela.platform.system.repository.redis.RedisKeyConstants;
+import com.focela.platform.system.constants.RedisKeyConstants;
 import com.focela.platform.system.config.sms.client.SmsClient;
 import com.focela.platform.system.config.sms.client.dto.SmsTemplateRpcResponse;
 import com.focela.platform.system.config.sms.enums.SmsTemplateAuditStatusEnum;

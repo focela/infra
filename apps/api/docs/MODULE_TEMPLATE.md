@@ -217,7 +217,50 @@ feature name alone.
 
 ---
 
-## 9. Checklist when adding a new module
+## 9. Approved naming decisions (authoritative)
+
+The naming rules below are locked in. ArchUnit enforces a subset
+(see `ArchitectureRules.java`); the rest is reviewed manually.
+
+| Decision | Rule | Rationale |
+|---|---|---|
+| A | Service implementation uses `Default*Service`, not `*ServiceImpl` | Matches Spring core (`DefaultListableBeanFactory`, `DefaultSecurityFilterChain`); 100 % project consistency already; semantic — "this is the default impl, can be overridden". |
+| B | `Focela*AutoConfiguration` — framework starter Spring Boot auto-config (must have entry in `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`). `*Configuration` (no `Focela` prefix) — module-internal `@Configuration` class loaded via component scan / `@Import`. | Clean separation: SPI vs in-context. Reader can tell at a glance whether a class is auto-wired by Spring Boot's starter mechanism or by the module's own scanning. |
+| C | Cross-module API surface lives in `focela-common/api/<module>/<feature>/*ContractApi` (interface) + `<module>/api/<feature>/Local*Api` (in-JVM impl). Module-internal API interfaces declared inside `<module>/api/` are an interim pattern — new code MUST use `*ContractApi`. | Open architecture for future microservice extraction (swap `Local*Api` for `Remote*Api`). |
+| D | yudao `*X` extension classes (`BaseMapperX`, `QueryWrapperX`, `LambdaQueryWrapperX`, `MPJLambdaWrapperX`) — keep as-is; documented in `TRANSLATION_GLOSSARY.md`. | Renaming cascades through ~40 mappers; payoff too low. |
+| E | Integration tests use suffix `*IT` (Maven Failsafe convention). Unit tests use `*Test`. | `*IT` runs at phase `verify`, not `test` — separates fast unit feedback loop from slow IT loop. |
+| F | `controller/admin/` and `controller/app/` split is kept. Same URL path may appear in both because they live under different `server.servlet.context-path` (`/admin-api` vs `/app-api`). Security filter chains and rate-limit policies apply per audience. | Pattern used by Keycloak (`services/resources/admin` + `account`), GitLab (`api/v4/admin`), Discourse, WordPress. Acceptable in enterprise apps where backoffice and end-user have different security policies. |
+| G | `ErrorCodeConstants` per module uses module prefix: `SystemErrorCodeConstants`, `InfraErrorCodeConstants`. `GlobalErrorCodeConstants` (no prefix) is reserved for framework-wide HTTP error codes in `focela-common`. | Removes import-collision risk when two modules' error code classes share the same name. (Migration is a separate phase.) |
+
+## 10. Location rules (enforced by ArchUnit)
+
+| Class suffix | Required package |
+|---|---|
+| `*Controller` | `..controller.admin..` or `..controller.app..` |
+| `*Entity` | `..entity..` |
+| `*Mapper` | `..repository.mapper..` |
+| `*Configuration` | `..config..` |
+| `*Constants` | `..constants..` |
+| `*Enum` | `..enums..` |
+
+Violations of these rules fail the build via
+`SystemArchitectureTest` and `InfraArchitectureTest`.
+
+## 11. Acronym style (Oracle Java Style)
+
+| Pattern | Correct | Incorrect |
+|---|---|---|
+| Standalone acronym | `XmlParser`, `HtmlEncoder`, `DbClient` | `XMLParser`, `HTMLEncoder`, `DBClient` |
+| Acronym mid-identifier | `parseXml`, `toHtml`, `loadDb` | `parseXML`, `toHTML`, `loadDB` |
+| Brand names (keep as-is) | `OAuth2`, `S3`, `MQ`, `JSON` (in proper noun like `JsonUtils`) | — |
+| Compound acronym | `MpjLambda` (treat as one acronym) | `MPJLambda` |
+
+Exception: `OAuth2`, `S3FileClient`, `S3FileClientConfig` (brand names);
+the four `*X` yudao extension classes (see Decision D).
+
+## 12. Checklist when adding a new module
+
+(Section number changed from 9 — the new sections 9–11 above must be read first.)
 
 - [ ] Module directory `focela-<X>/` created from `focela-infra/` template
 - [ ] `apps/api/pom.xml` lists `<module>focela-<X></module>`

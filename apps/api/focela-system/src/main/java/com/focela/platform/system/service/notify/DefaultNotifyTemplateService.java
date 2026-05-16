@@ -8,7 +8,7 @@ import com.focela.platform.system.controller.admin.notify.dto.template.NotifyTem
 import com.focela.platform.system.controller.admin.notify.dto.template.NotifyTemplateSaveRequest;
 import com.focela.platform.system.entity.notify.NotifyTemplateEntity;
 import com.focela.platform.system.repository.mapper.notify.NotifyTemplateMapper;
-import com.focela.platform.system.repository.redis.RedisKeyConstants;
+import com.focela.platform.system.constants.RedisKeyConstants;
 import com.google.common.annotations.VisibleForTesting;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
