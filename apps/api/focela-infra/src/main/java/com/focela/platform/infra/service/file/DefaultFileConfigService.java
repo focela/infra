@@ -16,9 +16,9 @@ import com.focela.platform.infra.config.file.client.FileClientFactory;
 import com.focela.platform.infra.config.file.enums.FileStorageEnum;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import jakarta.annotation.Resource;
 import jakarta.validation.Validator;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +40,7 @@ import static com.focela.platform.infra.constants.InfraErrorCodeConstants.FILE_C
 @Service
 @Validated
 @Slf4j
+@RequiredArgsConstructor
 public class DefaultFileConfigService implements FileConfigService {
 
     private static final Long CACHE_MASTER_ID = 0L;
@@ -63,14 +64,11 @@ public class DefaultFileConfigService implements FileConfigService {
 
             });
 
-    @Resource
-    private FileClientFactory fileClientFactory;
+    private final FileClientFactory fileClientFactory;
 
-    @Resource
-    private FileConfigMapper fileConfigMapper;
+    private final FileConfigMapper fileConfigMapper;
 
-    @Resource
-    private Validator validator;
+    private final Validator validator;
 
     @Override
     public Long createFileConfig(FileConfigSaveRequest createRequest) {

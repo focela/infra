@@ -10,7 +10,7 @@ import com.focela.platform.infra.controller.admin.logger.dto.apierrorlog.ApiErro
 import com.focela.platform.infra.entity.logger.ApiErrorLogEntity;
 import com.focela.platform.infra.repository.mapper.logger.ApiErrorLogMapper;
 import com.focela.platform.infra.enums.logger.ApiErrorLogProcessStatusEnum;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -28,10 +28,10 @@ import static com.focela.platform.infra.constants.InfraErrorCodeConstants.API_ER
 @Service
 @Validated
 @Slf4j
+@RequiredArgsConstructor
 public class DefaultApiErrorLogService implements ApiErrorLogService {
 
-    @Resource
-    private ApiErrorLogMapper apiErrorLogMapper;
+    private final ApiErrorLogMapper apiErrorLogMapper;
 
     @Override
     public void createApiErrorLog(ApiErrorLogCreateRpcRequest createDTO) {

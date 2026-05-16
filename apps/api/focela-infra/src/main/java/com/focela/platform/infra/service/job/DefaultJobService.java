@@ -11,7 +11,7 @@ import com.focela.platform.infra.controller.admin.job.dto.JobSaveRequest;
 import com.focela.platform.infra.entity.job.JobEntity;
 import com.focela.platform.infra.repository.mapper.job.JobMapper;
 import com.focela.platform.infra.enums.job.JobStatusEnum;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -32,13 +32,12 @@ import static com.focela.platform.infra.constants.InfraErrorCodeConstants.*;
 @Service
 @Validated
 @Slf4j
+@RequiredArgsConstructor
 public class DefaultJobService implements JobService {
 
-    @Resource
-    private JobMapper jobMapper;
+    private final JobMapper jobMapper;
 
-    @Resource
-    private SchedulerManager schedulerManager;
+    private final SchedulerManager schedulerManager;
 
     @Override
     @Transactional(rollbackFor = Exception.class)

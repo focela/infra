@@ -9,7 +9,7 @@ import com.focela.platform.tenant.core.utils.TenantUtils;
 import com.focela.platform.infra.controller.admin.logger.dto.apiaccesslog.ApiAccessLogPageRequest;
 import com.focela.platform.infra.entity.logger.ApiAccessLogEntity;
 import com.focela.platform.infra.repository.mapper.logger.ApiAccessLogMapper;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -25,10 +25,10 @@ import static com.focela.platform.infra.entity.logger.ApiAccessLogEntity.RESULT_
 @Slf4j
 @Service
 @Validated
+@RequiredArgsConstructor
 public class DefaultApiAccessLogService implements ApiAccessLogService {
 
-    @Resource
-    private ApiAccessLogMapper apiAccessLogMapper;
+    private final ApiAccessLogMapper apiAccessLogMapper;
 
     @Override
     public void createApiAccessLog(ApiAccessLogCreateRpcRequest createDTO) {

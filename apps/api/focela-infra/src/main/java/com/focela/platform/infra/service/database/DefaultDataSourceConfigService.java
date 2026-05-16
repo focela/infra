@@ -7,7 +7,7 @@ import com.focela.platform.infra.entity.database.DataSourceConfigEntity;
 import com.focela.platform.infra.repository.mapper.database.DataSourceConfigMapper;
 import com.baomidou.dynamic.datasource.creator.DataSourceProperty;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -23,13 +23,12 @@ import static com.focela.platform.infra.constants.InfraErrorCodeConstants.DATA_S
  */
 @Service
 @Validated
+@RequiredArgsConstructor
 public class DefaultDataSourceConfigService implements DataSourceConfigService {
 
-    @Resource
-    private DataSourceConfigMapper dataSourceConfigMapper;
+    private final DataSourceConfigMapper dataSourceConfigMapper;
 
-    @Resource
-    private DynamicDataSourceProperties dynamicDataSourceProperties;
+    private final DynamicDataSourceProperties dynamicDataSourceProperties;
 
     @Override
     public Long createDataSourceConfig(DataSourceConfigSaveRequest createRequest) {

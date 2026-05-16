@@ -2,7 +2,7 @@ package com.focela.platform.infra.api.config;
 
 import com.focela.platform.infra.entity.config.ConfigEntity;
 import com.focela.platform.infra.service.config.ConfigService;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -11,10 +11,10 @@ import org.springframework.validation.annotation.Validated;
  */
 @Service
 @Validated
+@RequiredArgsConstructor
 public class LocalConfigApi implements ConfigApi {
 
-    @Resource
-    private ConfigService configService;
+    private final ConfigService configService;
 
     @Override
     public String getConfigValueByKey(String key) {

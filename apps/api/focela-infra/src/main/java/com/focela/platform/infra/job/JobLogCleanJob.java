@@ -3,19 +3,19 @@ package com.focela.platform.infra.job;
 import com.focela.platform.quartz.core.handler.JobHandler;
 import com.focela.platform.tenant.core.aop.TenantIgnore;
 import com.focela.platform.infra.service.job.JobLogService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import jakarta.annotation.Resource;
 
 /**
  * Job that physically deletes job logs older than N days.
  */
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class JobLogCleanJob implements JobHandler {
 
-    @Resource
-    private JobLogService jobLogService;
+    private final JobLogService jobLogService;
 
     /**
      * Clean logs older than (14) days.

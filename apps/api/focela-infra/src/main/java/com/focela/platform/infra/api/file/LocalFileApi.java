@@ -1,7 +1,7 @@
 package com.focela.platform.infra.api.file;
 
 import com.focela.platform.infra.service.file.FileService;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -10,10 +10,10 @@ import org.springframework.validation.annotation.Validated;
  */
 @Service
 @Validated
+@RequiredArgsConstructor
 public class LocalFileApi implements FileApi {
 
-    @Resource
-    private FileService fileService;
+    private final FileService fileService;
 
     @Override
     public String createFile(byte[] content, String name, String directory, String type) {

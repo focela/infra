@@ -3,20 +3,19 @@ package com.focela.platform.infra.job.logger;
 import com.focela.platform.quartz.core.handler.JobHandler;
 import com.focela.platform.tenant.core.aop.TenantIgnore;
 import com.focela.platform.infra.service.logger.ApiErrorLogService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import jakarta.annotation.Resource;
 
 /**
  * Job that physically deletes error logs older than N days.
  */
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class ErrorLogCleanJob implements JobHandler {
 
-    @Resource
-    private ApiErrorLogService apiErrorLogService;
+    private final ApiErrorLogService apiErrorLogService;
 
     /**
      * Clean logs older than (14) days.

@@ -3,20 +3,19 @@ package com.focela.platform.infra.job.logger;
 import com.focela.platform.quartz.core.handler.JobHandler;
 import com.focela.platform.tenant.core.aop.TenantIgnore;
 import com.focela.platform.infra.service.logger.ApiAccessLogService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import jakarta.annotation.Resource;
 
 /**
  * Job that physically deletes access logs older than N days.
  */
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class AccessLogCleanJob implements JobHandler {
 
-    @Resource
-    private ApiAccessLogService apiAccessLogService;
+    private final ApiAccessLogService apiAccessLogService;
 
     /**
      * Clean logs older than (14) days.

@@ -3,7 +3,7 @@ package com.focela.platform.infra.api.logger;
 import com.focela.platform.common.api.infra.logger.ApiAccessLogContractApi;
 import com.focela.platform.common.api.infra.logger.dto.ApiAccessLogCreateRpcRequest;
 import com.focela.platform.infra.service.logger.ApiAccessLogService;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -12,10 +12,10 @@ import org.springframework.validation.annotation.Validated;
  */
 @Service
 @Validated
+@RequiredArgsConstructor
 public class LocalApiAccessLogApi implements ApiAccessLogContractApi {
 
-    @Resource
-    private ApiAccessLogService apiAccessLogService;
+    private final ApiAccessLogService apiAccessLogService;
 
     @Override
     public void createApiAccessLog(ApiAccessLogCreateRpcRequest createDTO) {

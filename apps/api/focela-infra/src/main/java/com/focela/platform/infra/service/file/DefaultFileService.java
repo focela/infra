@@ -16,7 +16,7 @@ import com.focela.platform.infra.repository.mapper.file.FileMapper;
 import com.focela.platform.infra.config.file.client.FileClient;
 import com.focela.platform.infra.config.file.utils.FileTypeUtils;
 import com.google.common.annotations.VisibleForTesting;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +30,7 @@ import static com.focela.platform.infra.constants.InfraErrorCodeConstants.FILE_N
  * Implementation class of the file Service
  */
 @Service
+@RequiredArgsConstructor
 public class DefaultFileService implements FileService {
 
     /**
@@ -46,11 +47,9 @@ public class DefaultFileService implements FileService {
      */
     static boolean PATH_SUFFIX_TIMESTAMP_ENABLE = true;
 
-    @Resource
-    private FileConfigService fileConfigService;
+    private final FileConfigService fileConfigService;
 
-    @Resource
-    private FileMapper fileMapper;
+    private final FileMapper fileMapper;
 
     @Override
     public PageResult<FileEntity> getFilePage(FilePageRequest pageRequest) {

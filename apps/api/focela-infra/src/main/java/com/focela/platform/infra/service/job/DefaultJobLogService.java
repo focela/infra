@@ -5,7 +5,7 @@ import com.focela.platform.infra.controller.admin.job.dto.log.JobLogPageRequest;
 import com.focela.platform.infra.entity.job.JobLogEntity;
 import com.focela.platform.infra.repository.mapper.job.JobLogMapper;
 import com.focela.platform.infra.enums.job.JobLogStatusEnum;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -19,10 +19,10 @@ import java.time.LocalDateTime;
 @Service
 @Validated
 @Slf4j
+@RequiredArgsConstructor
 public class DefaultJobLogService implements JobLogService {
 
-    @Resource
-    private JobLogMapper jobLogMapper;
+    private final JobLogMapper jobLogMapper;
 
     @Override
     public Long createJobLog(Long jobId, LocalDateTime beginTime,

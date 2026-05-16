@@ -5,7 +5,7 @@ import com.focela.platform.infra.controller.admin.redis.dto.RedisMonitorResponse
 import com.focela.platform.infra.converter.redis.RedisConverter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.connection.RedisServerCommands;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -21,10 +21,10 @@ import static com.focela.platform.common.model.CommonResult.success;
 @Tag(name = "Admin - Redis monitor")
 @RestController
 @RequestMapping("/infra/redis")
+@RequiredArgsConstructor
 public class RedisController {
 
-    @Resource
-    private StringRedisTemplate stringRedisTemplate;
+    private final StringRedisTemplate stringRedisTemplate;
 
     @GetMapping("/get-monitor-info")
     @Operation(summary = "get Redis monitor info")

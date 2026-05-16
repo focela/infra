@@ -11,9 +11,9 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -26,10 +26,10 @@ import static com.focela.platform.common.model.CommonResult.success;
 @RequestMapping("/infra/file")
 @Validated
 @Slf4j
+@RequiredArgsConstructor
 public class AppFileController {
 
-    @Resource
-    private FileService fileService;
+    private final FileService fileService;
 
     @PostMapping("/upload")
     @Operation(summary = "Upload file")

@@ -12,7 +12,7 @@ import com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.query.SQLQuery;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -23,10 +23,10 @@ import java.util.stream.Collectors;
  * Implementation class of the database table Service
  */
 @Service
+@RequiredArgsConstructor
 public class DefaultDatabaseTableService implements DatabaseTableService {
 
-    @Resource
-    private DataSourceConfigService dataSourceConfigService;
+    private final DataSourceConfigService dataSourceConfigService;
 
     @Override
     public List<TableInfo> getTableList(Long dataSourceConfigId, String nameLike, String commentLike) {

@@ -8,7 +8,7 @@ import com.focela.platform.infra.entity.config.ConfigEntity;
 import com.focela.platform.infra.repository.mapper.config.ConfigMapper;
 import com.focela.platform.infra.enums.config.ConfigTypeEnum;
 import com.google.common.annotations.VisibleForTesting;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -24,10 +24,10 @@ import static com.focela.platform.infra.constants.InfraErrorCodeConstants.*;
 @Service
 @Slf4j
 @Validated
+@RequiredArgsConstructor
 public class DefaultConfigService implements ConfigService {
 
-    @Resource
-    private ConfigMapper configMapper;
+    private final ConfigMapper configMapper;
 
     @Override
     public Long createConfig(ConfigSaveRequest createRequest) {
