@@ -135,8 +135,15 @@ counterpart is `UserRpcResponse`).
   into a `*Response`.
 - `repository/mapper/` and `repository/redis/` are imported only by
   `service/` (never by controllers).
-- Cross-module access goes through `focela-common/api/<module>/<Feature>ContractApi`
-  — never reach into another module's `service/` or `repository/`.
+- Cross-module access goes through either the other module's
+  `<module>/api/` package (Spring Modulith style — preferred for simple
+  cases) or via `focela-common/api/<module>/<Feature>ContractApi` (used
+  when multiple consumers share a contract or microservice extraction is
+  planned). See §9 Decision C for the choice criteria.
+  Either way — never reach into another module's `service/`,
+  `repository/`, `controller/`, `entity/`, etc. The `.api.` package is
+  the only legal entry point. (ArchUnit enforces this in
+  `SystemArchitectureTest` / `InfraArchitectureTest`.)
 - `config/<feature>/` may import anything it configures. Other code may
   import beans created by `config/<feature>/` but should not import the
   `@Configuration` class itself.
@@ -226,7 +233,7 @@ The naming rules below are locked in. ArchUnit enforces a subset
 |---|---|---|
 | A | Service implementation uses `Default*Service`, not `*ServiceImpl` | Matches Spring core (`DefaultListableBeanFactory`, `DefaultSecurityFilterChain`); 100 % project consistency already; semantic — "this is the default impl, can be overridden". |
 | B | `Focela*AutoConfiguration` — framework starter Spring Boot auto-config (must have entry in `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`). `*Configuration` (no `Focela` prefix) — module-internal `@Configuration` class loaded via component scan / `@Import`. | Clean separation: SPI vs in-context. Reader can tell at a glance whether a class is auto-wired by Spring Boot's starter mechanism or by the module's own scanning. |
-| C | Cross-module API surface lives in `focela-common/api/<module>/<feature>/*ContractApi` (interface) + `<module>/api/<feature>/Local*Api` (in-JVM impl). Module-internal API interfaces declared inside `<module>/api/` are an interim pattern — new code MUST use `*ContractApi`. | Open architecture for future microservice extraction (swap `Local*Api` for `Remote*Api`). |
+| C | Cross-module API access has **two acceptable patterns** — choose per case, do not force-migrate existing code: **(C-direct)** module exposes interface in `<module>/api/<feature>/<X>Api`, consumer module imports directly across the Maven dependency (Spring Modulith style — the standard for modular monoliths); **(C-contract)** interface in `focela-common/api/<module>/<feature>/<X>ContractApi`, in-JVM impl `Local<X>Api` in the module (Spring Cloud OpenFeign / Camunda Engine API style — useful when you have multiple consumers or plan a microservice extraction). Existing code uses both: `WebSocketSenderApi` and `ConfigApi` follow (C-direct); `OperateLogContractApi`, `TenantContractApi`, etc. follow (C-contract). When a module API is intended for cross-module use AND has multiple consumers OR is on a microservice-extraction shortlist, prefer (C-contract). Otherwise (C-direct) is fine and preferred for simplicity. | Spring Modulith — the official Spring framework for modular monoliths (2023+) — explicitly uses (C-direct). (C-contract) is required only when binary boundary or remote-extraction is a goal. Forcing all module APIs through (C-contract) creates busywork without functional payoff for a single-deployment app. |
 | D | yudao `*X` extension classes (`BaseMapperX`, `QueryWrapperX`, `LambdaQueryWrapperX`, `MPJLambdaWrapperX`) — keep as-is; documented in `TRANSLATION_GLOSSARY.md`. | Renaming cascades through ~40 mappers; payoff too low. |
 | E | Integration tests use suffix `*IT` (Maven Failsafe convention). Unit tests use `*Test`. | `*IT` runs at phase `verify`, not `test` — separates fast unit feedback loop from slow IT loop. |
 | F | `controller/admin/` and `controller/app/` split is kept. Same URL path may appear in both because they live under different `server.servlet.context-path` (`/admin-api` vs `/app-api`). Security filter chains and rate-limit policies apply per audience. | Pattern used by Keycloak (`services/resources/admin` + `account`), GitLab (`api/v4/admin`), Discourse, WordPress. Acceptable in enterprise apps where backoffice and end-user have different security policies. |
