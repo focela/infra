@@ -1,4 +1,4 @@
-package com.focela.platform.infra.config.file.s3;
+package com.focela.platform.infra.config.file.client.s3;
 
 import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.util.IdUtil;

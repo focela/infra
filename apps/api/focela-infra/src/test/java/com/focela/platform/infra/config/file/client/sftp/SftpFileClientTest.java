@@ -1,41 +1,34 @@
-package com.focela.platform.infra.config.file.ftp;
+package com.focela.platform.infra.config.file.client.sftp;
 
 import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.extra.ftp.FtpMode;
-import com.focela.platform.infra.config.file.client.ftp.FtpFileClient;
-import com.focela.platform.infra.config.file.client.ftp.FtpFileClientConfig;
+import com.focela.platform.infra.config.file.client.sftp.SftpFileClient;
+import com.focela.platform.infra.config.file.client.sftp.SftpFileClientConfig;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
- * {@link FtpFileClient} integration test
+ * {@link SftpFileClient} integration test
  */
-public class FtpFileClientTest {
+public class SftpFileClientTest {
 
-//    docker run -d \
-//            -p 2121:21 -p 30000-30009:30000-30009 \
-//            -e FTP_USER=foo \
-//            -e FTP_PASS=pass \
-//            -e PASV_ADDRESS=127.0.0.1 \
-//            -e PASV_MIN_PORT=30000 \
-//            -e PASV_MAX_PORT=30009 \
-//            -v $(pwd)/ftp-data:/home/vsftpd \
-//    fauria/vsftpd
+//    docker run -p 2222:22 -d \
+//            -v $(pwd)/sftp-data:/home/foo/upload \
+//    atmoz/sftp \
+//    foo:pass:1001
 
     @Test
     @Disabled
     public void test() {
         // Create client
-        FtpFileClientConfig config = new FtpFileClientConfig();
+        SftpFileClientConfig config = new SftpFileClientConfig();
         config.setDomain("http://127.0.0.1:48080");
-        config.setBasePath("/home/ftp");
+        config.setBasePath("/upload"); // Note: this is a relative path, not the actual path on Linux!
         config.setHost("127.0.0.1");
-        config.setPort(2121);
+        config.setPort(2222);
         config.setUsername("foo");
         config.setPassword("pass");
-        config.setMode(FtpMode.Passive.name());
-        FtpFileClient client = new FtpFileClient(0L, config);
+        SftpFileClient client = new SftpFileClient(0L, config);
         client.init();
         // Upload file
         String path = IdUtil.fastSimpleUUID() + ".jpg";

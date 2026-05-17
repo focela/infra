@@ -1,4 +1,4 @@
-package com.focela.platform.infra.config.file.local;
+package com.focela.platform.infra.config.file.client.local;
 
 import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.util.IdUtil;
