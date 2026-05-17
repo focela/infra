@@ -28,31 +28,31 @@ public class DefaultOAuth2CodeService implements OAuth2CodeService {
      */
     private static final Integer TIMEOUT = 5 * 60;
 
-        private final OAuth2CodeMapper oauth2CodeMapper;
+    private final OAuth2CodeMapper oauth2CodeMapper;
 
     @Override
     public OAuth2CodeEntity createAuthorizationCode(Long userId, Integer userType, String clientId,
                                                 List<String> scopes, String redirectUri, String state) {
-        OAuth2CodeEntity codeDO = new OAuth2CodeEntity().setCode(generateCode())
+        OAuth2CodeEntity authorizationCode = new OAuth2CodeEntity().setCode(generateCode())
                 .setUserId(userId).setUserType(userType)
                 .setClientId(clientId).setScopes(scopes)
                 .setExpiresTime(LocalDateTime.now().plusSeconds(TIMEOUT))
                 .setRedirectUri(redirectUri).setState(state);
-        oauth2CodeMapper.insert(codeDO);
-        return codeDO;
+        oauth2CodeMapper.insert(authorizationCode);
+        return authorizationCode;
     }
 
     @Override
     public OAuth2CodeEntity consumeAuthorizationCode(String code) {
-        OAuth2CodeEntity codeDO = oauth2CodeMapper.selectByCode(code);
-        if (codeDO == null) {
+        OAuth2CodeEntity authorizationCode = oauth2CodeMapper.selectByCode(code);
+        if (authorizationCode == null) {
             throw exception(OAUTH2_CODE_NOT_EXISTS);
         }
-        if (DateUtils.isExpired(codeDO.getExpiresTime())) {
+        if (DateUtils.isExpired(authorizationCode.getExpiresTime())) {
             throw exception(OAUTH2_CODE_EXPIRE);
         }
-        oauth2CodeMapper.deleteById(codeDO.getId());
-        return codeDO;
+        oauth2CodeMapper.deleteById(authorizationCode.getId());
+        return authorizationCode;
     }
 
     private static String generateCode() {

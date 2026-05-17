@@ -39,7 +39,7 @@ public class SmsReceiveRpcResponse {
     /**
      * SMS log ID
      *
-     * Corresponds to SysSmsLogDO's ID
+     * Corresponds to the SMS log ID.
      */
     private Long logId;
 

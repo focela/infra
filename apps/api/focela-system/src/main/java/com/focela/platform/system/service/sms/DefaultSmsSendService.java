@@ -101,12 +101,12 @@ public class DefaultSmsSendService implements SmsSendService {
     @VisibleForTesting
     SmsChannelEntity validateSmsChannel(Long channelId) {
         // get the SMS channel; for efficiency, fetch from cache
-        SmsChannelEntity channelDO = smsChannelService.getSmsChannel(channelId);
+        SmsChannelEntity channel = smsChannelService.getSmsChannel(channelId);
         // SMS channel does not exist
-        if (channelDO == null) {
+        if (channel == null) {
             throw exception(SMS_CHANNEL_NOT_EXISTS);
         }
-        return channelDO;
+        return channel;
     }
 
     @VisibleForTesting

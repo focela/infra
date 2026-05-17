@@ -44,25 +44,25 @@ public class DefaultOAuth2GrantService implements OAuth2GrantService {
     @Override
     public OAuth2AccessTokenEntity grantAuthorizationCodeForAccessToken(String clientId, String code,
                                                                     String redirectUri, String state) {
-        OAuth2CodeEntity codeDO = oauth2CodeService.consumeAuthorizationCode(code);
-        Assert.notNull(codeDO, "Authorization code must not be blank"); // defensive programming
+        OAuth2CodeEntity authorizationCode = oauth2CodeService.consumeAuthorizationCode(code);
+        Assert.notNull(authorizationCode, "Authorization code must not be blank"); // defensive programming
         // Validate that clientId matches
-        if (!StrUtil.equals(clientId, codeDO.getClientId())) {
+        if (!StrUtil.equals(clientId, authorizationCode.getClientId())) {
             throw exception(SystemErrorCodeConstants.OAUTH2_GRANT_CLIENT_ID_MISMATCH);
         }
         // Validate that redirectUri matches
-        if (!StrUtil.equals(redirectUri, codeDO.getRedirectUri())) {
+        if (!StrUtil.equals(redirectUri, authorizationCode.getRedirectUri())) {
             throw exception(SystemErrorCodeConstants.OAUTH2_GRANT_REDIRECT_URI_MISMATCH);
         }
         // Validate that state matches
         state = StrUtil.nullToDefault(state, ""); // when database state is null, it will be set to empty string ""
-        if (!StrUtil.equals(state, codeDO.getState())) {
+        if (!StrUtil.equals(state, authorizationCode.getState())) {
             throw exception(SystemErrorCodeConstants.OAUTH2_GRANT_STATE_MISMATCH);
         }
 
         // Create access token
-        return oauth2TokenService.createAccessToken(codeDO.getUserId(), codeDO.getUserType(),
-                codeDO.getClientId(), codeDO.getScopes());
+        return oauth2TokenService.createAccessToken(authorizationCode.getUserId(), authorizationCode.getUserType(),
+                authorizationCode.getClientId(), authorizationCode.getScopes());
     }
 
     @Override

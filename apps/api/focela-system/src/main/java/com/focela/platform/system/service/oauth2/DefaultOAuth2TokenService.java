@@ -44,12 +44,13 @@ import static com.focela.platform.common.utils.collection.CollectionUtils.conver
 @RequiredArgsConstructor
 public class DefaultOAuth2TokenService implements OAuth2TokenService {
 
-        private final OAuth2AccessTokenMapper oauth2AccessTokenMapper;
-        private final OAuth2RefreshTokenMapper oauth2RefreshTokenMapper;
+    private final OAuth2AccessTokenMapper oauth2AccessTokenMapper;
+    private final OAuth2RefreshTokenMapper oauth2RefreshTokenMapper;
 
-        private final OAuth2AccessTokenRedisRepository oauth2AccessTokenRedisDAO;
+    private final OAuth2AccessTokenRedisRepository oauth2AccessTokenRedisDAO;
 
-        private final OAuth2ClientService oauth2ClientService;
+    private final OAuth2ClientService oauth2ClientService;
+
     @Resource
     @Lazy // lazy loading to avoid circular dependency
     private UserService adminUserService;
@@ -80,10 +81,10 @@ public class DefaultOAuth2TokenService implements OAuth2TokenService {
         }
 
         // Remove the related access tokens
-        List<OAuth2AccessTokenEntity> accessTokenDOs = oauth2AccessTokenMapper.selectListByRefreshToken(refreshToken);
-        if (CollUtil.isNotEmpty(accessTokenDOs)) {
-            oauth2AccessTokenMapper.deleteByIds(convertSet(accessTokenDOs, OAuth2AccessTokenEntity::getId));
-            oauth2AccessTokenRedisDAO.deleteList(convertSet(accessTokenDOs, OAuth2AccessTokenEntity::getAccessToken));
+        List<OAuth2AccessTokenEntity> accessTokens = oauth2AccessTokenMapper.selectListByRefreshToken(refreshToken);
+        if (CollUtil.isNotEmpty(accessTokens)) {
+            oauth2AccessTokenMapper.deleteByIds(convertSet(accessTokens, OAuth2AccessTokenEntity::getId));
+            oauth2AccessTokenRedisDAO.deleteList(convertSet(accessTokens, OAuth2AccessTokenEntity::getAccessToken));
         }
 
         // When expired, delete the refresh token

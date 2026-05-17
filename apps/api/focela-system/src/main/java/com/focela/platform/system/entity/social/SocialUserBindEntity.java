@@ -9,7 +9,7 @@ import lombok.*;
 
 /**
  * Social user binding
- * The association table between {@link SocialUserEntity} and UserDO.
+ * The association table between {@link SocialUserEntity} and a system user.
  */
 @TableName(value = "system_social_user_bind", autoResultMap = true)
 @KeySequence("system_social_user_bind_seq") // used for primary key auto-increment in databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.
@@ -28,7 +28,7 @@ public class SocialUserBindEntity extends BaseEntity {
     /**
      * Associated user ID
      *
-     * Associated with UserDO's ID.
+     * Associated with the bound user's ID.
      */
     private Long userId;
     /**

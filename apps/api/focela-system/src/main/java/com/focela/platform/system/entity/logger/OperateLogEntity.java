@@ -29,7 +29,7 @@ public class OperateLogEntity extends BaseEntity {
     /**
      * User ID
      *
-     * Associated with MemberUserDO#id, or UserEntity#id
+     * Associated with member user ID or {@link com.focela.platform.system.entity.user.UserEntity#getId()}.
      */
     private Long userId;
     /**

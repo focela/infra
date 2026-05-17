@@ -57,8 +57,8 @@ public class TenantController {
     @Operation(summary = "get tenant simplified info list", description = "only include enabled tenant, for [home]feature select tenant options")
     public CommonResult<List<TenantResponse>> getTenantSimpleList() {
         List<TenantEntity> list = tenantService.getTenantListByStatus(CommonStatusEnum.ENABLE.getStatus());
-        return success(convertList(list, tenantDO ->
-                new TenantResponse().setId(tenantDO.getId()).setName(tenantDO.getName())));
+        return success(convertList(list, tenant ->
+                new TenantResponse().setId(tenant.getId()).setName(tenant.getName())));
     }
 
     @GetMapping("/get-by-website")

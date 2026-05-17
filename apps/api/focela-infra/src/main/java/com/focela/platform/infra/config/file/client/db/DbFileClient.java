@@ -27,9 +27,9 @@ public class DbFileClient extends AbstractFileClient<DbFileClientConfig> {
 
     @Override
     public String upload(byte[] content, String path, String type) {
-        FileContentEntity contentDO = new FileContentEntity().setConfigId(getId())
+        FileContentEntity fileContent = new FileContentEntity().setConfigId(getId())
                 .setPath(path).setContent(content);
-        fileContentMapper.insert(contentDO);
+        fileContentMapper.insert(fileContent);
         // Build return path
         return super.formatFileUrl(config.getDomain(), path);
     }

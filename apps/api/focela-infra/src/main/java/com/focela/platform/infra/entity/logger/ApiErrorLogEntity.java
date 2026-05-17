@@ -152,7 +152,7 @@ public class ApiErrorLogEntity extends BaseEntity {
     /**
      * Process user ID
      *
-     * Associated with com.focela.platform.adminserver.modules.system.repository.entity.user.SysUserDO.SysUserDO#getId()
+     * Associated with system user ID.
      */
     private Long processUserId;
 

@@ -53,7 +53,7 @@ public class DefaultSmsTemplateService implements SmsTemplateService {
     @Override
     public Long createSmsTemplate(SmsTemplateSaveRequest createRequest) {
         // validate SMS channel
-        SmsChannelEntity channelDO = validateSmsChannel(createRequest.getChannelId());
+        SmsChannelEntity channel = validateSmsChannel(createRequest.getChannelId());
         // validate SMS code is not duplicated
         validateSmsTemplateCodeDuplicate(null, createRequest.getCode());
         // validate SMS template
@@ -62,7 +62,7 @@ public class DefaultSmsTemplateService implements SmsTemplateService {
         // insert
         SmsTemplateEntity template = BeanUtils.toBean(createRequest, SmsTemplateEntity.class);
         template.setParams(parseTemplateContentParams(template.getContent()));
-        template.setChannelCode(channelDO.getCode());
+        template.setChannelCode(channel.getCode());
         smsTemplateMapper.insert(template);
         // return
         return template.getId();
@@ -75,7 +75,7 @@ public class DefaultSmsTemplateService implements SmsTemplateService {
         // validate existence
         validateSmsTemplateExists(updateRequest.getId());
         // validate SMS channel
-        SmsChannelEntity channelDO = validateSmsChannel(updateRequest.getChannelId());
+        SmsChannelEntity channel = validateSmsChannel(updateRequest.getChannelId());
         // validate SMS code is not duplicated
         validateSmsTemplateCodeDuplicate(updateRequest.getId(), updateRequest.getCode());
         // validate SMS template
@@ -84,7 +84,7 @@ public class DefaultSmsTemplateService implements SmsTemplateService {
         // update
         SmsTemplateEntity updateObj = BeanUtils.toBean(updateRequest, SmsTemplateEntity.class);
         updateObj.setParams(parseTemplateContentParams(updateObj.getContent()));
-        updateObj.setChannelCode(channelDO.getCode());
+        updateObj.setChannelCode(channel.getCode());
         smsTemplateMapper.updateById(updateObj);
     }
 
@@ -135,14 +135,14 @@ public class DefaultSmsTemplateService implements SmsTemplateService {
 
     @VisibleForTesting
     public SmsChannelEntity validateSmsChannel(Long channelId) {
-        SmsChannelEntity channelDO = smsChannelService.getSmsChannel(channelId);
-        if (channelDO == null) {
+        SmsChannelEntity channel = smsChannelService.getSmsChannel(channelId);
+        if (channel == null) {
             throw exception(SMS_CHANNEL_NOT_EXISTS);
         }
-        if (CommonStatusEnum.isDisable(channelDO.getStatus())) {
+        if (CommonStatusEnum.isDisable(channel.getStatus())) {
             throw exception(SMS_CHANNEL_DISABLE);
         }
-        return channelDO;
+        return channel;
     }
 
     @VisibleForTesting

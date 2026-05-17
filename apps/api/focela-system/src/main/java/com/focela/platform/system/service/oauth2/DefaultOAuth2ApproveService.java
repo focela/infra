@@ -50,8 +50,8 @@ public class DefaultOAuth2ApproveService implements OAuth2ApproveService {
         }
 
         // Step 2: include approvals already granted by the user. If all scopes are contained, return true
-        List<OAuth2ApproveEntity> approveDOs = getApproveList(userId, userType, clientId);
-        Set<String> scopes = convertSet(approveDOs, OAuth2ApproveEntity::getScope,
+        List<OAuth2ApproveEntity> approvals = getApproveList(userId, userType, clientId);
+        Set<String> scopes = convertSet(approvals, OAuth2ApproveEntity::getScope,
                 OAuth2ApproveEntity::getApproved); // keep only non-expired + approved
         return CollUtil.containsAll(scopes, requestedScopes);
     }
@@ -78,23 +78,23 @@ public class DefaultOAuth2ApproveService implements OAuth2ApproveService {
 
     @Override
     public List<OAuth2ApproveEntity> getApproveList(Long userId, Integer userType, String clientId) {
-        List<OAuth2ApproveEntity> approveDOs = oauth2ApproveMapper.selectListByUserIdAndUserTypeAndClientId(
+        List<OAuth2ApproveEntity> approvals = oauth2ApproveMapper.selectListByUserIdAndUserTypeAndClientId(
                 userId, userType, clientId);
-        approveDOs.removeIf(o -> DateUtils.isExpired(o.getExpiresTime()));
-        return approveDOs;
+        approvals.removeIf(o -> DateUtils.isExpired(o.getExpiresTime()));
+        return approvals;
     }
 
     @VisibleForTesting
     void saveApprove(Long userId, Integer userType, String clientId,
                      String scope, Boolean approved, LocalDateTime expireTime) {
         // Try update first
-        OAuth2ApproveEntity approveDO = new OAuth2ApproveEntity().setUserId(userId).setUserType(userType)
+        OAuth2ApproveEntity approval = new OAuth2ApproveEntity().setUserId(userId).setUserType(userType)
                 .setClientId(clientId).setScope(scope).setApproved(approved).setExpiresTime(expireTime);
-        if (oauth2ApproveMapper.update(approveDO) == 1) {
+        if (oauth2ApproveMapper.update(approval) == 1) {
             return;
         }
         // On failure it means it does not exist, so insert it
-        oauth2ApproveMapper.insert(approveDO);
+        oauth2ApproveMapper.insert(approval);
     }
 
 }
