@@ -9,7 +9,6 @@ import com.focela.platform.security.core.handler.JsonAuthenticationEntryPoint;
 import com.focela.platform.security.core.service.SecurityFrameworkService;
 import com.focela.platform.security.core.service.DefaultSecurityFrameworkService;
 import com.focela.platform.web.core.handler.GlobalExceptionHandler;
-import jakarta.annotation.Resource;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
@@ -20,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Spring Security auto-configuration class, mainly used to configure related components.
@@ -30,10 +30,10 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 @AutoConfiguration
 @AutoConfigureOrder(-1) // Purpose: run before Spring Security auto-configuration so that, after a one-click package rename, the org.* base packages still take effect
 @EnableConfigurationProperties(SecurityProperties.class)
+@RequiredArgsConstructor
 public class FocelaSecurityAutoConfiguration {
 
-    @Resource
-    private SecurityProperties securityProperties;
+        private final SecurityProperties securityProperties;
 
     /**
      * Authentication-failure handler Bean

@@ -1,21 +1,21 @@
 package com.focela.platform.security.config;
 
 import com.focela.platform.web.config.WebProperties;
-import jakarta.annotation.Resource;
 import org.springframework.core.Ordered;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Custom URL security configuration.
  * Purpose: each Maven module can define its own rules!
  */
+@RequiredArgsConstructor
 public abstract class AuthorizeRequestsCustomizer
         implements Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry>, Ordered {
 
-    @Resource
-    private WebProperties webProperties;
+        private final WebProperties webProperties;
 
     protected String buildAdminApi(String url) {
         return webProperties.getAdminApi().getPrefix() + url;

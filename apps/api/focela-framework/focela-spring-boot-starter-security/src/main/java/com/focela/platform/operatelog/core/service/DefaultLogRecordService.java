@@ -8,10 +8,9 @@ import com.focela.platform.security.core.LoginUser;
 import com.focela.platform.security.core.utils.SecurityFrameworkUtils;
 import com.mzt.logapi.beans.LogRecord;
 import com.mzt.logapi.service.ILogRecordService;
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import java.util.List;
 
 /**
@@ -20,10 +19,10 @@ import java.util.List;
  * Records operate logs based on {@link OperateLogContractApi}.
  */
 @Slf4j
+@RequiredArgsConstructor
 public class DefaultLogRecordService implements ILogRecordService {
 
-    @Resource
-    private OperateLogContractApi operateLogApi;
+        private final OperateLogContractApi operateLogApi;
 
     @Override
     public void record(LogRecord logRecord) {

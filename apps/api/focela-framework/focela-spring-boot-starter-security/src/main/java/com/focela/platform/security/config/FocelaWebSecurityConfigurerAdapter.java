@@ -5,7 +5,6 @@ import com.focela.platform.security.core.filter.TokenAuthenticationFilter;
 import com.focela.platform.web.config.WebProperties;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.DispatcherType;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -30,6 +29,7 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.util.pattern.PathPattern;
+import lombok.RequiredArgsConstructor;
 
 import java.util.HashSet;
 import java.util.List;
@@ -44,39 +44,33 @@ import static com.focela.platform.common.utils.collection.CollectionUtils.conver
 @AutoConfiguration
 @AutoConfigureOrder(-1) // Purpose: run before Spring Security auto-configuration so that, after a one-click package rename, the org.* base packages still take effect
 @EnableMethodSecurity(securedEnabled = true)
+@RequiredArgsConstructor
 public class FocelaWebSecurityConfigurerAdapter {
 
-    @Resource
-    private WebProperties webProperties;
-    @Resource
-    private SecurityProperties securityProperties;
+        private final WebProperties webProperties;
+        private final SecurityProperties securityProperties;
 
     /**
      * Authentication-failure handler Bean
      */
-    @Resource
-    private AuthenticationEntryPoint authenticationEntryPoint;
+        private final AuthenticationEntryPoint authenticationEntryPoint;
     /**
      * Insufficient-permission handler Bean
      */
-    @Resource
-    private AccessDeniedHandler accessDeniedHandler;
+        private final AccessDeniedHandler accessDeniedHandler;
     /**
      * Token authentication filter Bean
      */
-    @Resource
-    private TokenAuthenticationFilter authenticationTokenFilter;
+        private final TokenAuthenticationFilter authenticationTokenFilter;
 
     /**
      * Custom permission mapping Beans
      *
      * @see #filterChain(HttpSecurity)
      */
-    @Resource
-    private List<AuthorizeRequestsCustomizer> authorizeRequestsCustomizers;
+        private final List<AuthorizeRequestsCustomizer> authorizeRequestsCustomizers;
 
-    @Resource
-    private ApplicationContext applicationContext;
+        private final ApplicationContext applicationContext;
 
     /**
      * Spring Security does not declare @Bean when creating AuthenticationManager, so it cannot be injected.

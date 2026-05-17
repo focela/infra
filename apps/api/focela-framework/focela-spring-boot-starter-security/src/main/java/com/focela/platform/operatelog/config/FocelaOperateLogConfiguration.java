@@ -1,5 +1,6 @@
 package com.focela.platform.operatelog.config;
 
+import com.focela.platform.common.api.system.logger.OperateLogContractApi;
 import com.focela.platform.operatelog.core.service.DefaultLogRecordService;
 import com.mzt.logapi.service.ILogRecordService;
 import com.mzt.logapi.starter.annotation.EnableLogRecord;
@@ -18,8 +19,8 @@ public class FocelaOperateLogConfiguration {
 
     @Bean
     @Primary
-    public ILogRecordService DefaultiLogRecordService() {
-        return new DefaultLogRecordService();
+    public ILogRecordService DefaultiLogRecordService(OperateLogContractApi operateLogApi) {
+        return new DefaultLogRecordService(operateLogApi);
     }
 
 }

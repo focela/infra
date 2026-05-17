@@ -23,7 +23,6 @@ import com.focela.platform.web.config.WebProperties;
 import com.focela.platform.web.core.handler.GlobalExceptionHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
-import jakarta.annotation.Resource;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -44,6 +43,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.util.pattern.PathPattern;
+import lombok.RequiredArgsConstructor;
 
 import java.util.*;
 
@@ -52,10 +52,10 @@ import static com.focela.platform.common.utils.collection.CollectionUtils.conver
 @AutoConfiguration
 @ConditionalOnProperty(prefix = "focela.tenant", value = "enable", matchIfMissing = true)
 @EnableConfigurationProperties(TenantProperties.class)
+@RequiredArgsConstructor
 public class FocelaTenantAutoConfiguration {
 
-    @Resource
-    private ApplicationContext applicationContext;
+        private final ApplicationContext applicationContext;
 
     @Bean
     public TenantFrameworkService tenantFrameworkService(TenantContractApi tenantApi) {

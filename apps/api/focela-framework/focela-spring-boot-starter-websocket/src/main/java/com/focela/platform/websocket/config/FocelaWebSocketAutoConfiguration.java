@@ -76,8 +76,10 @@ public class FocelaWebSocketAutoConfiguration {
     }
 
     @Bean
-    public WebSocketAuthorizeRequestsCustomizer webSocketAuthorizeRequestsCustomizer(WebSocketProperties webSocketProperties) {
-        return new WebSocketAuthorizeRequestsCustomizer(webSocketProperties);
+    public WebSocketAuthorizeRequestsCustomizer webSocketAuthorizeRequestsCustomizer(
+            com.focela.platform.web.config.WebProperties webProperties,
+            WebSocketProperties webSocketProperties) {
+        return new WebSocketAuthorizeRequestsCustomizer(webProperties, webSocketProperties);
     }
 
     // ==================== Sender related ====================

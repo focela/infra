@@ -5,6 +5,7 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.thread.ThreadUtil;
 import com.focela.platform.quartz.core.enums.JobDataKeyEnum;
 import com.focela.platform.quartz.core.service.JobLogFrameworkService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobExecutionContext;
@@ -13,7 +14,6 @@ import org.quartz.PersistJobDataAfterExecution;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
-import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 
 import static cn.hutool.core.exceptions.ExceptionUtil.getRootCauseMessage;
@@ -24,13 +24,12 @@ import static cn.hutool.core.exceptions.ExceptionUtil.getRootCauseMessage;
 @DisallowConcurrentExecution
 @PersistJobDataAfterExecution
 @Slf4j
+@RequiredArgsConstructor
 public class JobHandlerInvoker extends QuartzJobBean {
 
-    @Resource
-    private ApplicationContext applicationContext;
+        private final ApplicationContext applicationContext;
 
-    @Resource
-    private JobLogFrameworkService jobLogFrameworkService;
+        private final JobLogFrameworkService jobLogFrameworkService;
 
     @Override
     protected void executeInternal(JobExecutionContext executionContext) throws JobExecutionException {
