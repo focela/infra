@@ -18,8 +18,8 @@ public class LocalApiErrorLogApi implements ApiErrorLogContractApi {
     private final ApiErrorLogService apiErrorLogService;
 
     @Override
-    public void createApiErrorLog(ApiErrorLogCreateRpcRequest createDTO) {
-        apiErrorLogService.createApiErrorLog(createDTO);
+    public void createApiErrorLog(ApiErrorLogCreateRpcRequest createRequest) {
+        apiErrorLogService.createApiErrorLog(createRequest);
     }
 
 }

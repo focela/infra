@@ -120,8 +120,8 @@ public class TenantController {
     @GetMapping("/page")
     @Operation(summary = "get tenant page")
     @PreAuthorize("@ss.hasPermission('system:tenant:query')")
-    public CommonResult<PageResult<TenantResponse>> getTenantPage(@Valid TenantPageRequest pageVO) {
-        PageResult<TenantEntity> pageResult = tenantService.getTenantPage(pageVO);
+    public CommonResult<PageResult<TenantResponse>> getTenantPage(@Valid TenantPageRequest pageRequest) {
+        PageResult<TenantEntity> pageResult = tenantService.getTenantPage(pageRequest);
         return success(BeanUtils.toBean(pageResult, TenantResponse.class));
     }
 

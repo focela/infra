@@ -43,12 +43,12 @@ public class DefaultOAuth2GrantServiceTest extends BaseMockitoUnitTest {
         String clientId = randomString();
         List<String> scopes = Lists.newArrayList("read", "write");
         // mock the method
-        OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class);
+        OAuth2AccessTokenEntity accessTokenEntity = randomPojo(OAuth2AccessTokenEntity.class);
         when(oauth2TokenService.createAccessToken(eq(userId), eq(userType),
-                eq(clientId), eq(scopes))).thenReturn(accessTokenDO);
+                eq(clientId), eq(scopes))).thenReturn(accessTokenEntity);
 
         // invoke, and assert
-        assertPojoEquals(accessTokenDO, oauth2GrantService.grantImplicit(
+        assertPojoEquals(accessTokenEntity, oauth2GrantService.grantImplicit(
                 userId, userType, clientId, scopes));
     }
 
@@ -88,12 +88,12 @@ public class DefaultOAuth2GrantServiceTest extends BaseMockitoUnitTest {
         });
         when(oauth2CodeService.consumeAuthorizationCode(eq(code))).thenReturn(codeDO);
         // mock the method（create token）
-        OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class);
+        OAuth2AccessTokenEntity accessTokenEntity = randomPojo(OAuth2AccessTokenEntity.class);
         when(oauth2TokenService.createAccessToken(eq(codeDO.getUserId()), eq(codeDO.getUserType()),
-                eq(codeDO.getClientId()), eq(codeDO.getScopes()))).thenReturn(accessTokenDO);
+                eq(codeDO.getClientId()), eq(codeDO.getScopes()))).thenReturn(accessTokenEntity);
 
         // invoke, and assert
-        assertPojoEquals(accessTokenDO, oauth2GrantService.grantAuthorizationCodeForAccessToken(
+        assertPojoEquals(accessTokenEntity, oauth2GrantService.grantAuthorizationCodeForAccessToken(
                 clientId, code, redirectUri, state));
     }
 
@@ -108,12 +108,12 @@ public class DefaultOAuth2GrantServiceTest extends BaseMockitoUnitTest {
         UserEntity user = randomPojo(UserEntity.class);
         when(adminAuthService.authenticate(eq(username), eq(password))).thenReturn(user);
         // mock the method（access token）
-        OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class);
+        OAuth2AccessTokenEntity accessTokenEntity = randomPojo(OAuth2AccessTokenEntity.class);
         when(oauth2TokenService.createAccessToken(eq(user.getId()), eq(UserTypeEnum.ADMIN.getValue()),
-                eq(clientId), eq(scopes))).thenReturn(accessTokenDO);
+                eq(clientId), eq(scopes))).thenReturn(accessTokenEntity);
 
         // invoke, and assert
-        assertPojoEquals(accessTokenDO, oauth2GrantService.grantPassword(
+        assertPojoEquals(accessTokenEntity, oauth2GrantService.grantPassword(
                 username, password, clientId, scopes));
     }
 
@@ -123,12 +123,12 @@ public class DefaultOAuth2GrantServiceTest extends BaseMockitoUnitTest {
         String refreshToken = randomString();
         String clientId = randomString();
         // mock the method
-        OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class);
+        OAuth2AccessTokenEntity accessTokenEntity = randomPojo(OAuth2AccessTokenEntity.class);
         when(oauth2TokenService.refreshAccessToken(eq(refreshToken), eq(clientId)))
-                .thenReturn(accessTokenDO);
+                .thenReturn(accessTokenEntity);
 
         // invoke, and assert
-        assertPojoEquals(accessTokenDO, oauth2GrantService.grantRefreshToken(
+        assertPojoEquals(accessTokenEntity, oauth2GrantService.grantRefreshToken(
                 refreshToken, clientId));
     }
 
@@ -138,8 +138,8 @@ public class DefaultOAuth2GrantServiceTest extends BaseMockitoUnitTest {
         String clientId = randomString();
         String accessToken = randomString();
         // mock the method
-        OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class);
-        when(oauth2TokenService.getAccessToken(eq(accessToken))).thenReturn(accessTokenDO);
+        OAuth2AccessTokenEntity accessTokenEntity = randomPojo(OAuth2AccessTokenEntity.class);
+        when(oauth2TokenService.getAccessToken(eq(accessToken))).thenReturn(accessTokenEntity);
 
         // invoke, and assert
         assertFalse(oauth2GrantService.revokeToken(clientId, accessToken));
@@ -151,10 +151,10 @@ public class DefaultOAuth2GrantServiceTest extends BaseMockitoUnitTest {
         String clientId = randomString();
         String accessToken = randomString();
         // mock the method（access token）
-        OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class).setClientId(clientId);
-        when(oauth2TokenService.getAccessToken(eq(accessToken))).thenReturn(accessTokenDO);
+        OAuth2AccessTokenEntity accessTokenEntity = randomPojo(OAuth2AccessTokenEntity.class).setClientId(clientId);
+        when(oauth2TokenService.getAccessToken(eq(accessToken))).thenReturn(accessTokenEntity);
         // mock the method（remove）
-        when(oauth2TokenService.removeAccessToken(eq(accessToken))).thenReturn(accessTokenDO);
+        when(oauth2TokenService.removeAccessToken(eq(accessToken))).thenReturn(accessTokenEntity);
 
         // invoke, and assert
         assertTrue(oauth2GrantService.revokeToken(clientId, accessToken));

@@ -57,25 +57,25 @@ public class DefaultOAuth2TokenService implements OAuth2TokenService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public OAuth2AccessTokenEntity createAccessToken(Long userId, Integer userType, String clientId, List<String> scopes) {
-        OAuth2ClientEntity clientDO = oauth2ClientService.validateOAuthClientFromCache(clientId);
+        OAuth2ClientEntity clientEntity = oauth2ClientService.validateOAuthClientFromCache(clientId);
         // Create refresh token
-        OAuth2RefreshTokenEntity refreshTokenDO = createOAuth2RefreshToken(userId, userType, clientDO, scopes);
+        OAuth2RefreshTokenEntity refreshTokenEntity = createOAuth2RefreshToken(userId, userType, clientEntity, scopes);
         // Create access token
-        return createOAuth2AccessToken(refreshTokenDO, clientDO);
+        return createOAuth2AccessToken(refreshTokenEntity, clientEntity);
     }
 
     @Override
     @Transactional(noRollbackFor = ServiceException.class)
     public OAuth2AccessTokenEntity refreshAccessToken(String refreshToken, String clientId) {
         // Query the refresh token
-        OAuth2RefreshTokenEntity refreshTokenDO = oauth2RefreshTokenMapper.selectByRefreshToken(refreshToken);
-        if (refreshTokenDO == null) {
+        OAuth2RefreshTokenEntity refreshTokenEntity = oauth2RefreshTokenMapper.selectByRefreshToken(refreshToken);
+        if (refreshTokenEntity == null) {
             throw exception0(GlobalErrorCodeConstants.BAD_REQUEST.getCode(), "Invalid refresh token");
         }
 
         // Validate that the Client matches
-        OAuth2ClientEntity clientDO = oauth2ClientService.validateOAuthClientFromCache(clientId);
-        if (ObjectUtil.notEqual(clientId, refreshTokenDO.getClientId())) {
+        OAuth2ClientEntity clientEntity = oauth2ClientService.validateOAuthClientFromCache(clientId);
+        if (ObjectUtil.notEqual(clientId, refreshTokenEntity.getClientId())) {
             throw exception0(GlobalErrorCodeConstants.BAD_REQUEST.getCode(), "Refresh token client ID is incorrect");
         }
 
@@ -87,67 +87,67 @@ public class DefaultOAuth2TokenService implements OAuth2TokenService {
         }
 
         // When expired, delete the refresh token
-        if (DateUtils.isExpired(refreshTokenDO.getExpiresTime())) {
-            oauth2RefreshTokenMapper.deleteById(refreshTokenDO.getId());
+        if (DateUtils.isExpired(refreshTokenEntity.getExpiresTime())) {
+            oauth2RefreshTokenMapper.deleteById(refreshTokenEntity.getId());
             throw exception0(GlobalErrorCodeConstants.UNAUTHORIZED.getCode(), "Refresh token has expired");
         }
 
         // Create access token
-        return createOAuth2AccessToken(refreshTokenDO, clientDO);
+        return createOAuth2AccessToken(refreshTokenEntity, clientEntity);
     }
 
     @Override
     public OAuth2AccessTokenEntity getAccessToken(String accessToken) {
         // Prefer fetching from Redis
-        OAuth2AccessTokenEntity accessTokenDO = oauth2AccessTokenRedisDAO.get(accessToken);
-        if (accessTokenDO != null) {
-            return accessTokenDO;
+        OAuth2AccessTokenEntity accessTokenEntity = oauth2AccessTokenRedisDAO.get(accessToken);
+        if (accessTokenEntity != null) {
+            return accessTokenEntity;
         }
 
         // If not found, fetch the access token from MySQL
-        accessTokenDO = oauth2AccessTokenMapper.selectByAccessToken(accessToken);
-        if (accessTokenDO == null) {
+        accessTokenEntity = oauth2AccessTokenMapper.selectByAccessToken(accessToken);
+        if (accessTokenEntity == null) {
             // Special: fetch the refresh token from MySQL. Reason: handle scenarios where refreshing the access token is inconvenient.
             // For example, JimuReport only allows passing token and not refresh_token, so the access token cannot be refreshed.
             // Another example: the frontend WebSocket token is passed directly in the URL and cannot pass refresh_token.
-            OAuth2RefreshTokenEntity refreshTokenDO = oauth2RefreshTokenMapper.selectByRefreshToken(accessToken);
-            if (refreshTokenDO != null && !DateUtils.isExpired(refreshTokenDO.getExpiresTime())) {
-                accessTokenDO = convertToAccessToken(refreshTokenDO);
+            OAuth2RefreshTokenEntity refreshTokenEntity = oauth2RefreshTokenMapper.selectByRefreshToken(accessToken);
+            if (refreshTokenEntity != null && !DateUtils.isExpired(refreshTokenEntity.getExpiresTime())) {
+                accessTokenEntity = convertToAccessToken(refreshTokenEntity);
             }
         }
 
         // If it exists in MySQL, write it back to Redis
-        if (accessTokenDO != null && !DateUtils.isExpired(accessTokenDO.getExpiresTime())) {
-            oauth2AccessTokenRedisDAO.set(accessTokenDO);
+        if (accessTokenEntity != null && !DateUtils.isExpired(accessTokenEntity.getExpiresTime())) {
+            oauth2AccessTokenRedisDAO.set(accessTokenEntity);
         }
-        return accessTokenDO;
+        return accessTokenEntity;
     }
 
     @Override
     public OAuth2AccessTokenEntity checkAccessToken(String accessToken) {
-        OAuth2AccessTokenEntity accessTokenDO = getAccessToken(accessToken);
-        if (accessTokenDO == null) {
+        OAuth2AccessTokenEntity accessTokenEntity = getAccessToken(accessToken);
+        if (accessTokenEntity == null) {
             throw exception0(GlobalErrorCodeConstants.UNAUTHORIZED.getCode(), "Access token does not exist");
         }
-        if (DateUtils.isExpired(accessTokenDO.getExpiresTime())) {
+        if (DateUtils.isExpired(accessTokenEntity.getExpiresTime())) {
             throw exception0(GlobalErrorCodeConstants.UNAUTHORIZED.getCode(), "Access token has expired");
         }
-        return accessTokenDO;
+        return accessTokenEntity;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public OAuth2AccessTokenEntity removeAccessToken(String accessToken) {
         // Delete the access token
-        OAuth2AccessTokenEntity accessTokenDO = oauth2AccessTokenMapper.selectByAccessToken(accessToken);
-        if (accessTokenDO == null) {
+        OAuth2AccessTokenEntity accessTokenEntity = oauth2AccessTokenMapper.selectByAccessToken(accessToken);
+        if (accessTokenEntity == null) {
             return null;
         }
-        oauth2AccessTokenMapper.deleteById(accessTokenDO.getId());
+        oauth2AccessTokenMapper.deleteById(accessTokenEntity.getId());
         oauth2AccessTokenRedisDAO.delete(accessToken);
         // Delete the refresh token
-        oauth2RefreshTokenMapper.deleteByRefreshToken(accessTokenDO.getRefreshToken());
-        return accessTokenDO;
+        oauth2RefreshTokenMapper.deleteByRefreshToken(accessTokenEntity.getRefreshToken());
+        return accessTokenEntity;
     }
 
     @Override
@@ -170,41 +170,41 @@ public class DefaultOAuth2TokenService implements OAuth2TokenService {
         return oauth2AccessTokenMapper.selectPage(request);
     }
 
-    private OAuth2AccessTokenEntity createOAuth2AccessToken(OAuth2RefreshTokenEntity refreshTokenDO, OAuth2ClientEntity clientDO) {
-        OAuth2AccessTokenEntity accessTokenDO = new OAuth2AccessTokenEntity().setAccessToken(generateAccessToken())
-                .setUserId(refreshTokenDO.getUserId()).setUserType(refreshTokenDO.getUserType())
-                .setUserInfo(buildUserInfo(refreshTokenDO.getUserId(), refreshTokenDO.getUserType()))
-                .setClientId(clientDO.getClientId()).setScopes(refreshTokenDO.getScopes())
-                .setRefreshToken(refreshTokenDO.getRefreshToken())
-                .setExpiresTime(LocalDateTime.now().plusSeconds(clientDO.getAccessTokenValiditySeconds()));
+    private OAuth2AccessTokenEntity createOAuth2AccessToken(OAuth2RefreshTokenEntity refreshTokenEntity, OAuth2ClientEntity clientEntity) {
+        OAuth2AccessTokenEntity accessTokenEntity = new OAuth2AccessTokenEntity().setAccessToken(generateAccessToken())
+                .setUserId(refreshTokenEntity.getUserId()).setUserType(refreshTokenEntity.getUserType())
+                .setUserInfo(buildUserInfo(refreshTokenEntity.getUserId(), refreshTokenEntity.getUserType()))
+                .setClientId(clientEntity.getClientId()).setScopes(refreshTokenEntity.getScopes())
+                .setRefreshToken(refreshTokenEntity.getRefreshToken())
+                .setExpiresTime(LocalDateTime.now().plusSeconds(clientEntity.getAccessTokenValiditySeconds()));
         // Prefer obtaining the tenant ID from refreshToken to avoid tenantId being null when ThreadLocal is polluted
         // Possible related issue: https://t.zsxq.com/JIi5G
-        Long tenantId = refreshTokenDO.getTenantId();
+        Long tenantId = refreshTokenEntity.getTenantId();
         if (tenantId == null) {
             tenantId = TenantContextHolder.getTenantId();
         }
-        accessTokenDO.setTenantId(tenantId);
-        oauth2AccessTokenMapper.insert(accessTokenDO);
+        accessTokenEntity.setTenantId(tenantId);
+        oauth2AccessTokenMapper.insert(accessTokenEntity);
         // Record into Redis
-        oauth2AccessTokenRedisDAO.set(accessTokenDO);
-        return accessTokenDO;
+        oauth2AccessTokenRedisDAO.set(accessTokenEntity);
+        return accessTokenEntity;
     }
 
-    private OAuth2RefreshTokenEntity createOAuth2RefreshToken(Long userId, Integer userType, OAuth2ClientEntity clientDO, List<String> scopes) {
+    private OAuth2RefreshTokenEntity createOAuth2RefreshToken(Long userId, Integer userType, OAuth2ClientEntity clientEntity, List<String> scopes) {
         OAuth2RefreshTokenEntity refreshToken = new OAuth2RefreshTokenEntity().setRefreshToken(generateRefreshToken())
                 .setUserId(userId).setUserType(userType)
-                .setClientId(clientDO.getClientId()).setScopes(scopes)
-                .setExpiresTime(LocalDateTime.now().plusSeconds(clientDO.getRefreshTokenValiditySeconds()));
+                .setClientId(clientEntity.getClientId()).setScopes(scopes)
+                .setExpiresTime(LocalDateTime.now().plusSeconds(clientEntity.getRefreshTokenValiditySeconds()));
         oauth2RefreshTokenMapper.insert(refreshToken);
         return refreshToken;
     }
 
-    private OAuth2AccessTokenEntity convertToAccessToken(OAuth2RefreshTokenEntity refreshTokenDO) {
-        OAuth2AccessTokenEntity accessTokenDO = BeanUtils.toBean(refreshTokenDO, OAuth2AccessTokenEntity.class)
-                .setAccessToken(refreshTokenDO.getRefreshToken());
-        TenantUtils.execute(refreshTokenDO.getTenantId(),
-                        () -> accessTokenDO.setUserInfo(buildUserInfo(refreshTokenDO.getUserId(), refreshTokenDO.getUserType())));
-        return accessTokenDO;
+    private OAuth2AccessTokenEntity convertToAccessToken(OAuth2RefreshTokenEntity refreshTokenEntity) {
+        OAuth2AccessTokenEntity accessTokenEntity = BeanUtils.toBean(refreshTokenEntity, OAuth2AccessTokenEntity.class)
+                .setAccessToken(refreshTokenEntity.getRefreshToken());
+        TenantUtils.execute(refreshTokenEntity.getTenantId(),
+                        () -> accessTokenEntity.setUserInfo(buildUserInfo(refreshTokenEntity.getUserId(), refreshTokenEntity.getUserType())));
+        return accessTokenEntity;
     }
 
     /**

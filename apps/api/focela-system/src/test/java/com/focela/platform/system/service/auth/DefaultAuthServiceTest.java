@@ -162,14 +162,14 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
         // mock password match
         when(userService.isPasswordMatch(eq("test_password"), eq(user.getPassword()))).thenReturn(true);
         // mock cache the logged-in user to Redis
-        OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class, o -> o.setUserId(1L)
+        OAuth2AccessTokenEntity accessTokenEntity = randomPojo(OAuth2AccessTokenEntity.class, o -> o.setUserId(1L)
                 .setUserType(UserTypeEnum.ADMIN.getValue()));
         when(oauth2TokenService.createAccessToken(eq(1L), eq(UserTypeEnum.ADMIN.getValue()), eq("default"), isNull()))
-                .thenReturn(accessTokenDO);
+                .thenReturn(accessTokenEntity);
 
         // invoke, and verify
         AuthLoginResponse loginResponse = authService.login(request);
-        assertPojoEquals(accessTokenDO, loginResponse);
+        assertPojoEquals(accessTokenEntity, loginResponse);
         // verify call parameters
         verify(loginLogService).createLoginLog(
                 argThat(o -> o.getLogType().equals(LoginLogTypeEnum.LOGIN_USERNAME.getType())
@@ -218,14 +218,14 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
         UserEntity user = randomPojo(UserEntity.class, o -> o.setId(1L));
         when(userService.getUserByMobile(eq(mobile))).thenReturn(user);
         // mock cache the logged-in user to Redis
-        OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class, o -> o.setUserId(1L)
+        OAuth2AccessTokenEntity accessTokenEntity = randomPojo(OAuth2AccessTokenEntity.class, o -> o.setUserId(1L)
                 .setUserType(UserTypeEnum.ADMIN.getValue()));
         when(oauth2TokenService.createAccessToken(eq(1L), eq(UserTypeEnum.ADMIN.getValue()), eq("default"), isNull()))
-                .thenReturn(accessTokenDO);
+                .thenReturn(accessTokenEntity);
 
         // invoke, and assert
         AuthLoginResponse loginResponse = authService.smsLogin(request);
-        assertPojoEquals(accessTokenDO, loginResponse);
+        assertPojoEquals(accessTokenEntity, loginResponse);
         // assert call
         verify(loginLogService).createLoginLog(
                 argThat(o -> o.getLogType().equals(LoginLogTypeEnum.LOGIN_MOBILE.getType())
@@ -246,14 +246,14 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
         UserEntity user = randomPojo(UserEntity.class, o -> o.setId(userId));
         when(userService.getUser(eq(userId))).thenReturn(user);
         // mock cache the logged-in user to Redis
-        OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class, o -> o.setUserId(1L)
+        OAuth2AccessTokenEntity accessTokenEntity = randomPojo(OAuth2AccessTokenEntity.class, o -> o.setUserId(1L)
                 .setUserType(UserTypeEnum.ADMIN.getValue()));
         when(oauth2TokenService.createAccessToken(eq(1L), eq(UserTypeEnum.ADMIN.getValue()), eq("default"), isNull()))
-                .thenReturn(accessTokenDO);
+                .thenReturn(accessTokenEntity);
 
         // invoke, and assert
         AuthLoginResponse loginResponse = authService.socialLogin(request);
-        assertPojoEquals(accessTokenDO, loginResponse);
+        assertPojoEquals(accessTokenEntity, loginResponse);
         // assert call
         verify(loginLogService).createLoginLog(
                 argThat(o -> o.getLogType().equals(LoginLogTypeEnum.LOGIN_SOCIAL.getType())
@@ -314,14 +314,14 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
         // prepare parameters
         String refreshToken = randomString();
         // mock the method
-        OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class);
+        OAuth2AccessTokenEntity accessTokenEntity = randomPojo(OAuth2AccessTokenEntity.class);
         when(oauth2TokenService.refreshAccessToken(eq(refreshToken), eq("default")))
-                .thenReturn(accessTokenDO);
+                .thenReturn(accessTokenEntity);
 
         // invoke
         AuthLoginResponse loginResponse = authService.refreshToken(refreshToken);
         // assert
-        assertPojoEquals(accessTokenDO, loginResponse);
+        assertPojoEquals(accessTokenEntity, loginResponse);
     }
 
     @Test
@@ -329,9 +329,9 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
         // prepare parameters
         String token = randomString();
         // mock
-        OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class, o -> o.setUserId(1L)
+        OAuth2AccessTokenEntity accessTokenEntity = randomPojo(OAuth2AccessTokenEntity.class, o -> o.setUserId(1L)
                 .setUserType(UserTypeEnum.ADMIN.getValue()));
-        when(oauth2TokenService.removeAccessToken(eq(token))).thenReturn(accessTokenDO);
+        when(oauth2TokenService.removeAccessToken(eq(token))).thenReturn(accessTokenEntity);
 
         // invoke
         authService.logout(token, LoginLogTypeEnum.LOGOUT_SELF.getType());

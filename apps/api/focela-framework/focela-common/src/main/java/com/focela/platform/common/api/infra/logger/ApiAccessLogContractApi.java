@@ -12,18 +12,18 @@ public interface ApiAccessLogContractApi {
     /**
      * Create an API access log.
      *
-     * @param createDTO create information
+     * @param createRequest create information
      */
-    void createApiAccessLog(@Valid ApiAccessLogCreateRpcRequest createDTO);
+    void createApiAccessLog(@Valid ApiAccessLogCreateRpcRequest createRequest);
 
     /**
      * [Async] Create an API access log.
      *
-     * @param createDTO access log DTO
+     * @param createRequest access log DTO
      */
     @Async
-    default void createApiAccessLogAsync(ApiAccessLogCreateRpcRequest createDTO) {
-        createApiAccessLog(createDTO);
+    default void createApiAccessLogAsync(ApiAccessLogCreateRpcRequest createRequest) {
+        createApiAccessLog(createRequest);
     }
 
 }

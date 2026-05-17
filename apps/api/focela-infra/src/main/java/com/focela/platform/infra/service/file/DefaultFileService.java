@@ -186,11 +186,11 @@ public class DefaultFileService implements FileService {
     }
 
     private FileEntity validateFileExists(Long id) {
-        FileEntity fileDO = fileMapper.selectById(id);
-        if (fileDO == null) {
+        FileEntity fileEntity = fileMapper.selectById(id);
+        if (fileEntity == null) {
             throw exception(FILE_NOT_EXISTS);
         }
-        return fileDO;
+        return fileEntity;
     }
 
     @Override

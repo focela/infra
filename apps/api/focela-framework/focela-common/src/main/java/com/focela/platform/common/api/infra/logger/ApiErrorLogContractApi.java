@@ -13,18 +13,18 @@ public interface ApiErrorLogContractApi {
     /**
      * Create an API error log.
      *
-     * @param createDTO create information
+     * @param createRequest create information
      */
-    void createApiErrorLog(@Valid ApiErrorLogCreateRpcRequest createDTO);
+    void createApiErrorLog(@Valid ApiErrorLogCreateRpcRequest createRequest);
 
     /**
      * [Async] Create an API error log.
      *
-     * @param createDTO error log DTO
+     * @param createRequest error log DTO
      */
     @Async
-    default void createApiErrorLogAsync(ApiErrorLogCreateRpcRequest createDTO) {
-        createApiErrorLog(createDTO);
+    default void createApiErrorLogAsync(ApiErrorLogCreateRpcRequest createRequest) {
+        createApiErrorLog(createRequest);
     }
 
 }

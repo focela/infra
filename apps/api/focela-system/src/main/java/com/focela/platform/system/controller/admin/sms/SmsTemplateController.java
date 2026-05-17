@@ -82,8 +82,8 @@ public class SmsTemplateController {
     @GetMapping("/page")
     @Operation(summary = "get SMS template page")
     @PreAuthorize("@ss.hasPermission('system:sms-template:query')")
-    public CommonResult<PageResult<SmsTemplateResponse>> getSmsTemplatePage(@Valid SmsTemplatePageRequest pageVO) {
-        PageResult<SmsTemplateEntity> pageResult = smsTemplateService.getSmsTemplatePage(pageVO);
+    public CommonResult<PageResult<SmsTemplateResponse>> getSmsTemplatePage(@Valid SmsTemplatePageRequest pageRequest) {
+        PageResult<SmsTemplateEntity> pageResult = smsTemplateService.getSmsTemplatePage(pageRequest);
         return success(BeanUtils.toBean(pageResult, SmsTemplateResponse.class));
     }
 

@@ -30,13 +30,13 @@ public class OAuth2AccessTokenRedisRepository {
         return JsonUtils.parseObject(stringRedisTemplate.opsForValue().get(redisKey), OAuth2AccessTokenEntity.class);
     }
 
-    public void set(OAuth2AccessTokenEntity accessTokenDO) {
-        String redisKey = formatKey(accessTokenDO.getAccessToken());
+    public void set(OAuth2AccessTokenEntity accessTokenEntity) {
+        String redisKey = formatKey(accessTokenEntity.getAccessToken());
         // clean redundant fields to avoid caching
-        accessTokenDO.setUpdater(null).setUpdateTime(null).setCreateTime(null).setCreator(null).setDeleted(null);
-        long time = LocalDateTimeUtil.between(LocalDateTime.now(), accessTokenDO.getExpiresTime(), ChronoUnit.SECONDS);
+        accessTokenEntity.setUpdater(null).setUpdateTime(null).setCreateTime(null).setCreator(null).setDeleted(null);
+        long time = LocalDateTimeUtil.between(LocalDateTime.now(), accessTokenEntity.getExpiresTime(), ChronoUnit.SECONDS);
         if (time > 0) {
-            stringRedisTemplate.opsForValue().set(redisKey, JsonUtils.toJsonString(accessTokenDO), time, TimeUnit.SECONDS);
+            stringRedisTemplate.opsForValue().set(redisKey, JsonUtils.toJsonString(accessTokenEntity), time, TimeUnit.SECONDS);
         }
     }
 

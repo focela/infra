@@ -204,27 +204,27 @@ public class DefaultAuthService implements AuthService {
         // Insert login log
         createLoginLog(userId, username, logType, LoginResultEnum.SUCCESS);
         // Create access token
-        OAuth2AccessTokenEntity accessTokenDO = oauth2TokenService.createAccessToken(userId, getUserType().getValue(),
+        OAuth2AccessTokenEntity accessTokenEntity = oauth2TokenService.createAccessToken(userId, getUserType().getValue(),
                 OAuth2ClientConstants.CLIENT_ID_DEFAULT, null);
         // Build return result
-        return BeanUtils.toBean(accessTokenDO, AuthLoginResponse.class);
+        return BeanUtils.toBean(accessTokenEntity, AuthLoginResponse.class);
     }
 
     @Override
     public AuthLoginResponse refreshToken(String refreshToken) {
-        OAuth2AccessTokenEntity accessTokenDO = oauth2TokenService.refreshAccessToken(refreshToken, OAuth2ClientConstants.CLIENT_ID_DEFAULT);
-        return BeanUtils.toBean(accessTokenDO, AuthLoginResponse.class);
+        OAuth2AccessTokenEntity accessTokenEntity = oauth2TokenService.refreshAccessToken(refreshToken, OAuth2ClientConstants.CLIENT_ID_DEFAULT);
+        return BeanUtils.toBean(accessTokenEntity, AuthLoginResponse.class);
     }
 
     @Override
     public void logout(String token, Integer logType) {
         // Delete access token
-        OAuth2AccessTokenEntity accessTokenDO = oauth2TokenService.removeAccessToken(token);
-        if (accessTokenDO == null) {
+        OAuth2AccessTokenEntity accessTokenEntity = oauth2TokenService.removeAccessToken(token);
+        if (accessTokenEntity == null) {
             return;
         }
         // On successful deletion, record the logout log
-        createLogoutLog(accessTokenDO.getUserId(), accessTokenDO.getUserType(), logType);
+        createLogoutLog(accessTokenEntity.getUserId(), accessTokenEntity.getUserType(), logType);
     }
 
     private void createLogoutLog(Long userId, Integer userType, Integer logType) {

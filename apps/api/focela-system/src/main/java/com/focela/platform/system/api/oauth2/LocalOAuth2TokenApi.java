@@ -21,27 +21,27 @@ public class LocalOAuth2TokenApi implements OAuth2TokenContractApi {
 
     @Override
     public OAuth2AccessTokenRpcResponse createAccessToken(OAuth2AccessTokenCreateRpcRequest request) {
-        OAuth2AccessTokenEntity accessTokenDO = oauth2TokenService.createAccessToken(
+        OAuth2AccessTokenEntity accessTokenEntity = oauth2TokenService.createAccessToken(
                 request.getUserId(), request.getUserType(), request.getClientId(), request.getScopes());
-        return BeanUtils.toBean(accessTokenDO, OAuth2AccessTokenRpcResponse.class);
+        return BeanUtils.toBean(accessTokenEntity, OAuth2AccessTokenRpcResponse.class);
     }
 
     @Override
     public OAuth2AccessTokenCheckRpcResponse checkAccessToken(String accessToken) {
-        OAuth2AccessTokenEntity accessTokenDO = oauth2TokenService.checkAccessToken(accessToken);
-        return BeanUtils.toBean(accessTokenDO, OAuth2AccessTokenCheckRpcResponse.class);
+        OAuth2AccessTokenEntity accessTokenEntity = oauth2TokenService.checkAccessToken(accessToken);
+        return BeanUtils.toBean(accessTokenEntity, OAuth2AccessTokenCheckRpcResponse.class);
     }
 
     @Override
     public OAuth2AccessTokenRpcResponse removeAccessToken(String accessToken) {
-        OAuth2AccessTokenEntity accessTokenDO = oauth2TokenService.removeAccessToken(accessToken);
-        return BeanUtils.toBean(accessTokenDO, OAuth2AccessTokenRpcResponse.class);
+        OAuth2AccessTokenEntity accessTokenEntity = oauth2TokenService.removeAccessToken(accessToken);
+        return BeanUtils.toBean(accessTokenEntity, OAuth2AccessTokenRpcResponse.class);
     }
 
     @Override
     public OAuth2AccessTokenRpcResponse refreshAccessToken(String refreshToken, String clientId) {
-        OAuth2AccessTokenEntity accessTokenDO = oauth2TokenService.refreshAccessToken(refreshToken, clientId);
-        return BeanUtils.toBean(accessTokenDO, OAuth2AccessTokenRpcResponse.class);
+        OAuth2AccessTokenEntity accessTokenEntity = oauth2TokenService.refreshAccessToken(refreshToken, clientId);
+        return BeanUtils.toBean(accessTokenEntity, OAuth2AccessTokenRpcResponse.class);
     }
 
 }

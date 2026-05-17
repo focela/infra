@@ -80,8 +80,8 @@ public class NotifyTemplateController {
     @GetMapping("/page")
     @Operation(summary = "get notify template page")
     @PreAuthorize("@ss.hasPermission('system:notify-template:query')")
-    public CommonResult<PageResult<NotifyTemplateResponse>> getNotifyTemplatePage(@Valid NotifyTemplatePageRequest pageVO) {
-        PageResult<NotifyTemplateEntity> pageResult = notifyTemplateService.getNotifyTemplatePage(pageVO);
+    public CommonResult<PageResult<NotifyTemplateResponse>> getNotifyTemplatePage(@Valid NotifyTemplatePageRequest pageRequest) {
+        PageResult<NotifyTemplateEntity> pageResult = notifyTemplateService.getNotifyTemplatePage(pageRequest);
         return success(BeanUtils.toBean(pageResult, NotifyTemplateResponse.class));
     }
 

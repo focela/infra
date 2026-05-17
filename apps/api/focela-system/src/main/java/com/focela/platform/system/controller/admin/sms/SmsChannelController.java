@@ -75,8 +75,8 @@ public class SmsChannelController {
     @GetMapping("/page")
     @Operation(summary = "get SMS channel page")
     @PreAuthorize("@ss.hasPermission('system:sms-channel:query')")
-    public CommonResult<PageResult<SmsChannelResponse>> getSmsChannelPage(@Valid SmsChannelPageRequest pageVO) {
-        PageResult<SmsChannelEntity> pageResult = smsChannelService.getSmsChannelPage(pageVO);
+    public CommonResult<PageResult<SmsChannelResponse>> getSmsChannelPage(@Valid SmsChannelPageRequest pageRequest) {
+        PageResult<SmsChannelEntity> pageResult = smsChannelService.getSmsChannelPage(pageRequest);
         return success(BeanUtils.toBean(pageResult, SmsChannelResponse.class));
     }
 

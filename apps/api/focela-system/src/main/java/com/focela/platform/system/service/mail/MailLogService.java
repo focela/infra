@@ -20,10 +20,10 @@ public interface MailLogService {
     /**
      * Get paginated mail logs
      *
-     * @param pageVO pagination parameters
+     * @param pageRequest pagination parameters
      * @return paginated result
      */
-    PageResult<MailLogEntity> getMailLogPage(MailLogPageRequest pageVO);
+    PageResult<MailLogEntity> getMailLogPage(MailLogPageRequest pageRequest);
 
     /**
      * Get the mail log with the specified ID

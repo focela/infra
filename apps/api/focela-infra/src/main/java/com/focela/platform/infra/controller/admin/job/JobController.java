@@ -120,8 +120,8 @@ public class JobController {
     @GetMapping("/page")
     @Operation(summary = "get scheduled job page")
     @PreAuthorize("@ss.hasPermission('infra:job:query')")
-    public CommonResult<PageResult<JobResponse>> getJobPage(@Valid JobPageRequest pageVO) {
-        PageResult<JobEntity> pageResult = jobService.getJobPage(pageVO);
+    public CommonResult<PageResult<JobResponse>> getJobPage(@Valid JobPageRequest pageRequest) {
+        PageResult<JobEntity> pageResult = jobService.getJobPage(pageRequest);
         return success(BeanUtils.toBean(pageResult, JobResponse.class));
     }
 

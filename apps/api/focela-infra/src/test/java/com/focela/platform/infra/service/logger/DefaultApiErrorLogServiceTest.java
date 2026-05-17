@@ -80,13 +80,13 @@ public class DefaultApiErrorLogServiceTest extends BaseDbUnitTest {
     @Test
     public void testCreateApiErrorLog() {
         // Prepare parameters
-        ApiErrorLogCreateRpcRequest createDTO = randomPojo(ApiErrorLogCreateRpcRequest.class);
+        ApiErrorLogCreateRpcRequest createRequest = randomPojo(ApiErrorLogCreateRpcRequest.class);
 
         // Invoke
-        apiErrorLogService.createApiErrorLog(createDTO);
+        apiErrorLogService.createApiErrorLog(createRequest);
         // Assert
         ApiErrorLogEntity apiErrorLogDO = apiErrorLogMapper.selectOne(null);
-        assertPojoEquals(createDTO, apiErrorLogDO);
+        assertPojoEquals(createRequest, apiErrorLogDO);
         assertEquals(ApiErrorLogProcessStatusEnum.INIT.getStatus(), apiErrorLogDO.getProcessStatus());
     }
 

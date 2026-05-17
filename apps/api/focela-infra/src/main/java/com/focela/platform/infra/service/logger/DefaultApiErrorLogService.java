@@ -34,8 +34,8 @@ public class DefaultApiErrorLogService implements ApiErrorLogService {
     private final ApiErrorLogMapper apiErrorLogMapper;
 
     @Override
-    public void createApiErrorLog(ApiErrorLogCreateRpcRequest createDTO) {
-        ApiErrorLogEntity apiErrorLog = BeanUtils.toBean(createDTO, ApiErrorLogEntity.class)
+    public void createApiErrorLog(ApiErrorLogCreateRpcRequest createRequest) {
+        ApiErrorLogEntity apiErrorLog = BeanUtils.toBean(createRequest, ApiErrorLogEntity.class)
                 .setProcessStatus(ApiErrorLogProcessStatusEnum.INIT.getStatus());
         apiErrorLog.setRequestParams(StrUtils.maxLength(apiErrorLog.getRequestParams(), REQUEST_PARAMS_MAX_LENGTH));
         try {
@@ -47,7 +47,7 @@ public class DefaultApiErrorLogService implements ApiErrorLogService {
             }
         } catch (Exception ex) {
             // Fallback handling.
-            log.error("[createApiErrorLog][record ({}) raised exception]", createDTO, ex);
+            log.error("[createApiErrorLog][record ({}) raised exception]", createRequest, ex);
         }
     }
 

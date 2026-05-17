@@ -130,27 +130,27 @@ public class DefaultOAuth2ClientServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetOAuth2Client() {
         // mock data
-        OAuth2ClientEntity clientDO = randomPojo(OAuth2ClientEntity.class);
-        oauth2ClientMapper.insert(clientDO);
+        OAuth2ClientEntity clientEntity = randomPojo(OAuth2ClientEntity.class);
+        oauth2ClientMapper.insert(clientEntity);
         // prepare parameters
-        Long id = clientDO.getId();
+        Long id = clientEntity.getId();
 
         // invoke, and assert
         OAuth2ClientEntity dbClientDO = oauth2ClientService.getOAuth2Client(id);
-        assertPojoEquals(clientDO, dbClientDO);
+        assertPojoEquals(clientEntity, dbClientDO);
     }
 
     @Test
     public void testGetOAuth2ClientFromCache() {
         // mock data
-        OAuth2ClientEntity clientDO = randomPojo(OAuth2ClientEntity.class);
-        oauth2ClientMapper.insert(clientDO);
+        OAuth2ClientEntity clientEntity = randomPojo(OAuth2ClientEntity.class);
+        oauth2ClientMapper.insert(clientEntity);
         // prepare parameters
-        String clientId = clientDO.getClientId();
+        String clientId = clientEntity.getClientId();
 
         // invoke, and assert
         OAuth2ClientEntity dbClientDO = oauth2ClientService.getOAuth2ClientFromCache(clientId);
-        assertPojoEquals(clientDO, dbClientDO);
+        assertPojoEquals(clientEntity, dbClientDO);
     }
 
     @Test

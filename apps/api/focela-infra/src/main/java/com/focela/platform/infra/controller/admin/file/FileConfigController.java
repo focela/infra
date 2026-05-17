@@ -83,8 +83,8 @@ public class FileConfigController {
     @GetMapping("/page")
     @Operation(summary = "get file config page")
     @PreAuthorize("@ss.hasPermission('infra:file-config:query')")
-    public CommonResult<PageResult<FileConfigResponse>> getFileConfigPage(@Valid FileConfigPageRequest pageVO) {
-        PageResult<FileConfigEntity> pageResult = fileConfigService.getFileConfigPage(pageVO);
+    public CommonResult<PageResult<FileConfigResponse>> getFileConfigPage(@Valid FileConfigPageRequest pageRequest) {
+        PageResult<FileConfigEntity> pageResult = fileConfigService.getFileConfigPage(pageRequest);
         return success(BeanUtils.toBean(pageResult, FileConfigResponse.class));
     }
 

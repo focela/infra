@@ -89,8 +89,8 @@ public class DefaultOAuth2GrantService implements OAuth2GrantService {
     @Override
     public boolean revokeToken(String clientId, String accessToken) {
         // Query first to ensure clientId matches
-        OAuth2AccessTokenEntity accessTokenDO = oauth2TokenService.getAccessToken(accessToken);
-        if (accessTokenDO == null || ObjectUtil.notEqual(clientId, accessTokenDO.getClientId())) {
+        OAuth2AccessTokenEntity accessTokenEntity = oauth2TokenService.getAccessToken(accessToken);
+        if (accessTokenEntity == null || ObjectUtil.notEqual(clientId, accessTokenEntity.getClientId())) {
             return false;
         }
         // Then delete

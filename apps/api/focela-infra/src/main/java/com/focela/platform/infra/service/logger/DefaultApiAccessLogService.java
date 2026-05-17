@@ -31,8 +31,8 @@ public class DefaultApiAccessLogService implements ApiAccessLogService {
     private final ApiAccessLogMapper apiAccessLogMapper;
 
     @Override
-    public void createApiAccessLog(ApiAccessLogCreateRpcRequest createDTO) {
-        ApiAccessLogEntity apiAccessLog = BeanUtils.toBean(createDTO, ApiAccessLogEntity.class);
+    public void createApiAccessLog(ApiAccessLogCreateRpcRequest createRequest) {
+        ApiAccessLogEntity apiAccessLog = BeanUtils.toBean(createRequest, ApiAccessLogEntity.class);
         apiAccessLog.setRequestParams(StrUtils.maxLength(apiAccessLog.getRequestParams(), REQUEST_PARAMS_MAX_LENGTH));
         apiAccessLog.setResultMsg(StrUtils.maxLength(apiAccessLog.getResultMsg(), RESULT_MSG_MAX_LENGTH));
         if (TenantContextHolder.getTenantId() != null) {

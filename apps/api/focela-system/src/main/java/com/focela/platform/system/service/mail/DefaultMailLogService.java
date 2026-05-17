@@ -30,8 +30,8 @@ public class DefaultMailLogService implements MailLogService {
     private final MailLogMapper mailLogMapper;
 
     @Override
-    public PageResult<MailLogEntity> getMailLogPage(MailLogPageRequest pageVO) {
-        return mailLogMapper.selectPage(pageVO);
+    public PageResult<MailLogEntity> getMailLogPage(MailLogPageRequest pageRequest) {
+        return mailLogMapper.selectPage(pageRequest);
     }
 
     @Override

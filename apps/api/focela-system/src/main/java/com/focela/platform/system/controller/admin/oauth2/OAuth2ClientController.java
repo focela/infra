@@ -75,8 +75,8 @@ public class OAuth2ClientController {
     @GetMapping("/page")
     @Operation(summary = "get OAuth2 client page")
     @PreAuthorize("@ss.hasPermission('system:oauth2-client:query')")
-    public CommonResult<PageResult<OAuth2ClientResponse>> getOAuth2ClientPage(@Valid OAuth2ClientPageRequest pageVO) {
-        PageResult<OAuth2ClientEntity> pageResult = oAuth2ClientService.getOAuth2ClientPage(pageVO);
+    public CommonResult<PageResult<OAuth2ClientResponse>> getOAuth2ClientPage(@Valid OAuth2ClientPageRequest pageRequest) {
+        PageResult<OAuth2ClientEntity> pageResult = oAuth2ClientService.getOAuth2ClientPage(pageRequest);
         return success(BeanUtils.toBean(pageResult, OAuth2ClientResponse.class));
     }
 

@@ -78,17 +78,17 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
         when(oauth2ClientService.validateOAuthClientFromCache(eq("test_client_id"), eq("test_client_secret"), eq(granType), eq(new ArrayList<>()), eq(redirectUri))).thenReturn(client);
 
         // mock the method（access token）
-        OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class)
+        OAuth2AccessTokenEntity accessTokenEntity = randomPojo(OAuth2AccessTokenEntity.class)
                 .setExpiresTime(LocalDateTimeUtil.offset(LocalDateTime.now(), 30000L, ChronoUnit.MILLIS));
         when(oauth2GrantService.grantAuthorizationCodeForAccessToken(eq("test_client_id"),
-                eq(code), eq(redirectUri), eq(state))).thenReturn(accessTokenDO);
+                eq(code), eq(redirectUri), eq(state))).thenReturn(accessTokenEntity);
 
         // invoke
         CommonResult<OAuth2OpenAccessTokenResponse> result = oauth2OpenController.postAccessToken(request, granType,
                 code, redirectUri, state, null, null, null, null);
         // assert
         assertEquals(0, result.getCode());
-        assertPojoEquals(accessTokenDO, result.getData());
+        assertPojoEquals(accessTokenEntity, result.getData());
         assertTrue(ObjectUtils.equalsAny(result.getData().getExpiresIn(), 29L, 30L));  // execution takes a few milliseconds
     }
 
@@ -106,17 +106,17 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
                 eq(granType), eq(Lists.newArrayList("write", "read")), isNull())).thenReturn(client);
 
         // mock the method（access token）
-        OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class)
+        OAuth2AccessTokenEntity accessTokenEntity = randomPojo(OAuth2AccessTokenEntity.class)
                 .setExpiresTime(LocalDateTimeUtil.offset(LocalDateTime.now(), 30000L, ChronoUnit.MILLIS));
         when(oauth2GrantService.grantPassword(eq(username), eq(password), eq("test_client_id"),
-                eq(Lists.newArrayList("write", "read")))).thenReturn(accessTokenDO);
+                eq(Lists.newArrayList("write", "read")))).thenReturn(accessTokenEntity);
 
         // invoke
         CommonResult<OAuth2OpenAccessTokenResponse> result = oauth2OpenController.postAccessToken(request, granType,
                 null, null, null, username, password, scope, null);
         // assert
         assertEquals(0, result.getCode());
-        assertPojoEquals(accessTokenDO, result.getData());
+        assertPojoEquals(accessTokenEntity, result.getData());
         assertTrue(ObjectUtils.equalsAny(result.getData().getExpiresIn(), 29L, 30L));  // execution takes a few milliseconds
     }
 
@@ -133,16 +133,16 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
                 eq(granType), eq(Lists.newArrayList()), isNull())).thenReturn(client);
 
         // mock the method（access token）
-        OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class)
+        OAuth2AccessTokenEntity accessTokenEntity = randomPojo(OAuth2AccessTokenEntity.class)
                 .setExpiresTime(LocalDateTimeUtil.offset(LocalDateTime.now(), 30000L, ChronoUnit.MILLIS));
-        when(oauth2GrantService.grantRefreshToken(eq(refreshToken), eq("test_client_id"))).thenReturn(accessTokenDO);
+        when(oauth2GrantService.grantRefreshToken(eq(refreshToken), eq("test_client_id"))).thenReturn(accessTokenEntity);
 
         // invoke
         CommonResult<OAuth2OpenAccessTokenResponse> result = oauth2OpenController.postAccessToken(request, granType,
                 null, null, null, null, password, null, refreshToken);
         // assert
         assertEquals(0, result.getCode());
-        assertPojoEquals(accessTokenDO, result.getData());
+        assertPojoEquals(accessTokenEntity, result.getData());
         assertTrue(ObjectUtils.equalsAny(result.getData().getExpiresIn(), 29L, 30L));  // execution takes a few milliseconds
     }
 
@@ -180,14 +180,14 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
         HttpServletRequest request = mockRequest("demo_client_id", "demo_client_secret");
         String token = randomString();
         // mock the method
-        OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class).setUserType(UserTypeEnum.ADMIN.getValue()).setExpiresTime(LocalDateTimeUtil.of(1653485731195L));
-        when(oauth2TokenService.checkAccessToken(eq(token))).thenReturn(accessTokenDO);
+        OAuth2AccessTokenEntity accessTokenEntity = randomPojo(OAuth2AccessTokenEntity.class).setUserType(UserTypeEnum.ADMIN.getValue()).setExpiresTime(LocalDateTimeUtil.of(1653485731195L));
+        when(oauth2TokenService.checkAccessToken(eq(token))).thenReturn(accessTokenEntity);
 
         // invoke
         CommonResult<OAuth2OpenCheckTokenResponse> result = oauth2OpenController.checkToken(request, token);
         // assert
         assertEquals(0, result.getCode());
-        assertPojoEquals(accessTokenDO, result.getData());
+        assertPojoEquals(accessTokenEntity, result.getData());
         assertEquals(1653485731L, result.getData().getExp()); // execution takes a few milliseconds
     }
 
@@ -280,10 +280,10 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
         when(oauth2ApproveService.checkForPreApproval(isNull(), eq(UserTypeEnum.ADMIN.getValue()),
                 eq(clientId), eq(SetUtils.asSet("read", "write")))).thenReturn(true);
         // mock the method（access token）
-        OAuth2AccessTokenEntity accessTokenDO = randomPojo(OAuth2AccessTokenEntity.class)
+        OAuth2AccessTokenEntity accessTokenEntity = randomPojo(OAuth2AccessTokenEntity.class)
                 .setAccessToken("test_access_token").setExpiresTime(LocalDateTimeUtil.offset(LocalDateTime.now(), 30010L, ChronoUnit.MILLIS));
         when(oauth2GrantService.grantImplicit(isNull(), eq(UserTypeEnum.ADMIN.getValue()),
-                eq(clientId), eq(ListUtil.toList("read")))).thenReturn(accessTokenDO);
+                eq(clientId), eq(ListUtil.toList("read")))).thenReturn(accessTokenEntity);
 
         // invoke
         CommonResult<String> result = oauth2OpenController.approveOrDeny(responseType, clientId,

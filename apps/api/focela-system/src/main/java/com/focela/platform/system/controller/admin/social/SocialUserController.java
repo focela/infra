@@ -74,8 +74,8 @@ public class SocialUserController {
     @GetMapping("/page")
     @Operation(summary = "get social user page")
     @PreAuthorize("@ss.hasPermission('system:social-user:query')")
-    public CommonResult<PageResult<SocialUserResponse>> getSocialUserPage(@Valid SocialUserPageRequest pageVO) {
-        PageResult<SocialUserEntity> pageResult = socialUserService.getSocialUserPage(pageVO);
+    public CommonResult<PageResult<SocialUserResponse>> getSocialUserPage(@Valid SocialUserPageRequest pageRequest) {
+        PageResult<SocialUserEntity> pageResult = socialUserService.getSocialUserPage(pageRequest);
         return success(BeanUtils.toBean(pageResult, SocialUserResponse.class));
     }
 

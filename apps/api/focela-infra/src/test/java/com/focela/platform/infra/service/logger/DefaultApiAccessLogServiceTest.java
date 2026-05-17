@@ -98,13 +98,13 @@ public class DefaultApiAccessLogServiceTest extends BaseDbUnitTest {
     @Test
     public void testCreateApiAccessLog() {
         // Prepare parameters
-        ApiAccessLogCreateRpcRequest createDTO = randomPojo(ApiAccessLogCreateRpcRequest.class);
+        ApiAccessLogCreateRpcRequest createRequest = randomPojo(ApiAccessLogCreateRpcRequest.class);
 
         // Invoke
-        apiAccessLogService.createApiAccessLog(createDTO);
+        apiAccessLogService.createApiAccessLog(createRequest);
         // Assert
         ApiAccessLogEntity apiAccessLogDO = apiAccessLogMapper.selectOne(null);
-        assertPojoEquals(createDTO, apiAccessLogDO);
+        assertPojoEquals(createRequest, apiAccessLogDO);
     }
 
 }

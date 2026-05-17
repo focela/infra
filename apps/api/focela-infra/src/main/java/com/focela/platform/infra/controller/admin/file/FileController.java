@@ -127,8 +127,8 @@ public class FileController {
     @GetMapping("/page")
     @Operation(summary = "get file page")
     @PreAuthorize("@ss.hasPermission('infra:file:query')")
-    public CommonResult<PageResult<FileResponse>> getFilePage(@Valid FilePageRequest pageVO) {
-        PageResult<FileEntity> pageResult = fileService.getFilePage(pageVO);
+    public CommonResult<PageResult<FileResponse>> getFilePage(@Valid FilePageRequest pageRequest) {
+        PageResult<FileEntity> pageResult = fileService.getFilePage(pageRequest);
         return success(BeanUtils.toBean(pageResult, FileResponse.class));
     }
 

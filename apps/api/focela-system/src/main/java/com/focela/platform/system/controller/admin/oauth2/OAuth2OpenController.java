@@ -115,25 +115,25 @@ public class OAuth2OpenController {
                 grantType, scopes, redirectUri);
 
         // 2. Obtain access token based on grant mode
-        OAuth2AccessTokenEntity accessTokenDO;
+        OAuth2AccessTokenEntity accessTokenEntity;
         switch (grantTypeEnum) {
             case AUTHORIZATION_CODE:
-                accessTokenDO = oauth2GrantService.grantAuthorizationCodeForAccessToken(client.getClientId(), code, redirectUri, state);
+                accessTokenEntity = oauth2GrantService.grantAuthorizationCodeForAccessToken(client.getClientId(), code, redirectUri, state);
                 break;
             case PASSWORD:
-                accessTokenDO = oauth2GrantService.grantPassword(username, password, client.getClientId(), scopes);
+                accessTokenEntity = oauth2GrantService.grantPassword(username, password, client.getClientId(), scopes);
                 break;
             case CLIENT_CREDENTIALS:
-                accessTokenDO = oauth2GrantService.grantClientCredentials(client.getClientId(), scopes);
+                accessTokenEntity = oauth2GrantService.grantClientCredentials(client.getClientId(), scopes);
                 break;
             case REFRESH_TOKEN:
-                accessTokenDO = oauth2GrantService.grantRefreshToken(refreshToken, client.getClientId());
+                accessTokenEntity = oauth2GrantService.grantRefreshToken(refreshToken, client.getClientId());
                 break;
             default:
                 throw new IllegalArgumentException("unknown authorize type:" + grantType);
         }
-        Assert.notNull(accessTokenDO, "access token must not be blank"); // defensive check
-        return success(OAuth2OpenConverter.INSTANCE.convert(accessTokenDO));
+        Assert.notNull(accessTokenEntity, "access token must not be blank"); // defensive check
+        return success(OAuth2OpenConverter.INSTANCE.convert(accessTokenEntity));
     }
 
     @DeleteMapping("/token")
@@ -166,9 +166,9 @@ public class OAuth2OpenController {
                 null, null, null);
 
         // Validate token
-        OAuth2AccessTokenEntity accessTokenDO = oauth2TokenService.checkAccessToken(token);
-        Assert.notNull(accessTokenDO, "access token must not be blank"); // defensive check
-        return success(OAuth2OpenConverter.INSTANCE.convert2(accessTokenDO));
+        OAuth2AccessTokenEntity accessTokenEntity = oauth2TokenService.checkAccessToken(token);
+        Assert.notNull(accessTokenEntity, "access token must not be blank"); // defensive check
+        return success(OAuth2OpenConverter.INSTANCE.convert2(accessTokenEntity));
     }
 
     /**
@@ -261,11 +261,11 @@ public class OAuth2OpenController {
     private String getImplicitGrantRedirect(Long userId, OAuth2ClientEntity client,
                                             List<String> scopes, String redirectUri, String state) {
         // 1. Create access token
-        OAuth2AccessTokenEntity accessTokenDO = oauth2GrantService.grantImplicit(userId, getUserType(), client.getClientId(), scopes);
-        Assert.notNull(accessTokenDO, "access token must not be blank"); // defensive check
+        OAuth2AccessTokenEntity accessTokenEntity = oauth2GrantService.grantImplicit(userId, getUserType(), client.getClientId(), scopes);
+        Assert.notNull(accessTokenEntity, "access token must not be blank"); // defensive check
         // 2. Assemble redirect URL
         // noinspection unchecked
-        return OAuth2Utils.buildImplicitRedirectUri(redirectUri, accessTokenDO.getAccessToken(), state, accessTokenDO.getExpiresTime(),
+        return OAuth2Utils.buildImplicitRedirectUri(redirectUri, accessTokenEntity.getAccessToken(), state, accessTokenEntity.getExpiresTime(),
                 scopes, JsonUtils.parseObject(client.getAdditionalInformation(), Map.class));
     }
 

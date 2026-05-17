@@ -77,8 +77,8 @@ public class TenantPackageController {
     @GetMapping("/page")
     @Operation(summary = "get tenant package page")
     @PreAuthorize("@ss.hasPermission('system:tenant-package:query')")
-    public CommonResult<PageResult<TenantPackageResponse>> getTenantPackagePage(@Valid TenantPackagePageRequest pageVO) {
-        PageResult<TenantPackageEntity> pageResult = tenantPackageService.getTenantPackagePage(pageVO);
+    public CommonResult<PageResult<TenantPackageResponse>> getTenantPackagePage(@Valid TenantPackagePageRequest pageRequest) {
+        PageResult<TenantPackageEntity> pageResult = tenantPackageService.getTenantPackagePage(pageRequest);
         return success(BeanUtils.toBean(pageResult, TenantPackageResponse.class));
     }
 

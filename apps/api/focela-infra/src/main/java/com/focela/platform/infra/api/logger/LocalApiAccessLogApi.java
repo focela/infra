@@ -18,8 +18,8 @@ public class LocalApiAccessLogApi implements ApiAccessLogContractApi {
     private final ApiAccessLogService apiAccessLogService;
 
     @Override
-    public void createApiAccessLog(ApiAccessLogCreateRpcRequest createDTO) {
-        apiAccessLogService.createApiAccessLog(createDTO);
+    public void createApiAccessLog(ApiAccessLogCreateRpcRequest createRequest) {
+        apiAccessLogService.createApiAccessLog(createRequest);
     }
 
 }

@@ -32,8 +32,8 @@ public class MailLogController {
     @GetMapping("/page")
     @Operation(summary = "get email log page")
     @PreAuthorize("@ss.hasPermission('system:mail-log:query')")
-    public CommonResult<PageResult<MailLogResponse>> getMailLogPage(@Valid MailLogPageRequest pageVO) {
-        PageResult<MailLogEntity> pageResult = mailLogService.getMailLogPage(pageVO);
+    public CommonResult<PageResult<MailLogResponse>> getMailLogPage(@Valid MailLogPageRequest pageRequest) {
+        PageResult<MailLogEntity> pageResult = mailLogService.getMailLogPage(pageRequest);
         return success(BeanUtils.toBean(pageResult, MailLogResponse.class));
     }
 
