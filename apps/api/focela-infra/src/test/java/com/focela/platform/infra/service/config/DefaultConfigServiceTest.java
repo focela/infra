@@ -84,7 +84,7 @@ public class DefaultConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteConfig_canNotDeleteSystemType() {
+    public void testDeleteConfig_cannotDeleteSystemType() {
         // mock data
         ConfigEntity dbConfig = randomConfigDO(o -> {
             o.setType(ConfigTypeEnum.SYSTEM.getType()); // SYSTEM is not allowed to be deleted

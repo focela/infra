@@ -41,7 +41,7 @@ public class DefaultNotifyMessageService implements NotifyMessageService {
     }
 
     @Override
-    public PageResult<NotifyMessageEntity> getMyMyNotifyMessagePage(NotifyMessageMyPageRequest pageRequest, Long userId, Integer userType) {
+    public PageResult<NotifyMessageEntity> getMyNotifyMessagePage(NotifyMessageMyPageRequest pageRequest, Long userId, Integer userType) {
         return notifyMessageMapper.selectPage(pageRequest, userId, userType);
     }
 

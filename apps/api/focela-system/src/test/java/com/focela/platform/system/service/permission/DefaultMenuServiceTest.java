@@ -248,7 +248,7 @@ public class DefaultMenuServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateParentMenu_canNotSetSelfToBeParent() {
+    public void testValidateParentMenu_cannotSetSelfToBeParent() {
         // invoke, and assert exception
         assertServiceException(() -> menuService.validateParentMenu(1L, 1L),
                 MENU_PARENT_ERROR);

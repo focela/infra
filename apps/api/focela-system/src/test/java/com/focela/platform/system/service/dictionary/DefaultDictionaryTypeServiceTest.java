@@ -228,7 +228,7 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateDictTypNameUnique_success() {
+    public void testValidateDictionaryTypeNameUnique_success() {
         // invoke, succeeded
         dictTypeService.validateDictTypeNameUnique(randomLongId(), randomString());
     }

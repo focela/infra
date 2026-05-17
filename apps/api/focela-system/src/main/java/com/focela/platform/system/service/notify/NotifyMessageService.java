@@ -44,7 +44,7 @@ public interface NotifyMessageService {
      * @param userType user type
      * @return notification page
      */
-    PageResult<NotifyMessageEntity> getMyMyNotifyMessagePage(NotifyMessageMyPageRequest pageRequest, Long userId, Integer userType);
+    PageResult<NotifyMessageEntity> getMyNotifyMessagePage(NotifyMessageMyPageRequest pageRequest, Long userId, Integer userType);
 
     /**
      * Get in-site notification

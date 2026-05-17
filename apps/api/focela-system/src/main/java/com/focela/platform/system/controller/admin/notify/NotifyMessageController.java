@@ -56,8 +56,8 @@ public class NotifyMessageController {
 
     @GetMapping("/my-page")
     @Operation(summary = "get my notify message page")
-    public CommonResult<PageResult<NotifyMessageResponse>> getMyMyNotifyMessagePage(@Valid NotifyMessageMyPageRequest pageVO) {
-        PageResult<NotifyMessageEntity> pageResult = notifyMessageService.getMyMyNotifyMessagePage(pageVO,
+    public CommonResult<PageResult<NotifyMessageResponse>> getMyNotifyMessagePage(@Valid NotifyMessageMyPageRequest pageVO) {
+        PageResult<NotifyMessageEntity> pageResult = notifyMessageService.getMyNotifyMessagePage(pageVO,
                 getLoginUserId(), UserTypeEnum.ADMIN.getValue());
         return success(BeanUtils.toBean(pageResult, NotifyMessageResponse.class));
     }

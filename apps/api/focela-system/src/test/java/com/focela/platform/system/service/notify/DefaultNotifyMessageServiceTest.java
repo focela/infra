@@ -145,7 +145,7 @@ public class DefaultNotifyMessageServiceTest extends BaseDbUnitTest {
         request.setCreateTime(buildBetweenTime(2022, 1, 1, 2022, 1, 10));
 
         // invoke
-        PageResult<NotifyMessageEntity> pageResult = notifyMessageService.getMyMyNotifyMessagePage(request, userId, userType);
+        PageResult<NotifyMessageEntity> pageResult = notifyMessageService.getMyNotifyMessagePage(request, userId, userType);
         // assert
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
