@@ -31,7 +31,7 @@ public interface AuthConverter {
 
     default AuthPermissionInfoResponse convert(UserEntity user, List<RoleEntity> roleList, List<MenuEntity> menuList) {
         return AuthPermissionInfoResponse.builder()
-                .user(BeanUtils.toBean(user, AuthPermissionInfoResponse.UserVO.class))
+                .user(BeanUtils.toBean(user, AuthPermissionInfoResponse.UserInfo.class))
                 .roles(convertSet(roleList, RoleEntity::getCode))
                 // permission identifier information
                 .permissions(convertSet(menuList, MenuEntity::getPermission))
@@ -46,7 +46,7 @@ public interface AuthConverter {
      * @param menuList menu list
      * @return menu tree
      */
-    default List<AuthPermissionInfoResponse.MenuVO> buildMenuTree(List<MenuEntity> menuList) {
+    default List<AuthPermissionInfoResponse.MenuInfo> buildMenuTree(List<MenuEntity> menuList) {
         if (CollUtil.isEmpty(menuList)) {
             return Collections.emptyList();
         }
@@ -57,13 +57,13 @@ public interface AuthConverter {
 
         // build the menu tree
         // LinkedHashMap is used to preserve order. Stream API could also work but would be uglier.
-        Map<Long, AuthPermissionInfoResponse.MenuVO> treeNodeMap = new LinkedHashMap<>();
+        Map<Long, AuthPermissionInfoResponse.MenuInfo> treeNodeMap = new LinkedHashMap<>();
         menuList.forEach(menu -> treeNodeMap.put(menu.getId(),
-                BeanUtils.toBean(menu, AuthPermissionInfoResponse.MenuVO.class)));
+                BeanUtils.toBean(menu, AuthPermissionInfoResponse.MenuInfo.class)));
         // process parent-child relations
         treeNodeMap.values().stream().filter(node -> ObjUtil.notEqual(node.getParentId(), ID_ROOT)).forEach(childNode -> {
             // get the parent node
-            AuthPermissionInfoResponse.MenuVO parentNode = treeNodeMap.get(childNode.getParentId());
+            AuthPermissionInfoResponse.MenuInfo parentNode = treeNodeMap.get(childNode.getParentId());
             if (parentNode == null) {
                 LoggerFactory.getLogger(getClass()).error("[buildRouterTree][resource({}) cannot find parent resource({})]",
                         childNode.getId(), childNode.getParentId());

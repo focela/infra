@@ -17,7 +17,7 @@ import java.util.Set;
 public class AuthPermissionInfoResponse {
 
     @Schema(description = "user info", requiredMode = Schema.RequiredMode.REQUIRED)
-    private UserVO user;
+    private UserInfo user;
 
     @Schema(description = "role code array", requiredMode = Schema.RequiredMode.REQUIRED)
     private Set<String> roles;
@@ -26,14 +26,14 @@ public class AuthPermissionInfoResponse {
     private Set<String> permissions;
 
     @Schema(description = "menu tree", requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<MenuVO> menus;
+    private List<MenuInfo> menus;
 
     @Schema(description = "user info VO")
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class UserVO {
+    public static class UserInfo {
 
         @Schema(description = "User ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
         private Long id;
@@ -60,7 +60,7 @@ public class AuthPermissionInfoResponse {
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class MenuVO {
+    public static class MenuInfo {
 
         @Schema(description = "Menu name", requiredMode = Schema.RequiredMode.REQUIRED, example = "Acme")
         private Long id;
@@ -95,7 +95,7 @@ public class AuthPermissionInfoResponse {
         /**
          * child routes
          */
-        private List<MenuVO> children;
+        private List<MenuInfo> children;
 
     }
 
