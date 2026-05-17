@@ -324,6 +324,54 @@ grows large enough that grouping helps, split it into multiple
 top-level `*Constants` classes (e.g., `OAuth2ClientConstants` +
 `OAuth2TokenConstants`) rather than nesting into a subdirectory.
 
+### 12.5 Constructor injection (Spring official preference)
+
+Spring DI in new code uses **constructor injection** via Lombok
+`@RequiredArgsConstructor`, not `@Resource` / `@Autowired` field
+injection:
+
+```java
+// PREFERRED
+@Service
+@RequiredArgsConstructor
+public class DefaultXxxService implements XxxService {
+    private final XxxMapper xxxMapper;
+    private final RelatedService relatedService;
+    // ...
+}
+
+// NOT preferred for new code
+@Service
+public class DefaultXxxService implements XxxService {
+    @Resource
+    private XxxMapper xxxMapper;
+    @Resource
+    private RelatedService relatedService;
+}
+```
+
+Rationale:
+- Required dependencies are non-null and final (enforced by Java).
+- Missing beans fail fast at application startup, not on first call.
+- Easy to construct in tests (no Spring context required).
+- Compatible with Spring Framework's official recommendation since 5.x.
+
+**Permitted exceptions to constructor injection** (still in the codebase):
+
+1. **Optional bean** — when a dependency may be absent based on a feature
+   flag. Use `@Autowired(required = false)` on the field (e.g.,
+   `DefaultTenantService` for `focela.tenant.enable=false`,
+   `DefaultSocialClientService` for the optional JustAuth client).
+2. **Circular dependency** broken with a `@Lazy` proxy — use
+   `@Resource @Lazy` on the field (e.g., `DefaultUserService`'s lazy
+   reference to `TenantService`). Constructor injection cannot easily
+   express `@Lazy` proxy without changing the constructor signature; the
+   field-injection + `@Lazy` hybrid is the canonical Spring 6 pattern
+   for cycle break.
+
+If you need either exception, document the reason inline (a one-line
+comment is sufficient).
+
 ## 13. Checklist when adding a new module
 
 (Section number changed from 9 — the new sections 9–12 above must be read first.)

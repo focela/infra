@@ -73,6 +73,14 @@ public final class ArchitectureRules {
                     .should().resideInAPackage("..enums..")
                     .as("Enum classes (*Enum) must live under an enums/ package");
 
+    // ---- Spring DI style ----
+    // Field injection (@Resource / @Autowired on a field) is discouraged by the Spring team's
+    // official guidance. New code should use @RequiredArgsConstructor + private final fields.
+    // This convention is enforced by manual code review (and the §12.5 doc in MODULE_TEMPLATE.md)
+    // rather than ArchUnit, because the two real exceptions in the codebase — @Autowired(required
+    // = false) for optional beans, and @Resource @Lazy for circular-dep cycle breaks — cannot be
+    // expressed cleanly as a single ArchUnit rule without false-positive-prone freeze logic.
+
     // ---- Layered dependency direction ----
 
     public static final ArchRule CONTROLLER_DOES_NOT_USE_REPOSITORY =
