@@ -14,8 +14,8 @@ import com.focela.platform.system.service.social.SocialUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -30,10 +30,10 @@ import static com.focela.platform.security.core.utils.SecurityFrameworkUtils.get
 @RestController
 @RequestMapping("/system/social-user")
 @Validated
+@RequiredArgsConstructor
 public class SocialUserController {
 
-    @Resource
-    private SocialUserService socialUserService;
+    private final SocialUserService socialUserService;
 
     @PostMapping("/bind")
     @Operation(summary = "social bind, use code authorization code")

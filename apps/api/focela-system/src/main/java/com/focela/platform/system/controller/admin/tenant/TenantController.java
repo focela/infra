@@ -16,11 +16,11 @@ import com.focela.platform.system.service.tenant.TenantService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -36,10 +36,10 @@ import static com.focela.platform.common.utils.collection.CollectionUtils.conver
 @RestController
 @RequestMapping("/system/tenant")
 @Validated
+@RequiredArgsConstructor
 public class TenantController {
 
-    @Resource
-    private TenantService tenantService;
+    private final TenantService tenantService;
 
     @GetMapping("/get-id-by-name")
     @PermitAll

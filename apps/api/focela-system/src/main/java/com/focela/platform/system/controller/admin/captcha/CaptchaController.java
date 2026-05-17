@@ -8,21 +8,21 @@ import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import lombok.RequiredArgsConstructor;
 
 @Tag(name = "Admin - CAPTCHA")
 @RestController("adminCaptchaController")
 @RequestMapping("/system/captcha")
+@RequiredArgsConstructor
 public class CaptchaController {
 
-    @Resource
-    private CaptchaService captchaService;
+        private final CaptchaService captchaService;
 
     @PostMapping({"/get"})
     @Operation(summary = "get CAPTCHA")

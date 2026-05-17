@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.focela.platform.system.entity.user.UserEntity;
 import com.focela.platform.system.service.user.UserService;
 import com.mzt.logapi.service.IParseFunction;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -14,12 +14,12 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class AdminUserParseFunction implements IParseFunction {
 
     public static final String NAME = "getAdminUserById";
 
-    @Resource
-    private UserService adminUserService;
+    private final UserService adminUserService;
 
     @Override
     public String functionName() {

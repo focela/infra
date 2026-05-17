@@ -9,8 +9,8 @@ import com.focela.platform.system.controller.admin.dictionary.dto.type.Dictionar
 import com.focela.platform.system.entity.dictionary.DictionaryTypeEntity;
 import com.focela.platform.system.repository.mapper.dictionary.DictionaryTypeMapper;
 import com.google.common.annotations.VisibleForTesting;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,13 +22,12 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
  * Dictionary type Service implementation class
  */
 @Service
+@RequiredArgsConstructor
 public class DefaultDictionaryTypeService implements DictionaryTypeService {
 
-    @Resource
-    private DictionaryDataService dictDataService;
+        private final DictionaryDataService dictDataService;
 
-    @Resource
-    private DictionaryTypeMapper dictTypeMapper;
+        private final DictionaryTypeMapper dictTypeMapper;
 
     @Override
     public PageResult<DictionaryTypeEntity> getDictTypePage(DictionaryTypePageRequest pageRequest) {

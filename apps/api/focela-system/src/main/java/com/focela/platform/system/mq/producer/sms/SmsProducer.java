@@ -2,11 +2,11 @@ package com.focela.platform.system.mq.producer.sms;
 
 import com.focela.platform.common.core.KeyValue;
 import com.focela.platform.system.mq.message.sms.SmsSendMessage;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.Resource;
 import java.util.List;
 
 /**
@@ -16,10 +16,10 @@ import java.util.List;
  */
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class SmsProducer {
 
-    @Resource
-    private ApplicationContext applicationContext;
+        private final ApplicationContext applicationContext;
 
     /**
      * Send a {@link SmsSendMessage} message

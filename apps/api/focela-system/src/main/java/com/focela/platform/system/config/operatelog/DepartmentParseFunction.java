@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.focela.platform.system.entity.department.DepartmentEntity;
 import com.focela.platform.system.service.department.DepartmentService;
 import com.mzt.logapi.service.IParseFunction;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -14,12 +14,12 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class DepartmentParseFunction implements IParseFunction {
 
     public static final String NAME = "getDeptById";
 
-    @Resource
-    private DepartmentService deptService;
+    private final DepartmentService deptService;
 
     @Override
     public String functionName() {

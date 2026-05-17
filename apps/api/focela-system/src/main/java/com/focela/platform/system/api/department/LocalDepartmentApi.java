@@ -4,9 +4,9 @@ import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.system.api.department.dto.DepartmentRpcResponse;
 import com.focela.platform.system.entity.department.DepartmentEntity;
 import com.focela.platform.system.service.department.DepartmentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import jakarta.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
 
@@ -14,10 +14,10 @@ import java.util.List;
  * Department API implementation class
  */
 @Service
+@RequiredArgsConstructor
 public class LocalDepartmentApi implements DepartmentApi {
 
-    @Resource
-    private DepartmentService deptService;
+    private final DepartmentService deptService;
 
     @Override
     public DepartmentRpcResponse getDept(Long id) {

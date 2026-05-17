@@ -10,10 +10,10 @@ import com.focela.platform.system.entity.sms.SmsCodeEntity;
 import com.focela.platform.system.repository.mapper.sms.SmsCodeMapper;
 import com.focela.platform.system.enums.sms.SmsSceneEnum;
 import com.focela.platform.system.config.sms.SmsCodeProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 
 import static cn.hutool.core.util.RandomUtil.randomInt;
@@ -26,16 +26,14 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
  */
 @Service
 @Validated
+@RequiredArgsConstructor
 public class DefaultSmsCodeService implements SmsCodeService {
 
-    @Resource
-    private SmsCodeProperties smsCodeProperties;
+    private final SmsCodeProperties smsCodeProperties;
 
-    @Resource
-    private SmsCodeMapper smsCodeMapper;
+    private final SmsCodeMapper smsCodeMapper;
 
-    @Resource
-    private SmsSendService smsSendService;
+    private final SmsSendService smsSendService;
 
     @Override
     public void sendSmsCode(SmsCodeSendRpcRequest request) {

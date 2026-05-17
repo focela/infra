@@ -10,7 +10,7 @@ import com.focela.platform.system.entity.department.DepartmentEntity;
 import com.focela.platform.system.entity.user.UserEntity;
 import com.focela.platform.system.service.department.DepartmentService;
 import com.focela.platform.system.service.user.UserService;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -24,12 +24,11 @@ import static com.focela.platform.common.utils.collection.CollectionUtils.conver
  * Admin user API implementation class
  */
 @Service
+@RequiredArgsConstructor
 public class LocalUserApi implements UserApi {
 
-    @Resource
-    private UserService userService;
-    @Resource
-    private DepartmentService deptService;
+    private final UserService userService;
+    private final DepartmentService deptService;
 
     @Override
     @DataPermission(enable = false) // Ignore data permission to avoid filtering preventing the user from being found

@@ -14,8 +14,8 @@ import com.focela.platform.system.service.notify.NotifyTemplateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,13 +28,12 @@ import static com.focela.platform.common.model.CommonResult.success;
 @RestController
 @RequestMapping("/system/notify-template")
 @Validated
+@RequiredArgsConstructor
 public class NotifyTemplateController {
 
-    @Resource
-    private NotifyTemplateService notifyTemplateService;
+    private final NotifyTemplateService notifyTemplateService;
 
-    @Resource
-    private NotifySendService notifySendService;
+    private final NotifySendService notifySendService;
 
     @PostMapping("/create")
     @Operation(summary = "create notify template")

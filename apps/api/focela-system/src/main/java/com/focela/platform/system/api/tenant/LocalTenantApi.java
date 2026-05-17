@@ -2,19 +2,19 @@ package com.focela.platform.system.api.tenant;
 
 import com.focela.platform.common.api.system.tenant.TenantContractApi;
 import com.focela.platform.system.service.tenant.TenantService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import jakarta.annotation.Resource;
 import java.util.List;
 
 /**
  * Multi-tenant API implementation class
  */
 @Service
+@RequiredArgsConstructor
 public class LocalTenantApi implements TenantContractApi {
 
-    @Resource
-    private TenantService tenantService;
+    private final TenantService tenantService;
 
     @Override
     public List<Long> getTenantIdList() {

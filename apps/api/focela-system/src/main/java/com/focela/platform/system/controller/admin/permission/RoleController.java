@@ -15,9 +15,9 @@ import com.focela.platform.system.service.permission.RoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -34,10 +34,10 @@ import static java.util.Collections.singleton;
 @RestController
 @RequestMapping("/system/role")
 @Validated
+@RequiredArgsConstructor
 public class RoleController {
 
-    @Resource
-    private RoleService roleService;
+    private final RoleService roleService;
 
     @PostMapping("/create")
     @Operation(summary = "create role")

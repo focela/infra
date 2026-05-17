@@ -24,10 +24,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -45,23 +45,17 @@ import static com.focela.platform.security.core.utils.SecurityFrameworkUtils.get
 @RequestMapping("/system/auth")
 @Validated
 @Slf4j
+@RequiredArgsConstructor
 public class AuthController {
 
-    @Resource
-    private AuthService authService;
-    @Resource
-    private UserService userService;
-    @Resource
-    private RoleService roleService;
-    @Resource
-    private MenuService menuService;
-    @Resource
-    private PermissionService permissionService;
-    @Resource
-    private SocialClientService socialClientService;
+        private final AuthService authService;
+        private final UserService userService;
+        private final RoleService roleService;
+        private final MenuService menuService;
+        private final PermissionService permissionService;
+        private final SocialClientService socialClientService;
 
-    @Resource
-    private SecurityProperties securityProperties;
+        private final SecurityProperties securityProperties;
 
     @PostMapping("/login")
     @PermitAll

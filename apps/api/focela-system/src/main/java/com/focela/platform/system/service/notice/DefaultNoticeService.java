@@ -7,8 +7,8 @@ import com.focela.platform.system.controller.admin.notice.dto.NoticeSaveRequest;
 import com.focela.platform.system.entity.notice.NoticeEntity;
 import com.focela.platform.system.repository.mapper.notice.NoticeMapper;
 import com.google.common.annotations.VisibleForTesting;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
@@ -19,10 +19,10 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.NOTI
  * Notice Service implementation class
  */
 @Service
+@RequiredArgsConstructor
 public class DefaultNoticeService implements NoticeService {
 
-    @Resource
-    private NoticeMapper noticeMapper;
+        private final NoticeMapper noticeMapper;
 
     @Override
     public Long createNotice(NoticeSaveRequest createRequest) {

@@ -7,7 +7,7 @@ import com.focela.platform.system.api.logger.dto.OperateLogPageRpcRequest;
 import com.focela.platform.system.controller.admin.logger.dto.operatelog.OperateLogPageRequest;
 import com.focela.platform.system.entity.logger.OperateLogEntity;
 import com.focela.platform.system.repository.mapper.logger.OperateLogMapper;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -18,10 +18,10 @@ import org.springframework.validation.annotation.Validated;
 @Service
 @Validated
 @Slf4j
+@RequiredArgsConstructor
 public class DefaultOperateLogService implements OperateLogService {
 
-    @Resource
-    private OperateLogMapper operateLogMapper;
+    private final OperateLogMapper operateLogMapper;
 
     @Override
     public void createOperateLog(OperateLogCreateRpcRequest createRequest) {

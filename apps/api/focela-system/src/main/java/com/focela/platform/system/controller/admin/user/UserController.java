@@ -18,13 +18,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -39,12 +39,11 @@ import static com.focela.platform.common.utils.collection.CollectionUtils.conver
 @RestController
 @RequestMapping("/system/user")
 @Validated
+@RequiredArgsConstructor
 public class UserController {
 
-    @Resource
-    private UserService userService;
-    @Resource
-    private DepartmentService deptService;
+        private final UserService userService;
+        private final DepartmentService deptService;
 
     @PostMapping("/create")
     @Operation(summary = "create user")

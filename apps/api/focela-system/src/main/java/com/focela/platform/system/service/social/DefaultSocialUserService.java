@@ -12,8 +12,8 @@ import com.focela.platform.system.entity.social.SocialUserEntity;
 import com.focela.platform.system.repository.mapper.social.SocialUserBindMapper;
 import com.focela.platform.system.repository.mapper.social.SocialUserMapper;
 import com.focela.platform.system.enums.social.SocialTypeEnum;
-import jakarta.annotation.Resource;
 import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.zhyd.oauth.model.AuthUser;
 import org.springframework.stereotype.Service;
@@ -34,15 +34,13 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.SOCI
 @Service
 @Validated
 @Slf4j
+@RequiredArgsConstructor
 public class DefaultSocialUserService implements SocialUserService {
 
-    @Resource
-    private SocialUserBindMapper socialUserBindMapper;
-    @Resource
-    private SocialUserMapper socialUserMapper;
+        private final SocialUserBindMapper socialUserBindMapper;
+        private final SocialUserMapper socialUserMapper;
 
-    @Resource
-    private SocialClientService socialClientService;
+        private final SocialClientService socialClientService;
 
     @Override
     public List<SocialUserEntity> getSocialUserList(Long userId, Integer userType) {

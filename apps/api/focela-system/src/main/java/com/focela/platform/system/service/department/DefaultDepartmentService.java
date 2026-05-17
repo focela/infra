@@ -11,13 +11,13 @@ import com.focela.platform.system.entity.department.DepartmentEntity;
 import com.focela.platform.system.repository.mapper.department.DepartmentMapper;
 import com.focela.platform.system.constants.RedisKeyConstants;
 import com.google.common.annotations.VisibleForTesting;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
 import java.util.*;
 
 import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
@@ -30,10 +30,10 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
 @Service
 @Validated
 @Slf4j
+@RequiredArgsConstructor
 public class DefaultDepartmentService implements DepartmentService {
 
-    @Resource
-    private DepartmentMapper deptMapper;
+        private final DepartmentMapper deptMapper;
 
     @Override
     @CacheEvict(cacheNames = RedisKeyConstants.DEPT_CHILDREN_ID_LIST,

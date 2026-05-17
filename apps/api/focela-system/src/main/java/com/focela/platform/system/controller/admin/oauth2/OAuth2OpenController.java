@@ -25,11 +25,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Collections;
@@ -57,16 +57,13 @@ import static com.focela.platform.security.core.utils.SecurityFrameworkUtils.get
 @RequestMapping("/system/oauth2")
 @Validated
 @Slf4j
+@RequiredArgsConstructor
 public class OAuth2OpenController {
 
-    @Resource
-    private OAuth2GrantService oauth2GrantService;
-    @Resource
-    private OAuth2ClientService oauth2ClientService;
-    @Resource
-    private OAuth2ApproveService oauth2ApproveService;
-    @Resource
-    private OAuth2TokenService oauth2TokenService;
+        private final OAuth2GrantService oauth2GrantService;
+        private final OAuth2ClientService oauth2ClientService;
+        private final OAuth2ApproveService oauth2ApproveService;
+        private final OAuth2TokenService oauth2TokenService;
 
     /**
      * Corresponds to the postAccessToken method of Spring Security OAuth's TokenEndpoint class

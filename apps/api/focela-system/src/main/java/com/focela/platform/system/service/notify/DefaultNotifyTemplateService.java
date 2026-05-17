@@ -10,7 +10,7 @@ import com.focela.platform.system.entity.notify.NotifyTemplateEntity;
 import com.focela.platform.system.repository.mapper.notify.NotifyTemplateMapper;
 import com.focela.platform.system.constants.RedisKeyConstants;
 import com.google.common.annotations.VisibleForTesting;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -31,6 +31,7 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.NOTI
 @Service
 @Validated
 @Slf4j
+@RequiredArgsConstructor
 public class DefaultNotifyTemplateService implements NotifyTemplateService {
 
     /**
@@ -38,8 +39,7 @@ public class DefaultNotifyTemplateService implements NotifyTemplateService {
      */
     private static final Pattern PATTERN_PARAMS = Pattern.compile("\\{(.*?)}");
 
-    @Resource
-    private NotifyTemplateMapper notifyTemplateMapper;
+        private final NotifyTemplateMapper notifyTemplateMapper;
 
     @Override
     public Long createNotifyTemplate(NotifyTemplateSaveRequest createRequest) {

@@ -6,20 +6,19 @@ import com.focela.platform.system.api.logger.dto.LoginLogCreateRpcRequest;
 import com.focela.platform.system.controller.admin.logger.dto.loginlog.LoginLogPageRequest;
 import com.focela.platform.system.entity.logger.LoginLogEntity;
 import com.focela.platform.system.repository.mapper.logger.LoginLogMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-
-import jakarta.annotation.Resource;
 
 /**
  * Login log Service implementation
  */
 @Service
 @Validated
+@RequiredArgsConstructor
 public class DefaultLoginLogService implements LoginLogService {
 
-    @Resource
-    private LoginLogMapper loginLogMapper;
+    private final LoginLogMapper loginLogMapper;
 
     @Override
     public LoginLogEntity getLoginLog(Long id) {

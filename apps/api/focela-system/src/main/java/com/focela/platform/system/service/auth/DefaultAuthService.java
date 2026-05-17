@@ -30,8 +30,8 @@ import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaService;
 import com.google.common.annotations.VisibleForTesting;
-import jakarta.annotation.Resource;
 import jakarta.validation.Validator;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,24 +49,17 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class DefaultAuthService implements AuthService {
 
-    @Resource
-    private UserService userService;
-    @Resource
-    private LoginLogService loginLogService;
-    @Resource
-    private OAuth2TokenService oauth2TokenService;
-    @Resource
-    private SocialUserService socialUserService;
-    @Resource
-    private MemberService memberService;
-    @Resource
-    private Validator validator;
-    @Resource
-    private CaptchaService captchaService;
-    @Resource
-    private SmsCodeApi smsCodeApi;
+    private final UserService userService;
+    private final LoginLogService loginLogService;
+    private final OAuth2TokenService oauth2TokenService;
+    private final SocialUserService socialUserService;
+    private final MemberService memberService;
+    private final Validator validator;
+    private final CaptchaService captchaService;
+    private final SmsCodeApi smsCodeApi;
 
     /**
      * Captcha switch, defaults to true

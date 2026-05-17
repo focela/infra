@@ -36,6 +36,7 @@ import com.mzt.logapi.service.impl.DiffParseFunction;
 import com.mzt.logapi.starter.annotation.LogRecord;
 import jakarta.annotation.Resource;
 import jakarta.validation.ConstraintViolationException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -56,23 +57,19 @@ import static com.focela.platform.system.constants.LogRecordConstants.*;
  */
 @Service("adminUserService")
 @Slf4j
+@RequiredArgsConstructor
 public class DefaultUserService implements UserService {
 
     static final String USER_INIT_PASSWORD_KEY = "system.user.init-password";
 
     static final String USER_REGISTER_ENABLED_KEY = "system.user.register-enabled";
 
-    @Resource
-    private UserMapper userMapper;
+        private final UserMapper userMapper;
 
-    @Resource
-    private DepartmentService deptService;
-    @Resource
-    private PostService postService;
-    @Resource
-    private PermissionService permissionService;
-    @Resource
-    private PasswordEncoder passwordEncoder;
+        private final DepartmentService deptService;
+        private final PostService postService;
+        private final PermissionService permissionService;
+        private final PasswordEncoder passwordEncoder;
     @Resource
     @Lazy // lazy loading to avoid circular dependency errors
     private TenantService tenantService;
@@ -80,11 +77,9 @@ public class DefaultUserService implements UserService {
     @Lazy // lazy loading to avoid circular dependency
     private OAuth2TokenService oauth2TokenService;
 
-    @Resource
-    private UserPostMapper userPostMapper;
+        private final UserPostMapper userPostMapper;
 
-    @Resource
-    private ConfigApi configApi;
+        private final ConfigApi configApi;
 
     @Override
     @Transactional(rollbackFor = Exception.class)

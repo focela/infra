@@ -16,12 +16,12 @@ import com.focela.platform.system.service.department.PostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -35,10 +35,10 @@ import static com.focela.platform.common.model.CommonResult.success;
 @RestController
 @RequestMapping("/system/post")
 @Validated
+@RequiredArgsConstructor
 public class PostController {
 
-    @Resource
-    private PostService postService;
+        private final PostService postService;
 
     @PostMapping("/create")
     @Operation(summary = "create post")

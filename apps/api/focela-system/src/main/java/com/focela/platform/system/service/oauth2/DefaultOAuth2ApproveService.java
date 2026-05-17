@@ -10,8 +10,8 @@ import com.google.common.annotations.VisibleForTesting;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
+import lombok.RequiredArgsConstructor;
 
-import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -22,6 +22,7 @@ import static com.focela.platform.common.utils.collection.CollectionUtils.conver
  */
 @Service
 @Validated
+@RequiredArgsConstructor
 public class DefaultOAuth2ApproveService implements OAuth2ApproveService {
 
     /**
@@ -29,11 +30,9 @@ public class DefaultOAuth2ApproveService implements OAuth2ApproveService {
      */
     private static final Integer TIMEOUT = 30 * 24 * 60 * 60; // unit: seconds
 
-    @Resource
-    private OAuth2ClientService oauth2ClientService;
+        private final OAuth2ClientService oauth2ClientService;
 
-    @Resource
-    private OAuth2ApproveMapper oauth2ApproveMapper;
+        private final OAuth2ApproveMapper oauth2ApproveMapper;
 
     @Override
     @Transactional

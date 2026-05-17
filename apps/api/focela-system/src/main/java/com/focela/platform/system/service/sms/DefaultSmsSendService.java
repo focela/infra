@@ -19,10 +19,10 @@ import com.focela.platform.system.mq.producer.sms.SmsProducer;
 import com.focela.platform.system.service.member.MemberService;
 import com.focela.platform.system.service.user.UserService;
 import com.google.common.annotations.VisibleForTesting;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -35,21 +35,16 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class DefaultSmsSendService implements SmsSendService {
 
-    @Resource
-    private UserService adminUserService;
-    @Resource
-    private MemberService memberService;
-    @Resource
-    private SmsChannelService smsChannelService;
-    @Resource
-    private SmsTemplateService smsTemplateService;
-    @Resource
-    private SmsLogService smsLogService;
+    private final UserService adminUserService;
+    private final MemberService memberService;
+    private final SmsChannelService smsChannelService;
+    private final SmsTemplateService smsTemplateService;
+    private final SmsLogService smsLogService;
 
-    @Resource
-    private SmsProducer smsProducer;
+    private final SmsProducer smsProducer;
 
     @Override
     @DataPermission(enable = false) // when sending SMS, data permission need not be considered

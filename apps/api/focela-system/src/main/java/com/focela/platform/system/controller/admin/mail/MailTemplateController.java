@@ -10,10 +10,10 @@ import com.focela.platform.system.service.mail.MailTemplateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
@@ -23,12 +23,11 @@ import static com.focela.platform.security.core.utils.SecurityFrameworkUtils.get
 @Tag(name = "Admin - Email template")
 @RestController
 @RequestMapping("/system/mail-template")
+@RequiredArgsConstructor
 public class MailTemplateController {
 
-    @Resource
-    private MailTemplateService mailTempleService;
-    @Resource
-    private MailSendService mailSendService;
+        private final MailTemplateService mailTempleService;
+        private final MailSendService mailSendService;
 
     @PostMapping("/create")
     @Operation(summary = "create email template")

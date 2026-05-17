@@ -8,9 +8,9 @@ import com.focela.platform.system.controller.admin.department.dto.post.PostPageR
 import com.focela.platform.system.controller.admin.department.dto.post.PostSaveRequest;
 import com.focela.platform.system.entity.department.PostEntity;
 import com.focela.platform.system.repository.mapper.department.PostMapper;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -26,10 +26,10 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
  */
 @Service
 @Validated
+@RequiredArgsConstructor
 public class DefaultPostService implements PostService {
 
-    @Resource
-    private PostMapper postMapper;
+        private final PostMapper postMapper;
 
     @Override
     public Long createPost(PostSaveRequest createRequest) {

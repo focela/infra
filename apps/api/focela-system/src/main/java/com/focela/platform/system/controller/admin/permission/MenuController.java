@@ -12,8 +12,8 @@ import com.focela.platform.system.service.permission.MenuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -27,10 +27,10 @@ import static com.focela.platform.common.model.CommonResult.success;
 @RestController
 @RequestMapping("/system/menu")
 @Validated
+@RequiredArgsConstructor
 public class MenuController {
 
-    @Resource
-    private MenuService menuService;
+    private final MenuService menuService;
 
     @PostMapping("/create")
     @Operation(summary = "create menu")

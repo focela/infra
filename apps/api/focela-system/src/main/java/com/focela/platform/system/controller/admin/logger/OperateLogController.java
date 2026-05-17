@@ -15,9 +15,9 @@ import com.fhs.core.trans.anno.TransMethodResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,10 +35,10 @@ import static com.focela.platform.common.model.CommonResult.success;
 @RestController
 @RequestMapping("/system/operate-log")
 @Validated
+@RequiredArgsConstructor
 public class OperateLogController {
 
-    @Resource
-    private OperateLogService operateLogService;
+    private final OperateLogService operateLogService;
 
     @GetMapping("/get")
     @Operation(summary = "view operation log")

@@ -22,6 +22,7 @@ import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.Sets;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -29,7 +30,6 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import jakarta.annotation.Resource;
 import java.util.*;
 import java.util.function.Supplier;
 
@@ -41,21 +41,16 @@ import static com.focela.platform.common.utils.json.JsonUtils.toJsonString;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class DefaultPermissionService implements PermissionService {
 
-    @Resource
-    private RoleMenuMapper roleMenuMapper;
-    @Resource
-    private UserRoleMapper userRoleMapper;
+        private final RoleMenuMapper roleMenuMapper;
+        private final UserRoleMapper userRoleMapper;
 
-    @Resource
-    private RoleService roleService;
-    @Resource
-    private MenuService menuService;
-    @Resource
-    private DepartmentService deptService;
-    @Resource
-    private UserService userService;
+        private final RoleService roleService;
+        private final MenuService menuService;
+        private final DepartmentService deptService;
+        private final UserService userService;
 
     @Override
     public boolean hasAnyPermissions(Long userId, String... permissions) {

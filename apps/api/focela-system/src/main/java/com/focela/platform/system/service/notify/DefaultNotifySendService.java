@@ -4,11 +4,11 @@ import com.focela.platform.common.enums.CommonStatusEnum;
 import com.focela.platform.common.enums.UserTypeEnum;
 import com.focela.platform.system.entity.notify.NotifyTemplateEntity;
 import com.google.common.annotations.VisibleForTesting;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
 import java.util.Map;
 import java.util.Objects;
 
@@ -21,13 +21,12 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
 @Service
 @Validated
 @Slf4j
+@RequiredArgsConstructor
 public class DefaultNotifySendService implements NotifySendService {
 
-    @Resource
-    private NotifyTemplateService notifyTemplateService;
+        private final NotifyTemplateService notifyTemplateService;
 
-    @Resource
-    private NotifyMessageService notifyMessageService;
+        private final NotifyMessageService notifyMessageService;
 
     @Override
     public Long sendSingleNotifyToAdmin(Long userId, String templateCode, Map<String, Object> templateParams) {

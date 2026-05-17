@@ -14,11 +14,11 @@ import com.focela.platform.system.service.notice.NoticeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
@@ -28,13 +28,12 @@ import static com.focela.platform.common.model.CommonResult.success;
 @RestController
 @RequestMapping("/system/notice")
 @Validated
+@RequiredArgsConstructor
 public class NoticeController {
 
-    @Resource
-    private NoticeService noticeService;
+        private final NoticeService noticeService;
 
-    @Resource
-    private WebSocketSenderApi webSocketSenderApi;
+        private final WebSocketSenderApi webSocketSenderApi;
 
     @PostMapping("/create")
     @Operation(summary = "create notice")

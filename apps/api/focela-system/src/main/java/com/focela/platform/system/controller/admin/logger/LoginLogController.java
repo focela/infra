@@ -12,9 +12,9 @@ import com.focela.platform.system.entity.logger.LoginLogEntity;
 import com.focela.platform.system.service.logger.LoginLogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,10 +31,10 @@ import static com.focela.platform.common.model.CommonResult.success;
 @RestController
 @RequestMapping("/system/login-log")
 @Validated
+@RequiredArgsConstructor
 public class LoginLogController {
 
-    @Resource
-    private LoginLogService loginLogService;
+    private final LoginLogService loginLogService;
 
     @GetMapping("/get")
     @Operation(summary = "get login log")

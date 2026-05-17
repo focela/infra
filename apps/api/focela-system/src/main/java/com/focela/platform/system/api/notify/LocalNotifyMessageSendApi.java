@@ -2,18 +2,17 @@ package com.focela.platform.system.api.notify;
 
 import com.focela.platform.system.api.notify.dto.NotifySendSingleToUserRpcRequest;
 import com.focela.platform.system.service.notify.NotifySendService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import jakarta.annotation.Resource;
 
 /**
  * Notification message send API implementation class
  */
 @Service
+@RequiredArgsConstructor
 public class LocalNotifyMessageSendApi implements NotifyMessageSendApi {
 
-    @Resource
-    private NotifySendService notifySendService;
+    private final NotifySendService notifySendService;
 
     @Override
     public Long sendSingleMessageToAdmin(NotifySendSingleToUserRpcRequest request) {

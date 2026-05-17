@@ -10,11 +10,11 @@ import com.focela.platform.system.service.tenant.TenantService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import java.util.Set;
 
@@ -26,12 +26,11 @@ import static com.focela.platform.common.model.CommonResult.success;
 @Tag(name = "Admin - permission")
 @RestController
 @RequestMapping("/system/permission")
+@RequiredArgsConstructor
 public class PermissionController {
 
-    @Resource
-    private PermissionService permissionService;
-    @Resource
-    private TenantService tenantService;
+    private final PermissionService permissionService;
+    private final TenantService tenantService;
 
     @Operation(summary = "get role owned menu ID")
     @Parameter(name = "roleId", description = "Role ID", required = true)

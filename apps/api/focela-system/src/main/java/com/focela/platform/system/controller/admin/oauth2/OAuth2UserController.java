@@ -14,12 +14,12 @@ import com.focela.platform.system.service.department.PostService;
 import com.focela.platform.system.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import java.util.List;
 
@@ -37,14 +37,12 @@ import static com.focela.platform.security.core.utils.SecurityFrameworkUtils.get
 @RequestMapping("/system/oauth2/user")
 @Validated
 @Slf4j
+@RequiredArgsConstructor
 public class OAuth2UserController {
 
-    @Resource
-    private UserService userService;
-    @Resource
-    private DepartmentService deptService;
-    @Resource
-    private PostService postService;
+        private final UserService userService;
+        private final DepartmentService deptService;
+        private final PostService postService;
 
     @GetMapping("/get")
     @Operation(summary = "get user basic info")

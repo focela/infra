@@ -18,8 +18,8 @@ import com.focela.platform.system.service.permission.RoleService;
 import com.focela.platform.system.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -34,18 +34,14 @@ import static com.focela.platform.security.core.utils.SecurityFrameworkUtils.get
 @RequestMapping("/system/user/profile")
 @Validated
 @Slf4j
+@RequiredArgsConstructor
 public class UserProfileController {
 
-    @Resource
-    private UserService userService;
-    @Resource
-    private DepartmentService deptService;
-    @Resource
-    private PostService postService;
-    @Resource
-    private PermissionService permissionService;
-    @Resource
-    private RoleService roleService;
+        private final UserService userService;
+        private final DepartmentService deptService;
+        private final PostService postService;
+        private final PermissionService permissionService;
+        private final RoleService roleService;
 
     @GetMapping("/get")
     @Operation(summary = "get login user info")

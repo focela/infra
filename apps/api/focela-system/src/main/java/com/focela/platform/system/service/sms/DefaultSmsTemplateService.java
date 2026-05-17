@@ -17,7 +17,7 @@ import com.focela.platform.system.config.sms.client.SmsClient;
 import com.focela.platform.system.config.sms.client.dto.SmsTemplateRpcResponse;
 import com.focela.platform.system.config.sms.enums.SmsTemplateAuditStatusEnum;
 import com.google.common.annotations.VisibleForTesting;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -38,6 +38,7 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class DefaultSmsTemplateService implements SmsTemplateService {
 
     /**
@@ -45,11 +46,9 @@ public class DefaultSmsTemplateService implements SmsTemplateService {
      */
     private static final Pattern PATTERN_PARAMS = Pattern.compile("\\{(.*?)}");
 
-    @Resource
-    private SmsTemplateMapper smsTemplateMapper;
+    private final SmsTemplateMapper smsTemplateMapper;
 
-    @Resource
-    private SmsChannelService smsChannelService;
+    private final SmsChannelService smsChannelService;
 
     @Override
     public Long createSmsTemplate(SmsTemplateSaveRequest createRequest) {

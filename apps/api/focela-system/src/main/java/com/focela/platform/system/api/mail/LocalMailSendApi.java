@@ -2,20 +2,19 @@ package com.focela.platform.system.api.mail;
 
 import com.focela.platform.system.api.mail.dto.MailSendSingleToUserRpcRequest;
 import com.focela.platform.system.service.mail.MailSendService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-
-import jakarta.annotation.Resource;
 
 /**
  * Mail send API implementation class
  */
 @Service
 @Validated
+@RequiredArgsConstructor
 public class LocalMailSendApi implements MailSendApi {
 
-    @Resource
-    private MailSendService mailSendService;
+    private final MailSendService mailSendService;
 
     @Override
     public Long sendSingleMailToAdmin(MailSendSingleToUserRpcRequest request) {

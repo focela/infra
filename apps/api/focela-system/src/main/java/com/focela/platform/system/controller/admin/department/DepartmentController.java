@@ -15,8 +15,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
 
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import java.util.List;
 
@@ -26,10 +26,10 @@ import static com.focela.platform.common.model.CommonResult.success;
 @RestController
 @RequestMapping("/system/dept")
 @Validated
+@RequiredArgsConstructor
 public class DepartmentController {
 
-    @Resource
-    private DepartmentService deptService;
+        private final DepartmentService deptService;
 
     @PostMapping("create")
     @Operation(summary = "create department")

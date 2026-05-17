@@ -13,12 +13,12 @@ import com.focela.platform.system.service.notify.NotifyMessageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
 import java.util.List;
 
 import static com.focela.platform.common.model.CommonResult.success;
@@ -28,10 +28,10 @@ import static com.focela.platform.security.core.utils.SecurityFrameworkUtils.get
 @RestController
 @RequestMapping("/system/notify-message")
 @Validated
+@RequiredArgsConstructor
 public class NotifyMessageController {
 
-    @Resource
-    private NotifyMessageService notifyMessageService;
+    private final NotifyMessageService notifyMessageService;
 
     // ========== manage all in-app messages ==========
 

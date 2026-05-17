@@ -15,6 +15,7 @@ import com.focela.platform.system.service.tenant.TenantService;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -35,12 +36,11 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class DefaultMenuService implements MenuService {
 
-    @Resource
-    private MenuMapper menuMapper;
-    @Resource
-    private PermissionService permissionService;
+        private final MenuMapper menuMapper;
+        private final PermissionService permissionService;
     @Resource
     @Lazy // Lazy to avoid circular dependency errors
     private TenantService tenantService;

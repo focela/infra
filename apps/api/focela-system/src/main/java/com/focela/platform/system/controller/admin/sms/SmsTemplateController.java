@@ -16,9 +16,9 @@ import com.focela.platform.system.service.sms.SmsTemplateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,12 +31,11 @@ import static com.focela.platform.common.model.CommonResult.success;
 @Tag(name = "Admin - SMS template")
 @RestController
 @RequestMapping("/system/sms-template")
+@RequiredArgsConstructor
 public class SmsTemplateController {
 
-    @Resource
-    private SmsTemplateService smsTemplateService;
-    @Resource
-    private SmsSendService smsSendService;
+    private final SmsTemplateService smsTemplateService;
+    private final SmsSendService smsSendService;
 
     @PostMapping("/create")
     @Operation(summary = "create SMS template")

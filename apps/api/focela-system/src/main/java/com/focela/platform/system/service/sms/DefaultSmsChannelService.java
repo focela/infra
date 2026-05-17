@@ -9,7 +9,7 @@ import com.focela.platform.system.repository.mapper.sms.SmsChannelMapper;
 import com.focela.platform.system.config.sms.client.SmsClient;
 import com.focela.platform.system.config.sms.client.SmsClientFactory;
 import com.focela.platform.system.config.sms.property.SmsChannelProperties;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -24,16 +24,14 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.SMS_
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class DefaultSmsChannelService implements SmsChannelService {
 
-    @Resource
-    private SmsClientFactory smsClientFactory;
+    private final SmsClientFactory smsClientFactory;
 
-    @Resource
-    private SmsChannelMapper smsChannelMapper;
+    private final SmsChannelMapper smsChannelMapper;
 
-    @Resource
-    private SmsTemplateService smsTemplateService;
+    private final SmsTemplateService smsTemplateService;
 
     @Override
     public Long createSmsChannel(SmsChannelSaveRequest createRequest) {

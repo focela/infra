@@ -10,9 +10,9 @@ import com.focela.platform.system.service.tenant.TenantService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
 import jakarta.validation.constraints.Pattern;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,10 +25,10 @@ import static com.focela.platform.common.model.CommonResult.success;
 @RestController
 @RequestMapping("/system/tenant")
 @Validated
+@RequiredArgsConstructor
 public class AppTenantController {
 
-    @Resource
-    private TenantService tenantService;
+    private final TenantService tenantService;
 
     @GetMapping("/get-by-website")
     @PermitAll

@@ -16,6 +16,7 @@ import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
@@ -27,10 +28,10 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
  */
 @Service
 @Validated
+@RequiredArgsConstructor
 public class DefaultTenantPackageService implements TenantPackageService {
 
-    @Resource
-    private TenantPackageMapper tenantPackageMapper;
+        private final TenantPackageMapper tenantPackageMapper;
 
     @Resource
     @Lazy // avoid circular dependency error

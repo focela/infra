@@ -27,6 +27,7 @@ import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -40,18 +41,15 @@ import static com.focela.platform.common.utils.collection.CollectionUtils.conver
  * OAuth2.0 Token Service implementation class
  */
 @Service
+@RequiredArgsConstructor
 public class DefaultOAuth2TokenService implements OAuth2TokenService {
 
-    @Resource
-    private OAuth2AccessTokenMapper oauth2AccessTokenMapper;
-    @Resource
-    private OAuth2RefreshTokenMapper oauth2RefreshTokenMapper;
+        private final OAuth2AccessTokenMapper oauth2AccessTokenMapper;
+        private final OAuth2RefreshTokenMapper oauth2RefreshTokenMapper;
 
-    @Resource
-    private OAuth2AccessTokenRedisRepository oauth2AccessTokenRedisDAO;
+        private final OAuth2AccessTokenRedisRepository oauth2AccessTokenRedisDAO;
 
-    @Resource
-    private OAuth2ClientService oauth2ClientService;
+        private final OAuth2ClientService oauth2ClientService;
     @Resource
     @Lazy // lazy loading to avoid circular dependency
     private UserService adminUserService;

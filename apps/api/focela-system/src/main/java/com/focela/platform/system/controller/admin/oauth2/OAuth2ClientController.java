@@ -11,11 +11,11 @@ import com.focela.platform.system.service.oauth2.OAuth2ClientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
@@ -25,10 +25,10 @@ import static com.focela.platform.common.model.CommonResult.success;
 @RestController
 @RequestMapping("/system/oauth2-client")
 @Validated
+@RequiredArgsConstructor
 public class OAuth2ClientController {
 
-    @Resource
-    private OAuth2ClientService oAuth2ClientService;
+        private final OAuth2ClientService oAuth2ClientService;
 
     @PostMapping("/create")
     @Operation(summary = "create OAuth2 client")

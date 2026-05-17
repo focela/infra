@@ -11,7 +11,7 @@ import com.focela.platform.system.entity.dictionary.DictionaryDataEntity;
 import com.focela.platform.system.entity.dictionary.DictionaryTypeEntity;
 import com.focela.platform.system.repository.mapper.dictionary.DictionaryDataMapper;
 import com.google.common.annotations.VisibleForTesting;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +28,7 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class DefaultDictionaryDataService implements DictionaryDataService {
 
     /**
@@ -37,11 +38,9 @@ public class DefaultDictionaryDataService implements DictionaryDataService {
             .comparing(DictionaryDataEntity::getDictType)
             .thenComparingInt(DictionaryDataEntity::getSort);
 
-    @Resource
-    private DictionaryTypeService dictTypeService;
+        private final DictionaryTypeService dictTypeService;
 
-    @Resource
-    private DictionaryDataMapper dictDataMapper;
+        private final DictionaryDataMapper dictDataMapper;
 
     @Override
     public List<DictionaryDataEntity> getDictDataList(Integer status, String dictType) {

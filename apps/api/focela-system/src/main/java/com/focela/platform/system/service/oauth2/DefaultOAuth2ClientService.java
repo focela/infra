@@ -14,7 +14,7 @@ import com.focela.platform.system.entity.oauth2.OAuth2ClientEntity;
 import com.focela.platform.system.repository.mapper.oauth2.OAuth2ClientMapper;
 import com.focela.platform.system.constants.RedisKeyConstants;
 import com.google.common.annotations.VisibleForTesting;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -33,10 +33,10 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
 @Service
 @Validated
 @Slf4j
+@RequiredArgsConstructor
 public class DefaultOAuth2ClientService implements OAuth2ClientService {
 
-    @Resource
-    private OAuth2ClientMapper oauth2ClientMapper;
+        private final OAuth2ClientMapper oauth2ClientMapper;
 
     @Override
     public Long createOAuth2Client(OAuth2ClientSaveRequest createRequest) {

@@ -13,7 +13,7 @@ import com.focela.platform.system.mq.producer.mail.MailProducer;
 import com.focela.platform.system.service.member.MemberService;
 import com.focela.platform.system.service.user.UserService;
 import com.google.common.annotations.VisibleForTesting;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.hutool.extra.mail.MailAccount;
 import org.dromara.hutool.extra.mail.MailUtil;
@@ -36,22 +36,17 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
 @Service
 @Validated
 @Slf4j
+@RequiredArgsConstructor
 public class DefaultMailSendService implements MailSendService {
 
-    @Resource
-    private UserService adminUserService;
-    @Resource
-    private MemberService memberService;
+        private final UserService adminUserService;
+        private final MemberService memberService;
 
-    @Resource
-    private MailAccountService mailAccountService;
-    @Resource
-    private MailTemplateService mailTemplateService;
+        private final MailAccountService mailAccountService;
+        private final MailTemplateService mailTemplateService;
 
-    @Resource
-    private MailLogService mailLogService;
-    @Resource
-    private MailProducer mailProducer;
+        private final MailLogService mailLogService;
+        private final MailProducer mailProducer;
 
     @Override
     public Long sendSingleMail(Collection<String> toMails, Collection<String> ccMails, Collection<String> bccMails,

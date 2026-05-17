@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import lombok.RequiredArgsConstructor;
 
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 
 import static com.focela.platform.common.model.CommonResult.success;
@@ -24,10 +24,10 @@ import static com.focela.platform.common.model.CommonResult.success;
 @Tag(name = "Admin - email log")
 @RestController
 @RequestMapping("/system/mail-log")
+@RequiredArgsConstructor
 public class MailLogController {
 
-    @Resource
-    private MailLogService mailLogService;
+        private final MailLogService mailLogService;
 
     @GetMapping("/page")
     @Operation(summary = "get email log page")

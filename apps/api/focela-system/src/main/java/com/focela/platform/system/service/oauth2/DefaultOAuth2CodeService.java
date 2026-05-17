@@ -6,8 +6,8 @@ import com.focela.platform.system.entity.oauth2.OAuth2CodeEntity;
 import com.focela.platform.system.repository.mapper.oauth2.OAuth2CodeMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import lombok.RequiredArgsConstructor;
 
-import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,6 +20,7 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.OAUT
  */
 @Service
 @Validated
+@RequiredArgsConstructor
 public class DefaultOAuth2CodeService implements OAuth2CodeService {
 
     /**
@@ -27,8 +28,7 @@ public class DefaultOAuth2CodeService implements OAuth2CodeService {
      */
     private static final Integer TIMEOUT = 5 * 60;
 
-    @Resource
-    private OAuth2CodeMapper oauth2CodeMapper;
+        private final OAuth2CodeMapper oauth2CodeMapper;
 
     @Override
     public OAuth2CodeEntity createAuthorizationCode(Long userId, Integer userType, String clientId,

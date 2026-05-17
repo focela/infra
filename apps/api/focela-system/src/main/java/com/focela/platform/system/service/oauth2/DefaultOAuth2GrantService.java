@@ -10,8 +10,8 @@ import com.focela.platform.system.entity.user.UserEntity;
 import com.focela.platform.system.constants.SystemErrorCodeConstants;
 import com.focela.platform.system.service.auth.AuthService;
 import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
 
-import jakarta.annotation.Resource;
 import java.util.List;
 
 import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
@@ -20,14 +20,12 @@ import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.e
  * OAuth2 Grant Service implementation class
  */
 @Service
+@RequiredArgsConstructor
 public class DefaultOAuth2GrantService implements OAuth2GrantService {
 
-    @Resource
-    private OAuth2TokenService oauth2TokenService;
-    @Resource
-    private OAuth2CodeService oauth2CodeService;
-    @Resource
-    private AuthService adminAuthService;
+        private final OAuth2TokenService oauth2TokenService;
+        private final OAuth2CodeService oauth2CodeService;
+        private final AuthService adminAuthService;
 
     @Override
     public OAuth2AccessTokenEntity grantImplicit(Long userId, Integer userType,

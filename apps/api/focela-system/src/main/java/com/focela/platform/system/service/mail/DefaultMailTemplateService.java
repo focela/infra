@@ -11,8 +11,8 @@ import com.focela.platform.system.entity.mail.MailTemplateEntity;
 import com.focela.platform.system.repository.mapper.mail.MailTemplateMapper;
 import com.focela.platform.system.constants.RedisKeyConstants;
 import com.google.common.annotations.VisibleForTesting;
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -37,6 +37,7 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.MAIL
 @Service
 @Validated
 @Slf4j
+@RequiredArgsConstructor
 public class DefaultMailTemplateService implements MailTemplateService {
 
     /**
@@ -44,8 +45,7 @@ public class DefaultMailTemplateService implements MailTemplateService {
      */
     private static final Pattern PATTERN_PARAMS = Pattern.compile("\\{(.*?)}");
 
-    @Resource
-    private MailTemplateMapper mailTemplateMapper;
+    private final MailTemplateMapper mailTemplateMapper;
 
     @Override
     public Long createMailTemplate(MailTemplateSaveRequest createRequest) {

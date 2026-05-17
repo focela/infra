@@ -7,21 +7,20 @@ import com.focela.platform.system.config.sms.enums.SmsChannelEnum;
 import com.focela.platform.system.service.sms.SmsSendService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.*;
-
-import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 import static com.focela.platform.common.model.CommonResult.success;
 
 @Tag(name = "Admin - SMS callback")
 @RestController
 @RequestMapping("/system/sms/callback")
+@RequiredArgsConstructor
 public class SmsCallbackController {
 
-    @Resource
-    private SmsSendService smsSendService;
+    private final SmsSendService smsSendService;
 
     @PostMapping("/aliyun")
     @PermitAll

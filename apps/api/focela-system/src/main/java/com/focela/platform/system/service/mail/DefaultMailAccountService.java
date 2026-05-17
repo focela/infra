@@ -7,7 +7,7 @@ import com.focela.platform.system.controller.admin.mail.dto.account.MailAccountS
 import com.focela.platform.system.entity.mail.MailAccountEntity;
 import com.focela.platform.system.repository.mapper.mail.MailAccountMapper;
 import com.focela.platform.system.constants.RedisKeyConstants;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -28,13 +28,12 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.MAIL
 @Service
 @Validated
 @Slf4j
+@RequiredArgsConstructor
 public class DefaultMailAccountService implements MailAccountService {
 
-    @Resource
-    private MailAccountMapper mailAccountMapper;
+    private final MailAccountMapper mailAccountMapper;
 
-    @Resource
-    private MailTemplateService mailTemplateService;
+    private final MailTemplateService mailTemplateService;
 
     @Override
     public Long createMailAccount(MailAccountSaveRequest createRequest) {

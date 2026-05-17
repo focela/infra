@@ -8,10 +8,10 @@ import com.focela.platform.system.entity.mail.MailLogEntity;
 import com.focela.platform.system.entity.mail.MailTemplateEntity;
 import com.focela.platform.system.repository.mapper.mail.MailLogMapper;
 import com.focela.platform.system.enums.mail.MailSendStatusEnum;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -24,10 +24,10 @@ import static cn.hutool.core.exceptions.ExceptionUtil.getRootCauseMessage;
  */
 @Service
 @Validated
+@RequiredArgsConstructor
 public class DefaultMailLogService implements MailLogService {
 
-    @Resource
-    private MailLogMapper mailLogMapper;
+    private final MailLogMapper mailLogMapper;
 
     @Override
     public PageResult<MailLogEntity> getMailLogPage(MailLogPageRequest pageVO) {

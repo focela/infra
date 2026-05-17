@@ -7,10 +7,9 @@ import com.focela.platform.system.entity.sms.SmsTemplateEntity;
 import com.focela.platform.system.repository.mapper.sms.SmsLogMapper;
 import com.focela.platform.system.enums.sms.SmsReceiveStatusEnum;
 import com.focela.platform.system.enums.sms.SmsSendStatusEnum;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import jakarta.annotation.Resource;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -21,10 +20,10 @@ import java.util.Objects;
  */
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class DefaultSmsLogService implements SmsLogService {
 
-    @Resource
-    private SmsLogMapper smsLogMapper;
+    private final SmsLogMapper smsLogMapper;
 
     @Override
     public Long createSmsLog(String mobile, Long userId, Integer userType, Boolean isSend,

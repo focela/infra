@@ -15,9 +15,9 @@ import com.focela.platform.system.service.dictionary.DictionaryTypeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -32,10 +32,10 @@ import static com.focela.platform.common.model.CommonResult.success;
 @RestController
 @RequestMapping("/system/dict-type")
 @Validated
+@RequiredArgsConstructor
 public class DictionaryTypeController {
 
-    @Resource
-    private DictionaryTypeService dictTypeService;
+    private final DictionaryTypeService dictTypeService;
 
     @PostMapping("/create")
     @Operation(summary = "create dictionary type")

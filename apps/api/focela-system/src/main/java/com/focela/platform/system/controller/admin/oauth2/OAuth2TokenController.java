@@ -12,10 +12,10 @@ import com.focela.platform.system.service.oauth2.OAuth2TokenService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
@@ -24,12 +24,11 @@ import static com.focela.platform.common.model.CommonResult.success;
 @Tag(name = "Admin - OAuth2.0 token")
 @RestController
 @RequestMapping("/system/oauth2-token")
+@RequiredArgsConstructor
 public class OAuth2TokenController {
 
-    @Resource
-    private OAuth2TokenService oauth2TokenService;
-    @Resource
-    private AuthService authService;
+        private final OAuth2TokenService oauth2TokenService;
+        private final AuthService authService;
 
     @GetMapping("/page")
     @Operation(summary = "get access token page", description = "return only TTL within")

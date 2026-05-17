@@ -3,8 +3,8 @@ package com.focela.platform.system.api.permission;
 import com.focela.platform.common.api.system.permission.dto.DepartmentDataPermissionRpcResponse;
 import com.focela.platform.system.service.permission.PermissionService;
 import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
 
-import jakarta.annotation.Resource;
 import java.util.Collection;
 import java.util.Set;
 
@@ -12,10 +12,10 @@ import java.util.Set;
  * Permission API implementation class
  */
 @Service
+@RequiredArgsConstructor
 public class LocalPermissionApi implements PermissionApi {
 
-    @Resource
-    private PermissionService permissionService;
+        private final PermissionService permissionService;
 
     @Override
     public Set<Long> getUserRoleIdListByRoleIds(Collection<Long> roleIds) {

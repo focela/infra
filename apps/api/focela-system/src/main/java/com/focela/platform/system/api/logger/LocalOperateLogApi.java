@@ -8,7 +8,7 @@ import com.focela.platform.system.api.logger.dto.OperateLogRpcResponse;
 import com.focela.platform.system.entity.logger.OperateLogEntity;
 import com.focela.platform.system.service.logger.OperateLogService;
 import com.fhs.core.trans.anno.TransMethodResult;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -17,10 +17,10 @@ import org.springframework.validation.annotation.Validated;
  */
 @Service
 @Validated
+@RequiredArgsConstructor
 public class LocalOperateLogApi implements OperateLogApi {
 
-    @Resource
-    private OperateLogService operateLogService;
+    private final OperateLogService operateLogService;
 
     @Override
     public void createOperateLog(OperateLogCreateRpcRequest createRequest) {

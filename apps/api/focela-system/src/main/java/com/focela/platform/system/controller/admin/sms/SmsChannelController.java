@@ -12,8 +12,8 @@ import com.focela.platform.system.service.sms.SmsChannelService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,10 +25,10 @@ import static com.focela.platform.common.model.CommonResult.success;
 @Tag(name = "Admin - SMS channel")
 @RestController
 @RequestMapping("system/sms-channel")
+@RequiredArgsConstructor
 public class SmsChannelController {
 
-    @Resource
-    private SmsChannelService smsChannelService;
+        private final SmsChannelService smsChannelService;
 
     @PostMapping("/create")
     @Operation(summary = "create SMS channel")

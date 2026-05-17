@@ -4,10 +4,10 @@ import cn.hutool.core.date.LocalDateTimeUtil;
 import com.focela.platform.common.utils.collection.CollectionUtils;
 import com.focela.platform.common.utils.json.JsonUtils;
 import com.focela.platform.system.entity.oauth2.OAuth2AccessTokenEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;
 
-import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Collection;
@@ -20,10 +20,10 @@ import static com.focela.platform.system.constants.RedisKeyConstants.OAUTH2_ACCE
  * RedisDAO for {@link OAuth2AccessTokenEntity}
  */
 @Repository
+@RequiredArgsConstructor
 public class OAuth2AccessTokenRedisRepository {
 
-    @Resource
-    private StringRedisTemplate stringRedisTemplate;
+    private final StringRedisTemplate stringRedisTemplate;
 
     public OAuth2AccessTokenEntity get(String accessToken) {
         String redisKey = formatKey(accessToken);

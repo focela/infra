@@ -21,7 +21,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.mzt.logapi.context.LogRecordContext;
 import com.mzt.logapi.service.impl.DiffParseFunction;
 import com.mzt.logapi.starter.annotation.LogRecord;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -41,13 +41,12 @@ import static com.focela.platform.system.constants.LogRecordConstants.*;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class DefaultRoleService implements RoleService {
 
-    @Resource
-    private PermissionService permissionService;
+        private final PermissionService permissionService;
 
-    @Resource
-    private RoleMapper roleMapper;
+        private final RoleMapper roleMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)

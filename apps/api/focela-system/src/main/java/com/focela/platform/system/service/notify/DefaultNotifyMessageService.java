@@ -6,10 +6,10 @@ import com.focela.platform.system.controller.admin.notify.dto.message.NotifyMess
 import com.focela.platform.system.entity.notify.NotifyMessageEntity;
 import com.focela.platform.system.entity.notify.NotifyTemplateEntity;
 import com.focela.platform.system.repository.mapper.notify.NotifyMessageMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -19,10 +19,10 @@ import java.util.Map;
  */
 @Service
 @Validated
+@RequiredArgsConstructor
 public class DefaultNotifyMessageService implements NotifyMessageService {
 
-    @Resource
-    private NotifyMessageMapper notifyMessageMapper;
+    private final NotifyMessageMapper notifyMessageMapper;
 
     @Override
     public Long createNotifyMessage(Long userId, Integer userType,

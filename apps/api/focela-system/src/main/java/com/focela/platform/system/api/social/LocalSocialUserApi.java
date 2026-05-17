@@ -4,20 +4,19 @@ import com.focela.platform.system.api.social.dto.SocialUserBindRpcRequest;
 import com.focela.platform.system.api.social.dto.SocialUserRpcResponse;
 import com.focela.platform.system.api.social.dto.SocialUserUnbindRpcRequest;
 import com.focela.platform.system.service.social.SocialUserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-
-import jakarta.annotation.Resource;
 
 /**
  * Social user API implementation class
  */
 @Service
 @Validated
+@RequiredArgsConstructor
 public class LocalSocialUserApi implements SocialUserApi {
 
-    @Resource
-    private SocialUserService socialUserService;
+    private final SocialUserService socialUserService;
 
     @Override
     public String bindSocialUser(SocialUserBindRpcRequest request) {
