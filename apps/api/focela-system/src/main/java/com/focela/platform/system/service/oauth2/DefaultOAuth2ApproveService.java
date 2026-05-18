@@ -35,7 +35,7 @@ public class DefaultOAuth2ApproveService implements OAuth2ApproveService {
         private final OAuth2ApproveMapper oauth2ApproveMapper;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public boolean checkForPreApproval(Long userId, Integer userType, String clientId, Collection<String> requestedScopes) {
         // Step 1: based on the client's auto-approve calculation; if all scopes are in auto-approve, return true (approved)
         OAuth2ClientEntity clientEntity = oauth2ClientService.validateOAuthClientFromCache(clientId);
@@ -57,7 +57,7 @@ public class DefaultOAuth2ApproveService implements OAuth2ApproveService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public boolean updateAfterApproval(Long userId, Integer userType, String clientId, Map<String, Boolean> requestedScopes) {
         // If requestedScopes is empty, there is no request, return true (approved)
         if (CollUtil.isEmpty(requestedScopes)) {
