@@ -2,7 +2,11 @@ package com.focela.platform.tenant.core.aop;
 
 import com.focela.platform.tenant.config.TenantProperties;
 
-import java.lang.annotation.*;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * Ignore tenant: mark the specified method so that automatic tenant filtering is skipped.

@@ -5,7 +5,11 @@ import com.focela.platform.system.controller.admin.department.dto.dept.Departmen
 import com.focela.platform.system.controller.admin.department.dto.dept.DepartmentSaveRequest;
 import com.focela.platform.system.entity.department.DepartmentEntity;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Department Service interface

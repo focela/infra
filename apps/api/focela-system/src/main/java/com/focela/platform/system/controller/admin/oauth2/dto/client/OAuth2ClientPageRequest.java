@@ -1,7 +1,9 @@
 package com.focela.platform.system.controller.admin.oauth2.dto.client;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import com.focela.platform.common.model.PageParam;
 
 @Schema(description = "Admin - OAuth2 client page Request VO")

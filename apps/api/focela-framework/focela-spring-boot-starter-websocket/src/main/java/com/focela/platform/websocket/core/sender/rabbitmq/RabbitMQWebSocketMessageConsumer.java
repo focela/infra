@@ -2,7 +2,11 @@ package com.focela.platform.websocket.core.sender.rabbitmq;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.ExchangeTypes;
-import org.springframework.amqp.rabbit.annotation.*;
+import org.springframework.amqp.rabbit.annotation.Exchange;
+import org.springframework.amqp.rabbit.annotation.Queue;
+import org.springframework.amqp.rabbit.annotation.QueueBinding;
+import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
 /**
  * Consumer for {@link RabbitMQWebSocketMessage} broadcast messages; it actually sends the message out.

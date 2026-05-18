@@ -3,7 +3,11 @@ package com.focela.platform.system.entity.dictionary;
 import com.focela.platform.common.enums.CommonStatusEnum;
 import com.focela.platform.mybatis.core.entity.BaseEntity;
 import com.focela.platform.tenant.core.aop.TenantIgnore;
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
+import com.baomidou.mybatisplus.annotation.KeySequence;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

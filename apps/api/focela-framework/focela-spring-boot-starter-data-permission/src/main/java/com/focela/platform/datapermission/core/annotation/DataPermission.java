@@ -2,7 +2,11 @@ package com.focela.platform.datapermission.core.annotation;
 
 import com.focela.platform.datapermission.core.rule.DataPermissionRule;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * Data permission annotation.

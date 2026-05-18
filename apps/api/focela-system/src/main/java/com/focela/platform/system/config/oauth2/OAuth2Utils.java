@@ -8,7 +8,11 @@ import com.focela.platform.security.core.utils.SecurityFrameworkUtils;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * OAuth2 related utility class

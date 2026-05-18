@@ -3,7 +3,7 @@ package com.focela.platform.system.controller.admin.notify.dto.template;
 import com.focela.platform.common.enums.CommonStatusEnum;
 import com.focela.platform.common.validation.InEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.Data;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
