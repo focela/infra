@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * SMS receive Response DTO
+ * SMS receive response
  */
 @Data
 public class SmsReceiveRpcResponse {

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Mail send Request DTO
+ * Mail send request
  */
 @Data
 public class MailSendSingleToUserRpcRequest {

@@ -20,7 +20,7 @@ public interface ApiErrorLogContractApi {
     /**
      * [Async] Create an API error log.
      *
-     * @param createRequest error log DTO
+     * @param createRequest error log request
      */
     @Async
     default void createApiErrorLogAsync(ApiErrorLogCreateRpcRequest createRequest) {

@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 import static com.focela.platform.system.constants.RedisKeyConstants.OAUTH2_ACCESS_TOKEN;
 
 /**
- * RedisDAO for {@link OAuth2AccessTokenEntity}
+ * Redis repository for {@link OAuth2AccessTokenEntity}.
  */
 @Repository
 @RequiredArgsConstructor

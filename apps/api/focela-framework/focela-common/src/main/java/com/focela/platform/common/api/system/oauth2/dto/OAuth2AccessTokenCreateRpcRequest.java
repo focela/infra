@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * OAuth2.0 access token create Request DTO.
+ * OAuth2.0 access token create request.
  */
 @Data
 public class OAuth2AccessTokenCreateRpcRequest implements Serializable {

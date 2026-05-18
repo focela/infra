@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
- * System operate log Create Request DTO.
+ * System operate log Create request.
  */
 @Data
 public class OperateLogCreateRpcRequest {

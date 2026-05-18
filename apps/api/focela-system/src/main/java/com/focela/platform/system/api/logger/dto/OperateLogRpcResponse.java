@@ -8,7 +8,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * System operate log Resp DTO
+ * System operate log response
  */
 @Data
 public class OperateLogRpcResponse implements VO {

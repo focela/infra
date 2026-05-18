@@ -7,7 +7,7 @@ import com.fhs.trans.service.impl.TransService;
 import java.util.List;
 
 /**
- * VO data translation utilities.
+ * Response data translation utilities.
  */
 public class TranslateUtils {
 

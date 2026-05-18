@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 /**
- * Bind social user Request DTO
+ * Bind social user request
  */
 @Data
 @NoArgsConstructor

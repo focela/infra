@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 /**
- * SMS verification code use Request DTO
+ * SMS verification code use request
  */
 @Data
 public class SmsCodeUseRpcRequest {

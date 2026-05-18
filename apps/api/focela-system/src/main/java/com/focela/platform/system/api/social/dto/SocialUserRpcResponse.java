@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Social user Response DTO
+ * Social user response
  */
 @Data
 @NoArgsConstructor

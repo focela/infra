@@ -32,14 +32,14 @@ public abstract class BaseEntity implements Serializable, TransPojo {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
     /**
-     * Creator; currently the SysUser ID.
+     * Creator; currently the user ID.
      *
      * Stored as String because non-numeric values may appear in the future; reserves room for extension.
      */
     @TableField(fill = FieldFill.INSERT, jdbcType = JdbcType.VARCHAR)
     private String creator;
     /**
-     * Updater; currently the SysUser ID.
+     * Updater; currently the user ID.
      *
      * Stored as String because non-numeric values may appear in the future; reserves room for extension.
      */

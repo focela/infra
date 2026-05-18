@@ -4,7 +4,7 @@ import com.focela.platform.system.config.sms.enums.SmsTemplateAuditStatusEnum;
 import lombok.Data;
 
 /**
- * SMS template Response DTO
+ * SMS template response
  */
 @Data
 public class SmsTemplateRpcResponse {

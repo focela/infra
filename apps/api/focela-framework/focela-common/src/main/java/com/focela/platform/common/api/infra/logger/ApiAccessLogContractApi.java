@@ -19,7 +19,7 @@ public interface ApiAccessLogContractApi {
     /**
      * [Async] Create an API access log.
      *
-     * @param createRequest access log DTO
+     * @param createRequest access log request
      */
     @Async
     default void createApiAccessLogAsync(ApiAccessLogCreateRpcRequest createRequest) {

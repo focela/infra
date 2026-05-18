@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
  *
  * Special:
  * 1. If added to a Controller class, the URL is automatically added to {@link TenantProperties#getIgnoreUrls()}.
- * 2. If added to a DO entity class, the corresponding table name is effectively automatically added to {@link TenantProperties#getIgnoreTables()}.
+ * 2. If added to an entity class, the corresponding table name is effectively automatically added to {@link TenantProperties#getIgnoreTables()}.
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

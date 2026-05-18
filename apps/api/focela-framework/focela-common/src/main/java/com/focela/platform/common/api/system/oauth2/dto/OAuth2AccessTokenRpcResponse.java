@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * OAuth2.0 access token info Response DTO.
+ * OAuth2.0 access token info response.
  */
 @Data
 public class OAuth2AccessTokenRpcResponse implements Serializable {

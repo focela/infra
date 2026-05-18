@@ -3,7 +3,7 @@ package com.focela.platform.system.config.sms.client.dto;
 import lombok.Data;
 
 /**
- * SMS send Response DTO
+ * SMS send response
  */
 @Data
 public class SmsSendRpcResponse {

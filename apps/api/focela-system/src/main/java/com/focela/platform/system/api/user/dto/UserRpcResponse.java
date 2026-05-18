@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.Set;
 
 /**
- * Admin user Response DTO
+ * Admin user response
  */
 @Data
 public class UserRpcResponse {

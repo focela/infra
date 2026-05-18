@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
 public @interface DictionaryFormat {
 
     /**
-     * For example, SysDictTypeConstants or InfDictTypeConstants.
+     * For example, the values defined in {@code DictionaryTypeConstants}.
      *
      * @return dictionary type
      */

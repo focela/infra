@@ -4,7 +4,7 @@ import com.focela.platform.common.enums.CommonStatusEnum;
 import lombok.Data;
 
 /**
- * Post Response DTO
+ * Post response
  */
 @Data
 public class PostRpcResponse {

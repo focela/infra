@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * OAuth2.0 access token validation Response DTO.
+ * OAuth2.0 access token validation response.
  */
 @Data
 public class OAuth2AccessTokenCheckRpcResponse implements Serializable {

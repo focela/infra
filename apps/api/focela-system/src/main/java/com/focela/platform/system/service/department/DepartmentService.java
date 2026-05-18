@@ -64,7 +64,7 @@ public interface DepartmentService {
     /**
      * Filter the department list
      *
-     * @param request filter request DTO
+     * @param request filter request
      * @return department list
      */
     List<DepartmentEntity> getDeptList(DepartmentListRequest request);

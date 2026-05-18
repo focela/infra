@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 /**
- * Login log create Request DTO
+ * Login log create request
  */
 @Data
 public class LoginLogCreateRpcRequest {

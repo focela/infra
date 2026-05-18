@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Department data permission Response DTO.
+ * Department data permission response.
  */
 @Data
 public class DepartmentDataPermissionRpcResponse {

@@ -4,7 +4,7 @@ import com.focela.platform.common.enums.CommonStatusEnum;
 import lombok.Data;
 
 /**
- * Dictionary data Response DTO.
+ * Dictionary data response.
  */
 @Data
 public class DictionaryDataRpcResponse {

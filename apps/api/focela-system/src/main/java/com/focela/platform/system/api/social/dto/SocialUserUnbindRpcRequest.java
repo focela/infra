@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.NoArgsConstructor;
 
 /**
- * Social unbind Request DTO
+ * Social unbind request
  */
 @Data
 @AllArgsConstructor

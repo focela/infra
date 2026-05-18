@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * Sorting field DTO.
+ * Sorting field.
  *
  * The "ing" suffix avoids clashing with ES SortField.
  */
