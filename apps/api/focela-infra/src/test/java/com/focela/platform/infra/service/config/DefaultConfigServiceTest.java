@@ -53,7 +53,7 @@ public class DefaultConfigServiceTest extends BaseDbUnitTest {
     @Test
     public void testUpdateConfig_success() {
         // mock data
-        ConfigEntity dbConfig = randomConfigDO();
+        ConfigEntity dbConfig = randomConfigEntity();
         configMapper.insert(dbConfig);// @Sql: first insert an existing record
         // Prepare parameters
         ConfigSaveRequest request = randomPojo(ConfigSaveRequest.class, o -> {
@@ -70,7 +70,7 @@ public class DefaultConfigServiceTest extends BaseDbUnitTest {
     @Test
     public void testDeleteConfig_success() {
         // mock data
-        ConfigEntity dbConfig = randomConfigDO(o -> {
+        ConfigEntity dbConfig = randomConfigEntity(o -> {
             o.setType(ConfigTypeEnum.CUSTOM.getType()); // only CUSTOM type can be deleted
         });
         configMapper.insert(dbConfig);// @Sql: first insert an existing record
@@ -86,7 +86,7 @@ public class DefaultConfigServiceTest extends BaseDbUnitTest {
     @Test
     public void testDeleteConfig_cannotDeleteSystemType() {
         // mock data
-        ConfigEntity dbConfig = randomConfigDO(o -> {
+        ConfigEntity dbConfig = randomConfigEntity(o -> {
             o.setType(ConfigTypeEnum.SYSTEM.getType()); // SYSTEM is not allowed to be deleted
         });
         configMapper.insert(dbConfig);// @Sql: first insert an existing record
@@ -100,11 +100,11 @@ public class DefaultConfigServiceTest extends BaseDbUnitTest {
     @Test
     public void testValidateConfigExists_success() {
         // mock data
-        ConfigEntity dbConfigDO = randomConfigDO();
-        configMapper.insert(dbConfigDO);// @Sql: first insert an existing record
+        ConfigEntity dbConfigEntity = randomConfigEntity();
+        configMapper.insert(dbConfigEntity);// @Sql: first insert an existing record
 
         // Invoke; succeeds
-        configService.validateConfigExists(dbConfigDO.getId());
+        configService.validateConfigExists(dbConfigEntity.getId());
     }
 
     @Test
@@ -123,7 +123,7 @@ public class DefaultConfigServiceTest extends BaseDbUnitTest {
         // Prepare parameters
         String key = randomString();
         // mock data
-        configMapper.insert(randomConfigDO(o -> o.setConfigKey(key)));
+        configMapper.insert(randomConfigEntity(o -> o.setConfigKey(key)));
 
         // Invoke and verify exception
         assertServiceException(() -> configService.validateConfigKeyUnique(null, key),
@@ -136,7 +136,7 @@ public class DefaultConfigServiceTest extends BaseDbUnitTest {
         Long id = randomLongId();
         String key = randomString();
         // mock data
-        configMapper.insert(randomConfigDO(o -> o.setConfigKey(key)));
+        configMapper.insert(randomConfigEntity(o -> o.setConfigKey(key)));
 
         // Invoke and verify exception
         assertServiceException(() -> configService.validateConfigKeyUnique(id, key),
@@ -146,7 +146,7 @@ public class DefaultConfigServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetConfigPage() {
         // mock data
-        ConfigEntity dbConfig = randomConfigDO(o -> { // will be queried later
+        ConfigEntity dbConfig = randomConfigEntity(o -> { // will be queried later
             o.setName("focela");
             o.setConfigKey("focela-key");
             o.setType(ConfigTypeEnum.SYSTEM.getType());
@@ -179,7 +179,7 @@ public class DefaultConfigServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetConfig() {
         // mock data
-        ConfigEntity dbConfig = randomConfigDO();
+        ConfigEntity dbConfig = randomConfigEntity();
         configMapper.insert(dbConfig);// @Sql: first insert an existing record
         // Prepare parameters
         Long id = dbConfig.getId();
@@ -194,7 +194,7 @@ public class DefaultConfigServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetConfigByKey() {
         // mock data
-        ConfigEntity dbConfig = randomConfigDO();
+        ConfigEntity dbConfig = randomConfigEntity();
         configMapper.insert(dbConfig);// @Sql: first insert an existing record
         // Prepare parameters
         String key = dbConfig.getConfigKey();
@@ -209,7 +209,7 @@ public class DefaultConfigServiceTest extends BaseDbUnitTest {
     // ========== Random objects ==========
 
     @SafeVarargs
-    private static ConfigEntity randomConfigDO(Consumer<ConfigEntity>... consumers) {
+    private static ConfigEntity randomConfigEntity(Consumer<ConfigEntity>... consumers) {
         Consumer<ConfigEntity> consumer = (o) -> {
             o.setType(randomEle(ConfigTypeEnum.values()).getType()); // keep the key range constrained
         };

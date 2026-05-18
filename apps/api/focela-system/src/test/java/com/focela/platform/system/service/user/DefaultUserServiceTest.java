@@ -153,7 +153,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testUpdateUser_success() {
         // mock data
-        UserEntity dbUser = randomAdminUserDO(o -> o.setPostIds(asSet(1L, 2L)));
+        UserEntity dbUser = randomAdminUserEntity(o -> o.setPostIds(asSet(1L, 2L)));
         userMapper.insert(dbUser);
         userPostMapper.insert(new UserPostEntity().setUserId(dbUser.getId()).setPostId(1L));
         userPostMapper.insert(new UserPostEntity().setUserId(dbUser.getId()).setPostId(2L));
@@ -192,7 +192,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testUpdateUserLogin() {
         // mock data
-        UserEntity user = randomAdminUserDO(o -> o.setLoginDate(null));
+        UserEntity user = randomAdminUserEntity(o -> o.setLoginDate(null));
         userMapper.insert(user);
         // prepare parameters
         Long id = user.getId();
@@ -209,7 +209,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testUpdateUserProfile_success() {
         // mock data
-        UserEntity dbUser = randomAdminUserDO();
+        UserEntity dbUser = randomAdminUserEntity();
         userMapper.insert(dbUser);
         // prepare parameters
         Long userId = dbUser.getId();
@@ -229,7 +229,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testUpdateUserPassword_success() {
         // mock data
-        UserEntity dbUser = randomAdminUserDO(o -> o.setPassword("encode:tudou"));
+        UserEntity dbUser = randomAdminUserEntity(o -> o.setPassword("encode:tudou"));
         userMapper.insert(dbUser);
         // prepare parameters
         Long userId = dbUser.getId();
@@ -252,7 +252,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testUpdateUserPassword02_success() {
         // mock data
-        UserEntity dbUser = randomAdminUserDO();
+        UserEntity dbUser = randomAdminUserEntity();
         userMapper.insert(dbUser);
         // prepare parameters
         Long userId = dbUser.getId();
@@ -271,7 +271,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testUpdateUserStatus() {
         // mock data
-        UserEntity dbUser = randomAdminUserDO();
+        UserEntity dbUser = randomAdminUserEntity();
         userMapper.insert(dbUser);
         // prepare parameters
         Long userId = dbUser.getId();
@@ -287,7 +287,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testDeleteUser_success(){
         // mock data
-        UserEntity dbUser = randomAdminUserDO();
+        UserEntity dbUser = randomAdminUserEntity();
         userMapper.insert(dbUser);
         // prepare parameters
         Long userId = dbUser.getId();
@@ -303,7 +303,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetUserByUsername() {
         // mock data
-        UserEntity dbUser = randomAdminUserDO();
+        UserEntity dbUser = randomAdminUserEntity();
         userMapper.insert(dbUser);
         // prepare parameters
         String username = dbUser.getUsername();
@@ -317,7 +317,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetUserByMobile() {
         // mock data
-        UserEntity dbUser = randomAdminUserDO();
+        UserEntity dbUser = randomAdminUserEntity();
         userMapper.insert(dbUser);
         // prepare parameters
         String mobile = dbUser.getMobile();
@@ -356,7 +356,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
      */
     private UserEntity initGetUserPageData() {
         // mock data
-        UserEntity dbUser = randomAdminUserDO(o -> { // will be queried later
+        UserEntity dbUser = randomAdminUserEntity(o -> { // will be queried later
             o.setUsername("tudou");
             o.setMobile("15601691300");
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
@@ -380,7 +380,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetUser() {
         // mock data
-        UserEntity dbUser = randomAdminUserDO();
+        UserEntity dbUser = randomAdminUserEntity();
         userMapper.insert(dbUser);
         // prepare parameters
         Long userId = dbUser.getId();
@@ -394,7 +394,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetUserListByDeptIds() {
         // mock data
-        UserEntity dbUser = randomAdminUserDO(o -> o.setDeptId(1L));
+        UserEntity dbUser = randomAdminUserEntity(o -> o.setDeptId(1L));
         userMapper.insert(dbUser);
         // test deptId mismatch
         userMapper.insert(cloneIgnoreId(dbUser, o -> o.setDeptId(2L)));
@@ -468,7 +468,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testImportUserList_03() {
         // mock data
-        UserEntity dbUser = randomAdminUserDO();
+        UserEntity dbUser = randomAdminUserEntity();
         userMapper.insert(dbUser);
         // prepare parameters
         UserImportExcelDto importUser = randomPojo(UserImportExcelDto.class, o -> {
@@ -500,7 +500,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testImportUserList_04() {
         // mock data
-        UserEntity dbUser = randomAdminUserDO();
+        UserEntity dbUser = randomAdminUserEntity();
         userMapper.insert(dbUser);
         // prepare parameters
         UserImportExcelDto importUser = randomPojo(UserImportExcelDto.class, o -> {
@@ -537,7 +537,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
         // prepare parameters
         String username = randomString();
         // mock data
-        userMapper.insert(randomAdminUserDO(o -> o.setUsername(username)));
+        userMapper.insert(randomAdminUserEntity(o -> o.setUsername(username)));
 
         // invoke, verify exception
         assertServiceException(() -> userService.validateUsernameUnique(null, username),
@@ -550,7 +550,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
         Long id = randomLongId();
         String username = randomString();
         // mock data
-        userMapper.insert(randomAdminUserDO(o -> o.setUsername(username)));
+        userMapper.insert(randomAdminUserEntity(o -> o.setUsername(username)));
 
         // invoke, verify exception
         assertServiceException(() -> userService.validateUsernameUnique(id, username),
@@ -562,7 +562,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
         // prepare parameters
         String email = randomString();
         // mock data
-        userMapper.insert(randomAdminUserDO(o -> o.setEmail(email)));
+        userMapper.insert(randomAdminUserEntity(o -> o.setEmail(email)));
 
         // invoke, verify exception
         assertServiceException(() -> userService.validateEmailUnique(null, email),
@@ -575,7 +575,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
         Long id = randomLongId();
         String email = randomString();
         // mock data
-        userMapper.insert(randomAdminUserDO(o -> o.setEmail(email)));
+        userMapper.insert(randomAdminUserEntity(o -> o.setEmail(email)));
 
         // invoke, verify exception
         assertServiceException(() -> userService.validateEmailUnique(id, email),
@@ -587,7 +587,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
         // prepare parameters
         String mobile = randomString();
         // mock data
-        userMapper.insert(randomAdminUserDO(o -> o.setMobile(mobile)));
+        userMapper.insert(randomAdminUserEntity(o -> o.setMobile(mobile)));
 
         // invoke, verify exception
         assertServiceException(() -> userService.validateMobileUnique(null, mobile),
@@ -600,7 +600,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
         Long id = randomLongId();
         String mobile = randomString();
         // mock data
-        userMapper.insert(randomAdminUserDO(o -> o.setMobile(mobile)));
+        userMapper.insert(randomAdminUserEntity(o -> o.setMobile(mobile)));
 
         // invoke, verify exception
         assertServiceException(() -> userService.validateMobileUnique(id, mobile),
@@ -616,7 +616,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testValidateOldPassword_passwordFailed() {
         // mock data
-        UserEntity user = randomAdminUserDO();
+        UserEntity user = randomAdminUserEntity();
         userMapper.insert(user);
         // prepare parameters
         Long id = user.getId();
@@ -634,12 +634,12 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
         // prepare parameters
         Collection<Long> postIds = asSet(10L, 20L);
         // mock user1 data
-        UserEntity user1 = randomAdminUserDO(o -> o.setPostIds(asSet(10L, 30L)));
+        UserEntity user1 = randomAdminUserEntity(o -> o.setPostIds(asSet(10L, 30L)));
         userMapper.insert(user1);
         userPostMapper.insert(new UserPostEntity().setUserId(user1.getId()).setPostId(10L));
         userPostMapper.insert(new UserPostEntity().setUserId(user1.getId()).setPostId(30L));
         // mock user2 data
-        UserEntity user2 = randomAdminUserDO(o -> o.setPostIds(singleton(100L)));
+        UserEntity user2 = randomAdminUserEntity(o -> o.setPostIds(singleton(100L)));
         userMapper.insert(user2);
         userPostMapper.insert(new UserPostEntity().setUserId(user2.getId()).setPostId(100L));
 
@@ -653,10 +653,10 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetUserList() {
         // mock data
-        UserEntity user = randomAdminUserDO();
+        UserEntity user = randomAdminUserEntity();
         userMapper.insert(user);
         // test id mismatch
-        userMapper.insert(randomAdminUserDO());
+        userMapper.insert(randomAdminUserEntity());
         // prepare parameters
         Collection<Long> ids = singleton(user.getId());
 
@@ -670,10 +670,10 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetUserMap() {
         // mock data
-        UserEntity user = randomAdminUserDO();
+        UserEntity user = randomAdminUserEntity();
         userMapper.insert(user);
         // test id mismatch
-        userMapper.insert(randomAdminUserDO());
+        userMapper.insert(randomAdminUserEntity());
         // prepare parameters
         Collection<Long> ids = singleton(user.getId());
 
@@ -687,10 +687,10 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetUserListByNickname() {
         // mock data
-        UserEntity user = randomAdminUserDO(o -> o.setNickname("Focela"));
+        UserEntity user = randomAdminUserEntity(o -> o.setNickname("Focela"));
         userMapper.insert(user);
         // test nickname mismatch
-        userMapper.insert(randomAdminUserDO(o -> o.setNickname("source")));
+        userMapper.insert(randomAdminUserEntity(o -> o.setNickname("source")));
         // prepare parameters
         String nickname = "Focela";
 
@@ -704,10 +704,10 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetUserListByStatus() {
         // mock data
-        UserEntity user = randomAdminUserDO(o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus()));
+        UserEntity user = randomAdminUserEntity(o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus()));
         userMapper.insert(user);
         // test status mismatch
-        userMapper.insert(randomAdminUserDO(o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus())));
+        userMapper.insert(randomAdminUserEntity(o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus())));
         // prepare parameters
         Integer status = CommonStatusEnum.DISABLE.getStatus();
 
@@ -721,7 +721,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testValidateUserList_success() {
         // mock data
-        UserEntity userEntity = randomAdminUserDO().setStatus(CommonStatusEnum.ENABLE.getStatus());
+        UserEntity userEntity = randomAdminUserEntity().setStatus(CommonStatusEnum.ENABLE.getStatus());
         userMapper.insert(userEntity);
         // prepare parameters
         List<Long> ids = singletonList(userEntity.getId());
@@ -742,7 +742,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testValidateUserList_notEnable() {
         // mock data
-        UserEntity userEntity = randomAdminUserDO().setStatus(CommonStatusEnum.DISABLE.getStatus());
+        UserEntity userEntity = randomAdminUserEntity().setStatus(CommonStatusEnum.DISABLE.getStatus());
         userMapper.insert(userEntity);
         // prepare parameters
         List<Long> ids = singletonList(userEntity.getId());
@@ -755,7 +755,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     // ========== random object ==========
 
     @SafeVarargs
-    private static UserEntity randomAdminUserDO(Consumer<UserEntity>... consumers) {
+    private static UserEntity randomAdminUserEntity(Consumer<UserEntity>... consumers) {
         Consumer<UserEntity> consumer = (o) -> {
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // ensure status range
             o.setSex(randomEle(SexEnum.values()).getSex()); // ensure sex range

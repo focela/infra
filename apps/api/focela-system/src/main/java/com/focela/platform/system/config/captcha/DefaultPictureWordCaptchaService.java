@@ -52,7 +52,7 @@ public class DefaultPictureWordCaptchaService extends AbstractCaptchaService {
     }
 
     @Override
-    public ResponseModel get(CaptchaVO captchaVO) {
+    public ResponseModel get(CaptchaVO captcha) {
         String text = generateRandomText(LENGTH);
         CaptchaVO imageData = getImageData(text);
         // pointJson is not sent to the frontend; backend validation only, enable during testing
@@ -61,14 +61,14 @@ public class DefaultPictureWordCaptchaService extends AbstractCaptchaService {
     }
 
     @Override
-    public ResponseModel check(CaptchaVO captchaVO) {
-        ResponseModel r = super.check(captchaVO);
+    public ResponseModel check(CaptchaVO captcha) {
+        ResponseModel r = super.check(captcha);
         if (!validatedReq(r)) {
             return r;
         }
 
         // Retrieve the captcha
-        String codeKey = String.format(REDIS_CAPTCHA_KEY, captchaVO.getToken());
+        String codeKey = String.format(REDIS_CAPTCHA_KEY, captcha.getToken());
         if (!CaptchaServiceFactory.getCache(cacheType).exists(codeKey)) {
             return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_INVALID);
         }
@@ -80,36 +80,36 @@ public class DefaultPictureWordCaptchaService extends AbstractCaptchaService {
         CaptchaServiceFactory.getCache(cacheType).delete(codeKey);
 
         // User-entered captcha (CaptchaVO has no reserved field; temporarily use pointJson without encryption/decryption)
-        String userCode = captchaVO.getPointJson();
+        String userCode = captcha.getPointJson();
         if (!Strings.CI.equals(code, userCode)) {
-            afterValidateFail(captchaVO);
+            afterValidateFail(captcha);
             return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_COORDINATE_ERROR);
         }
 
         // Validation succeeded; store the info in cache
         String value;
         try {
-            value = AESUtil.aesEncrypt(captchaVO.getToken().concat("---").concat(userCode), secretKey);
+            value = AESUtil.aesEncrypt(captcha.getToken().concat("---").concat(userCode), secretKey);
         } catch (Exception e) {
             logger.error("AES encryption failed", e);
-            afterValidateFail(captchaVO);
+            afterValidateFail(captcha);
             return ResponseModel.errorMsg(e.getMessage());
         }
         String secondKey = String.format(REDIS_SECOND_CAPTCHA_KEY, value);
-        CaptchaServiceFactory.getCache(cacheType).set(secondKey, captchaVO.getToken(), EXPIRESIN_THREE);
-        captchaVO.setResult(true);
-        captchaVO.resetClientFlag();
-        return ResponseModel.successData(captchaVO);
+        CaptchaServiceFactory.getCache(cacheType).set(secondKey, captcha.getToken(), EXPIRESIN_THREE);
+        captcha.setResult(true);
+        captcha.resetClientFlag();
+        return ResponseModel.successData(captcha);
     }
 
     @Override
-    public ResponseModel verification(CaptchaVO captchaVO) {
-        ResponseModel r = super.verification(captchaVO);
+    public ResponseModel verification(CaptchaVO captcha) {
+        ResponseModel r = super.verification(captcha);
         if (!validatedReq(r)) {
             return r;
         }
         try {
-            String codeKey = String.format(REDIS_SECOND_CAPTCHA_KEY, captchaVO.getCaptchaVerification());
+            String codeKey = String.format(REDIS_SECOND_CAPTCHA_KEY, captcha.getCaptchaVerification());
             if (!CaptchaServiceFactory.getCache(cacheType).exists(codeKey)) {
                 return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_INVALID);
             }
@@ -124,7 +124,7 @@ public class DefaultPictureWordCaptchaService extends AbstractCaptchaService {
 
 
     private CaptchaVO getImageData(String text) {
-        CaptchaVO dataVO = new CaptchaVO();
+        CaptchaVO captchaData = new CaptchaVO();
         BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = image.createGraphics();
 
@@ -166,15 +166,15 @@ public class DefaultPictureWordCaptchaService extends AbstractCaptchaService {
         if (captchaAesStatus) {
             secretKey = AESUtil.getKey();
         }
-        dataVO.setSecretKey(secretKey);
+        captchaData.setSecretKey(secretKey);
 
-        dataVO.setOriginalImageBase64(ImageUtils.getImageToBase64Str(image).replaceAll("\r|\n", ""));
-        dataVO.setToken(RandomUtils.getUUID());
-//        dataVO.setSecretKey(secretKey);
+        captchaData.setOriginalImageBase64(ImageUtils.getImageToBase64Str(image).replaceAll("\r|\n", ""));
+        captchaData.setToken(RandomUtils.getUUID());
+//        captchaData.setSecretKey(secretKey);
         // Store coordinate info into redis
-        String codeKey = String.format(REDIS_CAPTCHA_KEY, dataVO.getToken());
+        String codeKey = String.format(REDIS_CAPTCHA_KEY, captchaData.getToken());
         CaptchaServiceFactory.getCache(cacheType).set(codeKey, getCodeValue(text, secretKey), EXPIRESIN_SECONDS);
-        return dataVO;
+        return captchaData;
     }
 
     private String getCodeValue(String text, String secretKey) {

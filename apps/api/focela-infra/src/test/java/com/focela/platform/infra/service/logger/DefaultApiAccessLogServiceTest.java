@@ -32,7 +32,7 @@ public class DefaultApiAccessLogServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testGetApiAccessLogPage() {
-        ApiAccessLogEntity apiAccessLogDO = randomPojo(ApiAccessLogEntity.class, o -> {
+        ApiAccessLogEntity apiAccessLogEntity = randomPojo(ApiAccessLogEntity.class, o -> {
             o.setUserId(2233L);
             o.setUserType(UserTypeEnum.ADMIN.getValue());
             o.setApplicationName("focela-test");
@@ -41,21 +41,21 @@ public class DefaultApiAccessLogServiceTest extends BaseDbUnitTest {
             o.setDuration(1000);
             o.setResultCode(GlobalErrorCodeConstants.SUCCESS.getCode());
         });
-        apiAccessLogMapper.insert(apiAccessLogDO);
+        apiAccessLogMapper.insert(apiAccessLogEntity);
         // Test userId mismatch
-        apiAccessLogMapper.insert(cloneIgnoreId(apiAccessLogDO, o -> o.setUserId(3344L)));
+        apiAccessLogMapper.insert(cloneIgnoreId(apiAccessLogEntity, o -> o.setUserId(3344L)));
         // Test userType mismatch
-        apiAccessLogMapper.insert(cloneIgnoreId(apiAccessLogDO, o -> o.setUserType(UserTypeEnum.MEMBER.getValue())));
+        apiAccessLogMapper.insert(cloneIgnoreId(apiAccessLogEntity, o -> o.setUserType(UserTypeEnum.MEMBER.getValue())));
         // Test applicationName mismatch
-        apiAccessLogMapper.insert(cloneIgnoreId(apiAccessLogDO, o -> o.setApplicationName("test")));
+        apiAccessLogMapper.insert(cloneIgnoreId(apiAccessLogEntity, o -> o.setApplicationName("test")));
         // Test requestUrl mismatch
-        apiAccessLogMapper.insert(cloneIgnoreId(apiAccessLogDO, o -> o.setRequestUrl("bar")));
+        apiAccessLogMapper.insert(cloneIgnoreId(apiAccessLogEntity, o -> o.setRequestUrl("bar")));
         // Test beginTime mismatch: construct an earlier timestamp 2021-02-06 00:00:00
-        apiAccessLogMapper.insert(cloneIgnoreId(apiAccessLogDO, o -> o.setBeginTime(buildTime(2021, 2, 6))));
+        apiAccessLogMapper.insert(cloneIgnoreId(apiAccessLogEntity, o -> o.setBeginTime(buildTime(2021, 2, 6))));
         // Test duration mismatch
-        apiAccessLogMapper.insert(cloneIgnoreId(apiAccessLogDO, o -> o.setDuration(100)));
+        apiAccessLogMapper.insert(cloneIgnoreId(apiAccessLogEntity, o -> o.setDuration(100)));
         // Test resultCode mismatch
-        apiAccessLogMapper.insert(cloneIgnoreId(apiAccessLogDO, o -> o.setResultCode(2)));
+        apiAccessLogMapper.insert(cloneIgnoreId(apiAccessLogEntity, o -> o.setResultCode(2)));
         // Prepare parameters
         ApiAccessLogPageRequest request = new ApiAccessLogPageRequest();
         request.setUserId(2233L);
@@ -71,7 +71,7 @@ public class DefaultApiAccessLogServiceTest extends BaseDbUnitTest {
         // Assert that only one matching record is returned
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
-        assertPojoEquals(apiAccessLogDO, pageResult.getList().get(0));
+        assertPojoEquals(apiAccessLogEntity, pageResult.getList().get(0));
     }
 
     @Test
@@ -103,8 +103,8 @@ public class DefaultApiAccessLogServiceTest extends BaseDbUnitTest {
         // Invoke
         apiAccessLogService.createApiAccessLog(createRequest);
         // Assert
-        ApiAccessLogEntity apiAccessLogDO = apiAccessLogMapper.selectOne(null);
-        assertPojoEquals(createRequest, apiAccessLogDO);
+        ApiAccessLogEntity apiAccessLogEntity = apiAccessLogMapper.selectOne(null);
+        assertPojoEquals(createRequest, apiAccessLogEntity);
     }
 
 }

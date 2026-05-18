@@ -41,28 +41,28 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetDictDataList() {
         // mock data
-        DictionaryDataEntity dictDataDO01 = randomDictDataDO().setDictType("yunai").setSort(2)
+        DictionaryDataEntity dictDataEntity01 = randomDictDataEntity().setDictType("yunai").setSort(2)
                 .setStatus(CommonStatusEnum.ENABLE.getStatus());
-        dictDataMapper.insert(dictDataDO01);
-        DictionaryDataEntity dictDataDO02 = randomDictDataDO().setDictType("yunai").setSort(1)
+        dictDataMapper.insert(dictDataEntity01);
+        DictionaryDataEntity dictDataEntity02 = randomDictDataEntity().setDictType("yunai").setSort(1)
                 .setStatus(CommonStatusEnum.ENABLE.getStatus());
-        dictDataMapper.insert(dictDataDO02);
-        DictionaryDataEntity dictDataDO03 = randomDictDataDO().setDictType("yunai").setSort(3)
+        dictDataMapper.insert(dictDataEntity02);
+        DictionaryDataEntity dictDataEntity03 = randomDictDataEntity().setDictType("yunai").setSort(3)
                 .setStatus(CommonStatusEnum.DISABLE.getStatus());
-        dictDataMapper.insert(dictDataDO03);
-        DictionaryDataEntity dictDataDO04 = randomDictDataDO().setDictType("yunai2").setSort(3)
+        dictDataMapper.insert(dictDataEntity03);
+        DictionaryDataEntity dictDataEntity04 = randomDictDataEntity().setDictType("yunai2").setSort(3)
                 .setStatus(CommonStatusEnum.DISABLE.getStatus());
-        dictDataMapper.insert(dictDataDO04);
+        dictDataMapper.insert(dictDataEntity04);
         // prepare parameters
         Integer status = CommonStatusEnum.ENABLE.getStatus();
         String dictType = "yunai";
 
         // invoke
-        List<DictionaryDataEntity> dictDataDOList = dictDataService.getDictDataList(status, dictType);
+        List<DictionaryDataEntity> dictionaryDataEntities = dictDataService.getDictDataList(status, dictType);
         // assert
-        assertEquals(2, dictDataDOList.size());
-        assertPojoEquals(dictDataDO02, dictDataDOList.get(0));
-        assertPojoEquals(dictDataDO01, dictDataDOList.get(1));
+        assertEquals(2, dictionaryDataEntities.size());
+        assertPojoEquals(dictDataEntity02, dictionaryDataEntities.get(0));
+        assertPojoEquals(dictDataEntity01, dictionaryDataEntities.get(1));
     }
 
     @Test
@@ -97,7 +97,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetDictData() {
         // mock data
-        DictionaryDataEntity dbDictData = randomDictDataDO();
+        DictionaryDataEntity dbDictData = randomDictDataEntity();
         dictDataMapper.insert(dbDictData);
         // prepare parameters
         Long id = dbDictData.getId();
@@ -115,7 +115,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
                 o -> o.setStatus(randomCommonStatus()))
                 .setId(null); // prevent id from being assigned
         // mock the method
-        when(dictTypeService.getDictType(eq(request.getDictType()))).thenReturn(randomDictTypeDO(request.getDictType()));
+        when(dictTypeService.getDictType(eq(request.getDictType()))).thenReturn(randomDictTypeEntity(request.getDictType()));
 
         // invoke
         Long dictDataId = dictDataService.createDictData(request);
@@ -129,7 +129,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
     @Test
     public void testUpdateDictData_success() {
         // mock data
-        DictionaryDataEntity dbDictData = randomDictDataDO();
+        DictionaryDataEntity dbDictData = randomDictDataEntity();
         dictDataMapper.insert(dbDictData);// @Sql: first insert an existing record
         // prepare parameters
         DictionaryDataSaveRequest request = randomPojo(DictionaryDataSaveRequest.class, o -> {
@@ -137,7 +137,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
             o.setStatus(randomCommonStatus());
         });
         // mock the method, dictionary type
-        when(dictTypeService.getDictType(eq(request.getDictType()))).thenReturn(randomDictTypeDO(request.getDictType()));
+        when(dictTypeService.getDictType(eq(request.getDictType()))).thenReturn(randomDictTypeEntity(request.getDictType()));
 
         // invoke
         dictDataService.updateDictData(request);
@@ -149,7 +149,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
     @Test
     public void testDeleteDictData_success() {
         // mock data
-        DictionaryDataEntity dbDictData = randomDictDataDO();
+        DictionaryDataEntity dbDictData = randomDictDataEntity();
         dictDataMapper.insert(dbDictData);// @Sql: first insert an existing record
         // prepare parameters
         Long id = dbDictData.getId();
@@ -163,7 +163,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
     @Test
     public void testValidateDictDataExists_success() {
         // mock data
-        DictionaryDataEntity dbDictData = randomDictDataDO();
+        DictionaryDataEntity dbDictData = randomDictDataEntity();
         dictDataMapper.insert(dbDictData);// @Sql: first insert an existing record
 
         // invoke succeeded
@@ -179,7 +179,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
     public void testValidateDictTypeExists_success() {
         // mock the method, data type is disabled
         String type = randomString();
-        when(dictTypeService.getDictType(eq(type))).thenReturn(randomDictTypeDO(type));
+        when(dictTypeService.getDictType(eq(type))).thenReturn(randomDictTypeEntity(type));
 
         // invoke, succeeded
         dictDataService.validateDictTypeExists(type);
@@ -213,7 +213,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
         String dictType = randomString();
         String value = randomString();
         // mock data
-        dictDataMapper.insert(randomDictDataDO(o -> {
+        dictDataMapper.insert(randomDictDataEntity(o -> {
             o.setDictType(dictType);
             o.setValue(value);
         }));
@@ -230,7 +230,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
         String dictType = randomString();
         String value = randomString();
         // mock data
-        dictDataMapper.insert(randomDictDataDO(o -> {
+        dictDataMapper.insert(randomDictDataEntity(o -> {
             o.setDictType(dictType);
             o.setValue(value);
         }));
@@ -243,9 +243,9 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetDictDataCountByDictType() {
         // mock data
-        dictDataMapper.insert(randomDictDataDO(o -> o.setDictType("yunai")));
-        dictDataMapper.insert(randomDictDataDO(o -> o.setDictType("tudou")));
-        dictDataMapper.insert(randomDictDataDO(o -> o.setDictType("yunai")));
+        dictDataMapper.insert(randomDictDataEntity(o -> o.setDictType("yunai")));
+        dictDataMapper.insert(randomDictDataEntity(o -> o.setDictType("tudou")));
+        dictDataMapper.insert(randomDictDataEntity(o -> o.setDictType("yunai")));
         // prepare parameters
         String dictType = "yunai";
 
@@ -258,11 +258,11 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
     @Test
     public void testValidateDictDataList_success() {
         // mock data
-        DictionaryDataEntity dictDataDO = randomDictDataDO().setStatus(CommonStatusEnum.ENABLE.getStatus());
-        dictDataMapper.insert(dictDataDO);
+        DictionaryDataEntity dictDataEntity = randomDictDataEntity().setStatus(CommonStatusEnum.ENABLE.getStatus());
+        dictDataMapper.insert(dictDataEntity);
         // prepare parameters
-        String dictType = dictDataDO.getDictType();
-        List<String> values = singletonList(dictDataDO.getValue());
+        String dictType = dictDataEntity.getDictType();
+        List<String> values = singletonList(dictDataEntity.getValue());
 
         // invoke, no assertion needed
         dictDataService.validateDictDataList(dictType, values);
@@ -281,24 +281,24 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
     @Test
     public void testValidateDictDataList_notEnable() {
         // mock data
-        DictionaryDataEntity dictDataDO = randomDictDataDO().setStatus(CommonStatusEnum.DISABLE.getStatus());
-        dictDataMapper.insert(dictDataDO);
+        DictionaryDataEntity dictDataEntity = randomDictDataEntity().setStatus(CommonStatusEnum.DISABLE.getStatus());
+        dictDataMapper.insert(dictDataEntity);
         // prepare parameters
-        String dictType = dictDataDO.getDictType();
-        List<String> values = singletonList(dictDataDO.getValue());
+        String dictType = dictDataEntity.getDictType();
+        List<String> values = singletonList(dictDataEntity.getValue());
 
         // invoke and assert exception
         assertServiceException(() -> dictDataService.validateDictDataList(dictType, values),
-                DICT_DATA_NOT_ENABLE, dictDataDO.getLabel());
+                DICT_DATA_NOT_ENABLE, dictDataEntity.getLabel());
     }
 
     @Test
     public void testGetDictData_dictType() {
         // mock data
-        DictionaryDataEntity dictDataDO = randomDictDataDO().setDictType("yunai").setValue("1");
-        dictDataMapper.insert(dictDataDO);
-        DictionaryDataEntity dictDataDO02 = randomDictDataDO().setDictType("yunai").setValue("2");
-        dictDataMapper.insert(dictDataDO02);
+        DictionaryDataEntity dictDataEntity = randomDictDataEntity().setDictType("yunai").setValue("1");
+        dictDataMapper.insert(dictDataEntity);
+        DictionaryDataEntity dictDataEntity02 = randomDictDataEntity().setDictType("yunai").setValue("2");
+        dictDataMapper.insert(dictDataEntity02);
         // prepare parameters
         String dictType = "yunai";
         String value = "1";
@@ -306,16 +306,16 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
         // invoke
         DictionaryDataEntity dbDictData = dictDataService.getDictData(dictType, value);
         // assert
-        assertEquals(dictDataDO, dbDictData);
+        assertEquals(dictDataEntity, dbDictData);
     }
 
     @Test
     public void testParseDictData() {
         // mock data
-        DictionaryDataEntity dictDataDO = randomDictDataDO().setDictType("yunai").setLabel("1");
-        dictDataMapper.insert(dictDataDO);
-        DictionaryDataEntity dictDataDO02 = randomDictDataDO().setDictType("yunai").setLabel("2");
-        dictDataMapper.insert(dictDataDO02);
+        DictionaryDataEntity dictDataEntity = randomDictDataEntity().setDictType("yunai").setLabel("1");
+        dictDataMapper.insert(dictDataEntity);
+        DictionaryDataEntity dictDataEntity02 = randomDictDataEntity().setDictType("yunai").setLabel("2");
+        dictDataMapper.insert(dictDataEntity02);
         // prepare parameters
         String dictType = "yunai";
         String label = "1";
@@ -323,13 +323,13 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
         // invoke
         DictionaryDataEntity dbDictData = dictDataService.parseDictData(dictType, label);
         // assert
-        assertEquals(dictDataDO, dbDictData);
+        assertEquals(dictDataEntity, dbDictData);
     }
 
     // ========== random object ==========
 
     @SafeVarargs
-    private static DictionaryDataEntity randomDictDataDO(Consumer<DictionaryDataEntity>... consumers) {
+    private static DictionaryDataEntity randomDictDataEntity(Consumer<DictionaryDataEntity>... consumers) {
         Consumer<DictionaryDataEntity> consumer = (o) -> {
             o.setStatus(randomCommonStatus()); // ensure status range
         };
@@ -342,7 +342,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
      * @param type dictionary type
      * @return DictionaryTypeEntity object
      */
-    private static DictionaryTypeEntity randomDictTypeDO(String type) {
+    private static DictionaryTypeEntity randomDictTypeEntity(String type) {
         return randomPojo(DictionaryTypeEntity.class, o -> {
             o.setType(type);
             o.setStatus(CommonStatusEnum.ENABLE.getStatus()); // ensure status is enabled

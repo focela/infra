@@ -48,10 +48,10 @@ public class DefaultMenuServiceTest extends BaseDbUnitTest {
     @Test
     public void testCreateMenu_success() {
         // mock data（build parent menu）
-        MenuEntity menuDO = buildMenuDO(MenuTypeEnum.MENU,
+        MenuEntity menuEntity = buildMenuEntity(MenuTypeEnum.MENU,
                 "parent", 0L);
-        menuMapper.insert(menuDO);
-        Long parentId = menuDO.getId();
+        menuMapper.insert(menuEntity);
+        Long parentId = menuEntity.getId();
         // prepare parameters
         MenuSaveRequest request = randomPojo(MenuSaveRequest.class, o -> {
             o.setParentId(parentId);
@@ -68,13 +68,13 @@ public class DefaultMenuServiceTest extends BaseDbUnitTest {
     @Test
     public void testUpdateMenu_success() {
         // mock data（build parent and child menus）
-        MenuEntity sonMenuDO = createParentAndSonMenu();
-        Long sonId = sonMenuDO.getId();
+        MenuEntity sonMenuEntity = createParentAndSonMenu();
+        Long sonId = sonMenuEntity.getId();
         // prepare parameters
         MenuSaveRequest request = randomPojo(MenuSaveRequest.class, o -> {
             o.setId(sonId);
             o.setName("testSonName"); // modify name
-            o.setParentId(sonMenuDO.getParentId());
+            o.setParentId(sonMenuEntity.getParentId());
             o.setType(MenuTypeEnum.MENU.getType());
         });
 
@@ -96,16 +96,16 @@ public class DefaultMenuServiceTest extends BaseDbUnitTest {
     @Test
     public void testDeleteMenu_success() {
         // mock data
-        MenuEntity menuDO = randomPojo(MenuEntity.class);
-        menuMapper.insert(menuDO);
+        MenuEntity menuEntity = randomPojo(MenuEntity.class);
+        menuMapper.insert(menuEntity);
         // prepare parameters
-        Long id = menuDO.getId();
+        Long id = menuEntity.getId();
 
         // invoke
         menuService.deleteMenu(id);
         // assert
-        MenuEntity dbMenuDO = menuMapper.selectById(id);
-        assertNull(dbMenuDO);
+        MenuEntity dbMenuEntity = menuMapper.selectById(id);
+        assertNull(dbMenuEntity);
         verify(permissionService).processMenuDeleted(id);
     }
 
@@ -146,12 +146,12 @@ public class DefaultMenuServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetMenuList() {
         // mock data
-        MenuEntity menuDO = randomPojo(MenuEntity.class, o -> o.setName("Focela").setStatus(CommonStatusEnum.ENABLE.getStatus()));
-        menuMapper.insert(menuDO);
+        MenuEntity menuEntity = randomPojo(MenuEntity.class, o -> o.setName("Focela").setStatus(CommonStatusEnum.ENABLE.getStatus()));
+        menuMapper.insert(menuEntity);
         // test status mismatch
-        menuMapper.insert(cloneIgnoreId(menuDO, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
+        menuMapper.insert(cloneIgnoreId(menuEntity, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
         // test name mismatch
-        menuMapper.insert(cloneIgnoreId(menuDO, o -> o.setName("Other")));
+        menuMapper.insert(cloneIgnoreId(menuEntity, o -> o.setName("Other")));
         // prepare parameters
         MenuListRequest request = new MenuListRequest().setName("Focela").setStatus(CommonStatusEnum.ENABLE.getStatus());
 
@@ -159,7 +159,7 @@ public class DefaultMenuServiceTest extends BaseDbUnitTest {
         List<MenuEntity> result = menuService.getMenuList(request);
         // assert
         assertEquals(1, result.size());
-        assertPojoEquals(menuDO, result.get(0));
+        assertPojoEquals(menuEntity, result.get(0));
     }
 
     @Test
@@ -238,10 +238,10 @@ public class DefaultMenuServiceTest extends BaseDbUnitTest {
     @Test
     public void testValidateParentMenu_success() {
         // mock data
-        MenuEntity menuDO = buildMenuDO(MenuTypeEnum.MENU, "parent", 0L);
-        menuMapper.insert(menuDO);
+        MenuEntity menuEntity = buildMenuEntity(MenuTypeEnum.MENU, "parent", 0L);
+        menuMapper.insert(menuEntity);
         // prepare parameters
-        Long parentId = menuDO.getId();
+        Long parentId = menuEntity.getId();
 
         // invoke, no assertion needed
         menuService.validateParentMenu(parentId, null);
@@ -264,10 +264,10 @@ public class DefaultMenuServiceTest extends BaseDbUnitTest {
     @Test
     public void testValidateParentMenu_parentTypeError() {
         // mock data
-        MenuEntity menuDO = buildMenuDO(MenuTypeEnum.BUTTON, "parent", 0L);
-        menuMapper.insert(menuDO);
+        MenuEntity menuEntity = buildMenuEntity(MenuTypeEnum.BUTTON, "parent", 0L);
+        menuMapper.insert(menuEntity);
         // prepare parameters
-        Long parentId = menuDO.getId();
+        Long parentId = menuEntity.getId();
 
         // invoke, and assert exception
         assertServiceException(() -> menuService.validateParentMenu(parentId, null),
@@ -310,20 +310,20 @@ public class DefaultMenuServiceTest extends BaseDbUnitTest {
      */
     private MenuEntity createParentAndSonMenu() {
         // build parent and child menus
-        MenuEntity parentMenuDO = buildMenuDO(MenuTypeEnum.MENU, "parent", ID_ROOT);
-        menuMapper.insert(parentMenuDO);
+        MenuEntity parentMenuEntity = buildMenuEntity(MenuTypeEnum.MENU, "parent", ID_ROOT);
+        menuMapper.insert(parentMenuEntity);
         // build child menu
-        MenuEntity sonMenuDO = buildMenuDO(MenuTypeEnum.MENU, "testSonName",
-                parentMenuDO.getParentId());
-        menuMapper.insert(sonMenuDO);
-        return sonMenuDO;
+        MenuEntity sonMenuEntity = buildMenuEntity(MenuTypeEnum.MENU, "testSonName",
+                parentMenuEntity.getParentId());
+        menuMapper.insert(sonMenuEntity);
+        return sonMenuEntity;
     }
 
-    private MenuEntity buildMenuDO(MenuTypeEnum type, String name, Long parentId) {
-        return buildMenuDO(type, name, parentId, randomCommonStatus());
+    private MenuEntity buildMenuEntity(MenuTypeEnum type, String name, Long parentId) {
+        return buildMenuEntity(type, name, parentId, randomCommonStatus());
     }
 
-    private MenuEntity buildMenuDO(MenuTypeEnum type, String name, Long parentId, Integer status) {
+    private MenuEntity buildMenuEntity(MenuTypeEnum type, String name, Long parentId, Integer status) {
         return randomPojo(MenuEntity.class, o -> o.setId(null).setName(name).setParentId(parentId)
                 .setType(type.getType()).setStatus(status));
     }

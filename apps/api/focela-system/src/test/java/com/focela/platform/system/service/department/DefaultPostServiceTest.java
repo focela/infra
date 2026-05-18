@@ -56,12 +56,12 @@ public class DefaultPostServiceTest extends BaseDbUnitTest {
     @Test
     public void testUpdatePost_success() {
         // mock data
-        PostEntity postDO = randomPostDO();
-        postMapper.insert(postDO);// @Sql: first insert an existing record
+        PostEntity postEntity = randomPostEntity();
+        postMapper.insert(postEntity);// @Sql: first insert an existing record
         // prepare parameters
         PostSaveRequest request = randomPojo(PostSaveRequest.class, o -> {
             // set updated ID
-            o.setId(postDO.getId());
+            o.setId(postEntity.getId());
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus());
         });
 
@@ -75,10 +75,10 @@ public class DefaultPostServiceTest extends BaseDbUnitTest {
     @Test
     public void testDeletePost_success() {
         // mock data
-        PostEntity postDO = randomPostDO();
-        postMapper.insert(postDO);
+        PostEntity postEntity = randomPostEntity();
+        postMapper.insert(postEntity);
         // prepare parameters
-        Long id = postDO.getId();
+        Long id = postEntity.getId();
 
         // invoke
         postService.deletePost(id);
@@ -97,29 +97,29 @@ public class DefaultPostServiceTest extends BaseDbUnitTest {
     @Test
     public void testValidatePost_nameDuplicateForCreate() {
         // mock data
-        PostEntity postDO = randomPostDO();
-        postMapper.insert(postDO);// @Sql: first insert an existing record
+        PostEntity postEntity = randomPostEntity();
+        postMapper.insert(postEntity);// @Sql: first insert an existing record
         // prepare parameters
         PostSaveRequest request = randomPojo(PostSaveRequest.class,
             // simulate duplicate name
-            o -> o.setName(postDO.getName()));
+            o -> o.setName(postEntity.getName()));
         assertServiceException(() -> postService.createPost(request), POST_NAME_DUPLICATE);
     }
 
     @Test
     public void testValidatePost_codeDuplicateForUpdate() {
         // mock data
-        PostEntity postDO = randomPostDO();
-        postMapper.insert(postDO);
+        PostEntity postEntity = randomPostEntity();
+        postMapper.insert(postEntity);
         // mock data: simulate duplicate code later
-        PostEntity codePostDO = randomPostDO();
-        postMapper.insert(codePostDO);
+        PostEntity codePostEntity = randomPostEntity();
+        postMapper.insert(codePostEntity);
         // prepare parameters
         PostSaveRequest request = randomPojo(PostSaveRequest.class, o -> {
             // set updated ID
-            o.setId(postDO.getId());
+            o.setId(postEntity.getId());
             // simulate duplicate code
-            o.setCode(codePostDO.getCode());
+            o.setCode(codePostEntity.getCode());
         });
 
         // invoke and assert exception
@@ -129,15 +129,15 @@ public class DefaultPostServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetPostPage() {
         // mock data
-        PostEntity postDO = randomPojo(PostEntity.class, o -> {
+        PostEntity postEntity = randomPojo(PostEntity.class, o -> {
             o.setName("Coder");
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
-        postMapper.insert(postDO);
+        postMapper.insert(postEntity);
         // test name mismatch
-        postMapper.insert(cloneIgnoreId(postDO, o -> o.setName("Programmer")));
+        postMapper.insert(cloneIgnoreId(postEntity, o -> o.setName("Programmer")));
         // test status mismatch
-        postMapper.insert(cloneIgnoreId(postDO, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
+        postMapper.insert(cloneIgnoreId(postEntity, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
         // prepare parameters
         PostPageRequest request = new PostPageRequest();
         request.setName("Coder");
@@ -148,66 +148,66 @@ public class DefaultPostServiceTest extends BaseDbUnitTest {
         // assert
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
-        assertPojoEquals(postDO, pageResult.getList().get(0));
+        assertPojoEquals(postEntity, pageResult.getList().get(0));
     }
 
     @Test
     public void testGetPostList() {
         // mock data
-        PostEntity postDO01 = randomPojo(PostEntity.class);
-        postMapper.insert(postDO01);
+        PostEntity postEntity01 = randomPojo(PostEntity.class);
+        postMapper.insert(postEntity01);
         // test id mismatch
-        PostEntity postDO02 = randomPojo(PostEntity.class);
-        postMapper.insert(postDO02);
+        PostEntity postEntity02 = randomPojo(PostEntity.class);
+        postMapper.insert(postEntity02);
         // prepare parameters
-        List<Long> ids = singletonList(postDO01.getId());
+        List<Long> ids = singletonList(postEntity01.getId());
 
         // invoke
         List<PostEntity> list = postService.getPostList(ids);
         // assert
         assertEquals(1, list.size());
-        assertPojoEquals(postDO01, list.get(0));
+        assertPojoEquals(postEntity01, list.get(0));
     }
 
     @Test
     public void testGetPostList_idsAndStatus() {
         // mock data
-        PostEntity postDO01 = randomPojo(PostEntity.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
-        postMapper.insert(postDO01);
+        PostEntity postEntity01 = randomPojo(PostEntity.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
+        postMapper.insert(postEntity01);
         // test status mismatch
-        PostEntity postDO02 = randomPojo(PostEntity.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus()));
-        postMapper.insert(postDO02);
+        PostEntity postEntity02 = randomPojo(PostEntity.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus()));
+        postMapper.insert(postEntity02);
         // prepare parameters
-        List<Long> ids = Arrays.asList(postDO01.getId(), postDO02.getId());
+        List<Long> ids = Arrays.asList(postEntity01.getId(), postEntity02.getId());
 
         // invoke
         List<PostEntity> list = postService.getPostList(ids, singletonList(CommonStatusEnum.ENABLE.getStatus()));
         // assert
         assertEquals(1, list.size());
-        assertPojoEquals(postDO01, list.get(0));
+        assertPojoEquals(postEntity01, list.get(0));
     }
 
     @Test
     public void testGetPost() {
         // mock data
-        PostEntity dbPostDO = randomPostDO();
-        postMapper.insert(dbPostDO);
+        PostEntity dbPostEntity = randomPostEntity();
+        postMapper.insert(dbPostEntity);
         // prepare parameters
-        Long id = dbPostDO.getId();
+        Long id = dbPostEntity.getId();
         // invoke
         PostEntity post = postService.getPost(id);
         // assert
         assertNotNull(post);
-        assertPojoEquals(dbPostDO, post);
+        assertPojoEquals(dbPostEntity, post);
     }
 
     @Test
     public void testValidatePostList_success() {
         // mock data
-        PostEntity postDO = randomPostDO().setStatus(CommonStatusEnum.ENABLE.getStatus());
-        postMapper.insert(postDO);
+        PostEntity postEntity = randomPostEntity().setStatus(CommonStatusEnum.ENABLE.getStatus());
+        postMapper.insert(postEntity);
         // prepare parameters
-        List<Long> ids = singletonList(postDO.getId());
+        List<Long> ids = singletonList(postEntity.getId());
 
         // invoke, no assertion needed
         postService.validatePostList(ids);
@@ -225,18 +225,18 @@ public class DefaultPostServiceTest extends BaseDbUnitTest {
     @Test
     public void testValidatePostList_notEnable() {
         // mock data
-        PostEntity postDO = randomPostDO().setStatus(CommonStatusEnum.DISABLE.getStatus());
-        postMapper.insert(postDO);
+        PostEntity postEntity = randomPostEntity().setStatus(CommonStatusEnum.DISABLE.getStatus());
+        postMapper.insert(postEntity);
         // prepare parameters
-        List<Long> ids = singletonList(postDO.getId());
+        List<Long> ids = singletonList(postEntity.getId());
 
         // invoke and assert exception
         assertServiceException(() -> postService.validatePostList(ids), POST_NOT_ENABLE,
-                postDO.getName());
+                postEntity.getName());
     }
 
     @SafeVarargs
-    private static PostEntity randomPostDO(Consumer<PostEntity>... consumers) {
+    private static PostEntity randomPostEntity(Consumer<PostEntity>... consumers) {
         Consumer<PostEntity> consumer = (o) -> {
             o.setStatus(randomCommonStatus()); // ensure status range
         };

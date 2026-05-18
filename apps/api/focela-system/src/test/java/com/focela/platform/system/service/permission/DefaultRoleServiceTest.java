@@ -57,54 +57,54 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
         // invoke
         Long roleId = roleService.createRole(request, null);
         // assert
-        RoleEntity roleDO = roleMapper.selectById(roleId);
-        assertPojoEquals(request, roleDO, "id");
-        assertEquals(RoleTypeEnum.CUSTOM.getType(), roleDO.getType());
-        assertEquals(DataScopeEnum.ALL.getScope(), roleDO.getDataScope());
+        RoleEntity roleEntity = roleMapper.selectById(roleId);
+        assertPojoEquals(request, roleEntity, "id");
+        assertEquals(RoleTypeEnum.CUSTOM.getType(), roleEntity.getType());
+        assertEquals(DataScopeEnum.ALL.getScope(), roleEntity.getDataScope());
     }
 
     @Test
     public void testUpdateRole() {
         // mock data
-        RoleEntity roleDO = randomPojo(RoleEntity.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
-        roleMapper.insert(roleDO);
+        RoleEntity roleEntity = randomPojo(RoleEntity.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
+        roleMapper.insert(roleEntity);
         // prepare parameters
-        Long id = roleDO.getId();
+        Long id = roleEntity.getId();
         RoleSaveRequest request = randomPojo(RoleSaveRequest.class, o -> o.setId(id)
                 .setStatus(randomCommonStatus()));
 
         // invoke
         roleService.updateRole(request);
         // assert
-        RoleEntity newRoleDO = roleMapper.selectById(id);
-        assertPojoEquals(request, newRoleDO);
+        RoleEntity newRoleEntity = roleMapper.selectById(id);
+        assertPojoEquals(request, newRoleEntity);
     }
 
     @Test
     public void testUpdateRoleDataScope() {
         // mock data
-        RoleEntity roleDO = randomPojo(RoleEntity.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
-        roleMapper.insert(roleDO);
+        RoleEntity roleEntity = randomPojo(RoleEntity.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
+        roleMapper.insert(roleEntity);
         // prepare parameters
-        Long id = roleDO.getId();
+        Long id = roleEntity.getId();
         Integer dataScope = randomEle(DataScopeEnum.values()).getScope();
         Set<Long> dataScopeRoleIds = randomSet(Long.class);
 
         // invoke
         roleService.updateRoleDataScope(id, dataScope, dataScopeRoleIds);
         // assert
-        RoleEntity dbRoleDO = roleMapper.selectById(id);
-        assertEquals(dataScope, dbRoleDO.getDataScope());
-        assertEquals(dataScopeRoleIds, dbRoleDO.getDataScopeDeptIds());
+        RoleEntity dbRoleEntity = roleMapper.selectById(id);
+        assertEquals(dataScope, dbRoleEntity.getDataScope());
+        assertEquals(dataScopeRoleIds, dbRoleEntity.getDataScopeDeptIds());
     }
 
     @Test
     public void testDeleteRole() {
         // mock data
-        RoleEntity roleDO = randomPojo(RoleEntity.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
-        roleMapper.insert(roleDO);
+        RoleEntity roleEntity = randomPojo(RoleEntity.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
+        roleMapper.insert(roleEntity);
         // prepare parameters
-        Long id = roleDO.getId();
+        Long id = roleEntity.getId();
 
         // invoke
         roleService.deleteRole(id);
@@ -123,8 +123,8 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
     @Test
     public void testValidateRoleDuplicate_nameDuplicate() {
         // mock data
-        RoleEntity roleDO = randomPojo(RoleEntity.class, o -> o.setName("role_name"));
-        roleMapper.insert(roleDO);
+        RoleEntity roleEntity = randomPojo(RoleEntity.class, o -> o.setName("role_name"));
+        roleMapper.insert(roleEntity);
         // prepare parameters
         String name = "role_name";
 
@@ -136,8 +136,8 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
     @Test
     public void testValidateRoleDuplicate_codeDuplicate() {
         // mock data
-        RoleEntity roleDO = randomPojo(RoleEntity.class, o -> o.setCode("code"));
-        roleMapper.insert(roleDO);
+        RoleEntity roleEntity = randomPojo(RoleEntity.class, o -> o.setCode("code"));
+        roleMapper.insert(roleEntity);
         // prepare parameters
         String code = "code";
 
@@ -148,10 +148,10 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testValidateUpdateRole_success() {
-        RoleEntity roleDO = randomPojo(RoleEntity.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
-        roleMapper.insert(roleDO);
+        RoleEntity roleEntity = randomPojo(RoleEntity.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
+        roleMapper.insert(roleEntity);
         // prepare parameters
-        Long id = roleDO.getId();
+        Long id = roleEntity.getId();
 
         // invoke, no exception
         roleService.validateRoleForUpdate(id);
@@ -164,10 +164,10 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testValidateUpdateRole_systemRoleCanNotBeUpdate() {
-        RoleEntity roleDO = randomPojo(RoleEntity.class, o -> o.setType(RoleTypeEnum.SYSTEM.getType()));
-        roleMapper.insert(roleDO);
+        RoleEntity roleEntity = randomPojo(RoleEntity.class, o -> o.setType(RoleTypeEnum.SYSTEM.getType()));
+        roleMapper.insert(roleEntity);
         // prepare parameters
-        Long id = roleDO.getId();
+        Long id = roleEntity.getId();
 
         assertServiceException(() -> roleService.validateRoleForUpdate(id),
                 ROLE_CAN_NOT_UPDATE_SYSTEM_TYPE_ROLE);
@@ -176,29 +176,29 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetRole() {
         // mock data
-        RoleEntity roleDO = randomPojo(RoleEntity.class);
-        roleMapper.insert(roleDO);
+        RoleEntity roleEntity = randomPojo(RoleEntity.class);
+        roleMapper.insert(roleEntity);
         // prepare parameters
-        Long id = roleDO.getId();
+        Long id = roleEntity.getId();
 
         // invoke
-        RoleEntity dbRoleDO = roleService.getRole(id);
+        RoleEntity dbRoleEntity = roleService.getRole(id);
         // assert
-        assertPojoEquals(roleDO, dbRoleDO);
+        assertPojoEquals(roleEntity, dbRoleEntity);
     }
 
     @Test
     public void testGetRoleFromCache() {
         // mock data（cache）
-        RoleEntity roleDO = randomPojo(RoleEntity.class);
-        roleMapper.insert(roleDO);
+        RoleEntity roleEntity = randomPojo(RoleEntity.class);
+        roleMapper.insert(roleEntity);
         // prepare parameters
-        Long id = roleDO.getId();
+        Long id = roleEntity.getId();
 
         // invoke
-        RoleEntity dbRoleDO = roleService.getRoleFromCache(id);
+        RoleEntity dbRoleEntity = roleService.getRoleFromCache(id);
         // assert
-        assertPojoEquals(roleDO, dbRoleDO);
+        assertPojoEquals(roleEntity, dbRoleEntity);
     }
 
     @Test
@@ -340,10 +340,10 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
     @Test
     public void testValidateRoleList_success() {
         // mock data
-        RoleEntity roleDO = randomPojo(RoleEntity.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
-        roleMapper.insert(roleDO);
+        RoleEntity roleEntity = randomPojo(RoleEntity.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
+        roleMapper.insert(roleEntity);
         // prepare parameters
-        List<Long> ids = singletonList(roleDO.getId());
+        List<Long> ids = singletonList(roleEntity.getId());
 
         // invoke, no assertion needed
         roleService.validateRoleList(ids);

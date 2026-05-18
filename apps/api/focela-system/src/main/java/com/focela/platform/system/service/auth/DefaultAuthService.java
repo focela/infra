@@ -195,9 +195,9 @@ public class DefaultAuthService implements AuthService {
             return ResponseModel.success();
         }
         ValidationUtils.validate(validator, request, CaptchaVerificationRequest.CodeEnableGroup.class);
-        CaptchaVO captchaVO = new CaptchaVO();
-        captchaVO.setCaptchaVerification(request.getCaptchaVerification());
-        return captchaService.verification(captchaVO);
+        CaptchaVO captcha = new CaptchaVO();
+        captcha.setCaptchaVerification(request.getCaptchaVerification());
+        return captchaService.verification(captcha);
     }
 
     private AuthLoginResponse createTokenAfterLoginSuccess(Long userId, String username, LoginLogTypeEnum logType) {

@@ -153,26 +153,26 @@ public class PermissionServiceTest extends BaseDbUnitTest {
         // prepare parameters
         Long roleId = randomLongId();
         // mock data UserRole
-        UserRoleEntity userRoleDO01 = randomPojo(UserRoleEntity.class, o -> o.setRoleId(roleId)); // to be deleted
-        userRoleMapper.insert(userRoleDO01);
-        UserRoleEntity userRoleDO02 = randomPojo(UserRoleEntity.class); // not to be deleted
-        userRoleMapper.insert(userRoleDO02);
+        UserRoleEntity userRoleEntity01 = randomPojo(UserRoleEntity.class, o -> o.setRoleId(roleId)); // to be deleted
+        userRoleMapper.insert(userRoleEntity01);
+        UserRoleEntity userRoleEntity02 = randomPojo(UserRoleEntity.class); // not to be deleted
+        userRoleMapper.insert(userRoleEntity02);
         // mock data RoleMenu
-        RoleMenuEntity roleMenuDO01 = randomPojo(RoleMenuEntity.class, o -> o.setRoleId(roleId)); // to be deleted
-        roleMenuMapper.insert(roleMenuDO01);
-        RoleMenuEntity roleMenuDO02 = randomPojo(RoleMenuEntity.class); // not to be deleted
-        roleMenuMapper.insert(roleMenuDO02);
+        RoleMenuEntity roleMenuEntity01 = randomPojo(RoleMenuEntity.class, o -> o.setRoleId(roleId)); // to be deleted
+        roleMenuMapper.insert(roleMenuEntity01);
+        RoleMenuEntity roleMenuEntity02 = randomPojo(RoleMenuEntity.class); // not to be deleted
+        roleMenuMapper.insert(roleMenuEntity02);
 
         // invoke
         permissionService.processRoleDeleted(roleId);
         // assert RoleMenuEntity data
         List<RoleMenuEntity> dbRoleMenus = roleMenuMapper.selectList();
         assertEquals(1, dbRoleMenus.size());
-        assertPojoEquals(dbRoleMenus.get(0), roleMenuDO02);
+        assertPojoEquals(dbRoleMenus.get(0), roleMenuEntity02);
         // assert UserRoleEntity data
         List<UserRoleEntity> dbUserRoles = userRoleMapper.selectList();
         assertEquals(1, dbUserRoles.size());
-        assertPojoEquals(dbUserRoles.get(0), userRoleDO02);
+        assertPojoEquals(dbUserRoles.get(0), userRoleEntity02);
     }
 
     @Test
@@ -180,17 +180,17 @@ public class PermissionServiceTest extends BaseDbUnitTest {
         // prepare parameters
         Long menuId = randomLongId();
         // mock data
-        RoleMenuEntity roleMenuDO01 = randomPojo(RoleMenuEntity.class, o -> o.setMenuId(menuId)); // to be deleted
-        roleMenuMapper.insert(roleMenuDO01);
-        RoleMenuEntity roleMenuDO02 = randomPojo(RoleMenuEntity.class); // not to be deleted
-        roleMenuMapper.insert(roleMenuDO02);
+        RoleMenuEntity roleMenuEntity01 = randomPojo(RoleMenuEntity.class, o -> o.setMenuId(menuId)); // to be deleted
+        roleMenuMapper.insert(roleMenuEntity01);
+        RoleMenuEntity roleMenuEntity02 = randomPojo(RoleMenuEntity.class); // not to be deleted
+        roleMenuMapper.insert(roleMenuEntity02);
 
         // invoke
         permissionService.processMenuDeleted(menuId);
         // assert data
         List<RoleMenuEntity> dbRoleMenus = roleMenuMapper.selectList();
         assertEquals(1, dbRoleMenus.size());
-        assertPojoEquals(dbRoleMenus.get(0), roleMenuDO02);
+        assertPojoEquals(dbRoleMenus.get(0), roleMenuEntity02);
     }
 
     @Test
@@ -256,12 +256,12 @@ public class PermissionServiceTest extends BaseDbUnitTest {
         // invoke
         permissionService.assignUserRole(userId, roleIds);
         // assert
-        List<UserRoleEntity> userRoleDOList = userRoleMapper.selectList();
-        assertEquals(2, userRoleDOList.size());
-        assertEquals(1L, userRoleDOList.get(0).getUserId());
-        assertEquals(200L, userRoleDOList.get(0).getRoleId());
-        assertEquals(1L, userRoleDOList.get(1).getUserId());
-        assertEquals(300L, userRoleDOList.get(1).getRoleId());
+        List<UserRoleEntity> userRoleEntities = userRoleMapper.selectList();
+        assertEquals(2, userRoleEntities.size());
+        assertEquals(1L, userRoleEntities.get(0).getUserId());
+        assertEquals(200L, userRoleEntities.get(0).getRoleId());
+        assertEquals(1L, userRoleEntities.get(1).getUserId());
+        assertEquals(300L, userRoleEntities.get(1).getRoleId());
     }
 
     @Test
@@ -269,17 +269,17 @@ public class PermissionServiceTest extends BaseDbUnitTest {
         // prepare parameters
         Long userId = randomLongId();
         // mock data
-        UserRoleEntity userRoleDO01 = randomPojo(UserRoleEntity.class, o -> o.setUserId(userId)); // to be deleted
-        userRoleMapper.insert(userRoleDO01);
-        UserRoleEntity userRoleDO02 = randomPojo(UserRoleEntity.class); // not to be deleted
-        userRoleMapper.insert(userRoleDO02);
+        UserRoleEntity userRoleEntity01 = randomPojo(UserRoleEntity.class, o -> o.setUserId(userId)); // to be deleted
+        userRoleMapper.insert(userRoleEntity01);
+        UserRoleEntity userRoleEntity02 = randomPojo(UserRoleEntity.class); // not to be deleted
+        userRoleMapper.insert(userRoleEntity02);
 
         // invoke
         permissionService.processUserDeleted(userId);
         // assert data
         List<UserRoleEntity> dbUserRoles = userRoleMapper.selectList();
         assertEquals(1, dbUserRoles.size());
-        assertPojoEquals(dbUserRoles.get(0), userRoleDO02);
+        assertPojoEquals(dbUserRoles.get(0), userRoleEntity02);
     }
 
     @Test
@@ -287,10 +287,10 @@ public class PermissionServiceTest extends BaseDbUnitTest {
         // prepare parameters
         Long userId = 1L;
         // mock data
-        UserRoleEntity userRoleDO01 = randomPojo(UserRoleEntity.class, o -> o.setUserId(1L).setRoleId(10L));
-        userRoleMapper.insert(userRoleDO01);
-        UserRoleEntity roleMenuDO02 = randomPojo(UserRoleEntity.class, o -> o.setUserId(1L).setRoleId(20L));
-        userRoleMapper.insert(roleMenuDO02);
+        UserRoleEntity userRoleEntity01 = randomPojo(UserRoleEntity.class, o -> o.setUserId(1L).setRoleId(10L));
+        userRoleMapper.insert(userRoleEntity01);
+        UserRoleEntity roleMenuEntity02 = randomPojo(UserRoleEntity.class, o -> o.setUserId(1L).setRoleId(20L));
+        userRoleMapper.insert(roleMenuEntity02);
 
         // invoke
         Set<Long> result = permissionService.getUserRoleIdListByUserId(userId);
@@ -303,10 +303,10 @@ public class PermissionServiceTest extends BaseDbUnitTest {
         // prepare parameters
         Long userId = 1L;
         // mock data
-        UserRoleEntity userRoleDO01 = randomPojo(UserRoleEntity.class, o -> o.setUserId(1L).setRoleId(10L));
-        userRoleMapper.insert(userRoleDO01);
-        UserRoleEntity roleMenuDO02 = randomPojo(UserRoleEntity.class, o -> o.setUserId(1L).setRoleId(20L));
-        userRoleMapper.insert(roleMenuDO02);
+        UserRoleEntity userRoleEntity01 = randomPojo(UserRoleEntity.class, o -> o.setUserId(1L).setRoleId(10L));
+        userRoleMapper.insert(userRoleEntity01);
+        UserRoleEntity roleMenuEntity02 = randomPojo(UserRoleEntity.class, o -> o.setUserId(1L).setRoleId(20L));
+        userRoleMapper.insert(roleMenuEntity02);
 
         // invoke
         Set<Long> result = permissionService.getUserRoleIdListByUserIdFromCache(userId);
@@ -319,10 +319,10 @@ public class PermissionServiceTest extends BaseDbUnitTest {
         // prepare parameters
         Long userId = 1L;
         // mock data
-        UserRoleEntity userRoleDO01 = randomPojo(UserRoleEntity.class, o -> o.setUserId(1L).setRoleId(10L));
-        userRoleMapper.insert(userRoleDO01);
-        UserRoleEntity roleMenuDO02 = randomPojo(UserRoleEntity.class, o -> o.setUserId(1L).setRoleId(20L));
-        userRoleMapper.insert(roleMenuDO02);
+        UserRoleEntity userRoleEntity01 = randomPojo(UserRoleEntity.class, o -> o.setUserId(1L).setRoleId(10L));
+        userRoleMapper.insert(userRoleEntity01);
+        UserRoleEntity roleMenuEntity02 = randomPojo(UserRoleEntity.class, o -> o.setUserId(1L).setRoleId(20L));
+        userRoleMapper.insert(roleMenuEntity02);
 
         // invoke
         Set<Long> result = permissionService.getUserRoleIdListByUserIdFromCache(userId);
@@ -335,10 +335,10 @@ public class PermissionServiceTest extends BaseDbUnitTest {
         // prepare parameters
         Collection<Long> roleIds = asSet(10L, 20L);
         // mock data
-        UserRoleEntity userRoleDO01 = randomPojo(UserRoleEntity.class, o -> o.setUserId(1L).setRoleId(10L));
-        userRoleMapper.insert(userRoleDO01);
-        UserRoleEntity roleMenuDO02 = randomPojo(UserRoleEntity.class, o -> o.setUserId(2L).setRoleId(20L));
-        userRoleMapper.insert(roleMenuDO02);
+        UserRoleEntity userRoleEntity01 = randomPojo(UserRoleEntity.class, o -> o.setUserId(1L).setRoleId(10L));
+        userRoleMapper.insert(userRoleEntity01);
+        UserRoleEntity roleMenuEntity02 = randomPojo(UserRoleEntity.class, o -> o.setUserId(2L).setRoleId(20L));
+        userRoleMapper.insert(roleMenuEntity02);
 
         // invoke
         Set<Long> result = permissionService.getUserRoleIdListByRoleId(roleIds);
@@ -398,9 +398,9 @@ public class PermissionServiceTest extends BaseDbUnitTest {
             // mock user role IDs
             userRoleMapper.insert(randomPojo(UserRoleEntity.class).setUserId(userId).setRoleId(2L));
             // mock get user roles
-            RoleEntity roleDO = randomPojo(RoleEntity.class, o -> o.setDataScope(DataScopeEnum.ALL.getScope())
+            RoleEntity roleEntity = randomPojo(RoleEntity.class, o -> o.setDataScope(DataScopeEnum.ALL.getScope())
                     .setStatus(CommonStatusEnum.ENABLE.getStatus()));
-            when(roleService.getRoleListFromCache(eq(singleton(2L)))).thenReturn(toList(roleDO));
+            when(roleService.getRoleListFromCache(eq(singleton(2L)))).thenReturn(toList(roleEntity));
 
             // invoke
             DepartmentDataPermissionRpcResponse result = permissionService.getDeptDataPermission(userId);
@@ -422,9 +422,9 @@ public class PermissionServiceTest extends BaseDbUnitTest {
             // mock user role IDs
             userRoleMapper.insert(randomPojo(UserRoleEntity.class).setUserId(userId).setRoleId(2L));
             // mock get user roles
-            RoleEntity roleDO = randomPojo(RoleEntity.class, o -> o.setDataScope(DataScopeEnum.DEPT_CUSTOM.getScope())
+            RoleEntity roleEntity = randomPojo(RoleEntity.class, o -> o.setDataScope(DataScopeEnum.DEPT_CUSTOM.getScope())
                     .setStatus(CommonStatusEnum.ENABLE.getStatus()));
-            when(roleService.getRoleListFromCache(eq(singleton(2L)))).thenReturn(toList(roleDO));
+            when(roleService.getRoleListFromCache(eq(singleton(2L)))).thenReturn(toList(roleEntity));
             // mock department return
             when(userService.getUser(eq(1L))).thenReturn(new UserEntity().setDeptId(3L),
                     null, null); // returning null at the end is intentional, to verify there is no duplicate invoke
@@ -434,8 +434,8 @@ public class PermissionServiceTest extends BaseDbUnitTest {
             // assert
             assertFalse(result.getAll());
             assertFalse(result.getSelf());
-            assertEquals(roleDO.getDataScopeDeptIds().size() + 1, result.getDeptIds().size());
-            assertTrue(CollUtil.containsAll(result.getDeptIds(), roleDO.getDataScopeDeptIds()));
+            assertEquals(roleEntity.getDataScopeDeptIds().size() + 1, result.getDeptIds().size());
+            assertTrue(CollUtil.containsAll(result.getDeptIds(), roleEntity.getDataScopeDeptIds()));
             assertTrue(CollUtil.contains(result.getDeptIds(), 3L));
         }
     }
@@ -451,9 +451,9 @@ public class PermissionServiceTest extends BaseDbUnitTest {
             // mock user role IDs
             userRoleMapper.insert(randomPojo(UserRoleEntity.class).setUserId(userId).setRoleId(2L));
             // mock get user roles
-            RoleEntity roleDO = randomPojo(RoleEntity.class, o -> o.setDataScope(DataScopeEnum.DEPT_ONLY.getScope())
+            RoleEntity roleEntity = randomPojo(RoleEntity.class, o -> o.setDataScope(DataScopeEnum.DEPT_ONLY.getScope())
                     .setStatus(CommonStatusEnum.ENABLE.getStatus()));
-            when(roleService.getRoleListFromCache(eq(singleton(2L)))).thenReturn(toList(roleDO));
+            when(roleService.getRoleListFromCache(eq(singleton(2L)))).thenReturn(toList(roleEntity));
             // mock department return
             when(userService.getUser(eq(1L))).thenReturn(new UserEntity().setDeptId(3L),
                     null, null); // returning null at the end is intentional, to verify there is no duplicate invoke
@@ -479,15 +479,15 @@ public class PermissionServiceTest extends BaseDbUnitTest {
             // mock user role IDs
             userRoleMapper.insert(randomPojo(UserRoleEntity.class).setUserId(userId).setRoleId(2L));
             // mock get user roles
-            RoleEntity roleDO = randomPojo(RoleEntity.class, o -> o.setDataScope(DataScopeEnum.DEPT_AND_CHILD.getScope())
+            RoleEntity roleEntity = randomPojo(RoleEntity.class, o -> o.setDataScope(DataScopeEnum.DEPT_AND_CHILD.getScope())
                     .setStatus(CommonStatusEnum.ENABLE.getStatus()));
-            when(roleService.getRoleListFromCache(eq(singleton(2L)))).thenReturn(toList(roleDO));
+            when(roleService.getRoleListFromCache(eq(singleton(2L)))).thenReturn(toList(roleEntity));
             // mock department return
             when(userService.getUser(eq(1L))).thenReturn(new UserEntity().setDeptId(3L),
                     null, null); // returning null at the end is intentional, to verify there is no duplicate invoke
             // mock the method（department)
-            DepartmentEntity deptDO = randomPojo(DepartmentEntity.class);
-            when(deptService.getChildDeptIdListFromCache(eq(3L))).thenReturn(singleton(deptDO.getId()));
+            DepartmentEntity deptEntity = randomPojo(DepartmentEntity.class);
+            when(deptService.getChildDeptIdListFromCache(eq(3L))).thenReturn(singleton(deptEntity.getId()));
 
             // invoke
             DepartmentDataPermissionRpcResponse result = permissionService.getDeptDataPermission(userId);
@@ -495,7 +495,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
             assertFalse(result.getAll());
             assertFalse(result.getSelf());
             assertEquals(2, result.getDeptIds().size());
-            assertTrue(CollUtil.contains(result.getDeptIds(), deptDO.getId()));
+            assertTrue(CollUtil.contains(result.getDeptIds(), deptEntity.getId()));
             assertTrue(CollUtil.contains(result.getDeptIds(), 3L));
         }
     }
@@ -511,9 +511,9 @@ public class PermissionServiceTest extends BaseDbUnitTest {
             // mock user role IDs
             userRoleMapper.insert(randomPojo(UserRoleEntity.class).setUserId(userId).setRoleId(2L));
             // mock get user roles
-            RoleEntity roleDO = randomPojo(RoleEntity.class, o -> o.setDataScope(DataScopeEnum.SELF.getScope())
+            RoleEntity roleEntity = randomPojo(RoleEntity.class, o -> o.setDataScope(DataScopeEnum.SELF.getScope())
                     .setStatus(CommonStatusEnum.ENABLE.getStatus()));
-            when(roleService.getRoleListFromCache(eq(singleton(2L)))).thenReturn(toList(roleDO));
+            when(roleService.getRoleListFromCache(eq(singleton(2L)))).thenReturn(toList(roleEntity));
 
             // invoke
             DepartmentDataPermissionRpcResponse result = permissionService.getDeptDataPermission(userId);

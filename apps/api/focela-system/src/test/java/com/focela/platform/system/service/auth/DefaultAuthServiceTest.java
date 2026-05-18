@@ -268,8 +268,8 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
         AuthLoginRequest request = randomPojo(AuthLoginRequest.class);
 
         // mock validation passed
-        when(captchaService.verification(argThat(captchaVO -> {
-            assertEquals(request.getCaptchaVerification(), captchaVO.getCaptchaVerification());
+        when(captchaService.verification(argThat(captcha -> {
+            assertEquals(request.getCaptchaVerification(), captcha.getCaptchaVerification());
             return true;
         }))).thenReturn(ResponseModel.success());
 
@@ -295,8 +295,8 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
         AuthLoginRequest request = randomPojo(AuthLoginRequest.class);
 
         // mock validation passed
-        when(captchaService.verification(argThat(captchaVO -> {
-            assertEquals(request.getCaptchaVerification(), captchaVO.getCaptchaVerification());
+        when(captchaService.verification(argThat(captcha -> {
+            assertEquals(request.getCaptchaVerification(), captcha.getCaptchaVerification());
             return true;
         }))).thenReturn(ResponseModel.errorMsg("just wrong"));
 

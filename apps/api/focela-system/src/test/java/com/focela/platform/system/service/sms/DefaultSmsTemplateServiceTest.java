@@ -110,7 +110,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
     @SuppressWarnings("unchecked")
     public void testUpdateSmsTemplate_success() throws Throwable {
         // mock data
-        SmsTemplateEntity dbSmsTemplate = randomSmsTemplateDO();
+        SmsTemplateEntity dbSmsTemplate = randomSmsTemplateEntity();
         smsTemplateMapper.insert(dbSmsTemplate);// @Sql: first insert an existing record
         // prepare parameters
         SmsTemplateSaveRequest request = randomPojo(SmsTemplateSaveRequest.class, o -> {
@@ -151,7 +151,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
     @Test
     public void testDeleteSmsTemplate_success() {
         // mock data
-        SmsTemplateEntity dbSmsTemplate = randomSmsTemplateDO();
+        SmsTemplateEntity dbSmsTemplate = randomSmsTemplateEntity();
         smsTemplateMapper.insert(dbSmsTemplate);// @Sql: first insert an existing record
         // prepare parameters
         Long id = dbSmsTemplate.getId();
@@ -174,7 +174,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetSmsTemplate() {
         // mock data
-        SmsTemplateEntity dbSmsTemplate = randomSmsTemplateDO();
+        SmsTemplateEntity dbSmsTemplate = randomSmsTemplateEntity();
         smsTemplateMapper.insert(dbSmsTemplate);// @Sql: first insert an existing record
         // prepare parameters
         Long id = dbSmsTemplate.getId();
@@ -188,7 +188,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetSmsTemplateByCodeFromCache() {
         // mock data
-        SmsTemplateEntity dbSmsTemplate = randomSmsTemplateDO();
+        SmsTemplateEntity dbSmsTemplate = randomSmsTemplateEntity();
         smsTemplateMapper.insert(dbSmsTemplate);// @Sql: first insert an existing record
         // prepare parameters
         String code = dbSmsTemplate.getCode();
@@ -314,7 +314,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
         // prepare parameters
         String code = randomString();
         // mock data
-        smsTemplateMapper.insert(randomSmsTemplateDO(o -> o.setCode(code)));
+        smsTemplateMapper.insert(randomSmsTemplateEntity(o -> o.setCode(code)));
 
         // invoke, verify exception
         assertServiceException(() -> smsTemplateService.validateSmsTemplateCodeDuplicate(null, code),
@@ -327,7 +327,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
         Long id = randomLongId();
         String code = randomString();
         // mock data
-        smsTemplateMapper.insert(randomSmsTemplateDO(o -> o.setCode(code)));
+        smsTemplateMapper.insert(randomSmsTemplateEntity(o -> o.setCode(code)));
 
         // invoke, verify exception
         assertServiceException(() -> smsTemplateService.validateSmsTemplateCodeDuplicate(id, code),
@@ -337,7 +337,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
     // ========== random object ==========
 
     @SafeVarargs
-    private static SmsTemplateEntity randomSmsTemplateDO(Consumer<SmsTemplateEntity>... consumers) {
+    private static SmsTemplateEntity randomSmsTemplateEntity(Consumer<SmsTemplateEntity>... consumers) {
         Consumer<SmsTemplateEntity> consumer = (o) -> {
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // ensure status range
             o.setType(randomEle(SmsTemplateTypeEnum.values()).getType()); // ensure type range

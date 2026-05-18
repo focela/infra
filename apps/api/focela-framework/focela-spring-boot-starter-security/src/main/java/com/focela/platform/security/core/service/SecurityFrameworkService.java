@@ -24,7 +24,7 @@ public interface SecurityFrameworkService {
     /**
      * Check whether the user has the given role.
      *
-     * Note: roles are identified by the SysRoleDO code.
+     * Note: roles are identified by role code.
      *
      * @param role role
      * @return whether the user has it

@@ -39,7 +39,7 @@ public class DefaultApiErrorLogServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetApiErrorLogPage() {
         // mock data
-        ApiErrorLogEntity apiErrorLogDO = randomPojo(ApiErrorLogEntity.class, o -> {
+        ApiErrorLogEntity apiErrorLogEntity = randomPojo(ApiErrorLogEntity.class, o -> {
             o.setUserId(2233L);
             o.setUserType(UserTypeEnum.ADMIN.getValue());
             o.setApplicationName("focela-test");
@@ -47,19 +47,19 @@ public class DefaultApiErrorLogServiceTest extends BaseDbUnitTest {
             o.setExceptionTime(buildTime(2021, 3, 13));
             o.setProcessStatus(ApiErrorLogProcessStatusEnum.INIT.getStatus());
         });
-        apiErrorLogMapper.insert(apiErrorLogDO);
+        apiErrorLogMapper.insert(apiErrorLogEntity);
         // Test userId mismatch
-        apiErrorLogMapper.insert(cloneIgnoreId(apiErrorLogDO, o -> o.setUserId(3344L)));
+        apiErrorLogMapper.insert(cloneIgnoreId(apiErrorLogEntity, o -> o.setUserId(3344L)));
         // Test userType mismatch
-        apiErrorLogMapper.insert(cloneIgnoreId(apiErrorLogDO, o -> o.setUserType(UserTypeEnum.MEMBER.getValue())));
+        apiErrorLogMapper.insert(cloneIgnoreId(apiErrorLogEntity, o -> o.setUserType(UserTypeEnum.MEMBER.getValue())));
         // Test applicationName mismatch
-        apiErrorLogMapper.insert(cloneIgnoreId(apiErrorLogDO, o -> o.setApplicationName("test")));
+        apiErrorLogMapper.insert(cloneIgnoreId(apiErrorLogEntity, o -> o.setApplicationName("test")));
         // Test requestUrl mismatch
-        apiErrorLogMapper.insert(cloneIgnoreId(apiErrorLogDO, o -> o.setRequestUrl("bar")));
+        apiErrorLogMapper.insert(cloneIgnoreId(apiErrorLogEntity, o -> o.setRequestUrl("bar")));
         // Test exceptionTime mismatch: construct an earlier timestamp 2021-02-06 00:00:00
-        apiErrorLogMapper.insert(cloneIgnoreId(apiErrorLogDO, o -> o.setExceptionTime(buildTime(2021, 2, 6))));
+        apiErrorLogMapper.insert(cloneIgnoreId(apiErrorLogEntity, o -> o.setExceptionTime(buildTime(2021, 2, 6))));
         // Test progressStatus mismatch
-        apiErrorLogMapper.insert(cloneIgnoreId(apiErrorLogDO, logEntity -> logEntity.setProcessStatus(ApiErrorLogProcessStatusEnum.DONE.getStatus())));
+        apiErrorLogMapper.insert(cloneIgnoreId(apiErrorLogEntity, logEntity -> logEntity.setProcessStatus(ApiErrorLogProcessStatusEnum.DONE.getStatus())));
         // Prepare parameters
         ApiErrorLogPageRequest request = new ApiErrorLogPageRequest();
         request.setUserId(2233L);
@@ -74,7 +74,7 @@ public class DefaultApiErrorLogServiceTest extends BaseDbUnitTest {
         // Assert that only one matching record is returned
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
-        assertPojoEquals(apiErrorLogDO, pageResult.getList().get(0));
+        assertPojoEquals(apiErrorLogEntity, pageResult.getList().get(0));
     }
 
     @Test
@@ -85,39 +85,39 @@ public class DefaultApiErrorLogServiceTest extends BaseDbUnitTest {
         // Invoke
         apiErrorLogService.createApiErrorLog(createRequest);
         // Assert
-        ApiErrorLogEntity apiErrorLogDO = apiErrorLogMapper.selectOne(null);
-        assertPojoEquals(createRequest, apiErrorLogDO);
-        assertEquals(ApiErrorLogProcessStatusEnum.INIT.getStatus(), apiErrorLogDO.getProcessStatus());
+        ApiErrorLogEntity apiErrorLogEntity = apiErrorLogMapper.selectOne(null);
+        assertPojoEquals(createRequest, apiErrorLogEntity);
+        assertEquals(ApiErrorLogProcessStatusEnum.INIT.getStatus(), apiErrorLogEntity.getProcessStatus());
     }
 
     @Test
     public void testUpdateApiErrorLogProcess_success() {
         // Prepare parameters
-        ApiErrorLogEntity apiErrorLogDO = randomPojo(ApiErrorLogEntity.class,
+        ApiErrorLogEntity apiErrorLogEntity = randomPojo(ApiErrorLogEntity.class,
                 o -> o.setProcessStatus(ApiErrorLogProcessStatusEnum.INIT.getStatus()));
-        apiErrorLogMapper.insert(apiErrorLogDO);
+        apiErrorLogMapper.insert(apiErrorLogEntity);
         // Prepare parameters
-        Long id = apiErrorLogDO.getId();
+        Long id = apiErrorLogEntity.getId();
         Integer processStatus = randomEle(ApiErrorLogProcessStatusEnum.values()).getStatus();
         Long processUserId = randomLongId();
 
         // Invoke
         apiErrorLogService.updateApiErrorLogProcess(id, processStatus, processUserId);
         // Assert
-        ApiErrorLogEntity dbApiErrorLogDO = apiErrorLogMapper.selectById(apiErrorLogDO.getId());
-        assertEquals(processStatus, dbApiErrorLogDO.getProcessStatus());
-        assertEquals(processUserId, dbApiErrorLogDO.getProcessUserId());
-        assertNotNull(dbApiErrorLogDO.getProcessTime());
+        ApiErrorLogEntity dbApiErrorLogEntity = apiErrorLogMapper.selectById(apiErrorLogEntity.getId());
+        assertEquals(processStatus, dbApiErrorLogEntity.getProcessStatus());
+        assertEquals(processUserId, dbApiErrorLogEntity.getProcessUserId());
+        assertNotNull(dbApiErrorLogEntity.getProcessTime());
     }
 
     @Test
     public void testUpdateApiErrorLogProcess_processed() {
         // Prepare parameters
-        ApiErrorLogEntity apiErrorLogDO = randomPojo(ApiErrorLogEntity.class,
+        ApiErrorLogEntity apiErrorLogEntity = randomPojo(ApiErrorLogEntity.class,
                 o -> o.setProcessStatus(ApiErrorLogProcessStatusEnum.DONE.getStatus()));
-        apiErrorLogMapper.insert(apiErrorLogDO);
+        apiErrorLogMapper.insert(apiErrorLogEntity);
         // Prepare parameters
-        Long id = apiErrorLogDO.getId();
+        Long id = apiErrorLogEntity.getId();
         Integer processStatus = randomEle(ApiErrorLogProcessStatusEnum.values()).getStatus();
         Long processUserId = randomLongId();
 

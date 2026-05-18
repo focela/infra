@@ -32,21 +32,21 @@ public class DefaultLoginLogServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetLoginLogPage() {
         // mock data
-        LoginLogEntity loginLogDO = randomPojo(LoginLogEntity.class, o -> {
+        LoginLogEntity loginLogEntity = randomPojo(LoginLogEntity.class, o -> {
             o.setUserIp("192.168.199.16");
             o.setUsername("wang");
             o.setResult(SUCCESS.getResult());
             o.setCreateTime(buildTime(2021, 3, 6));
         });
-        loginLogMapper.insert(loginLogDO);
+        loginLogMapper.insert(loginLogEntity);
         // test status mismatch
-        loginLogMapper.insert(cloneIgnoreId(loginLogDO, o -> o.setResult(CAPTCHA_CODE_ERROR.getResult())));
+        loginLogMapper.insert(cloneIgnoreId(loginLogEntity, o -> o.setResult(CAPTCHA_CODE_ERROR.getResult())));
         // test ip mismatch
-        loginLogMapper.insert(cloneIgnoreId(loginLogDO, o -> o.setUserIp("192.168.128.18")));
+        loginLogMapper.insert(cloneIgnoreId(loginLogEntity, o -> o.setUserIp("192.168.128.18")));
         // test username mismatch
-        loginLogMapper.insert(cloneIgnoreId(loginLogDO, o -> o.setUsername("yunai")));
+        loginLogMapper.insert(cloneIgnoreId(loginLogEntity, o -> o.setUsername("yunai")));
         // test createTime mismatch
-        loginLogMapper.insert(cloneIgnoreId(loginLogDO, o -> o.setCreateTime(buildTime(2021, 2, 6))));
+        loginLogMapper.insert(cloneIgnoreId(loginLogEntity, o -> o.setCreateTime(buildTime(2021, 2, 6))));
         // build call parameters
         LoginLogPageRequest request = new LoginLogPageRequest();
         request.setUsername("wang");
@@ -59,7 +59,7 @@ public class DefaultLoginLogServiceTest extends BaseDbUnitTest {
         // assert only one matching record was found
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
-        assertPojoEquals(loginLogDO, pageResult.getList().get(0));
+        assertPojoEquals(loginLogEntity, pageResult.getList().get(0));
     }
 
     @Test
@@ -69,8 +69,8 @@ public class DefaultLoginLogServiceTest extends BaseDbUnitTest {
         // invoke
         loginLogService.createLoginLog(request);
         // assert
-        LoginLogEntity loginLogDO = loginLogMapper.selectOne(null);
-        assertPojoEquals(request, loginLogDO);
+        LoginLogEntity loginLogEntity = loginLogMapper.selectOne(null);
+        assertPojoEquals(request, loginLogEntity);
     }
 
 }

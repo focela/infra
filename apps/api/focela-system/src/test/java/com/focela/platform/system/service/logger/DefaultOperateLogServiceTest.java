@@ -34,14 +34,14 @@ public class DefaultOperateLogServiceTest extends BaseDbUnitTest {
         // invoke
         DefaultoperateLogService.createOperateLog(request);
         // assert
-        OperateLogEntity operateLogDO = operateLogMapper.selectOne(null);
-        assertPojoEquals(request, operateLogDO);
+        OperateLogEntity operateLogEntity = operateLogMapper.selectOne(null);
+        assertPojoEquals(request, operateLogEntity);
     }
 
     @Test
     public void testGetOperateLogPage_vo() {
         // build operate log
-        OperateLogEntity operateLogDO = RandomUtils.randomPojo(OperateLogEntity.class, o -> {
+        OperateLogEntity operateLogEntity = RandomUtils.randomPojo(OperateLogEntity.class, o -> {
             o.setUserId(2048L);
             o.setBizId(999L);
             o.setType("order");
@@ -49,19 +49,19 @@ public class DefaultOperateLogServiceTest extends BaseDbUnitTest {
             o.setAction("Modify user info with ID 1");
             o.setCreateTime(buildTime(2021, 3, 6));
         });
-        operateLogMapper.insert(operateLogDO);
+        operateLogMapper.insert(operateLogEntity);
         // test userId mismatch
-        operateLogMapper.insert(cloneIgnoreId(operateLogDO, o -> o.setUserId(1024L)));
+        operateLogMapper.insert(cloneIgnoreId(operateLogEntity, o -> o.setUserId(1024L)));
         // test bizId mismatch
-        operateLogMapper.insert(cloneIgnoreId(operateLogDO, o -> o.setBizId(888L)));
+        operateLogMapper.insert(cloneIgnoreId(operateLogEntity, o -> o.setBizId(888L)));
         // test type mismatch
-        operateLogMapper.insert(cloneIgnoreId(operateLogDO, o -> o.setType("refund")));
+        operateLogMapper.insert(cloneIgnoreId(operateLogEntity, o -> o.setType("refund")));
         // test subType mismatch
-        operateLogMapper.insert(cloneIgnoreId(operateLogDO, o -> o.setSubType("create refund")));
+        operateLogMapper.insert(cloneIgnoreId(operateLogEntity, o -> o.setSubType("create refund")));
         // test action mismatch
-        operateLogMapper.insert(cloneIgnoreId(operateLogDO, o -> o.setAction("update refund info with ID 1")));
+        operateLogMapper.insert(cloneIgnoreId(operateLogEntity, o -> o.setAction("update refund info with ID 1")));
         // test createTime mismatch
-        operateLogMapper.insert(cloneIgnoreId(operateLogDO, o -> o.setCreateTime(buildTime(2021, 2, 6))));
+        operateLogMapper.insert(cloneIgnoreId(operateLogEntity, o -> o.setCreateTime(buildTime(2021, 2, 6))));
 
         // build call parameters
         OperateLogPageRequest request = new OperateLogPageRequest();
@@ -77,24 +77,24 @@ public class DefaultOperateLogServiceTest extends BaseDbUnitTest {
         // assert only one matching record was found
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
-        assertPojoEquals(operateLogDO, pageResult.getList().get(0));
+        assertPojoEquals(operateLogEntity, pageResult.getList().get(0));
     }
 
     @Test
     public void testGetOperateLogPage_dto() {
         // build operate log
-        OperateLogEntity operateLogDO = RandomUtils.randomPojo(OperateLogEntity.class, o -> {
+        OperateLogEntity operateLogEntity = RandomUtils.randomPojo(OperateLogEntity.class, o -> {
             o.setUserId(2048L);
             o.setBizId(999L);
             o.setType("order");
         });
-        operateLogMapper.insert(operateLogDO);
+        operateLogMapper.insert(operateLogEntity);
         // test userId mismatch
-        operateLogMapper.insert(cloneIgnoreId(operateLogDO, o -> o.setUserId(1024L)));
+        operateLogMapper.insert(cloneIgnoreId(operateLogEntity, o -> o.setUserId(1024L)));
         // test bizId mismatch
-        operateLogMapper.insert(cloneIgnoreId(operateLogDO, o -> o.setBizId(888L)));
+        operateLogMapper.insert(cloneIgnoreId(operateLogEntity, o -> o.setBizId(888L)));
         // test type mismatch
-        operateLogMapper.insert(cloneIgnoreId(operateLogDO, o -> o.setType("refund")));
+        operateLogMapper.insert(cloneIgnoreId(operateLogEntity, o -> o.setType("refund")));
 
         // build call parameters
         OperateLogPageRpcRequest request = new OperateLogPageRpcRequest();
@@ -107,7 +107,7 @@ public class DefaultOperateLogServiceTest extends BaseDbUnitTest {
         // assert only one matching record was found
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
-        assertPojoEquals(operateLogDO, pageResult.getList().get(0));
+        assertPojoEquals(operateLogEntity, pageResult.getList().get(0));
     }
 
 }

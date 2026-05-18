@@ -75,7 +75,7 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetDictType_id() {
         // mock data
-        DictionaryTypeEntity dbDictType = randomDictTypeDO();
+        DictionaryTypeEntity dbDictType = randomDictTypeEntity();
         dictTypeMapper.insert(dbDictType);
         // prepare parameters
         Long id = dbDictType.getId();
@@ -90,7 +90,7 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetDictType_type() {
         // mock data
-        DictionaryTypeEntity dbDictType = randomDictTypeDO();
+        DictionaryTypeEntity dbDictType = randomDictTypeEntity();
         dictTypeMapper.insert(dbDictType);
         // prepare parameters
         String type = dbDictType.getType();
@@ -121,7 +121,7 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
     @Test
     public void testUpdateDictType_success() {
         // mock data
-        DictionaryTypeEntity dbDictType = randomDictTypeDO();
+        DictionaryTypeEntity dbDictType = randomDictTypeEntity();
         dictTypeMapper.insert(dbDictType);// @Sql: first insert an existing record
         // prepare parameters
         DictionaryTypeSaveRequest request = randomPojo(DictionaryTypeSaveRequest.class, o -> {
@@ -139,7 +139,7 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
     @Test
     public void testDeleteDictType_success() {
         // mock data
-        DictionaryTypeEntity dbDictType = randomDictTypeDO();
+        DictionaryTypeEntity dbDictType = randomDictTypeEntity();
         dictTypeMapper.insert(dbDictType);// @Sql: first insert an existing record
         // prepare parameters
         Long id = dbDictType.getId();
@@ -153,7 +153,7 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
     @Test
     public void testDeleteDictType_hasChildren() {
         // mock data
-        DictionaryTypeEntity dbDictType = randomDictTypeDO();
+        DictionaryTypeEntity dbDictType = randomDictTypeEntity();
         dictTypeMapper.insert(dbDictType);// @Sql: first insert an existing record
         // prepare parameters
         Long id = dbDictType.getId();
@@ -167,24 +167,24 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetDictTypeList() {
         // prepare parameters
-        DictionaryTypeEntity dictTypeDO01 = randomDictTypeDO();
-        dictTypeMapper.insert(dictTypeDO01);
-        DictionaryTypeEntity dictTypeDO02 = randomDictTypeDO();
-        dictTypeMapper.insert(dictTypeDO02);
+        DictionaryTypeEntity dictTypeEntity01 = randomDictTypeEntity();
+        dictTypeMapper.insert(dictTypeEntity01);
+        DictionaryTypeEntity dictTypeEntity02 = randomDictTypeEntity();
+        dictTypeMapper.insert(dictTypeEntity02);
         // mock the method
 
         // invoke
-        List<DictionaryTypeEntity> dictTypeDOList = dictTypeService.getDictTypeList();
+        List<DictionaryTypeEntity> dictionaryTypeEntities = dictTypeService.getDictTypeList();
         // assert
-        assertEquals(2, dictTypeDOList.size());
-        assertPojoEquals(dictTypeDO01, dictTypeDOList.get(0));
-        assertPojoEquals(dictTypeDO02, dictTypeDOList.get(1));
+        assertEquals(2, dictionaryTypeEntities.size());
+        assertPojoEquals(dictTypeEntity01, dictionaryTypeEntities.get(0));
+        assertPojoEquals(dictTypeEntity02, dictionaryTypeEntities.get(1));
     }
 
     @Test
     public void testValidateDictDataExists_success() {
         // mock data
-        DictionaryTypeEntity dbDictType = randomDictTypeDO();
+        DictionaryTypeEntity dbDictType = randomDictTypeEntity();
         dictTypeMapper.insert(dbDictType);// @Sql: first insert an existing record
 
         // invoke succeeded
@@ -207,7 +207,7 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
         // prepare parameters
         String type = randomString();
         // mock data
-        dictTypeMapper.insert(randomDictTypeDO(o -> o.setType(type)));
+        dictTypeMapper.insert(randomDictTypeEntity(o -> o.setType(type)));
 
         // invoke, verify exception
         assertServiceException(() -> dictTypeService.validateDictTypeUnique(null, type),
@@ -220,7 +220,7 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
         Long id = randomLongId();
         String type = randomString();
         // mock data
-        dictTypeMapper.insert(randomDictTypeDO(o -> o.setType(type)));
+        dictTypeMapper.insert(randomDictTypeEntity(o -> o.setType(type)));
 
         // invoke, verify exception
         assertServiceException(() -> dictTypeService.validateDictTypeUnique(id, type),
@@ -238,7 +238,7 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
         // prepare parameters
         String name = randomString();
         // mock data
-        dictTypeMapper.insert(randomDictTypeDO(o -> o.setName(name)));
+        dictTypeMapper.insert(randomDictTypeEntity(o -> o.setName(name)));
 
         // invoke, verify exception
         assertServiceException(() -> dictTypeService.validateDictTypeNameUnique(null, name),
@@ -251,7 +251,7 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
         Long id = randomLongId();
         String name = randomString();
         // mock data
-        dictTypeMapper.insert(randomDictTypeDO(o -> o.setName(name)));
+        dictTypeMapper.insert(randomDictTypeEntity(o -> o.setName(name)));
 
         // invoke, verify exception
         assertServiceException(() -> dictTypeService.validateDictTypeNameUnique(id, name),
@@ -261,7 +261,7 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
     // ========== random object ==========
 
     @SafeVarargs
-    private static DictionaryTypeEntity randomDictTypeDO(Consumer<DictionaryTypeEntity>... consumers) {
+    private static DictionaryTypeEntity randomDictTypeEntity(Consumer<DictionaryTypeEntity>... consumers) {
         Consumer<DictionaryTypeEntity> consumer = (o) -> {
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // ensure status range
         };

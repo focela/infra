@@ -85,11 +85,11 @@ class DefaultNoticeServiceTest extends BaseDbUnitTest {
     @Test
     public void testUpdateNotice_success() {
         // insert prerequisite data
-        NoticeEntity dbNoticeDO = randomPojo(NoticeEntity.class);
-        noticeMapper.insert(dbNoticeDO);
+        NoticeEntity dbNoticeEntity = randomPojo(NoticeEntity.class);
+        noticeMapper.insert(dbNoticeEntity);
 
         // prepare update parameters
-        NoticeSaveRequest request = randomPojo(NoticeSaveRequest.class, o -> o.setId(dbNoticeDO.getId()));
+        NoticeSaveRequest request = randomPojo(NoticeSaveRequest.class, o -> o.setId(dbNoticeEntity.getId()));
 
         // update
         noticeService.updateNotice(request);

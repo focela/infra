@@ -47,37 +47,37 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
         // assert
         assertNotNull(deptId);
         // verify record properties are correct
-        DepartmentEntity deptDO = deptMapper.selectById(deptId);
-        assertPojoEquals(request, deptDO, "id");
+        DepartmentEntity deptEntity = deptMapper.selectById(deptId);
+        assertPojoEquals(request, deptEntity, "id");
     }
 
     @Test
     public void testUpdateDept() {
         // mock data
-        DepartmentEntity dbDeptDO = randomPojo(DepartmentEntity.class, o -> o.setStatus(randomCommonStatus()));
-        deptMapper.insert(dbDeptDO);// @Sql: first insert an existing record
+        DepartmentEntity dbDeptEntity = randomPojo(DepartmentEntity.class, o -> o.setStatus(randomCommonStatus()));
+        deptMapper.insert(dbDeptEntity);// @Sql: first insert an existing record
         // prepare parameters
         DepartmentSaveRequest request = randomPojo(DepartmentSaveRequest.class, o -> {
             // set updated ID
             o.setParentId(DepartmentEntity.PARENT_ID_ROOT);
-            o.setId(dbDeptDO.getId());
+            o.setId(dbDeptEntity.getId());
             o.setStatus(randomCommonStatus());
         });
 
         // invoke
         deptService.updateDept(request);
         // verify update is correct
-        DepartmentEntity deptDO = deptMapper.selectById(request.getId()); // get the latest
-        assertPojoEquals(request, deptDO);
+        DepartmentEntity deptEntity = deptMapper.selectById(request.getId()); // get the latest
+        assertPojoEquals(request, deptEntity);
     }
 
     @Test
     public void testDeleteDept_success() {
         // mock data
-        DepartmentEntity dbDeptDO = randomPojo(DepartmentEntity.class);
-        deptMapper.insert(dbDeptDO);// @Sql: first insert an existing record
+        DepartmentEntity dbDeptEntity = randomPojo(DepartmentEntity.class);
+        deptMapper.insert(dbDeptEntity);// @Sql: first insert an existing record
         // prepare parameters
-        Long id = dbDeptDO.getId();
+        Long id = dbDeptEntity.getId();
 
         // invoke
         deptService.deleteDept(id);
@@ -91,12 +91,12 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
         DepartmentEntity parentDept = randomPojo(DepartmentEntity.class);
         deptMapper.insert(parentDept);// @Sql: first insert an existing record
         // prepare parameters
-        DepartmentEntity childrenDeptDO = randomPojo(DepartmentEntity.class, o -> {
+        DepartmentEntity childrenDeptEntity = randomPojo(DepartmentEntity.class, o -> {
             o.setParentId(parentDept.getId());
             o.setStatus(randomCommonStatus());
         });
         // insert child department
-        deptMapper.insert(childrenDeptDO);
+        deptMapper.insert(childrenDeptEntity);
 
         // invoke and assert exception
         assertServiceException(() -> deptService.deleteDept(parentDept.getId()), DEPT_EXITS_CHILDREN);
@@ -105,18 +105,18 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
     @Test
     public void testDeleteDeptList_success() {
         // mock data
-        DepartmentEntity deptDO1 = randomPojo(DepartmentEntity.class);
-        deptMapper.insert(deptDO1);
-        DepartmentEntity deptDO2 = randomPojo(DepartmentEntity.class);
-        deptMapper.insert(deptDO2);
+        DepartmentEntity deptEntity1 = randomPojo(DepartmentEntity.class);
+        deptMapper.insert(deptEntity1);
+        DepartmentEntity deptEntity2 = randomPojo(DepartmentEntity.class);
+        deptMapper.insert(deptEntity2);
         // prepare parameters
-        List<Long> ids = Arrays.asList(deptDO1.getId(), deptDO2.getId());
+        List<Long> ids = Arrays.asList(deptEntity1.getId(), deptEntity2.getId());
 
         // invoke
         deptService.deleteDeptList(ids);
         // verify data no longer exists
-        assertNull(deptMapper.selectById(deptDO1.getId()));
-        assertNull(deptMapper.selectById(deptDO2.getId()));
+        assertNull(deptMapper.selectById(deptEntity1.getId()));
+        assertNull(deptMapper.selectById(deptEntity2.getId()));
     }
 
     @Test
@@ -124,11 +124,11 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
         // mock data
         DepartmentEntity parentDept = randomPojo(DepartmentEntity.class);
         deptMapper.insert(parentDept);
-        DepartmentEntity childrenDeptDO = randomPojo(DepartmentEntity.class, o -> {
+        DepartmentEntity childrenDeptEntity = randomPojo(DepartmentEntity.class, o -> {
             o.setParentId(parentDept.getId());
             o.setStatus(randomCommonStatus());
         });
-        deptMapper.insert(childrenDeptDO);
+        deptMapper.insert(childrenDeptEntity);
         DepartmentEntity anotherDept = randomPojo(DepartmentEntity.class);
         deptMapper.insert(anotherDept);
 
@@ -171,13 +171,13 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
     @Test
     public void testValidateNameUnique_duplicate() {
         // mock data
-        DepartmentEntity deptDO = randomPojo(DepartmentEntity.class);
-        deptMapper.insert(deptDO);
+        DepartmentEntity deptEntity = randomPojo(DepartmentEntity.class);
+        deptMapper.insert(deptEntity);
 
         // prepare parameters
         Long id = randomLongId();
-        Long parentId = deptDO.getParentId();
-        String name = deptDO.getName();
+        Long parentId = deptEntity.getParentId();
+        String name = deptEntity.getName();
 
         // invoke and assert exception
         assertServiceException(() -> deptService.validateDeptNameUnique(id, parentId, name),
@@ -187,37 +187,37 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetDept() {
         // mock data
-        DepartmentEntity deptDO = randomPojo(DepartmentEntity.class);
-        deptMapper.insert(deptDO);
+        DepartmentEntity deptEntity = randomPojo(DepartmentEntity.class);
+        deptMapper.insert(deptEntity);
         // prepare parameters
-        Long id = deptDO.getId();
+        Long id = deptEntity.getId();
 
         // invoke
         DepartmentEntity dbDept = deptService.getDept(id);
         // assert
-        assertEquals(deptDO, dbDept);
+        assertEquals(deptEntity, dbDept);
     }
 
     @Test
     public void testGetDeptList_ids() {
         // mock data
-        DepartmentEntity deptDO01 = randomPojo(DepartmentEntity.class);
-        deptMapper.insert(deptDO01);
-        DepartmentEntity deptDO02 = randomPojo(DepartmentEntity.class);
-        deptMapper.insert(deptDO02);
+        DepartmentEntity deptEntity01 = randomPojo(DepartmentEntity.class);
+        deptMapper.insert(deptEntity01);
+        DepartmentEntity deptEntity02 = randomPojo(DepartmentEntity.class);
+        deptMapper.insert(deptEntity02);
         // prepare parameters
-        List<Long> ids = Arrays.asList(deptDO01.getId(), deptDO02.getId());
+        List<Long> ids = Arrays.asList(deptEntity01.getId(), deptEntity02.getId());
 
         // invoke
-        List<DepartmentEntity> deptDOList = deptService.getDeptList(ids);
+        List<DepartmentEntity> departmentEntities = deptService.getDeptList(ids);
         // assert
-        assertEquals(2, deptDOList.size());
-        assertEquals(deptDO01, deptDOList.get(0));
-        assertEquals(deptDO02, deptDOList.get(1));
+        assertEquals(2, departmentEntities.size());
+        assertEquals(deptEntity01, departmentEntities.get(0));
+        assertEquals(deptEntity02, departmentEntities.get(1));
     }
 
     @Test
-    public void testGetDeptList_reqVO() {
+    public void testGetDeptList_request() {
         // mock data
         DepartmentEntity dept = randomPojo(DepartmentEntity.class, o -> { // will be queried later
             o.setName("Development Department");
@@ -234,10 +234,10 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
         request.setStatus(CommonStatusEnum.ENABLE.getStatus());
 
         // invoke
-        List<DepartmentEntity> sysDeptDOS = deptService.getDeptList(request);
+        List<DepartmentEntity> departmentEntities = deptService.getDeptList(request);
         // assert
-        assertEquals(1, sysDeptDOS.size());
-        assertPojoEquals(dept, sysDeptDOS.get(0));
+        assertEquals(1, departmentEntities.size());
+        assertPojoEquals(dept, departmentEntities.get(0));
     }
 
     @Test
@@ -289,10 +289,10 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
     @Test
     public void testValidateDeptList_success() {
         // mock data
-        DepartmentEntity deptDO = randomPojo(DepartmentEntity.class).setStatus(CommonStatusEnum.ENABLE.getStatus());
-        deptMapper.insert(deptDO);
+        DepartmentEntity deptEntity = randomPojo(DepartmentEntity.class).setStatus(CommonStatusEnum.ENABLE.getStatus());
+        deptMapper.insert(deptEntity);
         // prepare parameters
-        List<Long> ids = singletonList(deptDO.getId());
+        List<Long> ids = singletonList(deptEntity.getId());
 
         // invoke, no assertion needed
         deptService.validateDeptList(ids);
@@ -310,13 +310,13 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
     @Test
     public void testValidateDeptList_notEnable() {
         // mock data
-        DepartmentEntity deptDO = randomPojo(DepartmentEntity.class).setStatus(CommonStatusEnum.DISABLE.getStatus());
-        deptMapper.insert(deptDO);
+        DepartmentEntity deptEntity = randomPojo(DepartmentEntity.class).setStatus(CommonStatusEnum.DISABLE.getStatus());
+        deptMapper.insert(deptEntity);
         // prepare parameters
-        List<Long> ids = singletonList(deptDO.getId());
+        List<Long> ids = singletonList(deptEntity.getId());
 
         // invoke and assert exception
-        assertServiceException(() -> deptService.validateDeptList(ids), DEPT_NOT_ENABLE, deptDO.getName());
+        assertServiceException(() -> deptService.validateDeptList(ids), DEPT_NOT_ENABLE, deptEntity.getName());
     }
 
 }

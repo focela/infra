@@ -42,7 +42,7 @@ public class DefaultSmsLogServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetSmsLogPage() {
         // mock data
-        SmsLogEntity dbSmsLog = randomSmsLogDO(o -> { // will be queried later
+        SmsLogEntity dbSmsLog = randomSmsLogEntity(o -> { // will be queried later
             o.setChannelId(1L);
             o.setTemplateId(10L);
             o.setMobile("15601691300");
@@ -91,7 +91,7 @@ public class DefaultSmsLogServiceTest extends BaseDbUnitTest {
         Long userId = randomLongId();
         Integer userType = randomEle(UserTypeEnum.values()).getValue();
         Boolean isSend = randomBoolean();
-        SmsTemplateEntity templateDO = randomPojo(SmsTemplateEntity.class,
+        SmsTemplateEntity templateEntity = randomPojo(SmsTemplateEntity.class,
                 o -> o.setType(randomEle(SmsTemplateTypeEnum.values()).getType()));
         String templateContent = randomString();
         Map<String, Object> templateParams = randomTemplateParams();
@@ -99,7 +99,7 @@ public class DefaultSmsLogServiceTest extends BaseDbUnitTest {
 
         // invoke
         Long logId = smsLogService.createSmsLog(mobile, userId, userType, isSend,
-                templateDO, templateContent, templateParams);
+                templateEntity, templateContent, templateParams);
         // assert
         SmsLogEntity logEntity = smsLogMapper.selectById(logId);
         assertEquals(isSend ? SmsSendStatusEnum.INIT.getStatus() : SmsSendStatusEnum.IGNORE.getStatus(),
@@ -107,11 +107,11 @@ public class DefaultSmsLogServiceTest extends BaseDbUnitTest {
         assertEquals(mobile, logEntity.getMobile());
         assertEquals(userType, logEntity.getUserType());
         assertEquals(userId, logEntity.getUserId());
-        assertEquals(templateDO.getId(), logEntity.getTemplateId());
-        assertEquals(templateDO.getCode(), logEntity.getTemplateCode());
-        assertEquals(templateDO.getType(), logEntity.getTemplateType());
-        assertEquals(templateDO.getChannelId(), logEntity.getChannelId());
-        assertEquals(templateDO.getChannelCode(), logEntity.getChannelCode());
+        assertEquals(templateEntity.getId(), logEntity.getTemplateId());
+        assertEquals(templateEntity.getCode(), logEntity.getTemplateCode());
+        assertEquals(templateEntity.getType(), logEntity.getTemplateType());
+        assertEquals(templateEntity.getChannelId(), logEntity.getChannelId());
+        assertEquals(templateEntity.getChannelCode(), logEntity.getChannelCode());
         assertEquals(templateContent, logEntity.getTemplateContent());
         assertEquals(templateParams, logEntity.getTemplateParams());
         assertEquals(SmsReceiveStatusEnum.INIT.getStatus(), logEntity.getReceiveStatus());
@@ -120,7 +120,7 @@ public class DefaultSmsLogServiceTest extends BaseDbUnitTest {
     @Test
     public void testUpdateSmsSendResult() {
         // mock data
-        SmsLogEntity dbSmsLog = randomSmsLogDO(
+        SmsLogEntity dbSmsLog = randomSmsLogEntity(
                 o -> o.setSendStatus(SmsSendStatusEnum.IGNORE.getStatus()));
         smsLogMapper.insert(dbSmsLog);
         // prepare parameters
@@ -148,7 +148,7 @@ public class DefaultSmsLogServiceTest extends BaseDbUnitTest {
     @Test
     public void testUpdateSmsReceiveResult() {
         // mock data
-        SmsLogEntity dbSmsLog = randomSmsLogDO(
+        SmsLogEntity dbSmsLog = randomSmsLogEntity(
                 o -> o.setReceiveStatus(SmsReceiveStatusEnum.INIT.getStatus()));
         smsLogMapper.insert(dbSmsLog);
         // prepare parameters
@@ -173,7 +173,7 @@ public class DefaultSmsLogServiceTest extends BaseDbUnitTest {
     // ========== random object ==========
 
     @SafeVarargs
-    private static SmsLogEntity randomSmsLogDO(Consumer<SmsLogEntity>... consumers) {
+    private static SmsLogEntity randomSmsLogEntity(Consumer<SmsLogEntity>... consumers) {
         Consumer<SmsLogEntity> consumer = (o) -> {
             o.setTemplateParams(randomTemplateParams());
             o.setTemplateType(randomEle(SmsTemplateTypeEnum.values()).getType()); // ensure templateType range

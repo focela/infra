@@ -136,19 +136,19 @@ public class DefaultSocialUserServiceTest extends BaseDbUnitTest {
         String code = "tudou";
         String state = "yuanma";
         // mock social user
-        SocialUserEntity socialUserDO = randomPojo(SocialUserEntity.class).setType(type).setCode(code).setState(state);
-        socialUserMapper.insert(socialUserDO);
+        SocialUserEntity socialUserEntity = randomPojo(SocialUserEntity.class).setType(type).setCode(code).setState(state);
+        socialUserMapper.insert(socialUserEntity);
         // mock social user binding
         Long userId = randomLong();
         SocialUserBindEntity socialUserBind = randomPojo(SocialUserBindEntity.class).setUserType(userType).setUserId(userId)
-                .setSocialType(type).setSocialUserId(socialUserDO.getId());
+                .setSocialType(type).setSocialUserId(socialUserEntity.getId());
         socialUserBindMapper.insert(socialUserBind);
 
         // invoke
         SocialUserRpcResponse socialUser = socialUserService.getSocialUserByCode(userType, type, code, state);
         // assert
         assertEquals(userId, socialUser.getUserId());
-        assertEquals(socialUserDO.getOpenid(), socialUser.getOpenid());
+        assertEquals(socialUserEntity.getOpenid(), socialUser.getOpenid());
     }
 
     @Test
@@ -239,15 +239,15 @@ public class DefaultSocialUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetSocialUser_id() {
         // mock data
-        SocialUserEntity socialUserDO = randomPojo(SocialUserEntity.class);
-        socialUserMapper.insert(socialUserDO);
+        SocialUserEntity socialUserEntity = randomPojo(SocialUserEntity.class);
+        socialUserMapper.insert(socialUserEntity);
         // prepare parameters
-        Long id = socialUserDO.getId();
+        Long id = socialUserEntity.getId();
 
         // invoke
-        SocialUserEntity dbSocialUserDO = socialUserService.getSocialUser(id);
+        SocialUserEntity dbSocialUserEntity = socialUserService.getSocialUser(id);
         // assert
-        assertPojoEquals(socialUserDO, dbSocialUserDO);
+        assertPojoEquals(socialUserEntity, dbSocialUserEntity);
     }
 
     @Test

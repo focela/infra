@@ -136,8 +136,8 @@ public class DefaultOAuth2ClientServiceTest extends BaseDbUnitTest {
         Long id = clientEntity.getId();
 
         // invoke, and assert
-        OAuth2ClientEntity dbClientDO = oauth2ClientService.getOAuth2Client(id);
-        assertPojoEquals(clientEntity, dbClientDO);
+        OAuth2ClientEntity dbClientEntity = oauth2ClientService.getOAuth2Client(id);
+        assertPojoEquals(clientEntity, dbClientEntity);
     }
 
     @Test
@@ -149,8 +149,8 @@ public class DefaultOAuth2ClientServiceTest extends BaseDbUnitTest {
         String clientId = clientEntity.getClientId();
 
         // invoke, and assert
-        OAuth2ClientEntity dbClientDO = oauth2ClientService.getOAuth2ClientFromCache(clientId);
-        assertPojoEquals(clientEntity, dbClientDO);
+        OAuth2ClientEntity dbClientEntity = oauth2ClientService.getOAuth2ClientFromCache(clientId);
+        assertPojoEquals(clientEntity, dbClientEntity);
     }
 
     @Test

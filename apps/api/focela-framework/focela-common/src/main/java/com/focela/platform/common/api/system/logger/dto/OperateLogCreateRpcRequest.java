@@ -20,7 +20,7 @@ public class OperateLogCreateRpcRequest {
     /**
      * User ID.
      *
-     * References the id of MemberUserDO or UserEntity.
+     * References the ID of a member user or UserEntity.
      */
     @NotNull(message = "user ID must not be blank")
     private Long userId;

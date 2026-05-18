@@ -74,9 +74,9 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
         // invoke
         OAuth2AccessTokenEntity accessTokenEntity = oauth2TokenService.createAccessToken(userId, userType, clientId, scopes);
         // assert access token
-        OAuth2AccessTokenEntity dbAccessTokenDO = oauth2AccessTokenMapper.selectByAccessToken(accessTokenEntity.getAccessToken());
+        OAuth2AccessTokenEntity dbAccessTokenEntity = oauth2AccessTokenMapper.selectByAccessToken(accessTokenEntity.getAccessToken());
         // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
-        assertPojoEquals(accessTokenEntity, dbAccessTokenDO, "expiresTime", "createTime", "updateTime", "deleted");
+        assertPojoEquals(accessTokenEntity, dbAccessTokenEntity, "expiresTime", "createTime", "updateTime", "deleted");
         assertEquals(userId, accessTokenEntity.getUserId());
         assertEquals(userType, accessTokenEntity.getUserType());
         assertEquals(2, accessTokenEntity.getUserInfo().size());
@@ -86,9 +86,9 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
         assertEquals(scopes, accessTokenEntity.getScopes());
         assertFalse(DateUtils.isExpired(accessTokenEntity.getExpiresTime()));
         // assert access token cache
-        OAuth2AccessTokenEntity redisAccessTokenDO = oauth2AccessTokenRedisDAO.get(accessTokenEntity.getAccessToken());
+        OAuth2AccessTokenEntity redisAccessTokenEntity = oauth2AccessTokenRedisDAO.get(accessTokenEntity.getAccessToken());
         // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
-        assertPojoEquals(accessTokenEntity, redisAccessTokenDO, "expiresTime", "createTime", "updateTime", "deleted");
+        assertPojoEquals(accessTokenEntity, redisAccessTokenEntity, "expiresTime", "createTime", "updateTime", "deleted");
         // assert refresh token
         OAuth2RefreshTokenEntity refreshTokenEntity = oauth2RefreshTokenMapper.selectList().get(0);
         assertPojoEquals(accessTokenEntity, refreshTokenEntity, "id", "expiresTime", "createTime", "updateTime", "deleted");
@@ -172,21 +172,21 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
         when(adminUserService.getUser(refreshTokenEntity.getUserId())).thenReturn(user);
 
         // invoke
-        OAuth2AccessTokenEntity newAccessTokenDO = oauth2TokenService.refreshAccessToken(refreshToken, clientId);
+        OAuth2AccessTokenEntity newAccessTokenEntity = oauth2TokenService.refreshAccessToken(refreshToken, clientId);
         // assert old access token is deleted
         assertNull(oauth2AccessTokenMapper.selectByAccessToken(accessTokenEntity.getAccessToken()));
         assertNull(oauth2AccessTokenRedisDAO.get(accessTokenEntity.getAccessToken()));
         // assert new access token
-        OAuth2AccessTokenEntity dbAccessTokenDO = oauth2AccessTokenMapper.selectByAccessToken(newAccessTokenDO.getAccessToken());
+        OAuth2AccessTokenEntity dbAccessTokenEntity = oauth2AccessTokenMapper.selectByAccessToken(newAccessTokenEntity.getAccessToken());
         // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
-        assertPojoEquals(newAccessTokenDO, dbAccessTokenDO, "expiresTime", "createTime", "updateTime", "deleted");
-        assertPojoEquals(newAccessTokenDO, refreshTokenEntity, "id", "expiresTime", "createTime", "updateTime", "deleted",
+        assertPojoEquals(newAccessTokenEntity, dbAccessTokenEntity, "expiresTime", "createTime", "updateTime", "deleted");
+        assertPojoEquals(newAccessTokenEntity, refreshTokenEntity, "id", "expiresTime", "createTime", "updateTime", "deleted",
                 "creator", "updater");
-        assertFalse(DateUtils.isExpired(newAccessTokenDO.getExpiresTime()));
+        assertFalse(DateUtils.isExpired(newAccessTokenEntity.getExpiresTime()));
         // assert new access token cache
-        OAuth2AccessTokenEntity redisAccessTokenDO = oauth2AccessTokenRedisDAO.get(newAccessTokenDO.getAccessToken());
+        OAuth2AccessTokenEntity redisAccessTokenEntity = oauth2AccessTokenRedisDAO.get(newAccessTokenEntity.getAccessToken());
         // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
-        assertPojoEquals(newAccessTokenDO, redisAccessTokenDO, "expiresTime", "createTime", "updateTime", "deleted");
+        assertPojoEquals(newAccessTokenEntity, redisAccessTokenEntity, "expiresTime", "createTime", "updateTime", "deleted");
     }
 
     @Test

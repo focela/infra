@@ -63,11 +63,11 @@ public class DefaultSmsCodeServiceTest extends BaseDbUnitTest {
         // invoke
         smsCodeService.sendSmsCode(request);
         // assert code
-        SmsCodeEntity smsCodeDO = smsCodeMapper.selectOne(null);
-        assertPojoEquals(request, smsCodeDO);
-        assertEquals("9999", smsCodeDO.getCode());
-        assertEquals(1, smsCodeDO.getTodayIndex());
-        assertFalse(smsCodeDO.getUsed());
+        SmsCodeEntity smsCodeEntity = smsCodeMapper.selectOne(null);
+        assertPojoEquals(request, smsCodeEntity);
+        assertEquals("9999", smsCodeEntity.getCode());
+        assertEquals(1, smsCodeEntity.getTodayIndex());
+        assertFalse(smsCodeEntity.getUsed());
         // assert call
         verify(smsSendService).sendSingleSms(eq(request.getMobile()), isNull(), isNull(),
                 eq("user-sms-login"), eq(MapUtil.of("code", "9999")));
@@ -76,9 +76,9 @@ public class DefaultSmsCodeServiceTest extends BaseDbUnitTest {
     @Test
     public void sendSmsCode_tooFast() {
         // mock data
-        SmsCodeEntity smsCodeDO = randomPojo(SmsCodeEntity.class,
+        SmsCodeEntity smsCodeEntity = randomPojo(SmsCodeEntity.class,
                 o -> o.setMobile("15601691300").setTodayIndex(1));
-        smsCodeMapper.insert(smsCodeDO);
+        smsCodeMapper.insert(smsCodeEntity);
         // prepare parameters
         SmsCodeSendRpcRequest request = randomPojo(SmsCodeSendRpcRequest.class, o -> {
             o.setMobile("15601691300");
@@ -93,9 +93,9 @@ public class DefaultSmsCodeServiceTest extends BaseDbUnitTest {
     @Test
     public void sendSmsCode_exceedDay() {
         // mock data
-        SmsCodeEntity smsCodeDO = randomPojo(SmsCodeEntity.class,
+        SmsCodeEntity smsCodeEntity = randomPojo(SmsCodeEntity.class,
                 o -> o.setMobile("15601691300").setTodayIndex(10).setCreateTime(LocalDateTime.now()));
-        smsCodeMapper.insert(smsCodeDO);
+        smsCodeMapper.insert(smsCodeEntity);
         // prepare parameters
         SmsCodeSendRpcRequest request = randomPojo(SmsCodeSendRpcRequest.class, o -> {
             o.setMobile("15601691300");
@@ -123,10 +123,10 @@ public class DefaultSmsCodeServiceTest extends BaseDbUnitTest {
         // invoke
         smsCodeService.useSmsCode(request);
         // assert
-        SmsCodeEntity smsCodeDO = smsCodeMapper.selectOne(null);
-        assertTrue(smsCodeDO.getUsed());
-        assertNotNull(smsCodeDO.getUsedTime());
-        assertEquals(request.getUsedIp(), smsCodeDO.getUsedIp());
+        SmsCodeEntity smsCodeEntity = smsCodeMapper.selectOne(null);
+        assertTrue(smsCodeEntity.getUsed());
+        assertNotNull(smsCodeEntity.getUsedTime());
+        assertEquals(request.getUsedIp(), smsCodeEntity.getUsedIp());
     }
 
     @Test

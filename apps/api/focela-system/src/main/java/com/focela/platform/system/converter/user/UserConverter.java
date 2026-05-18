@@ -29,28 +29,28 @@ public interface UserConverter {
     }
 
     default UserResponse convert(UserEntity user, DepartmentEntity dept) {
-        UserResponse userVO = BeanUtils.toBean(user, UserResponse.class);
+        UserResponse userResponse = BeanUtils.toBean(user, UserResponse.class);
         if (dept != null) {
-            userVO.setDeptName(dept.getName());
+            userResponse.setDeptName(dept.getName());
         }
-        return userVO;
+        return userResponse;
     }
 
     default List<UserSimpleResponse> convertSimpleList(List<UserEntity> list, Map<Long, DepartmentEntity> deptMap) {
         return CollectionUtils.convertList(list, user -> {
-            UserSimpleResponse userVO = BeanUtils.toBean(user, UserSimpleResponse.class);
-            MapUtils.findAndThen(deptMap, user.getDeptId(), dept -> userVO.setDeptName(dept.getName()));
-            return userVO;
+            UserSimpleResponse userResponse = BeanUtils.toBean(user, UserSimpleResponse.class);
+            MapUtils.findAndThen(deptMap, user.getDeptId(), dept -> userResponse.setDeptName(dept.getName()));
+            return userResponse;
         });
     }
 
     default UserProfileResponse convert(UserEntity user, List<RoleEntity> userRoles,
                                       DepartmentEntity dept, List<PostEntity> posts) {
-        UserProfileResponse userVO = BeanUtils.toBean(user, UserProfileResponse.class);
-        userVO.setRoles(BeanUtils.toBean(userRoles, RoleSimpleResponse.class));
-        userVO.setDept(BeanUtils.toBean(dept, DepartmentSimpleResponse.class));
-        userVO.setPosts(BeanUtils.toBean(posts, PostSimpleResponse.class));
-        return userVO;
+        UserProfileResponse userProfileResponse = BeanUtils.toBean(user, UserProfileResponse.class);
+        userProfileResponse.setRoles(BeanUtils.toBean(userRoles, RoleSimpleResponse.class));
+        userProfileResponse.setDept(BeanUtils.toBean(dept, DepartmentSimpleResponse.class));
+        userProfileResponse.setPosts(BeanUtils.toBean(posts, PostSimpleResponse.class));
+        return userProfileResponse;
     }
 
 }

@@ -117,9 +117,9 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
     @Test
     public void testUpdateFileConfigMaster_success() {
         // mock data
-        FileConfigEntity dbFileConfig = randomFileConfigDO().setMaster(false);
+        FileConfigEntity dbFileConfig = randomFileConfigEntity().setMaster(false);
         fileConfigMapper.insert(dbFileConfig);// @Sql: first insert an existing record
-        FileConfigEntity masterFileConfig = randomFileConfigDO().setMaster(true);
+        FileConfigEntity masterFileConfig = randomFileConfigEntity().setMaster(true);
         fileConfigMapper.insert(masterFileConfig);// @Sql: first insert an existing record
 
         // Invoke
@@ -140,7 +140,7 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
     @Test
     public void testDeleteFileConfig_success() {
         // mock data
-        FileConfigEntity dbFileConfig = randomFileConfigDO().setMaster(false);
+        FileConfigEntity dbFileConfig = randomFileConfigEntity().setMaster(false);
         fileConfigMapper.insert(dbFileConfig);// @Sql: first insert an existing record
         // Prepare parameters
         Long id = dbFileConfig.getId();
@@ -165,7 +165,7 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
     @Test
     public void testDeleteFileConfig_master() {
         // mock data
-        FileConfigEntity dbFileConfig = randomFileConfigDO().setMaster(true);
+        FileConfigEntity dbFileConfig = randomFileConfigEntity().setMaster(true);
         fileConfigMapper.insert(dbFileConfig);// @Sql: first insert an existing record
         // Prepare parameters
         Long id = dbFileConfig.getId();
@@ -177,7 +177,7 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetFileConfigPage() {
         // mock data
-        FileConfigEntity dbFileConfig = randomFileConfigDO().setName("focela-source")
+        FileConfigEntity dbFileConfig = randomFileConfigEntity().setName("focela-source")
                 .setStorage(FileStorageEnum.LOCAL.getStorage());
         dbFileConfig.setCreateTime(LocalDateTimeUtil.parse("2020-01-23", DatePattern.NORM_DATE_PATTERN));// will be queried later
         fileConfigMapper.insert(dbFileConfig);
@@ -205,7 +205,7 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
     @Test
     public void testFileConfig() throws Exception {
         // mock data
-        FileConfigEntity dbFileConfig = randomFileConfigDO().setMaster(false);
+        FileConfigEntity dbFileConfig = randomFileConfigEntity().setMaster(false);
         fileConfigMapper.insert(dbFileConfig);// @Sql: first insert an existing record
         // Prepare parameters
         Long id = dbFileConfig.getId();
@@ -221,7 +221,7 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetFileConfig() {
         // mock data
-        FileConfigEntity dbFileConfig = randomFileConfigDO().setMaster(false);
+        FileConfigEntity dbFileConfig = randomFileConfigEntity().setMaster(false);
         fileConfigMapper.insert(dbFileConfig);// @Sql: first insert an existing record
         // Prepare parameters
         Long id = dbFileConfig.getId();
@@ -233,7 +233,7 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetFileClient() {
         // mock data
-        FileConfigEntity fileConfig = randomFileConfigDO().setMaster(false);
+        FileConfigEntity fileConfig = randomFileConfigEntity().setMaster(false);
         fileConfigMapper.insert(fileConfig);
         // Prepare parameters
         Long id = fileConfig.getId();
@@ -251,7 +251,7 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetMasterFileClient() {
         // mock data
-        FileConfigEntity fileConfig = randomFileConfigDO().setMaster(true);
+        FileConfigEntity fileConfig = randomFileConfigEntity().setMaster(true);
         fileConfigMapper.insert(fileConfig);
         // Prepare parameters
         Long id = fileConfig.getId();
@@ -266,7 +266,7 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
                 eq(fileConfig.getConfig()));
     }
 
-    private FileConfigEntity randomFileConfigDO() {
+    private FileConfigEntity randomFileConfigEntity() {
         return randomPojo(FileConfigEntity.class).setStorage(randomEle(FileStorageEnum.values()).getStorage())
                 .setConfig(new EmptyFileClientConfig());
     }
