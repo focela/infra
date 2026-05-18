@@ -62,12 +62,12 @@ public class DefaultOAuth2GrantServiceTest extends BaseMockitoUnitTest {
         String redirectUri = randomString();
         String state = randomString();
         // mock the method
-        OAuth2CodeEntity codeDO = randomPojo(OAuth2CodeEntity.class);
+        OAuth2CodeEntity authorizationCode = randomPojo(OAuth2CodeEntity.class);
         when(oauth2CodeService.createAuthorizationCode(eq(userId), eq(userType),
-                eq(clientId), eq(scopes), eq(redirectUri), eq(state))).thenReturn(codeDO);
+                eq(clientId), eq(scopes), eq(redirectUri), eq(state))).thenReturn(authorizationCode);
 
         // invoke, and assert
-        assertEquals(codeDO.getCode(), oauth2GrantService.grantAuthorizationCodeForCode(userId, userType,
+        assertEquals(authorizationCode.getCode(), oauth2GrantService.grantAuthorizationCodeForCode(userId, userType,
                 clientId, scopes, redirectUri, state));
     }
 
@@ -80,17 +80,17 @@ public class DefaultOAuth2GrantServiceTest extends BaseMockitoUnitTest {
         String redirectUri = randomString();
         String state = randomString();
         // mock the method（code）
-        OAuth2CodeEntity codeDO = randomPojo(OAuth2CodeEntity.class, o -> {
+        OAuth2CodeEntity authorizationCode = randomPojo(OAuth2CodeEntity.class, o -> {
             o.setClientId(clientId);
             o.setRedirectUri(redirectUri);
             o.setState(state);
             o.setScopes(scopes);
         });
-        when(oauth2CodeService.consumeAuthorizationCode(eq(code))).thenReturn(codeDO);
+        when(oauth2CodeService.consumeAuthorizationCode(eq(code))).thenReturn(authorizationCode);
         // mock the method（create token）
         OAuth2AccessTokenEntity accessTokenEntity = randomPojo(OAuth2AccessTokenEntity.class);
-        when(oauth2TokenService.createAccessToken(eq(codeDO.getUserId()), eq(codeDO.getUserType()),
-                eq(codeDO.getClientId()), eq(codeDO.getScopes()))).thenReturn(accessTokenEntity);
+        when(oauth2TokenService.createAccessToken(eq(authorizationCode.getUserId()), eq(authorizationCode.getUserType()),
+                eq(authorizationCode.getClientId()), eq(authorizationCode.getScopes()))).thenReturn(accessTokenEntity);
 
         // invoke, and assert
         assertPojoEquals(accessTokenEntity, oauth2GrantService.grantAuthorizationCodeForAccessToken(

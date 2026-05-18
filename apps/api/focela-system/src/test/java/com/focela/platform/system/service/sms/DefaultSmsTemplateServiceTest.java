@@ -85,11 +85,11 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
             o.setType(randomEle(SmsTemplateTypeEnum.values()).getType()); // ensure type range
         }).setId(null); // prevent id from being assigned
         // mock Channel  method
-        SmsChannelEntity channelDO = randomPojo(SmsChannelEntity.class, o -> {
+        SmsChannelEntity channel = randomPojo(SmsChannelEntity.class, o -> {
             o.setId(request.getChannelId());
             o.setStatus(CommonStatusEnum.ENABLE.getStatus()); // ensure status is enabled, creation must be in this state
         });
-        when(smsChannelService.getSmsChannel(eq(channelDO.getId()))).thenReturn(channelDO);
+        when(smsChannelService.getSmsChannel(eq(channel.getId()))).thenReturn(channel);
         // mock get API SMS template succeeded
         when(smsChannelService.getSmsClient(eq(request.getChannelId()))).thenReturn(smsClient);
         when(smsClient.getSmsTemplate(eq(request.getApiTemplateId()))).thenReturn(
@@ -103,7 +103,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
         SmsTemplateEntity smsTemplate = smsTemplateMapper.selectById(smsTemplateId);
         assertPojoEquals(request, smsTemplate, "id");
         assertEquals(Lists.newArrayList("operation", "code"), smsTemplate.getParams());
-        assertEquals(channelDO.getCode(), smsTemplate.getChannelCode());
+        assertEquals(channel.getCode(), smsTemplate.getChannelCode());
     }
 
     @Test
@@ -120,11 +120,11 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
             o.setType(randomEle(SmsTemplateTypeEnum.values()).getType()); // ensure type range
         });
         // mock the method
-        SmsChannelEntity channelDO = randomPojo(SmsChannelEntity.class, o -> {
+        SmsChannelEntity channel = randomPojo(SmsChannelEntity.class, o -> {
             o.setId(request.getChannelId());
             o.setStatus(CommonStatusEnum.ENABLE.getStatus()); // ensure status is enabled, creation must be in this state
         });
-        when(smsChannelService.getSmsChannel(eq(channelDO.getId()))).thenReturn(channelDO);
+        when(smsChannelService.getSmsChannel(eq(channel.getId()))).thenReturn(channel);
         // mock get API SMS template succeeded
         when(smsChannelService.getSmsClient(eq(request.getChannelId()))).thenReturn(smsClient);
         when(smsClient.getSmsTemplate(eq(request.getApiTemplateId()))).thenReturn(
@@ -136,7 +136,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
         SmsTemplateEntity smsTemplate = smsTemplateMapper.selectById(request.getId()); // get the latest
         assertPojoEquals(request, smsTemplate);
         assertEquals(Lists.newArrayList("operation", "code"), smsTemplate.getParams());
-        assertEquals(channelDO.getCode(), smsTemplate.getChannelCode());
+        assertEquals(channel.getCode(), smsTemplate.getChannelCode());
     }
 
     @Test
@@ -265,16 +265,16 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
         // prepare parameters
         Long channelId = randomLongId();
         // mock the method
-        SmsChannelEntity channelDO = randomPojo(SmsChannelEntity.class, o -> {
+        SmsChannelEntity channel = randomPojo(SmsChannelEntity.class, o -> {
             o.setId(channelId);
             o.setStatus(CommonStatusEnum.ENABLE.getStatus()); // ensure status is enabled, creation must be in this state
         });
-        when(smsChannelService.getSmsChannel(eq(channelId))).thenReturn(channelDO);
+        when(smsChannelService.getSmsChannel(eq(channelId))).thenReturn(channel);
 
         // invoke
-        SmsChannelEntity returnChannelDO = smsTemplateService.validateSmsChannel(channelId);
+        SmsChannelEntity returnChannel = smsTemplateService.validateSmsChannel(channelId);
         // assert
-        assertPojoEquals(returnChannelDO, channelDO);
+        assertPojoEquals(returnChannel, channel);
     }
 
     @Test
@@ -292,11 +292,11 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
         // prepare parameters
         Long channelId = randomLongId();
         // mock the method
-        SmsChannelEntity channelDO = randomPojo(SmsChannelEntity.class, o -> {
+        SmsChannelEntity channel = randomPojo(SmsChannelEntity.class, o -> {
             o.setId(channelId);
             o.setStatus(CommonStatusEnum.DISABLE.getStatus()); // ensure status is disabled, triggers failure
         });
-        when(smsChannelService.getSmsChannel(eq(channelId))).thenReturn(channelDO);
+        when(smsChannelService.getSmsChannel(eq(channelId))).thenReturn(channel);
 
         // invoke, verify exception
         assertServiceException(() -> smsTemplateService.validateSmsChannel(channelId),

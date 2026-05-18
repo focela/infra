@@ -44,19 +44,19 @@ class DefaultOAuth2CodeServiceTest extends BaseDbUnitTest {
         String state = randomString();
 
         // invoke
-        OAuth2CodeEntity codeDO = oauth2CodeService.createAuthorizationCode(userId, userType, clientId,
+        OAuth2CodeEntity authorizationCode = oauth2CodeService.createAuthorizationCode(userId, userType, clientId,
                 scopes, redirectUri, state);
         // assert
-        OAuth2CodeEntity dbCodeDO = oauth2CodeMapper.selectByCode(codeDO.getCode());
+        OAuth2CodeEntity dbAuthorizationCode = oauth2CodeMapper.selectByCode(authorizationCode.getCode());
         // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
-        assertPojoEquals(codeDO, dbCodeDO, "expiresTime", "createTime", "updateTime", "deleted");
-        assertEquals(userId, codeDO.getUserId());
-        assertEquals(userType, codeDO.getUserType());
-        assertEquals(clientId, codeDO.getClientId());
-        assertEquals(scopes, codeDO.getScopes());
-        assertEquals(redirectUri, codeDO.getRedirectUri());
-        assertEquals(state, codeDO.getState());
-        assertFalse(DateUtils.isExpired(codeDO.getExpiresTime()));
+        assertPojoEquals(authorizationCode, dbAuthorizationCode, "expiresTime", "createTime", "updateTime", "deleted");
+        assertEquals(userId, authorizationCode.getUserId());
+        assertEquals(userType, authorizationCode.getUserType());
+        assertEquals(clientId, authorizationCode.getClientId());
+        assertEquals(scopes, authorizationCode.getScopes());
+        assertEquals(redirectUri, authorizationCode.getRedirectUri());
+        assertEquals(state, authorizationCode.getState());
+        assertFalse(DateUtils.isExpired(authorizationCode.getExpiresTime()));
     }
 
     @Test
@@ -71,9 +71,9 @@ class DefaultOAuth2CodeServiceTest extends BaseDbUnitTest {
         // prepare parameters
         String code = "test_code";
         // mock data
-        OAuth2CodeEntity codeDO = randomPojo(OAuth2CodeEntity.class).setCode(code)
+        OAuth2CodeEntity authorizationCode = randomPojo(OAuth2CodeEntity.class).setCode(code)
                 .setExpiresTime(LocalDateTime.now().minusDays(1));
-        oauth2CodeMapper.insert(codeDO);
+        oauth2CodeMapper.insert(authorizationCode);
 
         // invoke, and assert
         assertServiceException(() -> oauth2CodeService.consumeAuthorizationCode(code),
@@ -85,14 +85,14 @@ class DefaultOAuth2CodeServiceTest extends BaseDbUnitTest {
         // prepare parameters
         String code = "test_code";
         // mock data
-        OAuth2CodeEntity codeDO = randomPojo(OAuth2CodeEntity.class).setCode(code)
+        OAuth2CodeEntity authorizationCode = randomPojo(OAuth2CodeEntity.class).setCode(code)
                 .setExpiresTime(LocalDateTime.now().plusDays(1));
-        oauth2CodeMapper.insert(codeDO);
+        oauth2CodeMapper.insert(authorizationCode);
 
         // invoke
         OAuth2CodeEntity result = oauth2CodeService.consumeAuthorizationCode(code);
         // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
-        assertPojoEquals(codeDO, result, "expiresTime");
+        assertPojoEquals(authorizationCode, result, "expiresTime");
         assertNull(oauth2CodeMapper.selectByCode(code));
     }
 
