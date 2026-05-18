@@ -76,8 +76,8 @@ public interface DepartmentService {
      * @return department Map
      */
     default Map<Long, DepartmentEntity> getDeptMap(Collection<Long> ids) {
-        List<DepartmentEntity> list = getDeptList(ids);
-        return CollectionUtils.convertMap(list, DepartmentEntity::getId);
+        List<DepartmentEntity> departments = getDeptList(ids);
+        return CollectionUtils.convertMap(departments, DepartmentEntity::getId);
     }
 
     /**

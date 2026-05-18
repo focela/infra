@@ -62,10 +62,10 @@ public class JobLogController {
     public void exportJobLogExcel(@Valid JobLogPageRequest exportRequest,
                                   HttpServletResponse response) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<JobLogEntity> list = jobLogService.getJobLogPage(exportRequest).getList();
+        List<JobLogEntity> jobLogs = jobLogService.getJobLogPage(exportRequest).getList();
         // Export Excel
         ExcelUtils.write(response, "Job log.xls", "Data", JobLogResponse.class,
-                BeanUtils.toBean(list, JobLogResponse.class));
+                BeanUtils.toBean(jobLogs, JobLogResponse.class));
     }
 
 }

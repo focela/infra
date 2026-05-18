@@ -90,8 +90,8 @@ public class MailAccountController {
     @GetMapping({"/list-all-simple", "simple-list"})
     @Operation(summary = "get email account simplified list")
     public CommonResult<List<MailAccountSimpleResponse>> getSimpleMailAccountList() {
-        List<MailAccountEntity> list = mailAccountService.getMailAccountList();
-        return success(BeanUtils.toBean(list, MailAccountSimpleResponse.class));
+        List<MailAccountEntity> mailAccounts = mailAccountService.getMailAccountList();
+        return success(BeanUtils.toBean(mailAccounts, MailAccountSimpleResponse.class));
     }
 
 }

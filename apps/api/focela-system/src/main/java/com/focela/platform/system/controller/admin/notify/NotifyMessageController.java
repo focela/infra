@@ -86,9 +86,9 @@ public class NotifyMessageController {
     @Parameter(name = "size", description = "10")
     public CommonResult<List<NotifyMessageResponse>> getUnreadNotifyMessageList(
             @RequestParam(name = "size", defaultValue = "10") Integer size) {
-        List<NotifyMessageEntity> list = notifyMessageService.getUnreadNotifyMessageList(
+        List<NotifyMessageEntity> unreadMessages = notifyMessageService.getUnreadNotifyMessageList(
                 getLoginUserId(), UserTypeEnum.ADMIN.getValue(), size);
-        return success(BeanUtils.toBean(list, NotifyMessageResponse.class));
+        return success(BeanUtils.toBean(unreadMessages, NotifyMessageResponse.class));
     }
 
     @GetMapping("/get-unread-count")

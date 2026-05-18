@@ -76,16 +76,16 @@ public class DepartmentController {
     @Operation(summary = "get department list")
     @PreAuthorize("@ss.hasPermission('system:dept:query')")
     public CommonResult<List<DepartmentResponse>> getDeptList(DepartmentListRequest request) {
-        List<DepartmentEntity> list = deptService.getDeptList(request);
-        return success(BeanUtils.toBean(list, DepartmentResponse.class));
+        List<DepartmentEntity> departments = deptService.getDeptList(request);
+        return success(BeanUtils.toBean(departments, DepartmentResponse.class));
     }
 
     @GetMapping(value = {"/list-all-simple", "/simple-list"})
     @Operation(summary = "get department simplified info list", description = "only include enabled department, for frontend dropdown options")
     public CommonResult<List<DepartmentSimpleResponse>> getSimpleDeptList() {
-        List<DepartmentEntity> list = deptService.getDeptList(
+        List<DepartmentEntity> departments = deptService.getDeptList(
                 new DepartmentListRequest().setStatus(CommonStatusEnum.ENABLE.getStatus()));
-        return success(BeanUtils.toBean(list, DepartmentSimpleResponse.class));
+        return success(BeanUtils.toBean(departments, DepartmentSimpleResponse.class));
     }
 
     @GetMapping("/get")

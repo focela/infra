@@ -83,9 +83,9 @@ public class DictionaryDataController {
     @Operation(summary = "get all dictionary data list", description = "usually for Admin cache dictionary data in local")
     // no permission check required as the frontend uses this globally
     public CommonResult<List<DictionaryDataSimpleResponse>> getSimpleDictDataList() {
-        List<DictionaryDataEntity> list = dictDataService.getDictDataList(
+        List<DictionaryDataEntity> dictionaryData = dictDataService.getDictDataList(
                 CommonStatusEnum.ENABLE.getStatus(), null);
-        return success(BeanUtils.toBean(list, DictionaryDataSimpleResponse.class));
+        return success(BeanUtils.toBean(dictionaryData, DictionaryDataSimpleResponse.class));
     }
 
     @GetMapping("/page")
@@ -111,10 +111,10 @@ public class DictionaryDataController {
     @ApiAccessLog(operateType = EXPORT)
     public void export(HttpServletResponse response, @Valid DictionaryDataPageRequest exportRequest) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<DictionaryDataEntity> list = dictDataService.getDictDataPage(exportRequest).getList();
+        List<DictionaryDataEntity> dictionaryData = dictDataService.getDictDataPage(exportRequest).getList();
         // output
         ExcelUtils.write(response, "Dictionary Data.xls", "Data", DictionaryDataResponse.class,
-                BeanUtils.toBean(list, DictionaryDataResponse.class));
+                BeanUtils.toBean(dictionaryData, DictionaryDataResponse.class));
     }
 
 }

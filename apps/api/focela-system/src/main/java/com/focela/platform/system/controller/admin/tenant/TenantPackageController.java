@@ -92,8 +92,8 @@ public class TenantPackageController {
     @GetMapping({"/get-simple-list", "simple-list"})
     @Operation(summary = "get tenant package simplified info list", description = "only include enabled tenant package, for frontend dropdown options")
     public CommonResult<List<TenantPackageSimpleResponse>> getTenantPackageList() {
-        List<TenantPackageEntity> list = tenantPackageService.getTenantPackageListByStatus(CommonStatusEnum.ENABLE.getStatus());
-        return success(BeanUtils.toBean(list, TenantPackageSimpleResponse.class));
+        List<TenantPackageEntity> tenantPackages = tenantPackageService.getTenantPackageListByStatus(CommonStatusEnum.ENABLE.getStatus());
+        return success(BeanUtils.toBean(tenantPackages, TenantPackageSimpleResponse.class));
     }
 
 }

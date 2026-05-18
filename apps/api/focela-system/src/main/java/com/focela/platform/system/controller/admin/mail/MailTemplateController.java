@@ -93,8 +93,8 @@ public class MailTemplateController {
     @GetMapping({"/list-all-simple", "simple-list"})
     @Operation(summary = "get email template simplified list")
     public CommonResult<List<MailTemplateSimpleResponse>> getSimpleTemplateList() {
-        List<MailTemplateEntity> list = mailTempleService.getMailTemplateList();
-        return success(BeanUtils.toBean(list, MailTemplateSimpleResponse.class));
+        List<MailTemplateEntity> mailTemplates = mailTempleService.getMailTemplateList();
+        return success(BeanUtils.toBean(mailTemplates, MailTemplateSimpleResponse.class));
     }
 
     @PostMapping("/send-mail")

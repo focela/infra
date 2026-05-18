@@ -78,10 +78,10 @@ public class ApiErrorLogController {
     public void exportApiErrorLogExcel(@Valid ApiErrorLogPageRequest exportRequest,
                                        HttpServletResponse response) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<ApiErrorLogEntity> list = apiErrorLogService.getApiErrorLogPage(exportRequest).getList();
+        List<ApiErrorLogEntity> apiErrorLogs = apiErrorLogService.getApiErrorLogPage(exportRequest).getList();
         // Export Excel
         ExcelUtils.write(response, "API error log.xls", "Data", ApiErrorLogResponse.class,
-                BeanUtils.toBean(list, ApiErrorLogResponse.class));
+                BeanUtils.toBean(apiErrorLogs, ApiErrorLogResponse.class));
     }
 
 }

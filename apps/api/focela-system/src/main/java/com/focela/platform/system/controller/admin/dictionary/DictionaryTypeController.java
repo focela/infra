@@ -99,8 +99,8 @@ public class DictionaryTypeController {
     @Operation(summary = "get all dictionary type list", description = "include enable + disable dictionary type, for frontend dropdown options")
     // no permission check required as the frontend uses this globally
     public CommonResult<List<DictionaryTypeSimpleResponse>> getSimpleDictTypeList() {
-        List<DictionaryTypeEntity> list = dictTypeService.getDictTypeList();
-        return success(BeanUtils.toBean(list, DictionaryTypeSimpleResponse.class));
+        List<DictionaryTypeEntity> dictionaryTypes = dictTypeService.getDictTypeList();
+        return success(BeanUtils.toBean(dictionaryTypes, DictionaryTypeSimpleResponse.class));
     }
 
     @Operation(summary = "export data type")
@@ -109,10 +109,10 @@ public class DictionaryTypeController {
     @ApiAccessLog(operateType = EXPORT)
     public void export(HttpServletResponse response, @Valid DictionaryTypePageRequest exportRequest) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<DictionaryTypeEntity> list = dictTypeService.getDictTypePage(exportRequest).getList();
+        List<DictionaryTypeEntity> dictionaryTypes = dictTypeService.getDictTypePage(exportRequest).getList();
         // export
         ExcelUtils.write(response, "Dictionary Type.xls", "Data", DictionaryTypeResponse.class,
-                BeanUtils.toBean(list, DictionaryTypeResponse.class));
+                BeanUtils.toBean(dictionaryTypes, DictionaryTypeResponse.class));
     }
 
 }

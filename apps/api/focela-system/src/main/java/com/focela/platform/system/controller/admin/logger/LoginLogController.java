@@ -58,10 +58,10 @@ public class LoginLogController {
     @ApiAccessLog(operateType = EXPORT)
     public void exportLoginLog(HttpServletResponse response, @Valid LoginLogPageRequest exportRequest) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<LoginLogEntity> list = loginLogService.getLoginLogPage(exportRequest).getList();
+        List<LoginLogEntity> loginLogs = loginLogService.getLoginLogPage(exportRequest).getList();
         // output
         ExcelUtils.write(response, "Login Log.xls", "Data List", LoginLogResponse.class,
-                BeanUtils.toBean(list, LoginLogResponse.class));
+                BeanUtils.toBean(loginLogs, LoginLogResponse.class));
     }
 
 }

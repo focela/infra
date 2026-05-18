@@ -44,9 +44,9 @@ public class DefaultDictionaryDataService implements DictionaryDataService {
 
     @Override
     public List<DictionaryDataEntity> getDictDataList(Integer status, String dictType) {
-        List<DictionaryDataEntity> list = dictDataMapper.selectListByStatusAndDictType(status, dictType);
-        list.sort(COMPARATOR_TYPE_AND_SORT);
-        return list;
+        List<DictionaryDataEntity> dictionaryData = dictDataMapper.selectListByStatusAndDictType(status, dictType);
+        dictionaryData.sort(COMPARATOR_TYPE_AND_SORT);
+        return dictionaryData;
     }
 
     @Override
@@ -173,9 +173,9 @@ public class DefaultDictionaryDataService implements DictionaryDataService {
 
     @Override
     public List<DictionaryDataEntity> getDictDataListByDictType(String dictType) {
-        List<DictionaryDataEntity> list = dictDataMapper.selectList(DictionaryDataEntity::getDictType, dictType);
-        list.sort(Comparator.comparing(DictionaryDataEntity::getSort));
-        return list;
+        List<DictionaryDataEntity> dictionaryData = dictDataMapper.selectList(DictionaryDataEntity::getDictType, dictType);
+        dictionaryData.sort(Comparator.comparing(DictionaryDataEntity::getSort));
+        return dictionaryData;
     }
 
 }

@@ -101,10 +101,10 @@ public class SmsTemplateController {
     public void exportSmsTemplateExcel(@Valid SmsTemplatePageRequest exportRequest,
                                        HttpServletResponse response) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<SmsTemplateEntity> list = smsTemplateService.getSmsTemplatePage(exportRequest).getList();
+        List<SmsTemplateEntity> smsTemplates = smsTemplateService.getSmsTemplatePage(exportRequest).getList();
         // Export Excel
         ExcelUtils.write(response, "SMS template.xls", "Data", SmsTemplateResponse.class,
-                BeanUtils.toBean(list, SmsTemplateResponse.class));
+                BeanUtils.toBean(smsTemplates, SmsTemplateResponse.class));
     }
 
     @PostMapping("/send-sms")

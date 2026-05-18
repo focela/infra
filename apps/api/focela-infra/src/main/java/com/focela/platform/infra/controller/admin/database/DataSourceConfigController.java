@@ -81,8 +81,8 @@ public class DataSourceConfigController {
     @Operation(summary = "get datasource config list")
     @PreAuthorize("@ss.hasPermission('infra:data-source-config:query')")
     public CommonResult<List<DataSourceConfigResponse>> getDataSourceConfigList() {
-        List<DataSourceConfigEntity> list = dataSourceConfigService.getDataSourceConfigList();
-        return success(BeanUtils.toBean(list, DataSourceConfigResponse.class));
+        List<DataSourceConfigEntity> dataSourceConfigs = dataSourceConfigService.getDataSourceConfigList();
+        return success(BeanUtils.toBean(dataSourceConfigs, DataSourceConfigResponse.class));
     }
 
 }

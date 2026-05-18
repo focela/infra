@@ -83,10 +83,10 @@ public class DefaultDataSourceConfigService implements DataSourceConfigService {
 
     @Override
     public List<DataSourceConfigEntity> getDataSourceConfigList() {
-        List<DataSourceConfigEntity> result = dataSourceConfigMapper.selectList();
+        List<DataSourceConfigEntity> dataSourceConfigs = dataSourceConfigMapper.selectList();
         // Prepend the master datasource
-        result.add(0, buildMasterDataSourceConfig());
-        return result;
+        dataSourceConfigs.add(0, buildMasterDataSourceConfig());
+        return dataSourceConfigs;
     }
 
     private void validateConnectionOK(DataSourceConfigEntity config) {

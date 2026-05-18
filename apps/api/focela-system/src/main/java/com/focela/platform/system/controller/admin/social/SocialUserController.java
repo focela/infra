@@ -60,8 +60,8 @@ public class SocialUserController {
     @GetMapping("/get-bind-list")
     @Operation(summary = "get bind social user list")
     public CommonResult<List<SocialUserResponse>> getBindSocialUserList() {
-        List<SocialUserEntity> list = socialUserService.getSocialUserList(getLoginUserId(), UserTypeEnum.ADMIN.getValue());
-        return success(convertList(list, socialUser -> new SocialUserResponse() // return simplified info
+        List<SocialUserEntity> socialUsers = socialUserService.getSocialUserList(getLoginUserId(), UserTypeEnum.ADMIN.getValue());
+        return success(convertList(socialUsers, socialUser -> new SocialUserResponse() // return simplified info
                 .setId(socialUser.getId()).setType(socialUser.getType()).setOpenid(socialUser.getOpenid())
                 .setNickname(socialUser.getNickname()).setAvatar(socialUser.getNickname())));
     }

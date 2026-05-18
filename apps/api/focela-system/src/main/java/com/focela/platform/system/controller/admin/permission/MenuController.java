@@ -77,20 +77,20 @@ public class MenuController {
     @Operation(summary = "get menu list", description = "for [menu management]page")
     @PreAuthorize("@ss.hasPermission('system:menu:query')")
     public CommonResult<List<MenuResponse>> getMenuList(MenuListRequest request) {
-        List<MenuEntity> list = menuService.getMenuList(request);
-        list.sort(Comparator.comparing(MenuEntity::getSort));
-        return success(BeanUtils.toBean(list, MenuResponse.class));
+        List<MenuEntity> menus = menuService.getMenuList(request);
+        menus.sort(Comparator.comparing(MenuEntity::getSort));
+        return success(BeanUtils.toBean(menus, MenuResponse.class));
     }
 
     @GetMapping({"/list-all-simple", "simple-list"})
     @Operation(summary = "get menu simplified info list",
             description = "only include enabled menu, for [role-menu assignment]feature options. in multi-tenant scenario, return only tenant belongs to package has menu")
     public CommonResult<List<MenuSimpleResponse>> getSimpleMenuList() {
-        List<MenuEntity> list = menuService.getMenuListByTenant(
+        List<MenuEntity> menus = menuService.getMenuListByTenant(
                 new MenuListRequest().setStatus(CommonStatusEnum.ENABLE.getStatus()));
-        list = menuService.filterDisableMenus(list);
-        list.sort(Comparator.comparing(MenuEntity::getSort));
-        return success(BeanUtils.toBean(list, MenuSimpleResponse.class));
+        menus = menuService.filterDisableMenus(menus);
+        menus.sort(Comparator.comparing(MenuEntity::getSort));
+        return success(BeanUtils.toBean(menus, MenuSimpleResponse.class));
     }
 
     @GetMapping("/get")

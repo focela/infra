@@ -139,10 +139,10 @@ public class JobController {
     public void exportJobExcel(@Valid JobPageRequest exportRequest,
                                HttpServletResponse response) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<JobEntity> list = jobService.getJobPage(exportRequest).getList();
+        List<JobEntity> jobs = jobService.getJobPage(exportRequest).getList();
         // Export Excel
         ExcelUtils.write(response, "Scheduled job.xls", "Data", JobResponse.class,
-                BeanUtils.toBean(list, JobResponse.class));
+                BeanUtils.toBean(jobs, JobResponse.class));
     }
 
     @GetMapping("/get_next_times")

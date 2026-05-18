@@ -115,10 +115,10 @@ public class ConfigController {
     public void exportConfig(ConfigPageRequest exportRequest,
                              HttpServletResponse response) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<ConfigEntity> list = configService.getConfigPage(exportRequest).getList();
+        List<ConfigEntity> configs = configService.getConfigPage(exportRequest).getList();
         // Output
         ExcelUtils.write(response, "Param config.xls", "Data", ConfigResponse.class,
-                ConfigConverter.INSTANCE.convertList(list));
+                ConfigConverter.INSTANCE.convertList(configs));
     }
 
 }

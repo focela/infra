@@ -62,10 +62,10 @@ public class SmsLogController {
     public void exportSmsLogExcel(@Valid SmsLogPageRequest exportRequest,
                                   HttpServletResponse response) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<SmsLogEntity> list = smsLogService.getSmsLogPage(exportRequest).getList();
+        List<SmsLogEntity> smsLogs = smsLogService.getSmsLogPage(exportRequest).getList();
         // Export Excel
         ExcelUtils.write(response, "SMS log.xls", "Data", SmsLogResponse.class,
-                BeanUtils.toBean(list, SmsLogResponse.class));
+                BeanUtils.toBean(smsLogs, SmsLogResponse.class));
     }
 
 }

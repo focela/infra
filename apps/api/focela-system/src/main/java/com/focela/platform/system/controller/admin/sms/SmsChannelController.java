@@ -90,9 +90,9 @@ public class SmsChannelController {
     @GetMapping({"/list-all-simple", "/simple-list"})
     @Operation(summary = "get SMS channel simplified list", description = "contain disabled SMS channel")
     public CommonResult<List<SmsChannelSimpleResponse>> getSimpleSmsChannelList() {
-        List<SmsChannelEntity> list = smsChannelService.getSmsChannelList();
-        list.sort(Comparator.comparing(SmsChannelEntity::getId));
-        return success(BeanUtils.toBean(list, SmsChannelSimpleResponse.class));
+        List<SmsChannelEntity> smsChannels = smsChannelService.getSmsChannelList();
+        smsChannels.sort(Comparator.comparing(SmsChannelEntity::getId));
+        return success(BeanUtils.toBean(smsChannels, SmsChannelSimpleResponse.class));
     }
 
 }

@@ -92,10 +92,10 @@ public class PostController {
     @Operation(summary = "get post all list", description = "only include enabled post, for frontend dropdown options")
     public CommonResult<List<PostSimpleResponse>> getSimplePostList() {
         // get post list, only enabled ones
-        List<PostEntity> list = postService.getPostList(null, Collections.singleton(CommonStatusEnum.ENABLE.getStatus()));
+        List<PostEntity> posts = postService.getPostList(null, Collections.singleton(CommonStatusEnum.ENABLE.getStatus()));
         // sort and return to frontend
-        list.sort(Comparator.comparing(PostEntity::getSort));
-        return success(BeanUtils.toBean(list, PostSimpleResponse.class));
+        posts.sort(Comparator.comparing(PostEntity::getSort));
+        return success(BeanUtils.toBean(posts, PostSimpleResponse.class));
     }
 
     @GetMapping("/page")
@@ -112,10 +112,10 @@ public class PostController {
     @ApiAccessLog(operateType = EXPORT)
     public void export(HttpServletResponse response, @Validated PostPageRequest request) throws IOException {
         request.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<PostEntity> list = postService.getPostPage(request).getList();
+        List<PostEntity> posts = postService.getPostPage(request).getList();
         // output
         ExcelUtils.write(response, "Post Data.xls", "Post List", PostResponse.class,
-                BeanUtils.toBean(list, PostResponse.class));
+                BeanUtils.toBean(posts, PostResponse.class));
     }
 
 }

@@ -63,8 +63,8 @@ public class TenantController {
     @TenantIgnore
     @Operation(summary = "get tenant simplified info list", description = "only include enabled tenant, for [home]feature select tenant options")
     public CommonResult<List<TenantResponse>> getTenantSimpleList() {
-        List<TenantEntity> list = tenantService.getTenantListByStatus(CommonStatusEnum.ENABLE.getStatus());
-        return success(convertList(list, tenant ->
+        List<TenantEntity> tenants = tenantService.getTenantListByStatus(CommonStatusEnum.ENABLE.getStatus());
+        return success(convertList(tenants, tenant ->
                 new TenantResponse().setId(tenant.getId()).setName(tenant.getName())));
     }
 
@@ -138,10 +138,10 @@ public class TenantController {
     @ApiAccessLog(operateType = EXPORT)
     public void exportTenantExcel(@Valid TenantPageRequest exportRequest, HttpServletResponse response) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<TenantEntity> list = tenantService.getTenantPage(exportRequest).getList();
+        List<TenantEntity> tenants = tenantService.getTenantPage(exportRequest).getList();
         // Export Excel
         ExcelUtils.write(response, "Tenant.xls", "Data", TenantResponse.class,
-                BeanUtils.toBean(list, TenantResponse.class));
+                BeanUtils.toBean(tenants, TenantResponse.class));
     }
 
 }

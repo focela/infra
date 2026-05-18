@@ -98,9 +98,9 @@ public class RoleController {
     @GetMapping({"/list-all-simple", "/simple-list"})
     @Operation(summary = "get role simplified info list", description = "only include enabled role, for frontend dropdown options")
     public CommonResult<List<RoleResponse>> getSimpleRoleList() {
-        List<RoleEntity> list = roleService.getRoleListByStatus(singleton(CommonStatusEnum.ENABLE.getStatus()));
-        list.sort(Comparator.comparing(RoleEntity::getSort));
-        return success(BeanUtils.toBean(list, RoleResponse.class));
+        List<RoleEntity> roles = roleService.getRoleListByStatus(singleton(CommonStatusEnum.ENABLE.getStatus()));
+        roles.sort(Comparator.comparing(RoleEntity::getSort));
+        return success(BeanUtils.toBean(roles, RoleResponse.class));
     }
 
     @GetMapping("/export-excel")
@@ -109,10 +109,10 @@ public class RoleController {
     @PreAuthorize("@ss.hasPermission('system:role:export')")
     public void export(HttpServletResponse response, @Validated RolePageRequest exportRequest) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<RoleEntity> list = roleService.getRolePage(exportRequest).getList();
+        List<RoleEntity> roles = roleService.getRolePage(exportRequest).getList();
         // Output
         ExcelUtils.write(response, "Role data.xls", "Data", RoleResponse.class,
-                BeanUtils.toBean(list, RoleResponse.class));
+                BeanUtils.toBean(roles, RoleResponse.class));
     }
 
 }

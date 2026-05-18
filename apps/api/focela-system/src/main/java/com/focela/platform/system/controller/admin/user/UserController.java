@@ -128,11 +128,11 @@ public class UserController {
     @GetMapping({"/list-all-simple", "/simple-list"})
     @Operation(summary = "get user simplified info list", description = "only include enabled user, for frontend dropdown options")
     public CommonResult<List<UserSimpleResponse>> getSimpleUserList() {
-        List<UserEntity> list = userService.getUserListByStatus(CommonStatusEnum.ENABLE.getStatus());
+        List<UserEntity> users = userService.getUserListByStatus(CommonStatusEnum.ENABLE.getStatus());
         // Assemble data
         Map<Long, DepartmentEntity> deptMap = deptService.getDeptMap(
-                convertList(list, UserEntity::getDeptId));
-        return success(UserConverter.INSTANCE.convertSimpleList(list, deptMap));
+                convertList(users, UserEntity::getDeptId));
+        return success(UserConverter.INSTANCE.convertSimpleList(users, deptMap));
     }
 
     @GetMapping("/get")
@@ -156,26 +156,26 @@ public class UserController {
     public void exportUserList(@Validated UserPageRequest exportRequest,
                                HttpServletResponse response) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<UserEntity> list = userService.getUserPage(exportRequest).getList();
+        List<UserEntity> users = userService.getUserPage(exportRequest).getList();
         // Output Excel
         Map<Long, DepartmentEntity> deptMap = deptService.getDeptMap(
-                convertList(list, UserEntity::getDeptId));
+                convertList(users, UserEntity::getDeptId));
         ExcelUtils.write(response, "User data.xls", "Data", UserResponse.class,
-                UserConverter.INSTANCE.convertList(list, deptMap));
+                UserConverter.INSTANCE.convertList(users, deptMap));
     }
 
     @GetMapping("/get-import-template")
     @Operation(summary = "get import user template")
     public void importTemplate(HttpServletResponse response) throws IOException {
         // Manually build the export demo
-        List<UserImportExcelDto> list = Arrays.asList(
+        List<UserImportExcelDto> importTemplateRows = Arrays.asList(
                 UserImportExcelDto.builder().username("alice").deptId(1L).email("admin@example.com").mobile("15601691300")
                         .nickname("Focela").status(CommonStatusEnum.ENABLE.getStatus()).sex(SexEnum.MALE.getSex()).build(),
                 UserImportExcelDto.builder().username("bob").deptId(2L).email("ops@example.com").mobile("15601701300")
                         .nickname("Source").status(CommonStatusEnum.DISABLE.getStatus()).sex(SexEnum.FEMALE.getSex()).build()
         );
         // Output
-        ExcelUtils.write(response, "User import template.xls", "User list", UserImportExcelDto.class, list);
+        ExcelUtils.write(response, "User import template.xls", "User list", UserImportExcelDto.class, importTemplateRows);
     }
 
     @PostMapping("/import")
@@ -187,8 +187,8 @@ public class UserController {
     @PreAuthorize("@ss.hasPermission('system:user:import')")
     public CommonResult<UserImportResponse> importExcel(@RequestParam("file") MultipartFile file,
                                                       @RequestParam(value = "updateSupport", required = false, defaultValue = "false") Boolean updateSupport) throws Exception {
-        List<UserImportExcelDto> list = ExcelUtils.read(file, UserImportExcelDto.class);
-        return success(userService.importUserList(list, updateSupport));
+        List<UserImportExcelDto> importRows = ExcelUtils.read(file, UserImportExcelDto.class);
+        return success(userService.importUserList(importRows, updateSupport));
     }
 
 }

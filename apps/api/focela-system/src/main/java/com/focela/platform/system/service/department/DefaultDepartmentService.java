@@ -184,9 +184,9 @@ public class DefaultDepartmentService implements DepartmentService {
 
     @Override
     public List<DepartmentEntity> getDeptList(DepartmentListRequest request) {
-        List<DepartmentEntity> list = deptMapper.selectList(request);
-        list.sort(Comparator.comparing(DepartmentEntity::getSort));
-        return list;
+        List<DepartmentEntity> departments = deptMapper.selectList(request);
+        departments.sort(Comparator.comparing(DepartmentEntity::getSort));
+        return departments;
     }
 
     @Override
