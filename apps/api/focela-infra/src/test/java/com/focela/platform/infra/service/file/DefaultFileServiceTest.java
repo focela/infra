@@ -81,7 +81,7 @@ public class DefaultFileServiceTest extends BaseDbUnitTest {
      * content, name, directory and type are all non-null
      */
     @Test
-    public void testCreateFile_success_01() throws Exception {
+    public void testCreateFile_successWhenAllFieldsProvided() throws Exception {
         // Prepare parameters
         byte[] content = ResourceUtil.readBytes("file/erweima.jpg");
         String name = "test file name";
@@ -115,7 +115,7 @@ public class DefaultFileServiceTest extends BaseDbUnitTest {
      * content is non-null, all others are null
      */
     @Test
-    public void testCreateFile_success_02() throws Exception {
+    public void testCreateFile_successWhenOnlyContentProvided() throws Exception {
         // Prepare parameters
         byte[] content = ResourceUtil.readBytes("file/erweima.jpg");
         // mock Master file client

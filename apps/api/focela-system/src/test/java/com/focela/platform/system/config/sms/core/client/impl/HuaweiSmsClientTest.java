@@ -59,7 +59,7 @@ public class HuaweiSmsClientTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testDoSendSms_fail_01() throws Throwable {
+    public void testDoSendSms_failWhenSendStatusError() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
             // prepare parameters
             Long sendLogId = randomLongId();
@@ -83,7 +83,7 @@ public class HuaweiSmsClientTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testDoSendSms_fail_02() throws Throwable {
+    public void testDoSendSms_failWhenInvalidAppKey() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
             // prepare parameters
             Long sendLogId = randomLongId();

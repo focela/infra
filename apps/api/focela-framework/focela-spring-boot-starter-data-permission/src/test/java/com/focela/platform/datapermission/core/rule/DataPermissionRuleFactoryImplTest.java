@@ -36,7 +36,7 @@ class DataPermissionRuleFactoryImplTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testGetDataPermissionRule_02() {
+    public void testGetDataPermissionRule_noAnnotationReturnsAllRules() {
         // prepare parameters
         String mappedStatementId = randomString();
 
@@ -47,7 +47,7 @@ class DataPermissionRuleFactoryImplTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testGetDataPermissionRule_03() {
+    public void testGetDataPermissionRule_disabledReturnsEmpty() {
         // prepare parameters
         String mappedStatementId = randomString();
         // mock the method
@@ -60,7 +60,7 @@ class DataPermissionRuleFactoryImplTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testGetDataPermissionRule_04() {
+    public void testGetDataPermissionRule_includeRulesFilters() {
         // prepare parameters
         String mappedStatementId = randomString();
         // mock the method
@@ -74,7 +74,7 @@ class DataPermissionRuleFactoryImplTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testGetDataPermissionRule_05() {
+    public void testGetDataPermissionRule_excludeRulesFilters() {
         // prepare parameters
         String mappedStatementId = randomString();
         // mock the method
@@ -88,7 +88,7 @@ class DataPermissionRuleFactoryImplTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testGetDataPermissionRule_06() {
+    public void testGetDataPermissionRule_defaultAnnotationReturnsAllRules() {
         // prepare parameters
         String mappedStatementId = randomString();
         // mock the method

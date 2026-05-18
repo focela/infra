@@ -39,7 +39,7 @@ public class DefaultOperateLogServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetOperateLogPage_vo() {
+    public void testGetOperateLogPage_byPageRequest() {
         // build operate log
         OperateLogEntity operateLogEntity = RandomUtils.randomPojo(OperateLogEntity.class, o -> {
             o.setUserId(2048L);
@@ -81,7 +81,7 @@ public class DefaultOperateLogServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetOperateLogPage_dto() {
+    public void testGetOperateLogPage_byRpcRequest() {
         // build operate log
         OperateLogEntity operateLogEntity = RandomUtils.randomPojo(OperateLogEntity.class, o -> {
             o.setUserId(2048L);

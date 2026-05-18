@@ -412,7 +412,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
      * Scenario 1: validation fails, causing insert failure
      */
     @Test
-    public void testImportUserList_01() {
+    public void testImportUserList_failWhenValidationFails() {
         // prepare parameters
         UserImportExcelDto importUser = randomPojo(UserImportExcelDto.class, o -> {
             o.setEmail(randomEmail());
@@ -434,7 +434,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
      * case 2: does not exist, perform insert
      */
     @Test
-    public void testImportUserList_02() {
+    public void testImportUserList_createWhenUserNotExists() {
         // prepare parameters
         UserImportExcelDto importUser = randomPojo(UserImportExcelDto.class, o -> {
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // ensure status range
@@ -466,7 +466,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
      * case 3: exists but no force update
      */
     @Test
-    public void testImportUserList_03() {
+    public void testImportUserList_failWhenUserExistsAndNoForceUpdate() {
         // mock data
         UserEntity dbUser = randomAdminUserEntity();
         userMapper.insert(dbUser);
@@ -498,7 +498,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
      * case 4: exists, force update
      */
     @Test
-    public void testImportUserList_04() {
+    public void testImportUserList_updateWhenUserExistsAndForceUpdate() {
         // mock data
         UserEntity dbUser = randomAdminUserEntity();
         userMapper.insert(dbUser);
