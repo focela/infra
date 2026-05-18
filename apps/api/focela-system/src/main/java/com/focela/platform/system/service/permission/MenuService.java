@@ -52,7 +52,7 @@ public interface MenuService {
      * Filter menu list by tenant.
      * Note: for the system tenant, the full menu list is returned.
      *
-     * @param request filter conditions request VO
+     * @param request filter conditions
      * @return menu list
      */
     List<MenuEntity> getMenuListByTenant(MenuListRequest request);
@@ -68,7 +68,7 @@ public interface MenuService {
     /**
      * Filter menu list
      *
-     * @param request filter conditions request VO
+     * @param request filter conditions
      * @return menu list
      */
     List<MenuEntity> getMenuList(MenuListRequest request);

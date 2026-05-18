@@ -229,13 +229,13 @@ public class DefaultJobServiceTest extends BaseDbUnitTest {
         // Test handlerName mismatch
         jobMapper.insert(cloneIgnoreId(dbJob, o -> o.setHandlerName(randomString())));
         // Prepare parameters
-        JobPageRequest reqVo = new JobPageRequest();
-        reqVo.setName("scheduled");
-        reqVo.setStatus(JobStatusEnum.INIT.getStatus());
-        reqVo.setHandlerName("unit");
+        JobPageRequest request = new JobPageRequest();
+        request.setName("scheduled");
+        request.setStatus(JobStatusEnum.INIT.getStatus());
+        request.setHandlerName("unit");
 
         // Invoke
-        PageResult<JobEntity> pageResult = jobService.getJobPage(reqVo);
+        PageResult<JobEntity> pageResult = jobService.getJobPage(request);
         // Assert
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());

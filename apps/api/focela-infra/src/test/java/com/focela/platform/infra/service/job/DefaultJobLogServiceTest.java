@@ -154,15 +154,15 @@ public class DefaultJobLogServiceTest extends BaseDbUnitTest {
         // Test status mismatch
         jobLogMapper.insert(cloneIgnoreId(dbJobLog, o -> o.setStatus(JobLogStatusEnum.FAILURE.getStatus())));
         // Prepare parameters
-        JobLogPageRequest reqVo = new JobLogPageRequest();
-        reqVo.setJobId(dbJobLog.getJobId());
-        reqVo.setHandlerName("unit");
-        reqVo.setBeginTime(dbJobLog.getBeginTime());
-        reqVo.setEndTime(dbJobLog.getEndTime());
-        reqVo.setStatus(JobLogStatusEnum.SUCCESS.getStatus());
+        JobLogPageRequest request = new JobLogPageRequest();
+        request.setJobId(dbJobLog.getJobId());
+        request.setHandlerName("unit");
+        request.setBeginTime(dbJobLog.getBeginTime());
+        request.setEndTime(dbJobLog.getEndTime());
+        request.setStatus(JobLogStatusEnum.SUCCESS.getStatus());
 
         // Invoke
-        PageResult<JobLogEntity> pageResult = jobLogService.getJobLogPage(reqVo);
+        PageResult<JobLogEntity> pageResult = jobLogService.getJobLogPage(request);
         // Assert
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());

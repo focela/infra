@@ -10,7 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * User Excel import VO
+ * User Excel import row
  */
 @Data
 @Builder
