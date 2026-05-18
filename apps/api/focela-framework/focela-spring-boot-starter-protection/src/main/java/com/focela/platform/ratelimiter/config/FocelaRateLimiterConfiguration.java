@@ -7,7 +7,7 @@ import com.focela.platform.ratelimiter.core.keyresolver.impl.DefaultRateLimiterK
 import com.focela.platform.ratelimiter.core.keyresolver.impl.ExpressionRateLimiterKeyResolver;
 import com.focela.platform.ratelimiter.core.keyresolver.impl.ServerNodeRateLimiterKeyResolver;
 import com.focela.platform.ratelimiter.core.keyresolver.impl.UserRateLimiterKeyResolver;
-import com.focela.platform.ratelimiter.core.redis.RateLimiterRedisDAO;
+import com.focela.platform.ratelimiter.core.redis.RateLimiterRedisRepository;
 import com.focela.platform.redis.config.FocelaRedisAutoConfiguration;
 import org.redisson.api.RedissonClient;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -19,14 +19,14 @@ import java.util.List;
 public class FocelaRateLimiterConfiguration {
 
     @Bean
-    public RateLimiterAspect rateLimiterAspect(List<RateLimiterKeyResolver> keyResolvers, RateLimiterRedisDAO rateLimiterRedisDAO) {
-        return new RateLimiterAspect(keyResolvers, rateLimiterRedisDAO);
+    public RateLimiterAspect rateLimiterAspect(List<RateLimiterKeyResolver> keyResolvers, RateLimiterRedisRepository rateLimiterRedisRepository) {
+        return new RateLimiterAspect(keyResolvers, rateLimiterRedisRepository);
     }
 
     @Bean
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
-    public RateLimiterRedisDAO rateLimiterRedisDAO(RedissonClient redissonClient) {
-        return new RateLimiterRedisDAO(redissonClient);
+    public RateLimiterRedisRepository rateLimiterRedisRepository(RedissonClient redissonClient) {
+        return new RateLimiterRedisRepository(redissonClient);
     }
 
     // ========== RateLimiterKeyResolver Beans ==========

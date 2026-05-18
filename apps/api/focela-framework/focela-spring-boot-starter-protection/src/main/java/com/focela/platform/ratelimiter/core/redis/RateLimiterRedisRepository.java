@@ -11,10 +11,10 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Rate limiter Redis DAO.
+ * Rate limiter Redis repository.
  */
 @AllArgsConstructor
-public class RateLimiterRedisDAO {
+public class RateLimiterRedisRepository {
 
     /**
      * Rate limiter operation.

@@ -47,7 +47,7 @@ public class DefaultOAuth2TokenService implements OAuth2TokenService {
     private final OAuth2AccessTokenMapper oauth2AccessTokenMapper;
     private final OAuth2RefreshTokenMapper oauth2RefreshTokenMapper;
 
-    private final OAuth2AccessTokenRedisRepository oauth2AccessTokenRedisDAO;
+    private final OAuth2AccessTokenRedisRepository oauth2AccessTokenRedisRepository;
 
     private final OAuth2ClientService oauth2ClientService;
 
@@ -84,7 +84,7 @@ public class DefaultOAuth2TokenService implements OAuth2TokenService {
         List<OAuth2AccessTokenEntity> accessTokens = oauth2AccessTokenMapper.selectListByRefreshToken(refreshToken);
         if (CollUtil.isNotEmpty(accessTokens)) {
             oauth2AccessTokenMapper.deleteByIds(convertSet(accessTokens, OAuth2AccessTokenEntity::getId));
-            oauth2AccessTokenRedisDAO.deleteList(convertSet(accessTokens, OAuth2AccessTokenEntity::getAccessToken));
+            oauth2AccessTokenRedisRepository.deleteList(convertSet(accessTokens, OAuth2AccessTokenEntity::getAccessToken));
         }
 
         // When expired, delete the refresh token
@@ -100,7 +100,7 @@ public class DefaultOAuth2TokenService implements OAuth2TokenService {
     @Override
     public OAuth2AccessTokenEntity getAccessToken(String accessToken) {
         // Prefer fetching from Redis
-        OAuth2AccessTokenEntity accessTokenEntity = oauth2AccessTokenRedisDAO.get(accessToken);
+        OAuth2AccessTokenEntity accessTokenEntity = oauth2AccessTokenRedisRepository.get(accessToken);
         if (accessTokenEntity != null) {
             return accessTokenEntity;
         }
@@ -119,7 +119,7 @@ public class DefaultOAuth2TokenService implements OAuth2TokenService {
 
         // If it exists in MySQL, write it back to Redis
         if (accessTokenEntity != null && !DateUtils.isExpired(accessTokenEntity.getExpiresTime())) {
-            oauth2AccessTokenRedisDAO.set(accessTokenEntity);
+            oauth2AccessTokenRedisRepository.set(accessTokenEntity);
         }
         return accessTokenEntity;
     }
@@ -145,7 +145,7 @@ public class DefaultOAuth2TokenService implements OAuth2TokenService {
             return null;
         }
         oauth2AccessTokenMapper.deleteById(accessTokenEntity.getId());
-        oauth2AccessTokenRedisDAO.delete(accessToken);
+        oauth2AccessTokenRedisRepository.delete(accessToken);
         // Delete the refresh token
         oauth2RefreshTokenMapper.deleteByRefreshToken(accessTokenEntity.getRefreshToken());
         return accessTokenEntity;
@@ -160,7 +160,7 @@ public class DefaultOAuth2TokenService implements OAuth2TokenService {
         accessTokens.forEach(accessToken -> {
             // Delete the access token
             oauth2AccessTokenMapper.deleteById(accessToken.getId());
-            oauth2AccessTokenRedisDAO.delete(accessToken.getAccessToken());
+            oauth2AccessTokenRedisRepository.delete(accessToken.getAccessToken());
             // Delete the refresh token
             oauth2RefreshTokenMapper.deleteByRefreshToken(accessToken.getRefreshToken());
         });
@@ -187,7 +187,7 @@ public class DefaultOAuth2TokenService implements OAuth2TokenService {
         accessTokenEntity.setTenantId(tenantId);
         oauth2AccessTokenMapper.insert(accessTokenEntity);
         // Record into Redis
-        oauth2AccessTokenRedisDAO.set(accessTokenEntity);
+        oauth2AccessTokenRedisRepository.set(accessTokenEntity);
         return accessTokenEntity;
     }
 

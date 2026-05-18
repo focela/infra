@@ -6,10 +6,10 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import java.util.concurrent.TimeUnit;
 
 /**
- * HTTP API signature Redis DAO.
+ * HTTP API signature Redis repository.
  */
 @AllArgsConstructor
-public class ApiSignatureRedisDAO {
+public class ApiSignatureRedisRepository {
 
     private final StringRedisTemplate stringRedisTemplate;
 

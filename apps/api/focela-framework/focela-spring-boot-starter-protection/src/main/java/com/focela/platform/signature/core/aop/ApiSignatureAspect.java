@@ -10,7 +10,7 @@ import com.focela.platform.common.exception.ServiceException;
 import com.focela.platform.common.exception.enums.GlobalErrorCodeConstants;
 import com.focela.platform.common.utils.servlet.ServletUtils;
 import com.focela.platform.signature.core.annotation.ApiSignature;
-import com.focela.platform.signature.core.redis.ApiSignatureRedisDAO;
+import com.focela.platform.signature.core.redis.ApiSignatureRedisRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ import static com.focela.platform.common.exception.enums.GlobalErrorCodeConstant
 @AllArgsConstructor
 public class ApiSignatureAspect {
 
-    private final ApiSignatureRedisDAO signatureRedisDAO;
+    private final ApiSignatureRedisRepository signatureRedisRepository;
 
     @Before("@annotation(signature)")
     public void beforePointCut(JoinPoint joinPoint, ApiSignature signature) {
@@ -56,7 +56,7 @@ public class ApiSignatureAspect {
         }
         // 1.2 Validate that the appId resolves to a known appSecret
         String appId = request.getHeader(signature.appId());
-        String appSecret = signatureRedisDAO.getAppSecret(appId);
+        String appSecret = signatureRedisRepository.getAppSecret(appId);
         Assert.notNull(appSecret, "[appId({})] no matching appSecret found", appId);
 
         // 2. Verify the signature [important!]
@@ -69,7 +69,7 @@ public class ApiSignatureAspect {
 
         // 3. Cache the nonce to prevent reuse (note: TTL must be 2x the allowed timestamp skew)
         String nonce = request.getHeader(signature.nonce());
-        if (BooleanUtil.isFalse(signatureRedisDAO.setNonce(appId, nonce, signature.timeout() * 2, signature.timeUnit()))) {
+        if (BooleanUtil.isFalse(signatureRedisRepository.setNonce(appId, nonce, signature.timeout() * 2, signature.timeUnit()))) {
             String timestamp = request.getHeader(signature.timestamp());
             log.info("[verifySignature][appId({}) timestamp({}) nonce({}) sign({}) duplicate request]", appId, timestamp, nonce, clientSignature);
             throw new ServiceException(GlobalErrorCodeConstants.REPEATED_REQUESTS.getCode(), "Duplicate request detected");
@@ -117,7 +117,7 @@ public class ApiSignatureAspect {
         }
 
         // 3. Verify the nonce has not been used; each value may be used only once
-        return signatureRedisDAO.getNonce(appId, nonce) == null;
+        return signatureRedisRepository.getNonce(appId, nonce) == null;
     }
 
     /**

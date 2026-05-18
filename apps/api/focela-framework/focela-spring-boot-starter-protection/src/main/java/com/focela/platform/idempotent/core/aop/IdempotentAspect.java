@@ -5,7 +5,7 @@ import com.focela.platform.common.exception.enums.GlobalErrorCodeConstants;
 import com.focela.platform.common.utils.collection.CollectionUtils;
 import com.focela.platform.idempotent.core.annotation.Idempotent;
 import com.focela.platform.idempotent.core.keyresolver.IdempotentKeyResolver;
-import com.focela.platform.idempotent.core.redis.IdempotentRedisDAO;
+import com.focela.platform.idempotent.core.redis.IdempotentRedisRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -27,11 +27,11 @@ public class IdempotentAspect {
      */
     private final Map<Class<? extends IdempotentKeyResolver>, IdempotentKeyResolver> keyResolvers;
 
-    private final IdempotentRedisDAO idempotentRedisDAO;
+    private final IdempotentRedisRepository idempotentRedisRepository;
 
-    public IdempotentAspect(List<IdempotentKeyResolver> keyResolvers, IdempotentRedisDAO idempotentRedisDAO) {
+    public IdempotentAspect(List<IdempotentKeyResolver> keyResolvers, IdempotentRedisRepository idempotentRedisRepository) {
         this.keyResolvers = CollectionUtils.convertMap(keyResolvers, IdempotentKeyResolver::getClass);
-        this.idempotentRedisDAO = idempotentRedisDAO;
+        this.idempotentRedisRepository = idempotentRedisRepository;
     }
 
     @Around(value = "@annotation(idempotent)")
@@ -43,7 +43,7 @@ public class IdempotentAspect {
         String key = keyResolver.resolver(joinPoint, idempotent);
 
         // 1. Lock the key
-        boolean success = idempotentRedisDAO.setIfAbsent(key, idempotent.timeout(), idempotent.timeUnit());
+        boolean success = idempotentRedisRepository.setIfAbsent(key, idempotent.timeout(), idempotent.timeUnit());
         // If locking fails, throw an exception
         if (!success) {
             log.info("[aroundPointCut][method({}) args({}) exists duplicate request]", joinPoint.getSignature().toString(), joinPoint.getArgs());
@@ -57,7 +57,7 @@ public class IdempotentAspect {
             // 3. On exception, delete the key
             // Reference: Meituan GTIS approach - https://tech.meituan.com/2016/09/29/distributed-system-mutually-exclusive-idempotence-cerberus-gtis.html
             if (idempotent.deleteKeyWhenException()) {
-                idempotentRedisDAO.delete(key);
+                idempotentRedisRepository.delete(key);
             }
             throw throwable;
         }

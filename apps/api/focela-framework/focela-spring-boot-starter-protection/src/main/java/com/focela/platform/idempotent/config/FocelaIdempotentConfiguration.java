@@ -5,7 +5,7 @@ import com.focela.platform.idempotent.core.keyresolver.impl.DefaultIdempotentKey
 import com.focela.platform.idempotent.core.keyresolver.impl.ExpressionIdempotentKeyResolver;
 import com.focela.platform.idempotent.core.keyresolver.IdempotentKeyResolver;
 import com.focela.platform.idempotent.core.keyresolver.impl.UserIdempotentKeyResolver;
-import com.focela.platform.idempotent.core.redis.IdempotentRedisDAO;
+import com.focela.platform.idempotent.core.redis.IdempotentRedisRepository;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import com.focela.platform.redis.config.FocelaRedisAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -17,13 +17,13 @@ import java.util.List;
 public class FocelaIdempotentConfiguration {
 
     @Bean
-    public IdempotentAspect idempotentAspect(List<IdempotentKeyResolver> keyResolvers, IdempotentRedisDAO idempotentRedisDAO) {
-        return new IdempotentAspect(keyResolvers, idempotentRedisDAO);
+    public IdempotentAspect idempotentAspect(List<IdempotentKeyResolver> keyResolvers, IdempotentRedisRepository idempotentRedisRepository) {
+        return new IdempotentAspect(keyResolvers, idempotentRedisRepository);
     }
 
     @Bean
-    public IdempotentRedisDAO idempotentRedisDAO(StringRedisTemplate stringRedisTemplate) {
-        return new IdempotentRedisDAO(stringRedisTemplate);
+    public IdempotentRedisRepository idempotentRedisRepository(StringRedisTemplate stringRedisTemplate) {
+        return new IdempotentRedisRepository(stringRedisTemplate);
     }
 
     // ========== IdempotentKeyResolver Beans ==========

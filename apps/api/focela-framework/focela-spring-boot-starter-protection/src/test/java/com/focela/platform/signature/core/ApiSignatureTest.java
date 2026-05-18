@@ -5,7 +5,7 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.focela.platform.signature.core.annotation.ApiSignature;
 import com.focela.platform.signature.core.aop.ApiSignatureAspect;
-import com.focela.platform.signature.core.redis.ApiSignatureRedisDAO;
+import com.focela.platform.signature.core.redis.ApiSignatureRedisRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,7 +32,7 @@ public class ApiSignatureTest {
     private ApiSignatureAspect apiSignatureAspect;
 
     @Mock
-    private ApiSignatureRedisDAO signatureRedisDAO;
+    private ApiSignatureRedisRepository signatureRedisRepository;
 
     @Test
     public void testSignatureGet() throws IOException {
@@ -62,8 +62,8 @@ public class ApiSignatureTest {
         when(request.getContentType()).thenReturn("application/json");
         when(request.getReader()).thenReturn(new BufferedReader(new StringReader("test")));
         // mock the methods
-        when(signatureRedisDAO.getAppSecret(eq(appId))).thenReturn(appSecret);
-        when(signatureRedisDAO.setNonce(eq(appId), eq(nonce), eq(120), eq(TimeUnit.SECONDS))).thenReturn(true);
+        when(signatureRedisRepository.getAppSecret(eq(appId))).thenReturn(appSecret);
+        when(signatureRedisRepository.setNonce(eq(appId), eq(nonce), eq(120), eq(TimeUnit.SECONDS))).thenReturn(true);
 
         // invoke
         boolean result = apiSignatureAspect.verifySignature(apiSignature, request);

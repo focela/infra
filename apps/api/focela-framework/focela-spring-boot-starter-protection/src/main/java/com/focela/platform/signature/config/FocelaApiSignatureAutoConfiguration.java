@@ -2,7 +2,7 @@ package com.focela.platform.signature.config;
 
 import com.focela.platform.redis.config.FocelaRedisAutoConfiguration;
 import com.focela.platform.signature.core.aop.ApiSignatureAspect;
-import com.focela.platform.signature.core.redis.ApiSignatureRedisDAO;
+import com.focela.platform.signature.core.redis.ApiSignatureRedisRepository;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -14,13 +14,13 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 public class FocelaApiSignatureAutoConfiguration {
 
     @Bean
-    public ApiSignatureAspect signatureAspect(ApiSignatureRedisDAO signatureRedisDAO) {
-        return new ApiSignatureAspect(signatureRedisDAO);
+    public ApiSignatureAspect signatureAspect(ApiSignatureRedisRepository signatureRedisRepository) {
+        return new ApiSignatureAspect(signatureRedisRepository);
     }
 
     @Bean
-    public ApiSignatureRedisDAO signatureRedisDAO(StringRedisTemplate stringRedisTemplate) {
-        return new ApiSignatureRedisDAO(stringRedisTemplate);
+    public ApiSignatureRedisRepository signatureRedisRepository(StringRedisTemplate stringRedisTemplate) {
+        return new ApiSignatureRedisRepository(stringRedisTemplate);
     }
 
 }

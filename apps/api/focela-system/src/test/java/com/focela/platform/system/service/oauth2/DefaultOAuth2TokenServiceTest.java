@@ -48,7 +48,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
     private OAuth2RefreshTokenMapper oauth2RefreshTokenMapper;
 
     @Resource
-    private OAuth2AccessTokenRedisRepository oauth2AccessTokenRedisDAO;
+    private OAuth2AccessTokenRedisRepository oauth2AccessTokenRedisRepository;
 
     @MockitoBean
     private OAuth2ClientService oauth2ClientService;
@@ -86,7 +86,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
         assertEquals(scopes, accessTokenEntity.getScopes());
         assertFalse(DateUtils.isExpired(accessTokenEntity.getExpiresTime()));
         // assert access token cache
-        OAuth2AccessTokenEntity redisAccessTokenEntity = oauth2AccessTokenRedisDAO.get(accessTokenEntity.getAccessToken());
+        OAuth2AccessTokenEntity redisAccessTokenEntity = oauth2AccessTokenRedisRepository.get(accessTokenEntity.getAccessToken());
         // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
         assertPojoEquals(accessTokenEntity, redisAccessTokenEntity, "expiresTime", "createTime", "updateTime", "deleted");
         // assert refresh token
@@ -166,7 +166,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
         OAuth2AccessTokenEntity accessTokenEntity = randomPojo(OAuth2AccessTokenEntity.class).setRefreshToken(refreshToken)
                 .setUserType(refreshTokenEntity.getUserType());
         oauth2AccessTokenMapper.insert(accessTokenEntity);
-        oauth2AccessTokenRedisDAO.set(accessTokenEntity);
+        oauth2AccessTokenRedisRepository.set(accessTokenEntity);
         // mock data（user）
         UserEntity user = randomPojo(UserEntity.class);
         when(adminUserService.getUser(refreshTokenEntity.getUserId())).thenReturn(user);
@@ -175,7 +175,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
         OAuth2AccessTokenEntity newAccessTokenEntity = oauth2TokenService.refreshAccessToken(refreshToken, clientId);
         // assert old access token is deleted
         assertNull(oauth2AccessTokenMapper.selectByAccessToken(accessTokenEntity.getAccessToken()));
-        assertNull(oauth2AccessTokenRedisDAO.get(accessTokenEntity.getAccessToken()));
+        assertNull(oauth2AccessTokenRedisRepository.get(accessTokenEntity.getAccessToken()));
         // assert new access token
         OAuth2AccessTokenEntity dbAccessTokenEntity = oauth2AccessTokenMapper.selectByAccessToken(newAccessTokenEntity.getAccessToken());
         // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
@@ -184,7 +184,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
                 "creator", "updater");
         assertFalse(DateUtils.isExpired(newAccessTokenEntity.getExpiresTime()));
         // assert new access token cache
-        OAuth2AccessTokenEntity redisAccessTokenEntity = oauth2AccessTokenRedisDAO.get(newAccessTokenEntity.getAccessToken());
+        OAuth2AccessTokenEntity redisAccessTokenEntity = oauth2AccessTokenRedisRepository.get(newAccessTokenEntity.getAccessToken());
         // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
         assertPojoEquals(newAccessTokenEntity, redisAccessTokenEntity, "expiresTime", "createTime", "updateTime", "deleted");
     }
@@ -205,7 +205,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
         assertPojoEquals(accessTokenEntity, result, "expiresTime", "createTime", "updateTime", "deleted",
                 "creator", "updater");
         // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
-        assertPojoEquals(accessTokenEntity, oauth2AccessTokenRedisDAO.get(accessToken), "expiresTime", "createTime", "updateTime", "deleted",
+        assertPojoEquals(accessTokenEntity, oauth2AccessTokenRedisRepository.get(accessToken), "expiresTime", "createTime", "updateTime", "deleted",
                 "creator", "updater");
     }
 
@@ -288,7 +288,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
         // assert data
         assertNull(oauth2AccessTokenMapper.selectByAccessToken(accessTokenEntity.getAccessToken()));
         assertNull(oauth2RefreshTokenMapper.selectByRefreshToken(accessTokenEntity.getRefreshToken()));
-        assertNull(oauth2AccessTokenRedisDAO.get(accessTokenEntity.getAccessToken()));
+        assertNull(oauth2AccessTokenRedisRepository.get(accessTokenEntity.getAccessToken()));
     }
 
 

@@ -6,10 +6,10 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Idempotent Redis DAO.
+ * Idempotent Redis repository.
  */
 @AllArgsConstructor
-public class IdempotentRedisDAO {
+public class IdempotentRedisRepository {
 
     /**
      * Idempotent operation.

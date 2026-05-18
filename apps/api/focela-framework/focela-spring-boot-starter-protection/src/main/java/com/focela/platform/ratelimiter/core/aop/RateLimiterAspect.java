@@ -6,7 +6,7 @@ import com.focela.platform.common.exception.enums.GlobalErrorCodeConstants;
 import com.focela.platform.common.utils.collection.CollectionUtils;
 import com.focela.platform.ratelimiter.core.annotation.RateLimiter;
 import com.focela.platform.ratelimiter.core.keyresolver.RateLimiterKeyResolver;
-import com.focela.platform.ratelimiter.core.redis.RateLimiterRedisDAO;
+import com.focela.platform.ratelimiter.core.redis.RateLimiterRedisRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -28,11 +28,11 @@ public class RateLimiterAspect {
      */
     private final Map<Class<? extends RateLimiterKeyResolver>, RateLimiterKeyResolver> keyResolvers;
 
-    private final RateLimiterRedisDAO rateLimiterRedisDAO;
+    private final RateLimiterRedisRepository rateLimiterRedisRepository;
 
-    public RateLimiterAspect(List<RateLimiterKeyResolver> keyResolvers, RateLimiterRedisDAO rateLimiterRedisDAO) {
+    public RateLimiterAspect(List<RateLimiterKeyResolver> keyResolvers, RateLimiterRedisRepository rateLimiterRedisRepository) {
         this.keyResolvers = CollectionUtils.convertMap(keyResolvers, RateLimiterKeyResolver::getClass);
-        this.rateLimiterRedisDAO = rateLimiterRedisDAO;
+        this.rateLimiterRedisRepository = rateLimiterRedisRepository;
     }
 
     @Before("@annotation(rateLimiter)")
@@ -44,7 +44,7 @@ public class RateLimiterAspect {
         String key = keyResolver.resolver(joinPoint, rateLimiter);
 
         // Try to acquire one permit
-        boolean success = rateLimiterRedisDAO.tryAcquire(key,
+        boolean success = rateLimiterRedisRepository.tryAcquire(key,
                 rateLimiter.count(), rateLimiter.time(), rateLimiter.timeUnit());
         if (!success) {
             log.info("[beforePointCut][method({}) args({}) requests too frequent]", joinPoint.getSignature().toString(), joinPoint.getArgs());
