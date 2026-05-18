@@ -9,7 +9,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 /**
- * Mobile verification code DO
+ * Mobile verification code Entity
  *
  * idx_mobile index: based on the {@link #mobile} field
  */

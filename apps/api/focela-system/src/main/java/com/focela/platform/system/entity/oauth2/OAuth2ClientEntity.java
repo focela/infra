@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 import java.util.List;
 
 /**
- * OAuth2 client DO
+ * OAuth2 client Entity
  */
 @TableName(value = "system_oauth2_client", autoResultMap = true)
 @KeySequence("system_oauth2_client_seq") // Primary key auto-increment for databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.

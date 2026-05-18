@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * OAuth2 access token DO
+ * OAuth2 access token Entity
  *
  * The following fields are temporarily unused and unsupported:
  * user_name, authentication (user info)

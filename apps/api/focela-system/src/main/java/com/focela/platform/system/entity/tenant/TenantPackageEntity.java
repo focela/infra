@@ -12,7 +12,7 @@ import lombok.*;
 import java.util.Set;
 
 /**
- * Tenant package DO
+ * Tenant package Entity
  */
 @TableName(value = "system_tenant_package", autoResultMap = true)
 @KeySequence("system_tenant_package_seq") // used for primary key auto-increment in databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.

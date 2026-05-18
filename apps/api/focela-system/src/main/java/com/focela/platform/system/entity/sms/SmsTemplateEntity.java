@@ -15,7 +15,7 @@ import lombok.ToString;
 import java.util.List;
 
 /**
- * SMS template DO
+ * SMS template Entity
  *
  * @since 2021-01-25
  */

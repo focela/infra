@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * Tenant DO
+ * Tenant Entity
  */
 @TableName(value = "system_tenant", autoResultMap = true)
 @KeySequence("system_tenant_seq") // used for primary key auto-increment in databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.

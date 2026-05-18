@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Mail log DO
+ * Mail log Entity
  * Records each mail send
  *
  * @since 2022-03-21

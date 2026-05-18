@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.Map;
 
 /**
- * In-site notification message DO
+ * In-site notification message Entity
  */
 @TableName(value = "system_notify_message", autoResultMap = true)
 @KeySequence("system_notify_message_seq") // Primary key auto-increment for databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.

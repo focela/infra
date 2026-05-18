@@ -13,7 +13,7 @@ import lombok.*;
 import java.util.List;
 
 /**
- * In-site notification template DO
+ * In-site notification template Entity
  */
 @TableName(value = "system_notify_template", autoResultMap = true)
 @KeySequence("system_notify_template_seq") // Primary key auto-increment for databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.

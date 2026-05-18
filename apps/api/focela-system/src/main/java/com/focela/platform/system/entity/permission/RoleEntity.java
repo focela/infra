@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 import java.util.Set;
 
 /**
- * Role DO
+ * Role Entity
  */
 @TableName(value = "system_role", autoResultMap = true)
 @KeySequence("system_role_seq") // used for primary key auto-increment in databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.

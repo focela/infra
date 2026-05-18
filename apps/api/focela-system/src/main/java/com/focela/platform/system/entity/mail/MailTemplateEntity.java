@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 import java.util.List;
 
 /**
- * Mail template DO
+ * Mail template Entity
  *
  * @since 2022-03-21
  */

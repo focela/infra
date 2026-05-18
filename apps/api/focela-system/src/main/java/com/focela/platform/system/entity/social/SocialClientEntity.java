@@ -11,7 +11,7 @@ import lombok.*;
 import me.zhyd.oauth.config.AuthConfig;
 
 /**
- * Social client DO
+ * Social client Entity
  *
  * Corresponds to {@link AuthConfig}; allows each tenant to have its own client configuration for social (third-party) login.
  */

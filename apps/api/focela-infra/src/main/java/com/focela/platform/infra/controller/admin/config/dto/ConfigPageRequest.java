@@ -19,7 +19,7 @@ public class ConfigPageRequest extends PageParam {
     @Schema(description = "param key, fuzzy match", example = "yunai.db.username")
     private String key;
 
-    @Schema(description = "Param type, see SysConfigTypeEnum", example = "1")
+    @Schema(description = "Param type, see ConfigTypeEnum", example = "1")
     private Integer type;
 
     @Schema(description = "Created time", example = "[2022-07-01 00:00:00,2022-07-01 23:59:59]")

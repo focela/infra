@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * OAuth2 authorization code DO
+ * OAuth2 authorization code Entity
  */
 @TableName(value = "system_oauth2_code", autoResultMap = true)
 @KeySequence("system_oauth2_code_seq") // Primary key auto-increment for databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.

@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * Mail account DO
+ * Mail account Entity
  *
  * Purpose: configure the account used to send mail
  *

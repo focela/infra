@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
- * SMS log DO
+ * SMS log Entity
  *
  * @since 2021-01-25
  */

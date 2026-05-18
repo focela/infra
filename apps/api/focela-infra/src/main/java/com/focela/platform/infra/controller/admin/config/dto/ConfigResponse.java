@@ -35,7 +35,7 @@ public class ConfigResponse {
     @ExcelProperty("Param value")
     private String value;
 
-    @Schema(description = "Param type, see SysConfigTypeEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    @Schema(description = "Param type, see ConfigTypeEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @ExcelProperty(value = "Param type", converter = DictionaryConverter.class)
     @DictionaryFormat(DictionaryTypeConstants.CONFIG_TYPE)
     private Integer type;

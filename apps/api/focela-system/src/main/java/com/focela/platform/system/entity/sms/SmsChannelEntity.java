@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * SMS channel DO
+ * SMS channel Entity
  *
  * @since 2021-01-25
  */

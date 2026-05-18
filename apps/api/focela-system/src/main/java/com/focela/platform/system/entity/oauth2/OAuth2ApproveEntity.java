@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 import java.time.LocalDateTime;
 
 /**
- * OAuth2 approve DO
+ * OAuth2 approve Entity
  *
  * Records the list of scopes the user accepted on the sso.vue screen
  */

@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
- * Admin user DO
+ * Admin user Entity
  */
 @TableName(value = "system_users", autoResultMap = true) // since system_user is a SQL Server keyword, use system_users
 @KeySequence("system_users_seq") // used for primary key auto-increment in databases such as Oracle, PostgreSQL, Kingbase, DB2, H2. Can be omitted for databases like MySQL.
