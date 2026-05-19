@@ -21,10 +21,12 @@ import com.google.common.annotations.VisibleForTesting;
 import com.mzt.logapi.context.LogRecordContext;
 import com.mzt.logapi.service.impl.DiffParseFunction;
 import com.mzt.logapi.starter.annotation.LogRecord;
+import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -48,9 +50,16 @@ import static com.focela.platform.system.constants.LogRecordConstants.*;
 @RequiredArgsConstructor
 public class DefaultRoleService implements RoleService {
 
-        private final PermissionService permissionService;
-
         private final RoleMapper roleMapper;
+
+        /**
+         * Lazy field injection breaks the {@code DefaultPermissionService} ↔ {@code DefaultRoleService}
+         * cycle. See MODULE_TEMPLATE.md §12.5 — this is the documented exception to the
+         * constructor-injection convention.
+         */
+        @Resource
+        @Lazy
+        private PermissionService permissionService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
