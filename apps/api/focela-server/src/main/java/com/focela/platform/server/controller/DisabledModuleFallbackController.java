@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 import static com.focela.platform.common.exception.enums.GlobalErrorCodeConstants.NOT_IMPLEMENTED;
 
 /**
- * Default Controller; handles 404 responses when certain modules are not enabled.
+ * Returns 404 fallback responses for routes that belong to optional modules which are not enabled.
  * For example, the /bpm/** path for the workflow module.
  */
 @RestController
 @Slf4j
-public class DefaultController {
+public class DisabledModuleFallbackController {
 
     @RequestMapping("/admin-api/bpm/**")
     public CommonResult<Boolean> bpm404() {
