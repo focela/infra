@@ -13,7 +13,7 @@ import org.hibernate.validator.constraints.Length;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Schema(description = "Admin - tenant create /update Request")
+@Schema(description = "Admin - tenant create/update Request")
 @Data
 public class TenantSaveRequest {
 

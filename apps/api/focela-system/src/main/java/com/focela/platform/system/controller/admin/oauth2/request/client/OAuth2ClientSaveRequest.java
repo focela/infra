@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
-@Schema(description = "Admin - OAuth2 client create /update Request")
+@Schema(description = "Admin - OAuth2 client create/update Request")
 @Data
 public class OAuth2ClientSaveRequest {
 

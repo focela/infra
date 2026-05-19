@@ -5,7 +5,7 @@ import lombok.Data;
 
 import jakarta.validation.constraints.NotNull;
 
-@Schema(description = "Admin - SMS template create /update Request")
+@Schema(description = "Admin - SMS template create/update Request")
 @Data
 public class SmsTemplateSaveRequest {
 

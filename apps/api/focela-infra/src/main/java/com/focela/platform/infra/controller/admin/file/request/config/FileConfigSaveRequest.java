@@ -6,7 +6,7 @@ import lombok.Data;
 
 import java.util.Map;
 
-@Schema(description = "Admin - file config create /update Request")
+@Schema(description = "Admin - file config create/update Request")
 @Data
 public class FileConfigSaveRequest {
 

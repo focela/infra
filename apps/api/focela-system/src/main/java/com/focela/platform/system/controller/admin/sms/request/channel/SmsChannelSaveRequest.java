@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.URL;
 
 import jakarta.validation.constraints.NotNull;
 
-@Schema(description = "Admin - SMS channel create /update Request")
+@Schema(description = "Admin - SMS channel create/update Request")
 @Data
 public class SmsChannelSaveRequest {
 

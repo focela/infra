@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-@Schema(description = "Admin - department create /update Request")
+@Schema(description = "Admin - department create/update Request")
 @Data
 public class DepartmentSaveRequest {
 

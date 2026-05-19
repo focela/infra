@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-@Schema(description = "Admin - dictionary data create /update Request")
+@Schema(description = "Admin - dictionary data create/update Request")
 @Data
 public class DictionaryDataSaveRequest {
 

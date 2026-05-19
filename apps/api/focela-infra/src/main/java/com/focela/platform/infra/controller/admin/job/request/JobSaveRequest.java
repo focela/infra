@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-@Schema(description = "Admin - scheduled job create /update Request")
+@Schema(description = "Admin - scheduled job create/update Request")
 @Data
 public class JobSaveRequest {
 
