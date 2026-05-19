@@ -116,8 +116,8 @@ public final class ArchitectureRules {
                     .and().areTopLevelClasses()
                     .should().haveSimpleNameEndingWith("Request")
                     .orShould().haveSimpleNameEndingWith("Response")
-                    .orShould().haveSimpleNameEndingWith("ExcelDto")
-                    .as("Controller DTOs must end with Request / Response / ExcelDto"
+                    .orShould().haveSimpleNameEndingWith("ExcelRow")
+                    .as("Controller DTOs must end with Request / Response / ExcelRow"
                             + " (covers *Request, *SaveRequest, *PageRequest, *Response)");
 
     // ---- Cross-module DTO suffixes (focela-common api/ DTOs) ----

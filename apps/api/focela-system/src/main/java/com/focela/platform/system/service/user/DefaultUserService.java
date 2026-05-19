@@ -16,7 +16,7 @@ import com.focela.platform.infra.api.config.ConfigApi;
 import com.focela.platform.system.controller.admin.auth.dto.AuthRegisterRequest;
 import com.focela.platform.system.controller.admin.user.dto.profile.UserProfileUpdatePasswordRequest;
 import com.focela.platform.system.controller.admin.user.dto.profile.UserProfileUpdateRequest;
-import com.focela.platform.system.controller.admin.user.dto.UserImportExcelDto;
+import com.focela.platform.system.controller.admin.user.dto.UserImportExcelRow;
 import com.focela.platform.system.controller.admin.user.dto.UserImportResponse;
 import com.focela.platform.system.controller.admin.user.dto.UserPageRequest;
 import com.focela.platform.system.controller.admin.user.dto.UserSaveRequest;
@@ -474,7 +474,7 @@ public class DefaultUserService implements UserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class) // wrap in a transaction so any exception rolls back the entire import
-    public UserImportResponse importUserList(List<UserImportExcelDto> importUsers, boolean isUpdateSupport) {
+    public UserImportResponse importUserList(List<UserImportExcelRow> importUsers, boolean isUpdateSupport) {
         // 1.1 Validate parameters
         if (CollUtil.isEmpty(importUsers)) {
             throw exception(USER_IMPORT_LIST_IS_EMPTY);

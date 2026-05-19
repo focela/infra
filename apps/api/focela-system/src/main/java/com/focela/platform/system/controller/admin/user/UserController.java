@@ -7,7 +7,7 @@ import com.focela.platform.common.model.CommonResult;
 import com.focela.platform.common.model.PageParam;
 import com.focela.platform.common.model.PageResult;
 import com.focela.platform.excel.core.utils.ExcelUtils;
-import com.focela.platform.system.controller.admin.user.dto.UserImportExcelDto;
+import com.focela.platform.system.controller.admin.user.dto.UserImportExcelRow;
 import com.focela.platform.system.controller.admin.user.dto.UserImportResponse;
 import com.focela.platform.system.controller.admin.user.dto.UserPageRequest;
 import com.focela.platform.system.controller.admin.user.dto.UserResponse;
@@ -168,14 +168,14 @@ public class UserController {
     @Operation(summary = "get import user template")
     public void importTemplate(HttpServletResponse response) throws IOException {
         // Manually build the export demo
-        List<UserImportExcelDto> importTemplateRows = Arrays.asList(
-                UserImportExcelDto.builder().username("alice").deptId(1L).email("admin@example.com").mobile("15601691300")
+        List<UserImportExcelRow> importTemplateRows = Arrays.asList(
+                UserImportExcelRow.builder().username("alice").deptId(1L).email("admin@example.com").mobile("15601691300")
                         .nickname("Focela").status(CommonStatusEnum.ENABLE.getStatus()).sex(SexEnum.MALE.getSex()).build(),
-                UserImportExcelDto.builder().username("bob").deptId(2L).email("ops@example.com").mobile("15601701300")
+                UserImportExcelRow.builder().username("bob").deptId(2L).email("ops@example.com").mobile("15601701300")
                         .nickname("Source").status(CommonStatusEnum.DISABLE.getStatus()).sex(SexEnum.FEMALE.getSex()).build()
         );
         // Output
-        ExcelUtils.write(response, "User import template.xls", "User list", UserImportExcelDto.class, importTemplateRows);
+        ExcelUtils.write(response, "User import template.xls", "User list", UserImportExcelRow.class, importTemplateRows);
     }
 
     @PostMapping("/import")
@@ -187,7 +187,7 @@ public class UserController {
     @PreAuthorize("@ss.hasPermission('system:user:import')")
     public CommonResult<UserImportResponse> importExcel(@RequestParam("file") MultipartFile file,
                                                       @RequestParam(value = "updateSupport", required = false, defaultValue = "false") Boolean updateSupport) throws Exception {
-        List<UserImportExcelDto> importRows = ExcelUtils.read(file, UserImportExcelDto.class);
+        List<UserImportExcelRow> importRows = ExcelUtils.read(file, UserImportExcelRow.class);
         return success(userService.importUserList(importRows, updateSupport));
     }
 

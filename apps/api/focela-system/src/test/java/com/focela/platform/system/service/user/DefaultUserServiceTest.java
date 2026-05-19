@@ -11,7 +11,7 @@ import com.focela.platform.infra.api.config.ConfigApi;
 import com.focela.platform.infra.api.file.FileApi;
 import com.focela.platform.system.controller.admin.user.dto.profile.UserProfileUpdatePasswordRequest;
 import com.focela.platform.system.controller.admin.user.dto.profile.UserProfileUpdateRequest;
-import com.focela.platform.system.controller.admin.user.dto.UserImportExcelDto;
+import com.focela.platform.system.controller.admin.user.dto.UserImportExcelRow;
 import com.focela.platform.system.controller.admin.user.dto.UserImportResponse;
 import com.focela.platform.system.controller.admin.user.dto.UserPageRequest;
 import com.focela.platform.system.controller.admin.user.dto.UserSaveRequest;
@@ -414,7 +414,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testImportUserList_failWhenValidationFails() {
         // prepare parameters
-        UserImportExcelDto importUser = randomPojo(UserImportExcelDto.class, o -> {
+        UserImportExcelRow importUser = randomPojo(UserImportExcelRow.class, o -> {
             o.setEmail(randomEmail());
             o.setMobile(randomMobile());
         });
@@ -436,7 +436,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testImportUserList_createWhenUserNotExists() {
         // prepare parameters
-        UserImportExcelDto importUser = randomPojo(UserImportExcelDto.class, o -> {
+        UserImportExcelRow importUser = randomPojo(UserImportExcelRow.class, o -> {
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // ensure status range
             o.setSex(randomEle(SexEnum.values()).getSex()); // ensure sex range
             o.setEmail(randomEmail());
@@ -471,7 +471,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
         UserEntity dbUser = randomAdminUserEntity();
         userMapper.insert(dbUser);
         // prepare parameters
-        UserImportExcelDto importUser = randomPojo(UserImportExcelDto.class, o -> {
+        UserImportExcelRow importUser = randomPojo(UserImportExcelRow.class, o -> {
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // ensure status range
             o.setSex(randomEle(SexEnum.values()).getSex()); // ensure sex range
             o.setUsername(dbUser.getUsername());
@@ -503,7 +503,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
         UserEntity dbUser = randomAdminUserEntity();
         userMapper.insert(dbUser);
         // prepare parameters
-        UserImportExcelDto importUser = randomPojo(UserImportExcelDto.class, o -> {
+        UserImportExcelRow importUser = randomPojo(UserImportExcelRow.class, o -> {
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // ensure status range
             o.setSex(randomEle(SexEnum.values()).getSex()); // ensure sex range
             o.setUsername(dbUser.getUsername());

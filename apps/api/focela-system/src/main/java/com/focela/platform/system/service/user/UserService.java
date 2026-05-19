@@ -6,7 +6,7 @@ import com.focela.platform.common.utils.collection.CollectionUtils;
 import com.focela.platform.system.controller.admin.auth.dto.AuthRegisterRequest;
 import com.focela.platform.system.controller.admin.user.dto.profile.UserProfileUpdatePasswordRequest;
 import com.focela.platform.system.controller.admin.user.dto.profile.UserProfileUpdateRequest;
-import com.focela.platform.system.controller.admin.user.dto.UserImportExcelDto;
+import com.focela.platform.system.controller.admin.user.dto.UserImportExcelRow;
 import com.focela.platform.system.controller.admin.user.dto.UserImportResponse;
 import com.focela.platform.system.controller.admin.user.dto.UserPageRequest;
 import com.focela.platform.system.controller.admin.user.dto.UserSaveRequest;
@@ -193,7 +193,7 @@ public interface UserService {
      * @param isUpdateSupport whether update is supported
      * @return import result
      */
-    UserImportResponse importUserList(List<UserImportExcelDto> importUsers, boolean isUpdateSupport);
+    UserImportResponse importUserList(List<UserImportExcelRow> importUsers, boolean isUpdateSupport);
 
     /**
      * Get users by status
