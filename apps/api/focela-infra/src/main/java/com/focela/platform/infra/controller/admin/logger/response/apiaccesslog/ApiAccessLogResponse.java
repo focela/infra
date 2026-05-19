@@ -10,7 +10,7 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "Admin - API access log Response VO")
+@Schema(description = "Admin - API access log Response")
 @Data
 @ExcelIgnoreUnannotated
 public class ApiAccessLogResponse {

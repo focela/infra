@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.URL;
 
 
-@Schema(description = "Admin - user personal info update Request VO")
+@Schema(description = "Admin - user personal info update Request")
 @Data
 public class UserProfileUpdateRequest {
 

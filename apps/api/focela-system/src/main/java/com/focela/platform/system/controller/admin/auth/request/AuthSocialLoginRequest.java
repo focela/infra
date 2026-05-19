@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-@Schema(description = "Admin - social-bind login Request VO, use code authorization code + account password")
+@Schema(description = "Admin - social-bind login Request, use code authorization code + account password")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "Admin - login Response VO")
+@Schema(description = "Admin - login Response")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

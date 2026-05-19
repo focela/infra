@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.Collections;
 import java.util.Set;
 
-@Schema(description = "Admin - grant role data permission Request VO")
+@Schema(description = "Admin - grant role data permission Request")
 @Data
 public class PermissionAssignRoleDataScopeRequest {
 

@@ -5,7 +5,7 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "Admin - file Response VO,exclude content field, too large")
+@Schema(description = "Admin - file Response, exclude content field, too large")
 @Data
 public class FileResponse {
 

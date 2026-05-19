@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-@Schema(description = "Admin - role create /update Request VO")
+@Schema(description = "Admin - role create /update Request")
 @Data
 public class RoleSaveRequest {
 

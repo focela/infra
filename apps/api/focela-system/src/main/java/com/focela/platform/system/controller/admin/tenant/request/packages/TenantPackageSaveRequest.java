@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import java.util.Set;
 
-@Schema(description = "Admin - tenant package create /update Request VO")
+@Schema(description = "Admin - tenant package create /update Request")
 @Data
 public class TenantPackageSaveRequest {
 

@@ -14,7 +14,7 @@ import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 
-@Schema(description = "Admin - account/password login Request VO, if login and bind social user, required social starting with param")
+@Schema(description = "Admin - account/password login Request, if login and bind social user, required social starting with param")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

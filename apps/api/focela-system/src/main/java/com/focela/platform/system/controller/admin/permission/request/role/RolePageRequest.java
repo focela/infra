@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 import static com.focela.platform.common.utils.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
-@Schema(description = "Admin - role page Request VO")
+@Schema(description = "Admin - role page Request")
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class RolePageRequest extends PageParam {

@@ -10,7 +10,7 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "Admin - param config info Response VO")
+@Schema(description = "Admin - param config info Response")
 @Data
 @ExcelIgnoreUnannotated
 public class ConfigResponse {

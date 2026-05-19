@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-@Schema(description = "Admin - Register Request VO")
+@Schema(description = "Admin - Register Request")
 @Data
 public class AuthRegisterRequest extends CaptchaVerificationRequest {
 

@@ -6,7 +6,7 @@ import lombok.Data;
 import jakarta.validation.constraints.NotNull;
 import java.util.Map;
 
-@Schema(description = "Admin - SMS template send Request VO")
+@Schema(description = "Admin - SMS template send Request")
 @Data
 public class SmsTemplateSendRequest {
 

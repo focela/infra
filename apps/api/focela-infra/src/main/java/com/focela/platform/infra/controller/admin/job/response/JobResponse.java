@@ -11,7 +11,7 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "Admin - scheduled job Response VO")
+@Schema(description = "Admin - scheduled job Response")
 @Data
 @ExcelIgnoreUnannotated
 public class JobResponse {

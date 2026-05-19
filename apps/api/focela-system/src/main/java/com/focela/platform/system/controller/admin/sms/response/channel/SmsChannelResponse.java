@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.URL;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-@Schema(description = "Admin - SMS channel Response VO")
+@Schema(description = "Admin - SMS channel Response")
 @Data
 public class SmsChannelResponse {
 

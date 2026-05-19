@@ -3,7 +3,7 @@ package com.focela.platform.system.controller.admin.mail.response.template;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "Admin - email template simplified Response VO")
+@Schema(description = "Admin - email template simplified Response")
 @Data
 public class MailTemplateSimpleResponse {
 

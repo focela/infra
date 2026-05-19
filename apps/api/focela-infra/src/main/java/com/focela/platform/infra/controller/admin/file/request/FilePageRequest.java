@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 import static com.focela.platform.common.utils.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
-@Schema(description = "Admin - file page Request VO")
+@Schema(description = "Admin - file page Request")
 @Data
 public class FilePageRequest extends PageParam {
 

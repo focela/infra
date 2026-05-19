@@ -3,7 +3,7 @@ package com.focela.platform.system.controller.admin.mail.response.account;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "Admin - email account simplified Response VO")
+@Schema(description = "Admin - email account simplified Response")
 @Data
 public class MailAccountSimpleResponse {
 

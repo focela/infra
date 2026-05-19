@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Schema(description = "Admin - notify template Response VO")
+@Schema(description = "Admin - notify template Response")
 @Data
 public class NotifyTemplateResponse {
 

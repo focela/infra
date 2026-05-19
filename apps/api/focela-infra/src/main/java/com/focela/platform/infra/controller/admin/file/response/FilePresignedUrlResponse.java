@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "Admin - file presigned URL Response VO")
+@Schema(description = "Admin - file presigned URL Response")
 @Data
 public class FilePresignedUrlResponse {
 

@@ -8,7 +8,7 @@ import lombok.Data;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-@Schema(description = "Admin - notify template create /update Request VO")
+@Schema(description = "Admin - notify template create /update Request")
 @Data
 public class NotifyTemplateSaveRequest {
 

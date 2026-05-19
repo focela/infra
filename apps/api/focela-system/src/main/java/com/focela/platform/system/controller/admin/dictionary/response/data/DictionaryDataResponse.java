@@ -10,7 +10,7 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "Admin - dictionary data info Response VO")
+@Schema(description = "Admin - dictionary data info Response")
 @Data
 @ExcelIgnoreUnannotated
 public class DictionaryDataResponse {

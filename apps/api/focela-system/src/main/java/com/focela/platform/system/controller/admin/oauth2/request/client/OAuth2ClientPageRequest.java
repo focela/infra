@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import com.focela.platform.common.model.PageParam;
 
-@Schema(description = "Admin - OAuth2 client page Request VO")
+@Schema(description = "Admin - OAuth2 client page Request")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)

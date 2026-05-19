@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 
-@Schema(description = "Admin - menu info Response VO")
+@Schema(description = "Admin - menu info Response")
 @Data
 public class MenuResponse {
 

@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 
-@Schema(description = "Admin - email send Req VO")
+@Schema(description = "Admin - email send Request")
 @Data
 public class MailTemplateSendRequest {
 

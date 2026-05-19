@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "Admin - access token Response VO")
+@Schema(description = "Admin - access token Response")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

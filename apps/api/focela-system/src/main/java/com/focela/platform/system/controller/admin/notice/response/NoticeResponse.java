@@ -5,7 +5,7 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "Admin - notice info Response VO")
+@Schema(description = "Admin - notice info Response")
 @Data
 public class NoticeResponse {
 

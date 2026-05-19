@@ -6,7 +6,7 @@ import lombok.Data;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-@Schema(description = "Admin - email template create /update Request VO")
+@Schema(description = "Admin - email template create /update Request")
 @Data
 public class MailTemplateSaveRequest {
 

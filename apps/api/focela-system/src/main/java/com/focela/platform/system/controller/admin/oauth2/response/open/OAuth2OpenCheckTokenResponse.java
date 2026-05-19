@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Schema(description = "Admin - [Open API]validate token Response VO")
+@Schema(description = "Admin - [Open API]validate token Response")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

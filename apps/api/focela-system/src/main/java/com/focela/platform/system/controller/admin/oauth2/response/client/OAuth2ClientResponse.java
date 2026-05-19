@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Schema(description = "Admin - OAuth2 client Response VO")
+@Schema(description = "Admin - OAuth2 client Response")
 @Data
 public class OAuth2ClientResponse {
 

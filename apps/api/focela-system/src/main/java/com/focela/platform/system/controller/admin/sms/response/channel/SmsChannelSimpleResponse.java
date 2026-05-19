@@ -3,7 +3,7 @@ package com.focela.platform.system.controller.admin.sms.response.channel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "Admin - SMS channel simplified Response VO")
+@Schema(description = "Admin - SMS channel simplified Response")
 @Data
 public class SmsChannelSimpleResponse {
 

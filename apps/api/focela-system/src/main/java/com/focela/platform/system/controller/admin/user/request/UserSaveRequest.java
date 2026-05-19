@@ -18,7 +18,7 @@ import org.hibernate.validator.constraints.Length;
 
 import java.util.Set;
 
-@Schema(description = "Admin - user create /update Request VO")
+@Schema(description = "Admin - user create /update Request")
 @Data
 public class UserSaveRequest {
 

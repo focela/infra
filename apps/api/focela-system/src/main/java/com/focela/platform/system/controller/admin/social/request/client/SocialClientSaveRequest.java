@@ -9,7 +9,7 @@ import lombok.Data;
 
 import jakarta.validation.constraints.NotNull;
 
-@Schema(description = "Admin - social client create /update Request VO")
+@Schema(description = "Admin - social client create /update Request")
 @Data
 public class SocialClientSaveRequest {
 

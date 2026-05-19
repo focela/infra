@@ -3,7 +3,7 @@ package com.focela.platform.system.controller.admin.permission.response.menu;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "Admin - menu simplified info Response VO")
+@Schema(description = "Admin - menu simplified info Response")
 @Data
 public class MenuSimpleResponse {
 

@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-@Schema(description = "Admin - user profile info Response VO")
+@Schema(description = "Admin - user profile info Response")
 public class UserProfileResponse {
 
     @Schema(description = "User ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")

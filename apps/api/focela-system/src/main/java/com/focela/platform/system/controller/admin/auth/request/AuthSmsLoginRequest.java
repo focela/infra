@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 import jakarta.validation.constraints.NotEmpty;
 
-@Schema(description = "Admin - SMS CAPTCHA login Request VO")
+@Schema(description = "Admin - SMS CAPTCHA login Request")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

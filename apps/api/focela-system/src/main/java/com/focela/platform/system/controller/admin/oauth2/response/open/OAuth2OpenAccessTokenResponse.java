@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Schema(description = "Admin - [Open API]access token Response VO")
+@Schema(description = "Admin - [Open API]access token Response")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

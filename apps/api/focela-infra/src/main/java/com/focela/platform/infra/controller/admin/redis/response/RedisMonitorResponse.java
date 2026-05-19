@@ -8,7 +8,7 @@ import lombok.Data;
 import java.util.List;
 import java.util.Properties;
 
-@Schema(description = "Admin - Redis monitor info Response VO")
+@Schema(description = "Admin - Redis monitor info Response")
 @Data
 @Builder
 @AllArgsConstructor

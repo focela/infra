@@ -3,7 +3,7 @@ package com.focela.platform.system.controller.admin.dictionary.response.data;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "Admin - data dictionary simplified Response VO")
+@Schema(description = "Admin - data dictionary simplified Response")
 @Data
 public class DictionaryDataSimpleResponse {
 

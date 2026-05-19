@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 import static com.focela.platform.common.utils.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
-@Schema(description = "Admin - user page Request VO")
+@Schema(description = "Admin - user page Request")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

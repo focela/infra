@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-@Schema(description = "Admin - send mobile CAPTCHA Request VO")
+@Schema(description = "Admin - send mobile CAPTCHA Request")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-@Schema(description = "Admin - datasource config create /update Request VO")
+@Schema(description = "Admin - datasource config create /update Request")
 @Data
 public class DataSourceConfigSaveRequest {
 

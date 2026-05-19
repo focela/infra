@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.List;
 import java.util.Map;
 
-@Schema(description = "Admin - user import Response VO")
+@Schema(description = "Admin - user import Response")
 @Data
 @Builder
 public class UserImportResponse {

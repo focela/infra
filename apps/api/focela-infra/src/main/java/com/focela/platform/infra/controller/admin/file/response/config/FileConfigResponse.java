@@ -6,7 +6,7 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "Admin - file config Response VO")
+@Schema(description = "Admin - file config Response")
 @Data
 public class FileConfigResponse {
 

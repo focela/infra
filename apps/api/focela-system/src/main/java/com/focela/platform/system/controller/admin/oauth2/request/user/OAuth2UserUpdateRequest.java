@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.Length;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 
-@Schema(description = "Admin - OAuth2 update user basic info Request VO")
+@Schema(description = "Admin - OAuth2 update user basic info Request")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

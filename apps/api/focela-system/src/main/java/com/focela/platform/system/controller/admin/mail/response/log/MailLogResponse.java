@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-@Schema(description = "Admin - email log Response VO")
+@Schema(description = "Admin - email log Response")
 @Data
 public class MailLogResponse {
 

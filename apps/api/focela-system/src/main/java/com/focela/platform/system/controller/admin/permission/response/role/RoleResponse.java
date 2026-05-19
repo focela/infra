@@ -12,7 +12,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@Schema(description = "Admin - role info Response VO")
+@Schema(description = "Admin - role info Response")
 @Data
 @ExcelIgnoreUnannotated
 public class RoleResponse {

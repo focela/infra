@@ -4,7 +4,7 @@ import cn.idev.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "Admin - post info simplified Response VO")
+@Schema(description = "Admin - post info simplified Response")
 @Data
 public class PostSimpleResponse {
 

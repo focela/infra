@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Schema(description = "Admin - OAuth2 get user basic info Response VO")
+@Schema(description = "Admin - OAuth2 get user basic info Response")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

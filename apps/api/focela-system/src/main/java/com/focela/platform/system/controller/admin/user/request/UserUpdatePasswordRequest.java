@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.Length;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-@Schema(description = "Admin - user update password Request VO")
+@Schema(description = "Admin - user update password Request")
 @Data
 public class UserUpdatePasswordRequest {
 

@@ -3,7 +3,7 @@ package com.focela.platform.system.controller.admin.department.request.dept;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "Admin - department list Request VO")
+@Schema(description = "Admin - department list Request")
 @Data
 public class DepartmentListRequest {
 

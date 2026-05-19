@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-@Schema(description = "Admin - notify message Response VO")
+@Schema(description = "Admin - notify message Response")
 @Data
 public class NotifyMessageResponse {
 

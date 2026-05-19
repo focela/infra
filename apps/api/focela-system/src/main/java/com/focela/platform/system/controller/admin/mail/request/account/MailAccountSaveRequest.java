@@ -6,7 +6,7 @@ import lombok.Data;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 
-@Schema(description = "Admin - email account create /update Request VO")
+@Schema(description = "Admin - email account create /update Request")
 @Data
 public class MailAccountSaveRequest {
 

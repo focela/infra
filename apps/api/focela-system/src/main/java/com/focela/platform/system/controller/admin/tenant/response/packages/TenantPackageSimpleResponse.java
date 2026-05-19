@@ -5,7 +5,7 @@ import lombok.Data;
 
 import jakarta.validation.constraints.NotNull;
 
-@Schema(description = "Admin - tenant package simplified Response VO")
+@Schema(description = "Admin - tenant package simplified Response")
 @Data
 public class TenantPackageSimpleResponse {
 

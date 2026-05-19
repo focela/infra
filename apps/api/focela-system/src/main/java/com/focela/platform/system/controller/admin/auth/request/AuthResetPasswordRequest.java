@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
-@Schema(description = "Admin - SMS reset account password Request VO")
+@Schema(description = "Admin - SMS reset account password Request")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

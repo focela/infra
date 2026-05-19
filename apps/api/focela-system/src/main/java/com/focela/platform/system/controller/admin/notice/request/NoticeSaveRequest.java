@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-@Schema(description = "Admin - notice create /update Request VO")
+@Schema(description = "Admin - notice create /update Request")
 @Data
 public class NoticeSaveRequest {
 

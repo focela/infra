@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Schema(description = "Admin - authorize page info Response VO")
+@Schema(description = "Admin - authorize page info Response")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

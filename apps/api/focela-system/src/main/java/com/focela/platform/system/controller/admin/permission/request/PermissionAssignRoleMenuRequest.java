@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.Collections;
 import java.util.Set;
 
-@Schema(description = "Admin - grant role menus Request VO")
+@Schema(description = "Admin - grant role menus Request")
 @Data
 public class PermissionAssignRoleMenuRequest {
 

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-@Schema(description = "Admin - unbind social Request VO")
+@Schema(description = "Admin - unbind social Request")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

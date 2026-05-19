@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Schema(description = "Admin - email template Response VO")
+@Schema(description = "Admin - email template Response")
 @Data
 public class MailTemplateResponse {
 

@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import java.util.Map;
 
-@Schema(description = "Admin - notify template send Request VO")
+@Schema(description = "Admin - notify template send Request")
 @Data
 public class NotifyTemplateSendRequest {
 

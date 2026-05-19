@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Schema(description = "Admin - role simplified info Response VO")
+@Schema(description = "Admin - role simplified info Response")
 @Data
 public class RoleSimpleResponse {
 

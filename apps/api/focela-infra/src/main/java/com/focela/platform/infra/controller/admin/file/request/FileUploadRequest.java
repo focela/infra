@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
-@Schema(description = "Admin - upload file Request VO")
+@Schema(description = "Admin - upload file Request")
 @Data
 public class FileUploadRequest {
 

@@ -5,7 +5,7 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "Admin - datasource config Response VO")
+@Schema(description = "Admin - datasource config Response")
 @Data
 public class DataSourceConfigResponse {
 

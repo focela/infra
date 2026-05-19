@@ -12,7 +12,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-@Schema(description = "Admin - SMS log Response VO")
+@Schema(description = "Admin - SMS log Response")
 @Data
 @ExcelIgnoreUnannotated
 public class SmsLogResponse {

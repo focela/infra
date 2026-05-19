@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.Set;
 
-@Schema(description = "Admin - login user permission info Response VO, additional include user info and role list")
+@Schema(description = "Admin - login user permission info Response, additional include user info and role list")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,7 +28,7 @@ public class AuthPermissionInfoResponse {
     @Schema(description = "menu tree", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<MenuInfo> menus;
 
-    @Schema(description = "user info VO")
+    @Schema(description = "user info")
     @Data
     @NoArgsConstructor
     @AllArgsConstructor

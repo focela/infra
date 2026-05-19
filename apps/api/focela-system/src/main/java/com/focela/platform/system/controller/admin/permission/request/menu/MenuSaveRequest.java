@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-@Schema(description = "Admin - menu create /update Request VO")
+@Schema(description = "Admin - menu create /update Request")
 @Data
 public class MenuSaveRequest {
 

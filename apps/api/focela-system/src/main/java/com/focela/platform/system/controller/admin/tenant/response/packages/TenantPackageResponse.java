@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@Schema(description = "Admin - tenant package Response VO")
+@Schema(description = "Admin - tenant package Response")
 @Data
 public class TenantPackageResponse {
 

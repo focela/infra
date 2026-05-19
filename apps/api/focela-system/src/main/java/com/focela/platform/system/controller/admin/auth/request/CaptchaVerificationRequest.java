@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
-@Schema(description = "Admin - CAPTCHA Request VO")
+@Schema(description = "Admin - CAPTCHA Request")
 @Data
 public class CaptchaVerificationRequest {
 

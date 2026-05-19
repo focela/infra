@@ -10,7 +10,7 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "Admin - login log Response VO")
+@Schema(description = "Admin - login log Response")
 @Data
 @ExcelIgnoreUnannotated
 public class LoginLogResponse {

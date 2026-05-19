@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-@Schema(description = "Admin - file create Request VO")
+@Schema(description = "Admin - file create Request")
 @Data
 public class FileCreateRequest {
 

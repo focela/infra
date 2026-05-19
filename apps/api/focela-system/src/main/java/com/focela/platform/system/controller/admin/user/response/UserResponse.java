@@ -11,7 +11,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@Schema(description = "Admin - user info Response VO")
+@Schema(description = "Admin - user info Response")
 @Data
 @ExcelIgnoreUnannotated
 public class UserResponse{

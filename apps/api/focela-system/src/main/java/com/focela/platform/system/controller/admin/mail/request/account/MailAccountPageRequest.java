@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-@Schema(description = "Admin - email account page Request VO")
+@Schema(description = "Admin - email account page Request")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)

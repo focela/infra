@@ -4,7 +4,7 @@ import com.focela.platform.common.model.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "Admin - scheduled job page Request VO")
+@Schema(description = "Admin - scheduled job page Request")
 @Data
 public class JobPageRequest extends PageParam {
 

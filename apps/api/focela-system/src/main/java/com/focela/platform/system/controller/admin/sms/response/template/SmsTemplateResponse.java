@@ -11,7 +11,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Schema(description = "Admin - SMS template Response VO")
+@Schema(description = "Admin - SMS template Response")
 @Data
 @ExcelIgnoreUnannotated
 public class SmsTemplateResponse {

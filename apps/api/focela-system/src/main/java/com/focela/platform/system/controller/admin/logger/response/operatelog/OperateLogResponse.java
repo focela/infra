@@ -14,7 +14,7 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "Admin - operation log Response VO")
+@Schema(description = "Admin - operation log Response")
 @Data
 @ExcelIgnoreUnannotated
 public class OperateLogResponse implements VO {

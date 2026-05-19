@@ -5,7 +5,7 @@ import lombok.Data;
 
 import java.util.List;
 
-@Schema(description = "User App - area node Response VO")
+@Schema(description = "User App - area node Response")
 @Data
 public class AppAreaNodeResponse {
 
