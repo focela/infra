@@ -61,7 +61,7 @@ public class DefaultFileService implements FileService {
     public String createFile(byte[] content, String name, String directory, String type) {
         // 1.1 Handle empty type
         if (StrUtil.isEmpty(type)) {
-            type = FileTypeUtils.getMineType(content, name);
+            type = FileTypeUtils.getMimeType(content, name);
         }
         // 1.2 Handle empty name
         if (StrUtil.isEmpty(name)) {

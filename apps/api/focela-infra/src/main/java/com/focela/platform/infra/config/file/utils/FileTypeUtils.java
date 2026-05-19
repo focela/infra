@@ -21,13 +21,13 @@ public class FileTypeUtils {
     private static final Tika TIKA = new Tika();
 
     /**
-     * Get the mineType of a file. There may be discrepancies for doc, jar and similar files.
+     * Get the MIME type of a file. There may be discrepancies for doc, jar and similar files.
      *
      * @param data file content
-     * @return mineType, returns "application/octet-stream" when unable to recognize
+     * @return MIME type, returns "application/octet-stream" when unable to recognize
      */
     @SneakyThrows
-    public static String getMineType(byte[] data) {
+    public static String getMimeType(byte[] data) {
         return TIKA.detect(data);
     }
 
@@ -35,9 +35,9 @@ public class FileTypeUtils {
      * Get the file type by file name; in some cases more accurate than via byte array, e.g. for jar files name is more accurate
      *
      * @param name file name
-     * @return mineType, returns "application/octet-stream" when unable to recognize
+     * @return MIME type, returns "application/octet-stream" when unable to recognize
      */
-    public static String getMineType(String name) {
+    public static String getMimeType(String name) {
         return TIKA.detect(name);
     }
 
@@ -46,25 +46,25 @@ public class FileTypeUtils {
      *
      * @param data file content
      * @param name file name
-     * @return mineType, returns "application/octet-stream" when unable to recognize
+     * @return MIME type, returns "application/octet-stream" when unable to recognize
      */
-    public static String getMineType(byte[] data, String name) {
+    public static String getMimeType(byte[] data, String name) {
         return TIKA.detect(data, name);
     }
 
     /**
-     * Get file extension by mineType
+     * Get file extension by MIME type
      *
      * Note: If not found or an exception occurs, returns null
      *
-     * @param mineType type
+     * @param mimeType type
      * @return extension, e.g. .pdf
      */
-    public static String getExtension(String mineType) {
+    public static String getExtension(String mimeType) {
         try {
-            return MimeTypes.getDefaultMimeTypes().forName(mineType).getExtension();
+            return MimeTypes.getDefaultMimeTypes().forName(mimeType).getExtension();
         } catch (MimeTypeException e) {
-            log.warn("[getExtension][get file suffix ({}) failed]", mineType, e);
+            log.warn("[getExtension][get file suffix ({}) failed]", mimeType, e);
             return null;
         }
     }
@@ -78,17 +78,17 @@ public class FileTypeUtils {
      */
     public static void writeAttachment(HttpServletResponse response, String filename, byte[] content) throws IOException {
         // Set header and contentType
-        String mineType = getMineType(content, filename);
-        response.setContentType(mineType);
+        String mimeType = getMimeType(content, filename);
+        response.setContentType(mimeType);
         // Set content display, download file name: https://www.cnblogs.com/wq-9/articles/12165056.html
-        if (isImage(mineType)) {
+        if (isImage(mimeType)) {
             // See https://github.com/YunaiV/ruoyi-vue-pro/issues/692 for discussion
             response.setHeader("Content-Disposition", "inline;filename=" + HttpUtils.encodeUtf8(filename));
         } else {
             response.setHeader("Content-Disposition", "attachment;filename=" + HttpUtils.encodeUtf8(filename));
         }
         // Special handling for video, to solve compatibility issues when playing video URLs on mobile
-        if (StrUtil.containsIgnoreCase(mineType, "video")) {
+        if (StrUtil.containsIgnoreCase(mimeType, "video")) {
             response.setHeader("Accept-Ranges", "bytes");
             response.setHeader("Content-Length", String.valueOf(content.length));
         }
@@ -99,11 +99,11 @@ public class FileTypeUtils {
     /**
      * Check whether it is an image
      *
-     * @param mineType type
+     * @param mimeType type
      * @return whether it is an image
      */
-    public static boolean isImage(String mineType) {
-        return StrUtil.startWith(mineType, "image/");
+    public static boolean isImage(String mimeType) {
+        return StrUtil.startWith(mimeType, "image/");
     }
 
 }
