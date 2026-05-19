@@ -6,7 +6,7 @@ import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.ip.core.Area;
 import com.focela.platform.ip.core.utils.AreaUtils;
 import com.focela.platform.ip.core.utils.IpUtils;
-import com.focela.platform.system.controller.admin.ip.dto.AreaNodeResponse;
+import com.focela.platform.system.controller.admin.ip.response.AreaNodeResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;

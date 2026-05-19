@@ -1,8 +1,8 @@
 package com.focela.platform.system.service.permission;
 
 import com.focela.platform.common.model.PageResult;
-import com.focela.platform.system.controller.admin.permission.dto.role.RolePageRequest;
-import com.focela.platform.system.controller.admin.permission.dto.role.RoleSaveRequest;
+import com.focela.platform.system.controller.admin.permission.request.role.RolePageRequest;
+import com.focela.platform.system.controller.admin.permission.request.role.RoleSaveRequest;
 import com.focela.platform.system.domain.entity.permission.RoleEntity;
 import jakarta.validation.Valid;
 

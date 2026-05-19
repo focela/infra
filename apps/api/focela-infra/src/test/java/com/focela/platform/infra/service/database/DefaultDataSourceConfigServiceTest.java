@@ -6,7 +6,7 @@ import cn.hutool.crypto.symmetric.AES;
 import com.focela.platform.mybatis.core.type.EncryptTypeHandler;
 import com.focela.platform.mybatis.core.utils.JdbcUtils;
 import com.focela.platform.test.core.support.BaseDbUnitTest;
-import com.focela.platform.infra.controller.admin.database.dto.DataSourceConfigSaveRequest;
+import com.focela.platform.infra.controller.admin.database.request.DataSourceConfigSaveRequest;
 import com.focela.platform.infra.domain.entity.database.DataSourceConfigEntity;
 import com.focela.platform.infra.repository.mapper.database.DataSourceConfigMapper;
 import com.baomidou.dynamic.datasource.creator.DataSourceProperty;

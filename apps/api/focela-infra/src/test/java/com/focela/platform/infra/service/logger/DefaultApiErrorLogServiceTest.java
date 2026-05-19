@@ -4,7 +4,7 @@ import com.focela.platform.common.enums.UserTypeEnum;
 import com.focela.platform.common.model.PageResult;
 import com.focela.platform.test.core.support.BaseDbUnitTest;
 import com.focela.platform.common.api.infra.logger.dto.ApiErrorLogCreateRpcRequest;
-import com.focela.platform.infra.controller.admin.logger.dto.apierrorlog.ApiErrorLogPageRequest;
+import com.focela.platform.infra.controller.admin.logger.request.apierrorlog.ApiErrorLogPageRequest;
 import com.focela.platform.infra.domain.entity.logger.ApiErrorLogEntity;
 import com.focela.platform.infra.repository.mapper.logger.ApiErrorLogMapper;
 import com.focela.platform.infra.enums.logger.ApiErrorLogProcessStatusEnum;

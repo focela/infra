@@ -1,8 +1,8 @@
 package com.focela.platform.system.service.oauth2;
 
 import com.focela.platform.common.model.PageResult;
-import com.focela.platform.system.controller.admin.oauth2.dto.client.OAuth2ClientPageRequest;
-import com.focela.platform.system.controller.admin.oauth2.dto.client.OAuth2ClientSaveRequest;
+import com.focela.platform.system.controller.admin.oauth2.request.client.OAuth2ClientPageRequest;
+import com.focela.platform.system.controller.admin.oauth2.request.client.OAuth2ClientSaveRequest;
 import com.focela.platform.system.domain.entity.oauth2.OAuth2ClientEntity;
 import jakarta.validation.Valid;
 

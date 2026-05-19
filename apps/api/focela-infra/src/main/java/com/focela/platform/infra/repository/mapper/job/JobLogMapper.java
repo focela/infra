@@ -3,7 +3,7 @@ package com.focela.platform.infra.repository.mapper.job;
 import com.focela.platform.common.model.PageResult;
 import com.focela.platform.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.infra.controller.admin.job.dto.log.JobLogPageRequest;
+import com.focela.platform.infra.controller.admin.job.request.log.JobLogPageRequest;
 import com.focela.platform.infra.domain.entity.job.JobLogEntity;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;

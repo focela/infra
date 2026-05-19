@@ -2,9 +2,9 @@ package com.focela.platform.infra.controller.app.file;
 
 import cn.hutool.core.io.IoUtil;
 import com.focela.platform.common.model.CommonResult;
-import com.focela.platform.infra.controller.admin.file.dto.FileCreateRequest;
-import com.focela.platform.infra.controller.admin.file.dto.FilePresignedUrlResponse;
-import com.focela.platform.infra.controller.app.file.dto.AppFileUploadRequest;
+import com.focela.platform.infra.controller.admin.file.request.FileCreateRequest;
+import com.focela.platform.infra.controller.admin.file.response.FilePresignedUrlResponse;
+import com.focela.platform.infra.controller.app.file.request.AppFileUploadRequest;
 import com.focela.platform.infra.service.file.FileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

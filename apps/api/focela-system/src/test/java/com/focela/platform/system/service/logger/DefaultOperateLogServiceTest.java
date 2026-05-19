@@ -5,7 +5,7 @@ import com.focela.platform.test.core.support.BaseDbUnitTest;
 import com.focela.platform.test.core.utils.RandomUtils;
 import com.focela.platform.common.api.system.logger.dto.OperateLogCreateRpcRequest;
 import com.focela.platform.system.api.logger.dto.OperateLogPageRpcRequest;
-import com.focela.platform.system.controller.admin.logger.dto.operatelog.OperateLogPageRequest;
+import com.focela.platform.system.controller.admin.logger.request.operatelog.OperateLogPageRequest;
 import com.focela.platform.system.domain.entity.logger.OperateLogEntity;
 import com.focela.platform.system.repository.mapper.logger.OperateLogMapper;
 import jakarta.annotation.Resource;

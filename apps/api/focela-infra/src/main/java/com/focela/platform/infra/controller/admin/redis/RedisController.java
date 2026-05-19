@@ -1,7 +1,7 @@
 package com.focela.platform.infra.controller.admin.redis;
 
 import com.focela.platform.common.model.CommonResult;
-import com.focela.platform.infra.controller.admin.redis.dto.RedisMonitorResponse;
+import com.focela.platform.infra.controller.admin.redis.response.RedisMonitorResponse;
 import com.focela.platform.infra.converter.redis.RedisConverter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

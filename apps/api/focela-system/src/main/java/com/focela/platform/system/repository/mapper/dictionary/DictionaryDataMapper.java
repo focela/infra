@@ -3,7 +3,7 @@ package com.focela.platform.system.repository.mapper.dictionary;
 import com.focela.platform.common.model.PageResult;
 import com.focela.platform.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.system.controller.admin.dictionary.dto.data.DictionaryDataPageRequest;
+import com.focela.platform.system.controller.admin.dictionary.request.data.DictionaryDataPageRequest;
 import com.focela.platform.system.domain.entity.dictionary.DictionaryDataEntity;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.apache.ibatis.annotations.Mapper;

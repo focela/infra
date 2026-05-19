@@ -1,6 +1,6 @@
 package com.focela.platform.infra.converter.file;
 
-import com.focela.platform.infra.controller.admin.file.dto.config.FileConfigSaveRequest;
+import com.focela.platform.infra.controller.admin.file.request.config.FileConfigSaveRequest;
 import com.focela.platform.infra.domain.entity.file.FileConfigEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

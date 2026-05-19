@@ -2,7 +2,7 @@ package com.focela.platform.infra.service.logger;
 
 import com.focela.platform.common.api.infra.logger.dto.ApiErrorLogCreateRpcRequest;
 import com.focela.platform.common.model.PageResult;
-import com.focela.platform.infra.controller.admin.logger.dto.apierrorlog.ApiErrorLogPageRequest;
+import com.focela.platform.infra.controller.admin.logger.request.apierrorlog.ApiErrorLogPageRequest;
 import com.focela.platform.infra.domain.entity.logger.ApiErrorLogEntity;
 
 /**

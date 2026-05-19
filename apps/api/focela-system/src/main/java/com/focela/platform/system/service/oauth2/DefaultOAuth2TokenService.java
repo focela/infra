@@ -14,7 +14,7 @@ import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.security.core.LoginUser;
 import com.focela.platform.tenant.core.context.TenantContextHolder;
 import com.focela.platform.tenant.core.utils.TenantUtils;
-import com.focela.platform.system.controller.admin.oauth2.dto.token.OAuth2AccessTokenPageRequest;
+import com.focela.platform.system.controller.admin.oauth2.request.token.OAuth2AccessTokenPageRequest;
 import com.focela.platform.system.domain.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.system.domain.entity.oauth2.OAuth2ClientEntity;
 import com.focela.platform.system.domain.entity.oauth2.OAuth2RefreshTokenEntity;

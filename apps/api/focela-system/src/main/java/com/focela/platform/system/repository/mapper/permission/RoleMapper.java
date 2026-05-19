@@ -4,7 +4,7 @@ import com.focela.platform.common.model.PageResult;
 import com.focela.platform.mybatis.core.entity.BaseEntity;
 import com.focela.platform.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.system.controller.admin.permission.dto.role.RolePageRequest;
+import com.focela.platform.system.controller.admin.permission.request.role.RolePageRequest;
 import com.focela.platform.system.domain.entity.permission.RoleEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.lang.Nullable;

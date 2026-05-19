@@ -1,7 +1,7 @@
 package com.focela.platform.infra.converter.redis;
 
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.infra.controller.admin.redis.dto.RedisMonitorResponse;
+import com.focela.platform.infra.controller.admin.redis.response.RedisMonitorResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

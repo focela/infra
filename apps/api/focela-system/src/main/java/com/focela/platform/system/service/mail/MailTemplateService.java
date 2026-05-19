@@ -1,8 +1,8 @@
 package com.focela.platform.system.service.mail;
 
 import com.focela.platform.common.model.PageResult;
-import com.focela.platform.system.controller.admin.mail.dto.template.MailTemplatePageRequest;
-import com.focela.platform.system.controller.admin.mail.dto.template.MailTemplateSaveRequest;
+import com.focela.platform.system.controller.admin.mail.request.template.MailTemplatePageRequest;
+import com.focela.platform.system.controller.admin.mail.request.template.MailTemplateSaveRequest;
 import com.focela.platform.system.domain.entity.mail.MailTemplateEntity;
 import jakarta.validation.Valid;
 

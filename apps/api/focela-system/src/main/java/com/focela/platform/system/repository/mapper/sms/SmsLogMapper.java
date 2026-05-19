@@ -3,7 +3,7 @@ package com.focela.platform.system.repository.mapper.sms;
 import com.focela.platform.common.model.PageResult;
 import com.focela.platform.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.system.controller.admin.sms.dto.log.SmsLogPageRequest;
+import com.focela.platform.system.controller.admin.sms.request.log.SmsLogPageRequest;
 import com.focela.platform.system.domain.entity.sms.SmsLogEntity;
 import org.apache.ibatis.annotations.Mapper;
 

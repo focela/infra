@@ -1,9 +1,9 @@
 package com.focela.platform.infra.service.file;
 
 import com.focela.platform.common.model.PageResult;
-import com.focela.platform.infra.controller.admin.file.dto.FileCreateRequest;
-import com.focela.platform.infra.controller.admin.file.dto.FilePageRequest;
-import com.focela.platform.infra.controller.admin.file.dto.FilePresignedUrlResponse;
+import com.focela.platform.infra.controller.admin.file.request.FileCreateRequest;
+import com.focela.platform.infra.controller.admin.file.request.FilePageRequest;
+import com.focela.platform.infra.controller.admin.file.response.FilePresignedUrlResponse;
 import com.focela.platform.infra.domain.entity.file.FileEntity;
 import jakarta.validation.constraints.NotEmpty;
 

@@ -4,7 +4,7 @@ import com.focela.platform.common.exception.ServiceException;
 import com.focela.platform.common.model.PageResult;
 import com.focela.platform.system.api.social.dto.SocialUserBindRpcRequest;
 import com.focela.platform.system.api.social.dto.SocialUserRpcResponse;
-import com.focela.platform.system.controller.admin.social.dto.user.SocialUserPageRequest;
+import com.focela.platform.system.controller.admin.social.request.user.SocialUserPageRequest;
 import com.focela.platform.system.domain.entity.social.SocialUserEntity;
 import com.focela.platform.system.enums.social.SocialTypeEnum;
 

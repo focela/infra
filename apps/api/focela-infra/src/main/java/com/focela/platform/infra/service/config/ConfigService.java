@@ -1,8 +1,8 @@
 package com.focela.platform.infra.service.config;
 
 import com.focela.platform.common.model.PageResult;
-import com.focela.platform.infra.controller.admin.config.dto.ConfigPageRequest;
-import com.focela.platform.infra.controller.admin.config.dto.ConfigSaveRequest;
+import com.focela.platform.infra.controller.admin.config.request.ConfigPageRequest;
+import com.focela.platform.infra.controller.admin.config.request.ConfigSaveRequest;
 import com.focela.platform.infra.domain.entity.config.ConfigEntity;
 import jakarta.validation.Valid;
 

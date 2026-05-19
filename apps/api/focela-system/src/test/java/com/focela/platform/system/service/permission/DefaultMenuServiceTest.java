@@ -2,8 +2,8 @@ package com.focela.platform.system.service.permission;
 
 import com.focela.platform.common.enums.CommonStatusEnum;
 import com.focela.platform.test.core.support.BaseDbUnitTest;
-import com.focela.platform.system.controller.admin.permission.dto.menu.MenuListRequest;
-import com.focela.platform.system.controller.admin.permission.dto.menu.MenuSaveRequest;
+import com.focela.platform.system.controller.admin.permission.request.menu.MenuListRequest;
+import com.focela.platform.system.controller.admin.permission.request.menu.MenuSaveRequest;
 import com.focela.platform.system.domain.entity.permission.MenuEntity;
 import com.focela.platform.system.repository.mapper.permission.MenuMapper;
 import com.focela.platform.system.enums.permission.MenuTypeEnum;

@@ -2,7 +2,7 @@ package com.focela.platform.system.service.mail;
 
 import cn.hutool.core.collection.ListUtil;
 import com.focela.platform.common.model.PageResult;
-import com.focela.platform.system.controller.admin.mail.dto.log.MailLogPageRequest;
+import com.focela.platform.system.controller.admin.mail.request.log.MailLogPageRequest;
 import com.focela.platform.system.domain.entity.mail.MailAccountEntity;
 import com.focela.platform.system.domain.entity.mail.MailLogEntity;
 import com.focela.platform.system.domain.entity.mail.MailTemplateEntity;

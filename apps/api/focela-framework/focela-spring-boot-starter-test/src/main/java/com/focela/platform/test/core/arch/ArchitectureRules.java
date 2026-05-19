@@ -88,37 +88,43 @@ public final class ArchitectureRules {
                     .should().dependOnClassesThat().resideInAPackage("..repository..")
                     .as("Controllers must not call the repository layer directly; go through service/");
 
-    // Services and repositories may consume controller-tier DTOs (a deliberate MyBatis-Plus
-    // pattern: *PageRequest is passed straight into the Mapper for the WHERE clause). We
-    // forbid only dependencies on controller *production* classes (controllers themselves).
-    private static final com.tngtech.archunit.base.DescribedPredicate<JavaClass> IN_CONTROLLER_NOT_DTO =
-            resideInAPackage("..controller..").and(not(resideInAPackage("..controller..dto..")));
+    // Services and repositories may consume controller-tier request/response classes (a deliberate
+    // MyBatis-Plus pattern: *PageRequest is passed straight into the Mapper for the WHERE clause).
+    // We forbid only dependencies on controller *production* classes (controllers themselves).
+    private static final com.tngtech.archunit.base.DescribedPredicate<JavaClass> IN_CONTROLLER_NOT_PAYLOAD =
+            resideInAPackage("..controller..")
+                    .and(not(resideInAPackage("..controller..request..")))
+                    .and(not(resideInAPackage("..controller..response..")));
 
     public static final ArchRule SERVICE_DOES_NOT_USE_CONTROLLER =
             noClasses().that().resideInAPackage("..service..")
-                    .should().dependOnClassesThat(IN_CONTROLLER_NOT_DTO)
-                    .as("Services must not depend on controller production classes (DTOs excluded)");
+                    .should().dependOnClassesThat(IN_CONTROLLER_NOT_PAYLOAD)
+                    .as("Services must not depend on controller production classes (request/response excluded)");
 
     public static final ArchRule REPOSITORY_DOES_NOT_USE_CONTROLLER =
             noClasses().that().resideInAPackage("..repository..")
-                    .should().dependOnClassesThat(IN_CONTROLLER_NOT_DTO)
-                    .as("Repositories must not depend on controller production classes (DTOs excluded)");
+                    .should().dependOnClassesThat(IN_CONTROLLER_NOT_PAYLOAD)
+                    .as("Repositories must not depend on controller production classes (request/response excluded)");
 
     public static final ArchRule REPOSITORY_DOES_NOT_USE_SERVICE =
             noClasses().that().resideInAPackage("..repository..")
                     .should().dependOnClassesThat().resideInAPackage("..service..")
                     .as("Repositories must not depend on services");
 
-    // ---- Controller-tier DTO suffixes ----
+    // ---- Controller-tier payload suffixes ----
 
-    public static final ArchRule CONTROLLER_DTO_HAS_APPROVED_SUFFIX =
-            classes().that().resideInAPackage("..controller..dto..")
+    public static final ArchRule CONTROLLER_REQUEST_HAS_APPROVED_SUFFIX =
+            classes().that().resideInAPackage("..controller..request..")
                     .and().areTopLevelClasses()
                     .should().haveSimpleNameEndingWith("Request")
-                    .orShould().haveSimpleNameEndingWith("Response")
                     .orShould().haveSimpleNameEndingWith("ExcelRow")
-                    .as("Controller DTOs must end with Request / Response / ExcelRow"
-                            + " (covers *Request, *SaveRequest, *PageRequest, *Response)");
+                    .as("Classes under controller/.../request/ must end with Request or ExcelRow");
+
+    public static final ArchRule CONTROLLER_RESPONSE_HAS_APPROVED_SUFFIX =
+            classes().that().resideInAPackage("..controller..response..")
+                    .and().areTopLevelClasses()
+                    .should().haveSimpleNameEndingWith("Response")
+                    .as("Classes under controller/.../response/ must end with Response");
 
     // ---- Cross-module DTO suffixes (focela-common api/ DTOs) ----
 

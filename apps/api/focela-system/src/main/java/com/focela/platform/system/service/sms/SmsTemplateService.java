@@ -1,8 +1,8 @@
 package com.focela.platform.system.service.sms;
 
 import com.focela.platform.common.model.PageResult;
-import com.focela.platform.system.controller.admin.sms.dto.template.SmsTemplatePageRequest;
-import com.focela.platform.system.controller.admin.sms.dto.template.SmsTemplateSaveRequest;
+import com.focela.platform.system.controller.admin.sms.request.template.SmsTemplatePageRequest;
+import com.focela.platform.system.controller.admin.sms.request.template.SmsTemplateSaveRequest;
 import com.focela.platform.system.domain.entity.sms.SmsTemplateEntity;
 import jakarta.validation.Valid;
 

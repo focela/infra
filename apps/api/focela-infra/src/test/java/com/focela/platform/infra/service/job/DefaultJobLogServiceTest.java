@@ -2,7 +2,7 @@ package com.focela.platform.infra.service.job;
 
 import com.focela.platform.common.model.PageResult;
 import com.focela.platform.test.core.support.BaseDbUnitTest;
-import com.focela.platform.infra.controller.admin.job.dto.log.JobLogPageRequest;
+import com.focela.platform.infra.controller.admin.job.request.log.JobLogPageRequest;
 import com.focela.platform.infra.domain.entity.job.JobLogEntity;
 import com.focela.platform.infra.repository.mapper.job.JobLogMapper;
 import com.focela.platform.infra.enums.job.JobLogStatusEnum;

@@ -6,7 +6,7 @@ import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.common.utils.string.StrUtils;
 import com.focela.platform.tenant.core.context.TenantContextHolder;
 import com.focela.platform.tenant.core.utils.TenantUtils;
-import com.focela.platform.infra.controller.admin.logger.dto.apierrorlog.ApiErrorLogPageRequest;
+import com.focela.platform.infra.controller.admin.logger.request.apierrorlog.ApiErrorLogPageRequest;
 import com.focela.platform.infra.domain.entity.logger.ApiErrorLogEntity;
 import com.focela.platform.infra.repository.mapper.logger.ApiErrorLogMapper;
 import com.focela.platform.infra.enums.logger.ApiErrorLogProcessStatusEnum;

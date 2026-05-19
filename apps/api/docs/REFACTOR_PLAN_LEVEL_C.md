@@ -1,8 +1,8 @@
-# Refactor Plan — Mức C: Structural Refactor (RFC, chưa execute)
+# Refactor Plan — Mức C: Structural Refactor
 
-> Status: **PROPOSED** — chỉ là RFC, không thực hiện trong phase hiện tại
-> Audience: maintainers + senior reviewers
-> Decision required: Approve / Defer / Reject từng đề xuất
+> Status: **EXECUTED** (C1 + C2 hoàn tất trên `feature/SKF-1`)
+> Verification: `mvn clean test` BUILD SUCCESS toàn reactor
+> Original RFC retained below for context.
 
 ---
 

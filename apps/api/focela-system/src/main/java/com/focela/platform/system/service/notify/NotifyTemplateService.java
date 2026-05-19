@@ -1,8 +1,8 @@
 package com.focela.platform.system.service.notify;
 
 import com.focela.platform.common.model.PageResult;
-import com.focela.platform.system.controller.admin.notify.dto.template.NotifyTemplatePageRequest;
-import com.focela.platform.system.controller.admin.notify.dto.template.NotifyTemplateSaveRequest;
+import com.focela.platform.system.controller.admin.notify.request.template.NotifyTemplatePageRequest;
+import com.focela.platform.system.controller.admin.notify.request.template.NotifyTemplateSaveRequest;
 import com.focela.platform.system.domain.entity.notify.NotifyTemplateEntity;
 import jakarta.validation.Valid;
 

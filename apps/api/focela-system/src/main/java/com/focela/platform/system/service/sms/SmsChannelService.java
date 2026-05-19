@@ -1,8 +1,8 @@
 package com.focela.platform.system.service.sms;
 
 import com.focela.platform.common.model.PageResult;
-import com.focela.platform.system.controller.admin.sms.dto.channel.SmsChannelPageRequest;
-import com.focela.platform.system.controller.admin.sms.dto.channel.SmsChannelSaveRequest;
+import com.focela.platform.system.controller.admin.sms.request.channel.SmsChannelPageRequest;
+import com.focela.platform.system.controller.admin.sms.request.channel.SmsChannelSaveRequest;
 import com.focela.platform.system.domain.entity.sms.SmsChannelEntity;
 import com.focela.platform.system.config.sms.client.SmsClient;
 import jakarta.validation.Valid;

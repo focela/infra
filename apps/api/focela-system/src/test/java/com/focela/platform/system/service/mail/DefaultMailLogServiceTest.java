@@ -4,7 +4,7 @@ import cn.hutool.core.map.MapUtil;
 import com.focela.platform.common.enums.UserTypeEnum;
 import com.focela.platform.common.model.PageResult;
 import com.focela.platform.test.core.support.BaseDbUnitTest;
-import com.focela.platform.system.controller.admin.mail.dto.log.MailLogPageRequest;
+import com.focela.platform.system.controller.admin.mail.request.log.MailLogPageRequest;
 import com.focela.platform.system.domain.entity.mail.MailAccountEntity;
 import com.focela.platform.system.domain.entity.mail.MailLogEntity;
 import com.focela.platform.system.domain.entity.mail.MailTemplateEntity;

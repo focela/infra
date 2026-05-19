@@ -1,12 +1,12 @@
 package com.focela.platform.system.service.auth;
 
-import com.focela.platform.system.controller.admin.auth.dto.AuthLoginRequest;
-import com.focela.platform.system.controller.admin.auth.dto.AuthLoginResponse;
-import com.focela.platform.system.controller.admin.auth.dto.AuthRegisterRequest;
-import com.focela.platform.system.controller.admin.auth.dto.AuthResetPasswordRequest;
-import com.focela.platform.system.controller.admin.auth.dto.AuthSmsLoginRequest;
-import com.focela.platform.system.controller.admin.auth.dto.AuthSmsSendRequest;
-import com.focela.platform.system.controller.admin.auth.dto.AuthSocialLoginRequest;
+import com.focela.platform.system.controller.admin.auth.request.AuthLoginRequest;
+import com.focela.platform.system.controller.admin.auth.response.AuthLoginResponse;
+import com.focela.platform.system.controller.admin.auth.request.AuthRegisterRequest;
+import com.focela.platform.system.controller.admin.auth.request.AuthResetPasswordRequest;
+import com.focela.platform.system.controller.admin.auth.request.AuthSmsLoginRequest;
+import com.focela.platform.system.controller.admin.auth.request.AuthSmsSendRequest;
+import com.focela.platform.system.controller.admin.auth.request.AuthSocialLoginRequest;
 import com.focela.platform.system.domain.entity.user.UserEntity;
 
 import jakarta.validation.Valid;

@@ -1,8 +1,8 @@
 package com.focela.platform.system.service.dictionary;
 
 import com.focela.platform.common.model.PageResult;
-import com.focela.platform.system.controller.admin.dictionary.dto.data.DictionaryDataPageRequest;
-import com.focela.platform.system.controller.admin.dictionary.dto.data.DictionaryDataSaveRequest;
+import com.focela.platform.system.controller.admin.dictionary.request.data.DictionaryDataPageRequest;
+import com.focela.platform.system.controller.admin.dictionary.request.data.DictionaryDataSaveRequest;
 import com.focela.platform.system.domain.entity.dictionary.DictionaryDataEntity;
 import org.springframework.lang.Nullable;
 

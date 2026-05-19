@@ -1,8 +1,8 @@
 package com.focela.platform.system.service.department;
 
 import com.focela.platform.common.model.PageResult;
-import com.focela.platform.system.controller.admin.department.dto.post.PostPageRequest;
-import com.focela.platform.system.controller.admin.department.dto.post.PostSaveRequest;
+import com.focela.platform.system.controller.admin.department.request.post.PostPageRequest;
+import com.focela.platform.system.controller.admin.department.request.post.PostSaveRequest;
 import com.focela.platform.system.domain.entity.department.PostEntity;
 import org.springframework.lang.Nullable;
 

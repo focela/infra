@@ -7,7 +7,7 @@ import com.focela.platform.common.model.PageResult;
 import com.focela.platform.common.utils.date.DateUtils;
 import com.focela.platform.tenant.core.context.TenantContextHolder;
 import com.focela.platform.test.core.support.BaseDbAndRedisUnitTest;
-import com.focela.platform.system.controller.admin.oauth2.dto.token.OAuth2AccessTokenPageRequest;
+import com.focela.platform.system.controller.admin.oauth2.request.token.OAuth2AccessTokenPageRequest;
 import com.focela.platform.system.domain.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.system.domain.entity.oauth2.OAuth2ClientEntity;
 import com.focela.platform.system.domain.entity.oauth2.OAuth2RefreshTokenEntity;

@@ -69,8 +69,13 @@ class SystemArchitectureTest {
     }
 
     @Test
-    void controllerDtoSuffix() {
-        ArchitectureRules.CONTROLLER_DTO_HAS_APPROVED_SUFFIX.check(classes);
+    void controllerRequestSuffix() {
+        ArchitectureRules.CONTROLLER_REQUEST_HAS_APPROVED_SUFFIX.check(classes);
+    }
+
+    @Test
+    void controllerResponseSuffix() {
+        ArchitectureRules.CONTROLLER_RESPONSE_HAS_APPROVED_SUFFIX.check(classes);
     }
 
     @Test
