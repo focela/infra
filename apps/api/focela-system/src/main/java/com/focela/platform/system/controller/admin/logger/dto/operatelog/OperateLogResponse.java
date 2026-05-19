@@ -1,7 +1,7 @@
 package com.focela.platform.system.controller.admin.logger.dto.operatelog;
 
 import com.focela.platform.excel.core.annotations.DictionaryFormat;
-import com.focela.platform.system.entity.user.UserEntity;
+import com.focela.platform.system.domain.entity.user.UserEntity;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
 import com.focela.platform.system.constants.DictionaryTypeConstants;

@@ -3,7 +3,7 @@ package com.focela.platform.system.repository.mapper.oauth2;
 import com.focela.platform.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.mybatis.core.query.LambdaQueryWrapperX;
 import com.focela.platform.tenant.core.aop.TenantIgnore;
-import com.focela.platform.system.entity.oauth2.OAuth2RefreshTokenEntity;
+import com.focela.platform.system.domain.entity.oauth2.OAuth2RefreshTokenEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

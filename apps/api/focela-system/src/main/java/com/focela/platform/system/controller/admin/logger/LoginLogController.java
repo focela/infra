@@ -8,7 +8,7 @@ import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.excel.core.utils.ExcelUtils;
 import com.focela.platform.system.controller.admin.logger.dto.loginlog.LoginLogPageRequest;
 import com.focela.platform.system.controller.admin.logger.dto.loginlog.LoginLogResponse;
-import com.focela.platform.system.entity.logger.LoginLogEntity;
+import com.focela.platform.system.domain.entity.logger.LoginLogEntity;
 import com.focela.platform.system.service.logger.LoginLogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

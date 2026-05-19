@@ -10,7 +10,7 @@ import com.focela.platform.system.controller.admin.user.dto.UserImportExcelRow;
 import com.focela.platform.system.controller.admin.user.dto.UserImportResponse;
 import com.focela.platform.system.controller.admin.user.dto.UserPageRequest;
 import com.focela.platform.system.controller.admin.user.dto.UserSaveRequest;
-import com.focela.platform.system.entity.user.UserEntity;
+import com.focela.platform.system.domain.entity.user.UserEntity;
 import jakarta.validation.Valid;
 
 import java.util.Collection;

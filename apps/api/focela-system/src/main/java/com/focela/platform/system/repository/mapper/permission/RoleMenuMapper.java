@@ -1,7 +1,7 @@
 package com.focela.platform.system.repository.mapper.permission;
 
 import com.focela.platform.mybatis.core.mapper.BaseMapperX;
-import com.focela.platform.system.entity.permission.RoleMenuEntity;
+import com.focela.platform.system.domain.entity.permission.RoleMenuEntity;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.apache.ibatis.annotations.Mapper;
 

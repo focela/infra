@@ -10,7 +10,7 @@ import com.focela.platform.quartz.core.utils.CronUtils;
 import com.focela.platform.infra.controller.admin.job.dto.JobPageRequest;
 import com.focela.platform.infra.controller.admin.job.dto.JobResponse;
 import com.focela.platform.infra.controller.admin.job.dto.JobSaveRequest;
-import com.focela.platform.infra.entity.job.JobEntity;
+import com.focela.platform.infra.domain.entity.job.JobEntity;
 import com.focela.platform.infra.service.job.JobService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

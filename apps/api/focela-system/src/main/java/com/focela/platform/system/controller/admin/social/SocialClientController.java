@@ -6,7 +6,7 @@ import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.system.controller.admin.social.dto.client.SocialClientPageRequest;
 import com.focela.platform.system.controller.admin.social.dto.client.SocialClientResponse;
 import com.focela.platform.system.controller.admin.social.dto.client.SocialClientSaveRequest;
-import com.focela.platform.system.entity.social.SocialClientEntity;
+import com.focela.platform.system.domain.entity.social.SocialClientEntity;
 import com.focela.platform.system.service.social.SocialClientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

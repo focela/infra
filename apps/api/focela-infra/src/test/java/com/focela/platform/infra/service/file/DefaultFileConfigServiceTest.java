@@ -7,7 +7,7 @@ import com.focela.platform.common.model.PageResult;
 import com.focela.platform.test.core.support.BaseDbUnitTest;
 import com.focela.platform.infra.controller.admin.file.dto.config.FileConfigPageRequest;
 import com.focela.platform.infra.controller.admin.file.dto.config.FileConfigSaveRequest;
-import com.focela.platform.infra.entity.file.FileConfigEntity;
+import com.focela.platform.infra.domain.entity.file.FileConfigEntity;
 import com.focela.platform.infra.repository.mapper.file.FileConfigMapper;
 import com.focela.platform.infra.config.file.client.FileClient;
 import com.focela.platform.infra.config.file.client.FileClientConfig;

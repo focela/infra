@@ -24,7 +24,7 @@ public class OperateLogRpcResponse implements VO {
     /**
      * User ID
      */
-    @Trans(type = TransType.SIMPLE, targetClassName = "com.focela.platform.system.entity.user.UserEntity",
+    @Trans(type = TransType.SIMPLE, targetClassName = "com.focela.platform.system.domain.entity.user.UserEntity",
             fields = "nickname", ref = "userName")
     private Long userId;
     /**

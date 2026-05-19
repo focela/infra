@@ -2,7 +2,7 @@ package com.focela.platform.system.service.notify;
 
 import com.focela.platform.common.enums.CommonStatusEnum;
 import com.focela.platform.common.enums.UserTypeEnum;
-import com.focela.platform.system.entity.notify.NotifyTemplateEntity;
+import com.focela.platform.system.domain.entity.notify.NotifyTemplateEntity;
 import com.google.common.annotations.VisibleForTesting;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

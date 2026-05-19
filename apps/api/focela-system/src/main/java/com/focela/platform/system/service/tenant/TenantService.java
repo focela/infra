@@ -4,7 +4,7 @@ import com.focela.platform.common.model.PageResult;
 import com.focela.platform.tenant.core.context.TenantContextHolder;
 import com.focela.platform.system.controller.admin.tenant.dto.TenantPageRequest;
 import com.focela.platform.system.controller.admin.tenant.dto.TenantSaveRequest;
-import com.focela.platform.system.entity.tenant.TenantEntity;
+import com.focela.platform.system.domain.entity.tenant.TenantEntity;
 import com.focela.platform.system.service.tenant.handler.TenantInfoHandler;
 import com.focela.platform.system.service.tenant.handler.TenantMenuHandler;
 import jakarta.validation.Valid;

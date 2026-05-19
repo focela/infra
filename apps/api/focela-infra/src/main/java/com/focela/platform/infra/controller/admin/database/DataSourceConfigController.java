@@ -4,7 +4,7 @@ import com.focela.platform.common.model.CommonResult;
 import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.infra.controller.admin.database.dto.DataSourceConfigResponse;
 import com.focela.platform.infra.controller.admin.database.dto.DataSourceConfigSaveRequest;
-import com.focela.platform.infra.entity.database.DataSourceConfigEntity;
+import com.focela.platform.infra.domain.entity.database.DataSourceConfigEntity;
 import com.focela.platform.infra.service.database.DataSourceConfigService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

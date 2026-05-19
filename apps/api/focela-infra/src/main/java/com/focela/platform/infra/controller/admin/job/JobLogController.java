@@ -8,7 +8,7 @@ import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.excel.core.utils.ExcelUtils;
 import com.focela.platform.infra.controller.admin.job.dto.log.JobLogPageRequest;
 import com.focela.platform.infra.controller.admin.job.dto.log.JobLogResponse;
-import com.focela.platform.infra.entity.job.JobLogEntity;
+import com.focela.platform.infra.domain.entity.job.JobLogEntity;
 import com.focela.platform.infra.service.job.JobLogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

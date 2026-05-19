@@ -8,7 +8,7 @@ import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.excel.core.utils.ExcelUtils;
 import com.focela.platform.infra.controller.admin.logger.dto.apierrorlog.ApiErrorLogPageRequest;
 import com.focela.platform.infra.controller.admin.logger.dto.apierrorlog.ApiErrorLogResponse;
-import com.focela.platform.infra.entity.logger.ApiErrorLogEntity;
+import com.focela.platform.infra.domain.entity.logger.ApiErrorLogEntity;
 import com.focela.platform.infra.service.logger.ApiErrorLogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

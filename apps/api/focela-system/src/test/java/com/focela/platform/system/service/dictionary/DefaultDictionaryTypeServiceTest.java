@@ -6,7 +6,7 @@ import com.focela.platform.common.utils.collection.ArrayUtils;
 import com.focela.platform.test.core.support.BaseDbUnitTest;
 import com.focela.platform.system.controller.admin.dictionary.dto.type.DictionaryTypePageRequest;
 import com.focela.platform.system.controller.admin.dictionary.dto.type.DictionaryTypeSaveRequest;
-import com.focela.platform.system.entity.dictionary.DictionaryTypeEntity;
+import com.focela.platform.system.domain.entity.dictionary.DictionaryTypeEntity;
 import com.focela.platform.system.repository.mapper.dictionary.DictionaryTypeMapper;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;

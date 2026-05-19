@@ -4,7 +4,7 @@ import com.focela.platform.common.model.PageResult;
 import com.focela.platform.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.mybatis.core.query.LambdaQueryWrapperX;
 import com.focela.platform.system.controller.admin.mail.dto.template.MailTemplatePageRequest;
-import com.focela.platform.system.entity.mail.MailTemplateEntity;
+import com.focela.platform.system.domain.entity.mail.MailTemplateEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

@@ -1,6 +1,6 @@
 package com.focela.platform.system.service.tenant.handler;
 
-import com.focela.platform.system.entity.tenant.TenantEntity;
+import com.focela.platform.system.domain.entity.tenant.TenantEntity;
 
 /**
  * Tenant info handler.

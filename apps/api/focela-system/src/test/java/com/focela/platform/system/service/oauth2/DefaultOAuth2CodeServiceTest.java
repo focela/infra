@@ -4,7 +4,7 @@ import cn.hutool.core.util.RandomUtil;
 import com.focela.platform.common.enums.UserTypeEnum;
 import com.focela.platform.common.utils.date.DateUtils;
 import com.focela.platform.test.core.support.BaseDbUnitTest;
-import com.focela.platform.system.entity.oauth2.OAuth2CodeEntity;
+import com.focela.platform.system.domain.entity.oauth2.OAuth2CodeEntity;
 import com.focela.platform.system.repository.mapper.oauth2.OAuth2CodeMapper;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;

@@ -4,7 +4,7 @@ import com.focela.platform.common.model.PageResult;
 import com.focela.platform.infra.controller.admin.file.dto.FileCreateRequest;
 import com.focela.platform.infra.controller.admin.file.dto.FilePageRequest;
 import com.focela.platform.infra.controller.admin.file.dto.FilePresignedUrlResponse;
-import com.focela.platform.infra.entity.file.FileEntity;
+import com.focela.platform.infra.domain.entity.file.FileEntity;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;

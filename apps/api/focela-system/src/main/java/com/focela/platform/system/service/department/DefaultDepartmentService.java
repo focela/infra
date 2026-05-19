@@ -7,7 +7,7 @@ import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.datapermission.core.annotation.DataPermission;
 import com.focela.platform.system.controller.admin.department.dto.dept.DepartmentListRequest;
 import com.focela.platform.system.controller.admin.department.dto.dept.DepartmentSaveRequest;
-import com.focela.platform.system.entity.department.DepartmentEntity;
+import com.focela.platform.system.domain.entity.department.DepartmentEntity;
 import com.focela.platform.system.repository.mapper.department.DepartmentMapper;
 import com.focela.platform.system.constants.RedisKeyConstants;
 import com.google.common.annotations.VisibleForTesting;

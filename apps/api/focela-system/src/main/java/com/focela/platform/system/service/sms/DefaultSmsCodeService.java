@@ -6,7 +6,7 @@ import cn.hutool.core.map.MapUtil;
 import com.focela.platform.system.api.sms.dto.code.SmsCodeSendRpcRequest;
 import com.focela.platform.system.api.sms.dto.code.SmsCodeUseRpcRequest;
 import com.focela.platform.system.api.sms.dto.code.SmsCodeValidateRpcRequest;
-import com.focela.platform.system.entity.sms.SmsCodeEntity;
+import com.focela.platform.system.domain.entity.sms.SmsCodeEntity;
 import com.focela.platform.system.repository.mapper.sms.SmsCodeMapper;
 import com.focela.platform.system.enums.sms.SmsSceneEnum;
 import com.focela.platform.system.config.sms.SmsCodeProperties;

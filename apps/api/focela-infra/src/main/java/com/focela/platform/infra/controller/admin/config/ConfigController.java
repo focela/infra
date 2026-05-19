@@ -9,7 +9,7 @@ import com.focela.platform.infra.controller.admin.config.dto.ConfigPageRequest;
 import com.focela.platform.infra.controller.admin.config.dto.ConfigResponse;
 import com.focela.platform.infra.controller.admin.config.dto.ConfigSaveRequest;
 import com.focela.platform.infra.converter.config.ConfigConverter;
-import com.focela.platform.infra.entity.config.ConfigEntity;
+import com.focela.platform.infra.domain.entity.config.ConfigEntity;
 import com.focela.platform.infra.constants.InfraErrorCodeConstants;
 import com.focela.platform.infra.service.config.ConfigService;
 import io.swagger.v3.oas.annotations.Operation;

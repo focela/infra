@@ -6,7 +6,7 @@ import com.focela.platform.common.model.PageResult;
 import com.focela.platform.test.core.support.BaseDbUnitTest;
 import com.focela.platform.system.controller.admin.permission.dto.role.RolePageRequest;
 import com.focela.platform.system.controller.admin.permission.dto.role.RoleSaveRequest;
-import com.focela.platform.system.entity.permission.RoleEntity;
+import com.focela.platform.system.domain.entity.permission.RoleEntity;
 import com.focela.platform.system.repository.mapper.permission.RoleMapper;
 import com.focela.platform.system.enums.permission.DataScopeEnum;
 import com.focela.platform.system.enums.permission.RoleTypeEnum;

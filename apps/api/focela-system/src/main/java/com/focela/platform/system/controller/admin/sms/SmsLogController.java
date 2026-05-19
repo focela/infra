@@ -8,7 +8,7 @@ import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.excel.core.utils.ExcelUtils;
 import com.focela.platform.system.controller.admin.sms.dto.log.SmsLogPageRequest;
 import com.focela.platform.system.controller.admin.sms.dto.log.SmsLogResponse;
-import com.focela.platform.system.entity.sms.SmsLogEntity;
+import com.focela.platform.system.domain.entity.sms.SmsLogEntity;
 import com.focela.platform.system.service.sms.SmsLogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

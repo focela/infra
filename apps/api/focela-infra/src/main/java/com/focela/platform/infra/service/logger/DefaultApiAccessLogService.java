@@ -7,7 +7,7 @@ import com.focela.platform.common.utils.string.StrUtils;
 import com.focela.platform.tenant.core.context.TenantContextHolder;
 import com.focela.platform.tenant.core.utils.TenantUtils;
 import com.focela.platform.infra.controller.admin.logger.dto.apiaccesslog.ApiAccessLogPageRequest;
-import com.focela.platform.infra.entity.logger.ApiAccessLogEntity;
+import com.focela.platform.infra.domain.entity.logger.ApiAccessLogEntity;
 import com.focela.platform.infra.repository.mapper.logger.ApiAccessLogMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +16,8 @@ import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
 
-import static com.focela.platform.infra.entity.logger.ApiAccessLogEntity.REQUEST_PARAMS_MAX_LENGTH;
-import static com.focela.platform.infra.entity.logger.ApiAccessLogEntity.RESULT_MSG_MAX_LENGTH;
+import static com.focela.platform.infra.domain.entity.logger.ApiAccessLogEntity.REQUEST_PARAMS_MAX_LENGTH;
+import static com.focela.platform.infra.domain.entity.logger.ApiAccessLogEntity.RESULT_MSG_MAX_LENGTH;
 
 /**
  * Implementation class of the API access log Service

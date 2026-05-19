@@ -5,7 +5,7 @@ import com.focela.platform.common.model.PageResult;
 import com.focela.platform.test.core.support.BaseDbUnitTest;
 import com.focela.platform.system.controller.admin.notify.dto.template.NotifyTemplatePageRequest;
 import com.focela.platform.system.controller.admin.notify.dto.template.NotifyTemplateSaveRequest;
-import com.focela.platform.system.entity.notify.NotifyTemplateEntity;
+import com.focela.platform.system.domain.entity.notify.NotifyTemplateEntity;
 import com.focela.platform.system.repository.mapper.notify.NotifyTemplateMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;

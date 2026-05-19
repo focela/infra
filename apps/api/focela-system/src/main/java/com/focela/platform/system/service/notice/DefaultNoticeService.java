@@ -4,7 +4,7 @@ import com.focela.platform.common.model.PageResult;
 import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.system.controller.admin.notice.dto.NoticePageRequest;
 import com.focela.platform.system.controller.admin.notice.dto.NoticeSaveRequest;
-import com.focela.platform.system.entity.notice.NoticeEntity;
+import com.focela.platform.system.domain.entity.notice.NoticeEntity;
 import com.focela.platform.system.repository.mapper.notice.NoticeMapper;
 import com.google.common.annotations.VisibleForTesting;
 import org.springframework.stereotype.Service;

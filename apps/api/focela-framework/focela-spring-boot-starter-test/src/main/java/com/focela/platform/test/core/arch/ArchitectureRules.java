@@ -46,8 +46,8 @@ public final class ArchitectureRules {
 
     public static final ArchRule ENTITY_RESIDES_IN_ENTITY_PACKAGE =
             classes().that().haveSimpleNameEndingWith("Entity")
-                    .should().resideInAPackage("..entity..")
-                    .as("MyBatis entities (*Entity) must live under the entity/ package");
+                    .should().resideInAPackage("..domain.entity..")
+                    .as("MyBatis entities (*Entity) must live under the domain/entity/ package");
 
     public static final ArchRule MAPPER_RESIDES_IN_REPOSITORY_MAPPER_PACKAGE =
             classes().that().haveSimpleNameEndingWith("Mapper")

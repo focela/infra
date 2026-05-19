@@ -3,7 +3,7 @@ package com.focela.platform.system.service.permission;
 import com.focela.platform.common.model.PageResult;
 import com.focela.platform.system.controller.admin.permission.dto.role.RolePageRequest;
 import com.focela.platform.system.controller.admin.permission.dto.role.RoleSaveRequest;
-import com.focela.platform.system.entity.permission.RoleEntity;
+import com.focela.platform.system.domain.entity.permission.RoleEntity;
 import jakarta.validation.Valid;
 
 import java.util.Collection;

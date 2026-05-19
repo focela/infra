@@ -10,7 +10,7 @@ import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.common.utils.string.StrUtils;
 import com.focela.platform.system.controller.admin.oauth2.dto.client.OAuth2ClientPageRequest;
 import com.focela.platform.system.controller.admin.oauth2.dto.client.OAuth2ClientSaveRequest;
-import com.focela.platform.system.entity.oauth2.OAuth2ClientEntity;
+import com.focela.platform.system.domain.entity.oauth2.OAuth2ClientEntity;
 import com.focela.platform.system.repository.mapper.oauth2.OAuth2ClientMapper;
 import com.focela.platform.system.constants.RedisKeyConstants;
 import com.google.common.annotations.VisibleForTesting;

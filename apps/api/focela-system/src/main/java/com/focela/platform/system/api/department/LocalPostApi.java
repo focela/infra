@@ -2,7 +2,7 @@ package com.focela.platform.system.api.department;
 
 import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.system.api.department.dto.PostRpcResponse;
-import com.focela.platform.system.entity.department.PostEntity;
+import com.focela.platform.system.domain.entity.department.PostEntity;
 import com.focela.platform.system.service.department.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

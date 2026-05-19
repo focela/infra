@@ -6,7 +6,7 @@ import com.focela.platform.common.exception.enums.GlobalErrorCodeConstants;
 import com.focela.platform.common.model.PageResult;
 import com.focela.platform.test.core.support.BaseDbUnitTest;
 import com.focela.platform.infra.controller.admin.logger.dto.apiaccesslog.ApiAccessLogPageRequest;
-import com.focela.platform.infra.entity.logger.ApiAccessLogEntity;
+import com.focela.platform.infra.domain.entity.logger.ApiAccessLogEntity;
 import com.focela.platform.infra.repository.mapper.logger.ApiAccessLogMapper;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;

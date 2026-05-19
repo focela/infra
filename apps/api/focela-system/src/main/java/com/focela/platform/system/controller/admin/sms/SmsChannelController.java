@@ -7,7 +7,7 @@ import com.focela.platform.system.controller.admin.sms.dto.channel.SmsChannelPag
 import com.focela.platform.system.controller.admin.sms.dto.channel.SmsChannelResponse;
 import com.focela.platform.system.controller.admin.sms.dto.channel.SmsChannelSaveRequest;
 import com.focela.platform.system.controller.admin.sms.dto.channel.SmsChannelSimpleResponse;
-import com.focela.platform.system.entity.sms.SmsChannelEntity;
+import com.focela.platform.system.domain.entity.sms.SmsChannelEntity;
 import com.focela.platform.system.service.sms.SmsChannelService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

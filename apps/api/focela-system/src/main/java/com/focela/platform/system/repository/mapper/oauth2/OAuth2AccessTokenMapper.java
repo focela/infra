@@ -5,7 +5,7 @@ import com.focela.platform.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.mybatis.core.query.LambdaQueryWrapperX;
 import com.focela.platform.tenant.core.aop.TenantIgnore;
 import com.focela.platform.system.controller.admin.oauth2.dto.token.OAuth2AccessTokenPageRequest;
-import com.focela.platform.system.entity.oauth2.OAuth2AccessTokenEntity;
+import com.focela.platform.system.domain.entity.oauth2.OAuth2AccessTokenEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.time.LocalDateTime;

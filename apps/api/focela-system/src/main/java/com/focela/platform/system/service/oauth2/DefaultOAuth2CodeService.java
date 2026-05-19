@@ -2,7 +2,7 @@ package com.focela.platform.system.service.oauth2;
 
 import cn.hutool.core.util.IdUtil;
 import com.focela.platform.common.utils.date.DateUtils;
-import com.focela.platform.system.entity.oauth2.OAuth2CodeEntity;
+import com.focela.platform.system.domain.entity.oauth2.OAuth2CodeEntity;
 import com.focela.platform.system.repository.mapper.oauth2.OAuth2CodeMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;

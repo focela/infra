@@ -4,7 +4,7 @@ import com.focela.platform.common.model.PageResult;
 import com.focela.platform.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.mybatis.core.query.LambdaQueryWrapperX;
 import com.focela.platform.infra.controller.admin.job.dto.JobPageRequest;
-import com.focela.platform.infra.entity.job.JobEntity;
+import com.focela.platform.infra.domain.entity.job.JobEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

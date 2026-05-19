@@ -4,7 +4,7 @@ import com.focela.platform.common.model.PageResult;
 import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.system.controller.admin.mail.dto.account.MailAccountPageRequest;
 import com.focela.platform.system.controller.admin.mail.dto.account.MailAccountSaveRequest;
-import com.focela.platform.system.entity.mail.MailAccountEntity;
+import com.focela.platform.system.domain.entity.mail.MailAccountEntity;
 import com.focela.platform.system.repository.mapper.mail.MailAccountMapper;
 import com.focela.platform.system.constants.RedisKeyConstants;
 import lombok.RequiredArgsConstructor;

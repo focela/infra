@@ -7,7 +7,7 @@ import com.focela.platform.system.controller.admin.auth.dto.AuthResetPasswordReq
 import com.focela.platform.system.controller.admin.auth.dto.AuthSmsLoginRequest;
 import com.focela.platform.system.controller.admin.auth.dto.AuthSmsSendRequest;
 import com.focela.platform.system.controller.admin.auth.dto.AuthSocialLoginRequest;
-import com.focela.platform.system.entity.user.UserEntity;
+import com.focela.platform.system.domain.entity.user.UserEntity;
 
 import jakarta.validation.Valid;
 

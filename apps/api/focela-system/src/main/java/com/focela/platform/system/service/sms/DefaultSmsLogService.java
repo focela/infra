@@ -2,8 +2,8 @@ package com.focela.platform.system.service.sms;
 
 import com.focela.platform.common.model.PageResult;
 import com.focela.platform.system.controller.admin.sms.dto.log.SmsLogPageRequest;
-import com.focela.platform.system.entity.sms.SmsLogEntity;
-import com.focela.platform.system.entity.sms.SmsTemplateEntity;
+import com.focela.platform.system.domain.entity.sms.SmsLogEntity;
+import com.focela.platform.system.domain.entity.sms.SmsTemplateEntity;
 import com.focela.platform.system.repository.mapper.sms.SmsLogMapper;
 import com.focela.platform.system.enums.sms.SmsReceiveStatusEnum;
 import com.focela.platform.system.enums.sms.SmsSendStatusEnum;

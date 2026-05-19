@@ -12,7 +12,7 @@ import com.focela.platform.system.controller.admin.social.dto.client.SocialClien
 import com.focela.platform.system.controller.admin.social.dto.client.SocialClientSaveRequest;
 import com.focela.platform.system.enums.social.SocialTypeEnum;
 import com.focela.platform.system.config.justauth.AuthRequestFactory;
-import com.focela.platform.system.entity.social.SocialClientEntity;
+import com.focela.platform.system.domain.entity.social.SocialClientEntity;
 import com.focela.platform.system.repository.mapper.social.SocialClientMapper;
 import com.google.common.annotations.VisibleForTesting;
 import jakarta.annotation.Resource;

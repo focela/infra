@@ -4,7 +4,7 @@ import cn.hutool.core.map.MapUtil;
 import com.focela.platform.common.enums.CommonStatusEnum;
 import com.focela.platform.common.enums.UserTypeEnum;
 import com.focela.platform.test.core.support.BaseMockitoUnitTest;
-import com.focela.platform.system.entity.notify.NotifyTemplateEntity;
+import com.focela.platform.system.domain.entity.notify.NotifyTemplateEntity;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

@@ -1,6 +1,6 @@
 package com.focela.platform.system.constants;
 
-import com.focela.platform.system.entity.oauth2.OAuth2AccessTokenEntity;
+import com.focela.platform.system.domain.entity.oauth2.OAuth2AccessTokenEntity;
 
 /**
  * System Redis Key enum

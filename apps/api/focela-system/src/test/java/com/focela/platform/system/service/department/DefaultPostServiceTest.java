@@ -6,7 +6,7 @@ import com.focela.platform.common.utils.collection.ArrayUtils;
 import com.focela.platform.test.core.support.BaseDbUnitTest;
 import com.focela.platform.system.controller.admin.department.dto.post.PostPageRequest;
 import com.focela.platform.system.controller.admin.department.dto.post.PostSaveRequest;
-import com.focela.platform.system.entity.department.PostEntity;
+import com.focela.platform.system.domain.entity.department.PostEntity;
 import com.focela.platform.system.repository.mapper.department.PostMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;

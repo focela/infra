@@ -7,10 +7,10 @@ import com.focela.platform.system.controller.admin.user.dto.profile.UserProfileR
 import com.focela.platform.system.controller.admin.user.dto.profile.UserProfileUpdatePasswordRequest;
 import com.focela.platform.system.controller.admin.user.dto.profile.UserProfileUpdateRequest;
 import com.focela.platform.system.converter.user.UserConverter;
-import com.focela.platform.system.entity.department.DepartmentEntity;
-import com.focela.platform.system.entity.department.PostEntity;
-import com.focela.platform.system.entity.permission.RoleEntity;
-import com.focela.platform.system.entity.user.UserEntity;
+import com.focela.platform.system.domain.entity.department.DepartmentEntity;
+import com.focela.platform.system.domain.entity.department.PostEntity;
+import com.focela.platform.system.domain.entity.permission.RoleEntity;
+import com.focela.platform.system.domain.entity.user.UserEntity;
 import com.focela.platform.system.service.department.DepartmentService;
 import com.focela.platform.system.service.department.PostService;
 import com.focela.platform.system.service.permission.PermissionService;

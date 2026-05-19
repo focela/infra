@@ -12,9 +12,9 @@ import com.focela.platform.system.controller.admin.oauth2.dto.open.OAuth2OpenAcc
 import com.focela.platform.system.controller.admin.oauth2.dto.open.OAuth2OpenAuthorizeInfoResponse;
 import com.focela.platform.system.controller.admin.oauth2.dto.open.OAuth2OpenCheckTokenResponse;
 import com.focela.platform.system.converter.oauth2.OAuth2OpenConverter;
-import com.focela.platform.system.entity.oauth2.OAuth2AccessTokenEntity;
-import com.focela.platform.system.entity.oauth2.OAuth2ApproveEntity;
-import com.focela.platform.system.entity.oauth2.OAuth2ClientEntity;
+import com.focela.platform.system.domain.entity.oauth2.OAuth2AccessTokenEntity;
+import com.focela.platform.system.domain.entity.oauth2.OAuth2ApproveEntity;
+import com.focela.platform.system.domain.entity.oauth2.OAuth2ClientEntity;
 import com.focela.platform.system.enums.oauth2.OAuth2GrantTypeEnum;
 import com.focela.platform.system.service.oauth2.OAuth2ApproveService;
 import com.focela.platform.system.service.oauth2.OAuth2ClientService;

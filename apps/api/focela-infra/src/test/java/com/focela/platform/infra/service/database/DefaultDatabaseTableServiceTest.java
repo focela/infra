@@ -1,7 +1,7 @@
 package com.focela.platform.infra.service.database;
 
 import com.focela.platform.test.core.support.BaseDbUnitTest;
-import com.focela.platform.infra.entity.database.DataSourceConfigEntity;
+import com.focela.platform.infra.domain.entity.database.DataSourceConfigEntity;
 import com.baomidou.mybatisplus.generator.config.po.TableField;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;

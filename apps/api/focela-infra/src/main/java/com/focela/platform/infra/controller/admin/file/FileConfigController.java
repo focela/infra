@@ -6,7 +6,7 @@ import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.infra.controller.admin.file.dto.config.FileConfigPageRequest;
 import com.focela.platform.infra.controller.admin.file.dto.config.FileConfigResponse;
 import com.focela.platform.infra.controller.admin.file.dto.config.FileConfigSaveRequest;
-import com.focela.platform.infra.entity.file.FileConfigEntity;
+import com.focela.platform.infra.domain.entity.file.FileConfigEntity;
 import com.focela.platform.infra.service.file.FileConfigService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

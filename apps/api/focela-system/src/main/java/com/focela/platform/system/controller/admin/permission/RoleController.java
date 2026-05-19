@@ -10,7 +10,7 @@ import com.focela.platform.excel.core.utils.ExcelUtils;
 import com.focela.platform.system.controller.admin.permission.dto.role.RolePageRequest;
 import com.focela.platform.system.controller.admin.permission.dto.role.RoleResponse;
 import com.focela.platform.system.controller.admin.permission.dto.role.RoleSaveRequest;
-import com.focela.platform.system.entity.permission.RoleEntity;
+import com.focela.platform.system.domain.entity.permission.RoleEntity;
 import com.focela.platform.system.service.permission.RoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

@@ -10,9 +10,9 @@ import com.focela.platform.system.controller.admin.auth.dto.AuthPermissionInfoRe
 import com.focela.platform.system.controller.admin.auth.dto.AuthSmsLoginRequest;
 import com.focela.platform.system.controller.admin.auth.dto.AuthSmsSendRequest;
 import com.focela.platform.system.controller.admin.auth.dto.AuthSocialLoginRequest;
-import com.focela.platform.system.entity.permission.MenuEntity;
-import com.focela.platform.system.entity.permission.RoleEntity;
-import com.focela.platform.system.entity.user.UserEntity;
+import com.focela.platform.system.domain.entity.permission.MenuEntity;
+import com.focela.platform.system.domain.entity.permission.RoleEntity;
+import com.focela.platform.system.domain.entity.user.UserEntity;
 import com.focela.platform.system.enums.permission.MenuTypeEnum;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -27,7 +27,7 @@ import java.util.Map;
 
 import static com.focela.platform.common.utils.collection.CollectionUtils.convertSet;
 import static com.focela.platform.common.utils.collection.CollectionUtils.filterList;
-import static com.focela.platform.system.entity.permission.MenuEntity.ID_ROOT;
+import static com.focela.platform.system.domain.entity.permission.MenuEntity.ID_ROOT;
 
 @Mapper
 public interface AuthConverter {

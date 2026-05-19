@@ -12,7 +12,7 @@ import com.focela.platform.infra.controller.admin.file.dto.FilePageRequest;
 import com.focela.platform.infra.controller.admin.file.dto.FilePresignedUrlResponse;
 import com.focela.platform.infra.controller.admin.file.dto.FileResponse;
 import com.focela.platform.infra.controller.admin.file.dto.FileUploadRequest;
-import com.focela.platform.infra.entity.file.FileEntity;
+import com.focela.platform.infra.domain.entity.file.FileEntity;
 import com.focela.platform.infra.service.file.FileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

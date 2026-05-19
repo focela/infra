@@ -2,7 +2,7 @@ package com.focela.platform.system.api.dictionary;
 
 import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.common.api.system.dictionary.dto.DictionaryDataRpcResponse;
-import com.focela.platform.system.entity.dictionary.DictionaryDataEntity;
+import com.focela.platform.system.domain.entity.dictionary.DictionaryDataEntity;
 import com.focela.platform.system.service.dictionary.DictionaryDataService;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;

@@ -4,7 +4,7 @@ import com.focela.platform.common.model.PageResult;
 import com.focela.platform.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.mybatis.core.query.LambdaQueryWrapperX;
 import com.focela.platform.system.controller.admin.social.dto.user.SocialUserPageRequest;
-import com.focela.platform.system.entity.social.SocialUserEntity;
+import com.focela.platform.system.domain.entity.social.SocialUserEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

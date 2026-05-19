@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.focela.platform.mybatis.core.utils.JdbcUtils;
-import com.focela.platform.infra.entity.database.DataSourceConfigEntity;
+import com.focela.platform.infra.domain.entity.database.DataSourceConfigEntity;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.baomidou.mybatisplus.generator.config.GlobalConfig;
 import com.baomidou.mybatisplus.generator.config.StrategyConfig;

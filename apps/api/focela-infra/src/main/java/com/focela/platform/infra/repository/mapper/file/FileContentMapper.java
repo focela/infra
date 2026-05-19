@@ -1,6 +1,6 @@
 package com.focela.platform.infra.repository.mapper.file;
 
-import com.focela.platform.infra.entity.file.FileContentEntity;
+import com.focela.platform.infra.domain.entity.file.FileContentEntity;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;

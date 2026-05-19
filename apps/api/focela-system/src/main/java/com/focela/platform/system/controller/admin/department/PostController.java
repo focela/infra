@@ -11,7 +11,7 @@ import com.focela.platform.system.controller.admin.department.dto.post.PostPageR
 import com.focela.platform.system.controller.admin.department.dto.post.PostResponse;
 import com.focela.platform.system.controller.admin.department.dto.post.PostSaveRequest;
 import com.focela.platform.system.controller.admin.department.dto.post.PostSimpleResponse;
-import com.focela.platform.system.entity.department.PostEntity;
+import com.focela.platform.system.domain.entity.department.PostEntity;
 import com.focela.platform.system.service.department.PostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

@@ -2,7 +2,7 @@ package com.focela.platform.system.repository.mapper.social;
 
 import com.focela.platform.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.system.entity.social.SocialUserBindEntity;
+import com.focela.platform.system.domain.entity.social.SocialUserBindEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

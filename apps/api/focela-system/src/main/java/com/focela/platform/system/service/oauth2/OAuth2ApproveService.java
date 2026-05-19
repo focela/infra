@@ -1,6 +1,6 @@
 package com.focela.platform.system.service.oauth2;
 
-import com.focela.platform.system.entity.oauth2.OAuth2ApproveEntity;
+import com.focela.platform.system.domain.entity.oauth2.OAuth2ApproveEntity;
 
 import java.util.Collection;
 import java.util.List;

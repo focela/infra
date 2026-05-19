@@ -6,7 +6,7 @@ import com.focela.platform.common.utils.object.ObjectUtils;
 import com.focela.platform.test.core.support.BaseDbUnitTest;
 import com.focela.platform.test.core.utils.AssertUtils;
 import com.focela.platform.infra.controller.admin.file.dto.FilePageRequest;
-import com.focela.platform.infra.entity.file.FileEntity;
+import com.focela.platform.infra.domain.entity.file.FileEntity;
 import com.focela.platform.infra.repository.mapper.file.FileMapper;
 import com.focela.platform.infra.config.file.client.FileClient;
 import jakarta.annotation.Resource;

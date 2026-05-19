@@ -3,7 +3,7 @@ package com.focela.platform.system.service.dictionary;
 import com.focela.platform.common.model.PageResult;
 import com.focela.platform.system.controller.admin.dictionary.dto.type.DictionaryTypePageRequest;
 import com.focela.platform.system.controller.admin.dictionary.dto.type.DictionaryTypeSaveRequest;
-import com.focela.platform.system.entity.dictionary.DictionaryTypeEntity;
+import com.focela.platform.system.domain.entity.dictionary.DictionaryTypeEntity;
 
 import java.util.List;
 

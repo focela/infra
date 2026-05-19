@@ -2,7 +2,7 @@ package com.focela.platform.system.config.operatelog;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
-import com.focela.platform.system.entity.user.UserEntity;
+import com.focela.platform.system.domain.entity.user.UserEntity;
 import com.focela.platform.system.service.user.UserService;
 import com.mzt.logapi.service.IParseFunction;
 import lombok.RequiredArgsConstructor;

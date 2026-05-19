@@ -1,6 +1,6 @@
 package com.focela.platform.infra.api.config;
 
-import com.focela.platform.infra.entity.config.ConfigEntity;
+import com.focela.platform.infra.domain.entity.config.ConfigEntity;
 import com.focela.platform.infra.service.config.ConfigService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

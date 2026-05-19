@@ -6,7 +6,7 @@ import com.focela.platform.common.utils.date.LocalDateTimeUtils;
 import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.system.controller.admin.dictionary.dto.type.DictionaryTypePageRequest;
 import com.focela.platform.system.controller.admin.dictionary.dto.type.DictionaryTypeSaveRequest;
-import com.focela.platform.system.entity.dictionary.DictionaryTypeEntity;
+import com.focela.platform.system.domain.entity.dictionary.DictionaryTypeEntity;
 import com.focela.platform.system.repository.mapper.dictionary.DictionaryTypeMapper;
 import com.google.common.annotations.VisibleForTesting;
 import org.springframework.stereotype.Service;

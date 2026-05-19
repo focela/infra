@@ -5,7 +5,7 @@ import com.focela.platform.common.model.PageResult;
 import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.system.controller.admin.oauth2.dto.token.OAuth2AccessTokenPageRequest;
 import com.focela.platform.system.controller.admin.oauth2.dto.token.OAuth2AccessTokenResponse;
-import com.focela.platform.system.entity.oauth2.OAuth2AccessTokenEntity;
+import com.focela.platform.system.domain.entity.oauth2.OAuth2AccessTokenEntity;
 import com.focela.platform.system.enums.logger.LoginLogTypeEnum;
 import com.focela.platform.system.service.auth.AuthService;
 import com.focela.platform.system.service.oauth2.OAuth2TokenService;
