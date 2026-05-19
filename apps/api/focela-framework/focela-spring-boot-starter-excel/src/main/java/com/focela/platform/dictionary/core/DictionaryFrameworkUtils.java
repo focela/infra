@@ -26,7 +26,7 @@ public class DictionaryFrameworkUtils {
     /**
      * Cache of dictionary data keyed by dictType.
      */
-    private static final LoadingCache<String, List<DictionaryDataRpcResponse>> GET_DICT_DATA_CACHE = CacheUtils.buildAsyncReloadingCache(
+    private static final LoadingCache<String, List<DictionaryDataRpcResponse>> DICTIONARY_DATA_CACHE = CacheUtils.buildAsyncReloadingCache(
             Duration.ofMinutes(1L), // Expiration: 1 minute
             new CacheLoader<String, List<DictionaryDataRpcResponse>>() {
 
@@ -43,7 +43,7 @@ public class DictionaryFrameworkUtils {
     }
 
     public static void clearCache() {
-        GET_DICT_DATA_CACHE.invalidateAll();
+        DICTIONARY_DATA_CACHE.invalidateAll();
     }
 
     @SneakyThrows
@@ -56,27 +56,27 @@ public class DictionaryFrameworkUtils {
 
     @SneakyThrows
     public static String parseDictDataLabel(String dictType, String value) {
-        List<DictionaryDataRpcResponse> dictDatas = GET_DICT_DATA_CACHE.get(dictType);
+        List<DictionaryDataRpcResponse> dictDatas = DICTIONARY_DATA_CACHE.get(dictType);
         DictionaryDataRpcResponse dictData = CollUtil.findOne(dictDatas, data -> Objects.equals(data.getValue(), value));
         return dictData != null ? dictData.getLabel(): null;
     }
 
     @SneakyThrows
     public static List<String> getDictDataLabelList(String dictType) {
-        List<DictionaryDataRpcResponse> dictDatas = GET_DICT_DATA_CACHE.get(dictType);
+        List<DictionaryDataRpcResponse> dictDatas = DICTIONARY_DATA_CACHE.get(dictType);
         return convertList(dictDatas, DictionaryDataRpcResponse::getLabel);
     }
 
     @SneakyThrows
     public static String parseDictDataValue(String dictType, String label) {
-        List<DictionaryDataRpcResponse> dictDatas = GET_DICT_DATA_CACHE.get(dictType);
+        List<DictionaryDataRpcResponse> dictDatas = DICTIONARY_DATA_CACHE.get(dictType);
         DictionaryDataRpcResponse dictData = CollUtil.findOne(dictDatas, data -> Objects.equals(data.getLabel(), label));
         return dictData!= null ? dictData.getValue(): null;
     }
 
     @SneakyThrows
     public static List<String> getDictDataValueList(String dictType) {
-        List<DictionaryDataRpcResponse> dictDatas = GET_DICT_DATA_CACHE.get(dictType);
+        List<DictionaryDataRpcResponse> dictDatas = DICTIONARY_DATA_CACHE.get(dictType);
         return convertList(dictDatas, DictionaryDataRpcResponse::getValue);
     }
 }
