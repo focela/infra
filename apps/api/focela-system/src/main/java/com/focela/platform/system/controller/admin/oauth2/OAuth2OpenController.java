@@ -173,7 +173,7 @@ public class OAuth2OpenController {
         // Validate token
         OAuth2AccessTokenEntity accessTokenEntity = oauth2TokenService.checkAccessToken(token);
         Assert.notNull(accessTokenEntity, "access token must not be blank"); // defensive check
-        return success(OAuth2OpenConverter.INSTANCE.convert2(accessTokenEntity));
+        return success(OAuth2OpenConverter.INSTANCE.convertToCheckTokenResponse(accessTokenEntity));
     }
 
     /**

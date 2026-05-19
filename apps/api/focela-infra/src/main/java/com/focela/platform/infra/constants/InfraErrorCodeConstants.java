@@ -59,8 +59,8 @@ public interface InfraErrorCodeConstants {
     // ========== Student 1-001-201-000 ==========
     ErrorCode DEMO01_CONTACT_NOT_EXISTS = new ErrorCode(1_001_201_000, "Example contact does not exist");
     ErrorCode DEMO02_CATEGORY_NOT_EXISTS = new ErrorCode(1_001_201_001, "Example category does not exist");
-    ErrorCode DEMO02_CATEGORY_EXITS_CHILDREN = new ErrorCode(1_001_201_002, "Child example categories exist, cannot delete");
-    ErrorCode DEMO02_CATEGORY_PARENT_NOT_EXITS = new ErrorCode(1_001_201_003,"Parent example category does not exist");
+    ErrorCode DEMO02_CATEGORY_HAS_CHILDREN = new ErrorCode(1_001_201_002, "Child example categories exist, cannot delete");
+    ErrorCode DEMO02_CATEGORY_PARENT_NOT_EXISTS = new ErrorCode(1_001_201_003, "Parent example category does not exist");
     ErrorCode DEMO02_CATEGORY_PARENT_ERROR = new ErrorCode(1_001_201_004, "Cannot set itself as parent example category");
     ErrorCode DEMO02_CATEGORY_NAME_DUPLICATE = new ErrorCode(1_001_201_005, "An example category with this name already exists");
     ErrorCode DEMO02_CATEGORY_PARENT_IS_CHILD = new ErrorCode(1_001_201_006, "Cannot set its own child example category as parent example category");
@@ -68,5 +68,9 @@ public interface InfraErrorCodeConstants {
     ErrorCode DEMO03_COURSE_NOT_EXISTS = new ErrorCode(1_001_201_008, "Student course does not exist");
     ErrorCode DEMO03_GRADE_NOT_EXISTS = new ErrorCode(1_001_201_009, "Student grade does not exist");
     ErrorCode DEMO03_GRADE_EXISTS = new ErrorCode(1_001_201_010, "Student grade already exists");
+    @Deprecated
+    ErrorCode DEMO02_CATEGORY_EXITS_CHILDREN = DEMO02_CATEGORY_HAS_CHILDREN;
+    @Deprecated
+    ErrorCode DEMO02_CATEGORY_PARENT_NOT_EXITS = DEMO02_CATEGORY_PARENT_NOT_EXISTS;
 
 }

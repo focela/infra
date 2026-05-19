@@ -33,7 +33,7 @@ public interface OAuth2OpenConverter {
         return response;
     }
 
-    default OAuth2OpenCheckTokenResponse convert2(OAuth2AccessTokenEntity bean) {
+    default OAuth2OpenCheckTokenResponse convertToCheckTokenResponse(OAuth2AccessTokenEntity bean) {
         OAuth2OpenCheckTokenResponse response = BeanUtils.toBean(bean, OAuth2OpenCheckTokenResponse.class);
         response.setExp(LocalDateTimeUtil.toEpochMilli(bean.getExpiresTime()) / 1000L);
         response.setUserType(UserTypeEnum.ADMIN.getValue());

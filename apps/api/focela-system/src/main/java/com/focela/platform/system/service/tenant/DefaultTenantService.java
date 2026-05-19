@@ -120,7 +120,7 @@ public class DefaultTenantService implements TenantService {
 
     private Long createUser(Long roleId, TenantSaveRequest createRequest) {
         // create user
-        Long userId = userService.createUser(TenantConverter.INSTANCE.convert02(createRequest));
+        Long userId = userService.createUser(TenantConverter.INSTANCE.convertToTenantAdminUserRequest(createRequest));
         // assign role
         permissionService.assignUserRole(userId, singleton(roleId));
         return userId;

@@ -87,7 +87,7 @@ public class DefaultDepartmentService implements DepartmentService {
         validateDeptExists(id);
         // Validate whether it has child departments
         if (deptMapper.selectCountByParentId(id) > 0) {
-            throw exception(DEPT_EXITS_CHILDREN);
+            throw exception(DEPARTMENT_HAS_CHILDREN);
         }
         // Delete department
         deptMapper.deleteById(id);
@@ -100,7 +100,7 @@ public class DefaultDepartmentService implements DepartmentService {
         // Validate whether any has child departments
         for (Long id : ids) {
             if (deptMapper.selectCountByParentId(id) > 0) {
-                throw exception(DEPT_EXITS_CHILDREN);
+                throw exception(DEPARTMENT_HAS_CHILDREN);
             }
         }
 
@@ -131,7 +131,7 @@ public class DefaultDepartmentService implements DepartmentService {
         // 2. Parent department does not exist
         DepartmentEntity parentDept = deptMapper.selectById(parentId);
         if (parentDept == null) {
-            throw exception(DEPT_PARENT_NOT_EXITS);
+            throw exception(DEPARTMENT_PARENT_NOT_EXISTS);
         }
         // 3. Recursively validate the parent department; if a parent is one of its own children, report an error to avoid cycles
         if (id == null) { // id is null means create, no need to consider cycles

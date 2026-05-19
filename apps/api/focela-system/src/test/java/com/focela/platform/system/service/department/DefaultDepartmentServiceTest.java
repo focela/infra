@@ -86,7 +86,7 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteDept_exitsChildren() {
+    public void testDeleteDept_hasChildren() {
         // mock data
         DepartmentEntity parentDept = randomPojo(DepartmentEntity.class);
         deptMapper.insert(parentDept);// @Sql: first insert an existing record
@@ -99,7 +99,7 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
         deptMapper.insert(childrenDeptEntity);
 
         // invoke and assert exception
-        assertServiceException(() -> deptService.deleteDept(parentDept.getId()), DEPT_EXITS_CHILDREN);
+        assertServiceException(() -> deptService.deleteDept(parentDept.getId()), DEPARTMENT_HAS_CHILDREN);
     }
 
     @Test
@@ -120,7 +120,7 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteDeptList_exitsChildren() {
+    public void testDeleteDeptList_hasChildren() {
         // mock data
         DepartmentEntity parentDept = randomPojo(DepartmentEntity.class);
         deptMapper.insert(parentDept);
@@ -136,7 +136,7 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
         List<Long> ids = Arrays.asList(parentDept.getId(), anotherDept.getId());
 
         // invoke and assert exception
-        assertServiceException(() -> deptService.deleteDeptList(ids), DEPT_EXITS_CHILDREN);
+        assertServiceException(() -> deptService.deleteDeptList(ids), DEPARTMENT_HAS_CHILDREN);
     }
 
     @Test

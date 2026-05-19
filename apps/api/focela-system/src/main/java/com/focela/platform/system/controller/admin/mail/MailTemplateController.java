@@ -37,21 +37,21 @@ import static com.focela.platform.security.core.utils.SecurityFrameworkUtils.get
 @RequiredArgsConstructor
 public class MailTemplateController {
 
-    private final MailTemplateService mailTempleService;
+    private final MailTemplateService mailTemplateService;
     private final MailSendService mailSendService;
 
     @PostMapping("/create")
     @Operation(summary = "create email template")
     @PreAuthorize("@ss.hasPermission('system:mail-template:create')")
     public CommonResult<Long> createMailTemplate(@Valid @RequestBody MailTemplateSaveRequest createRequest){
-        return success(mailTempleService.createMailTemplate(createRequest));
+        return success(mailTemplateService.createMailTemplate(createRequest));
     }
 
     @PutMapping("/update")
     @Operation(summary = "update email template")
     @PreAuthorize("@ss.hasPermission('system:mail-template:update')")
     public CommonResult<Boolean> updateMailTemplate(@Valid @RequestBody MailTemplateSaveRequest updateRequest){
-        mailTempleService.updateMailTemplate(updateRequest);
+        mailTemplateService.updateMailTemplate(updateRequest);
         return success(true);
     }
 
@@ -60,7 +60,7 @@ public class MailTemplateController {
     @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:mail-template:delete')")
     public CommonResult<Boolean> deleteMailTemplate(@RequestParam("id") Long id) {
-        mailTempleService.deleteMailTemplate(id);
+        mailTemplateService.deleteMailTemplate(id);
         return success(true);
     }
 
@@ -69,7 +69,7 @@ public class MailTemplateController {
     @Parameter(name = "ids", description = "ID list", required = true)
     @PreAuthorize("@ss.hasPermission('system:mail-template:delete')")
     public CommonResult<Boolean> deleteMailTemplateList(@RequestParam("ids") List<Long> ids) {
-        mailTempleService.deleteMailTemplateList(ids);
+        mailTemplateService.deleteMailTemplateList(ids);
         return success(true);
     }
 
@@ -78,7 +78,7 @@ public class MailTemplateController {
     @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:mail-template:query')")
     public CommonResult<MailTemplateResponse> getMailTemplate(@RequestParam("id") Long id) {
-        MailTemplateEntity template = mailTempleService.getMailTemplate(id);
+        MailTemplateEntity template = mailTemplateService.getMailTemplate(id);
         return success(BeanUtils.toBean(template, MailTemplateResponse.class));
     }
 
@@ -86,19 +86,19 @@ public class MailTemplateController {
     @Operation(summary = "get email template page")
     @PreAuthorize("@ss.hasPermission('system:mail-template:query')")
     public CommonResult<PageResult<MailTemplateResponse>> getMailTemplatePage(@Valid MailTemplatePageRequest pageRequest) {
-        PageResult<MailTemplateEntity> pageResult = mailTempleService.getMailTemplatePage(pageRequest);
+        PageResult<MailTemplateEntity> pageResult = mailTemplateService.getMailTemplatePage(pageRequest);
         return success(BeanUtils.toBean(pageResult, MailTemplateResponse.class));
     }
 
     @GetMapping({"/list-all-simple", "simple-list"})
     @Operation(summary = "get email template simplified list")
     public CommonResult<List<MailTemplateSimpleResponse>> getSimpleTemplateList() {
-        List<MailTemplateEntity> mailTemplates = mailTempleService.getMailTemplateList();
+        List<MailTemplateEntity> mailTemplates = mailTemplateService.getMailTemplateList();
         return success(BeanUtils.toBean(mailTemplates, MailTemplateSimpleResponse.class));
     }
 
     @PostMapping("/send-mail")
-    @Operation(summary = "Send SMS")
+    @Operation(summary = "send email")
     @PreAuthorize("@ss.hasPermission('system:mail-template:send-mail')")
     public CommonResult<Long> sendMail(@Valid @RequestBody MailTemplateSendRequest sendRequest) {
         return success(mailSendService.sendSingleMailToAdmin(getLoginUserId(),

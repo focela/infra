@@ -13,7 +13,7 @@ public interface TenantConverter {
 
     TenantConverter INSTANCE = Mappers.getMapper(TenantConverter.class);
 
-    default UserSaveRequest convert02(TenantSaveRequest bean) {
+    default UserSaveRequest convertToTenantAdminUserRequest(TenantSaveRequest bean) {
         UserSaveRequest request = new UserSaveRequest();
         request.setUsername(bean.getUsername());
         request.setPassword(bean.getPassword());
