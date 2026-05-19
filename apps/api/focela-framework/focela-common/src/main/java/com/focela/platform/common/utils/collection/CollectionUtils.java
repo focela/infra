@@ -220,12 +220,19 @@ public class CollectionUtils {
                 .collect(Collectors.groupingBy(keyFunc, Collectors.mapping(valueFunc, Collectors.toList())));
     }
 
-    // No better name yet; suffixed with 2 for now.
-    public static <T, K, V> Map<K, Set<V>> convertMultiMap2(Collection<T> from, Function<T, K> keyFunc, Function<T, V> valueFunc) {
+    public static <T, K, V> Map<K, Set<V>> convertMultiSetMap(Collection<T> from, Function<T, K> keyFunc, Function<T, V> valueFunc) {
         if (CollUtil.isEmpty(from)) {
             return new HashMap<>();
         }
         return from.stream().collect(Collectors.groupingBy(keyFunc, Collectors.mapping(valueFunc, Collectors.toSet())));
+    }
+
+    /**
+     * @deprecated use {@link #convertMultiSetMap(Collection, Function, Function)}.
+     */
+    @Deprecated(since = "1.0.0", forRemoval = false)
+    public static <T, K, V> Map<K, Set<V>> convertMultiMap2(Collection<T> from, Function<T, K> keyFunc, Function<T, V> valueFunc) {
+        return convertMultiSetMap(from, keyFunc, valueFunc);
     }
 
     public static <T, K> Map<K, T> convertImmutableMap(Collection<T> from, Function<T, K> keyFunc) {

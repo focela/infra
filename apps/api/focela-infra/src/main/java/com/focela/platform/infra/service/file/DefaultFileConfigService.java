@@ -110,7 +110,7 @@ public class DefaultFileConfigService implements FileConfigService {
         // Get the config class
         Class<? extends FileClientConfig> configClass = FileStorageEnum.getByStorage(storage)
                 .getConfigClass();
-        FileClientConfig clientConfig = JsonUtils.parseObject2(JsonUtils.toJsonString(config), configClass);
+        FileClientConfig clientConfig = JsonUtils.parseObjectWithoutTypeInfo(JsonUtils.toJsonString(config), configClass);
         // Validate params
         ValidationUtils.validate(validator, clientConfig);
         // Set params

@@ -128,11 +128,19 @@ public class JsonUtils {
      * @param clazz target type
      * @return parsed object
      */
-    public static <T> T parseObject2(String text, Class<T> clazz) {
+    public static <T> T parseObjectWithoutTypeInfo(String text, Class<T> clazz) {
         if (StrUtil.isEmpty(text)) {
             return null;
         }
         return JSONUtil.toBean(text, clazz);
+    }
+
+    /**
+     * @deprecated use {@link #parseObjectWithoutTypeInfo(String, Class)}.
+     */
+    @Deprecated(since = "1.0.0", forRemoval = false)
+    public static <T> T parseObject2(String text, Class<T> clazz) {
+        return parseObjectWithoutTypeInfo(text, clazz);
     }
 
     public static <T> T parseObject(byte[] bytes, Class<T> clazz) {

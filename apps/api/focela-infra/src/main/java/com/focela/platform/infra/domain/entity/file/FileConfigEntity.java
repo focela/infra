@@ -93,15 +93,15 @@ public class FileConfigEntity extends BaseEntity {
             className = StrUtil.subAfter(className, ".", true);
             switch (className) {
                 case "DbFileClientConfig":
-                    return JsonUtils.parseObject2(json, DbFileClientConfig.class);
+                    return JsonUtils.parseObjectWithoutTypeInfo(json, DbFileClientConfig.class);
                 case "FtpFileClientConfig":
-                    return JsonUtils.parseObject2(json, FtpFileClientConfig.class);
+                    return JsonUtils.parseObjectWithoutTypeInfo(json, FtpFileClientConfig.class);
                 case "LocalFileClientConfig":
-                    return JsonUtils.parseObject2(json, LocalFileClientConfig.class);
+                    return JsonUtils.parseObjectWithoutTypeInfo(json, LocalFileClientConfig.class);
                 case "SftpFileClientConfig":
-                    return JsonUtils.parseObject2(json, SftpFileClientConfig.class);
+                    return JsonUtils.parseObjectWithoutTypeInfo(json, SftpFileClientConfig.class);
                 case "S3FileClientConfig":
-                    return JsonUtils.parseObject2(json, S3FileClientConfig.class);
+                    return JsonUtils.parseObjectWithoutTypeInfo(json, S3FileClientConfig.class);
                 default:
                     throw new IllegalArgumentException("unknown FileClientConfig type:" + json);
             }
