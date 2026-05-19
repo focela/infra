@@ -1,4 +1,4 @@
-package com.focela.platform.infra.service;
+package com.focela.platform.infra.support.manual;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.generator.query.DefaultQuery;
@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 
 import java.util.List;
 
-public class DefaultDatabaseQueryTest {
+public class DatabaseSequenceScriptGenerator {
 
     public static void main(String[] args) {
 //        DataSourceConfig dataSourceConfig = new DataSourceConfig.Builder("jdbc:oracle:thin:@127.0.0.1:1521:xe",

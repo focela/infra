@@ -67,7 +67,7 @@ public class UserController {
         return success(id);
     }
 
-    @PutMapping("update")
+    @PutMapping("/update")
     @Operation(summary = "update user")
     @PreAuthorize("@ss.hasPermission('system:user:update')")
     public CommonResult<Boolean> updateUser(@Valid @RequestBody UserSaveRequest request) {

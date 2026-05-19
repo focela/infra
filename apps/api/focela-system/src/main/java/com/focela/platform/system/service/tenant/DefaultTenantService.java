@@ -97,9 +97,9 @@ public class DefaultTenantService implements TenantService {
     @DataPermission(enable = false) // see https://gitee.com/zhijiantianya/ruoyi-vue-pro/pulls/1154 for details
     public Long createTenant(TenantSaveRequest createRequest) {
         // validate that the tenant name is not duplicated
-        validTenantNameDuplicate(createRequest.getName(), null);
+        validateTenantNameUnique(createRequest.getName(), null);
         // validate that the tenant website is not duplicated
-        validTenantWebsiteDuplicate(createRequest.getWebsites(), null);
+        validateTenantWebsiteUnique(createRequest.getWebsites(), null);
         // validate that the package is not disabled
         TenantPackageEntity tenantPackage = tenantPackageService.validateTenantPackage(createRequest.getPackageId());
 
@@ -143,9 +143,9 @@ public class DefaultTenantService implements TenantService {
         // validate existence
         TenantEntity tenant = validateUpdateTenant(updateRequest.getId());
         // validate that the tenant name is not duplicated
-        validTenantNameDuplicate(updateRequest.getName(), updateRequest.getId());
+        validateTenantNameUnique(updateRequest.getName(), updateRequest.getId());
         // validate that the tenant website is not duplicated
-        validTenantWebsiteDuplicate(updateRequest.getWebsites(), updateRequest.getId());
+        validateTenantWebsiteUnique(updateRequest.getWebsites(), updateRequest.getId());
         // validate that the package is not disabled
         TenantPackageEntity tenantPackage = tenantPackageService.validateTenantPackage(updateRequest.getPackageId());
 
@@ -158,7 +158,7 @@ public class DefaultTenantService implements TenantService {
         }
     }
 
-    private void validTenantNameDuplicate(String name, Long id) {
+    private void validateTenantNameUnique(String name, Long id) {
         TenantEntity tenant = tenantMapper.selectByName(name);
         if (tenant == null) {
             return;
@@ -172,7 +172,7 @@ public class DefaultTenantService implements TenantService {
         }
     }
 
-    private void validTenantWebsiteDuplicate(List<String> websites, Long excludeId) {
+    private void validateTenantWebsiteUnique(List<String> websites, Long excludeId) {
         if (CollUtil.isEmpty(websites)) {
             return;
         }

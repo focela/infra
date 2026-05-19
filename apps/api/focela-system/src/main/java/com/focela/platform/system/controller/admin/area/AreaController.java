@@ -1,4 +1,4 @@
-package com.focela.platform.system.controller.admin.ip;
+package com.focela.platform.system.controller.admin.area;
 
 import cn.hutool.core.lang.Assert;
 import com.focela.platform.common.model.CommonResult;
@@ -6,7 +6,7 @@ import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.ip.core.Area;
 import com.focela.platform.ip.core.utils.AreaUtils;
 import com.focela.platform.ip.core.utils.IpUtils;
-import com.focela.platform.system.controller.admin.ip.response.AreaNodeResponse;
+import com.focela.platform.system.controller.admin.area.response.AreaNodeResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;

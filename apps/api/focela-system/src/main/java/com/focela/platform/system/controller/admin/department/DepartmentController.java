@@ -38,7 +38,7 @@ public class DepartmentController {
 
     private final DepartmentService deptService;
 
-    @PostMapping("create")
+    @PostMapping("/create")
     @Operation(summary = "create department")
     @PreAuthorize("@ss.hasPermission('system:dept:create')")
     public CommonResult<Long> createDept(@Valid @RequestBody DepartmentSaveRequest createRequest) {
@@ -46,7 +46,7 @@ public class DepartmentController {
         return success(deptId);
     }
 
-    @PutMapping("update")
+    @PutMapping("/update")
     @Operation(summary = "update department")
     @PreAuthorize("@ss.hasPermission('system:dept:update')")
     public CommonResult<Boolean> updateDept(@Valid @RequestBody DepartmentSaveRequest updateRequest) {
@@ -54,7 +54,7 @@ public class DepartmentController {
         return success(true);
     }
 
-    @DeleteMapping("delete")
+    @DeleteMapping("/delete")
     @Operation(summary = "delete department")
     @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:dept:delete')")

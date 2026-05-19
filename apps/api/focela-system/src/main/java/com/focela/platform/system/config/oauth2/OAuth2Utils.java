@@ -64,7 +64,7 @@ public class OAuth2Utils {
             vars.put("expires_in", getExpiresIn(expireTime));
         }
         if (CollUtil.isNotEmpty(scopes)) {
-            vars.put("scope", buildScopeStr(scopes));
+            vars.put("scope", buildScopeString(scopes));
         }
         if (CollUtil.isNotEmpty(additionalInformation)) {
             for (String key : additionalInformation.keySet()) {
@@ -94,8 +94,13 @@ public class OAuth2Utils {
         return LocalDateTimeUtil.between(LocalDateTime.now(), expireTime, ChronoUnit.SECONDS);
     }
 
-    public static String buildScopeStr(Collection<String> scopes) {
+    public static String buildScopeString(Collection<String> scopes) {
         return CollUtil.join(scopes, " ");
+    }
+
+    @Deprecated
+    public static String buildScopeStr(Collection<String> scopes) {
+        return buildScopeString(scopes);
     }
 
     public static List<String> buildScopes(String scope) {

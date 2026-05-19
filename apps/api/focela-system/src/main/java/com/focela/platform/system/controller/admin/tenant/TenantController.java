@@ -58,7 +58,7 @@ public class TenantController {
         return success(tenant != null ? tenant.getId() : null);
     }
 
-    @GetMapping({ "simple-list" })
+    @GetMapping({"/simple-list"})
     @PermitAll
     @TenantIgnore
     @Operation(summary = "get tenant simplified info list", description = "only include enabled tenant, for [home]feature select tenant options")

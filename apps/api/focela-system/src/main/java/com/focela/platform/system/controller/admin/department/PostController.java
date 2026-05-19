@@ -71,7 +71,7 @@ public class PostController {
         return success(true);
     }
 
-    @DeleteMapping("delete-list")
+    @DeleteMapping("/delete-list")
     @Operation(summary = "batch delete post")
     @PreAuthorize("@ss.hasPermission('system:post:delete')")
     public CommonResult<Boolean> deletePostList(@RequestParam("ids") List<Long> ids) {

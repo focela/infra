@@ -29,7 +29,7 @@ public interface OAuth2OpenConverter {
         OAuth2OpenAccessTokenResponse response = BeanUtils.toBean(bean, OAuth2OpenAccessTokenResponse.class);
         response.setTokenType(SecurityFrameworkUtils.AUTHORIZATION_BEARER.toLowerCase());
         response.setExpiresIn(OAuth2Utils.getExpiresIn(bean.getExpiresTime()));
-        response.setScope(OAuth2Utils.buildScopeStr(bean.getScopes()));
+        response.setScope(OAuth2Utils.buildScopeString(bean.getScopes()));
         return response;
     }
 

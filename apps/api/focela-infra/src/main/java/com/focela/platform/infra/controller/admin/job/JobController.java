@@ -145,7 +145,7 @@ public class JobController {
                 BeanUtils.toBean(jobs, JobResponse.class));
     }
 
-    @GetMapping("/get_next_times")
+    @GetMapping({"/get-next-times", "/get_next_times"})
     @Operation(summary = "get scheduled job next n time execution time")
     @Parameters({
             @Parameter(name = "id", description = "ID", required = true, example = "1024"),
