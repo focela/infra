@@ -65,12 +65,14 @@ com/focela/platform/<X>/
 ├── controller/
 │   ├── admin/<feature>/        backoffice REST endpoints
 │   │   ├── <Feature>Controller.java
-│   │   └── dto/                request/response DTOs for this controller
+│   │   ├── request/            REST request DTOs for this controller
+│   │   └── response/           REST response DTOs for this controller
 │   └── app/<feature>/          end-user REST endpoints (subset of features)
 │       ├── <Feature>Controller.java
-│       └── dto/
+│       ├── request/
+│       └── response/
 ├── converter/<feature>/  MapStruct between Entity ↔ DTO
-├── entity/<feature>/     MyBatis-Plus entities (suffix *Entity)
+├── domain/entity/<feature>/ MyBatis-Plus entities (suffix *Entity)
 ├── enums/                module-wide enums (not feature-internal)
 ├── job/                  Quartz jobs (flat or `<feature>/` subfolders for clean jobs)
 ├── mq/
@@ -110,13 +112,13 @@ plain `*VO` or `*DTO`:
 
 | Suffix | Shape | Where it lives |
 |---|---|---|
-| `*Request` | generic REST request body | `controller/{admin,app}/<feature>/dto/` |
-| `*SaveRequest` | create-or-update request | `controller/{admin,app}/<feature>/dto/` |
-| `*PageRequest` | paged-query parameters | `controller/{admin,app}/<feature>/dto/` |
-| `*Response` | REST response body | `controller/{admin,app}/<feature>/dto/` |
+| `*Request` | generic REST request body | `controller/{admin,app}/<feature>/request/` |
+| `*SaveRequest` | create-or-update request | `controller/{admin,app}/<feature>/request/` |
+| `*PageRequest` | paged-query parameters | `controller/{admin,app}/<feature>/request/` |
+| `*Response` | REST response body | `controller/{admin,app}/<feature>/response/` |
 | `*RpcRequest` | cross-module request (jumps Maven artifact boundary) | `focela-common/src/.../common/api/<module>/<feature>/dto/` |
 | `*RpcResponse` | cross-module response | `focela-common/src/.../common/api/<module>/<feature>/dto/` |
-| `*ExcelDto` | row in an Excel import/export | `controller/admin/<feature>/dto/` (rare) |
+| `*ExcelRow` | row in an Excel import/export | `controller/admin/<feature>/request/` (rare) |
 
 The `Rpc` infix is **mandatory** for any DTO that crosses a Maven
 artifact boundary — it prevents accidental name collision with an
@@ -129,7 +131,7 @@ counterpart is `UserRpcResponse`).
 ## 4. Layer rules
 
 - `controller/` is the only outward-facing layer. It may import
-  `service/`, `entity/`, `converter/`, and DTOs.
+  `service/`, `domain/entity/`, `converter/`, and DTOs.
 - `service/` must not import controllers. It returns `*Entity` to the
   controller, which then converts via MapStruct or `BeanUtils.toBean`
   into a `*Response`.
@@ -141,7 +143,7 @@ counterpart is `UserRpcResponse`).
   when multiple consumers share a contract or microservice extraction is
   planned). See §9 Decision C for the choice criteria.
   Either way — never reach into another module's `service/`,
-  `repository/`, `controller/`, `entity/`, etc. The `.api.` package is
+  `repository/`, `controller/`, `domain/entity/`, etc. The `.api.` package is
   the only legal entry point. (ArchUnit enforces this in
   `SystemArchitectureTest` / `InfraArchitectureTest`.)
 - `config/<feature>/` may import anything it configures. Other code may
@@ -181,7 +183,7 @@ subpackage name everywhere. Example for `logger` in `focela-infra`:
 
 - `controller/admin/logger/ApiAccessLogController.java`
 - `service/logger/DefaultApiAccessLogService.java`
-- `entity/logger/ApiAccessLogEntity.java`
+- `domain/entity/logger/ApiAccessLogEntity.java`
 - `repository/mapper/logger/ApiAccessLogMapper.java`
 - `converter/logger/ApiAccessLogConverter.java`
 - `mq/{producer,consumer,message}/logger/` (if MQ involved)
@@ -196,10 +198,10 @@ feature name alone.
 
 | Use case | Location |
 |---|---|
-| Admin REST API request/response | `controller/admin/<feature>/dto/` |
-| End-user REST API request/response | `controller/app/<feature>/dto/` |
+| Admin REST API request/response | `controller/admin/<feature>/{request,response}/` |
+| End-user REST API request/response | `controller/app/<feature>/{request,response}/` |
 | Cross-module RPC contract DTO | `focela-common/.../common/api/<module>/<feature>/dto/` |
-| Internal entity (DB row) | `entity/<feature>/` |
+| Internal entity (DB row) | `domain/entity/<feature>/` |
 | Third-party client DTO (e.g., SMS provider request body) | `config/<feature>/client/dto/` |
 
 ---
@@ -244,11 +246,18 @@ The naming rules below are locked in. ArchUnit enforces a subset
 | Class suffix | Required package |
 |---|---|
 | `*Controller` | `..controller.admin..` or `..controller.app..` |
-| `*Entity` | `..entity..` |
+| `*Entity` | `..domain.entity..` |
 | `*Mapper` | `..repository.mapper..` |
 | `*Configuration` | `..config..` |
 | `*Constants` | `..constants..` |
 | `*Enum` | `..enums..` |
+| controller `*Request` | `..controller..request..` |
+| controller `*Response` | `..controller..response..` |
+
+Business modules must not create `controller/**/dto/` packages. REST
+payloads are split by direction: request payloads live under
+`request/`, response payloads live under `response/`. Cross-module RPC
+payloads are the only DTOs that continue to use a `dto/` package.
 
 Violations of these rules fail the build via
 `SystemArchitectureTest` and `InfraArchitectureTest`.

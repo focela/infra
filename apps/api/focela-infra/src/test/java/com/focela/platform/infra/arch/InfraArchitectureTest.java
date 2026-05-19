@@ -79,6 +79,21 @@ class InfraArchitectureTest {
     }
 
     @Test
+    void controllerRequestLocation() {
+        ArchitectureRules.CONTROLLER_REQUEST_RESIDES_IN_REQUEST_PACKAGE.check(classes);
+    }
+
+    @Test
+    void controllerResponseLocation() {
+        ArchitectureRules.CONTROLLER_RESPONSE_RESIDES_IN_RESPONSE_PACKAGE.check(classes);
+    }
+
+    @Test
+    void controllerDoesNotUseDtoPackage() {
+        ArchitectureRules.CONTROLLER_DOES_NOT_USE_DTO_PACKAGE.check(classes);
+    }
+
+    @Test
     void infraDoesNotReachSystem() {
         ArchitectureRules.moduleDoesNotReachOtherModuleInternals(
                 "com.focela.platform.infra",

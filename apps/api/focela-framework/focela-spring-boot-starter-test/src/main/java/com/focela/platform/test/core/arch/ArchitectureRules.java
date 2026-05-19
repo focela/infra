@@ -126,6 +126,26 @@ public final class ArchitectureRules {
                     .should().haveSimpleNameEndingWith("Response")
                     .as("Classes under controller/.../response/ must end with Response");
 
+    public static final ArchRule CONTROLLER_REQUEST_RESIDES_IN_REQUEST_PACKAGE =
+            classes().that().resideInAPackage("..controller..")
+                    .and().haveSimpleNameEndingWith("Request")
+                    .and().areTopLevelClasses()
+                    .should().resideInAPackage("..controller..request..")
+                    .as("Controller request payloads must live under controller/.../request/");
+
+    public static final ArchRule CONTROLLER_RESPONSE_RESIDES_IN_RESPONSE_PACKAGE =
+            classes().that().resideInAPackage("..controller..")
+                    .and().haveSimpleNameEndingWith("Response")
+                    .and().areTopLevelClasses()
+                    .should().resideInAPackage("..controller..response..")
+                    .as("Controller response payloads must live under controller/.../response/");
+
+    public static final ArchRule CONTROLLER_DOES_NOT_USE_DTO_PACKAGE =
+            noClasses().that().resideInAPackage("..controller..dto..")
+                    .should().resideInAPackage("..controller..dto..")
+                    .allowEmptyShould(true)
+                    .as("REST controller payloads must use request/response packages, not dto/");
+
     // ---- Cross-module DTO suffixes (focela-common api/ DTOs) ----
 
     public static final ArchRule CROSS_MODULE_DTO_HAS_RPC_SUFFIX =
