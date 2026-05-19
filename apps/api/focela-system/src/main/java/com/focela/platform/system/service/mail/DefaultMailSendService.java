@@ -39,14 +39,14 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
 @RequiredArgsConstructor
 public class DefaultMailSendService implements MailSendService {
 
-        private final UserService adminUserService;
-        private final MemberService memberService;
+    private final UserService adminUserService;
+    private final MemberService memberService;
 
-        private final MailAccountService mailAccountService;
-        private final MailTemplateService mailTemplateService;
+    private final MailAccountService mailAccountService;
+    private final MailTemplateService mailTemplateService;
 
-        private final MailLogService mailLogService;
-        private final MailProducer mailProducer;
+    private final MailLogService mailLogService;
+    private final MailProducer mailProducer;
 
     @Override
     public Long sendSingleMail(Collection<String> toMails, Collection<String> ccMails, Collection<String> bccMails,

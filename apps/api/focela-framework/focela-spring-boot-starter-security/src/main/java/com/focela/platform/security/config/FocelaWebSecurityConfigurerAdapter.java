@@ -47,30 +47,30 @@ import static com.focela.platform.common.utils.collection.CollectionUtils.conver
 @RequiredArgsConstructor
 public class FocelaWebSecurityConfigurerAdapter {
 
-        private final WebProperties webProperties;
-        private final SecurityProperties securityProperties;
+    private final WebProperties webProperties;
+    private final SecurityProperties securityProperties;
 
     /**
      * Authentication-failure handler Bean
      */
-        private final AuthenticationEntryPoint authenticationEntryPoint;
+    private final AuthenticationEntryPoint authenticationEntryPoint;
     /**
      * Insufficient-permission handler Bean
      */
-        private final AccessDeniedHandler accessDeniedHandler;
+    private final AccessDeniedHandler accessDeniedHandler;
     /**
      * Token authentication filter Bean
      */
-        private final TokenAuthenticationFilter authenticationTokenFilter;
+    private final TokenAuthenticationFilter authenticationTokenFilter;
 
     /**
      * Custom permission mapping Beans
      *
      * @see #filterChain(HttpSecurity)
      */
-        private final List<AuthorizeRequestsCustomizer> authorizeRequestsCustomizers;
+    private final List<AuthorizeRequestsCustomizer> authorizeRequestsCustomizers;
 
-        private final ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
 
     /**
      * Spring Security does not declare @Bean when creating AuthenticationManager, so it cannot be injected.

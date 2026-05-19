@@ -23,9 +23,9 @@ import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.e
 @RequiredArgsConstructor
 public class DefaultOAuth2GrantService implements OAuth2GrantService {
 
-        private final OAuth2TokenService oauth2TokenService;
-        private final OAuth2CodeService oauth2CodeService;
-        private final AuthService adminAuthService;
+    private final OAuth2TokenService oauth2TokenService;
+    private final OAuth2CodeService oauth2CodeService;
+    private final AuthService adminAuthService;
 
     @Override
     public OAuth2AccessTokenEntity grantImplicit(Long userId, Integer userType,

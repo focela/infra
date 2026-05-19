@@ -60,14 +60,14 @@ import static com.focela.platform.security.core.utils.SecurityFrameworkUtils.get
 @RequiredArgsConstructor
 public class AuthController {
 
-        private final AuthService authService;
-        private final UserService userService;
-        private final RoleService roleService;
-        private final MenuService menuService;
-        private final PermissionService permissionService;
-        private final SocialClientService socialClientService;
+    private final AuthService authService;
+    private final UserService userService;
+    private final RoleService roleService;
+    private final MenuService menuService;
+    private final PermissionService permissionService;
+    private final SocialClientService socialClientService;
 
-        private final SecurityProperties securityProperties;
+    private final SecurityProperties securityProperties;
 
     @PostMapping("/login")
     @PermitAll

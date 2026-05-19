@@ -15,7 +15,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class LocalPermissionApi implements PermissionApi {
 
-        private final PermissionService permissionService;
+    private final PermissionService permissionService;
 
     @Override
     public Set<Long> getUserRoleIdListByRoleIds(Collection<Long> roleIds) {

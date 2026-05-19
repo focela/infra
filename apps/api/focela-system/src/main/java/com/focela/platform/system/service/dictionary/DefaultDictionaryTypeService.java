@@ -25,9 +25,9 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
 @RequiredArgsConstructor
 public class DefaultDictionaryTypeService implements DictionaryTypeService {
 
-        private final DictionaryDataService dictDataService;
+    private final DictionaryDataService dictDataService;
 
-        private final DictionaryTypeMapper dictTypeMapper;
+    private final DictionaryTypeMapper dictTypeMapper;
 
     @Override
     public PageResult<DictionaryTypeEntity> getDictTypePage(DictionaryTypePageRequest pageRequest) {

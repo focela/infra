@@ -36,7 +36,7 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
 @RequiredArgsConstructor
 public class DefaultOAuth2ClientService implements OAuth2ClientService {
 
-        private final OAuth2ClientMapper oauth2ClientMapper;
+    private final OAuth2ClientMapper oauth2ClientMapper;
 
     @Override
     public Long createOAuth2Client(OAuth2ClientSaveRequest createRequest) {

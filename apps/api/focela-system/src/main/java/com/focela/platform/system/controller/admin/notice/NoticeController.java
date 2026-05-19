@@ -38,9 +38,9 @@ import static com.focela.platform.common.model.CommonResult.success;
 @RequiredArgsConstructor
 public class NoticeController {
 
-        private final NoticeService noticeService;
+    private final NoticeService noticeService;
 
-        private final WebSocketSenderApi webSocketSenderApi;
+    private final WebSocketSenderApi webSocketSenderApi;
 
     @PostMapping("/create")
     @Operation(summary = "create notice")

@@ -29,7 +29,7 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
 @RequiredArgsConstructor
 public class DefaultPostService implements PostService {
 
-        private final PostMapper postMapper;
+    private final PostMapper postMapper;
 
     @Override
     public Long createPost(PostSaveRequest createRequest) {

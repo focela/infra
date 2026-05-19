@@ -35,7 +35,7 @@ import static com.focela.platform.common.model.CommonResult.success;
 @RequiredArgsConstructor
 public class MailAccountController {
 
-        private final MailAccountService mailAccountService;
+    private final MailAccountService mailAccountService;
 
     @PostMapping("/create")
     @Operation(summary = "create email account")

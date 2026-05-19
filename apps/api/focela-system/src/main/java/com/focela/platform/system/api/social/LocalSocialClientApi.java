@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LocalSocialClientApi implements SocialClientApi {
 
-        private final SocialClientService socialClientService;
+    private final SocialClientService socialClientService;
 
     @Override
     public String getAuthorizeUrl(Integer socialType, Integer userType, String redirectUri) {

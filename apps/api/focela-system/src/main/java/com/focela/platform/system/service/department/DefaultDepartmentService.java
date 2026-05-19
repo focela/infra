@@ -40,7 +40,7 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
 @RequiredArgsConstructor
 public class DefaultDepartmentService implements DepartmentService {
 
-        private final DepartmentMapper deptMapper;
+    private final DepartmentMapper deptMapper;
 
     @Override
     @CacheEvict(cacheNames = RedisKeyConstants.DEPT_CHILDREN_ID_LIST,

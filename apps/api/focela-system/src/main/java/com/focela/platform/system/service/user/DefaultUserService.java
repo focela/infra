@@ -71,12 +71,12 @@ public class DefaultUserService implements UserService {
 
     static final String USER_REGISTER_ENABLED_KEY = "system.user.register-enabled";
 
-        private final UserMapper userMapper;
+    private final UserMapper userMapper;
 
-        private final DepartmentService deptService;
-        private final PostService postService;
-        private final PermissionService permissionService;
-        private final PasswordEncoder passwordEncoder;
+    private final DepartmentService deptService;
+    private final PostService postService;
+    private final PermissionService permissionService;
+    private final PasswordEncoder passwordEncoder;
     @Resource
     @Lazy // lazy loading to avoid circular dependency errors
     private TenantService tenantService;
@@ -84,9 +84,9 @@ public class DefaultUserService implements UserService {
     @Lazy // lazy loading to avoid circular dependency
     private OAuth2TokenService oauth2TokenService;
 
-        private final UserPostMapper userPostMapper;
+    private final UserPostMapper userPostMapper;
 
-        private final ConfigApi configApi;
+    private final ConfigApi configApi;
 
     @Override
     @Transactional(rollbackFor = Exception.class)

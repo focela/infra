@@ -37,10 +37,10 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.SOCI
 @RequiredArgsConstructor
 public class DefaultSocialUserService implements SocialUserService {
 
-        private final SocialUserBindMapper socialUserBindMapper;
-        private final SocialUserMapper socialUserMapper;
+    private final SocialUserBindMapper socialUserBindMapper;
+    private final SocialUserMapper socialUserMapper;
 
-        private final SocialClientService socialClientService;
+    private final SocialClientService socialClientService;
 
     @Override
     public List<SocialUserEntity> getSocialUserList(Long userId, Integer userType) {

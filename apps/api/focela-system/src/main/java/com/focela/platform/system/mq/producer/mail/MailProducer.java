@@ -19,7 +19,7 @@ import java.util.Collection;
 @RequiredArgsConstructor
 public class MailProducer {
 
-        private final ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
 
     /**
      * Send a {@link MailSendMessage} message

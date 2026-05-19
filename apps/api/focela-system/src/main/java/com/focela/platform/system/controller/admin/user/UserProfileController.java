@@ -41,11 +41,11 @@ import static com.focela.platform.security.core.utils.SecurityFrameworkUtils.get
 @RequiredArgsConstructor
 public class UserProfileController {
 
-        private final UserService userService;
-        private final DepartmentService deptService;
-        private final PostService postService;
-        private final PermissionService permissionService;
-        private final RoleService roleService;
+    private final UserService userService;
+    private final DepartmentService deptService;
+    private final PostService postService;
+    private final PermissionService permissionService;
+    private final RoleService roleService;
 
     @GetMapping("/get")
     @Operation(summary = "get login user info")

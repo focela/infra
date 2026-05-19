@@ -31,7 +31,7 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
 @RequiredArgsConstructor
 public class DefaultTenantPackageService implements TenantPackageService {
 
-        private final TenantPackageMapper tenantPackageMapper;
+    private final TenantPackageMapper tenantPackageMapper;
 
     @Resource
     @Lazy // avoid circular dependency error

@@ -65,10 +65,10 @@ import static com.focela.platform.security.core.utils.SecurityFrameworkUtils.get
 @RequiredArgsConstructor
 public class OAuth2OpenController {
 
-        private final OAuth2GrantService oauth2GrantService;
-        private final OAuth2ClientService oauth2ClientService;
-        private final OAuth2ApproveService oauth2ApproveService;
-        private final OAuth2TokenService oauth2TokenService;
+    private final OAuth2GrantService oauth2GrantService;
+    private final OAuth2ClientService oauth2ClientService;
+    private final OAuth2ApproveService oauth2ApproveService;
+    private final OAuth2TokenService oauth2TokenService;
 
     /**
      * Corresponds to the postAccessToken method of Spring Security OAuth's TokenEndpoint class

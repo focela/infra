@@ -39,7 +39,7 @@ public class DefaultNotifyTemplateService implements NotifyTemplateService {
      */
     private static final Pattern PATTERN_PARAMS = Pattern.compile("\\{(.*?)}");
 
-        private final NotifyTemplateMapper notifyTemplateMapper;
+    private final NotifyTemplateMapper notifyTemplateMapper;
 
     @Override
     public Long createNotifyTemplate(NotifyTemplateSaveRequest createRequest) {

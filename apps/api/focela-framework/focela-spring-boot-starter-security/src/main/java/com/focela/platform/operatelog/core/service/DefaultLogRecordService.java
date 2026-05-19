@@ -22,7 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DefaultLogRecordService implements ILogRecordService {
 
-        private final OperateLogContractApi operateLogApi;
+    private final OperateLogContractApi operateLogApi;
 
     @Override
     public void record(LogRecord logRecord) {

@@ -27,9 +27,9 @@ import static cn.hutool.core.exceptions.ExceptionUtil.getRootCauseMessage;
 @RequiredArgsConstructor
 public class JobHandlerInvoker extends QuartzJobBean {
 
-        private final ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
 
-        private final JobLogFrameworkService jobLogFrameworkService;
+    private final JobLogFrameworkService jobLogFrameworkService;
 
     @Override
     protected void executeInternal(JobExecutionContext executionContext) throws JobExecutionException {

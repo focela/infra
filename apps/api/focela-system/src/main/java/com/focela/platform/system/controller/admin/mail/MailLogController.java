@@ -27,7 +27,7 @@ import static com.focela.platform.common.model.CommonResult.success;
 @RequiredArgsConstructor
 public class MailLogController {
 
-        private final MailLogService mailLogService;
+    private final MailLogService mailLogService;
 
     @GetMapping("/page")
     @Operation(summary = "get email log page")

@@ -45,20 +45,20 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
 @RequiredArgsConstructor
 public class DefaultMenuService implements MenuService {
 
-        private final MenuMapper menuMapper;
+    private final MenuMapper menuMapper;
 
-        /**
-         * Lazy field injection breaks the {@code DefaultMenuService} ↔
-         * {@code DefaultPermissionService} cycle.
-         * See MODULE_TEMPLATE.md §12.5.
-         */
-        @Resource
-        @Lazy
-        private PermissionService permissionService;
+    /**
+     * Lazy field injection breaks the {@code DefaultMenuService} ↔
+     * {@code DefaultPermissionService} cycle.
+     * See MODULE_TEMPLATE.md §12.5.
+     */
+    @Resource
+    @Lazy
+    private PermissionService permissionService;
 
-        @Resource
-        @Lazy // Lazy to avoid circular dependency errors
-        private TenantService tenantService;
+    @Resource
+    @Lazy // Lazy to avoid circular dependency errors
+    private TenantService tenantService;
 
     @Override
     @CacheEvict(value = RedisKeyConstants.PERMISSION_MENU_ID_LIST, key = "#createRequest.permission",

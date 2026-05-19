@@ -58,7 +58,7 @@ import static com.focela.platform.common.utils.collection.CollectionUtils.conver
 @RequiredArgsConstructor
 public class FocelaTenantAutoConfiguration {
 
-        private final ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
 
     @Bean
     public TenantFrameworkService tenantFrameworkService(TenantContractApi tenantApi) {

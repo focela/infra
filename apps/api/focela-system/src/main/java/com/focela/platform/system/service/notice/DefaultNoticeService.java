@@ -22,7 +22,7 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.NOTI
 @RequiredArgsConstructor
 public class DefaultNoticeService implements NoticeService {
 
-        private final NoticeMapper noticeMapper;
+    private final NoticeMapper noticeMapper;
 
     @Override
     public Long createNotice(NoticeSaveRequest createRequest) {

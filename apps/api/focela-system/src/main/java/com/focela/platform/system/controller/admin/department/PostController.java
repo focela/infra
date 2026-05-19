@@ -45,7 +45,7 @@ import static com.focela.platform.common.model.CommonResult.success;
 @RequiredArgsConstructor
 public class PostController {
 
-        private final PostService postService;
+    private final PostService postService;
 
     @PostMapping("/create")
     @Operation(summary = "create post")

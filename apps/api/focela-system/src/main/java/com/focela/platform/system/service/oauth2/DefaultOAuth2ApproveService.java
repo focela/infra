@@ -33,9 +33,9 @@ public class DefaultOAuth2ApproveService implements OAuth2ApproveService {
      */
     private static final Integer TIMEOUT = 30 * 24 * 60 * 60; // unit: seconds
 
-        private final OAuth2ClientService oauth2ClientService;
+    private final OAuth2ClientService oauth2ClientService;
 
-        private final OAuth2ApproveMapper oauth2ApproveMapper;
+    private final OAuth2ApproveMapper oauth2ApproveMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)

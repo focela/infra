@@ -24,9 +24,9 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
 @RequiredArgsConstructor
 public class DefaultNotifySendService implements NotifySendService {
 
-        private final NotifyTemplateService notifyTemplateService;
+    private final NotifyTemplateService notifyTemplateService;
 
-        private final NotifyMessageService notifyMessageService;
+    private final NotifyMessageService notifyMessageService;
 
     @Override
     public Long sendSingleNotifyToAdmin(Long userId, String templateCode, Map<String, Object> templateParams) {

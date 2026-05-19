@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LocalDictionaryDataApi implements DictionaryDataApi {
 
-        private final DictionaryDataService dictDataService;
+    private final DictionaryDataService dictDataService;
 
     @Override
     public void validateDictDataList(String dictType, Collection<String> values) {

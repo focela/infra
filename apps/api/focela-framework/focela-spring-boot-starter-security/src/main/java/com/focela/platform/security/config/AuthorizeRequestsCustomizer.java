@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 public abstract class AuthorizeRequestsCustomizer
         implements Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry>, Ordered {
 
-        private final WebProperties webProperties;
+    private final WebProperties webProperties;
 
     protected String buildAdminApi(String url) {
         return webProperties.getAdminApi().getPrefix() + url;

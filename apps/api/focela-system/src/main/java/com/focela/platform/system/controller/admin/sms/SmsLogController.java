@@ -36,7 +36,7 @@ import static com.focela.platform.common.model.CommonResult.success;
 @RequiredArgsConstructor
 public class SmsLogController {
 
-        private final SmsLogService smsLogService;
+    private final SmsLogService smsLogService;
 
     @GetMapping("/page")
     @Operation(summary = "get SMS log page")

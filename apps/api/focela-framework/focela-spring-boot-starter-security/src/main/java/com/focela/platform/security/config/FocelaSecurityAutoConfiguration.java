@@ -33,7 +33,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class FocelaSecurityAutoConfiguration {
 
-        private final SecurityProperties securityProperties;
+    private final SecurityProperties securityProperties;
 
     /**
      * Authentication-failure handler Bean

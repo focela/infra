@@ -44,9 +44,9 @@ import static com.focela.platform.security.core.utils.SecurityFrameworkUtils.get
 @RequiredArgsConstructor
 public class OAuth2UserController {
 
-        private final UserService userService;
-        private final DepartmentService deptService;
-        private final PostService postService;
+    private final UserService userService;
+    private final DepartmentService deptService;
+    private final PostService postService;
 
     @GetMapping("/get")
     @Operation(summary = "get user basic info")

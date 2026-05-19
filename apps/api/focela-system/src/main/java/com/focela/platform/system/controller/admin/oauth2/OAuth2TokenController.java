@@ -31,8 +31,8 @@ import static com.focela.platform.common.model.CommonResult.success;
 @RequiredArgsConstructor
 public class OAuth2TokenController {
 
-        private final OAuth2TokenService oauth2TokenService;
-        private final AuthService authService;
+    private final OAuth2TokenService oauth2TokenService;
+    private final AuthService authService;
 
     @GetMapping("/page")
     @Operation(summary = "get access token page", description = "return only TTL within")

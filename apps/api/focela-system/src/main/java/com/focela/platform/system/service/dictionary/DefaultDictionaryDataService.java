@@ -40,16 +40,16 @@ public class DefaultDictionaryDataService implements DictionaryDataService {
             .comparing(DictionaryDataEntity::getDictType)
             .thenComparingInt(DictionaryDataEntity::getSort);
 
-        private final DictionaryDataMapper dictDataMapper;
+    private final DictionaryDataMapper dictDataMapper;
 
-        /**
-         * Lazy field injection breaks the {@code DefaultDictionaryDataService} ↔
-         * {@code DefaultDictionaryTypeService} cycle.
-         * See MODULE_TEMPLATE.md §12.5.
-         */
-        @Resource
-        @Lazy
-        private DictionaryTypeService dictTypeService;
+    /**
+     * Lazy field injection breaks the {@code DefaultDictionaryDataService} ↔
+     * {@code DefaultDictionaryTypeService} cycle.
+     * See MODULE_TEMPLATE.md §12.5.
+     */
+    @Resource
+    @Lazy
+    private DictionaryTypeService dictTypeService;
 
     @Override
     public List<DictionaryDataEntity> getDictDataList(Integer status, String dictType) {

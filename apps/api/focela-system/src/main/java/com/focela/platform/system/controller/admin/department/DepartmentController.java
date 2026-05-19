@@ -36,7 +36,7 @@ import static com.focela.platform.common.model.CommonResult.success;
 @RequiredArgsConstructor
 public class DepartmentController {
 
-        private final DepartmentService deptService;
+    private final DepartmentService deptService;
 
     @PostMapping("create")
     @Operation(summary = "create department")

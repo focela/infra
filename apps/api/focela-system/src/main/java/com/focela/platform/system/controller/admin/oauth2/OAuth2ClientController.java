@@ -35,7 +35,7 @@ import static com.focela.platform.common.model.CommonResult.success;
 @RequiredArgsConstructor
 public class OAuth2ClientController {
 
-        private final OAuth2ClientService oAuth2ClientService;
+    private final OAuth2ClientService oAuth2ClientService;
 
     @PostMapping("/create")
     @Operation(summary = "create OAuth2 client")

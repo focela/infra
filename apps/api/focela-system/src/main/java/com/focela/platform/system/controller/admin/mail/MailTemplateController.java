@@ -37,8 +37,8 @@ import static com.focela.platform.security.core.utils.SecurityFrameworkUtils.get
 @RequiredArgsConstructor
 public class MailTemplateController {
 
-        private final MailTemplateService mailTempleService;
-        private final MailSendService mailSendService;
+    private final MailTemplateService mailTempleService;
+    private final MailSendService mailSendService;
 
     @PostMapping("/create")
     @Operation(summary = "create email template")

@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SmsProducer {
 
-        private final ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
 
     /**
      * Send a {@link SmsSendMessage} message

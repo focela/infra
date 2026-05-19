@@ -56,8 +56,8 @@ import static com.focela.platform.common.utils.collection.CollectionUtils.conver
 @RequiredArgsConstructor
 public class UserController {
 
-        private final UserService userService;
-        private final DepartmentService deptService;
+    private final UserService userService;
+    private final DepartmentService deptService;
 
     @PostMapping("/create")
     @Operation(summary = "create user")

@@ -35,7 +35,7 @@ import static com.focela.platform.common.model.CommonResult.success;
 @RequiredArgsConstructor
 public class SmsChannelController {
 
-        private final SmsChannelService smsChannelService;
+    private final SmsChannelService smsChannelService;
 
     @PostMapping("/create")
     @Operation(summary = "create SMS channel")

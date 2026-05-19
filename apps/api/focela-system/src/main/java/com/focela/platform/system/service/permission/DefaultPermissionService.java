@@ -50,21 +50,21 @@ import static com.focela.platform.common.utils.json.JsonUtils.toJsonString;
 @RequiredArgsConstructor
 public class DefaultPermissionService implements PermissionService {
 
-        private final RoleMenuMapper roleMenuMapper;
-        private final UserRoleMapper userRoleMapper;
+    private final RoleMenuMapper roleMenuMapper;
+    private final UserRoleMapper userRoleMapper;
 
-        private final RoleService roleService;
-        private final MenuService menuService;
-        private final DepartmentService deptService;
+    private final RoleService roleService;
+    private final MenuService menuService;
+    private final DepartmentService deptService;
 
-        /**
-         * Lazy field injection breaks the {@code DefaultPermissionService} ↔
-         * {@code DefaultUserService} cycle.
-         * See MODULE_TEMPLATE.md §12.5.
-         */
-        @Resource
-        @Lazy
-        private UserService userService;
+    /**
+     * Lazy field injection breaks the {@code DefaultPermissionService} ↔
+     * {@code DefaultUserService} cycle.
+     * See MODULE_TEMPLATE.md §12.5.
+     */
+    @Resource
+    @Lazy
+    private UserService userService;
 
     @Override
     public boolean hasAnyPermissions(Long userId, String... permissions) {

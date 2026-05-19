@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class MailSendConsumer {
 
-        private final MailSendService mailSendService;
+    private final MailSendService mailSendService;
 
     @EventListener
     @Async // Spring Event runs by default on the Producer's sending thread; @Async makes it asynchronous

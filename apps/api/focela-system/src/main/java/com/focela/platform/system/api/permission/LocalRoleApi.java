@@ -13,7 +13,7 @@ import java.util.Collection;
 @RequiredArgsConstructor
 public class LocalRoleApi implements RoleApi {
 
-        private final RoleService roleService;
+    private final RoleService roleService;
 
     @Override
     public void validateRoleList(Collection<Long> ids) {

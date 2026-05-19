@@ -50,16 +50,16 @@ import static com.focela.platform.system.constants.LogRecordConstants.*;
 @RequiredArgsConstructor
 public class DefaultRoleService implements RoleService {
 
-        private final RoleMapper roleMapper;
+    private final RoleMapper roleMapper;
 
-        /**
-         * Lazy field injection breaks the {@code DefaultPermissionService} ↔ {@code DefaultRoleService}
-         * cycle. See MODULE_TEMPLATE.md §12.5 — this is the documented exception to the
-         * constructor-injection convention.
-         */
-        @Resource
-        @Lazy
-        private PermissionService permissionService;
+    /**
+     * Lazy field injection breaks the {@code DefaultPermissionService} ↔ {@code DefaultRoleService}
+     * cycle. See MODULE_TEMPLATE.md §12.5 — this is the documented exception to the
+     * constructor-injection convention.
+     */
+    @Resource
+    @Lazy
+    private PermissionService permissionService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)

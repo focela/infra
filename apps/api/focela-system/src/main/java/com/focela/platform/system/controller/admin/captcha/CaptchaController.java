@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CaptchaController {
 
-        private final CaptchaService captchaService;
+    private final CaptchaService captchaService;
 
     @PostMapping({"/get"})
     @Operation(summary = "get CAPTCHA")
