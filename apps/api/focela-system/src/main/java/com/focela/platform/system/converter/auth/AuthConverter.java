@@ -16,6 +16,7 @@ import com.focela.platform.system.domain.entity.user.UserEntity;
 import com.focela.platform.system.enums.permission.MenuTypeEnum;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
@@ -31,6 +32,8 @@ import static com.focela.platform.system.domain.entity.permission.MenuEntity.ID_
 
 @Mapper
 public interface AuthConverter {
+
+    Logger LOG = LoggerFactory.getLogger(AuthConverter.class);
 
     AuthConverter INSTANCE = Mappers.getMapper(AuthConverter.class);
 
@@ -70,7 +73,7 @@ public interface AuthConverter {
             // get the parent node
             AuthPermissionInfoResponse.MenuInfo parentNode = treeNodeMap.get(childNode.getParentId());
             if (parentNode == null) {
-                LoggerFactory.getLogger(getClass()).error("[buildRouterTree][resource({}) cannot find parent resource({})]",
+                LOG.error("[buildRouterTree][resource({}) cannot find parent resource({})]",
                         childNode.getId(), childNode.getParentId());
                 return;
             }
