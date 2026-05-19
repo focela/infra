@@ -9,8 +9,10 @@ import com.focela.platform.system.repository.mapper.sms.SmsChannelMapper;
 import com.focela.platform.system.config.sms.client.SmsClient;
 import com.focela.platform.system.config.sms.client.SmsClientFactory;
 import com.focela.platform.system.config.sms.property.SmsChannelProperties;
+import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,7 +33,14 @@ public class DefaultSmsChannelService implements SmsChannelService {
 
     private final SmsChannelMapper smsChannelMapper;
 
-    private final SmsTemplateService smsTemplateService;
+    /**
+     * Lazy field injection breaks the {@code DefaultSmsChannelService} ↔
+     * {@code DefaultSmsTemplateService} cycle.
+     * See MODULE_TEMPLATE.md §12.5.
+     */
+    @Resource
+    @Lazy
+    private SmsTemplateService smsTemplateService;
 
     @Override
     public Long createSmsChannel(SmsChannelSaveRequest createRequest) {

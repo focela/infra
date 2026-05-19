@@ -22,11 +22,13 @@ import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.Sets;
+import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,7 +56,15 @@ public class DefaultPermissionService implements PermissionService {
         private final RoleService roleService;
         private final MenuService menuService;
         private final DepartmentService deptService;
-        private final UserService userService;
+
+        /**
+         * Lazy field injection breaks the {@code DefaultPermissionService} ↔
+         * {@code DefaultUserService} cycle.
+         * See MODULE_TEMPLATE.md §12.5.
+         */
+        @Resource
+        @Lazy
+        private UserService userService;
 
     @Override
     public boolean hasAnyPermissions(Long userId, String... permissions) {

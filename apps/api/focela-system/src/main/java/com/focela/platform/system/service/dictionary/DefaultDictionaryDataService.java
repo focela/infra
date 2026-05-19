@@ -11,8 +11,10 @@ import com.focela.platform.system.domain.entity.dictionary.DictionaryDataEntity;
 import com.focela.platform.system.domain.entity.dictionary.DictionaryTypeEntity;
 import com.focela.platform.system.repository.mapper.dictionary.DictionaryDataMapper;
 import com.google.common.annotations.VisibleForTesting;
+import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -38,9 +40,16 @@ public class DefaultDictionaryDataService implements DictionaryDataService {
             .comparing(DictionaryDataEntity::getDictType)
             .thenComparingInt(DictionaryDataEntity::getSort);
 
-        private final DictionaryTypeService dictTypeService;
-
         private final DictionaryDataMapper dictDataMapper;
+
+        /**
+         * Lazy field injection breaks the {@code DefaultDictionaryDataService} ↔
+         * {@code DefaultDictionaryTypeService} cycle.
+         * See MODULE_TEMPLATE.md §12.5.
+         */
+        @Resource
+        @Lazy
+        private DictionaryTypeService dictTypeService;
 
     @Override
     public List<DictionaryDataEntity> getDictDataList(Integer status, String dictType) {
