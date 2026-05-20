@@ -98,11 +98,6 @@ public class OAuth2Utils {
         return CollUtil.join(scopes, " ");
     }
 
-    @Deprecated
-    public static String buildScopeStr(Collection<String> scopes) {
-        return buildScopeString(scopes);
-    }
-
     public static List<String> buildScopes(String scope) {
         return StrUtil.split(scope, ' ');
     }

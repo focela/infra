@@ -55,20 +55,6 @@ public interface SystemErrorCodeConstants {
     ErrorCode DEPARTMENT_PARENT_SELF_REFERENCE = new ErrorCode(1_002_004_004, "Cannot set itself as the parent department");
     ErrorCode DEPARTMENT_NOT_ENABLED = new ErrorCode(1_002_004_006, "Department ({}) is not enabled, cannot be selected");
     ErrorCode DEPARTMENT_PARENT_IS_CHILD = new ErrorCode(1_002_004_007, "Cannot set its own child department as the parent department");
-    @Deprecated
-    ErrorCode DEPT_NAME_DUPLICATE = DEPARTMENT_NAME_DUPLICATE;
-    @Deprecated
-    ErrorCode DEPT_NOT_FOUND = DEPARTMENT_NOT_FOUND;
-    @Deprecated
-    ErrorCode DEPT_PARENT_ERROR = DEPARTMENT_PARENT_SELF_REFERENCE;
-    @Deprecated
-    ErrorCode DEPT_NOT_ENABLE = DEPARTMENT_NOT_ENABLED;
-    @Deprecated
-    ErrorCode DEPT_PARENT_IS_CHILD = DEPARTMENT_PARENT_IS_CHILD;
-    @Deprecated
-    ErrorCode DEPT_PARENT_NOT_EXITS = DEPARTMENT_PARENT_NOT_EXISTS;
-    @Deprecated
-    ErrorCode DEPT_EXITS_CHILDREN = DEPARTMENT_HAS_CHILDREN;
 
     // ========== Post module 1-002-005-000 ==========
     ErrorCode POST_NOT_FOUND = new ErrorCode(1_002_005_000, "Current post does not exist");

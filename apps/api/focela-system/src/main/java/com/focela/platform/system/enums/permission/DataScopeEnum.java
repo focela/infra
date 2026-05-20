@@ -24,22 +24,6 @@ public enum DataScopeEnum implements ArrayValuable<Integer> {
     SELF(5); // permission for own data only
 
     /**
-     * @deprecated use {@link #DEPARTMENT_CUSTOM}.
-     */
-    @Deprecated
-    public static final DataScopeEnum DEPT_CUSTOM = DEPARTMENT_CUSTOM;
-    /**
-     * @deprecated use {@link #DEPARTMENT_ONLY}.
-     */
-    @Deprecated
-    public static final DataScopeEnum DEPT_ONLY = DEPARTMENT_ONLY;
-    /**
-     * @deprecated use {@link #DEPARTMENT_AND_CHILD}.
-     */
-    @Deprecated
-    public static final DataScopeEnum DEPT_AND_CHILD = DEPARTMENT_AND_CHILD;
-
-    /**
      * Scope
      */
     private final Integer scope;
