@@ -82,7 +82,7 @@ public class MenuController {
         return success(BeanUtils.toBean(menus, MenuResponse.class));
     }
 
-    @GetMapping({"/list-all-simple", "simple-list"})
+    @GetMapping({"/list-all-simple", "/simple-list"})
     @Operation(summary = "get menu simplified info list",
             description = "only include enabled menu, for [role-menu assignment]feature options. in multi-tenant scenario, return only tenant belongs to package has menu")
     public CommonResult<List<MenuSimpleResponse>> getSimpleMenuList() {

@@ -1,6 +1,6 @@
 package com.focela.platform.system.controller.admin.user.response.profile;
 
-import com.focela.platform.system.controller.admin.department.response.dept.DepartmentSimpleResponse;
+import com.focela.platform.system.controller.admin.department.response.department.DepartmentSimpleResponse;
 import com.focela.platform.system.controller.admin.department.response.post.PostSimpleResponse;
 import com.focela.platform.system.controller.admin.permission.response.role.RoleSimpleResponse;
 import io.swagger.v3.oas.annotations.media.Schema;

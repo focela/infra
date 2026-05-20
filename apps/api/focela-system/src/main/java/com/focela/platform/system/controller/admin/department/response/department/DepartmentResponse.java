@@ -1,4 +1,4 @@
-package com.focela.platform.system.controller.admin.department.response.dept;
+package com.focela.platform.system.controller.admin.department.response.department;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

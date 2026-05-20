@@ -1,4 +1,4 @@
-package com.focela.platform.system.controller.app.ip.response;
+package com.focela.platform.system.controller.app.area.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

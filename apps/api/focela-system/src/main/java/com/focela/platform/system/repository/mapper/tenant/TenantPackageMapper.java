@@ -3,7 +3,7 @@ package com.focela.platform.system.repository.mapper.tenant;
 import com.focela.platform.common.model.PageResult;
 import com.focela.platform.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.system.controller.admin.tenant.request.packages.TenantPackagePageRequest;
+import com.focela.platform.system.controller.admin.tenant.request.tenantpackage.TenantPackagePageRequest;
 import com.focela.platform.system.domain.entity.tenant.TenantPackageEntity;
 import org.apache.ibatis.annotations.Mapper;
 

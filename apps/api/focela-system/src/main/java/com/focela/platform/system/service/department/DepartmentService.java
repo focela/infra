@@ -1,8 +1,8 @@
 package com.focela.platform.system.service.department;
 
 import com.focela.platform.common.utils.collection.CollectionUtils;
-import com.focela.platform.system.controller.admin.department.request.dept.DepartmentListRequest;
-import com.focela.platform.system.controller.admin.department.request.dept.DepartmentSaveRequest;
+import com.focela.platform.system.controller.admin.department.request.department.DepartmentListRequest;
+import com.focela.platform.system.controller.admin.department.request.department.DepartmentSaveRequest;
 import com.focela.platform.system.domain.entity.department.DepartmentEntity;
 
 import java.util.Collection;

@@ -1,8 +1,8 @@
 package com.focela.platform.system.service.tenant;
 
 import com.focela.platform.common.model.PageResult;
-import com.focela.platform.system.controller.admin.tenant.request.packages.TenantPackagePageRequest;
-import com.focela.platform.system.controller.admin.tenant.request.packages.TenantPackageSaveRequest;
+import com.focela.platform.system.controller.admin.tenant.request.tenantpackage.TenantPackagePageRequest;
+import com.focela.platform.system.controller.admin.tenant.request.tenantpackage.TenantPackageSaveRequest;
 import com.focela.platform.system.domain.entity.tenant.TenantPackageEntity;
 import jakarta.validation.Valid;
 

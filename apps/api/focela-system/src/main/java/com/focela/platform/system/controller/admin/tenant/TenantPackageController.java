@@ -4,10 +4,10 @@ import com.focela.platform.common.enums.CommonStatusEnum;
 import com.focela.platform.common.model.CommonResult;
 import com.focela.platform.common.model.PageResult;
 import com.focela.platform.common.utils.object.BeanUtils;
-import com.focela.platform.system.controller.admin.tenant.request.packages.TenantPackagePageRequest;
-import com.focela.platform.system.controller.admin.tenant.response.packages.TenantPackageResponse;
-import com.focela.platform.system.controller.admin.tenant.request.packages.TenantPackageSaveRequest;
-import com.focela.platform.system.controller.admin.tenant.response.packages.TenantPackageSimpleResponse;
+import com.focela.platform.system.controller.admin.tenant.request.tenantpackage.TenantPackagePageRequest;
+import com.focela.platform.system.controller.admin.tenant.response.tenantpackage.TenantPackageResponse;
+import com.focela.platform.system.controller.admin.tenant.request.tenantpackage.TenantPackageSaveRequest;
+import com.focela.platform.system.controller.admin.tenant.response.tenantpackage.TenantPackageSimpleResponse;
 import com.focela.platform.system.domain.entity.tenant.TenantPackageEntity;
 import com.focela.platform.system.service.tenant.TenantPackageService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -89,7 +89,7 @@ public class TenantPackageController {
         return success(BeanUtils.toBean(pageResult, TenantPackageResponse.class));
     }
 
-    @GetMapping({"/get-simple-list", "simple-list"})
+    @GetMapping({"/get-simple-list", "/simple-list"})
     @Operation(summary = "get tenant package simplified info list", description = "only include enabled tenant package, for frontend dropdown options")
     public CommonResult<List<TenantPackageSimpleResponse>> getTenantPackageList() {
         List<TenantPackageEntity> tenantPackages = tenantPackageService.getTenantPackageListByStatus(CommonStatusEnum.ENABLE.getStatus());

@@ -90,7 +90,7 @@ public class MailTemplateController {
         return success(BeanUtils.toBean(pageResult, MailTemplateResponse.class));
     }
 
-    @GetMapping({"/list-all-simple", "simple-list"})
+    @GetMapping({"/list-all-simple", "/simple-list"})
     @Operation(summary = "get email template simplified list")
     public CommonResult<List<MailTemplateSimpleResponse>> getSimpleTemplateList() {
         List<MailTemplateEntity> mailTemplates = mailTemplateService.getMailTemplateList();

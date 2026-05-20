@@ -2,7 +2,7 @@ package com.focela.platform.system.repository.mapper.department;
 
 import com.focela.platform.mybatis.core.mapper.BaseMapperX;
 import com.focela.platform.mybatis.core.query.LambdaQueryWrapperX;
-import com.focela.platform.system.controller.admin.department.request.dept.DepartmentListRequest;
+import com.focela.platform.system.controller.admin.department.request.department.DepartmentListRequest;
 import com.focela.platform.system.domain.entity.department.DepartmentEntity;
 import org.apache.ibatis.annotations.Mapper;
 
