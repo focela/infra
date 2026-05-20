@@ -8,7 +8,7 @@ spring:
 spring:
   # Datasource configuration
   datasource:
-    name: ruoyi-vue-pro
+    name: focela-platform
     url: jdbc:h2:mem:testdb;MODE=MYSQL;DATABASE_TO_UPPER=false;NON_KEYWORDS=value; # MODE uses MySQL mode; DATABASE_TO_UPPER configures tables and fields to use lowercase
     driver-class-name: org.h2.Driver
     username: sa

@@ -22,7 +22,7 @@ import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
 import static com.focela.platform.test.core.utils.AssertUtils.assertServiceException;
 import static com.focela.platform.test.core.utils.RandomUtils.randomLongId;
 import static com.focela.platform.test.core.utils.RandomUtils.randomPojo;
-import static com.focela.platform.system.constants.SystemErrorCodeConstants.MAIL_TEMPLATE_NOT_EXISTS;
+import static com.focela.platform.system.constants.SystemErrorCodeConstants.MAIL_TEMPLATE_NOT_FOUND;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -75,7 +75,7 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
         MailTemplateSaveRequest request = randomPojo(MailTemplateSaveRequest.class);
 
         // invoke and assert exception
-        assertServiceException(() -> mailTemplateService.updateMailTemplate(request), MAIL_TEMPLATE_NOT_EXISTS);
+        assertServiceException(() -> mailTemplateService.updateMailTemplate(request), MAIL_TEMPLATE_NOT_FOUND);
     }
 
     @Test
@@ -98,7 +98,7 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
         Long id = randomLongId();
 
         // invoke and assert exception
-        assertServiceException(() -> mailTemplateService.deleteMailTemplate(id), MAIL_TEMPLATE_NOT_EXISTS);
+        assertServiceException(() -> mailTemplateService.deleteMailTemplate(id), MAIL_TEMPLATE_NOT_FOUND);
     }
 
     @Test

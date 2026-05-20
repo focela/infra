@@ -145,7 +145,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
         SmsTemplateSaveRequest request = randomPojo(SmsTemplateSaveRequest.class);
 
         // invoke and assert exception
-        assertServiceException(() -> smsTemplateService.updateSmsTemplate(request), SMS_TEMPLATE_NOT_EXISTS);
+        assertServiceException(() -> smsTemplateService.updateSmsTemplate(request), SMS_TEMPLATE_NOT_FOUND);
     }
 
     @Test
@@ -168,7 +168,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
         Long id = randomLongId();
 
         // invoke and assert exception
-        assertServiceException(() -> smsTemplateService.deleteSmsTemplate(id), SMS_TEMPLATE_NOT_EXISTS);
+        assertServiceException(() -> smsTemplateService.deleteSmsTemplate(id), SMS_TEMPLATE_NOT_FOUND);
     }
 
     @Test
@@ -205,9 +205,9 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
         SmsTemplateEntity dbSmsTemplate = randomPojo(SmsTemplateEntity.class, o -> { // will be queried later
             o.setType(SmsTemplateTypeEnum.PROMOTION.getType());
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
-            o.setCode("tudou");
+            o.setCode("focela_alternate");
             o.setContent("Focelasource");
-            o.setApiTemplateId("yunai");
+            o.setApiTemplateId("focela_sample");
             o.setChannelId(1L);
             o.setCreateTime(buildTime(2021, 11, 11));
         });
@@ -217,7 +217,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
         // test status mismatch
         smsTemplateMapper.insert(ObjectUtils.cloneIgnoreId(dbSmsTemplate, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
         // test code mismatch
-        smsTemplateMapper.insert(ObjectUtils.cloneIgnoreId(dbSmsTemplate, o -> o.setCode("yuanma")));
+        smsTemplateMapper.insert(ObjectUtils.cloneIgnoreId(dbSmsTemplate, o -> o.setCode("focela_secret")));
         // test content mismatch
         smsTemplateMapper.insert(ObjectUtils.cloneIgnoreId(dbSmsTemplate, o -> o.setContent("source")));
         // test apiTemplateId mismatch
@@ -230,9 +230,9 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
         SmsTemplatePageRequest request = new SmsTemplatePageRequest();
         request.setType(SmsTemplateTypeEnum.PROMOTION.getType());
         request.setStatus(CommonStatusEnum.ENABLE.getStatus());
-        request.setCode("tu");
+        request.setCode("focela_alternate");
         request.setContent("Focela");
-        request.setApiTemplateId("yu");
+        request.setApiTemplateId("focela_sample");
         request.setChannelId(1L);
         request.setCreateTime(buildBetweenTime(2021, 11, 1, 2021, 12, 1));
 
@@ -284,7 +284,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
 
         // invoke, verify exception
         assertServiceException(() -> smsTemplateService.validateSmsChannel(channelId),
-                SMS_CHANNEL_NOT_EXISTS);
+                SMS_CHANNEL_NOT_FOUND);
     }
 
     @Test
@@ -300,7 +300,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
 
         // invoke, verify exception
         assertServiceException(() -> smsTemplateService.validateSmsChannel(channelId),
-                SMS_CHANNEL_DISABLE);
+                SMS_CHANNEL_DISABLED);
     }
 
     @Test

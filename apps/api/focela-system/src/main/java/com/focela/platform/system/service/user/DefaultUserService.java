@@ -97,7 +97,7 @@ public class DefaultUserService implements UserService {
         tenantService.handleTenantInfo(tenant -> {
             long count = userMapper.selectCount();
             if (count >= tenant.getAccountCount()) {
-                throw exception(USER_COUNT_MAX, tenant.getAccountCount());
+                throw exception(USER_TENANT_QUOTA_EXCEEDED, tenant.getAccountCount());
             }
         });
         // 1.2 Validate
@@ -129,7 +129,7 @@ public class DefaultUserService implements UserService {
         tenantService.handleTenantInfo(tenant -> {
             long count = userMapper.selectCount();
             if (count >= tenant.getAccountCount()) {
-                throw exception(USER_COUNT_MAX, tenant.getAccountCount());
+                throw exception(USER_TENANT_QUOTA_EXCEEDED, tenant.getAccountCount());
             }
         });
         // 1.3 Validate
@@ -342,10 +342,10 @@ public class DefaultUserService implements UserService {
         ids.forEach(id -> {
             UserEntity user = userMap.get(id);
             if (user == null) {
-                throw exception(USER_NOT_EXISTS);
+                throw exception(USER_NOT_FOUND);
             }
             if (!CommonStatusEnum.ENABLE.getStatus().equals(user.getStatus())) {
-                throw exception(USER_IS_DISABLE, user.getNickname());
+                throw exception(USER_DISABLED, user.getNickname());
             }
         });
     }
@@ -397,7 +397,7 @@ public class DefaultUserService implements UserService {
         }
         UserEntity user = userMapper.selectById(id);
         if (user == null) {
-            throw exception(USER_NOT_EXISTS);
+            throw exception(USER_NOT_FOUND);
         }
         return user;
     }
@@ -465,7 +465,7 @@ public class DefaultUserService implements UserService {
     void validateOldPassword(Long id, String oldPassword) {
         UserEntity user = userMapper.selectById(id);
         if (user == null) {
-            throw exception(USER_NOT_EXISTS);
+            throw exception(USER_NOT_FOUND);
         }
         if (!isPasswordMatch(oldPassword, user.getPassword())) {
             throw exception(USER_PASSWORD_FAILED);

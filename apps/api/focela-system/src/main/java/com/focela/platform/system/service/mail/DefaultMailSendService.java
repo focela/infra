@@ -78,7 +78,7 @@ public class DefaultMailSendService implements MailSendService {
             bccMails.stream().filter(Validator::isEmail).forEach(bccMailSet::add);
         }
         if (CollUtil.isEmpty(toMailSet)) {
-            throw exception(MAIL_SEND_MAIL_NOT_EXISTS);
+            throw exception(MAIL_SEND_MAILBOX_NOT_FOUND);
         }
 
         // Create the send log. If the template is disabled, do not send the mail, only record the log
@@ -142,7 +142,7 @@ public class DefaultMailSendService implements MailSendService {
         MailTemplateEntity template = mailTemplateService.getMailTemplateByCodeFromCache(templateCode);
         // Mail template does not exist
         if (template == null) {
-            throw exception(MAIL_TEMPLATE_NOT_EXISTS);
+            throw exception(MAIL_TEMPLATE_NOT_FOUND);
         }
         return template;
     }
@@ -153,7 +153,7 @@ public class DefaultMailSendService implements MailSendService {
         MailAccountEntity account = mailAccountService.getMailAccountFromCache(accountId);
         // Mail account does not exist
         if (account == null) {
-            throw exception(MAIL_ACCOUNT_NOT_EXISTS);
+            throw exception(MAIL_ACCOUNT_NOT_FOUND);
         }
         return account;
     }

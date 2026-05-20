@@ -41,21 +41,21 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
     @Test
     public void testGetDictDataList() {
         // mock data
-        DictionaryDataEntity dictDataEntity01 = randomDictDataEntity().setDictType("yunai").setSort(2)
+        DictionaryDataEntity dictDataEntity01 = randomDictDataEntity().setDictType("focela_sample").setSort(2)
                 .setStatus(CommonStatusEnum.ENABLE.getStatus());
         dictionaryDataMapper.insert(dictDataEntity01);
-        DictionaryDataEntity dictDataEntity02 = randomDictDataEntity().setDictType("yunai").setSort(1)
+        DictionaryDataEntity dictDataEntity02 = randomDictDataEntity().setDictType("focela_sample").setSort(1)
                 .setStatus(CommonStatusEnum.ENABLE.getStatus());
         dictionaryDataMapper.insert(dictDataEntity02);
-        DictionaryDataEntity dictDataEntity03 = randomDictDataEntity().setDictType("yunai").setSort(3)
+        DictionaryDataEntity dictDataEntity03 = randomDictDataEntity().setDictType("focela_sample").setSort(3)
                 .setStatus(CommonStatusEnum.DISABLE.getStatus());
         dictionaryDataMapper.insert(dictDataEntity03);
-        DictionaryDataEntity dictDataEntity04 = randomDictDataEntity().setDictType("yunai2").setSort(3)
+        DictionaryDataEntity dictDataEntity04 = randomDictDataEntity().setDictType("focela_sample_alt").setSort(3)
                 .setStatus(CommonStatusEnum.DISABLE.getStatus());
         dictionaryDataMapper.insert(dictDataEntity04);
         // prepare parameters
         Integer status = CommonStatusEnum.ENABLE.getStatus();
-        String dictionaryType = "yunai";
+        String dictionaryType = "focela_sample";
 
         // invoke
         List<DictionaryDataEntity> dictionaryDataEntities = dictionaryDataService.getDictDataList(status, dictionaryType);
@@ -70,7 +70,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
         // mock data
         DictionaryDataEntity dbDictionaryData = randomPojo(DictionaryDataEntity.class, o -> { // will be queried later
             o.setLabel("Focela");
-            o.setDictType("yunai");
+            o.setDictType("focela_sample");
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
         dictionaryDataMapper.insert(dbDictionaryData);
@@ -83,7 +83,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
         // prepare parameters
         DictionaryDataPageRequest request = new DictionaryDataPageRequest();
         request.setLabel("Focela");
-        request.setDictType("yunai");
+        request.setDictType("focela_sample");
         request.setStatus(CommonStatusEnum.ENABLE.getStatus());
 
         // invoke
@@ -172,7 +172,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testValidateDictDataExists_notExists() {
-        assertServiceException(() -> dictionaryDataService.validateDictDataExists(randomLongId()), DICT_DATA_NOT_EXISTS);
+        assertServiceException(() -> dictionaryDataService.validateDictDataExists(randomLongId()), DICTIONARY_DATA_NOT_FOUND);
     }
 
     @Test
@@ -187,7 +187,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testValidateDictTypeExists_notExists() {
-        assertServiceException(() -> dictionaryDataService.validateDictTypeExists(randomString()), DICT_TYPE_NOT_EXISTS);
+        assertServiceException(() -> dictionaryDataService.validateDictTypeExists(randomString()), DICTIONARY_TYPE_NOT_FOUND);
     }
 
     @Test
@@ -198,7 +198,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
                 randomPojo(DictionaryTypeEntity.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
 
         // invoke and assert exception
-        assertServiceException(() -> dictionaryDataService.validateDictTypeExists(dictionaryType), DICT_TYPE_NOT_ENABLE);
+        assertServiceException(() -> dictionaryDataService.validateDictTypeExists(dictionaryType), DICTIONARY_TYPE_NOT_ENABLED);
     }
 
     @Test
@@ -220,7 +220,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
 
         // invoke, verify exception
         assertServiceException(() -> dictionaryDataService.validateDictDataValueUnique(null, dictionaryType, value),
-                DICT_DATA_VALUE_DUPLICATE);
+                DICTIONARY_DATA_VALUE_DUPLICATE);
     }
 
     @Test
@@ -237,17 +237,17 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
 
         // invoke, verify exception
         assertServiceException(() -> dictionaryDataService.validateDictDataValueUnique(id, dictionaryType, value),
-                DICT_DATA_VALUE_DUPLICATE);
+                DICTIONARY_DATA_VALUE_DUPLICATE);
     }
 
     @Test
     public void testGetDictDataCountByDictType() {
         // mock data
-        dictionaryDataMapper.insert(randomDictDataEntity(o -> o.setDictType("yunai")));
-        dictionaryDataMapper.insert(randomDictDataEntity(o -> o.setDictType("tudou")));
-        dictionaryDataMapper.insert(randomDictDataEntity(o -> o.setDictType("yunai")));
+        dictionaryDataMapper.insert(randomDictDataEntity(o -> o.setDictType("focela_sample")));
+        dictionaryDataMapper.insert(randomDictDataEntity(o -> o.setDictType("focela_alternate")));
+        dictionaryDataMapper.insert(randomDictDataEntity(o -> o.setDictType("focela_sample")));
         // prepare parameters
-        String dictionaryType = "yunai";
+        String dictionaryType = "focela_sample";
 
         // invoke
         long count = dictionaryDataService.getDictDataCountByDictType(dictionaryType);
@@ -275,7 +275,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
         List<String> values = singletonList(randomString());
 
         // invoke and assert exception
-        assertServiceException(() -> dictionaryDataService.validateDictDataList(dictionaryType, values), DICT_DATA_NOT_EXISTS);
+        assertServiceException(() -> dictionaryDataService.validateDictDataList(dictionaryType, values), DICTIONARY_DATA_NOT_FOUND);
     }
 
     @Test
@@ -289,18 +289,18 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
 
         // invoke and assert exception
         assertServiceException(() -> dictionaryDataService.validateDictDataList(dictionaryType, values),
-                DICT_DATA_NOT_ENABLE, dictDataEntity.getLabel());
+                DICTIONARY_DATA_NOT_ENABLED, dictDataEntity.getLabel());
     }
 
     @Test
     public void testGetDictData_dictType() {
         // mock data
-        DictionaryDataEntity dictDataEntity = randomDictDataEntity().setDictType("yunai").setValue("1");
+        DictionaryDataEntity dictDataEntity = randomDictDataEntity().setDictType("focela_sample").setValue("1");
         dictionaryDataMapper.insert(dictDataEntity);
-        DictionaryDataEntity dictDataEntity02 = randomDictDataEntity().setDictType("yunai").setValue("2");
+        DictionaryDataEntity dictDataEntity02 = randomDictDataEntity().setDictType("focela_sample").setValue("2");
         dictionaryDataMapper.insert(dictDataEntity02);
         // prepare parameters
-        String dictionaryType = "yunai";
+        String dictionaryType = "focela_sample";
         String value = "1";
 
         // invoke
@@ -312,12 +312,12 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
     @Test
     public void testParseDictData() {
         // mock data
-        DictionaryDataEntity dictDataEntity = randomDictDataEntity().setDictType("yunai").setLabel("1");
+        DictionaryDataEntity dictDataEntity = randomDictDataEntity().setDictType("focela_sample").setLabel("1");
         dictionaryDataMapper.insert(dictDataEntity);
-        DictionaryDataEntity dictDataEntity02 = randomDictDataEntity().setDictType("yunai").setLabel("2");
+        DictionaryDataEntity dictDataEntity02 = randomDictDataEntity().setDictType("focela_sample").setLabel("2");
         dictionaryDataMapper.insert(dictDataEntity02);
         // prepare parameters
-        String dictionaryType = "yunai";
+        String dictionaryType = "focela_sample";
         String label = "1";
 
         // invoke

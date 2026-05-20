@@ -25,7 +25,7 @@ import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
 import static com.focela.platform.test.core.utils.AssertUtils.assertServiceException;
 import static com.focela.platform.test.core.utils.RandomUtils.randomLongId;
 import static com.focela.platform.test.core.utils.RandomUtils.randomPojo;
-import static com.focela.platform.infra.constants.InfraErrorCodeConstants.DATA_SOURCE_CONFIG_NOT_EXISTS;
+import static com.focela.platform.infra.constants.InfraErrorCodeConstants.DATA_SOURCE_CONFIG_NOT_FOUND;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -114,7 +114,7 @@ public class DefaultDataSourceConfigServiceTest extends BaseDbUnitTest {
         DataSourceConfigSaveRequest request = randomPojo(DataSourceConfigSaveRequest.class);
 
         // Invoke and verify exception
-        assertServiceException(() -> dataSourceConfigService.updateDataSourceConfig(request), DATA_SOURCE_CONFIG_NOT_EXISTS);
+        assertServiceException(() -> dataSourceConfigService.updateDataSourceConfig(request), DATA_SOURCE_CONFIG_NOT_FOUND);
     }
 
     @Test
@@ -137,7 +137,7 @@ public class DefaultDataSourceConfigServiceTest extends BaseDbUnitTest {
         Long id = randomLongId();
 
         // Invoke and verify exception
-        assertServiceException(() -> dataSourceConfigService.deleteDataSourceConfig(id), DATA_SOURCE_CONFIG_NOT_EXISTS);
+        assertServiceException(() -> dataSourceConfigService.deleteDataSourceConfig(id), DATA_SOURCE_CONFIG_NOT_FOUND);
     }
 
     @Test // Test querying by password — record can be queried

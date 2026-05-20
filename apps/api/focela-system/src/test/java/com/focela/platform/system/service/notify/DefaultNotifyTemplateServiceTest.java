@@ -20,7 +20,7 @@ import static com.focela.platform.common.utils.object.ObjectUtils.cloneIgnoreId;
 import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
 import static com.focela.platform.test.core.utils.AssertUtils.assertServiceException;
 import static com.focela.platform.test.core.utils.RandomUtils.*;
-import static com.focela.platform.system.constants.SystemErrorCodeConstants.NOTIFY_TEMPLATE_NOT_EXISTS;
+import static com.focela.platform.system.constants.SystemErrorCodeConstants.NOTIFY_TEMPLATE_NOT_FOUND;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -75,7 +75,7 @@ public class DefaultNotifyTemplateServiceTest extends BaseDbUnitTest {
         NotifyTemplateSaveRequest request = randomPojo(NotifyTemplateSaveRequest.class);
 
         // invoke and assert exception
-        assertServiceException(() -> notifyTemplateService.updateNotifyTemplate(request), NOTIFY_TEMPLATE_NOT_EXISTS);
+        assertServiceException(() -> notifyTemplateService.updateNotifyTemplate(request), NOTIFY_TEMPLATE_NOT_FOUND);
     }
 
     @Test
@@ -98,7 +98,7 @@ public class DefaultNotifyTemplateServiceTest extends BaseDbUnitTest {
         Long id = randomLongId();
 
         // invoke and assert exception
-        assertServiceException(() -> notifyTemplateService.deleteNotifyTemplate(id), NOTIFY_TEMPLATE_NOT_EXISTS);
+        assertServiceException(() -> notifyTemplateService.deleteNotifyTemplate(id), NOTIFY_TEMPLATE_NOT_FOUND);
     }
 
     @Test

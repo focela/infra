@@ -30,7 +30,7 @@ public class OAuth2OpenCheckTokenResponse {
     @Schema(description = "Scope", requiredMode = Schema.RequiredMode.REQUIRED, example = "user_info")
     private List<String> scopes;
 
-    @Schema(description = "Access token", requiredMode = Schema.RequiredMode.REQUIRED, example = "tudou")
+    @Schema(description = "Access token", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela_alternate")
     @JsonProperty("access_token")
     private String accessToken;
 

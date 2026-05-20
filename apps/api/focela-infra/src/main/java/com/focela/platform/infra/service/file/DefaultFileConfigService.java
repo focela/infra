@@ -32,7 +32,7 @@ import java.util.Objects;
 import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.common.utils.cache.CacheUtils.buildAsyncReloadingCache;
 import static com.focela.platform.infra.constants.InfraErrorCodeConstants.FILE_CONFIG_DELETE_FAIL_MASTER;
-import static com.focela.platform.infra.constants.InfraErrorCodeConstants.FILE_CONFIG_NOT_EXISTS;
+import static com.focela.platform.infra.constants.InfraErrorCodeConstants.FILE_CONFIG_NOT_FOUND;
 
 /**
  * Implementation class of the file config Service
@@ -166,7 +166,7 @@ public class DefaultFileConfigService implements FileConfigService {
     private FileConfigEntity validateFileConfigExists(Long id) {
         FileConfigEntity config = fileConfigMapper.selectById(id);
         if (config == null) {
-            throw exception(FILE_CONFIG_NOT_EXISTS);
+            throw exception(FILE_CONFIG_NOT_FOUND);
         }
         return config;
     }

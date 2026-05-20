@@ -91,7 +91,7 @@ Config prefix: all custom properties use `focela.*` (e.g. `focela.security`, `fo
 ```bash
 docker run -d --name uat-postgres \
   -e POSTGRES_USER=root -e POSTGRES_PASSWORD=123456 \
-  -e POSTGRES_DB=ruoyi-vue-pro \
+  -e POSTGRES_DB=focela-platform \
   -p 5432:5432 postgres:16.13
 
 docker run -d --name uat-redis \
@@ -139,10 +139,10 @@ Current test baseline: **580 run, 0 failures, 0 errors, 19 skipped** — full su
 | Decision | Why |
 |---|---|
 | Monorepo `apps/api/` | Future-proof for additional apps (`apps/web/`, `apps/worker/`) |
-| Layered (controller → service → repository) | Inherited from yudao baseline; pragmatic, not feature-first |
+| Layered (controller → service → repository) | Inherited from the legacy upstream baseline; pragmatic, not feature-first |
 | `*ContractApi` (in framework/common/contract/) + `*Api` (module-side) + `Local*Api` impl | Three-tier cross-module API: `*ContractApi` defines the shared contract, the module-side `*Api` extends it to add module-internal methods, and `Local*` signals same-JVM implementation. A future `Remote*Api` can sit alongside when modules move to RPC. DTO suffix `*RpcRequest`/`*RpcResponse` for cross-module payloads to keep them separate from HTTP `*Request`/`*Response`. |
 | `*Service` + `Default*Service` | Spring convention (`DefaultListableBeanFactory`); avoids `*Impl` smell while keeping interface for AOP/mocking |
-| MyBatis-Plus over JPA | Yudao baseline; better fit for legacy PostgreSQL schema |
+| MyBatis-Plus over JPA | Legacy upstream baseline; better fit for legacy PostgreSQL schema |
 | `focela.*` config prefix | Single namespace for application properties |
 
 ## Open gaps
@@ -162,9 +162,9 @@ Current test baseline: **580 run, 0 failures, 0 errors, 19 skipped** — full su
 
 ## History
 
-The codebase was rebranded from yudao (Chinese open-source project) to Focela in a series of refactor phases on `feature/SKF-1`:
+The codebase was rebranded from its legacy upstream baseline to Focela in a series of refactor phases on `feature/SKF-1`:
 
-- **Phase A** — Rebrand Maven coordinates, Java base package, class names, config prefix (`yudao.*` → `focela.*`)
+- **Phase A** — Rebrand Maven coordinates, Java base package, class names, config prefix (`legacy.*` → `focela.*`)
 - **Phase B** — Standardize naming: `dal/dataobject/` → `repository/entity/`, `vo/` → `dto/`, `*DO` → `*Entity`, `*ReqVO/*RespVO` → `*Request/*Response`
 - **Phase C** — International naming: `dept` → `department`, `dict` → `dictionary`, `*ServiceImpl` → `Default*Service`, etc.
 - Codegen module removed (FE migrating to React)

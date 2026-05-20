@@ -159,7 +159,7 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testValidateUpdateRole_roleIdNotExist() {
-        assertServiceException(() -> roleService.validateRoleForUpdate(randomLongId()), ROLE_NOT_EXISTS);
+        assertServiceException(() -> roleService.validateRoleForUpdate(randomLongId()), ROLE_NOT_FOUND);
     }
 
     @Test
@@ -170,7 +170,7 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
         Long id = roleEntity.getId();
 
         assertServiceException(() -> roleService.validateRoleForUpdate(id),
-                ROLE_CAN_NOT_UPDATE_SYSTEM_TYPE_ROLE);
+                ROLE_SYSTEM_TYPE_UPDATE_NOT_ALLOWED);
     }
 
     @Test
@@ -277,7 +277,7 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
         // mock data
         RoleEntity dbRole = randomPojo(RoleEntity.class, o -> { // will be queried later
             o.setName("Potato");
-            o.setCode("tudou");
+            o.setCode("focela_alternate");
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
             o.setCreateTime(buildTime(2022, 2, 8));
         });
@@ -291,7 +291,7 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
         // prepare parameters
         RolePageRequest request = new RolePageRequest();
         request.setName("Potato");
-        request.setCode("tu");
+        request.setCode("focela_alternate");
         request.setStatus(CommonStatusEnum.ENABLE.getStatus());
         request.setCreateTime(buildBetweenTime(2022, 2, 1, 2022, 2, 12));
 
@@ -355,7 +355,7 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
         List<Long> ids = singletonList(randomLongId());
 
         // invoke and assert exception
-        assertServiceException(() -> roleService.validateRoleList(ids), ROLE_NOT_EXISTS);
+        assertServiceException(() -> roleService.validateRoleList(ids), ROLE_NOT_FOUND);
     }
 
     @Test
@@ -367,6 +367,6 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
         List<Long> ids = singletonList(RoleEntity.getId());
 
         // invoke and assert exception
-        assertServiceException(() -> roleService.validateRoleList(ids), ROLE_IS_DISABLE, RoleEntity.getName());
+        assertServiceException(() -> roleService.validateRoleList(ids), ROLE_DISABLED, RoleEntity.getName());
     }
 }

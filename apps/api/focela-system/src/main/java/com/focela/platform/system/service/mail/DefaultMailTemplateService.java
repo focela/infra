@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 
 import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.system.constants.SystemErrorCodeConstants.MAIL_TEMPLATE_CODE_EXISTS;
-import static com.focela.platform.system.constants.SystemErrorCodeConstants.MAIL_TEMPLATE_NOT_EXISTS;
+import static com.focela.platform.system.constants.SystemErrorCodeConstants.MAIL_TEMPLATE_NOT_FOUND;
 
 /**
  * Mail template Service implementation class
@@ -107,7 +107,7 @@ public class DefaultMailTemplateService implements MailTemplateService {
 
     private void validateMailTemplateExists(Long id) {
         if (mailTemplateMapper.selectById(id) == null) {
-            throw exception(MAIL_TEMPLATE_NOT_EXISTS);
+            throw exception(MAIL_TEMPLATE_NOT_FOUND);
         }
     }
 

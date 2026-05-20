@@ -19,7 +19,7 @@ import java.util.List;
 
 import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.system.constants.SystemErrorCodeConstants.SMS_CHANNEL_HAS_CHILDREN;
-import static com.focela.platform.system.constants.SystemErrorCodeConstants.SMS_CHANNEL_NOT_EXISTS;
+import static com.focela.platform.system.constants.SystemErrorCodeConstants.SMS_CHANNEL_NOT_FOUND;
 
 /**
  * SMS channel Service implementation class
@@ -86,7 +86,7 @@ public class DefaultSmsChannelService implements SmsChannelService {
     private SmsChannelEntity validateSmsChannelExists(Long id) {
         SmsChannelEntity channel = smsChannelMapper.selectById(id);
         if (channel == null) {
-            throw exception(SMS_CHANNEL_NOT_EXISTS);
+            throw exception(SMS_CHANNEL_NOT_FOUND);
         }
         return channel;
     }

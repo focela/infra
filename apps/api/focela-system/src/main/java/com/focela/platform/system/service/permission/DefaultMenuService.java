@@ -84,7 +84,7 @@ public class DefaultMenuService implements MenuService {
     public void updateMenu(MenuSaveRequest updateRequest) {
         // Validate that the menu to update exists
         if (menuMapper.selectById(updateRequest.getId()) == null) {
-            throw exception(MENU_NOT_EXISTS);
+            throw exception(MENU_NOT_FOUND);
         }
         // Validate that the parent menu exists
         validateParentMenu(updateRequest.getParentId(), updateRequest.getId());
@@ -109,7 +109,7 @@ public class DefaultMenuService implements MenuService {
         }
         // Validate that the menu to delete exists
         if (menuMapper.selectById(id) == null) {
-            throw exception(MENU_NOT_EXISTS);
+            throw exception(MENU_NOT_FOUND);
         }
         // Mark as deleted
         menuMapper.deleteById(id);
@@ -243,7 +243,7 @@ public class DefaultMenuService implements MenuService {
         MenuEntity menu = menuMapper.selectById(parentId);
         // Parent menu does not exist
         if (menu == null) {
-            throw exception(MENU_PARENT_NOT_EXISTS);
+            throw exception(MENU_PARENT_NOT_FOUND);
         }
         // The parent menu must be of dir or menu type
         if (!MenuTypeEnum.DIR.getType().equals(menu.getType())

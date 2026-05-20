@@ -224,7 +224,7 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
 
         // invoke, and assert exception
         assertServiceException(() -> mailSendService.validateMailTemplate(templateCode),
-                MAIL_TEMPLATE_NOT_EXISTS);
+                MAIL_TEMPLATE_NOT_FOUND);
     }
 
     @Test
@@ -264,7 +264,7 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
         // invoke, and assert exception
         assertServiceException(() -> mailSendService.sendSingleMail(toMails, null, null, userId,
                 UserTypeEnum.ADMIN.getValue(), templateCode, templateParams, (java.io.File[]) null),
-                MAIL_SEND_MAIL_NOT_EXISTS);
+                MAIL_SEND_MAILBOX_NOT_FOUND);
     }
 
     @Test

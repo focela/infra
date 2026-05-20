@@ -17,7 +17,7 @@ import static com.focela.platform.common.utils.object.ObjectUtils.cloneIgnoreId;
 import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
 import static com.focela.platform.test.core.utils.AssertUtils.assertServiceException;
 import static com.focela.platform.test.core.utils.RandomUtils.*;
-import static com.focela.platform.system.constants.SystemErrorCodeConstants.MAIL_ACCOUNT_NOT_EXISTS;
+import static com.focela.platform.system.constants.SystemErrorCodeConstants.MAIL_ACCOUNT_NOT_FOUND;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -76,7 +76,7 @@ public class DefaultMailAccountServiceTest extends BaseDbUnitTest {
         MailAccountSaveRequest request = randomPojo(MailAccountSaveRequest.class);
 
         // invoke and assert exception
-        assertServiceException(() -> mailAccountService.updateMailAccount(request), MAIL_ACCOUNT_NOT_EXISTS);
+        assertServiceException(() -> mailAccountService.updateMailAccount(request), MAIL_ACCOUNT_NOT_FOUND);
     }
 
     @Test
@@ -115,7 +115,7 @@ public class DefaultMailAccountServiceTest extends BaseDbUnitTest {
         Long id = randomLongId();
 
         // invoke and assert exception
-        assertServiceException(() -> mailAccountService.deleteMailAccount(id), MAIL_ACCOUNT_NOT_EXISTS);
+        assertServiceException(() -> mailAccountService.deleteMailAccount(id), MAIL_ACCOUNT_NOT_FOUND);
     }
 
     @Test
@@ -123,17 +123,17 @@ public class DefaultMailAccountServiceTest extends BaseDbUnitTest {
         // mock data
         MailAccountEntity dbMailAccount = randomPojo(MailAccountEntity.class, o -> { // will be queried later
             o.setMail("768@qq.com");
-            o.setUsername("yunai");
+            o.setUsername("focela_sample");
         });
         mailAccountMapper.insert(dbMailAccount);
         // test mail mismatch
         mailAccountMapper.insert(cloneIgnoreId(dbMailAccount, o -> o.setMail("788@qq.com")));
         // test username mismatch
-        mailAccountMapper.insert(cloneIgnoreId(dbMailAccount, o -> o.setUsername("tudou")));
+        mailAccountMapper.insert(cloneIgnoreId(dbMailAccount, o -> o.setUsername("focela_alternate")));
         // prepare parameters
         MailAccountPageRequest request = new MailAccountPageRequest();
         request.setMail("768");
-        request.setUsername("yu");
+        request.setUsername("focela_sample");
 
         // invoke
         PageResult<MailAccountEntity> pageResult = mailAccountService.getMailAccountPage(request);

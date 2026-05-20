@@ -90,7 +90,7 @@ public class DefaultMenuServiceTest extends BaseDbUnitTest {
         // prepare parameters
         MenuSaveRequest request = randomPojo(MenuSaveRequest.class);
         // invoke, and assert exception
-        assertServiceException(() -> menuService.updateMenu(request), MENU_NOT_EXISTS);
+        assertServiceException(() -> menuService.updateMenu(request), MENU_NOT_FOUND);
     }
 
     @Test
@@ -112,7 +112,7 @@ public class DefaultMenuServiceTest extends BaseDbUnitTest {
     @Test
     public void testDeleteMenu_menuNotExist() {
         assertServiceException(() -> menuService.deleteMenu(randomLongId()),
-                MENU_NOT_EXISTS);
+                MENU_NOT_FOUND);
     }
 
     @Test
@@ -258,7 +258,7 @@ public class DefaultMenuServiceTest extends BaseDbUnitTest {
     public void testValidateParentMenu_parentNotExist() {
         // invoke, and assert exception
         assertServiceException(() -> menuService.validateParentMenu(randomLongId(), null),
-                MENU_PARENT_NOT_EXISTS);
+                MENU_PARENT_NOT_FOUND);
     }
 
     @Test

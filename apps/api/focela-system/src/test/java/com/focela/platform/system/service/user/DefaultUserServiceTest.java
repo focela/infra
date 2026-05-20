@@ -147,7 +147,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
         }));
 
         // invoke, and assert exception
-        assertServiceException(() -> userService.createUser(request), USER_COUNT_MAX, -1);
+        assertServiceException(() -> userService.createUser(request), USER_TENANT_QUOTA_EXCEEDED, -1);
     }
 
     @Test
@@ -229,13 +229,13 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testUpdateUserPassword_success() {
         // mock data
-        UserEntity dbUser = randomAdminUserEntity(o -> o.setPassword("encode:tudou"));
+        UserEntity dbUser = randomAdminUserEntity(o -> o.setPassword("encode:focela_alternate"));
         userMapper.insert(dbUser);
         // prepare parameters
         Long userId = dbUser.getId();
         UserProfileUpdatePasswordRequest request = randomPojo(UserProfileUpdatePasswordRequest.class, o -> {
-            o.setOldPassword("tudou");
-            o.setNewPassword("yuanma");
+            o.setOldPassword("focela_alternate");
+            o.setNewPassword("focela_secret");
         });
         // mock the method
         when(passwordEncoder.encode(anyString())).then(
@@ -246,7 +246,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
         userService.updateUserPassword(userId, request);
         // assert
         UserEntity user = userMapper.selectById(userId);
-        assertEquals("encode:yuanma", user.getPassword());
+        assertEquals("encode:focela_secret", user.getPassword());
     }
 
     @Test
@@ -334,7 +334,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
         UserEntity dbUser = initGetUserPageData();
         // prepare parameters
         UserPageRequest request = new UserPageRequest();
-        request.setUsername("tu");
+        request.setUsername("focela_alternate");
         request.setMobile("1560");
         request.setStatus(CommonStatusEnum.ENABLE.getStatus());
         request.setCreateTime(buildBetweenTime(2020, 12, 1, 2020, 12, 24));
@@ -357,7 +357,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     private UserEntity initGetUserPageData() {
         // mock data
         UserEntity dbUser = randomAdminUserEntity(o -> { // will be queried later
-            o.setUsername("tudou");
+            o.setUsername("focela_alternate");
             o.setMobile("15601691300");
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
             o.setCreateTime(buildTime(2020, 12, 12));
@@ -529,7 +529,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testValidateUserExists_notExists() {
-        assertServiceException(() -> userService.validateUserExists(randomLongId()), USER_NOT_EXISTS);
+        assertServiceException(() -> userService.validateUserExists(randomLongId()), USER_NOT_FOUND);
     }
 
     @Test
@@ -610,7 +610,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     @Test
     public void testValidateOldPassword_notExists() {
         assertServiceException(() -> userService.validateOldPassword(randomLongId(), randomString()),
-                USER_NOT_EXISTS);
+                USER_NOT_FOUND);
     }
 
     @Test
@@ -736,7 +736,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
         List<Long> ids = singletonList(randomLongId());
 
         // invoke and assert exception
-        assertServiceException(() -> userService.validateUserList(ids), USER_NOT_EXISTS);
+        assertServiceException(() -> userService.validateUserList(ids), USER_NOT_FOUND);
     }
 
     @Test
@@ -748,7 +748,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
         List<Long> ids = singletonList(userEntity.getId());
 
         // invoke and assert exception
-        assertServiceException(() -> userService.validateUserList(ids), USER_IS_DISABLE,
+        assertServiceException(() -> userService.validateUserList(ids), USER_DISABLED,
                 userEntity.getNickname());
     }
 

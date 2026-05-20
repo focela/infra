@@ -17,7 +17,7 @@ import org.springframework.validation.annotation.Validated;
 import java.util.List;
 
 import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.system.constants.SystemErrorCodeConstants.MAIL_ACCOUNT_NOT_EXISTS;
+import static com.focela.platform.system.constants.SystemErrorCodeConstants.MAIL_ACCOUNT_NOT_FOUND;
 import static com.focela.platform.system.constants.SystemErrorCodeConstants.MAIL_ACCOUNT_RELATE_TEMPLATE_EXISTS;
 
 /**
@@ -84,7 +84,7 @@ public class DefaultMailAccountService implements MailAccountService {
 
     private void validateMailAccountExists(Long id) {
         if (mailAccountMapper.selectById(id) == null) {
-            throw exception(MAIL_ACCOUNT_NOT_EXISTS);
+            throw exception(MAIL_ACCOUNT_NOT_FOUND);
         }
     }
 

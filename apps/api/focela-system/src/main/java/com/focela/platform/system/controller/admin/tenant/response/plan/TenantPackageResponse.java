@@ -1,4 +1,4 @@
-package com.focela.platform.system.controller.admin.tenant.response.tenantpackage;
+package com.focela.platform.system.controller.admin.tenant.response.plan;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

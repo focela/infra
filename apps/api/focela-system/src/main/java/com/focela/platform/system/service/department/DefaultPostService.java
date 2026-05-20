@@ -149,7 +149,7 @@ public class DefaultPostService implements PostService {
                 throw exception(POST_NOT_FOUND);
             }
             if (!CommonStatusEnum.ENABLE.getStatus().equals(post.getStatus())) {
-                throw exception(POST_NOT_ENABLE, post.getName());
+                throw exception(POST_NOT_ENABLED, post.getName());
             }
         });
     }

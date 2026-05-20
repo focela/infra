@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.infra.constants.InfraErrorCodeConstants.DATA_SOURCE_CONFIG_NOT_EXISTS;
+import static com.focela.platform.infra.constants.InfraErrorCodeConstants.DATA_SOURCE_CONFIG_NOT_FOUND;
 import static com.focela.platform.infra.constants.InfraErrorCodeConstants.DATA_SOURCE_CONFIG_INVALID;
 
 /**
@@ -67,7 +67,7 @@ public class DefaultDataSourceConfigService implements DataSourceConfigService {
 
     private void validateDataSourceConfigExists(Long id) {
         if (dataSourceConfigMapper.selectById(id) == null) {
-            throw exception(DATA_SOURCE_CONFIG_NOT_EXISTS);
+            throw exception(DATA_SOURCE_CONFIG_NOT_FOUND);
         }
     }
 

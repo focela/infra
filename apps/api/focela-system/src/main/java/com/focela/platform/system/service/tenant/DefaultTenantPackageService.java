@@ -5,8 +5,8 @@ import cn.hutool.core.util.StrUtil;
 import com.focela.platform.common.enums.CommonStatusEnum;
 import com.focela.platform.common.model.PageResult;
 import com.focela.platform.common.utils.object.BeanUtils;
-import com.focela.platform.system.controller.admin.tenant.request.tenantpackage.TenantPackagePageRequest;
-import com.focela.platform.system.controller.admin.tenant.request.tenantpackage.TenantPackageSaveRequest;
+import com.focela.platform.system.controller.admin.tenant.request.plan.TenantPackagePageRequest;
+import com.focela.platform.system.controller.admin.tenant.request.plan.TenantPackageSaveRequest;
 import com.focela.platform.system.domain.entity.tenant.TenantEntity;
 import com.focela.platform.system.domain.entity.tenant.TenantPackageEntity;
 import com.focela.platform.system.repository.mapper.tenant.TenantPackageMapper;
@@ -91,7 +91,7 @@ public class DefaultTenantPackageService implements TenantPackageService {
     private TenantPackageEntity validateTenantPackageExists(Long id) {
         TenantPackageEntity tenantPackage = tenantPackageMapper.selectById(id);
         if (tenantPackage == null) {
-            throw exception(TENANT_PACKAGE_NOT_EXISTS);
+            throw exception(TENANT_PACKAGE_NOT_FOUND);
         }
         return tenantPackage;
     }
@@ -116,10 +116,10 @@ public class DefaultTenantPackageService implements TenantPackageService {
     public TenantPackageEntity validateTenantPackage(Long id) {
         TenantPackageEntity tenantPackage = tenantPackageMapper.selectById(id);
         if (tenantPackage == null) {
-            throw exception(TENANT_PACKAGE_NOT_EXISTS);
+            throw exception(TENANT_PACKAGE_NOT_FOUND);
         }
         if (tenantPackage.getStatus().equals(CommonStatusEnum.DISABLE.getStatus())) {
-            throw exception(TENANT_PACKAGE_DISABLE, tenantPackage.getName());
+            throw exception(TENANT_PACKAGE_DISABLED, tenantPackage.getName());
         }
         return tenantPackage;
     }

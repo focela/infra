@@ -44,7 +44,7 @@ public class OAuth2TokenController {
 
     @DeleteMapping("/delete")
     @Operation(summary = "Delete access token")
-    @Parameter(name = "accessToken", description = "Access token", required = true, example = "tudou")
+    @Parameter(name = "accessToken", description = "Access token", required = true, example = "focela_alternate")
     @PreAuthorize("@ss.hasPermission('system:oauth2-token:delete')")
     public CommonResult<Boolean> deleteAccessToken(@RequestParam("accessToken") String accessToken) {
         authService.logout(accessToken, LoginLogTypeEnum.LOGOUT_DELETE.getType());

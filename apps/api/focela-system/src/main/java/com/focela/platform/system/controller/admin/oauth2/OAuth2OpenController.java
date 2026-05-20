@@ -89,7 +89,7 @@ public class OAuth2OpenController {
             @Parameter(name = "code", description = "Scope", example = "userinfo.read"),
             @Parameter(name = "redirect_uri", description = "Redirect URI", example = "https://www.example.com"),
             @Parameter(name = "state", description = "Status", example = "1"),
-            @Parameter(name = "username", example = "tudou"),
+            @Parameter(name = "username", example = "focela_alternate"),
             @Parameter(name = "password", example = "cai"), // multiple values separated by spaces
             @Parameter(name = "scope", example = "user_info"),
             @Parameter(name = "refresh_token", example = "123424233"),
@@ -181,7 +181,7 @@ public class OAuth2OpenController {
      */
     @GetMapping("/authorize")
     @Operation(summary = "get authorize info", description = "For code/implicit grant; called by sso.vue on fetch")
-    @Parameter(name = "clientId", required = true, description = "Client ID", example = "tudou")
+    @Parameter(name = "clientId", required = true, description = "Client ID", example = "focela_alternate")
     public CommonResult<OAuth2OpenAuthorizeInfoResponse> authorize(@RequestParam("clientId") String clientId) {
         // 0. Validate that the user is logged in. Implemented via Spring Security
 
@@ -207,7 +207,7 @@ public class OAuth2OpenController {
     @Operation(summary = "apply authorization", description = "For code/implicit grant; called by sso.vue on submit")
     @Parameters({
             @Parameter(name = "response_type", required = true, description = "response type", example = "code"),
-            @Parameter(name = "client_id", required = true, description = "Client ID", example = "tudou"),
+            @Parameter(name = "client_id", required = true, description = "Client ID", example = "focela_alternate"),
             @Parameter(name = "scope", description = "Scope", example = "userinfo.read"), // Uses Map<String, Boolean> format; Spring MVC does not currently support receiving parameters this way
             @Parameter(name = "redirect_uri", required = true, description = "Redirect URI", example = "https://www.example.com"),
             @Parameter(name = "auto_approve", required = true, description = "user accepted", example = "true"),

@@ -24,7 +24,7 @@ import java.util.List;
 
 import static cn.hutool.core.date.DatePattern.PURE_DATE_PATTERN;
 import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
-import static com.focela.platform.infra.constants.InfraErrorCodeConstants.FILE_NOT_EXISTS;
+import static com.focela.platform.infra.constants.InfraErrorCodeConstants.FILE_NOT_FOUND;
 
 /**
  * Implementation class of the file Service
@@ -188,7 +188,7 @@ public class DefaultFileService implements FileService {
     private FileEntity validateFileExists(Long id) {
         FileEntity fileEntity = fileMapper.selectById(id);
         if (fileEntity == null) {
-            throw exception(FILE_NOT_EXISTS);
+            throw exception(FILE_NOT_FOUND);
         }
         return fileEntity;
     }

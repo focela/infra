@@ -109,7 +109,7 @@ public class DefaultConfigServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testValidateConfigExist_notExists() {
-        assertServiceException(() -> configService.validateConfigExists(randomLongId()), CONFIG_NOT_EXISTS);
+        assertServiceException(() -> configService.validateConfigExists(randomLongId()), CONFIG_NOT_FOUND);
     }
 
     @Test

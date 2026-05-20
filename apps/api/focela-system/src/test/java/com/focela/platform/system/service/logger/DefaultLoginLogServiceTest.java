@@ -44,7 +44,7 @@ public class DefaultLoginLogServiceTest extends BaseDbUnitTest {
         // test ip mismatch
         loginLogMapper.insert(cloneIgnoreId(loginLogEntity, o -> o.setUserIp("192.168.128.18")));
         // test username mismatch
-        loginLogMapper.insert(cloneIgnoreId(loginLogEntity, o -> o.setUsername("yunai")));
+        loginLogMapper.insert(cloneIgnoreId(loginLogEntity, o -> o.setUsername("focela_sample")));
         // test createTime mismatch
         loginLogMapper.insert(cloneIgnoreId(loginLogEntity, o -> o.setCreateTime(buildTime(2021, 2, 6))));
         // build call parameters

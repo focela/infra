@@ -117,7 +117,7 @@ public class DefaultSocialClientService implements SocialClientService {
 
     private void validateSocialClientExists(Long id) {
         if (socialClientMapper.selectById(id) == null) {
-            throw exception(SOCIAL_CLIENT_NOT_EXISTS);
+            throw exception(SOCIAL_CLIENT_NOT_FOUND);
         }
     }
 

@@ -32,7 +32,7 @@ public class SmsChannelSaveRequest {
     @NotNull(message = "SMS API account must not be blank")
     private String apiKey;
 
-    @Schema(description = "SMS API secret", example = "yuanma")
+    @Schema(description = "SMS API secret", example = "focela_secret")
     private String apiSecret;
 
     @Schema(description = "SMS send callback URL", example = "https://www.example.com")

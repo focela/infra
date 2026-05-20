@@ -18,7 +18,7 @@ public class OAuth2ClientSaveRequest {
     @Schema(description = "ID", example = "1024")
     private Long id;
 
-    @Schema(description = "Client ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "tudou")
+    @Schema(description = "Client ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela_alternate")
     @NotNull(message = "client ID must not be blank")
     private String clientId;
 

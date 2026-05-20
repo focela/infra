@@ -133,8 +133,8 @@ public class DefaultSocialUserServiceTest extends BaseDbUnitTest {
         // prepare parameters
         Integer userType = UserTypeEnum.ADMIN.getValue();
         Integer type = SocialTypeEnum.GITEE.getType();
-        String code = "tudou";
-        String state = "yuanma";
+        String code = "focela_alternate";
+        String state = "focela_secret";
         // mock social user
         SocialUserEntity socialUserEntity = randomPojo(SocialUserEntity.class).setType(type).setCode(code).setState(state);
         socialUserMapper.insert(socialUserEntity);
@@ -156,8 +156,8 @@ public class DefaultSocialUserServiceTest extends BaseDbUnitTest {
         // prepare parameters
         Integer socialType = SocialTypeEnum.GITEE.getType();
         Integer userType = randomEle(SocialTypeEnum.values()).getType();
-        String code = "tudou";
-        String state = "yuanma";
+        String code = "focela_alternate";
+        String state = "focela_secret";
         // mock the method
         SocialUserEntity socialUser = randomPojo(SocialUserEntity.class).setType(socialType).setCode(code).setState(state);
         socialUserMapper.insert(socialUser);
@@ -172,13 +172,13 @@ public class DefaultSocialUserServiceTest extends BaseDbUnitTest {
     public void testAuthSocialUser_notNull() {
         // mock data
         SocialUserEntity socialUser = randomPojo(SocialUserEntity.class,
-                o -> o.setType(SocialTypeEnum.GITEE.getType()).setCode("tudou").setState("yuanma"));
+                o -> o.setType(SocialTypeEnum.GITEE.getType()).setCode("focela_alternate").setState("focela_secret"));
         socialUserMapper.insert(socialUser);
         // prepare parameters
         Integer socialType = SocialTypeEnum.GITEE.getType();
         Integer userType = randomEle(SocialTypeEnum.values()).getType();
-        String code = "tudou";
-        String state = "yuanma";
+        String code = "focela_alternate";
+        String state = "focela_secret";
 
         // invoke
         SocialUserEntity result = socialUserService.authSocialUser(socialType, userType, code, state);
@@ -191,8 +191,8 @@ public class DefaultSocialUserServiceTest extends BaseDbUnitTest {
         // prepare parameters
         Integer socialType = SocialTypeEnum.GITEE.getType();
         Integer userType = randomEle(SocialTypeEnum.values()).getType();
-        String code = "tudou";
-        String state = "yuanma";
+        String code = "focela_alternate";
+        String state = "focela_secret";
         // mock the method
         AuthUser authUser = randomPojo(AuthUser.class);
         when(socialClientService.getAuthUser(eq(socialType), eq(userType), eq(code), eq(state))).thenReturn(authUser);
@@ -210,8 +210,8 @@ public class DefaultSocialUserServiceTest extends BaseDbUnitTest {
         // prepare parameters
         Integer socialType = SocialTypeEnum.GITEE.getType();
         Integer userType = randomEle(SocialTypeEnum.values()).getType();
-        String code = "tudou";
-        String state = "yuanma";
+        String code = "focela_alternate";
+        String state = "focela_secret";
         // mock data
         socialUserMapper.insert(randomPojo(SocialUserEntity.class).setType(socialType).setOpenid("test_openid"));
         // mock the method

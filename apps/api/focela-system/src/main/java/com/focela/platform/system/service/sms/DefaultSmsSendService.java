@@ -104,7 +104,7 @@ public class DefaultSmsSendService implements SmsSendService {
         SmsChannelEntity channel = smsChannelService.getSmsChannel(channelId);
         // SMS channel does not exist
         if (channel == null) {
-            throw exception(SMS_CHANNEL_NOT_EXISTS);
+            throw exception(SMS_CHANNEL_NOT_FOUND);
         }
         return channel;
     }
@@ -115,7 +115,7 @@ public class DefaultSmsSendService implements SmsSendService {
         SmsTemplateEntity template = smsTemplateService.getSmsTemplateByCodeFromCache(templateCode);
         // SMS template does not exist
         if (template == null) {
-            throw exception(SMS_SEND_TEMPLATE_NOT_EXISTS);
+            throw exception(SMS_SEND_TEMPLATE_NOT_FOUND);
         }
         return template;
     }
@@ -144,7 +144,7 @@ public class DefaultSmsSendService implements SmsSendService {
     @VisibleForTesting
     public String validateMobile(String mobile) {
         if (StrUtil.isEmpty(mobile)) {
-            throw exception(SMS_SEND_MOBILE_NOT_EXISTS);
+            throw exception(SMS_SEND_MOBILE_NOT_FOUND);
         }
         return mobile;
     }

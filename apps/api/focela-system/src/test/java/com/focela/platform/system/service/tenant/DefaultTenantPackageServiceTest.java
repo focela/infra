@@ -3,8 +3,8 @@ package com.focela.platform.system.service.tenant;
 import com.focela.platform.common.enums.CommonStatusEnum;
 import com.focela.platform.common.model.PageResult;
 import com.focela.platform.test.core.support.BaseDbUnitTest;
-import com.focela.platform.system.controller.admin.tenant.request.tenantpackage.TenantPackagePageRequest;
-import com.focela.platform.system.controller.admin.tenant.request.tenantpackage.TenantPackageSaveRequest;
+import com.focela.platform.system.controller.admin.tenant.request.plan.TenantPackagePageRequest;
+import com.focela.platform.system.controller.admin.tenant.request.plan.TenantPackageSaveRequest;
 import com.focela.platform.system.domain.entity.tenant.TenantEntity;
 import com.focela.platform.system.domain.entity.tenant.TenantPackageEntity;
 import com.focela.platform.system.repository.mapper.tenant.TenantPackageMapper;
@@ -93,7 +93,7 @@ public class DefaultTenantPackageServiceTest extends BaseDbUnitTest {
         TenantPackageSaveRequest request = randomPojo(TenantPackageSaveRequest.class);
 
         // invoke and assert exception
-        assertServiceException(() -> tenantPackageService.updateTenantPackage(request), TENANT_PACKAGE_NOT_EXISTS);
+        assertServiceException(() -> tenantPackageService.updateTenantPackage(request), TENANT_PACKAGE_NOT_FOUND);
     }
 
     @Test
@@ -118,7 +118,7 @@ public class DefaultTenantPackageServiceTest extends BaseDbUnitTest {
         Long id = randomLongId();
 
         // invoke and assert exception
-        assertServiceException(() -> tenantPackageService.deleteTenantPackage(id), TENANT_PACKAGE_NOT_EXISTS);
+        assertServiceException(() -> tenantPackageService.deleteTenantPackage(id), TENANT_PACKAGE_NOT_FOUND);
     }
 
     @Test
@@ -187,7 +187,7 @@ public class DefaultTenantPackageServiceTest extends BaseDbUnitTest {
         Long id = randomLongId();
 
         // invoke and assert exception
-        assertServiceException(() -> tenantPackageService.validateTenantPackage(id), TENANT_PACKAGE_NOT_EXISTS);
+        assertServiceException(() -> tenantPackageService.validateTenantPackage(id), TENANT_PACKAGE_NOT_FOUND);
     }
 
     @Test
@@ -199,7 +199,7 @@ public class DefaultTenantPackageServiceTest extends BaseDbUnitTest {
 
         // invoke and assert exception
         assertServiceException(() -> tenantPackageService.validateTenantPackage(dbTenantPackage.getId()),
-                TENANT_PACKAGE_DISABLE, dbTenantPackage.getName());
+                TENANT_PACKAGE_DISABLED, dbTenantPackage.getName());
     }
 
     @Test

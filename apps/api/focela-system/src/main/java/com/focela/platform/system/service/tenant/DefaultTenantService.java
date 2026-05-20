@@ -82,10 +82,10 @@ public class DefaultTenantService implements TenantService {
     public void validateTenant(Long id) {
         TenantEntity tenant = getTenant(id);
         if (tenant == null) {
-            throw exception(TENANT_NOT_EXISTS);
+            throw exception(TENANT_NOT_FOUND);
         }
         if (tenant.getStatus().equals(CommonStatusEnum.DISABLE.getStatus())) {
-            throw exception(TENANT_DISABLE, tenant.getName());
+            throw exception(TENANT_DISABLED, tenant.getName());
         }
         if (DateUtils.isExpired(tenant.getExpireTime())) {
             throw exception(TENANT_EXPIRE, tenant.getName());
@@ -232,11 +232,11 @@ public class DefaultTenantService implements TenantService {
     private TenantEntity validateUpdateTenant(Long id) {
         TenantEntity tenant = tenantMapper.selectById(id);
         if (tenant == null) {
-            throw exception(TENANT_NOT_EXISTS);
+            throw exception(TENANT_NOT_FOUND);
         }
         // built-in tenant, deletion not allowed
         if (isSystemTenant(tenant)) {
-            throw exception(TENANT_CAN_NOT_UPDATE_SYSTEM);
+            throw exception(TENANT_SYSTEM_UPDATE_NOT_ALLOWED);
         }
         return tenant;
     }

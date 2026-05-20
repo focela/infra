@@ -8,7 +8,7 @@
 
 ## 1. Mục tiêu
 
-Chuẩn hoá naming convention nội bộ từ **kiểu enterprise Trung Quốc** (yudao gốc) sang **kiểu Spring/Jakarta quốc tế** để:
+Chuẩn hoá naming convention nội bộ từ **kiểu legacy upstream** sang **kiểu Spring/Jakarta quốc tế** để:
 
 - Cải thiện onboarding cho dev không quen convention CN
 - Đồng bộ với tài liệu Spring/JPA chính thức

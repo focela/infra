@@ -112,10 +112,10 @@ public class PermissionServiceTest extends BaseDbUnitTest {
 
             // prepare parameters
             Long userId = 1L;
-            String[] roles = new String[]{"yunai", "tudou"};
+            String[] roles = new String[]{"focela_sample", "focela_alternate"};
             // mock user-role cache
             userRoleMapper.insert(randomPojo(UserRoleEntity.class).setUserId(userId).setRoleId(100L));
-            RoleEntity role = randomPojo(RoleEntity.class, o -> o.setId(100L).setCode("tudou")
+            RoleEntity role = randomPojo(RoleEntity.class, o -> o.setId(100L).setCode("focela_alternate")
                     .setStatus(CommonStatusEnum.ENABLE.getStatus()));
             when(roleService.getRoleListFromCache(eq(singleton(100L)))).thenReturn(toList(role));
 

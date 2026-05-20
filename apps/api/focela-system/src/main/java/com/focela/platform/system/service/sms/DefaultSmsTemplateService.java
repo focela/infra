@@ -107,7 +107,7 @@ public class DefaultSmsTemplateService implements SmsTemplateService {
 
     private void validateSmsTemplateExists(Long id) {
         if (smsTemplateMapper.selectById(id) == null) {
-            throw exception(SMS_TEMPLATE_NOT_EXISTS);
+            throw exception(SMS_TEMPLATE_NOT_FOUND);
         }
     }
 
@@ -137,10 +137,10 @@ public class DefaultSmsTemplateService implements SmsTemplateService {
     public SmsChannelEntity validateSmsChannel(Long channelId) {
         SmsChannelEntity channel = smsChannelService.getSmsChannel(channelId);
         if (channel == null) {
-            throw exception(SMS_CHANNEL_NOT_EXISTS);
+            throw exception(SMS_CHANNEL_NOT_FOUND);
         }
         if (CommonStatusEnum.isDisable(channel.getStatus())) {
-            throw exception(SMS_CHANNEL_DISABLE);
+            throw exception(SMS_CHANNEL_DISABLED);
         }
         return channel;
     }

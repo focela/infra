@@ -92,7 +92,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testValidTenant_notExists() {
-        assertServiceException(() -> tenantService.validateTenant(randomLongId()), TENANT_NOT_EXISTS);
+        assertServiceException(() -> tenantService.validateTenant(randomLongId()), TENANT_NOT_FOUND);
     }
 
     @Test
@@ -102,7 +102,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
         tenantMapper.insert(tenant);
 
         // invoke, and assert business exception
-        assertServiceException(() -> tenantService.validateTenant(1L), TENANT_DISABLE, tenant.getName());
+        assertServiceException(() -> tenantService.validateTenant(1L), TENANT_DISABLED, tenant.getName());
     }
 
     @Test
@@ -142,8 +142,8 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
         }), eq(RoleTypeEnum.SYSTEM.getType()))).thenReturn(200L);
         // mock user 300L
         when(userService.createUser(argThat(user -> {
-            assertEquals("yunai", user.getUsername());
-            assertEquals("yuanma", user.getPassword());
+            assertEquals("focela_sample", user.getUsername());
+            assertEquals("focela_secret", user.getPassword());
             assertEquals("Focela", user.getNickname());
             assertEquals("15601691300", user.getMobile());
             return true;
@@ -156,8 +156,8 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
             o.setPackageId(100L);
             o.setStatus(randomCommonStatus());
             o.setWebsites(singletonList("https://www.example.com"));
-            o.setUsername("yunai");
-            o.setPassword("yuanma");
+            o.setUsername("focela_sample");
+            o.setPassword("focela_secret");
         }).setId(null); // set to null, for later verification
 
         // invoke
@@ -215,7 +215,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
         TenantSaveRequest request = randomPojo(TenantSaveRequest.class);
 
         // invoke and assert exception
-        assertServiceException(() -> tenantService.updateTenant(request), TENANT_NOT_EXISTS);
+        assertServiceException(() -> tenantService.updateTenant(request), TENANT_NOT_FOUND);
     }
 
     @Test
@@ -229,7 +229,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
         });
 
         // invoke, verify business exception
-        assertServiceException(() -> tenantService.updateTenant(request), TENANT_CAN_NOT_UPDATE_SYSTEM);
+        assertServiceException(() -> tenantService.updateTenant(request), TENANT_SYSTEM_UPDATE_NOT_ALLOWED);
     }
 
     @Test
@@ -253,7 +253,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
         Long id = randomLongId();
 
         // invoke and assert exception
-        assertServiceException(() -> tenantService.deleteTenant(id), TENANT_NOT_EXISTS);
+        assertServiceException(() -> tenantService.deleteTenant(id), TENANT_NOT_FOUND);
     }
 
     @Test
@@ -265,7 +265,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
         Long id = dbTenant.getId();
 
         // invoke and assert exception
-        assertServiceException(() -> tenantService.deleteTenant(id), TENANT_CAN_NOT_UPDATE_SYSTEM);
+        assertServiceException(() -> tenantService.deleteTenant(id), TENANT_SYSTEM_UPDATE_NOT_ALLOWED);
     }
 
     @Test

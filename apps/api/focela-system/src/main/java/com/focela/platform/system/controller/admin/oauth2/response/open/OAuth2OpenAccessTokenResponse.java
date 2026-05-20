@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class OAuth2OpenAccessTokenResponse {
 
-    @Schema(description = "Access token", requiredMode = Schema.RequiredMode.REQUIRED, example = "tudou")
+    @Schema(description = "Access token", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela_alternate")
     @JsonProperty("access_token")
     private String accessToken;
 

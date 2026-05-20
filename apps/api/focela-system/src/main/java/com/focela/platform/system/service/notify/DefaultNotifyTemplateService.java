@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 
 import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.system.constants.SystemErrorCodeConstants.NOTIFY_TEMPLATE_CODE_DUPLICATE;
-import static com.focela.platform.system.constants.SystemErrorCodeConstants.NOTIFY_TEMPLATE_NOT_EXISTS;
+import static com.focela.platform.system.constants.SystemErrorCodeConstants.NOTIFY_TEMPLATE_NOT_FOUND;
 
 /**
  * In-site notification template Service implementation class
@@ -92,7 +92,7 @@ public class DefaultNotifyTemplateService implements NotifyTemplateService {
 
     private void validateNotifyTemplateExists(Long id) {
         if (notifyTemplateMapper.selectById(id) == null) {
-            throw exception(NOTIFY_TEMPLATE_NOT_EXISTS);
+            throw exception(NOTIFY_TEMPLATE_NOT_FOUND);
         }
     }
 

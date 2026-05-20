@@ -1,4 +1,4 @@
-package com.focela.platform.system.controller.admin.tenant.request.tenantpackage;
+package com.focela.platform.system.controller.admin.tenant.request.plan;
 
 import com.focela.platform.common.enums.CommonStatusEnum;
 import com.focela.platform.common.validation.InEnum;

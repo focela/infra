@@ -80,7 +80,7 @@ public class DefaultOAuth2ClientService implements OAuth2ClientService {
 
     private void validateOAuth2ClientExists(Long id) {
         if (oauth2ClientMapper.selectById(id) == null) {
-            throw exception(OAUTH2_CLIENT_NOT_EXISTS);
+            throw exception(OAUTH2_CLIENT_NOT_FOUND);
         }
     }
 
@@ -122,19 +122,19 @@ public class DefaultOAuth2ClientService implements OAuth2ClientService {
         // Validate that the client exists and is enabled
         OAuth2ClientEntity client = getSelf().getOAuth2ClientFromCache(clientId);
         if (client == null) {
-            throw exception(OAUTH2_CLIENT_NOT_EXISTS);
+            throw exception(OAUTH2_CLIENT_NOT_FOUND);
         }
         if (CommonStatusEnum.isDisable(client.getStatus())) {
-            throw exception(OAUTH2_CLIENT_DISABLE);
+            throw exception(OAUTH2_CLIENT_DISABLED);
         }
 
         // Validate the client secret
         if (StrUtil.isNotEmpty(clientSecret) && ObjectUtil.notEqual(client.getSecret(), clientSecret)) {
-            throw exception(OAUTH2_CLIENT_CLIENT_SECRET_ERROR);
+            throw exception(OAUTH2_CLIENT_SECRET_INVALID);
         }
         // Validate the grant type
         if (StrUtil.isNotEmpty(authorizedGrantType) && !CollUtil.contains(client.getAuthorizedGrantTypes(), authorizedGrantType)) {
-            throw exception(OAUTH2_CLIENT_AUTHORIZED_GRANT_TYPE_NOT_EXISTS);
+            throw exception(OAUTH2_CLIENT_AUTHORIZED_GRANT_TYPE_UNSUPPORTED);
         }
         // Validate the authorization scope
         if (CollUtil.isNotEmpty(scopes) && !CollUtil.containsAll(client.getScopes(), scopes)) {

@@ -13,7 +13,7 @@ public class OAuth2ClientResponse {
     @Schema(description = "ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     private Long id;
 
-    @Schema(description = "Client ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "tudou")
+    @Schema(description = "Client ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela_alternate")
     private String clientId;
 
     @Schema(description = "Client secret", requiredMode = Schema.RequiredMode.REQUIRED, example = "fan")

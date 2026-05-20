@@ -122,10 +122,10 @@ public class DefaultDictionaryDataService implements DictionaryDataService {
         }
         // If id is null, no need to compare whether it is the same dictionary data id
         if (id == null) {
-            throw exception(DICT_DATA_VALUE_DUPLICATE);
+            throw exception(DICTIONARY_DATA_VALUE_DUPLICATE);
         }
         if (!dictionaryData.getId().equals(id)) {
-            throw exception(DICT_DATA_VALUE_DUPLICATE);
+            throw exception(DICTIONARY_DATA_VALUE_DUPLICATE);
         }
     }
 
@@ -136,7 +136,7 @@ public class DefaultDictionaryDataService implements DictionaryDataService {
         }
         DictionaryDataEntity dictionaryData = dictionaryDataMapper.selectById(id);
         if (dictionaryData == null) {
-            throw exception(DICT_DATA_NOT_EXISTS);
+            throw exception(DICTIONARY_DATA_NOT_FOUND);
         }
     }
 
@@ -144,10 +144,10 @@ public class DefaultDictionaryDataService implements DictionaryDataService {
     public void validateDictTypeExists(String type) {
         DictionaryTypeEntity dictionaryType = dictionaryTypeService.getDictType(type);
         if (dictionaryType == null) {
-            throw exception(DICT_TYPE_NOT_EXISTS);
+            throw exception(DICTIONARY_TYPE_NOT_FOUND);
         }
         if (!CommonStatusEnum.ENABLE.getStatus().equals(dictionaryType.getStatus())) {
-            throw exception(DICT_TYPE_NOT_ENABLE);
+            throw exception(DICTIONARY_TYPE_NOT_ENABLED);
         }
     }
 
@@ -162,10 +162,10 @@ public class DefaultDictionaryDataService implements DictionaryDataService {
         values.forEach(value -> {
             DictionaryDataEntity dictionaryData = dictionaryDataMap.get(value);
             if (dictionaryData == null) {
-                throw exception(DICT_DATA_NOT_EXISTS);
+                throw exception(DICTIONARY_DATA_NOT_FOUND);
             }
             if (!CommonStatusEnum.ENABLE.getStatus().equals(dictionaryData.getStatus())) {
-                throw exception(DICT_DATA_NOT_ENABLE, dictionaryData.getLabel());
+                throw exception(DICTIONARY_DATA_NOT_ENABLED, dictionaryData.getLabel());
             }
         });
     }

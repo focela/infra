@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import static com.focela.platform.common.utils.date.LocalDateTimeUtils.buildTime;
 import static com.focela.platform.test.core.utils.AssertUtils.assertServiceException;
 import static com.focela.platform.test.core.utils.RandomUtils.*;
-import static com.focela.platform.infra.constants.InfraErrorCodeConstants.FILE_NOT_EXISTS;
+import static com.focela.platform.infra.constants.InfraErrorCodeConstants.FILE_NOT_FOUND;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.*;
@@ -168,7 +168,7 @@ public class DefaultFileServiceTest extends BaseDbUnitTest {
         Long id = randomLongId();
 
         // Invoke and verify exception
-        assertServiceException(() -> fileService.deleteFile(id), FILE_NOT_EXISTS);
+        assertServiceException(() -> fileService.deleteFile(id), FILE_NOT_FOUND);
     }
 
     @Test

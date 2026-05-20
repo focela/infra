@@ -43,14 +43,14 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
     public void testGetDictTypePage() {
        // mock data
        DictionaryTypeEntity dbDictionaryType = randomPojo(DictionaryTypeEntity.class, o -> { // will be queried later
-           o.setName("yunai");
+           o.setName("focela_sample");
            o.setType("Focela");
            o.setStatus(CommonStatusEnum.ENABLE.getStatus());
            o.setCreateTime(buildTime(2021, 1, 15));
        });
        dictionaryTypeMapper.insert(dbDictionaryType);
        // test name mismatch
-       dictionaryTypeMapper.insert(cloneIgnoreId(dbDictionaryType, o -> o.setName("tudou")));
+       dictionaryTypeMapper.insert(cloneIgnoreId(dbDictionaryType, o -> o.setName("focela_alternate")));
        // test type mismatch
        dictionaryTypeMapper.insert(cloneIgnoreId(dbDictionaryType, o -> o.setType("Potato")));
        // test status mismatch
@@ -59,7 +59,7 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
        dictionaryTypeMapper.insert(cloneIgnoreId(dbDictionaryType, o -> o.setCreateTime(buildTime(2021, 1, 1))));
        // prepare parameters
        DictionaryTypePageRequest request = new DictionaryTypePageRequest();
-       request.setName("nai");
+       request.setName("focela_sample");
        request.setType("Focela");
        request.setStatus(CommonStatusEnum.ENABLE.getStatus());
        request.setCreateTime(buildBetweenTime(2021, 1, 10, 2021, 1, 20));
@@ -161,7 +161,7 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
         when(dictionaryDataService.getDictDataCountByDictType(eq(dbDictionaryType.getType()))).thenReturn(1L);
 
         // invoke and assert exception
-        assertServiceException(() -> dictionaryTypeService.deleteDictType(id), DICT_TYPE_HAS_CHILDREN);
+        assertServiceException(() -> dictionaryTypeService.deleteDictType(id), DICTIONARY_TYPE_HAS_CHILDREN);
     }
 
     @Test
@@ -193,7 +193,7 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testValidateDictDataExists_notExists() {
-        assertServiceException(() -> dictionaryTypeService.validateDictTypeExists(randomLongId()), DICT_TYPE_NOT_EXISTS);
+        assertServiceException(() -> dictionaryTypeService.validateDictTypeExists(randomLongId()), DICTIONARY_TYPE_NOT_FOUND);
     }
 
     @Test
@@ -211,7 +211,7 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
 
         // invoke, verify exception
         assertServiceException(() -> dictionaryTypeService.validateDictTypeUnique(null, type),
-                DICT_TYPE_TYPE_DUPLICATE);
+                DICTIONARY_TYPE_TYPE_DUPLICATE);
     }
 
     @Test
@@ -224,7 +224,7 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
 
         // invoke, verify exception
         assertServiceException(() -> dictionaryTypeService.validateDictTypeUnique(id, type),
-                DICT_TYPE_TYPE_DUPLICATE);
+                DICTIONARY_TYPE_TYPE_DUPLICATE);
     }
 
     @Test
@@ -242,7 +242,7 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
 
         // invoke, verify exception
         assertServiceException(() -> dictionaryTypeService.validateDictTypeNameUnique(null, name),
-                DICT_TYPE_NAME_DUPLICATE);
+                DICTIONARY_TYPE_NAME_DUPLICATE);
     }
 
     @Test
@@ -255,7 +255,7 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
 
         // invoke, verify exception
         assertServiceException(() -> dictionaryTypeService.validateDictTypeNameUnique(id, name),
-                DICT_TYPE_NAME_DUPLICATE);
+                DICTIONARY_TYPE_NAME_DUPLICATE);
     }
 
     // ========== random object ==========

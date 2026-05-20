@@ -122,17 +122,17 @@
 | 短信验证码 | SMS verification code |
 | 短信发送 | SMS sending |
 
-## Drop entirely (yudao project markers)
+## Drop entirely (legacy upstream project markers)
 
 | Token | Action |
 |---|---|
-| 芋道 / 芋艿 (yudao project name / author) | DROP — replace with Focela or remove sentence |
-| 芋道源码 | DROP |
+| Legacy upstream project name / author markers | DROP — replace with Focela or remove sentence |
+| Legacy upstream source-code brand phrase | DROP |
 
-## yudao `*X` extension-class convention (DO NOT rename)
+## Legacy upstream `*X` extension-class convention (DO NOT rename)
 
 Several base classes under `focela-spring-boot-starter-mybatis` carry the `X`
-suffix — a yudao convention meaning *"eXtended version of the upstream
+suffix — a legacy convention meaning *"eXtended version of the upstream
 MyBatis-Plus class with project-specific helpers"*. They are kept as-is to
 preserve compatibility with ~40 mapper classes (and counting) that extend
 them. International readers should treat the `X` as `Ext`.

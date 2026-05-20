@@ -231,7 +231,7 @@ public class DefaultPostServiceTest extends BaseDbUnitTest {
         List<Long> ids = singletonList(postEntity.getId());
 
         // invoke and assert exception
-        assertServiceException(() -> postService.validatePostList(ids), POST_NOT_ENABLE,
+        assertServiceException(() -> postService.validatePostList(ids), POST_NOT_ENABLED,
                 postEntity.getName());
     }
 

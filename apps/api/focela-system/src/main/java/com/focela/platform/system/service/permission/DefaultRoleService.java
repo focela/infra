@@ -185,11 +185,11 @@ public class DefaultRoleService implements RoleService {
     RoleEntity validateRoleForUpdate(Long id) {
         RoleEntity role = roleMapper.selectById(id);
         if (role == null) {
-            throw exception(ROLE_NOT_EXISTS);
+            throw exception(ROLE_NOT_FOUND);
         }
         // Built-in roles cannot be deleted
         if (RoleTypeEnum.SYSTEM.getType().equals(role.getType())) {
-            throw exception(ROLE_CAN_NOT_UPDATE_SYSTEM_TYPE_ROLE);
+            throw exception(ROLE_SYSTEM_TYPE_UPDATE_NOT_ALLOWED);
         }
         return role;
     }
@@ -264,10 +264,10 @@ public class DefaultRoleService implements RoleService {
         ids.forEach(id -> {
             RoleEntity role = roleMap.get(id);
             if (role == null) {
-                throw exception(ROLE_NOT_EXISTS);
+                throw exception(ROLE_NOT_FOUND);
             }
             if (!CommonStatusEnum.ENABLE.getStatus().equals(role.getStatus())) {
-                throw exception(ROLE_IS_DISABLE, role.getName());
+                throw exception(ROLE_DISABLED, role.getName());
             }
         });
     }

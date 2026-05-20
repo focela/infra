@@ -25,7 +25,7 @@ import static com.focela.platform.test.core.utils.AssertUtils.assertPojoEquals;
 import static com.focela.platform.test.core.utils.AssertUtils.assertServiceException;
 import static com.focela.platform.test.core.utils.RandomUtils.*;
 import static com.focela.platform.system.constants.SystemErrorCodeConstants.SMS_CHANNEL_HAS_CHILDREN;
-import static com.focela.platform.system.constants.SystemErrorCodeConstants.SMS_CHANNEL_NOT_EXISTS;
+import static com.focela.platform.system.constants.SystemErrorCodeConstants.SMS_CHANNEL_NOT_FOUND;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -85,7 +85,7 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
         SmsChannelSaveRequest request = randomPojo(SmsChannelSaveRequest.class);
 
         // invoke and assert exception
-        assertServiceException(() -> smsChannelService.updateSmsChannel(request), SMS_CHANNEL_NOT_EXISTS);
+        assertServiceException(() -> smsChannelService.updateSmsChannel(request), SMS_CHANNEL_NOT_FOUND);
     }
 
     @Test
@@ -108,7 +108,7 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
         Long id = randomLongId();
 
         // invoke and assert exception
-        assertServiceException(() -> smsChannelService.deleteSmsChannel(id), SMS_CHANNEL_NOT_EXISTS);
+        assertServiceException(() -> smsChannelService.deleteSmsChannel(id), SMS_CHANNEL_NOT_FOUND);
     }
 
     @Test

@@ -13,7 +13,7 @@ import java.util.List;
 
 import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.system.constants.SystemErrorCodeConstants.OAUTH2_CODE_EXPIRE;
-import static com.focela.platform.system.constants.SystemErrorCodeConstants.OAUTH2_CODE_NOT_EXISTS;
+import static com.focela.platform.system.constants.SystemErrorCodeConstants.OAUTH2_CODE_NOT_FOUND;
 
 /**
  * OAuth2.0 Authorization Code Service implementation class
@@ -46,7 +46,7 @@ public class DefaultOAuth2CodeService implements OAuth2CodeService {
     public OAuth2CodeEntity consumeAuthorizationCode(String code) {
         OAuth2CodeEntity authorizationCode = oauth2CodeMapper.selectByCode(code);
         if (authorizationCode == null) {
-            throw exception(OAUTH2_CODE_NOT_EXISTS);
+            throw exception(OAUTH2_CODE_NOT_FOUND);
         }
         if (DateUtils.isExpired(authorizationCode.getExpiresTime())) {
             throw exception(OAUTH2_CODE_EXPIRE);

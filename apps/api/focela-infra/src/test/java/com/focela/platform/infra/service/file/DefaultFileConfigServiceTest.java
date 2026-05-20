@@ -34,7 +34,7 @@ import static com.focela.platform.test.core.utils.AssertUtils.assertServiceExcep
 import static com.focela.platform.test.core.utils.RandomUtils.randomLongId;
 import static com.focela.platform.test.core.utils.RandomUtils.randomPojo;
 import static com.focela.platform.infra.constants.InfraErrorCodeConstants.FILE_CONFIG_DELETE_FAIL_MASTER;
-import static com.focela.platform.infra.constants.InfraErrorCodeConstants.FILE_CONFIG_NOT_EXISTS;
+import static com.focela.platform.infra.constants.InfraErrorCodeConstants.FILE_CONFIG_NOT_FOUND;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -111,7 +111,7 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
         FileConfigSaveRequest request = randomPojo(FileConfigSaveRequest.class);
 
         // Invoke and verify exception
-        assertServiceException(() -> fileConfigService.updateFileConfig(request), FILE_CONFIG_NOT_EXISTS);
+        assertServiceException(() -> fileConfigService.updateFileConfig(request), FILE_CONFIG_NOT_FOUND);
     }
 
     @Test
@@ -134,7 +134,7 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
     @Test
     public void testUpdateFileConfigMaster_notExists() {
         // Invoke and verify exception
-        assertServiceException(() -> fileConfigService.updateFileConfigMaster(randomLongId()), FILE_CONFIG_NOT_EXISTS);
+        assertServiceException(() -> fileConfigService.updateFileConfigMaster(randomLongId()), FILE_CONFIG_NOT_FOUND);
     }
 
     @Test
@@ -159,7 +159,7 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
         Long id = randomLongId();
 
         // Invoke and verify exception
-        assertServiceException(() -> fileConfigService.deleteFileConfig(id), FILE_CONFIG_NOT_EXISTS);
+        assertServiceException(() -> fileConfigService.deleteFileConfig(id), FILE_CONFIG_NOT_FOUND);
     }
 
     @Test

@@ -126,7 +126,7 @@ public class DefaultAuthService implements AuthService {
 
         // For login scenario, verify that the user exists
         if (userService.getUserByMobile(request.getMobile()) == null) {
-            throw exception(AUTH_MOBILE_NOT_EXISTS);
+            throw exception(AUTH_MOBILE_NOT_FOUND);
         }
         // Send verification code
         smsCodeApi.sendSmsCode(AuthConverter.INSTANCE.convert(request).setCreateIp(getClientIP()));
@@ -140,7 +140,7 @@ public class DefaultAuthService implements AuthService {
         // Get user info
         UserEntity user = userService.getUserByMobile(request.getMobile());
         if (user == null) {
-            throw exception(USER_NOT_EXISTS);
+            throw exception(USER_NOT_FOUND);
         }
 
         // Create token and record login log
@@ -178,7 +178,7 @@ public class DefaultAuthService implements AuthService {
         // Get user
         UserEntity user = userService.getUser(socialUser.getUserId());
         if (user == null) {
-            throw exception(USER_NOT_EXISTS);
+            throw exception(USER_NOT_FOUND);
         }
 
         // Create token and record login log
@@ -289,7 +289,7 @@ public class DefaultAuthService implements AuthService {
     public void resetPassword(AuthResetPasswordRequest request) {
         UserEntity userByMobile = userService.getUserByMobile(request.getMobile());
         if (userByMobile == null) {
-            throw exception(USER_MOBILE_NOT_EXISTS);
+            throw exception(USER_MOBILE_NOT_FOUND);
         }
 
         smsCodeApi.useSmsCode(new SmsCodeUseRpcRequest()

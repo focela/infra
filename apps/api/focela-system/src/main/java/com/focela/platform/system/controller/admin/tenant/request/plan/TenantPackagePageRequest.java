@@ -1,4 +1,4 @@
-package com.focela.platform.system.controller.admin.tenant.request.tenantpackage;
+package com.focela.platform.system.controller.admin.tenant.request.plan;
 
 import com.focela.platform.common.model.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;

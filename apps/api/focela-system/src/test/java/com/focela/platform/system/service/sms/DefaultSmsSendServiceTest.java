@@ -216,7 +216,7 @@ public class DefaultSmsSendServiceTest extends BaseMockitoUnitTest {
 
         // invoke, and assert exception
         assertServiceException(() -> smsSendService.validateSmsTemplate(templateCode),
-                SMS_SEND_TEMPLATE_NOT_EXISTS);
+                SMS_SEND_TEMPLATE_NOT_FOUND);
     }
 
     @Test
@@ -239,7 +239,7 @@ public class DefaultSmsSendServiceTest extends BaseMockitoUnitTest {
 
         // invoke, and assert exception
         assertServiceException(() -> smsSendService.validateMobile(null),
-                SMS_SEND_MOBILE_NOT_EXISTS);
+                SMS_SEND_MOBILE_NOT_FOUND);
     }
 
     @Test

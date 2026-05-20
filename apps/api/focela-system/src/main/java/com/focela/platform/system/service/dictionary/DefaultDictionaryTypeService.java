@@ -78,7 +78,7 @@ public class DefaultDictionaryTypeService implements DictionaryTypeService {
         DictionaryTypeEntity dictionaryType = validateDictTypeExists(id);
         // Validate whether dictionary data exists
         if (dictionaryDataService.getDictDataCountByDictType(dictionaryType.getType()) > 0) {
-            throw exception(DICT_TYPE_HAS_CHILDREN);
+            throw exception(DICTIONARY_TYPE_HAS_CHILDREN);
         }
         // Delete dictionary type
         dictionaryTypeMapper.updateToDelete(id, LocalDateTime.now());
@@ -90,7 +90,7 @@ public class DefaultDictionaryTypeService implements DictionaryTypeService {
         List<DictionaryTypeEntity> dictionaryTypes = dictionaryTypeMapper.selectByIds(ids);
         dictionaryTypes.forEach(dictionaryType -> {
             if (dictionaryDataService.getDictDataCountByDictType(dictionaryType.getType()) > 0) {
-                throw exception(DICT_TYPE_HAS_CHILDREN);
+                throw exception(DICTIONARY_TYPE_HAS_CHILDREN);
             }
         });
 
@@ -112,10 +112,10 @@ public class DefaultDictionaryTypeService implements DictionaryTypeService {
         }
         // If id is null, no need to compare whether it is the same dictionary type id
         if (id == null) {
-            throw exception(DICT_TYPE_NAME_DUPLICATE);
+            throw exception(DICTIONARY_TYPE_NAME_DUPLICATE);
         }
         if (!dictionaryType.getId().equals(id)) {
-            throw exception(DICT_TYPE_NAME_DUPLICATE);
+            throw exception(DICTIONARY_TYPE_NAME_DUPLICATE);
         }
     }
 
@@ -130,10 +130,10 @@ public class DefaultDictionaryTypeService implements DictionaryTypeService {
         }
         // If id is null, no need to compare whether it is the same dictionary type id
         if (id == null) {
-            throw exception(DICT_TYPE_TYPE_DUPLICATE);
+            throw exception(DICTIONARY_TYPE_TYPE_DUPLICATE);
         }
         if (!dictionaryType.getId().equals(id)) {
-            throw exception(DICT_TYPE_TYPE_DUPLICATE);
+            throw exception(DICTIONARY_TYPE_TYPE_DUPLICATE);
         }
     }
 
@@ -144,7 +144,7 @@ public class DefaultDictionaryTypeService implements DictionaryTypeService {
         }
         DictionaryTypeEntity dictionaryType = dictionaryTypeMapper.selectById(id);
         if (dictionaryType == null) {
-            throw exception(DICT_TYPE_NOT_EXISTS);
+            throw exception(DICTIONARY_TYPE_NOT_FOUND);
         }
         return dictionaryType;
     }

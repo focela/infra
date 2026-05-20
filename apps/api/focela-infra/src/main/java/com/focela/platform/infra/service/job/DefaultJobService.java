@@ -96,7 +96,7 @@ public class DefaultJobService implements JobService {
                 throw exception(JOB_HANDLER_BEAN_TYPE_ERROR);
             }
         } catch (NoSuchBeanDefinitionException e) {
-            throw exception(JOB_HANDLER_BEAN_NOT_EXISTS);
+            throw exception(JOB_HANDLER_BEAN_NOT_FOUND);
         }
     }
 
@@ -182,7 +182,7 @@ public class DefaultJobService implements JobService {
     private JobEntity validateJobExists(Long id) {
         JobEntity job = jobMapper.selectById(id);
         if (job == null) {
-            throw exception(JOB_NOT_EXISTS);
+            throw exception(JOB_NOT_FOUND);
         }
         return job;
     }

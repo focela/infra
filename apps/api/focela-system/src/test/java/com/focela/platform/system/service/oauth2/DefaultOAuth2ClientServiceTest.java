@@ -76,7 +76,7 @@ public class DefaultOAuth2ClientServiceTest extends BaseDbUnitTest {
         OAuth2ClientSaveRequest request = randomPojo(OAuth2ClientSaveRequest.class);
 
         // invoke and assert exception
-        assertServiceException(() -> oauth2ClientService.updateOAuth2Client(request), OAUTH2_CLIENT_NOT_EXISTS);
+        assertServiceException(() -> oauth2ClientService.updateOAuth2Client(request), OAUTH2_CLIENT_NOT_FOUND);
     }
 
     @Test
@@ -99,17 +99,17 @@ public class DefaultOAuth2ClientServiceTest extends BaseDbUnitTest {
         Long id = randomLongId();
 
         // invoke and assert exception
-        assertServiceException(() -> oauth2ClientService.deleteOAuth2Client(id), OAUTH2_CLIENT_NOT_EXISTS);
+        assertServiceException(() -> oauth2ClientService.deleteOAuth2Client(id), OAUTH2_CLIENT_NOT_FOUND);
     }
 
     @Test
     public void testValidateClientIdExists_withId() {
         // mock data
-        OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class).setClientId("tudou");
+        OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class).setClientId("focela_alternate");
         oauth2ClientMapper.insert(client);
         // prepare parameters
         Long id = randomLongId();
-        String clientId = "tudou";
+        String clientId = "focela_alternate";
 
         // invoke, no error
         assertServiceException(() -> oauth2ClientService.validateClientIdExists(id, clientId), OAUTH2_CLIENT_EXISTS);
@@ -118,10 +118,10 @@ public class DefaultOAuth2ClientServiceTest extends BaseDbUnitTest {
     @Test
     public void testValidateClientIdExists_noId() {
         // mock data
-        OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class).setClientId("tudou");
+        OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class).setClientId("focela_alternate");
         oauth2ClientMapper.insert(client);
         // prepare parameters
-        String clientId = "tudou";
+        String clientId = "focela_alternate";
 
         // invoke, no error
         assertServiceException(() -> oauth2ClientService.validateClientIdExists(null, clientId), OAUTH2_CLIENT_EXISTS);
@@ -194,13 +194,13 @@ public class DefaultOAuth2ClientServiceTest extends BaseDbUnitTest {
 
             // invoke, and assert
             assertServiceException(() -> oauth2ClientService.validateOAuthClientFromCache(randomString(),
-                    null, null, null, null), OAUTH2_CLIENT_NOT_EXISTS);
+                    null, null, null, null), OAUTH2_CLIENT_NOT_FOUND);
             assertServiceException(() -> oauth2ClientService.validateOAuthClientFromCache("disable",
-                    null, null, null, null), OAUTH2_CLIENT_DISABLE);
+                    null, null, null, null), OAUTH2_CLIENT_DISABLED);
             assertServiceException(() -> oauth2ClientService.validateOAuthClientFromCache("default",
-                    randomString(), null, null, null), OAUTH2_CLIENT_CLIENT_SECRET_ERROR);
+                    randomString(), null, null, null), OAUTH2_CLIENT_SECRET_INVALID);
             assertServiceException(() -> oauth2ClientService.validateOAuthClientFromCache("default",
-                    null, randomString(), null, null), OAUTH2_CLIENT_AUTHORIZED_GRANT_TYPE_NOT_EXISTS);
+                    null, randomString(), null, null), OAUTH2_CLIENT_AUTHORIZED_GRANT_TYPE_UNSUPPORTED);
             assertServiceException(() -> oauth2ClientService.validateOAuthClientFromCache("default",
                     null, null, Collections.singleton(randomString()), null), OAUTH2_CLIENT_SCOPE_OVER);
             assertServiceException(() -> oauth2ClientService.validateOAuthClientFromCache("default",

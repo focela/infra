@@ -101,7 +101,7 @@ public class DefaultConfigService implements ConfigService {
         }
         ConfigEntity config = configMapper.selectById(id);
         if (config == null) {
-            throw exception(CONFIG_NOT_EXISTS);
+            throw exception(CONFIG_NOT_FOUND);
         }
         return config;
     }

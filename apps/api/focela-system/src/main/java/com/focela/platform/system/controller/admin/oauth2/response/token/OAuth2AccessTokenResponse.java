@@ -16,7 +16,7 @@ public class OAuth2AccessTokenResponse {
     @Schema(description = "ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     private Long id;
 
-    @Schema(description = "Access token", requiredMode = Schema.RequiredMode.REQUIRED, example = "tudou")
+    @Schema(description = "Access token", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela_alternate")
     private String accessToken;
 
     @Schema(description = "Refresh token", requiredMode = Schema.RequiredMode.REQUIRED, example = "nice")

@@ -131,7 +131,7 @@ public class DefaultDepartmentService implements DepartmentService {
         // 2. Parent department does not exist
         DepartmentEntity parentDept = departmentMapper.selectById(parentId);
         if (parentDept == null) {
-            throw exception(DEPARTMENT_PARENT_NOT_EXISTS);
+            throw exception(DEPARTMENT_PARENT_NOT_FOUND);
         }
         // 3. Recursively validate the parent department; if a parent is one of its own children, report an error to avoid cycles
         if (id == null) { // id is null means create, no need to consider cycles
