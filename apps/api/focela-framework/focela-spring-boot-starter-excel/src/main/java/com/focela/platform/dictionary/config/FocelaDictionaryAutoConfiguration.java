@@ -10,8 +10,8 @@ public class FocelaDictionaryAutoConfiguration {
 
     @Bean
     @SuppressWarnings("InstantiationOfUtilityClass")
-    public DictionaryFrameworkUtils dictUtils(DictionaryDataContractApi dictDataApi) {
-        DictionaryFrameworkUtils.init(dictDataApi);
+    public DictionaryFrameworkUtils dictUtils(DictionaryDataContractApi dictionaryDataApi) {
+        DictionaryFrameworkUtils.init(dictionaryDataApi);
         return new DictionaryFrameworkUtils();
     }
 

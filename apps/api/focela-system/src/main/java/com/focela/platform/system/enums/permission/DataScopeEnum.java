@@ -17,11 +17,27 @@ public enum DataScopeEnum implements ArrayValuable<Integer> {
 
     ALL(1), // all data permission
 
-    DEPT_CUSTOM(2), // permission for specified departments
-    DEPT_ONLY(3), // permission for the department only
-    DEPT_AND_CHILD(4), // permission for the department and its children
+    DEPARTMENT_CUSTOM(2), // permission for specified departments
+    DEPARTMENT_ONLY(3), // permission for the department only
+    DEPARTMENT_AND_CHILD(4), // permission for the department and its children
 
     SELF(5); // permission for own data only
+
+    /**
+     * @deprecated use {@link #DEPARTMENT_CUSTOM}.
+     */
+    @Deprecated
+    public static final DataScopeEnum DEPT_CUSTOM = DEPARTMENT_CUSTOM;
+    /**
+     * @deprecated use {@link #DEPARTMENT_ONLY}.
+     */
+    @Deprecated
+    public static final DataScopeEnum DEPT_ONLY = DEPARTMENT_ONLY;
+    /**
+     * @deprecated use {@link #DEPARTMENT_AND_CHILD}.
+     */
+    @Deprecated
+    public static final DataScopeEnum DEPT_AND_CHILD = DEPARTMENT_AND_CHILD;
 
     /**
      * Scope

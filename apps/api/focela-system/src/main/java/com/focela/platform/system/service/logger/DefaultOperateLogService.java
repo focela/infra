@@ -4,7 +4,7 @@ import com.focela.platform.common.model.PageResult;
 import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.common.api.system.logger.dto.OperateLogCreateRpcRequest;
 import com.focela.platform.system.api.logger.dto.OperateLogPageRpcRequest;
-import com.focela.platform.system.controller.admin.logger.request.operatelog.OperateLogPageRequest;
+import com.focela.platform.system.controller.admin.logger.request.operation.OperateLogPageRequest;
 import com.focela.platform.system.domain.entity.logger.OperateLogEntity;
 import com.focela.platform.system.repository.mapper.logger.OperateLogMapper;
 import lombok.RequiredArgsConstructor;

@@ -3,7 +3,7 @@ package com.focela.platform.system.service.logger;
 import com.focela.platform.common.model.PageResult;
 import com.focela.platform.test.core.support.BaseDbUnitTest;
 import com.focela.platform.system.api.logger.dto.LoginLogCreateRpcRequest;
-import com.focela.platform.system.controller.admin.logger.request.loginlog.LoginLogPageRequest;
+import com.focela.platform.system.controller.admin.logger.request.login.LoginLogPageRequest;
 import com.focela.platform.system.domain.entity.logger.LoginLogEntity;
 import com.focela.platform.system.repository.mapper.logger.LoginLogMapper;
 import org.junit.jupiter.api.Test;

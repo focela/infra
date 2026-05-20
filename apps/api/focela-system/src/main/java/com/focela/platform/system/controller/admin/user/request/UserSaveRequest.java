@@ -2,9 +2,9 @@ package com.focela.platform.system.controller.admin.user.request;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.focela.platform.common.validation.Mobile;
-import com.focela.platform.system.config.operatelog.DepartmentParseFunction;
-import com.focela.platform.system.config.operatelog.PostParseFunction;
-import com.focela.platform.system.config.operatelog.SexParseFunction;
+import com.focela.platform.system.config.operation.DepartmentParseFunction;
+import com.focela.platform.system.config.operation.PostParseFunction;
+import com.focela.platform.system.config.operation.SexParseFunction;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mzt.logapi.starter.annotation.DiffLogField;
 import io.swagger.v3.oas.annotations.media.Schema;

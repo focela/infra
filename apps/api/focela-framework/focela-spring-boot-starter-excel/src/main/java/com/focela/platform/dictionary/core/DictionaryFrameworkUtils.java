@@ -21,24 +21,24 @@ import static com.focela.platform.common.utils.collection.CollectionUtils.conver
 @Slf4j
 public class DictionaryFrameworkUtils {
 
-    private static DictionaryDataContractApi dictDataApi;
+    private static DictionaryDataContractApi dictionaryDataApi;
 
     /**
-     * Cache of dictionary data keyed by dictType.
+     * Cache of dictionary data keyed by dictionaryType.
      */
     private static final LoadingCache<String, List<DictionaryDataRpcResponse>> DICTIONARY_DATA_CACHE = CacheUtils.buildAsyncReloadingCache(
             Duration.ofMinutes(1L), // Expiration: 1 minute
             new CacheLoader<String, List<DictionaryDataRpcResponse>>() {
 
                 @Override
-                public List<DictionaryDataRpcResponse> load(String dictType) {
-                    return dictDataApi.getDictDataList(dictType);
+                public List<DictionaryDataRpcResponse> load(String dictionaryType) {
+                    return dictionaryDataApi.getDictDataList(dictionaryType);
                 }
 
             });
 
-    public static void init(DictionaryDataContractApi dictDataApi) {
-        DictionaryFrameworkUtils.dictDataApi = dictDataApi;
+    public static void init(DictionaryDataContractApi dictionaryDataApi) {
+        DictionaryFrameworkUtils.dictionaryDataApi = dictionaryDataApi;
         log.info("[init][init DictionaryFrameworkUtils success]");
     }
 
@@ -47,36 +47,36 @@ public class DictionaryFrameworkUtils {
     }
 
     @SneakyThrows
-    public static String parseDictDataLabel(String dictType, Integer value) {
+    public static String parseDictDataLabel(String dictionaryType, Integer value) {
         if (value == null) {
             return null;
         }
-        return parseDictDataLabel(dictType, String.valueOf(value));
+        return parseDictDataLabel(dictionaryType, String.valueOf(value));
     }
 
     @SneakyThrows
-    public static String parseDictDataLabel(String dictType, String value) {
-        List<DictionaryDataRpcResponse> dictDatas = DICTIONARY_DATA_CACHE.get(dictType);
-        DictionaryDataRpcResponse dictData = CollUtil.findOne(dictDatas, data -> Objects.equals(data.getValue(), value));
-        return dictData != null ? dictData.getLabel(): null;
+    public static String parseDictDataLabel(String dictionaryType, String value) {
+        List<DictionaryDataRpcResponse> dictionaryDataList = DICTIONARY_DATA_CACHE.get(dictionaryType);
+        DictionaryDataRpcResponse dictionaryData = CollUtil.findOne(dictionaryDataList, data -> Objects.equals(data.getValue(), value));
+        return dictionaryData != null ? dictionaryData.getLabel(): null;
     }
 
     @SneakyThrows
-    public static List<String> getDictDataLabelList(String dictType) {
-        List<DictionaryDataRpcResponse> dictDatas = DICTIONARY_DATA_CACHE.get(dictType);
-        return convertList(dictDatas, DictionaryDataRpcResponse::getLabel);
+    public static List<String> getDictDataLabelList(String dictionaryType) {
+        List<DictionaryDataRpcResponse> dictionaryDataList = DICTIONARY_DATA_CACHE.get(dictionaryType);
+        return convertList(dictionaryDataList, DictionaryDataRpcResponse::getLabel);
     }
 
     @SneakyThrows
-    public static String parseDictDataValue(String dictType, String label) {
-        List<DictionaryDataRpcResponse> dictDatas = DICTIONARY_DATA_CACHE.get(dictType);
-        DictionaryDataRpcResponse dictData = CollUtil.findOne(dictDatas, data -> Objects.equals(data.getLabel(), label));
-        return dictData!= null ? dictData.getValue(): null;
+    public static String parseDictDataValue(String dictionaryType, String label) {
+        List<DictionaryDataRpcResponse> dictionaryDataList = DICTIONARY_DATA_CACHE.get(dictionaryType);
+        DictionaryDataRpcResponse dictionaryData = CollUtil.findOne(dictionaryDataList, data -> Objects.equals(data.getLabel(), label));
+        return dictionaryData!= null ? dictionaryData.getValue(): null;
     }
 
     @SneakyThrows
-    public static List<String> getDictDataValueList(String dictType) {
-        List<DictionaryDataRpcResponse> dictDatas = DICTIONARY_DATA_CACHE.get(dictType);
-        return convertList(dictDatas, DictionaryDataRpcResponse::getValue);
+    public static List<String> getDictDataValueList(String dictionaryType) {
+        List<DictionaryDataRpcResponse> dictionaryDataList = DICTIONARY_DATA_CACHE.get(dictionaryType);
+        return convertList(dictionaryDataList, DictionaryDataRpcResponse::getValue);
     }
 }

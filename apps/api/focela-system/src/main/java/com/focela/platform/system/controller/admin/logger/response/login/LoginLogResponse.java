@@ -1,4 +1,4 @@
-package com.focela.platform.system.controller.admin.logger.response.loginlog;
+package com.focela.platform.system.controller.admin.logger.response.login;
 
 import com.focela.platform.excel.core.annotations.DictionaryFormat;
 import com.focela.platform.excel.core.converter.DictionaryConverter;

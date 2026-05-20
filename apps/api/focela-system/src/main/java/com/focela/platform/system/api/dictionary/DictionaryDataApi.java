@@ -14,9 +14,9 @@ public interface DictionaryDataApi extends DictionaryDataContractApi {
      * 1. dictionary data does not exist
      * 2. dictionary data is disabled
      *
-     * @param dictType dictionary type
+     * @param dictionaryType dictionary type
      * @param values   dictionary data values
      */
-    void validateDictDataList(String dictType, Collection<String> values);
+    void validateDictDataList(String dictionaryType, Collection<String> values);
 
 }

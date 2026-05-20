@@ -28,14 +28,14 @@ import static com.focela.platform.common.model.CommonResult.success;
 @RequiredArgsConstructor
 public class AppDictionaryDataController {
 
-    private final DictionaryDataService dictDataService;
+    private final DictionaryDataService dictionaryDataService;
 
     @GetMapping("/type")
     @Operation(summary = "by dictionary type query dictionary data info")
     @Parameter(name = "type", description = "Dictionary type", required = true, example = "common_status")
     @PermitAll
     public CommonResult<List<AppDictionaryDataResponse>> getDictDataListByType(@RequestParam("type") String type) {
-        List<DictionaryDataEntity> dictionaryData = dictDataService.getDictDataList(
+        List<DictionaryDataEntity> dictionaryData = dictionaryDataService.getDictDataList(
                 CommonStatusEnum.ENABLE.getStatus(), type);
         return success(BeanUtils.toBean(dictionaryData, AppDictionaryDataResponse.class));
     }

@@ -17,16 +17,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LocalDictionaryDataApi implements DictionaryDataApi {
 
-    private final DictionaryDataService dictDataService;
+    private final DictionaryDataService dictionaryDataService;
 
     @Override
-    public void validateDictDataList(String dictType, Collection<String> values) {
-        dictDataService.validateDictDataList(dictType, values);
+    public void validateDictDataList(String dictionaryType, Collection<String> values) {
+        dictionaryDataService.validateDictDataList(dictionaryType, values);
     }
 
     @Override
-    public List<DictionaryDataRpcResponse> getDictDataList(String dictType) {
-        List<DictionaryDataEntity> list = dictDataService.getDictDataListByDictType(dictType);
+    public List<DictionaryDataRpcResponse> getDictDataList(String dictionaryType) {
+        List<DictionaryDataEntity> list = dictionaryDataService.getDictDataListByDictType(dictionaryType);
         return BeanUtils.toBean(list, DictionaryDataRpcResponse.class);
     }
 

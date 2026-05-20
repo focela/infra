@@ -10,11 +10,11 @@ import java.util.List;
 
 public class InDictionaryCollectionValidator implements ConstraintValidator<InDictionary, Collection<?>> {
 
-    private String dictType;
+    private String dictionaryType;
 
     @Override
     public void initialize(InDictionary annotation) {
-        this.dictType = annotation.type();
+        this.dictionaryType = annotation.type();
     }
 
     @Override
@@ -24,7 +24,7 @@ public class InDictionaryCollectionValidator implements ConstraintValidator<InDi
             return true;
         }
         // All values pass validation
-        List<String> dbValues = DictionaryFrameworkUtils.getDictDataValueList(dictType);
+        List<String> dbValues = DictionaryFrameworkUtils.getDictDataValueList(dictionaryType);
         boolean match = list.stream().allMatch(v -> dbValues.stream()
                 .anyMatch(dbValue -> dbValue.equalsIgnoreCase(v.toString())));
         if (match) {

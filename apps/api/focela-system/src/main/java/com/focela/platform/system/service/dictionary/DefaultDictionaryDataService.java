@@ -34,13 +34,13 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
 public class DefaultDictionaryDataService implements DictionaryDataService {
 
     /**
-     * Sort by dictType, then by sort
+     * Sort by dictionaryType, then by sort
      */
     private static final Comparator<DictionaryDataEntity> COMPARATOR_TYPE_AND_SORT = Comparator
             .comparing(DictionaryDataEntity::getDictType)
             .thenComparingInt(DictionaryDataEntity::getSort);
 
-    private final DictionaryDataMapper dictDataMapper;
+    private final DictionaryDataMapper dictionaryDataMapper;
 
     /**
      * Lazy field injection breaks the {@code DefaultDictionaryDataService} ↔
@@ -49,23 +49,23 @@ public class DefaultDictionaryDataService implements DictionaryDataService {
      */
     @Resource
     @Lazy
-    private DictionaryTypeService dictTypeService;
+    private DictionaryTypeService dictionaryTypeService;
 
     @Override
-    public List<DictionaryDataEntity> getDictDataList(Integer status, String dictType) {
-        List<DictionaryDataEntity> dictionaryData = dictDataMapper.selectListByStatusAndDictType(status, dictType);
+    public List<DictionaryDataEntity> getDictDataList(Integer status, String dictionaryType) {
+        List<DictionaryDataEntity> dictionaryData = dictionaryDataMapper.selectListByStatusAndDictType(status, dictionaryType);
         dictionaryData.sort(COMPARATOR_TYPE_AND_SORT);
         return dictionaryData;
     }
 
     @Override
     public PageResult<DictionaryDataEntity> getDictDataPage(DictionaryDataPageRequest pageRequest) {
-        return dictDataMapper.selectPage(pageRequest);
+        return dictionaryDataMapper.selectPage(pageRequest);
     }
 
     @Override
     public DictionaryDataEntity getDictData(Long id) {
-        return dictDataMapper.selectById(id);
+        return dictionaryDataMapper.selectById(id);
     }
 
     @Override
@@ -76,9 +76,9 @@ public class DefaultDictionaryDataService implements DictionaryDataService {
         validateDictDataValueUnique(null, createRequest.getDictType(), createRequest.getValue());
 
         // Insert dictionary data
-        DictionaryDataEntity dictData = BeanUtils.toBean(createRequest, DictionaryDataEntity.class);
-        dictDataMapper.insert(dictData);
-        return dictData.getId();
+        DictionaryDataEntity dictionaryData = BeanUtils.toBean(createRequest, DictionaryDataEntity.class);
+        dictionaryDataMapper.insert(dictionaryData);
+        return dictionaryData.getId();
     }
 
     @Override
@@ -92,7 +92,7 @@ public class DefaultDictionaryDataService implements DictionaryDataService {
 
         // Update dictionary data
         DictionaryDataEntity updateObj = BeanUtils.toBean(updateRequest, DictionaryDataEntity.class);
-        dictDataMapper.updateById(updateObj);
+        dictionaryDataMapper.updateById(updateObj);
     }
 
     @Override
@@ -101,30 +101,30 @@ public class DefaultDictionaryDataService implements DictionaryDataService {
         validateDictDataExists(id);
 
         // Delete dictionary data
-        dictDataMapper.deleteById(id);
+        dictionaryDataMapper.deleteById(id);
     }
 
     @Override
     public void deleteDictDataList(List<Long> ids) {
-        dictDataMapper.deleteByIds(ids);
+        dictionaryDataMapper.deleteByIds(ids);
     }
 
     @Override
-    public long getDictDataCountByDictType(String dictType) {
-        return dictDataMapper.selectCountByDictType(dictType);
+    public long getDictDataCountByDictType(String dictionaryType) {
+        return dictionaryDataMapper.selectCountByDictType(dictionaryType);
     }
 
     @VisibleForTesting
-    public void validateDictDataValueUnique(Long id, String dictType, String value) {
-        DictionaryDataEntity dictData = dictDataMapper.selectByDictTypeAndValue(dictType, value);
-        if (dictData == null) {
+    public void validateDictDataValueUnique(Long id, String dictionaryType, String value) {
+        DictionaryDataEntity dictionaryData = dictionaryDataMapper.selectByDictTypeAndValue(dictionaryType, value);
+        if (dictionaryData == null) {
             return;
         }
         // If id is null, no need to compare whether it is the same dictionary data id
         if (id == null) {
             throw exception(DICT_DATA_VALUE_DUPLICATE);
         }
-        if (!dictData.getId().equals(id)) {
+        if (!dictionaryData.getId().equals(id)) {
             throw exception(DICT_DATA_VALUE_DUPLICATE);
         }
     }
@@ -134,55 +134,55 @@ public class DefaultDictionaryDataService implements DictionaryDataService {
         if (id == null) {
             return;
         }
-        DictionaryDataEntity dictData = dictDataMapper.selectById(id);
-        if (dictData == null) {
+        DictionaryDataEntity dictionaryData = dictionaryDataMapper.selectById(id);
+        if (dictionaryData == null) {
             throw exception(DICT_DATA_NOT_EXISTS);
         }
     }
 
     @VisibleForTesting
     public void validateDictTypeExists(String type) {
-        DictionaryTypeEntity dictType = dictTypeService.getDictType(type);
-        if (dictType == null) {
+        DictionaryTypeEntity dictionaryType = dictionaryTypeService.getDictType(type);
+        if (dictionaryType == null) {
             throw exception(DICT_TYPE_NOT_EXISTS);
         }
-        if (!CommonStatusEnum.ENABLE.getStatus().equals(dictType.getStatus())) {
+        if (!CommonStatusEnum.ENABLE.getStatus().equals(dictionaryType.getStatus())) {
             throw exception(DICT_TYPE_NOT_ENABLE);
         }
     }
 
     @Override
-    public void validateDictDataList(String dictType, Collection<String> values) {
+    public void validateDictDataList(String dictionaryType, Collection<String> values) {
         if (CollUtil.isEmpty(values)) {
             return;
         }
-        Map<String, DictionaryDataEntity> dictDataMap = CollectionUtils.convertMap(
-                dictDataMapper.selectByDictTypeAndValues(dictType, values), DictionaryDataEntity::getValue);
+        Map<String, DictionaryDataEntity> dictionaryDataMap = CollectionUtils.convertMap(
+                dictionaryDataMapper.selectByDictTypeAndValues(dictionaryType, values), DictionaryDataEntity::getValue);
         // Validate
         values.forEach(value -> {
-            DictionaryDataEntity dictData = dictDataMap.get(value);
-            if (dictData == null) {
+            DictionaryDataEntity dictionaryData = dictionaryDataMap.get(value);
+            if (dictionaryData == null) {
                 throw exception(DICT_DATA_NOT_EXISTS);
             }
-            if (!CommonStatusEnum.ENABLE.getStatus().equals(dictData.getStatus())) {
-                throw exception(DICT_DATA_NOT_ENABLE, dictData.getLabel());
+            if (!CommonStatusEnum.ENABLE.getStatus().equals(dictionaryData.getStatus())) {
+                throw exception(DICT_DATA_NOT_ENABLE, dictionaryData.getLabel());
             }
         });
     }
 
     @Override
-    public DictionaryDataEntity getDictData(String dictType, String value) {
-        return dictDataMapper.selectByDictTypeAndValue(dictType, value);
+    public DictionaryDataEntity getDictData(String dictionaryType, String value) {
+        return dictionaryDataMapper.selectByDictTypeAndValue(dictionaryType, value);
     }
 
     @Override
-    public DictionaryDataEntity parseDictData(String dictType, String label) {
-        return dictDataMapper.selectByDictTypeAndLabel(dictType, label);
+    public DictionaryDataEntity parseDictData(String dictionaryType, String label) {
+        return dictionaryDataMapper.selectByDictTypeAndLabel(dictionaryType, label);
     }
 
     @Override
-    public List<DictionaryDataEntity> getDictDataListByDictType(String dictType) {
-        List<DictionaryDataEntity> dictionaryData = dictDataMapper.selectList(DictionaryDataEntity::getDictType, dictType);
+    public List<DictionaryDataEntity> getDictDataListByDictType(String dictionaryType) {
+        List<DictionaryDataEntity> dictionaryData = dictionaryDataMapper.selectList(DictionaryDataEntity::getDictType, dictionaryType);
         dictionaryData.sort(Comparator.comparing(DictionaryDataEntity::getSort));
         return dictionaryData;
     }

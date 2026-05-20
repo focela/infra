@@ -15,21 +15,21 @@ import java.util.List;
 @Mapper
 public interface DictionaryDataMapper extends BaseMapperX<DictionaryDataEntity> {
 
-    default DictionaryDataEntity selectByDictTypeAndValue(String dictType, String value) {
-        return selectOne(DictionaryDataEntity::getDictType, dictType, DictionaryDataEntity::getValue, value);
+    default DictionaryDataEntity selectByDictTypeAndValue(String dictionaryType, String value) {
+        return selectOne(DictionaryDataEntity::getDictType, dictionaryType, DictionaryDataEntity::getValue, value);
     }
 
-    default DictionaryDataEntity selectByDictTypeAndLabel(String dictType, String label) {
-        return selectOne(DictionaryDataEntity::getDictType, dictType, DictionaryDataEntity::getLabel, label);
+    default DictionaryDataEntity selectByDictTypeAndLabel(String dictionaryType, String label) {
+        return selectOne(DictionaryDataEntity::getDictType, dictionaryType, DictionaryDataEntity::getLabel, label);
     }
 
-    default List<DictionaryDataEntity> selectByDictTypeAndValues(String dictType, Collection<String> values) {
-        return selectList(new LambdaQueryWrapper<DictionaryDataEntity>().eq(DictionaryDataEntity::getDictType, dictType)
+    default List<DictionaryDataEntity> selectByDictTypeAndValues(String dictionaryType, Collection<String> values) {
+        return selectList(new LambdaQueryWrapper<DictionaryDataEntity>().eq(DictionaryDataEntity::getDictType, dictionaryType)
                 .in(DictionaryDataEntity::getValue, values));
     }
 
-    default long selectCountByDictType(String dictType) {
-        return selectCount(DictionaryDataEntity::getDictType, dictType);
+    default long selectCountByDictType(String dictionaryType) {
+        return selectCount(DictionaryDataEntity::getDictType, dictionaryType);
     }
 
     default PageResult<DictionaryDataEntity> selectPage(DictionaryDataPageRequest request) {
@@ -40,10 +40,10 @@ public interface DictionaryDataMapper extends BaseMapperX<DictionaryDataEntity> 
                 .orderByDesc(Arrays.asList(DictionaryDataEntity::getDictType, DictionaryDataEntity::getSort)));
     }
 
-    default List<DictionaryDataEntity> selectListByStatusAndDictType(Integer status, String dictType) {
+    default List<DictionaryDataEntity> selectListByStatusAndDictType(Integer status, String dictionaryType) {
         return selectList(new LambdaQueryWrapperX<DictionaryDataEntity>()
                 .eqIfPresent(DictionaryDataEntity::getStatus, status)
-                .eqIfPresent(DictionaryDataEntity::getDictType, dictType));
+                .eqIfPresent(DictionaryDataEntity::getDictType, dictionaryType));
     }
 
 }

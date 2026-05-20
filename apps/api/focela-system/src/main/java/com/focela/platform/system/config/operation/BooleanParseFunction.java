@@ -1,20 +1,20 @@
-package com.focela.platform.system.config.operatelog;
+package com.focela.platform.system.config.operation;
 
 import cn.hutool.core.util.StrUtil;
 import com.focela.platform.dictionary.core.DictionaryFrameworkUtils;
-import com.focela.platform.system.constants.DictionaryTypeConstants;
+import com.focela.platform.infra.constants.DictionaryTypeConstants;
 import com.mzt.logapi.service.IParseFunction;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
- * {@link IParseFunction} implementation for sex
+ * {@link IParseFunction} implementation for boolean type
  */
 @Component
 @Slf4j
-public class SexParseFunction implements IParseFunction {
+public class BooleanParseFunction implements IParseFunction {
 
-    public static final String NAME = "getSex";
+    public static final String NAME = "getBoolean";
 
     @Override
     public boolean executeBefore() {
@@ -31,7 +31,7 @@ public class SexParseFunction implements IParseFunction {
         if (StrUtil.isEmptyIfStr(value)) {
             return "";
         }
-        return DictionaryFrameworkUtils.parseDictDataLabel(DictionaryTypeConstants.USER_SEX, value.toString());
+        return DictionaryFrameworkUtils.parseDictDataLabel(DictionaryTypeConstants.BOOLEAN_STRING, value.toString());
     }
 
 }

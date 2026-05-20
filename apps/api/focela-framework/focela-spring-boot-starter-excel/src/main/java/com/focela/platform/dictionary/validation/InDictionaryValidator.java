@@ -9,11 +9,11 @@ import java.util.List;
 
 public class InDictionaryValidator implements ConstraintValidator<InDictionary, Object> {
 
-    private String dictType;
+    private String dictionaryType;
 
     @Override
     public void initialize(InDictionary annotation) {
-        this.dictType = annotation.type();
+        this.dictionaryType = annotation.type();
     }
 
     @Override
@@ -23,7 +23,7 @@ public class InDictionaryValidator implements ConstraintValidator<InDictionary, 
             return true;
         }
         // Validation passes
-        final List<String> values = DictionaryFrameworkUtils.getDictDataValueList(dictType);
+        final List<String> values = DictionaryFrameworkUtils.getDictDataValueList(dictionaryType);
         boolean match = values.stream().anyMatch(v -> StrUtil.equalsIgnoreCase(v, value.toString()));
         if (match) {
             return true;

@@ -305,21 +305,21 @@ public class DefaultPermissionService implements PermissionService {
                 result.setAll(true);
                 continue;
             }
-            // Case 2: DEPT_CUSTOM
-            if (Objects.equals(role.getDataScope(), DataScopeEnum.DEPT_CUSTOM.getScope())) {
+            // Case 2: DEPARTMENT_CUSTOM
+            if (Objects.equals(role.getDataScope(), DataScopeEnum.DEPARTMENT_CUSTOM.getScope())) {
                 CollUtil.addAll(result.getDeptIds(), role.getDataScopeDeptIds());
                 // For custom visible departments, ensure the user's own department is also visible. Otherwise issues may occur.
                 // For example, on login, the t_user lookup by username may be filtered out by dept_id
                 CollUtil.addAll(result.getDeptIds(), userDeptId.get());
                 continue;
             }
-            // Case 3: DEPT_ONLY
-            if (Objects.equals(role.getDataScope(), DataScopeEnum.DEPT_ONLY.getScope())) {
+            // Case 3: DEPARTMENT_ONLY
+            if (Objects.equals(role.getDataScope(), DataScopeEnum.DEPARTMENT_ONLY.getScope())) {
                 CollectionUtils.addIfNotNull(result.getDeptIds(), userDeptId.get());
                 continue;
             }
-            // Case 4: DEPT_DEPT_AND_CHILD
-            if (Objects.equals(role.getDataScope(), DataScopeEnum.DEPT_AND_CHILD.getScope())) {
+            // Case 4: DEPARTMENT_AND_CHILD
+            if (Objects.equals(role.getDataScope(), DataScopeEnum.DEPARTMENT_AND_CHILD.getScope())) {
                 CollUtil.addAll(result.getDeptIds(), departmentService.getChildDepartmentIdListFromCache(userDeptId.get()));
                 // Add the user's own department ID
                 CollUtil.addAll(result.getDeptIds(), userDeptId.get());

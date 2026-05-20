@@ -22,23 +22,23 @@ import static org.mockito.Mockito.when;
 public class DictionaryFrameworkUtilsTest extends BaseMockitoUnitTest {
 
     @Mock
-    private DictionaryDataContractApi dictDataApi;
+    private DictionaryDataContractApi dictionaryDataApi;
 
     @BeforeEach
     public void setUp() {
-        DictionaryFrameworkUtils.init(dictDataApi);
+        DictionaryFrameworkUtils.init(dictionaryDataApi);
         DictionaryFrameworkUtils.clearCache();
     }
 
     @Test
     public void testParseDictDataLabel() {
         // mock data
-        List<DictionaryDataRpcResponse> dictDatas = ListUtil.of(
+        List<DictionaryDataRpcResponse> dictionaryDataList = ListUtil.of(
                 randomPojo(DictionaryDataRpcResponse.class, o -> o.setDictType("animal").setValue("cat").setLabel("Cat")),
                 randomPojo(DictionaryDataRpcResponse.class, o -> o.setDictType("animal").setValue("dog").setLabel("Dog"))
         );
         // mock the method
-        when(dictDataApi.getDictDataList(eq("animal"))).thenReturn(dictDatas);
+        when(dictionaryDataApi.getDictDataList(eq("animal"))).thenReturn(dictionaryDataList);
 
         // assert the return value
         assertEquals("Dog", DictionaryFrameworkUtils.parseDictDataLabel("animal", "dog"));
@@ -47,12 +47,12 @@ public class DictionaryFrameworkUtilsTest extends BaseMockitoUnitTest {
     @Test
     public void testParseDictDataValue() {
         // mock data
-        List<DictionaryDataRpcResponse> dictDatas = ListUtil.of(
+        List<DictionaryDataRpcResponse> dictionaryDataList = ListUtil.of(
                 randomPojo(DictionaryDataRpcResponse.class, o -> o.setDictType("animal").setValue("cat").setLabel("Cat")),
                 randomPojo(DictionaryDataRpcResponse.class, o -> o.setDictType("animal").setValue("dog").setLabel("Dog"))
         );
         // mock the method
-        when(dictDataApi.getDictDataList(eq("animal"))).thenReturn(dictDatas);
+        when(dictionaryDataApi.getDictDataList(eq("animal"))).thenReturn(dictionaryDataList);
 
         // assert the return value
         assertEquals("dog", DictionaryFrameworkUtils.parseDictDataValue("animal", "Dog"));

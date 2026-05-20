@@ -109,14 +109,14 @@ public class SelectSheetWriteHandler implements SheetWriteHandler {
      */
     private void getSelectDataList(int colIndex, Field field) {
         ExcelColumnSelect columnSelect = field.getAnnotation(ExcelColumnSelect.class);
-        String dictType = columnSelect.dictType();
+        String dictionaryType = columnSelect.dictType();
         String functionName = columnSelect.functionName();
-        Assert.isTrue(ObjectUtil.isNotEmpty(dictType) || ObjectUtil.isNotEmpty(functionName),
+        Assert.isTrue(ObjectUtil.isNotEmpty(dictionaryType) || ObjectUtil.isNotEmpty(functionName),
                 "Field({}) @ExcelColumnSelect annotation: dictType and functionName must not both be empty", field.getName());
 
         // Case 1: fetch dropdown data via dictType
-        if (StrUtil.isNotEmpty(dictType)) { // Case 1: dictionary data (default)
-            selectMap.put(colIndex, DictionaryFrameworkUtils.getDictDataLabelList(dictType));
+        if (StrUtil.isNotEmpty(dictionaryType)) { // Case 1: dictionary data (default)
+            selectMap.put(colIndex, DictionaryFrameworkUtils.getDictDataLabelList(dictionaryType));
             return;
         }
 

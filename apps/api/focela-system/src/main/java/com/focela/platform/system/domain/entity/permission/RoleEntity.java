@@ -68,7 +68,7 @@ public class RoleEntity extends TenantBaseEntity {
     /**
      * Data scope (custom department ID array)
      *
-     * Applies when {@link #dataScope} is {@link DataScopeEnum#DEPT_CUSTOM}.
+     * Applies when {@link #dataScope} is {@link DataScopeEnum#DEPARTMENT_CUSTOM}.
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
     private Set<Long> dataScopeDeptIds;

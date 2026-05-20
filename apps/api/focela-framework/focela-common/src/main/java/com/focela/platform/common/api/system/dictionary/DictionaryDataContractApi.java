@@ -12,9 +12,9 @@ public interface DictionaryDataContractApi {
     /**
      * Get the dictionary data list for the specified dictionary type.
      *
-     * @param dictType dictionary type
+     * @param dictionaryType dictionary type
      * @return dictionary data list
      */
-    List<DictionaryDataRpcResponse> getDictDataList(String dictType);
+    List<DictionaryDataRpcResponse> getDictDataList(String dictionaryType);
 
 }

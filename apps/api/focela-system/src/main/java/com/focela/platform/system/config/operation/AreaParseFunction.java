@@ -1,4 +1,4 @@
-package com.focela.platform.system.config.operatelog;
+package com.focela.platform.system.config.operation;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;

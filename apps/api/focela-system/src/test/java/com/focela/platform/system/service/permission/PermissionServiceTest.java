@@ -422,7 +422,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
             // mock user role IDs
             userRoleMapper.insert(randomPojo(UserRoleEntity.class).setUserId(userId).setRoleId(2L));
             // mock get user roles
-            RoleEntity roleEntity = randomPojo(RoleEntity.class, o -> o.setDataScope(DataScopeEnum.DEPT_CUSTOM.getScope())
+            RoleEntity roleEntity = randomPojo(RoleEntity.class, o -> o.setDataScope(DataScopeEnum.DEPARTMENT_CUSTOM.getScope())
                     .setStatus(CommonStatusEnum.ENABLE.getStatus()));
             when(roleService.getRoleListFromCache(eq(singleton(2L)))).thenReturn(toList(roleEntity));
             // mock department return
@@ -451,7 +451,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
             // mock user role IDs
             userRoleMapper.insert(randomPojo(UserRoleEntity.class).setUserId(userId).setRoleId(2L));
             // mock get user roles
-            RoleEntity roleEntity = randomPojo(RoleEntity.class, o -> o.setDataScope(DataScopeEnum.DEPT_ONLY.getScope())
+            RoleEntity roleEntity = randomPojo(RoleEntity.class, o -> o.setDataScope(DataScopeEnum.DEPARTMENT_ONLY.getScope())
                     .setStatus(CommonStatusEnum.ENABLE.getStatus()));
             when(roleService.getRoleListFromCache(eq(singleton(2L)))).thenReturn(toList(roleEntity));
             // mock department return
@@ -479,7 +479,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
             // mock user role IDs
             userRoleMapper.insert(randomPojo(UserRoleEntity.class).setUserId(userId).setRoleId(2L));
             // mock get user roles
-            RoleEntity roleEntity = randomPojo(RoleEntity.class, o -> o.setDataScope(DataScopeEnum.DEPT_AND_CHILD.getScope())
+            RoleEntity roleEntity = randomPojo(RoleEntity.class, o -> o.setDataScope(DataScopeEnum.DEPARTMENT_AND_CHILD.getScope())
                     .setStatus(CommonStatusEnum.ENABLE.getStatus()));
             when(roleService.getRoleListFromCache(eq(singleton(2L)))).thenReturn(toList(roleEntity));
             // mock department return

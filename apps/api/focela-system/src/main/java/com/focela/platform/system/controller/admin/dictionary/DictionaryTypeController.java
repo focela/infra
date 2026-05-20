@@ -42,21 +42,21 @@ import static com.focela.platform.common.model.CommonResult.success;
 @RequiredArgsConstructor
 public class DictionaryTypeController {
 
-    private final DictionaryTypeService dictTypeService;
+    private final DictionaryTypeService dictionaryTypeService;
 
     @PostMapping("/create")
     @Operation(summary = "create dictionary type")
     @PreAuthorize("@ss.hasPermission('system:dict:create')")
     public CommonResult<Long> createDictType(@Valid @RequestBody DictionaryTypeSaveRequest createRequest) {
-        Long dictTypeId = dictTypeService.createDictType(createRequest);
-        return success(dictTypeId);
+        Long dictionaryTypeId = dictionaryTypeService.createDictType(createRequest);
+        return success(dictionaryTypeId);
     }
 
     @PutMapping("/update")
     @Operation(summary = "update dictionary type")
     @PreAuthorize("@ss.hasPermission('system:dict:update')")
     public CommonResult<Boolean> updateDictType(@Valid @RequestBody DictionaryTypeSaveRequest updateRequest) {
-        dictTypeService.updateDictType(updateRequest);
+        dictionaryTypeService.updateDictType(updateRequest);
         return success(true);
     }
 
@@ -65,7 +65,7 @@ public class DictionaryTypeController {
     @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:dict:delete')")
     public CommonResult<Boolean> deleteDictType(Long id) {
-        dictTypeService.deleteDictType(id);
+        dictionaryTypeService.deleteDictType(id);
         return success(true);
     }
 
@@ -74,7 +74,7 @@ public class DictionaryTypeController {
     @Parameter(name = "ids", description = "ID list", required = true)
     @PreAuthorize("@ss.hasPermission('system:dict:delete')")
     public CommonResult<Boolean> deleteDictTypeList(@RequestParam("ids") List<Long> ids) {
-        dictTypeService.deleteDictTypeList(ids);
+        dictionaryTypeService.deleteDictTypeList(ids);
         return success(true);
     }
 
@@ -82,7 +82,7 @@ public class DictionaryTypeController {
     @Operation(summary = "get dictionary type page list")
     @PreAuthorize("@ss.hasPermission('system:dict:query')")
     public CommonResult<PageResult<DictionaryTypeResponse>> pageDictTypes(@Valid DictionaryTypePageRequest pageRequest) {
-        PageResult<DictionaryTypeEntity> pageResult = dictTypeService.getDictTypePage(pageRequest);
+        PageResult<DictionaryTypeEntity> pageResult = dictionaryTypeService.getDictTypePage(pageRequest);
         return success(BeanUtils.toBean(pageResult, DictionaryTypeResponse.class));
     }
 
@@ -91,15 +91,15 @@ public class DictionaryTypeController {
     @GetMapping(value = "/get")
     @PreAuthorize("@ss.hasPermission('system:dict:query')")
     public CommonResult<DictionaryTypeResponse> getDictType(@RequestParam("id") Long id) {
-        DictionaryTypeEntity dictType = dictTypeService.getDictType(id);
-        return success(BeanUtils.toBean(dictType, DictionaryTypeResponse.class));
+        DictionaryTypeEntity dictionaryType = dictionaryTypeService.getDictType(id);
+        return success(BeanUtils.toBean(dictionaryType, DictionaryTypeResponse.class));
     }
 
     @GetMapping(value = {"/list-all-simple", "simple-list"})
     @Operation(summary = "get all dictionary type list", description = "include enable + disable dictionary type, for frontend dropdown options")
     // no permission check required as the frontend uses this globally
     public CommonResult<List<DictionaryTypeSimpleResponse>> getSimpleDictTypeList() {
-        List<DictionaryTypeEntity> dictionaryTypes = dictTypeService.getDictTypeList();
+        List<DictionaryTypeEntity> dictionaryTypes = dictionaryTypeService.getDictTypeList();
         return success(BeanUtils.toBean(dictionaryTypes, DictionaryTypeSimpleResponse.class));
     }
 
@@ -109,7 +109,7 @@ public class DictionaryTypeController {
     @ApiAccessLog(operateType = EXPORT)
     public void export(HttpServletResponse response, @Valid DictionaryTypePageRequest exportRequest) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<DictionaryTypeEntity> dictionaryTypes = dictTypeService.getDictTypePage(exportRequest).getList();
+        List<DictionaryTypeEntity> dictionaryTypes = dictionaryTypeService.getDictTypePage(exportRequest).getList();
         // export
         ExcelUtils.write(response, "Dictionary Type.xls", "Data", DictionaryTypeResponse.class,
                 BeanUtils.toBean(dictionaryTypes, DictionaryTypeResponse.class));

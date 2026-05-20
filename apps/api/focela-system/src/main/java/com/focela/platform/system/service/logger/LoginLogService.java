@@ -2,7 +2,7 @@ package com.focela.platform.system.service.logger;
 
 import com.focela.platform.common.model.PageResult;
 import com.focela.platform.system.api.logger.dto.LoginLogCreateRpcRequest;
-import com.focela.platform.system.controller.admin.logger.request.loginlog.LoginLogPageRequest;
+import com.focela.platform.system.controller.admin.logger.request.login.LoginLogPageRequest;
 import com.focela.platform.system.domain.entity.logger.LoginLogEntity;
 
 import jakarta.validation.Valid;

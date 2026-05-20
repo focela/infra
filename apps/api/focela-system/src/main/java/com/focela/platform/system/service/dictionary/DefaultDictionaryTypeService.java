@@ -25,23 +25,23 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
 @RequiredArgsConstructor
 public class DefaultDictionaryTypeService implements DictionaryTypeService {
 
-    private final DictionaryDataService dictDataService;
+    private final DictionaryDataService dictionaryDataService;
 
-    private final DictionaryTypeMapper dictTypeMapper;
+    private final DictionaryTypeMapper dictionaryTypeMapper;
 
     @Override
     public PageResult<DictionaryTypeEntity> getDictTypePage(DictionaryTypePageRequest pageRequest) {
-        return dictTypeMapper.selectPage(pageRequest);
+        return dictionaryTypeMapper.selectPage(pageRequest);
     }
 
     @Override
     public DictionaryTypeEntity getDictType(Long id) {
-        return dictTypeMapper.selectById(id);
+        return dictionaryTypeMapper.selectById(id);
     }
 
     @Override
     public DictionaryTypeEntity getDictType(String type) {
-        return dictTypeMapper.selectByType(type);
+        return dictionaryTypeMapper.selectByType(type);
     }
 
     @Override
@@ -52,10 +52,10 @@ public class DefaultDictionaryTypeService implements DictionaryTypeService {
         validateDictTypeUnique(null, createRequest.getType());
 
         // Insert dictionary type
-        DictionaryTypeEntity dictType = BeanUtils.toBean(createRequest, DictionaryTypeEntity.class);
-        dictType.setDeletedTime(LocalDateTimeUtils.EMPTY); // unique index, avoid null value
-        dictTypeMapper.insert(dictType);
-        return dictType.getId();
+        DictionaryTypeEntity dictionaryType = BeanUtils.toBean(createRequest, DictionaryTypeEntity.class);
+        dictionaryType.setDeletedTime(LocalDateTimeUtils.EMPTY); // unique index, avoid null value
+        dictionaryTypeMapper.insert(dictionaryType);
+        return dictionaryType.getId();
     }
 
     @Override
@@ -69,52 +69,52 @@ public class DefaultDictionaryTypeService implements DictionaryTypeService {
 
         // Update dictionary type
         DictionaryTypeEntity updateObj = BeanUtils.toBean(updateRequest, DictionaryTypeEntity.class);
-        dictTypeMapper.updateById(updateObj);
+        dictionaryTypeMapper.updateById(updateObj);
     }
 
     @Override
     public void deleteDictType(Long id) {
         // Validate existence
-        DictionaryTypeEntity dictType = validateDictTypeExists(id);
+        DictionaryTypeEntity dictionaryType = validateDictTypeExists(id);
         // Validate whether dictionary data exists
-        if (dictDataService.getDictDataCountByDictType(dictType.getType()) > 0) {
+        if (dictionaryDataService.getDictDataCountByDictType(dictionaryType.getType()) > 0) {
             throw exception(DICT_TYPE_HAS_CHILDREN);
         }
         // Delete dictionary type
-        dictTypeMapper.updateToDelete(id, LocalDateTime.now());
+        dictionaryTypeMapper.updateToDelete(id, LocalDateTime.now());
     }
 
     @Override
     public void deleteDictTypeList(List<Long> ids) {
         // 1. Validate whether dictionary data exists
-        List<DictionaryTypeEntity> dictTypes = dictTypeMapper.selectByIds(ids);
-        dictTypes.forEach(dictType -> {
-            if (dictDataService.getDictDataCountByDictType(dictType.getType()) > 0) {
+        List<DictionaryTypeEntity> dictionaryTypes = dictionaryTypeMapper.selectByIds(ids);
+        dictionaryTypes.forEach(dictionaryType -> {
+            if (dictionaryDataService.getDictDataCountByDictType(dictionaryType.getType()) > 0) {
                 throw exception(DICT_TYPE_HAS_CHILDREN);
             }
         });
 
         // 2. Batch delete dictionary types
         LocalDateTime now = LocalDateTime.now();
-        ids.forEach(id -> dictTypeMapper.updateToDelete(id, now));
+        ids.forEach(id -> dictionaryTypeMapper.updateToDelete(id, now));
     }
 
     @Override
     public List<DictionaryTypeEntity> getDictTypeList() {
-        return dictTypeMapper.selectList();
+        return dictionaryTypeMapper.selectList();
     }
 
     @VisibleForTesting
     void validateDictTypeNameUnique(Long id, String name) {
-        DictionaryTypeEntity dictType = dictTypeMapper.selectByName(name);
-        if (dictType == null) {
+        DictionaryTypeEntity dictionaryType = dictionaryTypeMapper.selectByName(name);
+        if (dictionaryType == null) {
             return;
         }
         // If id is null, no need to compare whether it is the same dictionary type id
         if (id == null) {
             throw exception(DICT_TYPE_NAME_DUPLICATE);
         }
-        if (!dictType.getId().equals(id)) {
+        if (!dictionaryType.getId().equals(id)) {
             throw exception(DICT_TYPE_NAME_DUPLICATE);
         }
     }
@@ -124,15 +124,15 @@ public class DefaultDictionaryTypeService implements DictionaryTypeService {
         if (StrUtil.isEmpty(type)) {
             return;
         }
-        DictionaryTypeEntity dictType = dictTypeMapper.selectByType(type);
-        if (dictType == null) {
+        DictionaryTypeEntity dictionaryType = dictionaryTypeMapper.selectByType(type);
+        if (dictionaryType == null) {
             return;
         }
         // If id is null, no need to compare whether it is the same dictionary type id
         if (id == null) {
             throw exception(DICT_TYPE_TYPE_DUPLICATE);
         }
-        if (!dictType.getId().equals(id)) {
+        if (!dictionaryType.getId().equals(id)) {
             throw exception(DICT_TYPE_TYPE_DUPLICATE);
         }
     }
@@ -142,11 +142,11 @@ public class DefaultDictionaryTypeService implements DictionaryTypeService {
         if (id == null) {
             return null;
         }
-        DictionaryTypeEntity dictType = dictTypeMapper.selectById(id);
-        if (dictType == null) {
+        DictionaryTypeEntity dictionaryType = dictionaryTypeMapper.selectById(id);
+        if (dictionaryType == null) {
             throw exception(DICT_TYPE_NOT_EXISTS);
         }
-        return dictType;
+        return dictionaryType;
     }
 
 }

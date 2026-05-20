@@ -22,7 +22,7 @@ public class PermissionAssignRoleDataScopeRequest {
     @InEnum(value = DataScopeEnum.class, message = "data scope must be {value}")
     private Integer dataScope;
 
-    @Schema(description = "department ID list, only has scope type as DEPT_CUSTOM when, this field is required", example = "1,3,5")
+    @Schema(description = "department ID list, only has scope type as DEPARTMENT_CUSTOM when, this field is required", example = "1,3,5")
     private Set<Long> dataScopeDeptIds = Collections.emptySet(); // fallback
 
 }

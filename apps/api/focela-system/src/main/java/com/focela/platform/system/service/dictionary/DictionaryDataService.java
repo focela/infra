@@ -47,10 +47,10 @@ public interface DictionaryDataService {
      * Get the dictionary data list
      *
      * @param status   status
-     * @param dictType dictionary type
+     * @param dictionaryType dictionary type
      * @return full dictionary data list
      */
-    List<DictionaryDataEntity> getDictDataList(@Nullable Integer status, @Nullable String dictType);
+    List<DictionaryDataEntity> getDictDataList(@Nullable Integer status, @Nullable String dictionaryType);
 
     /**
      * Get paginated dictionary data list
@@ -71,45 +71,45 @@ public interface DictionaryDataService {
     /**
      * Get the count of data for the specified dictionary type
      *
-     * @param dictType dictionary type
+     * @param dictionaryType dictionary type
      * @return data count
      */
-    long getDictDataCountByDictType(String dictType);
+    long getDictDataCountByDictType(String dictionaryType);
 
     /**
      * Validate whether the dictionary data entries are valid. The following cases are considered invalid:
      * 1. The dictionary data does not exist
      * 2. The dictionary data is disabled
      *
-     * @param dictType dictionary type
+     * @param dictionaryType dictionary type
      * @param values   array of dictionary data values
      */
-    void validateDictDataList(String dictType, Collection<String> values);
+    void validateDictDataList(String dictionaryType, Collection<String> values);
 
     /**
      * Get the specified dictionary data
      *
-     * @param dictType dictionary type
+     * @param dictionaryType dictionary type
      * @param value    dictionary data value
      * @return dictionary data
      */
-    DictionaryDataEntity getDictData(String dictType, String value);
+    DictionaryDataEntity getDictData(String dictionaryType, String value);
 
     /**
      * Parse and get the specified dictionary data, from cache
      *
-     * @param dictType dictionary type
+     * @param dictionaryType dictionary type
      * @param label    dictionary data label
      * @return dictionary data
      */
-    DictionaryDataEntity parseDictData(String dictType, String label);
+    DictionaryDataEntity parseDictData(String dictionaryType, String label);
 
     /**
      * Get the dictionary data list for the specified data type
      *
-     * @param dictType dictionary type
+     * @param dictionaryType dictionary type
      * @return dictionary data list
      */
-    List<DictionaryDataEntity> getDictDataListByDictType(String dictType);
+    List<DictionaryDataEntity> getDictDataListByDictType(String dictionaryType);
 
 }

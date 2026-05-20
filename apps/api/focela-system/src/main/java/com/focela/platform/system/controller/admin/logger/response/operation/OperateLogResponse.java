@@ -1,4 +1,4 @@
-package com.focela.platform.system.controller.admin.logger.response.operatelog;
+package com.focela.platform.system.controller.admin.logger.response.operation;
 
 import com.focela.platform.excel.core.annotations.DictionaryFormat;
 import com.focela.platform.system.domain.entity.user.UserEntity;
