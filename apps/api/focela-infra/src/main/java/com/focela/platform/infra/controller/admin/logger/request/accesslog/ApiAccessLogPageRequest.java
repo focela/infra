@@ -1,4 +1,4 @@
-package com.focela.platform.infra.controller.admin.logger.request.apiaccesslog;
+package com.focela.platform.infra.controller.admin.logger.request.accesslog;
 
 import com.focela.platform.common.model.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;

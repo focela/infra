@@ -53,7 +53,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     @MockitoBean
     private MenuService menuService;
     @MockitoBean
-    private DepartmentService deptService;
+    private DepartmentService departmentService;
     @MockitoBean
     private UserService userService;
 
@@ -487,7 +487,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
                     null, null); // returning null at the end is intentional, to verify there is no duplicate invoke
             // mock the method（department)
             DepartmentEntity deptEntity = randomPojo(DepartmentEntity.class);
-            when(deptService.getChildDeptIdListFromCache(eq(3L))).thenReturn(singleton(deptEntity.getId()));
+            when(departmentService.getChildDepartmentIdListFromCache(eq(3L))).thenReturn(singleton(deptEntity.getId()));
 
             // invoke
             DepartmentDataPermissionRpcResponse result = permissionService.getDeptDataPermission(userId);

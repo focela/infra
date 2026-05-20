@@ -13,7 +13,9 @@ public interface RedisKeyConstants {
      * KEY format: dept_children_ids:{id}
      * VALUE type: String collection of child department IDs
      */
-    String DEPT_CHILDREN_ID_LIST = "dept_children_ids";
+    String DEPARTMENT_CHILDREN_ID_LIST = "dept_children_ids";
+    @Deprecated
+    String DEPT_CHILDREN_ID_LIST = DEPARTMENT_CHILDREN_ID_LIST;
 
     /**
      * Cache of role

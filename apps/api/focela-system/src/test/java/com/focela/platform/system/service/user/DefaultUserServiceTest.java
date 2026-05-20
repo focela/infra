@@ -70,7 +70,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     private UserPostMapper userPostMapper;
 
     @MockitoBean
-    private DepartmentService deptService;
+    private DepartmentService departmentService;
     @MockitoBean
     private PostService postService;
     @MockitoBean
@@ -106,12 +106,12 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
             handler.handle(tenant);
             return true;
         }));
-        // mock deptService  method
-        DepartmentEntity dept = randomPojo(DepartmentEntity.class, o -> {
+        // mock departmentService  method
+        DepartmentEntity department = randomPojo(DepartmentEntity.class, o -> {
             o.setId(request.getDeptId());
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
-        when(deptService.getDept(eq(dept.getId()))).thenReturn(dept);
+        when(departmentService.getDepartment(eq(department.getId()))).thenReturn(department);
         // mock postService  method
         List<PostEntity> posts = CollectionUtils.convertList(request.getPostIds(), postId ->
                 randomPojo(PostEntity.class, o -> {
@@ -164,12 +164,12 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
             o.setMobile(randomString());
             o.setPostIds(asSet(2L, 3L));
         });
-        // mock deptService  method
-        DepartmentEntity dept = randomPojo(DepartmentEntity.class, o -> {
+        // mock departmentService  method
+        DepartmentEntity department = randomPojo(DepartmentEntity.class, o -> {
             o.setId(request.getDeptId());
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
-        when(deptService.getDept(eq(dept.getId()))).thenReturn(dept);
+        when(departmentService.getDepartment(eq(department.getId()))).thenReturn(department);
         // mock postService  method
         List<PostEntity> posts = CollectionUtils.convertList(request.getPostIds(), postId ->
                 randomPojo(PostEntity.class, o -> {
@@ -341,7 +341,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
         request.setDeptId(1L); // Note: 1L is the parent department of 2L
         // mock the method
         List<DepartmentEntity> deptList = newArrayList(randomPojo(DepartmentEntity.class, o -> o.setId(2L)));
-        when(deptService.getChildDeptList(eq(request.getDeptId()))).thenReturn(deptList);
+        when(departmentService.getChildDepartmentList(eq(request.getDeptId()))).thenReturn(deptList);
 
         // invoke
         PageResult<UserEntity> pageResult = userService.getUserPage(request);
@@ -372,7 +372,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
         userMapper.insert(cloneIgnoreId(dbUser, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
         // test createTime mismatch
         userMapper.insert(cloneIgnoreId(dbUser, o -> o.setCreateTime(buildTime(2020, 11, 11))));
-        // test dept mismatch
+        // test department mismatch
         userMapper.insert(cloneIgnoreId(dbUser, o -> o.setDeptId(0L)));
         return dbUser;
     }
@@ -419,7 +419,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
             o.setMobile(randomMobile());
         });
         // mock the method, simulate failure
-        doThrow(new ServiceException(DEPT_NOT_FOUND)).when(deptService).validateDeptList(any());
+        doThrow(new ServiceException(DEPARTMENT_NOT_FOUND)).when(departmentService).validateDepartmentList(any());
 
         // invoke
         UserImportResponse response = userService.importUserList(newArrayList(importUser), true);
@@ -427,7 +427,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
         assertEquals(0, response.getCreateUsernames().size());
         assertEquals(0, response.getUpdateUsernames().size());
         assertEquals(1, response.getFailureUsernames().size());
-        assertEquals(DEPT_NOT_FOUND.getMsg(), response.getFailureUsernames().get(importUser.getUsername()));
+        assertEquals(DEPARTMENT_NOT_FOUND.getMsg(), response.getFailureUsernames().get(importUser.getUsername()));
     }
 
     /**
@@ -442,12 +442,12 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
             o.setEmail(randomEmail());
             o.setMobile(randomMobile());
         });
-        // mock deptService  method
-        DepartmentEntity dept = randomPojo(DepartmentEntity.class, o -> {
+        // mock departmentService  method
+        DepartmentEntity department = randomPojo(DepartmentEntity.class, o -> {
             o.setId(importUser.getDeptId());
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
-        when(deptService.getDept(eq(dept.getId()))).thenReturn(dept);
+        when(departmentService.getDepartment(eq(department.getId()))).thenReturn(department);
         // mock passwordEncoder  method
         when(passwordEncoder.encode(eq("focelasecret"))).thenReturn("java");
 
@@ -478,12 +478,12 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
             o.setEmail(randomEmail());
             o.setMobile(randomMobile());
         });
-        // mock deptService  method
-        DepartmentEntity dept = randomPojo(DepartmentEntity.class, o -> {
+        // mock departmentService  method
+        DepartmentEntity department = randomPojo(DepartmentEntity.class, o -> {
             o.setId(importUser.getDeptId());
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
-        when(deptService.getDept(eq(dept.getId()))).thenReturn(dept);
+        when(departmentService.getDepartment(eq(department.getId()))).thenReturn(department);
 
         // invoke
         UserImportResponse response = userService.importUserList(newArrayList(importUser), false);
@@ -510,12 +510,12 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
             o.setEmail(randomEmail());
             o.setMobile(randomMobile());
         });
-        // mock deptService  method
-        DepartmentEntity dept = randomPojo(DepartmentEntity.class, o -> {
+        // mock departmentService  method
+        DepartmentEntity department = randomPojo(DepartmentEntity.class, o -> {
             o.setId(importUser.getDeptId());
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
-        when(deptService.getDept(eq(dept.getId()))).thenReturn(dept);
+        when(departmentService.getDepartment(eq(department.getId()))).thenReturn(department);
 
         // invoke
         UserImportResponse response = userService.importUserList(newArrayList(importUser), true);

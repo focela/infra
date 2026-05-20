@@ -59,7 +59,7 @@ public class DefaultConfigService implements ConfigService {
         ConfigEntity config = validateConfigExists(id);
         // Built-in configs cannot be deleted
         if (ConfigTypeEnum.SYSTEM.getType().equals(config.getType())) {
-            throw exception(CONFIG_CAN_NOT_DELETE_SYSTEM_TYPE);
+            throw exception(CONFIG_SYSTEM_TYPE_CANNOT_BE_DELETED);
         }
         // Delete
         configMapper.deleteById(id);
@@ -71,7 +71,7 @@ public class DefaultConfigService implements ConfigService {
         List<ConfigEntity> configs = configMapper.selectByIds(ids);
         configs.forEach(config -> {
             if (ConfigTypeEnum.SYSTEM.getType().equals(config.getType())) {
-                throw exception(CONFIG_CAN_NOT_DELETE_SYSTEM_TYPE);
+                throw exception(CONFIG_SYSTEM_TYPE_CANNOT_BE_DELETED);
             }
         });
 

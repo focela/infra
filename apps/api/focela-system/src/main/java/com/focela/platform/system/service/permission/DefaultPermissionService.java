@@ -55,7 +55,7 @@ public class DefaultPermissionService implements PermissionService {
 
     private final RoleService roleService;
     private final MenuService menuService;
-    private final DepartmentService deptService;
+    private final DepartmentService departmentService;
 
     /**
      * Lazy field injection breaks the {@code DefaultPermissionService} ↔
@@ -320,7 +320,7 @@ public class DefaultPermissionService implements PermissionService {
             }
             // Case 4: DEPT_DEPT_AND_CHILD
             if (Objects.equals(role.getDataScope(), DataScopeEnum.DEPT_AND_CHILD.getScope())) {
-                CollUtil.addAll(result.getDeptIds(), deptService.getChildDeptIdListFromCache(userDeptId.get()));
+                CollUtil.addAll(result.getDeptIds(), departmentService.getChildDepartmentIdListFromCache(userDeptId.get()));
                 // Add the user's own department ID
                 CollUtil.addAll(result.getDeptIds(), userDeptId.get());
                 continue;

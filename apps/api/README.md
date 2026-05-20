@@ -1,6 +1,6 @@
 # Focela Platform — Backend API
 
-Spring Boot 3 backend for the Focela platform. Multi-module Maven project derived from the [yudao](https://github.com/YunaiV/ruoyi-vue-pro) framework and rebranded for Focela ([REFACTOR_PLAN_LEVEL_B.md](docs/REFACTOR_PLAN_LEVEL_B.md)).
+Spring Boot 3 backend for the Focela platform. Multi-module Maven project maintained under Focela platform conventions ([REFACTOR_PLAN_LEVEL_B.md](docs/REFACTOR_PLAN_LEVEL_B.md)).
 
 ## Tech stack
 

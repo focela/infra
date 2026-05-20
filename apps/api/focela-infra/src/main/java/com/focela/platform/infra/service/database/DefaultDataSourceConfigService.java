@@ -16,7 +16,7 @@ import java.util.Objects;
 
 import static com.focela.platform.common.exception.utils.ServiceExceptionUtils.exception;
 import static com.focela.platform.infra.constants.InfraErrorCodeConstants.DATA_SOURCE_CONFIG_NOT_EXISTS;
-import static com.focela.platform.infra.constants.InfraErrorCodeConstants.DATA_SOURCE_CONFIG_NOT_OK;
+import static com.focela.platform.infra.constants.InfraErrorCodeConstants.DATA_SOURCE_CONFIG_INVALID;
 
 /**
  * Implementation class of the datasource config Service
@@ -92,7 +92,7 @@ public class DefaultDataSourceConfigService implements DataSourceConfigService {
     private void validateConnectionOK(DataSourceConfigEntity config) {
         boolean success = JdbcUtils.isConnectionOK(config.getUrl(), config.getUsername(), config.getPassword());
         if (!success) {
-            throw exception(DATA_SOURCE_CONFIG_NOT_OK);
+            throw exception(DATA_SOURCE_CONFIG_INVALID);
         }
     }
 

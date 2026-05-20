@@ -48,13 +48,23 @@ public interface SystemErrorCodeConstants {
     ErrorCode USER_REGISTER_DISABLED = new ErrorCode(1_002_003_011, "Registration is disabled");
 
     // ========== Department module 1-002-004-000 ==========
-    ErrorCode DEPT_NAME_DUPLICATE = new ErrorCode(1_002_004_000, "A department with this name already exists");
+    ErrorCode DEPARTMENT_NAME_DUPLICATE = new ErrorCode(1_002_004_000, "A department with this name already exists");
     ErrorCode DEPARTMENT_PARENT_NOT_EXISTS = new ErrorCode(1_002_004_001, "Parent department does not exist");
-    ErrorCode DEPT_NOT_FOUND = new ErrorCode(1_002_004_002, "Current department does not exist");
+    ErrorCode DEPARTMENT_NOT_FOUND = new ErrorCode(1_002_004_002, "Current department does not exist");
     ErrorCode DEPARTMENT_HAS_CHILDREN = new ErrorCode(1_002_004_003, "Child departments exist, cannot delete");
-    ErrorCode DEPT_PARENT_ERROR = new ErrorCode(1_002_004_004, "Cannot set itself as the parent department");
-    ErrorCode DEPT_NOT_ENABLE = new ErrorCode(1_002_004_006, "Department ({}) is not enabled, cannot be selected");
-    ErrorCode DEPT_PARENT_IS_CHILD = new ErrorCode(1_002_004_007, "Cannot set its own child department as the parent department");
+    ErrorCode DEPARTMENT_PARENT_SELF_REFERENCE = new ErrorCode(1_002_004_004, "Cannot set itself as the parent department");
+    ErrorCode DEPARTMENT_NOT_ENABLED = new ErrorCode(1_002_004_006, "Department ({}) is not enabled, cannot be selected");
+    ErrorCode DEPARTMENT_PARENT_IS_CHILD = new ErrorCode(1_002_004_007, "Cannot set its own child department as the parent department");
+    @Deprecated
+    ErrorCode DEPT_NAME_DUPLICATE = DEPARTMENT_NAME_DUPLICATE;
+    @Deprecated
+    ErrorCode DEPT_NOT_FOUND = DEPARTMENT_NOT_FOUND;
+    @Deprecated
+    ErrorCode DEPT_PARENT_ERROR = DEPARTMENT_PARENT_SELF_REFERENCE;
+    @Deprecated
+    ErrorCode DEPT_NOT_ENABLE = DEPARTMENT_NOT_ENABLED;
+    @Deprecated
+    ErrorCode DEPT_PARENT_IS_CHILD = DEPARTMENT_PARENT_IS_CHILD;
     @Deprecated
     ErrorCode DEPT_PARENT_NOT_EXITS = DEPARTMENT_PARENT_NOT_EXISTS;
     @Deprecated

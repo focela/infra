@@ -94,7 +94,7 @@ public class DefaultConfigServiceTest extends BaseDbUnitTest {
         Long id = dbConfig.getId();
 
         // Invoke and verify exception
-        assertServiceException(() -> configService.deleteConfig(id), CONFIG_CAN_NOT_DELETE_SYSTEM_TYPE);
+        assertServiceException(() -> configService.deleteConfig(id), CONFIG_SYSTEM_TYPE_CANNOT_BE_DELETED);
     }
 
     @Test

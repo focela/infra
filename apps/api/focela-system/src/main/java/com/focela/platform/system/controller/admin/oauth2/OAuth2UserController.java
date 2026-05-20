@@ -45,7 +45,7 @@ import static com.focela.platform.security.core.utils.SecurityFrameworkUtils.get
 public class OAuth2UserController {
 
     private final UserService userService;
-    private final DepartmentService deptService;
+    private final DepartmentService departmentService;
     private final PostService postService;
 
     @GetMapping("/get")
@@ -54,18 +54,18 @@ public class OAuth2UserController {
     public CommonResult<OAuth2UserInfoResponse> getUserInfo() {
         // Get user basic info
         UserEntity user = userService.getUser(getLoginUserId());
-        OAuth2UserInfoResponse resp = BeanUtils.toBean(user, OAuth2UserInfoResponse.class);
+        OAuth2UserInfoResponse response = BeanUtils.toBean(user, OAuth2UserInfoResponse.class);
         // Get department info
         if (user.getDeptId() != null) {
-            DepartmentEntity dept = deptService.getDept(user.getDeptId());
-            resp.setDept(BeanUtils.toBean(dept, OAuth2UserInfoResponse.Department.class));
+            DepartmentEntity department = departmentService.getDepartment(user.getDeptId());
+            response.setDept(BeanUtils.toBean(department, OAuth2UserInfoResponse.Department.class));
         }
         // Get post info
         if (CollUtil.isNotEmpty(user.getPostIds())) {
             List<PostEntity> posts = postService.getPostList(user.getPostIds());
-            resp.setPosts(BeanUtils.toBean(posts, OAuth2UserInfoResponse.Post.class));
+            response.setPosts(BeanUtils.toBean(posts, OAuth2UserInfoResponse.Post.class));
         }
-        return success(resp);
+        return success(response);
     }
 
     @PutMapping("/update")

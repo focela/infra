@@ -189,7 +189,7 @@ public class DefaultJobService implements JobService {
 
     private void validateCronExpression(String cronExpression) {
         if (!CronUtils.isValid(cronExpression)) {
-            throw exception(JOB_CRON_EXPRESSION_VALID);
+            throw exception(JOB_CRON_EXPRESSION_INVALID);
         }
     }
 

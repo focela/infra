@@ -22,28 +22,28 @@ public interface DepartmentService {
      * @param createRequest department information
      * @return department ID
      */
-    Long createDept(DepartmentSaveRequest createRequest);
+    Long createDepartment(DepartmentSaveRequest createRequest);
 
     /**
      * Update a department
      *
      * @param updateRequest department information
      */
-    void updateDept(DepartmentSaveRequest updateRequest);
+    void updateDepartment(DepartmentSaveRequest updateRequest);
 
     /**
      * Delete a department
      *
      * @param id department ID
      */
-    void deleteDept(Long id);
+    void deleteDepartment(Long id);
 
     /**
      * Batch delete departments
      *
      * @param ids department ID array
      */
-    void deleteDeptList(List<Long> ids);
+    void deleteDepartmentList(List<Long> ids);
 
     /**
      * Get department information
@@ -51,7 +51,7 @@ public interface DepartmentService {
      * @param id department ID
      * @return department information
      */
-    DepartmentEntity getDept(Long id);
+    DepartmentEntity getDepartment(Long id);
 
     /**
      * Get the department information array
@@ -59,7 +59,7 @@ public interface DepartmentService {
      * @param ids department ID array
      * @return department information array
      */
-    List<DepartmentEntity> getDeptList(Collection<Long> ids);
+    List<DepartmentEntity> getDepartmentList(Collection<Long> ids);
 
     /**
      * Filter the department list
@@ -67,7 +67,7 @@ public interface DepartmentService {
      * @param request filter request
      * @return department list
      */
-    List<DepartmentEntity> getDeptList(DepartmentListRequest request);
+    List<DepartmentEntity> getDepartmentList(DepartmentListRequest request);
 
     /**
      * Get a department Map by the specified IDs
@@ -75,8 +75,8 @@ public interface DepartmentService {
      * @param ids department ID array
      * @return department Map
      */
-    default Map<Long, DepartmentEntity> getDeptMap(Collection<Long> ids) {
-        List<DepartmentEntity> departments = getDeptList(ids);
+    default Map<Long, DepartmentEntity> getDepartmentMap(Collection<Long> ids) {
+        List<DepartmentEntity> departments = getDepartmentList(ids);
         return CollectionUtils.convertMap(departments, DepartmentEntity::getId);
     }
 
@@ -86,8 +86,8 @@ public interface DepartmentService {
      * @param id department ID
      * @return child department list
      */
-    default List<DepartmentEntity> getChildDeptList(Long id) {
-        return getChildDeptList(Collections.singleton(id));
+    default List<DepartmentEntity> getChildDepartmentList(Long id) {
+        return getChildDepartmentList(Collections.singleton(id));
     }
 
     /**
@@ -96,7 +96,7 @@ public interface DepartmentService {
      * @param ids department ID array
      * @return child department list
      */
-    List<DepartmentEntity> getChildDeptList(Collection<Long> ids);
+    List<DepartmentEntity> getChildDepartmentList(Collection<Long> ids);
 
     /**
      * Get the department list for the specified leader
@@ -104,7 +104,7 @@ public interface DepartmentService {
      * @param id leader ID
      * @return department list
      */
-    List<DepartmentEntity> getDeptListByLeaderUserId(Long id);
+    List<DepartmentEntity> getDepartmentListByLeaderUserId(Long id);
 
     /**
      * Get all child departments from cache
@@ -112,7 +112,7 @@ public interface DepartmentService {
      * @param id parent department ID
      * @return child department list
      */
-    Set<Long> getChildDeptIdListFromCache(Long id);
+    Set<Long> getChildDepartmentIdListFromCache(Long id);
 
     /**
      * Validate whether the departments are valid. The following are considered invalid:
@@ -121,6 +121,6 @@ public interface DepartmentService {
      *
      * @param ids role ID array
      */
-    void validateDeptList(Collection<Long> ids);
+    void validateDepartmentList(Collection<Long> ids);
 
 }

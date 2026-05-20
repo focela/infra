@@ -17,29 +17,29 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LocalDepartmentApi implements DepartmentApi {
 
-    private final DepartmentService deptService;
+    private final DepartmentService departmentService;
 
     @Override
     public DepartmentRpcResponse getDept(Long id) {
-        DepartmentEntity dept = deptService.getDept(id);
-        return BeanUtils.toBean(dept, DepartmentRpcResponse.class);
+        DepartmentEntity department = departmentService.getDepartment(id);
+        return BeanUtils.toBean(department, DepartmentRpcResponse.class);
     }
 
     @Override
     public List<DepartmentRpcResponse> getDeptList(Collection<Long> ids) {
-        List<DepartmentEntity> depts = deptService.getDeptList(ids);
-        return BeanUtils.toBean(depts, DepartmentRpcResponse.class);
+        List<DepartmentEntity> departments = departmentService.getDepartmentList(ids);
+        return BeanUtils.toBean(departments, DepartmentRpcResponse.class);
     }
 
     @Override
     public void validateDeptList(Collection<Long> ids) {
-        deptService.validateDeptList(ids);
+        departmentService.validateDepartmentList(ids);
     }
 
     @Override
     public List<DepartmentRpcResponse> getChildDeptList(Long id) {
-        List<DepartmentEntity> childDeptList = deptService.getChildDeptList(id);
-        return BeanUtils.toBean(childDeptList, DepartmentRpcResponse.class);
+        List<DepartmentEntity> childDepartmentList = departmentService.getChildDepartmentList(id);
+        return BeanUtils.toBean(childDepartmentList, DepartmentRpcResponse.class);
     }
 
 }

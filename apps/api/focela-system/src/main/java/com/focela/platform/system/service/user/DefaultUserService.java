@@ -73,7 +73,7 @@ public class DefaultUserService implements UserService {
 
     private final UserMapper userMapper;
 
-    private final DepartmentService deptService;
+    private final DepartmentService departmentService;
     private final PostService postService;
     private final PermissionService permissionService;
     private final PasswordEncoder passwordEncoder;
@@ -294,7 +294,7 @@ public class DefaultUserService implements UserService {
         }
 
         // Paginated query
-        return userMapper.selectPage(request, getDeptCondition(request.getDeptId()), userIds);
+        return userMapper.selectPage(request, getDepartmentCondition(request.getDeptId()), userIds);
     }
 
     @Override
@@ -303,11 +303,11 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
-    public List<UserEntity> getUserListByDeptIds(Collection<Long> deptIds) {
-        if (CollUtil.isEmpty(deptIds)) {
+    public List<UserEntity> getUserListByDeptIds(Collection<Long> departmentIds) {
+        if (CollUtil.isEmpty(departmentIds)) {
             return Collections.emptyList();
         }
-        return userMapper.selectListByDeptIds(deptIds);
+        return userMapper.selectListByDeptIds(departmentIds);
     }
 
     @Override
@@ -358,20 +358,20 @@ public class DefaultUserService implements UserService {
     /**
      * Get the department condition: query the child department IDs of the specified department, including itself
      *
-     * @param deptId department ID
+     * @param departmentId department ID
      * @return department ID set
      */
-    private Set<Long> getDeptCondition(Long deptId) {
-        if (deptId == null) {
+    private Set<Long> getDepartmentCondition(Long departmentId) {
+        if (departmentId == null) {
             return Collections.emptySet();
         }
-        Set<Long> deptIds = convertSet(deptService.getChildDeptList(deptId), DepartmentEntity::getId);
-        deptIds.add(deptId); // include the department itself
-        return deptIds;
+        Set<Long> departmentIds = convertSet(departmentService.getChildDepartmentList(departmentId), DepartmentEntity::getId);
+        departmentIds.add(departmentId); // include the department itself
+        return departmentIds;
     }
 
     private UserEntity validateUserForCreateOrUpdate(Long id, String username, String mobile, String email,
-                                               Long deptId, Set<Long> postIds) {
+                                               Long departmentId, Set<Long> postIds) {
         // Disable data permission, otherwise data may not be found and uniqueness validation could be wrong
         return DataPermissionUtils.executeIgnore(() -> {
             // Validate that the user exists
@@ -383,7 +383,7 @@ public class DefaultUserService implements UserService {
             // Validate uniqueness of email
             validateEmailUnique(id, email);
             // Validate that the department is enabled
-            deptService.validateDeptList(CollectionUtils.singleton(deptId));
+            departmentService.validateDepartmentList(CollectionUtils.singleton(departmentId));
             // Validate that the posts are enabled
             postService.validatePostList(postIds);
             return user;

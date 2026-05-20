@@ -57,7 +57,7 @@ import static com.focela.platform.common.utils.collection.CollectionUtils.conver
 public class UserController {
 
     private final UserService userService;
-    private final DepartmentService deptService;
+    private final DepartmentService departmentService;
 
     @PostMapping("/create")
     @Operation(summary = "create user")
@@ -119,9 +119,9 @@ public class UserController {
             return success(new PageResult<>(pageResult.getTotal()));
         }
         // Assemble data
-        Map<Long, DepartmentEntity> deptMap = deptService.getDeptMap(
+        Map<Long, DepartmentEntity> departmentMap = departmentService.getDepartmentMap(
                 convertList(pageResult.getList(), UserEntity::getDeptId));
-        return success(new PageResult<>(UserConverter.INSTANCE.convertList(pageResult.getList(), deptMap),
+        return success(new PageResult<>(UserConverter.INSTANCE.convertList(pageResult.getList(), departmentMap),
                 pageResult.getTotal()));
     }
 
@@ -130,9 +130,9 @@ public class UserController {
     public CommonResult<List<UserSimpleResponse>> getSimpleUserList() {
         List<UserEntity> users = userService.getUserListByStatus(CommonStatusEnum.ENABLE.getStatus());
         // Assemble data
-        Map<Long, DepartmentEntity> deptMap = deptService.getDeptMap(
+        Map<Long, DepartmentEntity> departmentMap = departmentService.getDepartmentMap(
                 convertList(users, UserEntity::getDeptId));
-        return success(UserConverter.INSTANCE.convertSimpleList(users, deptMap));
+        return success(UserConverter.INSTANCE.convertSimpleList(users, departmentMap));
     }
 
     @GetMapping("/get")
@@ -145,8 +145,8 @@ public class UserController {
             return success(null);
         }
         // Assemble data
-        DepartmentEntity dept = deptService.getDept(user.getDeptId());
-        return success(UserConverter.INSTANCE.convert(user, dept));
+        DepartmentEntity department = departmentService.getDepartment(user.getDeptId());
+        return success(UserConverter.INSTANCE.convert(user, department));
     }
 
     @GetMapping("/export-excel")
@@ -158,10 +158,10 @@ public class UserController {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
         List<UserEntity> users = userService.getUserPage(exportRequest).getList();
         // Output Excel
-        Map<Long, DepartmentEntity> deptMap = deptService.getDeptMap(
+        Map<Long, DepartmentEntity> departmentMap = departmentService.getDepartmentMap(
                 convertList(users, UserEntity::getDeptId));
         ExcelUtils.write(response, "User data.xls", "Data", UserResponse.class,
-                UserConverter.INSTANCE.convertList(users, deptMap));
+                UserConverter.INSTANCE.convertList(users, departmentMap));
     }
 
     @GetMapping("/get-import-template")

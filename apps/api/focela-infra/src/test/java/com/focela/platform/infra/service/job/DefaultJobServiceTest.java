@@ -47,7 +47,7 @@ public class DefaultJobServiceTest extends BaseDbUnitTest {
         JobSaveRequest request = randomPojo(JobSaveRequest.class);
 
         // Invoke and verify exception
-        assertServiceException(() -> jobService.createJob(request), JOB_CRON_EXPRESSION_VALID);
+        assertServiceException(() -> jobService.createJob(request), JOB_CRON_EXPRESSION_INVALID);
     }
 
     @Test

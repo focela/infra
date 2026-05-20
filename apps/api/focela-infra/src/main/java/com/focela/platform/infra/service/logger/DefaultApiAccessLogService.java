@@ -6,7 +6,7 @@ import com.focela.platform.common.utils.object.BeanUtils;
 import com.focela.platform.common.utils.string.StrUtils;
 import com.focela.platform.tenant.core.context.TenantContextHolder;
 import com.focela.platform.tenant.core.utils.TenantUtils;
-import com.focela.platform.infra.controller.admin.logger.request.apiaccesslog.ApiAccessLogPageRequest;
+import com.focela.platform.infra.controller.admin.logger.request.accesslog.ApiAccessLogPageRequest;
 import com.focela.platform.infra.domain.entity.logger.ApiAccessLogEntity;
 import com.focela.platform.infra.repository.mapper.logger.ApiAccessLogMapper;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.focela.platform.infra.controller.admin.logger.response.apierrorlog;
+package com.focela.platform.infra.controller.admin.logger.response.errorlog;
 
 import com.focela.platform.excel.core.annotations.DictionaryFormat;
 import com.focela.platform.excel.core.converter.DictionaryConverter;

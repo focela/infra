@@ -19,7 +19,7 @@ public class DepartmentParseFunction implements IParseFunction {
 
     public static final String NAME = "getDeptById";
 
-    private final DepartmentService deptService;
+    private final DepartmentService departmentService;
 
     @Override
     public String functionName() {
@@ -33,12 +33,12 @@ public class DepartmentParseFunction implements IParseFunction {
         }
 
         // get department information
-        DepartmentEntity dept = deptService.getDept(Convert.toLong(value));
-        if (dept == null) {
+        DepartmentEntity department = departmentService.getDepartment(Convert.toLong(value));
+        if (department == null) {
             log.warn("[apply][get department {{}} is empty", value);
             return "";
         }
-        return dept.getName();
+        return department.getName();
     }
 
 }

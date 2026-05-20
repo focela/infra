@@ -12,7 +12,7 @@ tenant-id: {{adminTenantId}}
   "contactName": "Focela",
   "contactMobile": "15601691300",
   "status": 0,
-  "domain": "https://www.iocoder.cn",
+  "domain": "https://platform.focela.com",
   "packageId": 110,
   "expireTime": 1699545600000,
   "accountCount": 20,

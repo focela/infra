@@ -95,7 +95,7 @@ public class ConfigController {
             return success(null);
         }
         if (!config.getVisible()) {
-            throw exception(InfraErrorCodeConstants.CONFIG_GET_VALUE_ERROR_IF_VISIBLE);
+            throw exception(InfraErrorCodeConstants.CONFIG_INVISIBLE_VALUE_ACCESS_DENIED);
         }
         return success(config.getValue());
     }

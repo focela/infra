@@ -40,96 +40,96 @@ import static com.focela.platform.system.constants.SystemErrorCodeConstants.*;
 @RequiredArgsConstructor
 public class DefaultDepartmentService implements DepartmentService {
 
-    private final DepartmentMapper deptMapper;
+    private final DepartmentMapper departmentMapper;
 
     @Override
-    @CacheEvict(cacheNames = RedisKeyConstants.DEPT_CHILDREN_ID_LIST,
+    @CacheEvict(cacheNames = RedisKeyConstants.DEPARTMENT_CHILDREN_ID_LIST,
             allEntries = true) // allEntries clears all caches because operating on a department affects multiple caches
-    public Long createDept(DepartmentSaveRequest createRequest) {
+    public Long createDepartment(DepartmentSaveRequest createRequest) {
         if (createRequest.getParentId() == null) {
             createRequest.setParentId(DepartmentEntity.PARENT_ID_ROOT);
         }
         // Validate the parent department
-        validateParentDept(null, createRequest.getParentId());
+        validateParentDepartment(null, createRequest.getParentId());
         // Validate the uniqueness of the department name
-        validateDeptNameUnique(null, createRequest.getParentId(), createRequest.getName());
+        validateDepartmentNameUnique(null, createRequest.getParentId(), createRequest.getName());
 
         // Insert department
-        DepartmentEntity dept = BeanUtils.toBean(createRequest, DepartmentEntity.class);
-        deptMapper.insert(dept);
-        return dept.getId();
+        DepartmentEntity department = BeanUtils.toBean(createRequest, DepartmentEntity.class);
+        departmentMapper.insert(department);
+        return department.getId();
     }
 
     @Override
-    @CacheEvict(cacheNames = RedisKeyConstants.DEPT_CHILDREN_ID_LIST,
+    @CacheEvict(cacheNames = RedisKeyConstants.DEPARTMENT_CHILDREN_ID_LIST,
             allEntries = true) // allEntries clears all caches because operating on a department affects multiple caches
-    public void updateDept(DepartmentSaveRequest updateRequest) {
+    public void updateDepartment(DepartmentSaveRequest updateRequest) {
         if (updateRequest.getParentId() == null) {
             updateRequest.setParentId(DepartmentEntity.PARENT_ID_ROOT);
         }
         // Validate that this entity exists
-        validateDeptExists(updateRequest.getId());
+        validateDepartmentExists(updateRequest.getId());
         // Validate the parent department
-        validateParentDept(updateRequest.getId(), updateRequest.getParentId());
+        validateParentDepartment(updateRequest.getId(), updateRequest.getParentId());
         // Validate the uniqueness of the department name
-        validateDeptNameUnique(updateRequest.getId(), updateRequest.getParentId(), updateRequest.getName());
+        validateDepartmentNameUnique(updateRequest.getId(), updateRequest.getParentId(), updateRequest.getName());
 
         // Update department
         DepartmentEntity updateObj = BeanUtils.toBean(updateRequest, DepartmentEntity.class);
-        deptMapper.updateById(updateObj);
+        departmentMapper.updateById(updateObj);
     }
 
     @Override
-    @CacheEvict(cacheNames = RedisKeyConstants.DEPT_CHILDREN_ID_LIST,
+    @CacheEvict(cacheNames = RedisKeyConstants.DEPARTMENT_CHILDREN_ID_LIST,
             allEntries = true) // allEntries clears all caches because operating on a department affects multiple caches
-    public void deleteDept(Long id) {
+    public void deleteDepartment(Long id) {
         // Validate existence
-        validateDeptExists(id);
+        validateDepartmentExists(id);
         // Validate whether it has child departments
-        if (deptMapper.selectCountByParentId(id) > 0) {
+        if (departmentMapper.selectCountByParentId(id) > 0) {
             throw exception(DEPARTMENT_HAS_CHILDREN);
         }
         // Delete department
-        deptMapper.deleteById(id);
+        departmentMapper.deleteById(id);
     }
 
     @Override
-    @CacheEvict(cacheNames = RedisKeyConstants.DEPT_CHILDREN_ID_LIST,
+    @CacheEvict(cacheNames = RedisKeyConstants.DEPARTMENT_CHILDREN_ID_LIST,
             allEntries = true) // allEntries clears all caches because operating on a department affects multiple caches
-    public void deleteDeptList(List<Long> ids) {
+    public void deleteDepartmentList(List<Long> ids) {
         // Validate whether any has child departments
         for (Long id : ids) {
-            if (deptMapper.selectCountByParentId(id) > 0) {
+            if (departmentMapper.selectCountByParentId(id) > 0) {
                 throw exception(DEPARTMENT_HAS_CHILDREN);
             }
         }
 
         // Batch delete departments
-        deptMapper.deleteByIds(ids);
+        departmentMapper.deleteByIds(ids);
     }
 
     @VisibleForTesting
-    void validateDeptExists(Long id) {
+    void validateDepartmentExists(Long id) {
         if (id == null) {
             return;
         }
-        DepartmentEntity dept = deptMapper.selectById(id);
-        if (dept == null) {
-            throw exception(DEPT_NOT_FOUND);
+        DepartmentEntity department = departmentMapper.selectById(id);
+        if (department == null) {
+            throw exception(DEPARTMENT_NOT_FOUND);
         }
     }
 
     @VisibleForTesting
-    void validateParentDept(Long id, Long parentId) {
+    void validateParentDepartment(Long id, Long parentId) {
         if (parentId == null || DepartmentEntity.PARENT_ID_ROOT.equals(parentId)) {
             return;
         }
         // 1. Cannot set self as parent department
         if (Objects.equals(id, parentId)) {
-            throw exception(DEPT_PARENT_ERROR);
+            throw exception(DEPARTMENT_PARENT_SELF_REFERENCE);
         }
         // 2. Parent department does not exist
-        DepartmentEntity parentDept = deptMapper.selectById(parentId);
+        DepartmentEntity parentDept = departmentMapper.selectById(parentId);
         if (parentDept == null) {
             throw exception(DEPARTMENT_PARENT_NOT_EXISTS);
         }
@@ -141,13 +141,13 @@ public class DefaultDepartmentService implements DepartmentService {
             // 3.1 Validate cycle
             parentId = parentDept.getParentId();
             if (Objects.equals(id, parentId)) {
-                throw exception(DEPT_PARENT_IS_CHILD);
+                throw exception(DEPARTMENT_PARENT_IS_CHILD);
             }
             // 3.2 Continue recursing to the next-level parent department
             if (parentId == null || DepartmentEntity.PARENT_ID_ROOT.equals(parentId)) {
                 break;
             }
-            parentDept = deptMapper.selectById(parentId);
+            parentDept = departmentMapper.selectById(parentId);
             if (parentDept == null) {
                 break;
             }
@@ -155,87 +155,87 @@ public class DefaultDepartmentService implements DepartmentService {
     }
 
     @VisibleForTesting
-    void validateDeptNameUnique(Long id, Long parentId, String name) {
-        DepartmentEntity dept = deptMapper.selectByParentIdAndName(parentId, name);
-        if (dept == null) {
+    void validateDepartmentNameUnique(Long id, Long parentId, String name) {
+        DepartmentEntity department = departmentMapper.selectByParentIdAndName(parentId, name);
+        if (department == null) {
             return;
         }
         // If id is null, no need to compare whether it is a department with the same id
         if (id == null) {
-            throw exception(DEPT_NAME_DUPLICATE);
+            throw exception(DEPARTMENT_NAME_DUPLICATE);
         }
-        if (ObjectUtil.notEqual(dept.getId(), id)) {
-            throw exception(DEPT_NAME_DUPLICATE);
+        if (ObjectUtil.notEqual(department.getId(), id)) {
+            throw exception(DEPARTMENT_NAME_DUPLICATE);
         }
     }
 
     @Override
-    public DepartmentEntity getDept(Long id) {
-        return deptMapper.selectById(id);
+    public DepartmentEntity getDepartment(Long id) {
+        return departmentMapper.selectById(id);
     }
 
     @Override
-    public List<DepartmentEntity> getDeptList(Collection<Long> ids) {
+    public List<DepartmentEntity> getDepartmentList(Collection<Long> ids) {
         if (CollUtil.isEmpty(ids)) {
             return Collections.emptyList();
         }
-        return deptMapper.selectByIds(ids);
+        return departmentMapper.selectByIds(ids);
     }
 
     @Override
-    public List<DepartmentEntity> getDeptList(DepartmentListRequest request) {
-        List<DepartmentEntity> departments = deptMapper.selectList(request);
+    public List<DepartmentEntity> getDepartmentList(DepartmentListRequest request) {
+        List<DepartmentEntity> departments = departmentMapper.selectList(request);
         departments.sort(Comparator.comparing(DepartmentEntity::getSort));
         return departments;
     }
 
     @Override
-    public List<DepartmentEntity> getChildDeptList(Collection<Long> ids) {
+    public List<DepartmentEntity> getChildDepartmentList(Collection<Long> ids) {
         List<DepartmentEntity> children = new LinkedList<>();
         // Traverse each level
         Collection<Long> parentIds = ids;
         for (int i = 0; i < Short.MAX_VALUE; i++) { // use Short.MAX_VALUE to avoid an infinite loop in bug scenarios
             // Query all child departments at the current level
-            List<DepartmentEntity> depts = deptMapper.selectListByParentId(parentIds);
+            List<DepartmentEntity> departments = departmentMapper.selectListByParentId(parentIds);
             // 1. If there are no child departments, end the traversal
-            if (CollUtil.isEmpty(depts)) {
+            if (CollUtil.isEmpty(departments)) {
                 break;
             }
             // 2. If there are child departments, continue traversing
-            children.addAll(depts);
-            parentIds = convertSet(depts, DepartmentEntity::getId);
+            children.addAll(departments);
+            parentIds = convertSet(departments, DepartmentEntity::getId);
         }
         return children;
     }
 
     @Override
-    public List<DepartmentEntity> getDeptListByLeaderUserId(Long id) {
-        return deptMapper.selectListByLeaderUserId(id);
+    public List<DepartmentEntity> getDepartmentListByLeaderUserId(Long id) {
+        return departmentMapper.selectListByLeaderUserId(id);
     }
 
     @Override
     @DataPermission(enable = false) // disable data permission to avoid building an incorrect cache
-    @Cacheable(cacheNames = RedisKeyConstants.DEPT_CHILDREN_ID_LIST, key = "#id")
-    public Set<Long> getChildDeptIdListFromCache(Long id) {
-        List<DepartmentEntity> children = getChildDeptList(id);
+    @Cacheable(cacheNames = RedisKeyConstants.DEPARTMENT_CHILDREN_ID_LIST, key = "#id")
+    public Set<Long> getChildDepartmentIdListFromCache(Long id) {
+        List<DepartmentEntity> children = getChildDepartmentList(id);
         return convertSet(children, DepartmentEntity::getId);
     }
 
     @Override
-    public void validateDeptList(Collection<Long> ids) {
+    public void validateDepartmentList(Collection<Long> ids) {
         if (CollUtil.isEmpty(ids)) {
             return;
         }
         // Get department information
-        Map<Long, DepartmentEntity> deptMap = getDeptMap(ids);
+        Map<Long, DepartmentEntity> departmentMap = getDepartmentMap(ids);
         // Validate
         ids.forEach(id -> {
-            DepartmentEntity dept = deptMap.get(id);
-            if (dept == null) {
-                throw exception(DEPT_NOT_FOUND);
+            DepartmentEntity department = departmentMap.get(id);
+            if (department == null) {
+                throw exception(DEPARTMENT_NOT_FOUND);
             }
-            if (!CommonStatusEnum.ENABLE.getStatus().equals(dept.getStatus())) {
-                throw exception(DEPT_NOT_ENABLE, dept.getName());
+            if (!CommonStatusEnum.ENABLE.getStatus().equals(department.getStatus())) {
+                throw exception(DEPARTMENT_NOT_ENABLED, department.getName());
             }
         });
     }

@@ -15,7 +15,7 @@ public class DataPermissionConfiguration {
     @Bean
     public DepartmentDataPermissionRuleCustomizer sysDeptDataPermissionRuleCustomizer() {
         return rule -> {
-            // dept
+            // department
             rule.addDeptColumn(UserEntity.class);
             rule.addDeptColumn(DepartmentEntity.class, "id");
             // user

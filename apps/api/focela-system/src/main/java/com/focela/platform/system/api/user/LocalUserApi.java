@@ -28,7 +28,7 @@ import static com.focela.platform.common.utils.collection.CollectionUtils.conver
 public class LocalUserApi implements UserApi {
 
     private final UserService userService;
-    private final DepartmentService deptService;
+    private final DepartmentService departmentService;
 
     @Override
     @DataPermission(enable = false) // Ignore data permission to avoid filtering preventing the user from being found
@@ -40,19 +40,19 @@ public class LocalUserApi implements UserApi {
     @Override
     public List<UserRpcResponse> getUserListBySubordinate(Long id) {
         // 1.1 Get the departments the user is responsible for
-        List<DepartmentEntity> depts = deptService.getDeptListByLeaderUserId(id);
-        if (CollUtil.isEmpty(depts)) {
+        List<DepartmentEntity> departments = departmentService.getDepartmentListByLeaderUserId(id);
+        if (CollUtil.isEmpty(departments)) {
             return Collections.emptyList();
         }
         // 1.2 Get all child departments
-        Set<Long> deptIds = convertSet(depts, DepartmentEntity::getId);
-        List<DepartmentEntity> childDeptList = deptService.getChildDeptList(deptIds);
-        if (CollUtil.isNotEmpty(childDeptList)) {
-            deptIds.addAll(convertSet(childDeptList, DepartmentEntity::getId));
+        Set<Long> departmentIds = convertSet(departments, DepartmentEntity::getId);
+        List<DepartmentEntity> childDepartments = departmentService.getChildDepartmentList(departmentIds);
+        if (CollUtil.isNotEmpty(childDepartments)) {
+            departmentIds.addAll(convertSet(childDepartments, DepartmentEntity::getId));
         }
 
         // 2. Get users belonging to the departments
-        List<UserEntity> users = userService.getUserListByDeptIds(deptIds);
+        List<UserEntity> users = userService.getUserListByDeptIds(departmentIds);
         users.removeIf(item -> ObjUtil.equal(item.getId(), id)); // exclude self
         return BeanUtils.toBean(users, UserRpcResponse.class);
     }
@@ -66,8 +66,8 @@ public class LocalUserApi implements UserApi {
     }
 
     @Override
-    public List<UserRpcResponse> getUserListByDeptIds(Collection<Long> deptIds) {
-        List<UserEntity> users = userService.getUserListByDeptIds(deptIds);
+    public List<UserRpcResponse> getUserListByDeptIds(Collection<Long> departmentIds) {
+        List<UserEntity> users = userService.getUserListByDeptIds(departmentIds);
         return BeanUtils.toBean(users, UserRpcResponse.class);
     }
 

@@ -42,7 +42,7 @@ import static com.focela.platform.security.core.utils.SecurityFrameworkUtils.get
 public class UserProfileController {
 
     private final UserService userService;
-    private final DepartmentService deptService;
+    private final DepartmentService departmentService;
     private final PostService postService;
     private final PermissionService permissionService;
     private final RoleService roleService;
@@ -56,10 +56,10 @@ public class UserProfileController {
         // Get user roles
         List<RoleEntity> userRoles = roleService.getRoleListFromCache(permissionService.getUserRoleIdListByUserId(user.getId()));
         // Get department info
-        DepartmentEntity dept = user.getDeptId() != null ? deptService.getDept(user.getDeptId()) : null;
+        DepartmentEntity department = user.getDeptId() != null ? departmentService.getDepartment(user.getDeptId()) : null;
         // Get post info
         List<PostEntity> posts = CollUtil.isNotEmpty(user.getPostIds()) ? postService.getPostList(user.getPostIds()) : null;
-        return success(UserConverter.INSTANCE.convert(user, userRoles, dept, posts));
+        return success(UserConverter.INSTANCE.convert(user, userRoles, department, posts));
     }
 
     @PutMapping("/update")

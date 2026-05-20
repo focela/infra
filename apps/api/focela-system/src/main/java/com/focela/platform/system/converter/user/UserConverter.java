@@ -24,31 +24,31 @@ public interface UserConverter {
 
     UserConverter INSTANCE = Mappers.getMapper(UserConverter.class);
 
-    default List<UserResponse> convertList(List<UserEntity> list, Map<Long, DepartmentEntity> deptMap) {
-        return CollectionUtils.convertList(list, user -> convert(user, deptMap.get(user.getDeptId())));
+    default List<UserResponse> convertList(List<UserEntity> list, Map<Long, DepartmentEntity> departmentMap) {
+        return CollectionUtils.convertList(list, user -> convert(user, departmentMap.get(user.getDeptId())));
     }
 
-    default UserResponse convert(UserEntity user, DepartmentEntity dept) {
+    default UserResponse convert(UserEntity user, DepartmentEntity department) {
         UserResponse userResponse = BeanUtils.toBean(user, UserResponse.class);
-        if (dept != null) {
-            userResponse.setDeptName(dept.getName());
+        if (department != null) {
+            userResponse.setDeptName(department.getName());
         }
         return userResponse;
     }
 
-    default List<UserSimpleResponse> convertSimpleList(List<UserEntity> list, Map<Long, DepartmentEntity> deptMap) {
+    default List<UserSimpleResponse> convertSimpleList(List<UserEntity> list, Map<Long, DepartmentEntity> departmentMap) {
         return CollectionUtils.convertList(list, user -> {
             UserSimpleResponse userResponse = BeanUtils.toBean(user, UserSimpleResponse.class);
-            MapUtils.findAndThen(deptMap, user.getDeptId(), dept -> userResponse.setDeptName(dept.getName()));
+            MapUtils.findAndThen(departmentMap, user.getDeptId(), department -> userResponse.setDeptName(department.getName()));
             return userResponse;
         });
     }
 
     default UserProfileResponse convert(UserEntity user, List<RoleEntity> userRoles,
-                                      DepartmentEntity dept, List<PostEntity> posts) {
+                                      DepartmentEntity department, List<PostEntity> posts) {
         UserProfileResponse userProfileResponse = BeanUtils.toBean(user, UserProfileResponse.class);
         userProfileResponse.setRoles(BeanUtils.toBean(userRoles, RoleSimpleResponse.class));
-        userProfileResponse.setDept(BeanUtils.toBean(dept, DepartmentSimpleResponse.class));
+        userProfileResponse.setDept(BeanUtils.toBean(department, DepartmentSimpleResponse.class));
         userProfileResponse.setPosts(BeanUtils.toBean(posts, PostSimpleResponse.class));
         return userProfileResponse;
     }

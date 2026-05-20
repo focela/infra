@@ -1,4 +1,4 @@
-package com.focela.platform;
+package com.focela.platform.support.manual;
 
 import cn.hutool.core.io.FileTypeUtil;
 import cn.hutool.core.io.FileUtil;
@@ -16,12 +16,12 @@ import java.util.stream.Collectors;
 import static java.io.File.separator;
 
 /**
- * Project reactor: one-click replacement of Maven groupId, artifactId, project package, etc.
+ * Project rewrite tool: one-click replacement of Maven groupId, artifactId, project package, etc.
  * <p>
  * Configure via the groupIdNew, artifactIdNew, and projectBaseDirNew variables.
  */
 @Slf4j
-public class ProjectReactor {
+public class ProjectRewriteTool {
 
     private static final String GROUP_ID = "com.focela.platform";
     private static final String ARTIFACT_ID = "focela-platform";

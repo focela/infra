@@ -12,8 +12,8 @@ public interface InfraErrorCodeConstants {
     // ========== Config 1-001-000-000 ==========
     ErrorCode CONFIG_NOT_EXISTS = new ErrorCode(1_001_000_001, "Config does not exist");
     ErrorCode CONFIG_KEY_DUPLICATE = new ErrorCode(1_001_000_002, "Config key is duplicated");
-    ErrorCode CONFIG_CAN_NOT_DELETE_SYSTEM_TYPE = new ErrorCode(1_001_000_003, "Cannot delete config of system built-in type");
-    ErrorCode CONFIG_GET_VALUE_ERROR_IF_VISIBLE = new ErrorCode(1_001_000_004, "Failed to get config, reason: not allowed to get invisible config");
+    ErrorCode CONFIG_SYSTEM_TYPE_CANNOT_BE_DELETED = new ErrorCode(1_001_000_003, "Cannot delete config of system built-in type");
+    ErrorCode CONFIG_INVISIBLE_VALUE_ACCESS_DENIED = new ErrorCode(1_001_000_004, "Failed to get config, reason: not allowed to get invisible config");
 
     // ========== Scheduled job 1-001-001-000 ==========
     ErrorCode JOB_NOT_EXISTS = new ErrorCode(1_001_001_000, "Scheduled job does not exist");
@@ -21,7 +21,7 @@ public interface InfraErrorCodeConstants {
     ErrorCode JOB_CHANGE_STATUS_INVALID = new ErrorCode(1_001_001_002, "Only allowed to change to enabled or disabled status");
     ErrorCode JOB_CHANGE_STATUS_EQUALS = new ErrorCode(1_001_001_003, "Scheduled job is already in this status, no update needed");
     ErrorCode JOB_UPDATE_ONLY_NORMAL_STATUS = new ErrorCode(1_001_001_004, "Only jobs in enabled status can be updated");
-    ErrorCode JOB_CRON_EXPRESSION_VALID = new ErrorCode(1_001_001_005, "CRON expression is invalid");
+    ErrorCode JOB_CRON_EXPRESSION_INVALID = new ErrorCode(1_001_001_005, "CRON expression is invalid");
     ErrorCode JOB_HANDLER_BEAN_NOT_EXISTS = new ErrorCode(1_001_001_006, "Scheduled job handler Bean does not exist, note Bean name defaults to lowercase first letter");
     ErrorCode JOB_HANDLER_BEAN_TYPE_ERROR = new ErrorCode(1_001_001_007, "Scheduled job handler Bean type is incorrect, JobHandler interface is not implemented");
 
@@ -54,7 +54,7 @@ public interface InfraErrorCodeConstants {
 
     // ========== Data source config 1-001-007-000 ==========
     ErrorCode DATA_SOURCE_CONFIG_NOT_EXISTS = new ErrorCode(1_001_007_000, "Data source config does not exist");
-    ErrorCode DATA_SOURCE_CONFIG_NOT_OK = new ErrorCode(1_001_007_001, "Data source config is incorrect, unable to connect");
+    ErrorCode DATA_SOURCE_CONFIG_INVALID = new ErrorCode(1_001_007_001, "Data source config is incorrect, unable to connect");
 
     // ========== Reference data 1-001-201-000 ==========
     ErrorCode REFERENCE_CONTACT_NOT_EXISTS = new ErrorCode(1_001_201_000, "Reference contact does not exist");
