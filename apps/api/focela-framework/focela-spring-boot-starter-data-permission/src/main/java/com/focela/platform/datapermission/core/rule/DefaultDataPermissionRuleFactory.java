@@ -44,7 +44,6 @@ public class DefaultDataPermissionRuleFactory implements DataPermissionRuleFacto
             return Collections.emptyList();
         }
         // 1.4 Special case: forcibly ignore data permission during data translation
-        // https://github.com/YunaiV/ruoyi-vue-pro/issues/1007
         if (isTranslateCall()) {
             return Collections.emptyList();
         }

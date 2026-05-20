@@ -24,7 +24,7 @@ public class ConfigSaveRequest {
     @Size(max = 100, message = "param name must not exceed 100 characters")
     private String name;
 
-    @Schema(description = "Param key", requiredMode = Schema.RequiredMode.REQUIRED, example = "yunai.db.username")
+    @Schema(description = "Param key", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela.db.username")
     @NotBlank(message = "param key length must not be blank")
     @Size(max = 100, message = "param key length must not exceed 100 characters")
     private String key;

@@ -70,7 +70,7 @@ public class OAuth2ClientSaveRequest {
     @Schema(description = "Resource", example = "1024")
     private List<String> resourceIds;
 
-    @Schema(description = "Extra info", example = "{yunai: true}")
+    @Schema(description = "Extra info", example = "{\"focela\": true}")
     private String additionalInformation;
 
     @AssertTrue(message = "additional information must be JSON format")

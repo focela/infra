@@ -143,8 +143,7 @@ public class MyBatisUtils {
     /**
      * Convert camelCase field name to snake_case.
      *
-     * Use cases:
-     * 1. <a href="https://gitee.com/zhijiantianya/ruoyi-vue-pro/pulls/1357/files">fix: SQL exception caused by mismatched alias / sort field on product-statistics aggregation</a>
+     * Use cases: converting typed lambda fields into explicit database column names.
      *
      * @param func field-name getter (camelCase)
      * @return field name (snake_case)

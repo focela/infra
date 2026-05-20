@@ -40,7 +40,7 @@ public class FocelaCacheAutoConfiguration {
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
         // Use a single colon ":" instead of the double "::" to avoid extra whitespace in Redis Desktop Manager.
         // Details: https://blog.csdn.net/chuixue24/article/details/103928965
-        // Re-fixed the single-colon issue; see https://gitee.com/zhijiantianya/yudao-cloud/issues/I86VY2
+        // Keep the single-colon prefix stable for existing Redis keys.
         config = config.computePrefixWith(cacheName -> {
             String keyPrefix = cacheProperties.getRedis().getKeyPrefix();
             if (StringUtils.hasText(keyPrefix)) {

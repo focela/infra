@@ -94,7 +94,7 @@ public class DefaultTenantService implements TenantService {
 
     @Override
     @DSTransactional // multi datasource: use @DSTransactional to guarantee local transactions and datasource switching
-    @DataPermission(enable = false) // see https://gitee.com/zhijiantianya/ruoyi-vue-pro/pulls/1154 for details
+    @DataPermission(enable = false) // Tenant creation must operate across tenant boundaries.
     public Long createTenant(TenantSaveRequest createRequest) {
         // validate that the tenant name is not duplicated
         validateTenantNameUnique(createRequest.getName(), null);

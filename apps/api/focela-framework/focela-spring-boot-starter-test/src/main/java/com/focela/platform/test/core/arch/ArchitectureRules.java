@@ -6,6 +6,12 @@ import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.lang.ArchRule;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.stream.Stream;
+
 import static com.tngtech.archunit.base.DescribedPredicate.not;
 import static com.tngtech.archunit.core.domain.JavaClass.Predicates.resideInAPackage;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
@@ -33,6 +39,49 @@ public final class ArchitectureRules {
         return new ClassFileImporter()
                 .withImportOption(new ImportOption.DoNotIncludeTests())
                 .importPackages(basePackage);
+    }
+
+    /**
+     * Verifies that a module's {@code src/main/java} tree contains Java source files only.
+     * HTTP samples, SQL snippets, and other development artifacts must live under docs/ or
+     * test resources so they are not mixed into the production source tree.
+     */
+    public static void assertMainJavaContainsOnlyJavaFiles(String moduleDirectoryName) {
+        Path moduleRoot = resolveModuleRoot(moduleDirectoryName);
+        Path sourceRoot = moduleRoot.resolve("src/main/java");
+        if (!Files.exists(sourceRoot)) {
+            throw new AssertionError("Cannot find source root: " + sourceRoot.toAbsolutePath().normalize());
+        }
+        try (Stream<Path> paths = Files.walk(sourceRoot)) {
+            List<String> nonJavaFiles = paths
+                    .filter(Files::isRegularFile)
+                    .filter(path -> !path.getFileName().toString().endsWith(".java"))
+                    .map(sourceRoot::relativize)
+                    .map(Path::toString)
+                    .sorted()
+                    .toList();
+            if (!nonJavaFiles.isEmpty()) {
+                throw new AssertionError("src/main/java must contain only .java files: " + nonJavaFiles);
+            }
+        } catch (IOException e) {
+            throw new AssertionError("Failed to scan source root: " + sourceRoot.toAbsolutePath().normalize(), e);
+        }
+    }
+
+    private static Path resolveModuleRoot(String moduleDirectoryName) {
+        Path current = Path.of("").toAbsolutePath().normalize();
+        if (current.getFileName() != null && current.getFileName().toString().equals(moduleDirectoryName)) {
+            return current;
+        }
+        Path direct = Path.of(moduleDirectoryName);
+        if (Files.exists(direct)) {
+            return direct;
+        }
+        Path fromRepositoryRoot = Path.of("apps/api").resolve(moduleDirectoryName);
+        if (Files.exists(fromRepositoryRoot)) {
+            return fromRepositoryRoot;
+        }
+        return direct;
     }
 
     // ---- Naming + location ----

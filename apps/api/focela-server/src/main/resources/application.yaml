@@ -299,7 +299,7 @@ focela:
     url: ${focela.web.admin-ui.url}
     email: xingyu4j@vip.qq.com
     license: MIT
-    license-url: https://gitee.com/zhijiantianya/ruoyi-vue-pro/blob/master/LICENSE
+    license-url: https://github.com/focela/starter-kit/blob/main/LICENSE
   tenant: # Multi-tenant configuration
     enable: true
     ignore-urls:

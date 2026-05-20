@@ -320,7 +320,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public CommonResult<?> defaultExceptionHandler(HttpServletRequest req, Throwable ex) {
         // special case: if the cause is a ServiceException, return directly
-        // for example: https://gitee.com/zhijiantianya/yudao-cloud/issues/ICSSRM, https://gitee.com/zhijiantianya/yudao-cloud/issues/ICT6FM
         if (ex.getCause() != null && ex.getCause() instanceof ServiceException) {
             return serviceExceptionHandler((ServiceException) ex.getCause());
         }

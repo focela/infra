@@ -43,7 +43,7 @@ import static com.focela.platform.web.core.utils.WebFrameworkUtils.HEADER_TENANT
  * 1. Springdoc docs: <a href="https://github.com/springdoc/springdoc-openapi">repository</a>
  * 2. The Swagger spec was renamed OpenAPI in 2015; they refer to the same thing.
  */
-@AutoConfiguration(before = Knife4jAutoConfiguration.class) // before reason: ensure overridden Knife4jOpenApiCustomizer takes effect first. Related discussion: https://github.com/YunaiV/ruoyi-vue-pro/issues/954
+@AutoConfiguration(before = Knife4jAutoConfiguration.class) // Ensure overridden Knife4jOpenApiCustomizer takes effect first.
 @ConditionalOnClass({OpenAPI.class})
 @EnableConfigurationProperties(SwaggerProperties.class)
 @ConditionalOnProperty(prefix = "springdoc.api-docs", name = "enabled", havingValue = "true", matchIfMissing = true) // disabled when set to false
@@ -162,7 +162,7 @@ public class FocelaSwaggerAutoConfiguration {
     /**
      * Core: custom OperationId generation rule, combining "class name prefix + method name"
      *
-     * @see <a href="https://github.com/YunaiV/ruoyi-vue-pro/issues/957">app-api prefix not effective, all use admin-api</a>
+     * This avoids duplicated operation IDs when admin and app controllers expose similar endpoints.
      */
     private static OperationCustomizer buildOperationIdCustomizer() {
         return (operation, handlerMethod) -> {
@@ -181,4 +181,3 @@ public class FocelaSwaggerAutoConfiguration {
     }
 
 }
-

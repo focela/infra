@@ -19,7 +19,6 @@ public class CacheRequestBodyFilter extends OncePerRequestFilter {
      * URIs that need to be excluded
      *
      * 1. Exclude Spring Boot Admin related requests to avoid exceptions caused by client connection interruption.
-     *    For example: <a href="https://github.com/YunaiV/ruoyi-vue-pro/issues/795">795 ISSUE</a>
      */
     private static final String[] IGNORE_URIS = {"/admin/", "/actuator/"};
 

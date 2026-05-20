@@ -55,7 +55,7 @@ public class OAuth2ClientResponse {
     @Schema(description = "Resource", example = "1024")
     private List<String> resourceIds;
 
-    @Schema(description = "Extra info", example = "{yunai: true}")
+    @Schema(description = "Extra info", example = "{\"focela\": true}")
     private String additionalInformation;
 
     @Schema(description = "Created time", requiredMode = Schema.RequiredMode.REQUIRED)

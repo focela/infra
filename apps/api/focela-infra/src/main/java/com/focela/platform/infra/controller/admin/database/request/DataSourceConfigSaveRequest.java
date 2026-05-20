@@ -15,7 +15,7 @@ public class DataSourceConfigSaveRequest {
     @NotNull(message = "datasource name must not be blank")
     private String name;
 
-    @Schema(description = "Datasource URL", requiredMode = Schema.RequiredMode.REQUIRED, example = "jdbc:mysql://127.0.0.1:3306/ruoyi-vue-pro")
+    @Schema(description = "Datasource URL", requiredMode = Schema.RequiredMode.REQUIRED, example = "jdbc:mysql://127.0.0.1:3306/focela_starter_kit")
     @NotNull(message = "datasource URL must not be blank")
     private String url;
 

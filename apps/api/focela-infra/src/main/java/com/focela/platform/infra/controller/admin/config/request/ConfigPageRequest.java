@@ -16,7 +16,7 @@ public class ConfigPageRequest extends PageParam {
     @Schema(description = "datasource name, fuzzy match", example = "name")
     private String name;
 
-    @Schema(description = "param key, fuzzy match", example = "yunai.db.username")
+    @Schema(description = "param key, fuzzy match", example = "focela.db.username")
     private String key;
 
     @Schema(description = "Param type, see ConfigTypeEnum", example = "1")

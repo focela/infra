@@ -64,7 +64,7 @@ public class RedisPendingMessageResendJob {
     /**
      * Execute the cleanup logic.
      *
-     * @see <a href="https://gitee.com/zhijiantianya/ruoyi-vue-pro/pulls/480/files">discussion</a>
+     * Retries pending Redis Stream messages that have not been acknowledged.
      */
     private void execute() {
         StreamOperations<String, Object, Object> ops = redisTemplate.getRedisTemplate().opsForStream();

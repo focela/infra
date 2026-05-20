@@ -88,7 +88,7 @@ public class ConfigController {
 
     @GetMapping(value = "/get-value-by-key")
     @Operation(summary = "by param key query param value", description = "hidden config, not returned to frontend")
-    @Parameter(name = "key", description = "param key", required = true, example = "yunai.biz.username")
+    @Parameter(name = "key", description = "param key", required = true, example = "focela.biz.username")
     public CommonResult<String> getConfigKey(@RequestParam("key") String key) {
         ConfigEntity config = configService.getConfigByKey(key);
         if (config == null) {

@@ -94,6 +94,11 @@ class InfraArchitectureTest {
     }
 
     @Test
+    void mainJavaContainsOnlyJavaFiles() {
+        ArchitectureRules.assertMainJavaContainsOnlyJavaFiles("focela-infra");
+    }
+
+    @Test
     void infraDoesNotReachSystem() {
         ArchitectureRules.moduleDoesNotReachOtherModuleInternals(
                 "com.focela.platform.infra",

@@ -167,7 +167,7 @@ public class UserController {
     @GetMapping("/get-import-template")
     @Operation(summary = "get import user template")
     public void importTemplate(HttpServletResponse response) throws IOException {
-        // Manually build the export demo
+        // Manually build the import template sample rows.
         List<UserImportExcelRow> importTemplateRows = Arrays.asList(
                 UserImportExcelRow.builder().username("alice").deptId(1L).email("admin@example.com").mobile("15601691300")
                         .nickname("Focela").status(CommonStatusEnum.ENABLE.getStatus()).sex(SexEnum.MALE.getSex()).build(),

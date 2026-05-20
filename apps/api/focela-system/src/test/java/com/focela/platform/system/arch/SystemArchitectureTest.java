@@ -94,6 +94,11 @@ class SystemArchitectureTest {
     }
 
     @Test
+    void mainJavaContainsOnlyJavaFiles() {
+        ArchitectureRules.assertMainJavaContainsOnlyJavaFiles("focela-system");
+    }
+
+    @Test
     void systemDoesNotReachInfra() {
         ArchitectureRules.moduleDoesNotReachOtherModuleInternals(
                 "com.focela.platform.system",

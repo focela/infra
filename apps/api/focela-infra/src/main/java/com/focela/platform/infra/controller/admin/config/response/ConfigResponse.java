@@ -27,7 +27,7 @@ public class ConfigResponse {
     @ExcelProperty("Param name")
     private String name;
 
-    @Schema(description = "Param key", requiredMode = Schema.RequiredMode.REQUIRED, example = "yunai.db.username")
+    @Schema(description = "Param key", requiredMode = Schema.RequiredMode.REQUIRED, example = "focela.db.username")
     @ExcelProperty("Param key")
     private String key;
 

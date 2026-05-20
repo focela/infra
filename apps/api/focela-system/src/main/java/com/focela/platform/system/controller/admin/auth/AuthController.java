@@ -135,7 +135,7 @@ public class AuthController {
     @PostMapping("/sms-login")
     @PermitAll
     @Operation(summary = "use SMS CAPTCHA login")
-    // optionally enable rate limiting: https://github.com/YunaiV/ruoyi-vue-pro/issues/851
+    // Optional: enable rate limiting for SMS login by mobile number.
     // @RateLimiter(time = 60, count = 6, keyResolver = ExpressionRateLimiterKeyResolver.class, keyArg = "#request.mobile")
     public CommonResult<AuthLoginResponse> smsLogin(@RequestBody @Valid AuthSmsLoginRequest request) {
         return success(authService.smsLogin(request));

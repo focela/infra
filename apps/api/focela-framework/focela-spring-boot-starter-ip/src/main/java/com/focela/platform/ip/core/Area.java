@@ -18,7 +18,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = {"parent"}) // See https://gitee.com/yudaocode/yudao-cloud-mini/pulls/2 for the rationale
+@ToString(exclude = {"parent"}) // Prevent recursive parent/child traversal.
 public class Area {
 
     /**

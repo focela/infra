@@ -82,7 +82,6 @@ public class FileTypeUtils {
         response.setContentType(mimeType);
         // Set content display, download file name: https://www.cnblogs.com/wq-9/articles/12165056.html
         if (isImage(mimeType)) {
-            // See https://github.com/YunaiV/ruoyi-vue-pro/issues/692 for discussion
             response.setHeader("Content-Disposition", "inline;filename=" + HttpUtils.encodeUtf8(filename));
         } else {
             response.setHeader("Content-Disposition", "attachment;filename=" + HttpUtils.encodeUtf8(filename));

@@ -19,7 +19,7 @@ import java.util.Map;
  *
  * Compared with {@link LongestMatchColumnWidthStyleStrategy}, this one additionally handles the DATE type.
  *
- * @see <a href="https://github.com/YunaiV/yudao-cloud/pull/196/">Add auto-fit column width handler and replace the default column width strategy</a>
+ * @see LongestMatchColumnWidthStyleStrategy
  */
 public class ColumnWidthMatchStyleStrategy extends AbstractColumnWidthStyleStrategy {
 

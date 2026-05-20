@@ -32,7 +32,7 @@ public interface GlobalErrorCodeConstants {
 
     // ========== Custom error range ==========
     ErrorCode REPEATED_REQUESTS = new ErrorCode(900, "Duplicate request, please try again later"); // duplicate request
-    ErrorCode DEMO_DENY = new ErrorCode(901, "Demo mode: write operations are disabled");
+    ErrorCode READ_ONLY_MODE_DENY = new ErrorCode(901, "Read-only mode: write operations are disabled");
 
     ErrorCode UNKNOWN = new ErrorCode(999, "Unknown error");
 

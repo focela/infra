@@ -56,21 +56,17 @@ public interface InfraErrorCodeConstants {
     ErrorCode DATA_SOURCE_CONFIG_NOT_EXISTS = new ErrorCode(1_001_007_000, "Data source config does not exist");
     ErrorCode DATA_SOURCE_CONFIG_NOT_OK = new ErrorCode(1_001_007_001, "Data source config is incorrect, unable to connect");
 
-    // ========== Student 1-001-201-000 ==========
-    ErrorCode DEMO01_CONTACT_NOT_EXISTS = new ErrorCode(1_001_201_000, "Example contact does not exist");
-    ErrorCode DEMO02_CATEGORY_NOT_EXISTS = new ErrorCode(1_001_201_001, "Example category does not exist");
-    ErrorCode DEMO02_CATEGORY_HAS_CHILDREN = new ErrorCode(1_001_201_002, "Child example categories exist, cannot delete");
-    ErrorCode DEMO02_CATEGORY_PARENT_NOT_EXISTS = new ErrorCode(1_001_201_003, "Parent example category does not exist");
-    ErrorCode DEMO02_CATEGORY_PARENT_ERROR = new ErrorCode(1_001_201_004, "Cannot set itself as parent example category");
-    ErrorCode DEMO02_CATEGORY_NAME_DUPLICATE = new ErrorCode(1_001_201_005, "An example category with this name already exists");
-    ErrorCode DEMO02_CATEGORY_PARENT_IS_CHILD = new ErrorCode(1_001_201_006, "Cannot set its own child example category as parent example category");
-    ErrorCode DEMO03_STUDENT_NOT_EXISTS = new ErrorCode(1_001_201_007, "Student does not exist");
-    ErrorCode DEMO03_COURSE_NOT_EXISTS = new ErrorCode(1_001_201_008, "Student course does not exist");
-    ErrorCode DEMO03_GRADE_NOT_EXISTS = new ErrorCode(1_001_201_009, "Student grade does not exist");
-    ErrorCode DEMO03_GRADE_EXISTS = new ErrorCode(1_001_201_010, "Student grade already exists");
-    @Deprecated
-    ErrorCode DEMO02_CATEGORY_EXITS_CHILDREN = DEMO02_CATEGORY_HAS_CHILDREN;
-    @Deprecated
-    ErrorCode DEMO02_CATEGORY_PARENT_NOT_EXITS = DEMO02_CATEGORY_PARENT_NOT_EXISTS;
+    // ========== Reference data 1-001-201-000 ==========
+    ErrorCode REFERENCE_CONTACT_NOT_EXISTS = new ErrorCode(1_001_201_000, "Reference contact does not exist");
+    ErrorCode REFERENCE_CATEGORY_NOT_EXISTS = new ErrorCode(1_001_201_001, "Reference category does not exist");
+    ErrorCode REFERENCE_CATEGORY_HAS_CHILDREN = new ErrorCode(1_001_201_002, "Child reference categories exist, cannot delete");
+    ErrorCode REFERENCE_CATEGORY_PARENT_NOT_EXISTS = new ErrorCode(1_001_201_003, "Parent reference category does not exist");
+    ErrorCode REFERENCE_CATEGORY_PARENT_ERROR = new ErrorCode(1_001_201_004, "Cannot set itself as parent reference category");
+    ErrorCode REFERENCE_CATEGORY_NAME_DUPLICATE = new ErrorCode(1_001_201_005, "A reference category with this name already exists");
+    ErrorCode REFERENCE_CATEGORY_PARENT_IS_CHILD = new ErrorCode(1_001_201_006, "Cannot set its own child reference category as parent reference category");
+    ErrorCode REFERENCE_USER_NOT_EXISTS = new ErrorCode(1_001_201_007, "Reference user does not exist");
+    ErrorCode REFERENCE_COURSE_NOT_EXISTS = new ErrorCode(1_001_201_008, "Reference course does not exist");
+    ErrorCode REFERENCE_GRADE_NOT_EXISTS = new ErrorCode(1_001_201_009, "Reference grade does not exist");
+    ErrorCode REFERENCE_GRADE_EXISTS = new ErrorCode(1_001_201_010, "Reference grade already exists");
 
 }
