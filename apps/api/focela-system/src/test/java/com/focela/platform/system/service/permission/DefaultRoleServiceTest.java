@@ -48,7 +48,7 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
     private PermissionService permissionService;
 
     @Test
-    public void testCreateRole() {
+    public void createRole() {
         // prepare parameters
         RoleSaveRequest request = randomPojo(RoleSaveRequest.class)
                 .setId(null)  // prevent id from being assigned
@@ -64,7 +64,7 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateRole() {
+    public void updateRole() {
         // mock data
         RoleEntity roleEntity = randomPojo(RoleEntity.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
         roleMapper.insert(roleEntity);
@@ -81,7 +81,7 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateRoleDataScope() {
+    public void updateRoleDataScope() {
         // mock data
         RoleEntity roleEntity = randomPojo(RoleEntity.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
         roleMapper.insert(roleEntity);
@@ -99,7 +99,7 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteRole() {
+    public void deleteRole() {
         // mock data
         RoleEntity roleEntity = randomPojo(RoleEntity.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
         roleMapper.insert(roleEntity);
@@ -115,13 +115,13 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateRoleDuplicate_success() {
+    public void validateRoleDuplicate_success() {
         // invoke, will not throw
         roleService.validateRoleDuplicate(randomString(), randomString(), null);
     }
 
     @Test
-    public void testValidateRoleDuplicate_nameDuplicate() {
+    public void validateRoleDuplicate_nameDuplicate() {
         // mock data
         RoleEntity roleEntity = randomPojo(RoleEntity.class, o -> o.setName("role_name"));
         roleMapper.insert(roleEntity);
@@ -134,7 +134,7 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateRoleDuplicate_codeDuplicate() {
+    public void validateRoleDuplicate_codeDuplicate() {
         // mock data
         RoleEntity roleEntity = randomPojo(RoleEntity.class, o -> o.setCode("code"));
         roleMapper.insert(roleEntity);
@@ -147,7 +147,7 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateUpdateRole_success() {
+    public void validateUpdateRole_success() {
         RoleEntity roleEntity = randomPojo(RoleEntity.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
         roleMapper.insert(roleEntity);
         // prepare parameters
@@ -158,12 +158,12 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateUpdateRole_roleIdNotExist() {
+    public void validateUpdateRole_roleIdNotExist() {
         assertServiceException(() -> roleService.validateRoleForUpdate(randomLongId()), ROLE_NOT_FOUND);
     }
 
     @Test
-    public void testValidateUpdateRole_systemRoleCanNotBeUpdate() {
+    public void validateUpdateRole_systemRoleCannotBeUpdated_throwsServiceException() {
         RoleEntity roleEntity = randomPojo(RoleEntity.class, o -> o.setType(RoleTypeEnum.SYSTEM.getType()));
         roleMapper.insert(roleEntity);
         // prepare parameters
@@ -174,7 +174,7 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetRole() {
+    public void getRole() {
         // mock data
         RoleEntity roleEntity = randomPojo(RoleEntity.class);
         roleMapper.insert(roleEntity);
@@ -188,7 +188,7 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetRoleFromCache() {
+    public void getRoleFromCache() {
         // mock data（cache）
         RoleEntity roleEntity = randomPojo(RoleEntity.class);
         roleMapper.insert(roleEntity);
@@ -202,7 +202,7 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetRoleListByStatus() {
+    public void getRoleListByStatus() {
         // mock data
         RoleEntity dbRole01 = randomPojo(RoleEntity.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
         roleMapper.insert(dbRole01);
@@ -218,7 +218,7 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetRoleList() {
+    public void getRoleList() {
         // mock data
         RoleEntity dbRole01 = randomPojo(RoleEntity.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
         roleMapper.insert(dbRole01);
@@ -234,7 +234,7 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetRoleList_ids() {
+    public void getRoleList_byIds_returnsRoles() {
         // mock data
         RoleEntity dbRole01 = randomPojo(RoleEntity.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
         roleMapper.insert(dbRole01);
@@ -251,7 +251,7 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetRoleListFromCache() {
+    public void getRoleListFromCache() {
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
             springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(DefaultRoleService.class)))
                     .thenReturn(roleService);
@@ -273,7 +273,7 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetRolePage() {
+    public void getRolePage() {
         // mock data
         RoleEntity dbRole = randomPojo(RoleEntity.class, o -> { // will be queried later
             o.setName("Potato");
@@ -304,7 +304,7 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testHasAnySuperAdmin_true() {
+    public void hasAnySuperAdmin_containsSuperAdmin_returnsTrue() {
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
             springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(DefaultRoleService.class)))
                     .thenReturn(roleService);
@@ -321,7 +321,7 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testHasAnySuperAdmin_false() {
+    public void hasAnySuperAdmin_withoutSuperAdmin_returnsFalse() {
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
             springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(DefaultRoleService.class)))
                     .thenReturn(roleService);
@@ -338,7 +338,7 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateRoleList_success() {
+    public void validateRoleList_success() {
         // mock data
         RoleEntity roleEntity = randomPojo(RoleEntity.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
         roleMapper.insert(roleEntity);
@@ -350,7 +350,7 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateRoleList_notFound() {
+    public void validateRoleList_notFound() {
         // prepare parameters
         List<Long> ids = singletonList(randomLongId());
 
@@ -359,7 +359,7 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateRoleList_notEnable() {
+    public void validateRoleList_notEnable() {
         // mock data
         RoleEntity RoleEntity = randomPojo(RoleEntity.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus()));
         roleMapper.insert(RoleEntity);

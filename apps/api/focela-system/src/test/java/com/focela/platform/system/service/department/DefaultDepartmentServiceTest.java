@@ -34,7 +34,7 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
     private DepartmentMapper departmentMapper;
 
     @Test
-    public void testCreateDept() {
+    public void createDepartment_validRequest_createsDepartment() {
         // prepare parameters
         DepartmentSaveRequest request = randomPojo(DepartmentSaveRequest.class, o -> {
             o.setId(null); // prevent id from being set
@@ -52,7 +52,7 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateDept() {
+    public void updateDepartment_validRequest_updatesDepartment() {
         // mock data
         DepartmentEntity dbDeptEntity = randomPojo(DepartmentEntity.class, o -> o.setStatus(randomCommonStatus()));
         departmentMapper.insert(dbDeptEntity);// @Sql: first insert an existing record
@@ -72,7 +72,7 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteDept_success() {
+    public void deleteDepartment_existingDepartment_deletesDepartment() {
         // mock data
         DepartmentEntity dbDeptEntity = randomPojo(DepartmentEntity.class);
         departmentMapper.insert(dbDeptEntity);// @Sql: first insert an existing record
@@ -86,7 +86,7 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteDept_hasChildren() {
+    public void deleteDepartment_withChildren_throwsServiceException() {
         // mock data
         DepartmentEntity parentDept = randomPojo(DepartmentEntity.class);
         departmentMapper.insert(parentDept);// @Sql: first insert an existing record
@@ -103,7 +103,7 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteDeptList_success() {
+    public void deleteDepartmentList_existingDepartments_deletesDepartments() {
         // mock data
         DepartmentEntity deptEntity1 = randomPojo(DepartmentEntity.class);
         departmentMapper.insert(deptEntity1);
@@ -120,7 +120,7 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteDeptList_hasChildren() {
+    public void deleteDepartmentList_withChildDepartment_throwsServiceException() {
         // mock data
         DepartmentEntity parentDept = randomPojo(DepartmentEntity.class);
         departmentMapper.insert(parentDept);
@@ -140,7 +140,7 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateParentDept_parentError() {
+    public void validateParentDepartment_selfParent_throwsServiceException() {
         // prepare parameters
         Long id = randomLongId();
 
@@ -150,7 +150,7 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateParentDept_parentIsChild() {
+    public void validateParentDepartment_childAsParent_throwsServiceException() {
         // mock data（parent node）
         DepartmentEntity parentDept = randomPojo(DepartmentEntity.class);
         departmentMapper.insert(parentDept);
@@ -169,7 +169,7 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateNameUnique_duplicate() {
+    public void validateDepartmentNameUnique_duplicateName_throwsServiceException() {
         // mock data
         DepartmentEntity deptEntity = randomPojo(DepartmentEntity.class);
         departmentMapper.insert(deptEntity);
@@ -185,7 +185,7 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetDept() {
+    public void getDepartment_existingId_returnsDepartment() {
         // mock data
         DepartmentEntity deptEntity = randomPojo(DepartmentEntity.class);
         departmentMapper.insert(deptEntity);
@@ -199,7 +199,7 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetDeptList_ids() {
+    public void getDepartmentList_byIds_returnsDepartments() {
         // mock data
         DepartmentEntity deptEntity01 = randomPojo(DepartmentEntity.class);
         departmentMapper.insert(deptEntity01);
@@ -217,7 +217,7 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetDeptList_request() {
+    public void getDepartmentList_matchingRequest_returnsDepartments() {
         // mock data
         DepartmentEntity department = randomPojo(DepartmentEntity.class, o -> { // will be queried later
             o.setName("Development Department");
@@ -241,7 +241,7 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetChildDeptList() {
+    public void getChildDepartmentList_matchingParent_returnsChildren() {
         // mock data（1 level child node）
         DepartmentEntity dept1 = randomPojo(DepartmentEntity.class, o -> o.setName("1"));
         departmentMapper.insert(dept1);
@@ -264,7 +264,7 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetChildDeptListFromCache() {
+    public void getChildDepartmentIdListFromCache_matchingParent_returnsChildIds() {
         // mock data（1 level child node）
         DepartmentEntity dept1 = randomPojo(DepartmentEntity.class, o -> o.setName("1"));
         departmentMapper.insert(dept1);
@@ -287,7 +287,7 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateDeptList_success() {
+    public void validateDepartmentList_enabledDepartments_passes() {
         // mock data
         DepartmentEntity deptEntity = randomPojo(DepartmentEntity.class).setStatus(CommonStatusEnum.ENABLE.getStatus());
         departmentMapper.insert(deptEntity);
@@ -299,7 +299,7 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateDeptList_notFound() {
+    public void validateDepartmentList_missingDepartment_throwsServiceException() {
         // prepare parameters
         List<Long> ids = singletonList(randomLongId());
 
@@ -308,7 +308,7 @@ public class DefaultDepartmentServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateDeptList_notEnable() {
+    public void validateDepartmentList_disabledDepartment_throwsServiceException() {
         // mock data
         DepartmentEntity deptEntity = randomPojo(DepartmentEntity.class).setStatus(CommonStatusEnum.DISABLE.getStatus());
         departmentMapper.insert(deptEntity);

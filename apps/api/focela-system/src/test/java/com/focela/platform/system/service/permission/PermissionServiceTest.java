@@ -58,7 +58,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     private UserService userService;
 
     @Test
-    public void testHasAnyPermissions_superAdmin() {
+    public void hasAnyPermissions_superAdmin() {
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
             springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(DefaultPermissionService.class)))
                     .thenReturn(permissionService);
@@ -80,7 +80,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testHasAnyPermissions_normal() {
+    public void hasAnyPermissions_normal() {
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
             springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(DefaultPermissionService.class)))
                     .thenReturn(permissionService);
@@ -105,7 +105,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testHasAnyRoles() {
+    public void hasAnyRoles() {
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
             springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(DefaultPermissionService.class)))
                     .thenReturn(permissionService);
@@ -127,7 +127,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     // ========== role-menu-related methods  ==========
 
     @Test
-    public void testAssignRoleMenu() {
+    public void assignRoleMenu() {
         // prepare parameters
         Long roleId = 1L;
         Set<Long> menuIds = asSet(200L, 300L);
@@ -149,7 +149,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testProcessRoleDeleted() {
+    public void processRoleDeleted() {
         // prepare parameters
         Long roleId = randomLongId();
         // mock data UserRole
@@ -176,7 +176,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testProcessMenuDeleted() {
+    public void processMenuDeleted() {
         // prepare parameters
         Long menuId = randomLongId();
         // mock data
@@ -194,7 +194,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetRoleMenuIds_superAdmin() {
+    public void getRoleMenuIds_superAdmin() {
         // prepare parameters
         Long roleId = 100L;
         // mock the method
@@ -209,7 +209,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetRoleMenuIds_normal() {
+    public void getRoleMenuIds_normal() {
         // prepare parameters
         Long roleId = 100L;
         // mock data
@@ -225,7 +225,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetMenuRoleIdListByMenuIdFromCache() {
+    public void getMenuRoleIdListByMenuIdFromCache() {
         // prepare parameters
         Long menuId = 1L;
         // mock data
@@ -243,7 +243,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     // ========== user-role-related methods  ==========
 
     @Test
-    public void testAssignUserRole() {
+    public void assignUserRole() {
         // prepare parameters
         Long userId = 1L;
         Set<Long> roleIds = asSet(200L, 300L);
@@ -265,7 +265,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testProcessUserDeleted() {
+    public void processUserDeleted() {
         // prepare parameters
         Long userId = randomLongId();
         // mock data
@@ -283,7 +283,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetUserRoleIdListByUserId() {
+    public void getUserRoleIdListByUserId() {
         // prepare parameters
         Long userId = 1L;
         // mock data
@@ -299,7 +299,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetUserRoleIdListByUserIdFromCache() {
+    public void getUserRoleIdListByUserIdFromCache() {
         // prepare parameters
         Long userId = 1L;
         // mock data
@@ -315,7 +315,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetUserRoleIdsFromCache() {
+    public void getUserRoleIdsFromCache() {
         // prepare parameters
         Long userId = 1L;
         // mock data
@@ -331,7 +331,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetUserRoleIdListByRoleId() {
+    public void getUserRoleIdListByRoleId() {
         // prepare parameters
         Collection<Long> roleIds = asSet(10L, 20L);
         // mock data
@@ -347,7 +347,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetEnableUserRoleListByUserIdFromCache() {
+    public void getEnableUserRoleListByUserIdFromCache() {
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
             springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(DefaultPermissionService.class)))
                     .thenReturn(permissionService);
@@ -375,7 +375,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     // ========== user-department-related methods  ==========
 
     @Test
-    public void testAssignRoleDataScope() {
+    public void assignRoleDataScope() {
         // prepare parameters
         Long roleId = 1L;
         Integer dataScope = 2;
@@ -388,7 +388,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetDeptDataPermission_All() {
+    public void getDepartmentDataPermission_allScope_returnsAllPermission() {
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
             springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(DefaultPermissionService.class)))
                     .thenReturn(permissionService);
@@ -412,7 +412,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetDeptDataPermission_DeptCustom() {
+    public void getDepartmentDataPermission_customScope_returnsCustomDepartments() {
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
             springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(DefaultPermissionService.class)))
                     .thenReturn(permissionService);
@@ -441,7 +441,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetDeptDataPermission_DeptOnly() {
+    public void getDepartmentDataPermission_departmentOnlyScope_returnsOwnDepartment() {
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
             springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(DefaultPermissionService.class)))
                     .thenReturn(permissionService);
@@ -469,7 +469,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetDeptDataPermission_DeptAndChild() {
+    public void getDepartmentDataPermission_departmentAndChildScope_returnsDepartmentTree() {
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
             springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(DefaultPermissionService.class)))
                     .thenReturn(permissionService);
@@ -501,7 +501,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetDeptDataPermission_Self() {
+    public void getDepartmentDataPermission_selfScope_returnsSelfOnly() {
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
             springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(DefaultPermissionService.class)))
                     .thenReturn(permissionService);

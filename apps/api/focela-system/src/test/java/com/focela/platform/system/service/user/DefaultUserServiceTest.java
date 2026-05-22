@@ -93,7 +93,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testCreatUser_success() {
+    public void createUser_validRequest_createsUser() {
         // prepare parameters
         UserSaveRequest request = randomPojo(UserSaveRequest.class, o -> {
             o.setSex(RandomUtil.randomEle(SexEnum.values()).getSex());
@@ -136,7 +136,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testCreatUser_max() {
+    public void createUser_tenantQuotaExceeded_throwsServiceException() {
         // prepare parameters
         UserSaveRequest request = randomPojo(UserSaveRequest.class);
         // mock insufficient account quota
@@ -151,7 +151,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateUser_success() {
+    public void updateUser_validRequest_updatesUser() {
         // mock data
         UserEntity dbUser = randomAdminUserEntity(o -> o.setPostIds(asSet(1L, 2L)));
         userMapper.insert(dbUser);
@@ -190,7 +190,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateUserLogin() {
+    public void updateUserLogin_validUser_updatesLoginInfo() {
         // mock data
         UserEntity user = randomAdminUserEntity(o -> o.setLoginDate(null));
         userMapper.insert(user);
@@ -207,7 +207,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateUserProfile_success() {
+    public void updateUserProfile_validRequest_updatesProfile() {
         // mock data
         UserEntity dbUser = randomAdminUserEntity();
         userMapper.insert(dbUser);
@@ -227,7 +227,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateUserPassword_success() {
+    public void updateUserPassword_validOldPassword_updatesPassword() {
         // mock data
         UserEntity dbUser = randomAdminUserEntity(o -> o.setPassword("encode:focela_alternate"));
         userMapper.insert(dbUser);
@@ -250,7 +250,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateUserPassword02_success() {
+    public void updateUserPassword_rawPassword_updatesPassword() {
         // mock data
         UserEntity dbUser = randomAdminUserEntity();
         userMapper.insert(dbUser);
@@ -269,7 +269,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateUserStatus() {
+    public void updateUserStatus_validStatus_updatesStatus() {
         // mock data
         UserEntity dbUser = randomAdminUserEntity();
         userMapper.insert(dbUser);
@@ -285,7 +285,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteUser_success(){
+    public void deleteUser_existingUser_deletesUser() {
         // mock data
         UserEntity dbUser = randomAdminUserEntity();
         userMapper.insert(dbUser);
@@ -301,7 +301,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetUserByUsername() {
+    public void getUserByUsername_existingUsername_returnsUser() {
         // mock data
         UserEntity dbUser = randomAdminUserEntity();
         userMapper.insert(dbUser);
@@ -315,7 +315,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetUserByMobile() {
+    public void getUserByMobile_existingMobile_returnsUser() {
         // mock data
         UserEntity dbUser = randomAdminUserEntity();
         userMapper.insert(dbUser);
@@ -329,9 +329,9 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetUserPage() {
+    public void getUserPage_matchingFilters_returnsPage() {
         // mock data
-        UserEntity dbUser = initGetUserPageData();
+        UserEntity dbUser = insertUsersForPageQuery();
         // prepare parameters
         UserPageRequest request = new UserPageRequest();
         request.setUsername("focela_alternate");
@@ -354,7 +354,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     /**
      * initialize test data for getUserPage method
      */
-    private UserEntity initGetUserPageData() {
+    private UserEntity insertUsersForPageQuery() {
         // mock data
         UserEntity dbUser = randomAdminUserEntity(o -> { // will be queried later
             o.setUsername("focela_alternate");
@@ -378,7 +378,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetUser() {
+    public void getUser_existingId_returnsUser() {
         // mock data
         UserEntity dbUser = randomAdminUserEntity();
         userMapper.insert(dbUser);
@@ -392,7 +392,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetUserListByDeptIds() {
+    public void getUserListByDepartmentIds_matchingDepartment_returnsUsers() {
         // mock data
         UserEntity dbUser = randomAdminUserEntity(o -> o.setDeptId(1L));
         userMapper.insert(dbUser);
@@ -412,7 +412,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
      * Scenario 1: validation fails, causing insert failure
      */
     @Test
-    public void testImportUserList_failWhenValidationFails() {
+    public void importUserList_validationFails_returnsFailure() {
         // prepare parameters
         UserImportExcelRow importUser = randomPojo(UserImportExcelRow.class, o -> {
             o.setEmail(randomEmail());
@@ -434,7 +434,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
      * case 2: does not exist, perform insert
      */
     @Test
-    public void testImportUserList_createWhenUserNotExists() {
+    public void importUserList_userNotExists_createsUser() {
         // prepare parameters
         UserImportExcelRow importUser = randomPojo(UserImportExcelRow.class, o -> {
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // ensure status range
@@ -466,7 +466,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
      * case 3: exists but no force update
      */
     @Test
-    public void testImportUserList_failWhenUserExistsAndNoForceUpdate() {
+    public void importUserList_existingUserWithoutForceUpdate_returnsFailure() {
         // mock data
         UserEntity dbUser = randomAdminUserEntity();
         userMapper.insert(dbUser);
@@ -498,7 +498,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
      * case 4: exists, force update
      */
     @Test
-    public void testImportUserList_updateWhenUserExistsAndForceUpdate() {
+    public void importUserList_existingUserWithForceUpdate_updatesUser() {
         // mock data
         UserEntity dbUser = randomAdminUserEntity();
         userMapper.insert(dbUser);
@@ -528,12 +528,12 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateUserExists_notExists() {
+    public void validateUserExists_missingUser_throwsServiceException() {
         assertServiceException(() -> userService.validateUserExists(randomLongId()), USER_NOT_FOUND);
     }
 
     @Test
-    public void testValidateUsernameUnique_usernameExistsForCreate() {
+    public void validateUsernameUnique_existingUsernameOnCreate_throwsServiceException() {
         // prepare parameters
         String username = randomString();
         // mock data
@@ -545,7 +545,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateUsernameUnique_usernameExistsForUpdate() {
+    public void validateUsernameUnique_existingUsernameOnUpdate_throwsServiceException() {
         // prepare parameters
         Long id = randomLongId();
         String username = randomString();
@@ -558,7 +558,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateEmailUnique_emailExistsForCreate() {
+    public void validateEmailUnique_existingEmailOnCreate_throwsServiceException() {
         // prepare parameters
         String email = randomString();
         // mock data
@@ -570,7 +570,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateEmailUnique_emailExistsForUpdate() {
+    public void validateEmailUnique_existingEmailOnUpdate_throwsServiceException() {
         // prepare parameters
         Long id = randomLongId();
         String email = randomString();
@@ -583,7 +583,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateMobileUnique_mobileExistsForCreate() {
+    public void validateMobileUnique_existingMobileOnCreate_throwsServiceException() {
         // prepare parameters
         String mobile = randomString();
         // mock data
@@ -595,7 +595,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateMobileUnique_mobileExistsForUpdate() {
+    public void validateMobileUnique_existingMobileOnUpdate_throwsServiceException() {
         // prepare parameters
         Long id = randomLongId();
         String mobile = randomString();
@@ -608,13 +608,13 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateOldPassword_notExists() {
+    public void validateOldPassword_missingUser_throwsServiceException() {
         assertServiceException(() -> userService.validateOldPassword(randomLongId(), randomString()),
                 USER_NOT_FOUND);
     }
 
     @Test
-    public void testValidateOldPassword_passwordFailed() {
+    public void validateOldPassword_passwordMismatch_throwsServiceException() {
         // mock data
         UserEntity user = randomAdminUserEntity();
         userMapper.insert(user);
@@ -630,7 +630,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUserListByPostIds() {
+    public void getUserListByPostIds_matchingPost_returnsUsers() {
         // prepare parameters
         Collection<Long> postIds = asSet(10L, 20L);
         // mock user1 data
@@ -651,7 +651,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetUserList() {
+    public void getUserList_matchingIds_returnsUsers() {
         // mock data
         UserEntity user = randomAdminUserEntity();
         userMapper.insert(user);
@@ -668,7 +668,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetUserMap() {
+    public void getUserMap_matchingIds_returnsUserMap() {
         // mock data
         UserEntity user = randomAdminUserEntity();
         userMapper.insert(user);
@@ -685,7 +685,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetUserListByNickname() {
+    public void getUserListByNickname_matchingNickname_returnsUsers() {
         // mock data
         UserEntity user = randomAdminUserEntity(o -> o.setNickname("Focela"));
         userMapper.insert(user);
@@ -702,7 +702,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetUserListByStatus() {
+    public void getUserListByStatus_matchingStatus_returnsUsers() {
         // mock data
         UserEntity user = randomAdminUserEntity(o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus()));
         userMapper.insert(user);
@@ -719,7 +719,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateUserList_success() {
+    public void validateUserList_enabledUsers_passes() {
         // mock data
         UserEntity userEntity = randomAdminUserEntity().setStatus(CommonStatusEnum.ENABLE.getStatus());
         userMapper.insert(userEntity);
@@ -731,7 +731,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateUserList_notFound() {
+    public void validateUserList_missingUser_throwsServiceException() {
         // prepare parameters
         List<Long> ids = singletonList(randomLongId());
 
@@ -740,7 +740,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateUserList_notEnable() {
+    public void validateUserList_disabledUser_throwsServiceException() {
         // mock data
         UserEntity userEntity = randomAdminUserEntity().setStatus(CommonStatusEnum.DISABLE.getStatus());
         userMapper.insert(userEntity);

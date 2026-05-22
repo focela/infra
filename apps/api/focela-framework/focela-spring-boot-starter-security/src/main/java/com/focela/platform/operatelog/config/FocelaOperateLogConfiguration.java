@@ -17,9 +17,9 @@ import org.springframework.context.annotation.Primary;
 @Slf4j
 public class FocelaOperateLogConfiguration {
 
-    @Bean
+    @Bean("DefaultiLogRecordService")
     @Primary
-    public ILogRecordService DefaultiLogRecordService(OperateLogContractApi operateLogApi) {
+    public ILogRecordService logRecordService(OperateLogContractApi operateLogApi) {
         return new DefaultLogRecordService(operateLogApi);
     }
 

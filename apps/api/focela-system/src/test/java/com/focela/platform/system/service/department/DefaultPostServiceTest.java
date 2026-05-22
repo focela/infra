@@ -38,7 +38,7 @@ public class DefaultPostServiceTest extends BaseDbUnitTest {
     private PostMapper postMapper;
 
     @Test
-    public void testCreatePost_success() {
+    public void createPost_validRequest_createsPost() {
         // prepare parameters
         PostSaveRequest request = randomPojo(PostSaveRequest.class,
                 o -> o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()))
@@ -54,7 +54,7 @@ public class DefaultPostServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdatePost_success() {
+    public void updatePost_validRequest_updatesPost() {
         // mock data
         PostEntity postEntity = randomPostEntity();
         postMapper.insert(postEntity);// @Sql: first insert an existing record
@@ -73,7 +73,7 @@ public class DefaultPostServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeletePost_success() {
+    public void deletePost_existingPost_deletesPost() {
         // mock data
         PostEntity postEntity = randomPostEntity();
         postMapper.insert(postEntity);
@@ -86,7 +86,7 @@ public class DefaultPostServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidatePost_notFoundForDelete() {
+    public void deletePost_missingPost_throwsServiceException() {
         // prepare parameters
         Long id = randomLongId();
 
@@ -95,7 +95,7 @@ public class DefaultPostServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidatePost_nameDuplicateForCreate() {
+    public void createPost_duplicateName_throwsServiceException() {
         // mock data
         PostEntity postEntity = randomPostEntity();
         postMapper.insert(postEntity);// @Sql: first insert an existing record
@@ -107,7 +107,7 @@ public class DefaultPostServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidatePost_codeDuplicateForUpdate() {
+    public void updatePost_duplicateCode_throwsServiceException() {
         // mock data
         PostEntity postEntity = randomPostEntity();
         postMapper.insert(postEntity);
@@ -127,7 +127,7 @@ public class DefaultPostServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetPostPage() {
+    public void getPostPage_matchingFilters_returnsPage() {
         // mock data
         PostEntity postEntity = randomPojo(PostEntity.class, o -> {
             o.setName("Coder");
@@ -152,7 +152,7 @@ public class DefaultPostServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetPostList() {
+    public void getPostList_matchingIds_returnsPosts() {
         // mock data
         PostEntity postEntity01 = randomPojo(PostEntity.class);
         postMapper.insert(postEntity01);
@@ -170,7 +170,7 @@ public class DefaultPostServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetPostList_idsAndStatus() {
+    public void getPostList_matchingIdsAndStatus_returnsPosts() {
         // mock data
         PostEntity postEntity01 = randomPojo(PostEntity.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
         postMapper.insert(postEntity01);
@@ -188,7 +188,7 @@ public class DefaultPostServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetPost() {
+    public void getPost_existingId_returnsPost() {
         // mock data
         PostEntity dbPostEntity = randomPostEntity();
         postMapper.insert(dbPostEntity);
@@ -202,7 +202,7 @@ public class DefaultPostServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidatePostList_success() {
+    public void validatePostList_enabledPosts_passes() {
         // mock data
         PostEntity postEntity = randomPostEntity().setStatus(CommonStatusEnum.ENABLE.getStatus());
         postMapper.insert(postEntity);
@@ -214,7 +214,7 @@ public class DefaultPostServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidatePostList_notFound() {
+    public void validatePostList_missingPost_throwsServiceException() {
         // prepare parameters
         List<Long> ids = singletonList(randomLongId());
 
@@ -223,7 +223,7 @@ public class DefaultPostServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidatePostList_notEnable() {
+    public void validatePostList_disabledPost_throwsServiceException() {
         // mock data
         PostEntity postEntity = randomPostEntity().setStatus(CommonStatusEnum.DISABLE.getStatus());
         postMapper.insert(postEntity);

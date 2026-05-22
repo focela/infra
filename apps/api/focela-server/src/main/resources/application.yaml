@@ -263,7 +263,7 @@ focela:
     base-package: com.focela.platform
   web:
     admin-ui:
-      url: https://www.example.com # URL of the admin UI
+      url: https://platform.focela.com # URL of the admin UI
   xss:
     enable: false
     exclude-urls: # Sample URLs for illustration; removing them is fine.

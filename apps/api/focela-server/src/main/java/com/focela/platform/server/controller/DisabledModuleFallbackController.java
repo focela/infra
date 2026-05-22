@@ -21,13 +21,13 @@ public class DisabledModuleFallbackController {
     @RequestMapping("/admin-api/bpm/**")
     public CommonResult<Boolean> bpm404() {
         return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                "[Workflow module - disabled][See https://www.example.com/bpm/ to enable]");
+                "[Workflow module - disabled][See https://platform.focela.com/bpm/ to enable]");
     }
 
     @RequestMapping("/admin-api/mp/**")
     public CommonResult<Boolean> mp404() {
         return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                "[WeChat Official Account module - disabled][See https://www.example.com/mp/build/ to enable]");
+                "[WeChat Official Account module - disabled][See https://platform.focela.com/mp/build/ to enable]");
     }
 
     @RequestMapping(value = { "/admin-api/product/**", // Product center
@@ -35,43 +35,43 @@ public class DisabledModuleFallbackController {
             "/admin-api/promotion/**" }) // Promotion center
     public CommonResult<Boolean> mall404() {
         return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                "[Mall system - disabled][See https://www.example.com/mall/build/ to enable]");
+                "[Mall system - disabled][See https://platform.focela.com/mall/build/ to enable]");
     }
 
     @RequestMapping("/admin-api/erp/**")
     public CommonResult<Boolean> erp404() {
         return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                "[ERP module - disabled][See https://www.example.com/erp/build/ to enable]");
+                "[ERP module - disabled][See https://platform.focela.com/erp/build/ to enable]");
     }
 
     @RequestMapping("/admin-api/crm/**")
     public CommonResult<Boolean> crm404() {
         return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                "[CRM module - disabled][See https://www.example.com/crm/build/ to enable]");
+                "[CRM module - disabled][See https://platform.focela.com/crm/build/ to enable]");
     }
 
     @RequestMapping(value = { "/admin-api/report/**"})
     public CommonResult<Boolean> report404() {
         return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                "[Report module - disabled][See https://www.example.com/report/ to enable]");
+                "[Report module - disabled][See https://platform.focela.com/report/ to enable]");
     }
 
     @RequestMapping(value = { "/admin-api/pay/**"})
     public CommonResult<Boolean> pay404() {
         return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                "[Pay module - disabled][See https://www.example.com/pay/build/ to enable]");
+                "[Pay module - disabled][See https://platform.focela.com/pay/build/ to enable]");
     }
 
     @RequestMapping(value = { "/admin-api/ai/**"})
     public CommonResult<Boolean> ai404() {
         return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                "[AI module - disabled][See https://www.example.com/ai/build/ to enable]");
+                "[AI module - disabled][See https://platform.focela.com/ai/build/ to enable]");
     }
 
     @RequestMapping(value = { "/admin-api/iot/**"})
     public CommonResult<Boolean> iot404() {
         return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                "[IoT module - disabled][See https://www.example.com/iot/build/ to enable]");
+                "[IoT module - disabled][See https://platform.focela.com/iot/build/ to enable]");
     }
 
     /**
