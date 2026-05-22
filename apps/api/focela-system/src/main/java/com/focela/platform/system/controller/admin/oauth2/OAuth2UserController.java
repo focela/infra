@@ -72,8 +72,8 @@ public class OAuth2UserController {
     @Operation(summary = "update user basic info")
     @PreAuthorize("@ss.hasScope('user.write')")
     public CommonResult<Boolean> updateUserInfo(@Valid @RequestBody OAuth2UserUpdateRequest request) {
-        // Here we convert UserProfileUpdateRequest =>UserProfileUpdateRequest object to reuse the interface.
-        // The reason is that UserService has no BO object of its own, so reuse can only be done this way
+        // Convert the OAuth2 request into the user profile request model to reuse the existing update flow.
+        // UserService does not expose a dedicated OAuth2 profile command model.
         userService.updateUserProfile(getLoginUserId(), BeanUtils.toBean(request, UserProfileUpdateRequest.class));
         return success(true);
     }

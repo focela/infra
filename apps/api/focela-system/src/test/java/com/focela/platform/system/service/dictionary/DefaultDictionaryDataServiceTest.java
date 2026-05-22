@@ -58,7 +58,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
         String dictionaryType = "focela_sample";
 
         // invoke
-        List<DictionaryDataEntity> dictionaryDataEntities = dictionaryDataService.getDictDataList(status, dictionaryType);
+        List<DictionaryDataEntity> dictionaryDataEntities = dictionaryDataService.getDictionaryDataList(status, dictionaryType);
         // assert
         assertEquals(2, dictionaryDataEntities.size());
         assertPojoEquals(dictDataEntity02, dictionaryDataEntities.get(0));
@@ -87,7 +87,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
         request.setStatus(CommonStatusEnum.ENABLE.getStatus());
 
         // invoke
-        PageResult<DictionaryDataEntity> pageResult = dictionaryDataService.getDictDataPage(request);
+        PageResult<DictionaryDataEntity> pageResult = dictionaryDataService.getDictionaryDataPage(request);
         // assert
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
@@ -103,7 +103,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
         Long id = dbDictionaryData.getId();
 
         // invoke
-        DictionaryDataEntity dictionaryData = dictionaryDataService.getDictData(id);
+        DictionaryDataEntity dictionaryData = dictionaryDataService.getDictionaryData(id);
         // assert
         assertPojoEquals(dbDictionaryData, dictionaryData);
     }
@@ -115,10 +115,10 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
                 o -> o.setStatus(randomCommonStatus()))
                 .setId(null); // prevent id from being assigned
         // mock the method
-        when(dictionaryTypeService.getDictType(eq(request.getDictType()))).thenReturn(randomDictTypeEntity(request.getDictType()));
+        when(dictionaryTypeService.getDictionaryType(eq(request.getDictType()))).thenReturn(randomDictTypeEntity(request.getDictType()));
 
         // invoke
-        Long dictionaryDataId = dictionaryDataService.createDictData(request);
+        Long dictionaryDataId = dictionaryDataService.createDictionaryData(request);
         // assert
         assertNotNull(dictionaryDataId);
         // verify record properties are correct
@@ -137,10 +137,10 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
             o.setStatus(randomCommonStatus());
         });
         // mock the method, dictionary type
-        when(dictionaryTypeService.getDictType(eq(request.getDictType()))).thenReturn(randomDictTypeEntity(request.getDictType()));
+        when(dictionaryTypeService.getDictionaryType(eq(request.getDictType()))).thenReturn(randomDictTypeEntity(request.getDictType()));
 
         // invoke
-        dictionaryDataService.updateDictData(request);
+        dictionaryDataService.updateDictionaryData(request);
         // verify update is correct
         DictionaryDataEntity dictionaryData = dictionaryDataMapper.selectById(request.getId()); // get the latest
         assertPojoEquals(request, dictionaryData);
@@ -155,7 +155,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
         Long id = dbDictionaryData.getId();
 
         // invoke
-        dictionaryDataService.deleteDictData(id);
+        dictionaryDataService.deleteDictionaryData(id);
         // verify data no longer exists
         assertNull(dictionaryDataMapper.selectById(id));
     }
@@ -179,7 +179,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
     public void testValidateDictTypeExists_success() {
         // mock the method, data type is disabled
         String type = randomString();
-        when(dictionaryTypeService.getDictType(eq(type))).thenReturn(randomDictTypeEntity(type));
+        when(dictionaryTypeService.getDictionaryType(eq(type))).thenReturn(randomDictTypeEntity(type));
 
         // invoke, succeeded
         dictionaryDataService.validateDictTypeExists(type);
@@ -194,7 +194,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
     public void testValidateDictTypeExists_notEnable() {
         // mock the method, data type is disabled
         String dictionaryType = randomString();
-        when(dictionaryTypeService.getDictType(eq(dictionaryType))).thenReturn(
+        when(dictionaryTypeService.getDictionaryType(eq(dictionaryType))).thenReturn(
                 randomPojo(DictionaryTypeEntity.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
 
         // invoke and assert exception
@@ -250,7 +250,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
         String dictionaryType = "focela_sample";
 
         // invoke
-        long count = dictionaryDataService.getDictDataCountByDictType(dictionaryType);
+        long count = dictionaryDataService.getDictionaryDataCountByDictionaryType(dictionaryType);
         // verify
         assertEquals(2L, count);
     }
@@ -265,7 +265,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
         List<String> values = singletonList(dictDataEntity.getValue());
 
         // invoke, no assertion needed
-        dictionaryDataService.validateDictDataList(dictionaryType, values);
+        dictionaryDataService.validateDictionaryDataList(dictionaryType, values);
     }
 
     @Test
@@ -275,7 +275,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
         List<String> values = singletonList(randomString());
 
         // invoke and assert exception
-        assertServiceException(() -> dictionaryDataService.validateDictDataList(dictionaryType, values), DICTIONARY_DATA_NOT_FOUND);
+        assertServiceException(() -> dictionaryDataService.validateDictionaryDataList(dictionaryType, values), DICTIONARY_DATA_NOT_FOUND);
     }
 
     @Test
@@ -288,7 +288,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
         List<String> values = singletonList(dictDataEntity.getValue());
 
         // invoke and assert exception
-        assertServiceException(() -> dictionaryDataService.validateDictDataList(dictionaryType, values),
+        assertServiceException(() -> dictionaryDataService.validateDictionaryDataList(dictionaryType, values),
                 DICTIONARY_DATA_NOT_ENABLED, dictDataEntity.getLabel());
     }
 
@@ -304,7 +304,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
         String value = "1";
 
         // invoke
-        DictionaryDataEntity dbDictionaryData = dictionaryDataService.getDictData(dictionaryType, value);
+        DictionaryDataEntity dbDictionaryData = dictionaryDataService.getDictionaryData(dictionaryType, value);
         // assert
         assertEquals(dictDataEntity, dbDictionaryData);
     }
@@ -321,7 +321,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
         String label = "1";
 
         // invoke
-        DictionaryDataEntity dbDictionaryData = dictionaryDataService.parseDictData(dictionaryType, label);
+        DictionaryDataEntity dbDictionaryData = dictionaryDataService.parseDictionaryData(dictionaryType, label);
         // assert
         assertEquals(dictDataEntity, dbDictionaryData);
     }

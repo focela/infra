@@ -209,7 +209,7 @@ public class DefaultOAuth2ApproveServiceTest extends BaseDbUnitTest {
         List<OAuth2ApproveEntity> result = oauth2ApproveService.getApproveList(userId, userType, clientId);
         // assert
         assertEquals(1, result.size());
-        // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
+        // Known fixture gap: expiresTime is excluded because this assertion is unstable on Windows 11.
         assertPojoEquals(approve, result.get(0), "expiresTime");
     }
 

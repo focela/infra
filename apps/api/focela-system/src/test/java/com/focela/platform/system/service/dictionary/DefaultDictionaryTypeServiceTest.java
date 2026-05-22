@@ -65,7 +65,7 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
        request.setCreateTime(buildBetweenTime(2021, 1, 10, 2021, 1, 20));
 
        // invoke
-       PageResult<DictionaryTypeEntity> pageResult = dictionaryTypeService.getDictTypePage(request);
+       PageResult<DictionaryTypeEntity> pageResult = dictionaryTypeService.getDictionaryTypePage(request);
        // assert
        assertEquals(1, pageResult.getTotal());
        assertEquals(1, pageResult.getList().size());
@@ -81,7 +81,7 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
         Long id = dbDictionaryType.getId();
 
         // invoke
-        DictionaryTypeEntity dictionaryType = dictionaryTypeService.getDictType(id);
+        DictionaryTypeEntity dictionaryType = dictionaryTypeService.getDictionaryType(id);
         // assert
         assertNotNull(dictionaryType);
         assertPojoEquals(dbDictionaryType, dictionaryType);
@@ -96,7 +96,7 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
         String type = dbDictionaryType.getType();
 
         // invoke
-        DictionaryTypeEntity dictionaryType = dictionaryTypeService.getDictType(type);
+        DictionaryTypeEntity dictionaryType = dictionaryTypeService.getDictionaryType(type);
         // assert
         assertNotNull(dictionaryType);
         assertPojoEquals(dbDictionaryType, dictionaryType);
@@ -110,7 +110,7 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
                 .setId(null); // avoid id being assigned
 
         // invoke
-        Long dictionaryTypeId = dictionaryTypeService.createDictType(request);
+        Long dictionaryTypeId = dictionaryTypeService.createDictionaryType(request);
         // assert
         assertNotNull(dictionaryTypeId);
         // verify record properties are correct
@@ -130,7 +130,7 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
         });
 
         // invoke
-        dictionaryTypeService.updateDictType(request);
+        dictionaryTypeService.updateDictionaryType(request);
         // verify update is correct
         DictionaryTypeEntity dictionaryType = dictionaryTypeMapper.selectById(request.getId()); // get the latest
         assertPojoEquals(request, dictionaryType);
@@ -145,7 +145,7 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
         Long id = dbDictionaryType.getId();
 
         // invoke
-        dictionaryTypeService.deleteDictType(id);
+        dictionaryTypeService.deleteDictionaryType(id);
         // verify data no longer exists
         assertNull(dictionaryTypeMapper.selectById(id));
     }
@@ -158,10 +158,10 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
         // prepare parameters
         Long id = dbDictionaryType.getId();
         // mock the method
-        when(dictionaryDataService.getDictDataCountByDictType(eq(dbDictionaryType.getType()))).thenReturn(1L);
+        when(dictionaryDataService.getDictionaryDataCountByDictionaryType(eq(dbDictionaryType.getType()))).thenReturn(1L);
 
         // invoke and assert exception
-        assertServiceException(() -> dictionaryTypeService.deleteDictType(id), DICTIONARY_TYPE_HAS_CHILDREN);
+        assertServiceException(() -> dictionaryTypeService.deleteDictionaryType(id), DICTIONARY_TYPE_HAS_CHILDREN);
     }
 
     @Test
@@ -174,7 +174,7 @@ public class DefaultDictionaryTypeServiceTest extends BaseDbUnitTest {
         // mock the method
 
         // invoke
-        List<DictionaryTypeEntity> dictionaryTypeEntities = dictionaryTypeService.getDictTypeList();
+        List<DictionaryTypeEntity> dictionaryTypeEntities = dictionaryTypeService.getDictionaryTypeList();
         // assert
         assertEquals(2, dictionaryTypeEntities.size());
         assertPojoEquals(dictTypeEntity01, dictionaryTypeEntities.get(0));

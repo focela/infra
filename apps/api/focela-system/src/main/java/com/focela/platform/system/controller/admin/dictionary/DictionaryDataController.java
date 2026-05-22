@@ -49,7 +49,7 @@ public class DictionaryDataController {
     @Operation(summary = "create dictionary data")
     @PreAuthorize("@ss.hasPermission('system:dict:create')")
     public CommonResult<Long> createDictData(@Valid @RequestBody DictionaryDataSaveRequest createRequest) {
-        Long dictionaryDataId = dictionaryDataService.createDictData(createRequest);
+        Long dictionaryDataId = dictionaryDataService.createDictionaryData(createRequest);
         return success(dictionaryDataId);
     }
 
@@ -57,7 +57,7 @@ public class DictionaryDataController {
     @Operation(summary = "update dictionary data")
     @PreAuthorize("@ss.hasPermission('system:dict:update')")
     public CommonResult<Boolean> updateDictData(@Valid @RequestBody DictionaryDataSaveRequest updateRequest) {
-        dictionaryDataService.updateDictData(updateRequest);
+        dictionaryDataService.updateDictionaryData(updateRequest);
         return success(true);
     }
 
@@ -66,7 +66,7 @@ public class DictionaryDataController {
     @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:dict:delete')")
     public CommonResult<Boolean> deleteDictData(@RequestParam("id") Long id) {
-        dictionaryDataService.deleteDictData(id);
+        dictionaryDataService.deleteDictionaryData(id);
         return success(true);
     }
 
@@ -75,7 +75,7 @@ public class DictionaryDataController {
     @Parameter(name = "ids", description = "ID list", required = true)
     @PreAuthorize("@ss.hasPermission('system:dict:delete')")
     public CommonResult<Boolean> deleteDictDataList(@RequestParam("ids") List<Long> ids) {
-        dictionaryDataService.deleteDictDataList(ids);
+        dictionaryDataService.deleteDictionaryDataList(ids);
         return success(true);
     }
 
@@ -83,7 +83,7 @@ public class DictionaryDataController {
     @Operation(summary = "get all dictionary data list", description = "usually for Admin cache dictionary data in local")
     // no permission check required as the frontend uses this globally
     public CommonResult<List<DictionaryDataSimpleResponse>> getSimpleDictDataList() {
-        List<DictionaryDataEntity> dictionaryData = dictionaryDataService.getDictDataList(
+        List<DictionaryDataEntity> dictionaryData = dictionaryDataService.getDictionaryDataList(
                 CommonStatusEnum.ENABLE.getStatus(), null);
         return success(BeanUtils.toBean(dictionaryData, DictionaryDataSimpleResponse.class));
     }
@@ -92,7 +92,7 @@ public class DictionaryDataController {
     @Operation(summary = "get dictionary type page")
     @PreAuthorize("@ss.hasPermission('system:dict:query')")
     public CommonResult<PageResult<DictionaryDataResponse>> getDictTypePage(@Valid DictionaryDataPageRequest pageRequest) {
-        PageResult<DictionaryDataEntity> pageResult = dictionaryDataService.getDictDataPage(pageRequest);
+        PageResult<DictionaryDataEntity> pageResult = dictionaryDataService.getDictionaryDataPage(pageRequest);
         return success(BeanUtils.toBean(pageResult, DictionaryDataResponse.class));
     }
 
@@ -101,7 +101,7 @@ public class DictionaryDataController {
     @Parameter(name = "id", description = "ID", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:dict:query')")
     public CommonResult<DictionaryDataResponse> getDictData(@RequestParam("id") Long id) {
-        DictionaryDataEntity dictionaryData = dictionaryDataService.getDictData(id);
+        DictionaryDataEntity dictionaryData = dictionaryDataService.getDictionaryData(id);
         return success(BeanUtils.toBean(dictionaryData, DictionaryDataResponse.class));
     }
 
@@ -111,7 +111,7 @@ public class DictionaryDataController {
     @ApiAccessLog(operateType = EXPORT)
     public void export(HttpServletResponse response, @Valid DictionaryDataPageRequest exportRequest) throws IOException {
         exportRequest.setPageSize(PageParam.PAGE_SIZE_NONE);
-        List<DictionaryDataEntity> dictionaryData = dictionaryDataService.getDictDataPage(exportRequest).getList();
+        List<DictionaryDataEntity> dictionaryData = dictionaryDataService.getDictionaryDataPage(exportRequest).getList();
         // output
         ExcelUtils.write(response, "Dictionary Data.xls", "Data", DictionaryDataResponse.class,
                 BeanUtils.toBean(dictionaryData, DictionaryDataResponse.class));

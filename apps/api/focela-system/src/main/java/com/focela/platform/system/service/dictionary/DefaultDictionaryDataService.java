@@ -52,24 +52,42 @@ public class DefaultDictionaryDataService implements DictionaryDataService {
     private DictionaryTypeService dictionaryTypeService;
 
     @Override
-    public List<DictionaryDataEntity> getDictDataList(Integer status, String dictionaryType) {
+    public List<DictionaryDataEntity> getDictionaryDataList(Integer status, String dictionaryType) {
         List<DictionaryDataEntity> dictionaryData = dictionaryDataMapper.selectListByStatusAndDictType(status, dictionaryType);
         dictionaryData.sort(COMPARATOR_TYPE_AND_SORT);
         return dictionaryData;
     }
 
     @Override
-    public PageResult<DictionaryDataEntity> getDictDataPage(DictionaryDataPageRequest pageRequest) {
+    @Deprecated
+    public List<DictionaryDataEntity> getDictDataList(Integer status, String dictionaryType) {
+        return getDictionaryDataList(status, dictionaryType);
+    }
+
+    @Override
+    public PageResult<DictionaryDataEntity> getDictionaryDataPage(DictionaryDataPageRequest pageRequest) {
         return dictionaryDataMapper.selectPage(pageRequest);
     }
 
     @Override
-    public DictionaryDataEntity getDictData(Long id) {
+    @Deprecated
+    public PageResult<DictionaryDataEntity> getDictDataPage(DictionaryDataPageRequest pageRequest) {
+        return getDictionaryDataPage(pageRequest);
+    }
+
+    @Override
+    public DictionaryDataEntity getDictionaryData(Long id) {
         return dictionaryDataMapper.selectById(id);
     }
 
     @Override
-    public Long createDictData(DictionaryDataSaveRequest createRequest) {
+    @Deprecated
+    public DictionaryDataEntity getDictData(Long id) {
+        return getDictionaryData(id);
+    }
+
+    @Override
+    public Long createDictionaryData(DictionaryDataSaveRequest createRequest) {
         // Validate that the dictionary type is valid
         validateDictTypeExists(createRequest.getDictType());
         // Validate uniqueness of the dictionary data value
@@ -82,7 +100,13 @@ public class DefaultDictionaryDataService implements DictionaryDataService {
     }
 
     @Override
-    public void updateDictData(DictionaryDataSaveRequest updateRequest) {
+    @Deprecated
+    public Long createDictData(DictionaryDataSaveRequest createRequest) {
+        return createDictionaryData(createRequest);
+    }
+
+    @Override
+    public void updateDictionaryData(DictionaryDataSaveRequest updateRequest) {
         // Validate that the dictionary data exists
         validateDictDataExists(updateRequest.getId());
         // Validate that the dictionary type is valid
@@ -96,7 +120,13 @@ public class DefaultDictionaryDataService implements DictionaryDataService {
     }
 
     @Override
-    public void deleteDictData(Long id) {
+    @Deprecated
+    public void updateDictData(DictionaryDataSaveRequest updateRequest) {
+        updateDictionaryData(updateRequest);
+    }
+
+    @Override
+    public void deleteDictionaryData(Long id) {
         // Validate existence
         validateDictDataExists(id);
 
@@ -105,13 +135,31 @@ public class DefaultDictionaryDataService implements DictionaryDataService {
     }
 
     @Override
-    public void deleteDictDataList(List<Long> ids) {
+    @Deprecated
+    public void deleteDictData(Long id) {
+        deleteDictionaryData(id);
+    }
+
+    @Override
+    public void deleteDictionaryDataList(List<Long> ids) {
         dictionaryDataMapper.deleteByIds(ids);
     }
 
     @Override
-    public long getDictDataCountByDictType(String dictionaryType) {
+    @Deprecated
+    public void deleteDictDataList(List<Long> ids) {
+        deleteDictionaryDataList(ids);
+    }
+
+    @Override
+    public long getDictionaryDataCountByDictionaryType(String dictionaryType) {
         return dictionaryDataMapper.selectCountByDictType(dictionaryType);
+    }
+
+    @Override
+    @Deprecated
+    public long getDictDataCountByDictType(String dictionaryType) {
+        return getDictionaryDataCountByDictionaryType(dictionaryType);
     }
 
     @VisibleForTesting
@@ -142,7 +190,7 @@ public class DefaultDictionaryDataService implements DictionaryDataService {
 
     @VisibleForTesting
     public void validateDictTypeExists(String type) {
-        DictionaryTypeEntity dictionaryType = dictionaryTypeService.getDictType(type);
+        DictionaryTypeEntity dictionaryType = dictionaryTypeService.getDictionaryType(type);
         if (dictionaryType == null) {
             throw exception(DICTIONARY_TYPE_NOT_FOUND);
         }
@@ -152,7 +200,7 @@ public class DefaultDictionaryDataService implements DictionaryDataService {
     }
 
     @Override
-    public void validateDictDataList(String dictionaryType, Collection<String> values) {
+    public void validateDictionaryDataList(String dictionaryType, Collection<String> values) {
         if (CollUtil.isEmpty(values)) {
             return;
         }
@@ -171,20 +219,44 @@ public class DefaultDictionaryDataService implements DictionaryDataService {
     }
 
     @Override
-    public DictionaryDataEntity getDictData(String dictionaryType, String value) {
+    @Deprecated
+    public void validateDictDataList(String dictionaryType, Collection<String> values) {
+        validateDictionaryDataList(dictionaryType, values);
+    }
+
+    @Override
+    public DictionaryDataEntity getDictionaryData(String dictionaryType, String value) {
         return dictionaryDataMapper.selectByDictTypeAndValue(dictionaryType, value);
     }
 
     @Override
-    public DictionaryDataEntity parseDictData(String dictionaryType, String label) {
+    @Deprecated
+    public DictionaryDataEntity getDictData(String dictionaryType, String value) {
+        return getDictionaryData(dictionaryType, value);
+    }
+
+    @Override
+    public DictionaryDataEntity parseDictionaryData(String dictionaryType, String label) {
         return dictionaryDataMapper.selectByDictTypeAndLabel(dictionaryType, label);
     }
 
     @Override
-    public List<DictionaryDataEntity> getDictDataListByDictType(String dictionaryType) {
+    @Deprecated
+    public DictionaryDataEntity parseDictData(String dictionaryType, String label) {
+        return parseDictionaryData(dictionaryType, label);
+    }
+
+    @Override
+    public List<DictionaryDataEntity> getDictionaryDataListByDictionaryType(String dictionaryType) {
         List<DictionaryDataEntity> dictionaryData = dictionaryDataMapper.selectList(DictionaryDataEntity::getDictType, dictionaryType);
         dictionaryData.sort(Comparator.comparing(DictionaryDataEntity::getSort));
         return dictionaryData;
+    }
+
+    @Override
+    @Deprecated
+    public List<DictionaryDataEntity> getDictDataListByDictType(String dictionaryType) {
+        return getDictionaryDataListByDictionaryType(dictionaryType);
     }
 
 }

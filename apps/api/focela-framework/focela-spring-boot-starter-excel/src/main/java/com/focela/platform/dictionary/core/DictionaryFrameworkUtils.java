@@ -32,7 +32,7 @@ public class DictionaryFrameworkUtils {
 
                 @Override
                 public List<DictionaryDataRpcResponse> load(String dictionaryType) {
-                    return dictionaryDataApi.getDictDataList(dictionaryType);
+                    return dictionaryDataApi.getDictionaryDataList(dictionaryType);
                 }
 
             });

@@ -119,7 +119,7 @@ public interface DepartmentService {
      * 1. Department ID does not exist
      * 2. Department is disabled
      *
-     * @param ids role ID array
+     * @param ids department ID collection
      */
     void validateDepartmentList(Collection<Long> ids);
 

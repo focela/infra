@@ -48,7 +48,7 @@ class DefaultOAuth2CodeServiceTest extends BaseDbUnitTest {
                 scopes, redirectUri, state);
         // assert
         OAuth2CodeEntity dbAuthorizationCode = oauth2CodeMapper.selectByCode(authorizationCode.getCode());
-        // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
+        // Known fixture gap: expiresTime is excluded because this assertion is unstable on Windows 11.
         assertPojoEquals(authorizationCode, dbAuthorizationCode, "expiresTime", "createTime", "updateTime", "deleted");
         assertEquals(userId, authorizationCode.getUserId());
         assertEquals(userType, authorizationCode.getUserType());
@@ -91,7 +91,7 @@ class DefaultOAuth2CodeServiceTest extends BaseDbUnitTest {
 
         // invoke
         OAuth2CodeEntity result = oauth2CodeService.consumeAuthorizationCode(code);
-        // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
+        // Known fixture gap: expiresTime is excluded because this assertion is unstable on Windows 11.
         assertPojoEquals(authorizationCode, result, "expiresTime");
         assertNull(oauth2CodeMapper.selectByCode(code));
     }

@@ -20,14 +20,26 @@ public class LocalDictionaryDataApi implements DictionaryDataApi {
     private final DictionaryDataService dictionaryDataService;
 
     @Override
-    public void validateDictDataList(String dictionaryType, Collection<String> values) {
-        dictionaryDataService.validateDictDataList(dictionaryType, values);
+    public void validateDictionaryDataList(String dictionaryType, Collection<String> values) {
+        dictionaryDataService.validateDictionaryDataList(dictionaryType, values);
     }
 
     @Override
-    public List<DictionaryDataRpcResponse> getDictDataList(String dictionaryType) {
-        List<DictionaryDataEntity> list = dictionaryDataService.getDictDataListByDictType(dictionaryType);
+    @Deprecated
+    public void validateDictDataList(String dictionaryType, Collection<String> values) {
+        validateDictionaryDataList(dictionaryType, values);
+    }
+
+    @Override
+    public List<DictionaryDataRpcResponse> getDictionaryDataList(String dictionaryType) {
+        List<DictionaryDataEntity> list = dictionaryDataService.getDictionaryDataListByDictionaryType(dictionaryType);
         return BeanUtils.toBean(list, DictionaryDataRpcResponse.class);
+    }
+
+    @Override
+    @Deprecated
+    public List<DictionaryDataRpcResponse> getDictDataList(String dictionaryType) {
+        return getDictionaryDataList(dictionaryType);
     }
 
 }

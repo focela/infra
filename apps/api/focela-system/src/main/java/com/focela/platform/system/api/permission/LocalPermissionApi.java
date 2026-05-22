@@ -33,8 +33,14 @@ public class LocalPermissionApi implements PermissionApi {
     }
 
     @Override
+    public DepartmentDataPermissionRpcResponse getDepartmentDataPermission(Long userId) {
+        return permissionService.getDepartmentDataPermission(userId);
+    }
+
+    @Override
+    @Deprecated
     public DepartmentDataPermissionRpcResponse getDeptDataPermission(Long userId) {
-        return permissionService.getDeptDataPermission(userId);
+        return getDepartmentDataPermission(userId);
     }
 
 }

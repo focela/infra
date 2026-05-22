@@ -75,7 +75,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
         OAuth2AccessTokenEntity accessTokenEntity = oauth2TokenService.createAccessToken(userId, userType, clientId, scopes);
         // assert access token
         OAuth2AccessTokenEntity dbAccessTokenEntity = oauth2AccessTokenMapper.selectByAccessToken(accessTokenEntity.getAccessToken());
-        // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
+        // Known fixture gap: expiresTime is excluded because this assertion is unstable on Windows 11.
         assertPojoEquals(accessTokenEntity, dbAccessTokenEntity, "expiresTime", "createTime", "updateTime", "deleted");
         assertEquals(userId, accessTokenEntity.getUserId());
         assertEquals(userType, accessTokenEntity.getUserType());
@@ -87,7 +87,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
         assertFalse(DateUtils.isExpired(accessTokenEntity.getExpiresTime()));
         // assert access token cache
         OAuth2AccessTokenEntity redisAccessTokenEntity = oauth2AccessTokenRedisRepository.get(accessTokenEntity.getAccessToken());
-        // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
+        // Known fixture gap: expiresTime is excluded because this assertion is unstable on Windows 11.
         assertPojoEquals(accessTokenEntity, redisAccessTokenEntity, "expiresTime", "createTime", "updateTime", "deleted");
         // assert refresh token
         OAuth2RefreshTokenEntity refreshTokenEntity = oauth2RefreshTokenMapper.selectList().get(0);
@@ -178,14 +178,14 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
         assertNull(oauth2AccessTokenRedisRepository.get(accessTokenEntity.getAccessToken()));
         // assert new access token
         OAuth2AccessTokenEntity dbAccessTokenEntity = oauth2AccessTokenMapper.selectByAccessToken(newAccessTokenEntity.getAccessToken());
-        // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
+        // Known fixture gap: expiresTime is excluded because this assertion is unstable on Windows 11.
         assertPojoEquals(newAccessTokenEntity, dbAccessTokenEntity, "expiresTime", "createTime", "updateTime", "deleted");
         assertPojoEquals(newAccessTokenEntity, refreshTokenEntity, "id", "expiresTime", "createTime", "updateTime", "deleted",
                 "creator", "updater");
         assertFalse(DateUtils.isExpired(newAccessTokenEntity.getExpiresTime()));
         // assert new access token cache
         OAuth2AccessTokenEntity redisAccessTokenEntity = oauth2AccessTokenRedisRepository.get(newAccessTokenEntity.getAccessToken());
-        // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
+        // Known fixture gap: expiresTime is excluded because this assertion is unstable on Windows 11.
         assertPojoEquals(newAccessTokenEntity, redisAccessTokenEntity, "expiresTime", "createTime", "updateTime", "deleted");
     }
 
@@ -201,10 +201,10 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
         // invoke
         OAuth2AccessTokenEntity result = oauth2TokenService.getAccessToken(accessToken);
         // assert
-        // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
+        // Known fixture gap: expiresTime is excluded because this assertion is unstable on Windows 11.
         assertPojoEquals(accessTokenEntity, result, "expiresTime", "createTime", "updateTime", "deleted",
                 "creator", "updater");
-        // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
+        // Known fixture gap: expiresTime is excluded because this assertion is unstable on Windows 11.
         assertPojoEquals(accessTokenEntity, oauth2AccessTokenRedisRepository.get(accessToken), "expiresTime", "createTime", "updateTime", "deleted",
                 "creator", "updater");
     }
@@ -259,7 +259,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
         // invoke, and assert
         OAuth2AccessTokenEntity result = oauth2TokenService.getAccessToken(accessToken);
         // assert
-        // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
+        // Known fixture gap: expiresTime is excluded because this assertion is unstable on Windows 11.
         assertPojoEquals(accessTokenEntity, result, "expiresTime", "createTime", "updateTime", "deleted",
                 "creator", "updater");
     }
@@ -282,7 +282,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
         oauth2RefreshTokenMapper.insert(refreshTokenEntity);
         // invoke
         OAuth2AccessTokenEntity result = oauth2TokenService.removeAccessToken(accessTokenEntity.getAccessToken());
-        // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
+        // Known fixture gap: expiresTime is excluded because this assertion is unstable on Windows 11.
         assertPojoEquals(accessTokenEntity, result, "expiresTime", "createTime", "updateTime", "deleted",
                 "creator", "updater");
         // assert data
@@ -321,7 +321,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
         // assert
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
-        // TODO:  expiresTime blocked, only reproducible on win11, follow-up fix recommended.
+        // Known fixture gap: expiresTime is excluded because this assertion is unstable on Windows 11.
         assertPojoEquals(dbAccessToken, pageResult.getList().get(0), "expiresTime");
     }
 

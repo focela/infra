@@ -72,7 +72,7 @@ class DepartmentDataPermissionRuleTest extends BaseMockitoUnitTest {
                     .setUserType(UserTypeEnum.ADMIN.getValue()));
             securityFrameworkUtilsMock.when(SecurityFrameworkUtils::getLoginUser).thenReturn(loginUser);
             // mock the method (permissionApi returns null)
-            when(permissionApi.getDeptDataPermission(eq(loginUser.getId()))).thenReturn(null);
+            when(permissionApi.getDepartmentDataPermission(eq(loginUser.getId()))).thenReturn(null);
 
             // invoke
             NullPointerException exception = assertThrows(NullPointerException.class,
@@ -95,7 +95,7 @@ class DepartmentDataPermissionRuleTest extends BaseMockitoUnitTest {
             securityFrameworkUtilsMock.when(SecurityFrameworkUtils::getLoginUser).thenReturn(loginUser);
             // mock the method (DepartmentDataPermissionRpcResponse)
             DepartmentDataPermissionRpcResponse deptDataPermission = new DepartmentDataPermissionRpcResponse().setAll(true);
-            when(permissionApi.getDeptDataPermission(same(1L))).thenReturn(deptDataPermission);
+            when(permissionApi.getDepartmentDataPermission(same(1L))).thenReturn(deptDataPermission);
 
             // invoke
             Expression expression = rule.getExpression(tableName, tableAlias);
@@ -118,7 +118,7 @@ class DepartmentDataPermissionRuleTest extends BaseMockitoUnitTest {
             securityFrameworkUtilsMock.when(SecurityFrameworkUtils::getLoginUser).thenReturn(loginUser);
             // mock the method (DepartmentDataPermissionRpcResponse)
             DepartmentDataPermissionRpcResponse deptDataPermission = new DepartmentDataPermissionRpcResponse();
-            when(permissionApi.getDeptDataPermission(same(1L))).thenReturn(deptDataPermission);
+            when(permissionApi.getDepartmentDataPermission(same(1L))).thenReturn(deptDataPermission);
 
             // invoke
             Expression expression = rule.getExpression(tableName, tableAlias);
@@ -142,7 +142,7 @@ class DepartmentDataPermissionRuleTest extends BaseMockitoUnitTest {
             // mock the method (DepartmentDataPermissionRpcResponse)
             DepartmentDataPermissionRpcResponse deptDataPermission = new DepartmentDataPermissionRpcResponse()
                     .setDeptIds(SetUtils.asSet(10L, 20L)).setSelf(true);
-            when(permissionApi.getDeptDataPermission(same(1L))).thenReturn(deptDataPermission);
+            when(permissionApi.getDepartmentDataPermission(same(1L))).thenReturn(deptDataPermission);
 
             // invoke
             Expression expression = rule.getExpression(tableName, tableAlias);
@@ -166,7 +166,7 @@ class DepartmentDataPermissionRuleTest extends BaseMockitoUnitTest {
             // mock the method (DepartmentDataPermissionRpcResponse)
             DepartmentDataPermissionRpcResponse deptDataPermission = new DepartmentDataPermissionRpcResponse()
                     .setSelf(true);
-            when(permissionApi.getDeptDataPermission(same(1L))).thenReturn(deptDataPermission);
+            when(permissionApi.getDepartmentDataPermission(same(1L))).thenReturn(deptDataPermission);
             // Add user column configuration
             rule.addUserColumn("t_user", "id");
 
@@ -192,7 +192,7 @@ class DepartmentDataPermissionRuleTest extends BaseMockitoUnitTest {
             // mock the method (DepartmentDataPermissionRpcResponse)
             DepartmentDataPermissionRpcResponse deptDataPermission = new DepartmentDataPermissionRpcResponse()
                     .setDeptIds(CollUtil.newLinkedHashSet(10L, 20L));
-            when(permissionApi.getDeptDataPermission(same(1L))).thenReturn(deptDataPermission);
+            when(permissionApi.getDepartmentDataPermission(same(1L))).thenReturn(deptDataPermission);
             // Add dept column configuration
             rule.addDeptColumn("t_user", "dept_id");
 
@@ -218,7 +218,7 @@ class DepartmentDataPermissionRuleTest extends BaseMockitoUnitTest {
             // mock the method (DepartmentDataPermissionRpcResponse)
             DepartmentDataPermissionRpcResponse deptDataPermission = new DepartmentDataPermissionRpcResponse()
                     .setDeptIds(CollUtil.newLinkedHashSet(10L, 20L)).setSelf(true);
-            when(permissionApi.getDeptDataPermission(same(1L))).thenReturn(deptDataPermission);
+            when(permissionApi.getDepartmentDataPermission(same(1L))).thenReturn(deptDataPermission);
             // Add user column configuration
             rule.addUserColumn("t_user", "id");
             // Add dept column configuration

@@ -281,7 +281,7 @@ public class DefaultPermissionService implements PermissionService {
 
     @Override
     @DataPermission(enable = false) // disable data permission, otherwise recursive data permission lookup would occur
-    public DepartmentDataPermissionRpcResponse getDeptDataPermission(Long userId) {
+    public DepartmentDataPermissionRpcResponse getDepartmentDataPermission(Long userId) {
         // Get the user's roles
         List<RoleEntity> roles = getEnableUserRoleListByUserIdFromCache(userId);
 
@@ -331,9 +331,16 @@ public class DefaultPermissionService implements PermissionService {
                 continue;
             }
             // Unknown case: log as error
-            log.error("[getDeptDataPermission][LoginUser({}) role({}) cannot process]", userId, toJsonString(result));
+            log.error("[getDepartmentDataPermission][LoginUser({}) role({}) cannot process]", userId, toJsonString(result));
         }
         return result;
+    }
+
+    @Override
+    @Deprecated
+    @DataPermission(enable = false) // disable data permission, otherwise recursive data permission lookup would occur
+    public DepartmentDataPermissionRpcResponse getDeptDataPermission(Long userId) {
+        return getDepartmentDataPermission(userId);
     }
 
     /**

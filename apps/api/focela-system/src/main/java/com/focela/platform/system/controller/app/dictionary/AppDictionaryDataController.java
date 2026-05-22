@@ -35,7 +35,7 @@ public class AppDictionaryDataController {
     @Parameter(name = "type", description = "Dictionary type", required = true, example = "common_status")
     @PermitAll
     public CommonResult<List<AppDictionaryDataResponse>> getDictDataListByType(@RequestParam("type") String type) {
-        List<DictionaryDataEntity> dictionaryData = dictionaryDataService.getDictDataList(
+        List<DictionaryDataEntity> dictionaryData = dictionaryDataService.getDictionaryDataList(
                 CommonStatusEnum.ENABLE.getStatus(), type);
         return success(BeanUtils.toBean(dictionaryData, AppDictionaryDataResponse.class));
     }

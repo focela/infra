@@ -20,26 +20,50 @@ public class LocalDepartmentApi implements DepartmentApi {
     private final DepartmentService departmentService;
 
     @Override
-    public DepartmentRpcResponse getDept(Long id) {
+    public DepartmentRpcResponse getDepartment(Long id) {
         DepartmentEntity department = departmentService.getDepartment(id);
         return BeanUtils.toBean(department, DepartmentRpcResponse.class);
     }
 
     @Override
-    public List<DepartmentRpcResponse> getDeptList(Collection<Long> ids) {
+    @Deprecated
+    public DepartmentRpcResponse getDept(Long id) {
+        return getDepartment(id);
+    }
+
+    @Override
+    public List<DepartmentRpcResponse> getDepartmentList(Collection<Long> ids) {
         List<DepartmentEntity> departments = departmentService.getDepartmentList(ids);
         return BeanUtils.toBean(departments, DepartmentRpcResponse.class);
     }
 
     @Override
-    public void validateDeptList(Collection<Long> ids) {
+    @Deprecated
+    public List<DepartmentRpcResponse> getDeptList(Collection<Long> ids) {
+        return getDepartmentList(ids);
+    }
+
+    @Override
+    public void validateDepartmentList(Collection<Long> ids) {
         departmentService.validateDepartmentList(ids);
     }
 
     @Override
-    public List<DepartmentRpcResponse> getChildDeptList(Long id) {
+    @Deprecated
+    public void validateDeptList(Collection<Long> ids) {
+        validateDepartmentList(ids);
+    }
+
+    @Override
+    public List<DepartmentRpcResponse> getChildDepartmentList(Long id) {
         List<DepartmentEntity> childDepartmentList = departmentService.getChildDepartmentList(id);
         return BeanUtils.toBean(childDepartmentList, DepartmentRpcResponse.class);
+    }
+
+    @Override
+    @Deprecated
+    public List<DepartmentRpcResponse> getChildDeptList(Long id) {
+        return getChildDepartmentList(id);
     }
 
 }

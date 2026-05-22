@@ -91,7 +91,7 @@ public class DefaultApiAccessLogServiceTest extends BaseDbUnitTest {
         assertEquals(1, count);
         List<ApiAccessLogEntity> logs = apiAccessLogMapper.selectList();
         assertEquals(1, logs.size());
-        // TODO: createTime and updateTime are blocked; reproduces on win11 only — follow-up fix recommended.
+        // Known fixture gap: createTime and updateTime are excluded because this assertion is unstable on Windows 11.
         assertPojoEquals(log02, logs.get(0), "createTime", "updateTime");
     }
 

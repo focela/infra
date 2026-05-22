@@ -31,6 +31,19 @@ public interface PermissionContractApi {
      * @param userId user ID
      * @return department data permission
      */
+    @SuppressWarnings("deprecation")
+    default DepartmentDataPermissionRpcResponse getDepartmentDataPermission(Long userId) {
+        return getDeptDataPermission(userId);
+    }
+
+    /**
+     * Get the department data permission for the logged-in user.
+     *
+     * @param userId user ID
+     * @return department data permission
+     * @deprecated use {@link #getDepartmentDataPermission(Long)}
+     */
+    @Deprecated
     DepartmentDataPermissionRpcResponse getDeptDataPermission(Long userId);
 
 }

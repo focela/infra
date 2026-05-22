@@ -106,7 +106,7 @@ public class DepartmentDataPermissionRule implements DataPermissionRule {
         DepartmentDataPermissionRpcResponse deptDataPermission = loginUser.getContext(CONTEXT_KEY, DepartmentDataPermissionRpcResponse.class);
         // If not present in the context, fetch it via the API
         if (deptDataPermission == null) {
-            deptDataPermission = permissionApi.getDeptDataPermission(loginUser.getId());
+            deptDataPermission = permissionApi.getDepartmentDataPermission(loginUser.getId());
             if (deptDataPermission == null) {
                 log.error("[getExpression][LoginUser({}) get data permission is null]", JsonUtils.toJsonString(loginUser));
                 throw new NullPointerException(String.format("LoginUser(%d) Table(%s/%s) did not return data permission",

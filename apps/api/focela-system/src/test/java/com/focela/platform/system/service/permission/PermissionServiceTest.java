@@ -403,7 +403,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
             when(roleService.getRoleListFromCache(eq(singleton(2L)))).thenReturn(toList(roleEntity));
 
             // invoke
-            DepartmentDataPermissionRpcResponse result = permissionService.getDeptDataPermission(userId);
+            DepartmentDataPermissionRpcResponse result = permissionService.getDepartmentDataPermission(userId);
             // assert
             assertTrue(result.getAll());
             assertFalse(result.getSelf());
@@ -430,7 +430,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
                     null, null); // returning null at the end is intentional, to verify there is no duplicate invoke
 
             // invoke
-            DepartmentDataPermissionRpcResponse result = permissionService.getDeptDataPermission(userId);
+            DepartmentDataPermissionRpcResponse result = permissionService.getDepartmentDataPermission(userId);
             // assert
             assertFalse(result.getAll());
             assertFalse(result.getSelf());
@@ -459,7 +459,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
                     null, null); // returning null at the end is intentional, to verify there is no duplicate invoke
 
             // invoke
-            DepartmentDataPermissionRpcResponse result = permissionService.getDeptDataPermission(userId);
+            DepartmentDataPermissionRpcResponse result = permissionService.getDepartmentDataPermission(userId);
             // assert
             assertFalse(result.getAll());
             assertFalse(result.getSelf());
@@ -490,7 +490,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
             when(departmentService.getChildDepartmentIdListFromCache(eq(3L))).thenReturn(singleton(deptEntity.getId()));
 
             // invoke
-            DepartmentDataPermissionRpcResponse result = permissionService.getDeptDataPermission(userId);
+            DepartmentDataPermissionRpcResponse result = permissionService.getDepartmentDataPermission(userId);
             // assert
             assertFalse(result.getAll());
             assertFalse(result.getSelf());
@@ -516,7 +516,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
             when(roleService.getRoleListFromCache(eq(singleton(2L)))).thenReturn(toList(roleEntity));
 
             // invoke
-            DepartmentDataPermissionRpcResponse result = permissionService.getDeptDataPermission(userId);
+            DepartmentDataPermissionRpcResponse result = permissionService.getDepartmentDataPermission(userId);
             // assert
             assertFalse(result.getAll());
             assertTrue(result.getSelf());

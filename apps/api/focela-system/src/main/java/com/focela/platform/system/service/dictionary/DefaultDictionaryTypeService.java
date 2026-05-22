@@ -30,22 +30,40 @@ public class DefaultDictionaryTypeService implements DictionaryTypeService {
     private final DictionaryTypeMapper dictionaryTypeMapper;
 
     @Override
-    public PageResult<DictionaryTypeEntity> getDictTypePage(DictionaryTypePageRequest pageRequest) {
+    public PageResult<DictionaryTypeEntity> getDictionaryTypePage(DictionaryTypePageRequest pageRequest) {
         return dictionaryTypeMapper.selectPage(pageRequest);
     }
 
     @Override
-    public DictionaryTypeEntity getDictType(Long id) {
+    @Deprecated
+    public PageResult<DictionaryTypeEntity> getDictTypePage(DictionaryTypePageRequest pageRequest) {
+        return getDictionaryTypePage(pageRequest);
+    }
+
+    @Override
+    public DictionaryTypeEntity getDictionaryType(Long id) {
         return dictionaryTypeMapper.selectById(id);
     }
 
     @Override
-    public DictionaryTypeEntity getDictType(String type) {
+    @Deprecated
+    public DictionaryTypeEntity getDictType(Long id) {
+        return getDictionaryType(id);
+    }
+
+    @Override
+    public DictionaryTypeEntity getDictionaryType(String type) {
         return dictionaryTypeMapper.selectByType(type);
     }
 
     @Override
-    public Long createDictType(DictionaryTypeSaveRequest createRequest) {
+    @Deprecated
+    public DictionaryTypeEntity getDictType(String type) {
+        return getDictionaryType(type);
+    }
+
+    @Override
+    public Long createDictionaryType(DictionaryTypeSaveRequest createRequest) {
         // Validate uniqueness of the dictionary type name
         validateDictTypeNameUnique(null, createRequest.getName());
         // Validate uniqueness of the dictionary type code
@@ -59,7 +77,13 @@ public class DefaultDictionaryTypeService implements DictionaryTypeService {
     }
 
     @Override
-    public void updateDictType(DictionaryTypeSaveRequest updateRequest) {
+    @Deprecated
+    public Long createDictType(DictionaryTypeSaveRequest createRequest) {
+        return createDictionaryType(createRequest);
+    }
+
+    @Override
+    public void updateDictionaryType(DictionaryTypeSaveRequest updateRequest) {
         // Validate that the dictionary type exists
         validateDictTypeExists(updateRequest.getId());
         // Validate uniqueness of the dictionary type name
@@ -73,11 +97,17 @@ public class DefaultDictionaryTypeService implements DictionaryTypeService {
     }
 
     @Override
-    public void deleteDictType(Long id) {
+    @Deprecated
+    public void updateDictType(DictionaryTypeSaveRequest updateRequest) {
+        updateDictionaryType(updateRequest);
+    }
+
+    @Override
+    public void deleteDictionaryType(Long id) {
         // Validate existence
         DictionaryTypeEntity dictionaryType = validateDictTypeExists(id);
         // Validate whether dictionary data exists
-        if (dictionaryDataService.getDictDataCountByDictType(dictionaryType.getType()) > 0) {
+        if (dictionaryDataService.getDictionaryDataCountByDictionaryType(dictionaryType.getType()) > 0) {
             throw exception(DICTIONARY_TYPE_HAS_CHILDREN);
         }
         // Delete dictionary type
@@ -85,11 +115,17 @@ public class DefaultDictionaryTypeService implements DictionaryTypeService {
     }
 
     @Override
-    public void deleteDictTypeList(List<Long> ids) {
+    @Deprecated
+    public void deleteDictType(Long id) {
+        deleteDictionaryType(id);
+    }
+
+    @Override
+    public void deleteDictionaryTypeList(List<Long> ids) {
         // 1. Validate whether dictionary data exists
         List<DictionaryTypeEntity> dictionaryTypes = dictionaryTypeMapper.selectByIds(ids);
         dictionaryTypes.forEach(dictionaryType -> {
-            if (dictionaryDataService.getDictDataCountByDictType(dictionaryType.getType()) > 0) {
+            if (dictionaryDataService.getDictionaryDataCountByDictionaryType(dictionaryType.getType()) > 0) {
                 throw exception(DICTIONARY_TYPE_HAS_CHILDREN);
             }
         });
@@ -100,8 +136,20 @@ public class DefaultDictionaryTypeService implements DictionaryTypeService {
     }
 
     @Override
-    public List<DictionaryTypeEntity> getDictTypeList() {
+    @Deprecated
+    public void deleteDictTypeList(List<Long> ids) {
+        deleteDictionaryTypeList(ids);
+    }
+
+    @Override
+    public List<DictionaryTypeEntity> getDictionaryTypeList() {
         return dictionaryTypeMapper.selectList();
+    }
+
+    @Override
+    @Deprecated
+    public List<DictionaryTypeEntity> getDictTypeList() {
+        return getDictionaryTypeList();
     }
 
     @VisibleForTesting

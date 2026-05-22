@@ -38,7 +38,7 @@ public class DictionaryFrameworkUtilsTest extends BaseMockitoUnitTest {
                 randomPojo(DictionaryDataRpcResponse.class, o -> o.setDictType("animal").setValue("dog").setLabel("Dog"))
         );
         // mock the method
-        when(dictionaryDataApi.getDictDataList(eq("animal"))).thenReturn(dictionaryDataList);
+        when(dictionaryDataApi.getDictionaryDataList(eq("animal"))).thenReturn(dictionaryDataList);
 
         // assert the return value
         assertEquals("Dog", DictionaryFrameworkUtils.parseDictDataLabel("animal", "dog"));
@@ -52,7 +52,7 @@ public class DictionaryFrameworkUtilsTest extends BaseMockitoUnitTest {
                 randomPojo(DictionaryDataRpcResponse.class, o -> o.setDictType("animal").setValue("dog").setLabel("Dog"))
         );
         // mock the method
-        when(dictionaryDataApi.getDictDataList(eq("animal"))).thenReturn(dictionaryDataList);
+        when(dictionaryDataApi.getDictionaryDataList(eq("animal"))).thenReturn(dictionaryDataList);
 
         // assert the return value
         assertEquals("dog", DictionaryFrameworkUtils.parseDictDataValue("animal", "Dog"));
