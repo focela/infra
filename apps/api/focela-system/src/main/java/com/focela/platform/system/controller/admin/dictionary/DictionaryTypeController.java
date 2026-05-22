@@ -37,7 +37,7 @@ import static com.focela.platform.common.model.CommonResult.success;
 
 @Tag(name = "Admin - Dictionary type")
 @RestController
-@RequestMapping("/system/dict-type")
+@RequestMapping({"/system/dictionary-type", "/system/dict-type"})
 @Validated
 @RequiredArgsConstructor
 public class DictionaryTypeController {
@@ -95,7 +95,7 @@ public class DictionaryTypeController {
         return success(BeanUtils.toBean(dictionaryType, DictionaryTypeResponse.class));
     }
 
-    @GetMapping(value = {"/list-all-simple", "simple-list"})
+    @GetMapping(value = {"/list-all-simple", "/simple-list"})
     @Operation(summary = "get all dictionary type list", description = "include enable + disable dictionary type, for frontend dropdown options")
     // no permission check required as the frontend uses this globally
     public CommonResult<List<DictionaryTypeSimpleResponse>> getSimpleDictTypeList() {

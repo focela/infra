@@ -31,7 +31,7 @@ public class DefaultOAuth2ApproveService implements OAuth2ApproveService {
     /**
      * Expiration time of an approval, default 30 days
      */
-    private static final Integer TIMEOUT = 30 * 24 * 60 * 60; // unit: seconds
+    private static final Integer APPROVAL_TIMEOUT_SECONDS = 30 * 24 * 60 * 60;
 
     private final OAuth2ClientService oauth2ClientService;
 
@@ -45,7 +45,7 @@ public class DefaultOAuth2ApproveService implements OAuth2ApproveService {
         Assert.notNull(clientEntity, "Client must not be blank"); // defensive programming
         if (CollUtil.containsAll(clientEntity.getAutoApproveScopes(), requestedScopes)) {
             // gh-877 - if all scopes are auto approved, approvals still need to be added to the approval store.
-            LocalDateTime expireTime = LocalDateTime.now().plusSeconds(TIMEOUT);
+            LocalDateTime expireTime = LocalDateTime.now().plusSeconds(APPROVAL_TIMEOUT_SECONDS);
             for (String scope : requestedScopes) {
                 saveApprove(userId, userType, clientId, scope, true, expireTime);
             }
@@ -69,7 +69,7 @@ public class DefaultOAuth2ApproveService implements OAuth2ApproveService {
 
         // Update approval information
         boolean success = false; // need at least one approval
-        LocalDateTime expireTime = LocalDateTime.now().plusSeconds(TIMEOUT);
+        LocalDateTime expireTime = LocalDateTime.now().plusSeconds(APPROVAL_TIMEOUT_SECONDS);
         for (Map.Entry<String, Boolean> entry : requestedScopes.entrySet()) {
             if (entry.getValue()) {
                 success = true;

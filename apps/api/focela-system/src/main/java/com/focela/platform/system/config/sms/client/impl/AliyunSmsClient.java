@@ -40,8 +40,8 @@ import static com.focela.platform.common.utils.collection.CollectionUtils.conver
 @Slf4j
 public class AliyunSmsClient extends AbstractSmsClient {
 
-    private static final String URL = "https://dysmsapi.aliyuncs.com";
-    private static final String HOST = "dysmsapi.aliyuncs.com";
+    private static final String SMS_API_URL = "https://dysmsapi.aliyuncs.com";
+    private static final String SMS_API_HOST = "dysmsapi.aliyuncs.com";
     private static final String VERSION = "2017-05-25";
 
     private static final String RESPONSE_CODE_SUCCESS = "OK";
@@ -145,7 +145,7 @@ public class AliyunSmsClient extends AbstractSmsClient {
 
         // 3.1 request headers
         TreeMap<String, String> headers = new TreeMap<>();
-        headers.put("host", HOST);
+        headers.put("host", SMS_API_HOST);
         headers.put("x-acs-version", VERSION);
         headers.put("x-acs-action", apiName);
         headers.put("x-acs-date", FastDateFormat.getInstance("yyyy-MM-dd'T'HH:mm:ss'Z'", TimeZone.getTimeZone("GMT")).format(new Date()));
@@ -179,7 +179,7 @@ public class AliyunSmsClient extends AbstractSmsClient {
                 + ", " + "SignedHeaders=" + signedHeaders + ", " + "Signature=" + signature);
 
         // 5. send the request
-        String responseBody = HttpUtils.post(URL + "?" + queryString, headers, requestBody);
+        String responseBody = HttpUtils.post(SMS_API_URL + "?" + queryString, headers, requestBody);
         return JSONUtil.parseObj(responseBody);
     }
 

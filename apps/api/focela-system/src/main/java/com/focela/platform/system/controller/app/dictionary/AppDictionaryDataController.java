@@ -23,7 +23,7 @@ import static com.focela.platform.common.model.CommonResult.success;
 
 @Tag(name = "User App - Dictionary data")
 @RestController
-@RequestMapping("/system/dict-data")
+@RequestMapping({"/system/dictionary-data", "/system/dict-data"})
 @Validated
 @RequiredArgsConstructor
 public class AppDictionaryDataController {

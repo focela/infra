@@ -20,7 +20,7 @@ import java.util.Set;
 @Slf4j
 public class TenantRedisCacheManager extends TimeoutRedisCacheManager {
 
-    private static final String SPLIT = "#";
+    private static final String CACHE_NAME_TTL_SEPARATOR = "#";
 
     private final Set<String> ignoreCaches;
 
@@ -33,7 +33,7 @@ public class TenantRedisCacheManager extends TimeoutRedisCacheManager {
 
     @Override
     public Cache getCache(String name) {
-        String[] names = StrUtil.splitToArray(name, SPLIT);
+        String[] names = StrUtil.splitToArray(name, CACHE_NAME_TTL_SEPARATOR);
         // If multi-tenancy is enabled, append the tenant suffix to name
         if (!TenantContextHolder.isIgnore()
                 && TenantContextHolder.getTenantId() != null

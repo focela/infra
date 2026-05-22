@@ -83,11 +83,11 @@ public class DepartmentDataPermissionRule implements DataPermissionRule {
     /**
      * All table names, the union of {@link #deptColumns} and {@link #userColumns}.
      */
-    private final Set<String> TABLE_NAMES = new HashSet<>();
+    private final Set<String> tableNames = new HashSet<>();
 
     @Override
     public Set<String> getTableNames() {
-        return TABLE_NAMES;
+        return tableNames;
     }
 
     @Override
@@ -191,7 +191,7 @@ public class DepartmentDataPermissionRule implements DataPermissionRule {
 
     public void addDeptColumn(String tableName, String columnName) {
         deptColumns.put(tableName, columnName);
-        TABLE_NAMES.add(tableName);
+        tableNames.add(tableName);
     }
 
     public void addUserColumn(Class<? extends BaseEntity> entityClass) {
@@ -205,7 +205,7 @@ public class DepartmentDataPermissionRule implements DataPermissionRule {
 
     public void addUserColumn(String tableName, String columnName) {
         userColumns.put(tableName, columnName);
-        TABLE_NAMES.add(tableName);
+        tableNames.add(tableName);
     }
 
 }

@@ -38,7 +38,7 @@ import static com.focela.platform.common.utils.collection.CollectionUtils.conver
 @Slf4j
 public class QiniuSmsClient extends AbstractSmsClient {
 
-    private static final String HOST = "sms.qiniuapi.com";
+    private static final String SMS_API_HOST = "sms.qiniuapi.com";
 
     public QiniuSmsClient(SmsChannelProperties properties) {
         super(properties);
@@ -82,7 +82,7 @@ public class QiniuSmsClient extends AbstractSmsClient {
         String signDate = DateUtil.date().setTimeZone(TimeZone.getTimeZone("UTC")).toString("yyyyMMdd'T'HHmmss'Z'");
         // 1. request headers
         Map<String, String> header = new HashMap<>(4);
-        header.put("HOST", HOST);
+        header.put("HOST", SMS_API_HOST);
         header.put("Authorization", getSignature(httpMethod, path, body != null ? JSONUtil.toJsonStr(body) : "", signDate));
         header.put("Content-Type", "application/json");
         header.put("X-Qiniu-Date", signDate);
@@ -90,9 +90,9 @@ public class QiniuSmsClient extends AbstractSmsClient {
         // 2. send the request
         String responseBody;
         if (Objects.equals(httpMethod, "POST")){
-            responseBody = HttpUtils.post("https://" + HOST + path, header, JSONUtil.toJsonStr(body));
+            responseBody = HttpUtils.post("https://" + SMS_API_HOST + path, header, JSONUtil.toJsonStr(body));
         } else {
-            responseBody = HttpUtils.get("https://" + HOST + path, header);
+            responseBody = HttpUtils.get("https://" + SMS_API_HOST + path, header);
         }
         return JSONUtil.parseObj(responseBody);
     }
@@ -100,7 +100,7 @@ public class QiniuSmsClient extends AbstractSmsClient {
     private String getSignature(String method, String path, String body, String signDate) {
         StringBuilder dataToSign = new StringBuilder();
         dataToSign.append(method.toUpperCase()).append(" ").append(path)
-                .append("\nHost: ").append(HOST)
+                .append("\nHost: ").append(SMS_API_HOST)
                 .append("\n").append("Content-Type").append(": ").append("application/json")
                 .append("\n").append("X-Qiniu-Date").append(": ").append(signDate)
                 .append("\n\n");

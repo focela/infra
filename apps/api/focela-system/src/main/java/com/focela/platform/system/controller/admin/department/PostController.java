@@ -88,7 +88,7 @@ public class PostController {
         return success(BeanUtils.toBean(post, PostResponse.class));
     }
 
-    @GetMapping(value = {"/list-all-simple", "simple-list"})
+    @GetMapping(value = {"/list-all-simple", "/simple-list"})
     @Operation(summary = "get post all list", description = "only include enabled post, for frontend dropdown options")
     public CommonResult<List<PostSimpleResponse>> getSimplePostList() {
         // get post list, only enabled ones

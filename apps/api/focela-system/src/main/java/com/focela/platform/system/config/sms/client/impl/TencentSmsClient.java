@@ -38,7 +38,7 @@ import static com.focela.platform.common.utils.collection.CollectionUtils.conver
  */
 public class TencentSmsClient extends AbstractSmsClient {
 
-    private static final String HOST = "sms.tencentcloudapi.com";
+    private static final String SMS_API_HOST = "sms.tencentcloudapi.com";
     private static final String VERSION = "2021-01-11";
     private static final String REGION = "ap-guangzhou";
 
@@ -171,7 +171,7 @@ public class TencentSmsClient extends AbstractSmsClient {
         // 1.1 request headers
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json; charset=utf-8");
-        headers.put("Host", HOST);
+        headers.put("Host", SMS_API_HOST);
         headers.put("X-TC-Action", action);
         Date now = new Date();
         String nowStr = FastDateFormat.getInstance("yyyy-MM-dd", TimeZone.getTimeZone("UTC")).format(now);
@@ -182,7 +182,7 @@ public class TencentSmsClient extends AbstractSmsClient {
         // 1.2 build the signed headers
         String canonicalQueryString = "";
         String canonicalHeaders = "content-type:application/json; charset=utf-8\n"
-                + "host:" + HOST + "\n" + "x-tc-action:" + action.toLowerCase() + "\n";
+                + "host:" + SMS_API_HOST + "\n" + "x-tc-action:" + action.toLowerCase() + "\n";
         String signedHeaders = "content-type;host;x-tc-action";
         String canonicalRequest = "POST" + "\n" + "/" + "\n" + canonicalQueryString + "\n" + canonicalHeaders + "\n"
                 + signedHeaders + "\n" + sha256Hex(JSONUtil.toJsonStr(body));
@@ -195,7 +195,7 @@ public class TencentSmsClient extends AbstractSmsClient {
                 + "SignedHeaders=" + signedHeaders + ", " + "Signature=" + signature);
 
         // 2. send the request
-        String responseBody = HttpUtils.post("https://" + HOST, headers, JSONUtil.toJsonStr(body));
+        String responseBody = HttpUtils.post("https://" + SMS_API_HOST, headers, JSONUtil.toJsonStr(body));
         return JSONUtil.parseObj(responseBody);
     }
 

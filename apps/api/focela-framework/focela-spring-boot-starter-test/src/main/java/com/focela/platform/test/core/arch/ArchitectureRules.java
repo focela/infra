@@ -112,6 +112,11 @@ public final class ArchitectureRules {
                     .as("*Configuration classes must live under the config/ package "
                             + "(Focela*AutoConfiguration is the starter-SPI variant and is exempt)");
 
+    public static final ArchRule AUTO_CONFIGURATION_RESIDES_IN_CONFIG_PACKAGE =
+            classes().that().haveSimpleNameEndingWith("AutoConfiguration")
+                    .should().resideInAPackage("..config..")
+                    .as("*AutoConfiguration classes must live under the config/ package");
+
     public static final ArchRule CONSTANTS_RESIDES_IN_CONSTANTS_PACKAGE =
             classes().that().haveSimpleNameEndingWith("Constants")
                     .should().resideInAPackage("..constants..")

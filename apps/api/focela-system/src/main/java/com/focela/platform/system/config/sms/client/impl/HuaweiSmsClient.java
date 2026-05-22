@@ -39,9 +39,9 @@ import static com.focela.platform.common.utils.collection.CollectionUtils.conver
 @Slf4j
 public class HuaweiSmsClient extends AbstractSmsClient {
 
-    private static final String URL = "https://smsapi.cn-north-4.myhuaweicloud.com:443/sms/batchSendSms/v1"; // app endpoint address + access URI
-    private static final String HOST = "smsapi.cn-north-4.myhuaweicloud.com:443";
-    private static final String SIGNEDHEADERS = "content-type;host;x-sdk-date";
+    private static final String SMS_API_URL = "https://smsapi.cn-north-4.myhuaweicloud.com:443/sms/batchSendSms/v1"; // app endpoint address + access URI
+    private static final String SMS_API_HOST = "smsapi.cn-north-4.myhuaweicloud.com:443";
+    private static final String SIGNED_HEADERS = "content-type;host;x-sdk-date";
 
     private static final String RESPONSE_CODE_SUCCESS = "000000";
 
@@ -115,21 +115,21 @@ public class HuaweiSmsClient extends AbstractSmsClient {
         headers.put("Content-Type", "application/x-www-form-urlencoded");
         String sdkDate = FastDateFormat.getInstance("yyyyMMdd'T'HHmmss'Z'", TimeZone.getTimeZone("UTC")).format(new Date());
         headers.put("X-Sdk-Date", sdkDate);
-        headers.put("host", HOST);
+        headers.put("host", SMS_API_HOST);
 
         // 1.2 build the signed headers
         String canonicalQueryString = ""; // query parameters are empty
         String canonicalHeaders = "content-type:application/x-www-form-urlencoded\n"
-                + "host:"+ HOST +"\n" + "x-sdk-date:" + sdkDate + "\n";
+                + "host:" + SMS_API_HOST + "\n" + "x-sdk-date:" + sdkDate + "\n";
         String canonicalRequest = method + "\n" + uri + "\n" + canonicalQueryString + "\n"
-                + canonicalHeaders + "\n" + SIGNEDHEADERS + "\n" + sha256Hex(requestBody);
+                + canonicalHeaders + "\n" + SIGNED_HEADERS + "\n" + sha256Hex(requestBody);
         String stringToSign = "SDK-HMAC-SHA256" + "\n" + sdkDate + "\n" + sha256Hex(canonicalRequest);
         String signature = SecureUtil.hmacSha256(properties.getApiSecret()).digestHex(stringToSign);  // compute the signature
         headers.put("Authorization", "SDK-HMAC-SHA256" + " " + "Access=" + getAccessKey()
-                + ", " + "SignedHeaders=" + SIGNEDHEADERS + ", " + "Signature=" + signature);
+                + ", " + "SignedHeaders=" + SIGNED_HEADERS + ", " + "Signature=" + signature);
 
         // 2. send the request
-        String responseBody = HttpUtils.post(URL, headers, requestBody);
+        String responseBody = HttpUtils.post(SMS_API_URL, headers, requestBody);
         return JSONUtil.parseObj(responseBody);
     }
 

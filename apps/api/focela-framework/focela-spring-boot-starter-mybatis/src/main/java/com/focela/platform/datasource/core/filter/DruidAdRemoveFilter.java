@@ -17,7 +17,7 @@ public class DruidAdRemoveFilter extends OncePerRequestFilter {
     /**
      * Path to common.js
      */
-    private static final String COMMON_JS_ILE_PATH = "support/http/resources/js/common.js";
+    private static final String COMMON_JS_FILE_PATH = "support/http/resources/js/common.js";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -26,7 +26,7 @@ public class DruidAdRemoveFilter extends OncePerRequestFilter {
         // Reset the buffer; response headers are not reset
         response.resetBuffer();
         // Load common.js
-        String text = Utils.readFromResource(COMMON_JS_ILE_PATH);
+        String text = Utils.readFromResource(COMMON_JS_FILE_PATH);
         // Regex replace the banner to strip the bottom ad block
         text = text.replaceAll("<a.*?banner\"></a><br/>", "");
         text = text.replaceAll("powered.*?shrek.wang</a>", "");

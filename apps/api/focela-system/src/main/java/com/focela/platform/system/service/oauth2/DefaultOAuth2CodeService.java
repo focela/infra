@@ -26,7 +26,7 @@ public class DefaultOAuth2CodeService implements OAuth2CodeService {
     /**
      * Expiration time of the authorization code, default 5 minutes
      */
-    private static final Integer TIMEOUT = 5 * 60;
+    private static final Integer AUTHORIZATION_CODE_TIMEOUT_SECONDS = 5 * 60;
 
     private final OAuth2CodeMapper oauth2CodeMapper;
 
@@ -36,7 +36,7 @@ public class DefaultOAuth2CodeService implements OAuth2CodeService {
         OAuth2CodeEntity authorizationCode = new OAuth2CodeEntity().setCode(generateCode())
                 .setUserId(userId).setUserType(userType)
                 .setClientId(clientId).setScopes(scopes)
-                .setExpiresTime(LocalDateTime.now().plusSeconds(TIMEOUT))
+                .setExpiresTime(LocalDateTime.now().plusSeconds(AUTHORIZATION_CODE_TIMEOUT_SECONDS))
                 .setRedirectUri(redirectUri).setState(state);
         oauth2CodeMapper.insert(authorizationCode);
         return authorizationCode;

@@ -31,7 +31,7 @@ import static com.focela.platform.common.model.CommonResult.success;
 
 @Tag(name = "Admin - Department")
 @RestController
-@RequestMapping("/system/dept")
+@RequestMapping({"/system/department", "/system/dept"})
 @Validated
 @RequiredArgsConstructor
 public class DepartmentController {

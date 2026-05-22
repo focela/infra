@@ -37,7 +37,7 @@ public class RedisPendingMessageResendJob {
      *    immediately after timing out; in the worst case it takes up to 1 extra
      *    minute after the 5-minute expiration before the message is picked up.
      */
-    private static final int EXPIRE_TIME = 5 * 60;
+    private static final int PENDING_MESSAGE_TIMEOUT_SECONDS = 5 * 60;
 
     private final List<AbstractRedisStreamMessageListener<?>> listeners;
     private final RedisMQTemplate redisTemplate;
@@ -82,7 +82,7 @@ public class RedisPendingMessageResendJob {
                 pendingMessages.forEach(pendingMessage -> {
                     // Time elapsed since the message was last delivered to the consumer
                     long lastDelivery = pendingMessage.getElapsedTimeSinceLastDelivery().getSeconds();
-                    if (lastDelivery < EXPIRE_TIME){
+                    if (lastDelivery < PENDING_MESSAGE_TIMEOUT_SECONDS) {
                         return;
                     }
                     // Fetch the message body by ID

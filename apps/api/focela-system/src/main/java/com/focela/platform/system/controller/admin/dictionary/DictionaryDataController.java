@@ -38,7 +38,7 @@ import static com.focela.platform.common.model.CommonResult.success;
 
 @Tag(name = "Admin - Dictionary data")
 @RestController
-@RequestMapping("/system/dict-data")
+@RequestMapping({"/system/dictionary-data", "/system/dict-data"})
 @Validated
 @RequiredArgsConstructor
 public class DictionaryDataController {
@@ -79,7 +79,7 @@ public class DictionaryDataController {
         return success(true);
     }
 
-    @GetMapping(value = {"/list-all-simple", "simple-list"})
+    @GetMapping(value = {"/list-all-simple", "/simple-list"})
     @Operation(summary = "get all dictionary data list", description = "usually for Admin cache dictionary data in local")
     // no permission check required as the frontend uses this globally
     public CommonResult<List<DictionaryDataSimpleResponse>> getSimpleDictDataList() {

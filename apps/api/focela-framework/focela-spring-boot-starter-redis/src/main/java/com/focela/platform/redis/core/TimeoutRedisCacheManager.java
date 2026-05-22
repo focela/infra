@@ -18,7 +18,7 @@ import java.time.Duration;
  */
 public class TimeoutRedisCacheManager extends RedisCacheManager {
 
-    private static final String SPLIT = "#";
+    private static final String CACHE_NAME_TTL_SEPARATOR = "#";
 
     public TimeoutRedisCacheManager(RedisCacheWriter cacheWriter, RedisCacheConfiguration defaultCacheConfiguration) {
         super(cacheWriter, defaultCacheConfiguration);
@@ -30,7 +30,7 @@ public class TimeoutRedisCacheManager extends RedisCacheManager {
             return super.createRedisCache(name, cacheConfig);
         }
         // If split by # does not produce exactly 2 segments, custom expiration is not used.
-        String[] names = StrUtil.splitToArray(name, SPLIT);
+        String[] names = StrUtil.splitToArray(name, CACHE_NAME_TTL_SEPARATOR);
         if (names.length != 2) {
             return super.createRedisCache(name, cacheConfig);
         }
