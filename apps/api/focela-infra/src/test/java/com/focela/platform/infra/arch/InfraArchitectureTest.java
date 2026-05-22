@@ -99,6 +99,11 @@ class InfraArchitectureTest {
     }
 
     @Test
+    void legacyTestPrefixShouldNotBeUsed() {
+        ArchitectureRules.assertTestMethodNamesDoNotUseLegacyPrefix("focela-infra");
+    }
+
+    @Test
     void infraDoesNotReachSystem() {
         ArchitectureRules.moduleDoesNotReachOtherModuleInternals(
                 "com.focela.platform.infra",

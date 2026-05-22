@@ -40,7 +40,7 @@ public class DefaultSmsLogServiceTest extends BaseDbUnitTest {
     private SmsLogMapper smsLogMapper;
 
     @Test
-    public void testGetSmsLogPage() {
+    public void getSmsLogPage() {
         // mock data
         SmsLogEntity dbSmsLog = randomSmsLogEntity(o -> { // will be queried later
             o.setChannelId(1L);
@@ -85,7 +85,7 @@ public class DefaultSmsLogServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testCreateSmsLog() {
+    public void createSmsLog() {
         // prepare parameters
         String mobile = randomString();
         Long userId = randomLongId();
@@ -118,7 +118,7 @@ public class DefaultSmsLogServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateSmsSendResult() {
+    public void updateSmsSendResult() {
         // mock data
         SmsLogEntity dbSmsLog = randomSmsLogEntity(
                 o -> o.setSendStatus(SmsSendStatusEnum.IGNORE.getStatus()));
@@ -146,7 +146,7 @@ public class DefaultSmsLogServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateSmsReceiveResult() {
+    public void updateSmsReceiveResult() {
         // mock data
         SmsLogEntity dbSmsLog = randomSmsLogEntity(
                 o -> o.setReceiveStatus(SmsReceiveStatusEnum.INIT.getStatus()));

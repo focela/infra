@@ -37,7 +37,7 @@ public class DefaultOAuth2ClientServiceTest extends BaseDbUnitTest {
     private OAuth2ClientMapper oauth2ClientMapper;
 
     @Test
-    public void testCreateOAuth2Client_success() {
+    public void createOAuth2Client_success() {
         // prepare parameters
         OAuth2ClientSaveRequest request = randomPojo(OAuth2ClientSaveRequest.class,
                 o -> o.setLogo(randomString()))
@@ -53,7 +53,7 @@ public class DefaultOAuth2ClientServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateOAuth2Client_success() {
+    public void updateOAuth2Client_success() {
         // mock data
         OAuth2ClientEntity dbOAuth2Client = randomPojo(OAuth2ClientEntity.class);
         oauth2ClientMapper.insert(dbOAuth2Client);// @Sql: first insert an existing record
@@ -71,7 +71,7 @@ public class DefaultOAuth2ClientServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateOAuth2Client_notExists() {
+    public void updateOAuth2Client_missing() {
         // prepare parameters
         OAuth2ClientSaveRequest request = randomPojo(OAuth2ClientSaveRequest.class);
 
@@ -80,7 +80,7 @@ public class DefaultOAuth2ClientServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteOAuth2Client_success() {
+    public void deleteOAuth2Client_success() {
         // mock data
         OAuth2ClientEntity dbOAuth2Client = randomPojo(OAuth2ClientEntity.class);
         oauth2ClientMapper.insert(dbOAuth2Client);// @Sql: first insert an existing record
@@ -94,7 +94,7 @@ public class DefaultOAuth2ClientServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteOAuth2Client_notExists() {
+    public void deleteOAuth2Client_missing() {
         // prepare parameters
         Long id = randomLongId();
 
@@ -103,7 +103,7 @@ public class DefaultOAuth2ClientServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateClientIdExists_withId() {
+    public void validateClientIdExists_withId() {
         // mock data
         OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class).setClientId("focela_alternate");
         oauth2ClientMapper.insert(client);
@@ -116,7 +116,7 @@ public class DefaultOAuth2ClientServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateClientIdExists_noId() {
+    public void validateClientIdExists_noId() {
         // mock data
         OAuth2ClientEntity client = randomPojo(OAuth2ClientEntity.class).setClientId("focela_alternate");
         oauth2ClientMapper.insert(client);
@@ -128,7 +128,7 @@ public class DefaultOAuth2ClientServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetOAuth2Client() {
+    public void getOAuth2Client() {
         // mock data
         OAuth2ClientEntity clientEntity = randomPojo(OAuth2ClientEntity.class);
         oauth2ClientMapper.insert(clientEntity);
@@ -141,7 +141,7 @@ public class DefaultOAuth2ClientServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetOAuth2ClientFromCache() {
+    public void getOAuth2ClientFromCache() {
         // mock data
         OAuth2ClientEntity clientEntity = randomPojo(OAuth2ClientEntity.class);
         oauth2ClientMapper.insert(clientEntity);
@@ -154,7 +154,7 @@ public class DefaultOAuth2ClientServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetOAuth2ClientPage() {
+    public void getOAuth2ClientPage() {
         // mock data
         OAuth2ClientEntity dbOAuth2Client = randomPojo(OAuth2ClientEntity.class, o -> { // will be queried later
             o.setName("Hidden Dragon");
@@ -179,7 +179,7 @@ public class DefaultOAuth2ClientServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidOAuthClientFromCache() {
+    public void validOAuthClientFromCache() {
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
             springUtilMockedStatic.when(() -> SpringUtil.getBean(eq(DefaultOAuth2ClientService.class)))
                     .thenReturn(oauth2ClientService);

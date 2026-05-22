@@ -109,7 +109,7 @@ public class DefaultSmsCodeServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUseSmsCode_success() {
+    public void useSmsCode_success() {
         // prepare parameters
         SmsCodeUseRpcRequest request = randomPojo(SmsCodeUseRpcRequest.class, o -> {
             o.setMobile("15601691300");
@@ -144,7 +144,7 @@ public class DefaultSmsCodeServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void validateSmsCode_notFound() {
+    public void validateSmsCode_missing() {
         // prepare parameters
         SmsCodeValidateRpcRequest request = randomPojo(SmsCodeValidateRpcRequest.class, o -> {
             o.setMobile("15601691300");

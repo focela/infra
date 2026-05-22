@@ -35,7 +35,7 @@ class DefaultNotifySendServiceTest extends BaseMockitoUnitTest {
     private NotifyMessageService notifyMessageService;
 
     @Test
-    public void testSendSingleNotifyToAdmin() {
+    public void sendSingleNotifyToAdmin() {
         // prepare parameters
         Long userId = randomLongId();
         String templateCode = randomString();
@@ -63,7 +63,7 @@ class DefaultNotifySendServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testSendSingleNotifyToMember() {
+    public void sendSingleNotifyToMember() {
         // prepare parameters
         Long userId = randomLongId();
         String templateCode = randomString();
@@ -94,7 +94,7 @@ class DefaultNotifySendServiceTest extends BaseMockitoUnitTest {
      * send succeeds when SMS template is enabled
      */
     @Test
-    public void testSendSingleNotify_successWhenMailTemplateEnable() {
+    public void sendSingleNotify_successWhenMailTemplateEnable() {
         // prepare parameters
         Long userId = randomLongId();
         Integer userType = randomEle(UserTypeEnum.values()).getValue();
@@ -126,7 +126,7 @@ class DefaultNotifySendServiceTest extends BaseMockitoUnitTest {
      * send succeeds when SMS template is disabled
      */
     @Test
-    public void testSendSingleMail_successWhenSmsTemplateDisable() {
+    public void sendSingleMail_successWhenSmsTemplateDisable() {
         // prepare parameters
         Long userId = randomLongId();
         Integer userType = randomEle(UserTypeEnum.values()).getValue();
@@ -150,7 +150,7 @@ class DefaultNotifySendServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testCheckMailTemplateValid_notExists() {
+    public void checkMailTemplateValid_missing() {
         // prepare parameters
         String templateCode = randomString();
         // mock the method
@@ -161,7 +161,7 @@ class DefaultNotifySendServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testCheckTemplateParams_paramMiss() {
+    public void checkTemplateParams_missingParam() {
         // prepare parameters
         NotifyTemplateEntity template = randomPojo(NotifyTemplateEntity.class,
                 o -> o.setParams(Lists.newArrayList("code")));
@@ -174,7 +174,7 @@ class DefaultNotifySendServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testSendBatchNotify() {
+    public void sendBatchNotify() {
         // prepare parameters
         // mock the method
 

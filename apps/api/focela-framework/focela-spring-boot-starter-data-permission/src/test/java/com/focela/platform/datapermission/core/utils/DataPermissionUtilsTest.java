@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DataPermissionUtilsTest {
 
     @Test
-    public void testExecuteIgnore() {
+    public void executeIgnore() {
         DataPermissionUtils.executeIgnore(() -> assertFalse(DataPermissionContextHolder.get().enable()));
     }
 

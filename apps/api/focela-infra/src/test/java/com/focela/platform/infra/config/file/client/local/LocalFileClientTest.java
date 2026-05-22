@@ -30,7 +30,7 @@ public class LocalFileClientTest {
 
     @Test
     @Disabled
-    public void testGetContent_notFound() {
+    public void getContent_missing() {
         // Create client
         LocalFileClientConfig config = new LocalFileClientConfig();
         config.setDomain("http://127.0.0.1:48080");

@@ -19,7 +19,7 @@ class DataPermissionContextHolderTest {
     }
 
     @Test
-    public void testGet() {
+    public void get() {
         // mock the method
         DataPermission dataPermission01 = mock(DataPermission.class);
         DataPermissionContextHolder.add(dataPermission01);
@@ -33,7 +33,7 @@ class DataPermissionContextHolderTest {
     }
 
     @Test
-    public void testPush() {
+    public void push() {
         // invoke
         DataPermission dataPermission01 = mock(DataPermission.class);
         DataPermissionContextHolder.add(dataPermission01);
@@ -47,7 +47,7 @@ class DataPermissionContextHolderTest {
     }
 
     @Test
-    public void testRemove() {
+    public void remove() {
         // mock the method
         DataPermission dataPermission01 = mock(DataPermission.class);
         DataPermissionContextHolder.add(dataPermission01);

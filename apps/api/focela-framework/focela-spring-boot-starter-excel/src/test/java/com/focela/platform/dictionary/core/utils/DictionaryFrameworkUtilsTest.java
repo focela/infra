@@ -31,7 +31,7 @@ public class DictionaryFrameworkUtilsTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testParseDictDataLabel() {
+    public void parseDictionaryDataLabel() {
         // mock data
         List<DictionaryDataRpcResponse> dictionaryDataList = ListUtil.of(
                 randomPojo(DictionaryDataRpcResponse.class, o -> o.setDictType("animal").setValue("cat").setLabel("Cat")),
@@ -45,7 +45,7 @@ public class DictionaryFrameworkUtilsTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testParseDictDataValue() {
+    public void parseDictionaryDataValue() {
         // mock data
         List<DictionaryDataRpcResponse> dictionaryDataList = ListUtil.of(
                 randomPojo(DictionaryDataRpcResponse.class, o -> o.setDictType("animal").setValue("cat").setLabel("Cat")),

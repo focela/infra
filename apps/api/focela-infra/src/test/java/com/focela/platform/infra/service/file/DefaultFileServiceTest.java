@@ -45,7 +45,7 @@ public class DefaultFileServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetFilePage() {
+    public void getFilePage() {
         // mock data
         FileEntity dbFile = randomPojo(FileEntity.class, o -> { // will be queried later
             o.setPath("focela");
@@ -81,7 +81,7 @@ public class DefaultFileServiceTest extends BaseDbUnitTest {
      * content, name, directory and type are all non-null
      */
     @Test
-    public void testCreateFile_successWhenAllFieldsProvided() throws Exception {
+    public void createFile_successWhenAllFieldsProvided() throws Exception {
         // Prepare parameters
         byte[] content = ResourceUtil.readBytes("file/erweima.jpg");
         String name = "test file name";
@@ -115,7 +115,7 @@ public class DefaultFileServiceTest extends BaseDbUnitTest {
      * content is non-null, all others are null
      */
     @Test
-    public void testCreateFile_successWhenOnlyContentProvided() throws Exception {
+    public void createFile_successWhenOnlyContentProvided() throws Exception {
         // Prepare parameters
         byte[] content = ResourceUtil.readBytes("file/erweima.jpg");
         // mock Master file client
@@ -144,7 +144,7 @@ public class DefaultFileServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteFile_success() throws Exception {
+    public void deleteFile_success() throws Exception {
         // mock data
         FileEntity dbFile = randomPojo(FileEntity.class, o -> o.setConfigId(10L).setPath("potato.jpg"));
         fileMapper.insert(dbFile);// @Sql: first insert an existing record
@@ -163,7 +163,7 @@ public class DefaultFileServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteFile_notExists() {
+    public void deleteFile_missing() {
         // Prepare parameters
         Long id = randomLongId();
 
@@ -172,7 +172,7 @@ public class DefaultFileServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetFileContent() throws Exception {
+    public void getFileContent() throws Exception {
         // Prepare parameters
         Long configId = 10L;
         String path = "potato.jpg";
@@ -189,7 +189,7 @@ public class DefaultFileServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGenerateUploadPath_AllEnabled() {
+    public void generateUploadPath_AllEnabled() {
         // Prepare parameters
         String name = "test.jpg";
         String directory = "avatar";
@@ -207,7 +207,7 @@ public class DefaultFileServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGenerateUploadPath_PrefixEnabled_SuffixDisabled() {
+    public void generateUploadPath_PrefixEnabled_SuffixDisabled() {
         // Prepare parameters
         String name = "test.jpg";
         String directory = "avatar";
@@ -225,7 +225,7 @@ public class DefaultFileServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGenerateUploadPath_PrefixDisabled_SuffixEnabled() {
+    public void generateUploadPath_PrefixDisabled_SuffixEnabled() {
         // Prepare parameters
         String name = "test.jpg";
         String directory = "avatar";
@@ -242,7 +242,7 @@ public class DefaultFileServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGenerateUploadPath_AllDisabled() {
+    public void generateUploadPath_AllDisabled() {
         // Prepare parameters
         String name = "test.jpg";
         String directory = "avatar";
@@ -258,7 +258,7 @@ public class DefaultFileServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGenerateUploadPath_NoExtension() {
+    public void generateUploadPath_NoExtension() {
         // Prepare parameters
         String name = "test";
         String directory = "avatar";
@@ -275,7 +275,7 @@ public class DefaultFileServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGenerateUploadPath_DirectoryNull() {
+    public void generateUploadPath_DirectoryNull() {
         // Prepare parameters
         String name = "test.jpg";
         String directory = null;
@@ -291,7 +291,7 @@ public class DefaultFileServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGenerateUploadPath_DirectoryEmpty() {
+    public void generateUploadPath_DirectoryEmpty() {
         // Prepare parameters
         String name = "test.jpg";
         String directory = "";

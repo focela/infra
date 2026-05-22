@@ -31,7 +31,7 @@ public class DataPermissionAnnotationInterceptorTest extends BaseMockitoUnitTest
     }
 
     @Test // No @DataPermission annotation
-    public void testInvoke_none() throws Throwable {
+    public void invoke_none() throws Throwable {
         // prepare parameters
         mockMethodInvocation(TestNone.class);
 
@@ -44,7 +44,7 @@ public class DataPermissionAnnotationInterceptorTest extends BaseMockitoUnitTest
     }
 
     @Test // @DataPermission annotation on the method
-    public void testInvoke_method() throws Throwable {
+    public void invoke_method() throws Throwable {
         // prepare parameters
         mockMethodInvocation(TestMethod.class);
 
@@ -57,7 +57,7 @@ public class DataPermissionAnnotationInterceptorTest extends BaseMockitoUnitTest
     }
 
     @Test // @DataPermission annotation on the class
-    public void testInvoke_class() throws Throwable {
+    public void invoke_class() throws Throwable {
         // prepare parameters
         mockMethodInvocation(TestClass.class);
 

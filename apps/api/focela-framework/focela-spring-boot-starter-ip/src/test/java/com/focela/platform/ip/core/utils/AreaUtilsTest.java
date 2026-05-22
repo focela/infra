@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class AreaUtilsTest {
 
     @Test
-    public void testGetArea() {
+    public void getArea() {
         // Invoke: Beijing
         Area area = AreaUtils.getArea(110100);
         // Assert
@@ -25,7 +25,7 @@ public class AreaUtilsTest {
     }
 
     @Test
-    public void testFormat() {
+    public void format() {
         assertEquals(AreaUtils.format(110105), "北京市 北京市 朝阳区");
         assertEquals(AreaUtils.format(1), "中国");
         assertEquals(AreaUtils.format(2), "蒙古");

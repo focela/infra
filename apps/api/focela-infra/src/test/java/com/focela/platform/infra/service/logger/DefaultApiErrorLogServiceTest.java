@@ -37,7 +37,7 @@ public class DefaultApiErrorLogServiceTest extends BaseDbUnitTest {
     private ApiErrorLogMapper apiErrorLogMapper;
 
     @Test
-    public void testGetApiErrorLogPage() {
+    public void getApiErrorLogPage() {
         // mock data
         ApiErrorLogEntity apiErrorLogEntity = randomPojo(ApiErrorLogEntity.class, o -> {
             o.setUserId(2233L);
@@ -78,7 +78,7 @@ public class DefaultApiErrorLogServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testCreateApiErrorLog() {
+    public void createApiErrorLog() {
         // Prepare parameters
         ApiErrorLogCreateRpcRequest createRequest = randomPojo(ApiErrorLogCreateRpcRequest.class);
 
@@ -91,7 +91,7 @@ public class DefaultApiErrorLogServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateApiErrorLogProcess_success() {
+    public void updateApiErrorLogProcess_success() {
         // Prepare parameters
         ApiErrorLogEntity apiErrorLogEntity = randomPojo(ApiErrorLogEntity.class,
                 o -> o.setProcessStatus(ApiErrorLogProcessStatusEnum.INIT.getStatus()));
@@ -111,7 +111,7 @@ public class DefaultApiErrorLogServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateApiErrorLogProcess_processed() {
+    public void updateApiErrorLogProcess_processed() {
         // Prepare parameters
         ApiErrorLogEntity apiErrorLogEntity = randomPojo(ApiErrorLogEntity.class,
                 o -> o.setProcessStatus(ApiErrorLogProcessStatusEnum.DONE.getStatus()));
@@ -128,7 +128,7 @@ public class DefaultApiErrorLogServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateApiErrorLogProcess_notFound() {
+    public void updateApiErrorLogProcess_missing() {
         // Prepare parameters
         Long id = randomLongId();
         Integer processStatus = randomEle(ApiErrorLogProcessStatusEnum.values()).getStatus();
@@ -141,7 +141,7 @@ public class DefaultApiErrorLogServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testCleanJobLog() {
+    public void cleanJobLog() {
         // mock data
         ApiErrorLogEntity log01 = randomPojo(ApiErrorLogEntity.class, o -> o.setCreateTime(addTime(Duration.ofDays(-3))));
         apiErrorLogMapper.insert(log01);

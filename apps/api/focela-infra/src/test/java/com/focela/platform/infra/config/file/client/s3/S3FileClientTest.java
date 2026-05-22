@@ -14,7 +14,7 @@ public class S3FileClientTest {
 
     @Test
     @Disabled // MinIO; comment out this line to run as an integration test
-    public void testMinIO() throws Exception {
+    public void minio() throws Exception {
         S3FileClientConfig config = new S3FileClientConfig();
         // Configure with your own values
         config.setAccessKey("admin");
@@ -25,12 +25,12 @@ public class S3FileClientTest {
         config.setEndpoint("http://127.0.0.1:9000");
 
         // Run upload
-        testExecuteUpload(config);
+        executeUpload(config);
     }
 
     @Test
     @Disabled // Aliyun OSS; comment out this line to run as an integration test
-    public void testAliyun() throws Exception {
+    public void aliyun() throws Exception {
         S3FileClientConfig config = new S3FileClientConfig();
         // Configure with your own values
         config.setAccessKey(System.getenv("ALIYUN_ACCESS_KEY"));
@@ -41,12 +41,12 @@ public class S3FileClientTest {
         config.setEndpoint("oss-cn-beijing.aliyuncs.com");
 
         // Run upload
-        testExecuteUpload(config);
+        executeUpload(config);
     }
 
     @Test
     @Disabled // Tencent Cloud COS; comment out this line to run as an integration test
-    public void testQCloud() throws Exception {
+    public void tencentCloud() throws Exception {
         S3FileClientConfig config = new S3FileClientConfig();
         // Configure with your own values
         config.setAccessKey(System.getenv("QCLOUD_ACCESS_KEY"));
@@ -57,12 +57,12 @@ public class S3FileClientTest {
         config.setEndpoint("cos.ap-shanghai.myqcloud.com");
 
         // Run upload
-        testExecuteUpload(config);
+        executeUpload(config);
     }
 
     @Test
     @Disabled // Qiniu Cloud Storage; comment out this line to run as an integration test
-    public void testQiniu() throws Exception {
+    public void qiniu() throws Exception {
         S3FileClientConfig config = new S3FileClientConfig();
         // Configure with your own values
 //        config.setAccessKey(System.getenv("QINIU_ACCESS_KEY"));
@@ -76,12 +76,12 @@ public class S3FileClientTest {
         config.setEndpoint("s3-cn-south-1.qiniucs.com");
 
         // Run upload
-        testExecuteUpload(config);
+        executeUpload(config);
     }
 
     @Test
     @Disabled // Qiniu Cloud Storage (read private bucket); comment out this line to run as an integration test
-    public void testQiniu_privateGet() {
+    public void qiniuPrivateGet() {
         S3FileClientConfig config = new S3FileClientConfig();
         // Configure with your own values
 //        config.setAccessKey(System.getenv("QINIU_ACCESS_KEY"));
@@ -107,7 +107,7 @@ public class S3FileClientTest {
 
     @Test
     @Disabled // Huawei Cloud Storage; comment out this line to run as an integration test
-    public void testHuaweiCloud() throws Exception {
+    public void huaweiCloud() throws Exception {
         S3FileClientConfig config = new S3FileClientConfig();
         // Configure with your own values
 //        config.setAccessKey(System.getenv("HUAWEI_CLOUD_ACCESS_KEY"));
@@ -118,10 +118,10 @@ public class S3FileClientTest {
         config.setEndpoint("obs.cn-east-3.myhuaweicloud.com");
 
         // Run upload
-        testExecuteUpload(config);
+        executeUpload(config);
     }
 
-    private void testExecuteUpload(S3FileClientConfig config) {
+    private void executeUpload(S3FileClientConfig config) {
         // Validate config
         ValidationUtils.validate(Validation.buildDefaultValidatorFactory().getValidator(), config);
         // Create Client

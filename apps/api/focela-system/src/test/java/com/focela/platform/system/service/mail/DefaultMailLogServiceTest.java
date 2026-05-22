@@ -39,7 +39,7 @@ public class DefaultMailLogServiceTest extends BaseDbUnitTest {
     private MailLogMapper mailLogMapper;
 
     @Test
-    public void testCreateMailLog() {
+    public void createMailLog() {
         // prepare parameters
         Long userId = randomLongId();
         Integer userType = randomEle(UserTypeEnum.values()).getValue();
@@ -79,7 +79,7 @@ public class DefaultMailLogServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateMailSendResult_success() {
+    public void updateMailSendResult_success() {
         // mock data
         MailLogEntity log = randomPojo(MailLogEntity.class, o -> {
             o.setSendStatus(MailSendStatusEnum.INIT.getStatus());
@@ -102,7 +102,7 @@ public class DefaultMailLogServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateMailSendResult_exception() {
+    public void updateMailSendResult_exception() {
         // mock data
         MailLogEntity log = randomPojo(MailLogEntity.class, o -> {
             o.setSendStatus(MailSendStatusEnum.INIT.getStatus());
@@ -125,7 +125,7 @@ public class DefaultMailLogServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetMailLog() {
+    public void getMailLog() {
         // mock data
         MailLogEntity dbMailLog = randomPojo(MailLogEntity.class, o -> o.setTemplateParams(randomTemplateParams()));
         mailLogMapper.insert(dbMailLog);
@@ -139,7 +139,7 @@ public class DefaultMailLogServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetMailLogPage() {
+    public void getMailLogPage() {
        // mock data
        MailLogEntity dbMailLog = randomPojo(MailLogEntity.class, o -> { // will be queried later
            o.setUserId(1L);

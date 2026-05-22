@@ -73,7 +73,7 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testSendSingleMail_success() {
+    public void sendSingleMail_success() {
         // prepare parameters
         Long userId = randomLongId();
         String templateCode = RandomUtils.randomString();
@@ -128,7 +128,7 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
      * send succeeds when mail template is enabled
      */
     @Test
-    public void testSendSingleMail_successWhenMailTemplateEnable() {
+    public void sendSingleMail_successWhenMailTemplateEnable() {
         // prepare parameters
         String mail = randomEmail();
         Long userId = randomLongId();
@@ -178,7 +178,7 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
      * send succeeds when mail template is disabled
      */
     @Test
-    public void testSendSingleMail_successWhenMailTemplateDisable() {
+    public void sendSingleMail_successWhenMailTemplateDisable() {
         // prepare parameters
         String mail = randomEmail();
         Long userId = randomLongId();
@@ -222,7 +222,7 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testValidateMailTemplateValid_notExists() {
+    public void validateMailTemplateValid_missing() {
         // prepare parameters
         String templateCode = RandomUtils.randomString();
         // mock the method
@@ -233,7 +233,7 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testValidateTemplateParams_paramMiss() {
+    public void validateTemplateParams_missingParam() {
         // prepare parameters
         MailTemplateEntity template = randomPojo(MailTemplateEntity.class,
                 o -> o.setParams(Lists.newArrayList("code")));
@@ -246,7 +246,7 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testSendSingleMail_noValidEmail() {
+    public void sendSingleMail_noValidEmail() {
         // prepare parameters
         Long userId = randomLongId();
         String templateCode = RandomUtils.randomString();
@@ -273,7 +273,7 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testDoSendMail_success() {
+    public void doSendMail_success() {
         try (final MockedStatic<MailUtil> mailUtilMock = mockStatic(MailUtil.class)) {
             // prepare parameters
             MailSendMessage message = randomPojo(MailSendMessage.class, o -> o.setNickname("Focela"));
@@ -306,7 +306,7 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testDoSendMail_exception() {
+    public void doSendMail_exception() {
         try (MockedStatic<MailUtil> mailUtilMock = mockStatic(MailUtil.class)) {
             // prepare parameters
             MailSendMessage message = randomPojo(MailSendMessage.class, o -> o.setNickname("Focela"));

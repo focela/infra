@@ -22,7 +22,7 @@ public class DefaultMemberServiceTest extends BaseMockitoUnitTest {
     private MemberUserClient memberUserClient;
 
     @Test
-    public void testGetMemberUserMobile_nullId() {
+    public void getMemberUserMobile_nullId() {
         // invoke
         String result = memberService.getMemberUserMobile(null);
         // assert
@@ -31,7 +31,7 @@ public class DefaultMemberServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testGetMemberUserMobile_success() {
+    public void getMemberUserMobile_success() {
         // prepare parameters
         Long userId = 1L;
         String mobile = "15601691300";
@@ -45,7 +45,7 @@ public class DefaultMemberServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testGetMemberUserEmail_nullId() {
+    public void getMemberUserEmail_nullId() {
         // invoke
         String result = memberService.getMemberUserEmail(null);
         // assert
@@ -54,7 +54,7 @@ public class DefaultMemberServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testGetMemberUserEmail_success() {
+    public void getMemberUserEmail_success() {
         // prepare parameters
         Long userId = 1L;
         String email = "member@example.com";

@@ -36,7 +36,7 @@ public class DefaultOAuth2GrantServiceTest extends BaseMockitoUnitTest {
     private AuthService adminAuthService;
 
     @Test
-    public void testGrantImplicit() {
+    public void grantImplicit() {
         // prepare parameters
         Long userId = randomLongId();
         Integer userType = randomEle(UserTypeEnum.values()).getValue();
@@ -53,7 +53,7 @@ public class DefaultOAuth2GrantServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testGrantAuthorizationCodeForCode() {
+    public void grantAuthorizationCodeForCode() {
         // prepare parameters
         Long userId = randomLongId();
         Integer userType = randomEle(UserTypeEnum.values()).getValue();
@@ -72,7 +72,7 @@ public class DefaultOAuth2GrantServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testGrantAuthorizationCodeForAccessToken() {
+    public void grantAuthorizationCodeForAccessToken() {
         // prepare parameters
         String clientId = randomString();
         String code = randomString();
@@ -98,7 +98,7 @@ public class DefaultOAuth2GrantServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testGrantPassword() {
+    public void grantPassword() {
         // prepare parameters
         String username = randomString();
         String password = randomString();
@@ -118,7 +118,7 @@ public class DefaultOAuth2GrantServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testGrantRefreshToken() {
+    public void grantRefreshToken() {
         // prepare parameters
         String refreshToken = randomString();
         String clientId = randomString();
@@ -133,7 +133,7 @@ public class DefaultOAuth2GrantServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testRevokeToken_clientIdError() {
+    public void revokeToken_clientIdError() {
         // prepare parameters
         String clientId = randomString();
         String accessToken = randomString();
@@ -146,7 +146,7 @@ public class DefaultOAuth2GrantServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testRevokeToken_success() {
+    public void revokeToken_success() {
         // prepare parameters
         String clientId = randomString();
         String accessToken = randomString();

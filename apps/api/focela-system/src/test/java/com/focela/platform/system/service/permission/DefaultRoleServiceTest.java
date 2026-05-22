@@ -350,7 +350,7 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void validateRoleList_notFound() {
+    public void validateRoleList_missing() {
         // prepare parameters
         List<Long> ids = singletonList(randomLongId());
 
@@ -359,7 +359,7 @@ public class DefaultRoleServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void validateRoleList_notEnable() {
+    public void validateRoleList_disabled() {
         // mock data
         RoleEntity RoleEntity = randomPojo(RoleEntity.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus()));
         roleMapper.insert(RoleEntity);

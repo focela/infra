@@ -39,4 +39,9 @@ class ProtectionArchitectureTest {
     void mainJavaContainsOnlyJavaFiles() {
         ArchitectureRules.assertMainJavaContainsOnlyJavaFiles("focela-spring-boot-starter-protection");
     }
+
+    @Test
+    void legacyTestPrefixShouldNotBeUsed() {
+        ArchitectureRules.assertTestMethodNamesDoNotUseLegacyPrefix("focela-spring-boot-starter-protection");
+    }
 }

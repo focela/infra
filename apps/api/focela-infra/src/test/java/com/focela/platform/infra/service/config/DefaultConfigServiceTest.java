@@ -35,7 +35,7 @@ public class DefaultConfigServiceTest extends BaseDbUnitTest {
     private ConfigMapper configMapper;
 
     @Test
-    public void testCreateConfig_success() {
+    public void createConfig_success() {
         // Prepare parameters
         ConfigSaveRequest request = randomPojo(ConfigSaveRequest.class)
                 .setId(null); // prevent id assignment which would fail the uniqueness check
@@ -51,7 +51,7 @@ public class DefaultConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateConfig_success() {
+    public void updateConfig_success() {
         // mock data
         ConfigEntity dbConfig = randomConfigEntity();
         configMapper.insert(dbConfig);// @Sql: first insert an existing record
@@ -68,7 +68,7 @@ public class DefaultConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteConfig_success() {
+    public void deleteConfig_success() {
         // mock data
         ConfigEntity dbConfig = randomConfigEntity(o -> {
             o.setType(ConfigTypeEnum.CUSTOM.getType()); // only CUSTOM type can be deleted
@@ -84,7 +84,7 @@ public class DefaultConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteConfig_cannotDeleteSystemType() {
+    public void deleteConfig_cannotDeleteSystemType() {
         // mock data
         ConfigEntity dbConfig = randomConfigEntity(o -> {
             o.setType(ConfigTypeEnum.SYSTEM.getType()); // SYSTEM is not allowed to be deleted
@@ -98,7 +98,7 @@ public class DefaultConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateConfigExists_success() {
+    public void validateConfigExists_success() {
         // mock data
         ConfigEntity dbConfigEntity = randomConfigEntity();
         configMapper.insert(dbConfigEntity);// @Sql: first insert an existing record
@@ -108,18 +108,18 @@ public class DefaultConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateConfigExist_notExists() {
+    public void validateConfigExist_missing() {
         assertServiceException(() -> configService.validateConfigExists(randomLongId()), CONFIG_NOT_FOUND);
     }
 
     @Test
-    public void testValidateConfigKeyUnique_success() {
+    public void validateConfigKeyUnique_success() {
         // Invoke; succeeds
         configService.validateConfigKeyUnique(randomLongId(), randomString());
     }
 
     @Test
-    public void testValidateConfigKeyUnique_keyDuplicateForCreate() {
+    public void validateConfigKeyUnique_keyDuplicateForCreate() {
         // Prepare parameters
         String key = randomString();
         // mock data
@@ -131,7 +131,7 @@ public class DefaultConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateConfigKeyUnique_keyDuplicateForUpdate() {
+    public void validateConfigKeyUnique_keyDuplicateForUpdate() {
         // Prepare parameters
         Long id = randomLongId();
         String key = randomString();
@@ -144,7 +144,7 @@ public class DefaultConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetConfigPage() {
+    public void getConfigPage() {
         // mock data
         ConfigEntity dbConfig = randomConfigEntity(o -> { // will be queried later
             o.setName("focela");
@@ -177,7 +177,7 @@ public class DefaultConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetConfig() {
+    public void getConfig() {
         // mock data
         ConfigEntity dbConfig = randomConfigEntity();
         configMapper.insert(dbConfig);// @Sql: first insert an existing record
@@ -192,7 +192,7 @@ public class DefaultConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetConfigByKey() {
+    public void getConfigByKey() {
         // mock data
         ConfigEntity dbConfig = randomConfigEntity();
         configMapper.insert(dbConfig);// @Sql: first insert an existing record

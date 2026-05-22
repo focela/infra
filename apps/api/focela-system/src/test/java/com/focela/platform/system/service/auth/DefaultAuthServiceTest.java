@@ -75,7 +75,7 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testAuthenticate_success() {
+    public void authenticate_success() {
         // prepare parameters
         String username = randomString();
         String password = randomString();
@@ -93,7 +93,7 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testAuthenticate_userNotFound() {
+    public void authenticate_userNotFound() {
         // prepare parameters
         String username = randomString();
         String password = randomString();
@@ -109,7 +109,7 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testAuthenticate_badCredentials() {
+    public void authenticate_badCredentials() {
         // prepare parameters
         String username = randomString();
         String password = randomString();
@@ -129,7 +129,7 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testAuthenticate_userDisabled() {
+    public void authenticate_userDisabled() {
         // prepare parameters
         String username = randomString();
         String password = randomString();
@@ -151,7 +151,7 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testLogin_success() {
+    public void login_success() {
         // prepare parameters
         AuthLoginRequest request = randomPojo(AuthLoginRequest.class, o ->
                 o.setUsername("test_username").setPassword("test_password")
@@ -186,7 +186,7 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testSendSmsCode() {
+    public void sendSmsCode() {
         // prepare parameters
         String mobile = randomString();
         Integer scene = SmsSceneEnum.ADMIN_MEMBER_LOGIN.getScene();
@@ -206,7 +206,7 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testSmsLogin_success() {
+    public void smsLogin_success() {
         // prepare parameters
         String mobile = randomString();
         String code = randomString();
@@ -239,7 +239,7 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testSocialLogin_success() {
+    public void socialLogin_success() {
         // prepare parameters
         AuthSocialLoginRequest request = randomPojo(AuthSocialLoginRequest.class);
         // mock the method（bound user ID）
@@ -267,7 +267,7 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateCaptcha_successWithEnable() {
+    public void validateCaptcha_successWithEnable() {
         // prepare parameters
         AuthLoginRequest request = randomPojo(AuthLoginRequest.class);
 
@@ -282,7 +282,7 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateCaptcha_successWithDisable() {
+    public void validateCaptcha_successWithDisable() {
         // prepare parameters
         AuthLoginRequest request = randomPojo(AuthLoginRequest.class);
 
@@ -294,7 +294,7 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testCaptcha_fail() {
+    public void captcha_fail() {
         // prepare parameters
         AuthLoginRequest request = randomPojo(AuthLoginRequest.class);
 
@@ -314,7 +314,7 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testRefreshToken() {
+    public void refreshToken() {
         // prepare parameters
         String refreshToken = randomString();
         // mock the method
@@ -329,7 +329,7 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testLogout_success() {
+    public void logout_success() {
         // prepare parameters
         String token = randomString();
         // mock
@@ -349,7 +349,7 @@ public class DefaultAuthServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testLogout_fail() {
+    public void logout_fail() {
         // prepare parameters
         String token = randomString();
 

@@ -9,7 +9,9 @@ import com.tngtech.archunit.lang.ArchRule;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import static com.tngtech.archunit.base.DescribedPredicate.not;
@@ -30,6 +32,9 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
  * <p>See {@code docs/MODULE_TEMPLATE.md} for the rationale behind each rule.
  */
 public final class ArchitectureRules {
+
+    private static final Pattern LEGACY_TEST_METHOD_PATTERN =
+            Pattern.compile("\\b(?:public\\s+)?void\\s+test[A-Z_][A-Za-z0-9_]*\\s*\\(");
 
     private ArchitectureRules() {
     }
@@ -65,6 +70,40 @@ public final class ArchitectureRules {
             }
         } catch (IOException e) {
             throw new AssertionError("Failed to scan source root: " + sourceRoot.toAbsolutePath().normalize(), e);
+        }
+    }
+
+    /**
+     * Verifies that JUnit test method names describe behavior directly instead of
+     * carrying the legacy {@code testXxx} prefix.
+     */
+    public static void assertTestMethodNamesDoNotUseLegacyPrefix(String moduleDirectoryName) {
+        Path moduleRoot = resolveModuleRoot(moduleDirectoryName);
+        Path testSourceRoot = moduleRoot.resolve("src/test/java");
+        if (!Files.exists(testSourceRoot)) {
+            return;
+        }
+        try (Stream<Path> paths = Files.walk(testSourceRoot)) {
+            List<Path> testFiles = paths
+                    .filter(Files::isRegularFile)
+                    .filter(path -> path.getFileName().toString().endsWith(".java"))
+                    .sorted()
+                    .toList();
+            List<String> violations = new ArrayList<>();
+            for (Path testFile : testFiles) {
+                List<String> lines = Files.readAllLines(testFile);
+                for (int i = 0; i < lines.size(); i++) {
+                    if (LEGACY_TEST_METHOD_PATTERN.matcher(lines.get(i)).find()) {
+                        violations.add(testSourceRoot.relativize(testFile) + ":" + (i + 1));
+                    }
+                }
+            }
+            if (!violations.isEmpty()) {
+                throw new AssertionError("Test method names must not use the legacy testXxx prefix: " + violations);
+            }
+        } catch (IOException e) {
+            throw new AssertionError("Failed to scan test source root: "
+                    + testSourceRoot.toAbsolutePath().normalize(), e);
         }
     }
 

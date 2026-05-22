@@ -57,7 +57,7 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
     private FileClientFactory fileClientFactory;
 
     @Test
-    public void testCreateFileConfig_success() {
+    public void createFileConfig_success() {
         // Prepare parameters
         Map<String, Object> config = MapUtil.<String, Object>builder().put("basePath", "/focela")
                 .put("domain", "https://www.example.com").build();
@@ -80,7 +80,7 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateFileConfig_success() {
+    public void updateFileConfig_success() {
         // mock data
         FileConfigEntity dbFileConfig = randomPojo(FileConfigEntity.class, o -> o.setStorage(FileStorageEnum.LOCAL.getStorage())
                 .setConfig(new LocalFileClientConfig().setBasePath("/focela").setDomain("https://www.example.com")));
@@ -106,7 +106,7 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateFileConfig_notExists() {
+    public void updateFileConfig_missing() {
         // Prepare parameters
         FileConfigSaveRequest request = randomPojo(FileConfigSaveRequest.class);
 
@@ -115,7 +115,7 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateFileConfigMaster_success() {
+    public void updateFileConfigMaster_success() {
         // mock data
         FileConfigEntity dbFileConfig = randomFileConfigEntity().setMaster(false);
         fileConfigMapper.insert(dbFileConfig);// @Sql: first insert an existing record
@@ -132,13 +132,13 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateFileConfigMaster_notExists() {
+    public void updateFileConfigMaster_missing() {
         // Invoke and verify exception
         assertServiceException(() -> fileConfigService.updateFileConfigMaster(randomLongId()), FILE_CONFIG_NOT_FOUND);
     }
 
     @Test
-    public void testDeleteFileConfig_success() {
+    public void deleteFileConfig_success() {
         // mock data
         FileConfigEntity dbFileConfig = randomFileConfigEntity().setMaster(false);
         fileConfigMapper.insert(dbFileConfig);// @Sql: first insert an existing record
@@ -154,7 +154,7 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteFileConfig_notExists() {
+    public void deleteFileConfig_missing() {
         // Prepare parameters
         Long id = randomLongId();
 
@@ -163,7 +163,7 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteFileConfig_master() {
+    public void deleteFileConfig_master() {
         // mock data
         FileConfigEntity dbFileConfig = randomFileConfigEntity().setMaster(true);
         fileConfigMapper.insert(dbFileConfig);// @Sql: first insert an existing record
@@ -175,7 +175,7 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetFileConfigPage() {
+    public void getFileConfigPage() {
         // mock data
         FileConfigEntity dbFileConfig = randomFileConfigEntity().setName("focela-source")
                 .setStorage(FileStorageEnum.LOCAL.getStorage());
@@ -203,7 +203,7 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testFileConfig() throws Exception {
+    public void fileConfig() throws Exception {
         // mock data
         FileConfigEntity dbFileConfig = randomFileConfigEntity().setMaster(false);
         fileConfigMapper.insert(dbFileConfig);// @Sql: first insert an existing record
@@ -219,7 +219,7 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetFileConfig() {
+    public void getFileConfig() {
         // mock data
         FileConfigEntity dbFileConfig = randomFileConfigEntity().setMaster(false);
         fileConfigMapper.insert(dbFileConfig);// @Sql: first insert an existing record
@@ -231,7 +231,7 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetFileClient() {
+    public void getFileClient() {
         // mock data
         FileConfigEntity fileConfig = randomFileConfigEntity().setMaster(false);
         fileConfigMapper.insert(fileConfig);
@@ -249,7 +249,7 @@ public class DefaultFileConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetMasterFileClient() {
+    public void getMasterFileClient() {
         // mock data
         FileConfigEntity fileConfig = randomFileConfigEntity().setMaster(true);
         fileConfigMapper.insert(fileConfig);

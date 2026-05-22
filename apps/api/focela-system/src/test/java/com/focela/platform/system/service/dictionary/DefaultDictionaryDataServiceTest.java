@@ -39,20 +39,20 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
     private DictionaryTypeService dictionaryTypeService;
 
     @Test
-    public void testGetDictDataList() {
+    public void getDictionaryDataList() {
         // mock data
-        DictionaryDataEntity dictDataEntity01 = randomDictDataEntity().setDictType("focela_sample").setSort(2)
+        DictionaryDataEntity dictionaryDataEntity01 = randomDictionaryDataEntity().setDictType("focela_sample").setSort(2)
                 .setStatus(CommonStatusEnum.ENABLE.getStatus());
-        dictionaryDataMapper.insert(dictDataEntity01);
-        DictionaryDataEntity dictDataEntity02 = randomDictDataEntity().setDictType("focela_sample").setSort(1)
+        dictionaryDataMapper.insert(dictionaryDataEntity01);
+        DictionaryDataEntity dictionaryDataEntity02 = randomDictionaryDataEntity().setDictType("focela_sample").setSort(1)
                 .setStatus(CommonStatusEnum.ENABLE.getStatus());
-        dictionaryDataMapper.insert(dictDataEntity02);
-        DictionaryDataEntity dictDataEntity03 = randomDictDataEntity().setDictType("focela_sample").setSort(3)
+        dictionaryDataMapper.insert(dictionaryDataEntity02);
+        DictionaryDataEntity dictionaryDataEntity03 = randomDictionaryDataEntity().setDictType("focela_sample").setSort(3)
                 .setStatus(CommonStatusEnum.DISABLE.getStatus());
-        dictionaryDataMapper.insert(dictDataEntity03);
-        DictionaryDataEntity dictDataEntity04 = randomDictDataEntity().setDictType("focela_sample_alt").setSort(3)
+        dictionaryDataMapper.insert(dictionaryDataEntity03);
+        DictionaryDataEntity dictionaryDataEntity04 = randomDictionaryDataEntity().setDictType("focela_sample_alt").setSort(3)
                 .setStatus(CommonStatusEnum.DISABLE.getStatus());
-        dictionaryDataMapper.insert(dictDataEntity04);
+        dictionaryDataMapper.insert(dictionaryDataEntity04);
         // prepare parameters
         Integer status = CommonStatusEnum.ENABLE.getStatus();
         String dictionaryType = "focela_sample";
@@ -61,12 +61,12 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
         List<DictionaryDataEntity> dictionaryDataEntities = dictionaryDataService.getDictionaryDataList(status, dictionaryType);
         // assert
         assertEquals(2, dictionaryDataEntities.size());
-        assertPojoEquals(dictDataEntity02, dictionaryDataEntities.get(0));
-        assertPojoEquals(dictDataEntity01, dictionaryDataEntities.get(1));
+        assertPojoEquals(dictionaryDataEntity02, dictionaryDataEntities.get(0));
+        assertPojoEquals(dictionaryDataEntity01, dictionaryDataEntities.get(1));
     }
 
     @Test
-    public void testGetDictDataPage() {
+    public void getDictionaryDataPage() {
         // mock data
         DictionaryDataEntity dbDictionaryData = randomPojo(DictionaryDataEntity.class, o -> { // will be queried later
             o.setLabel("Focela");
@@ -95,9 +95,9 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetDictData() {
+    public void getDictionaryData() {
         // mock data
-        DictionaryDataEntity dbDictionaryData = randomDictDataEntity();
+        DictionaryDataEntity dbDictionaryData = randomDictionaryDataEntity();
         dictionaryDataMapper.insert(dbDictionaryData);
         // prepare parameters
         Long id = dbDictionaryData.getId();
@@ -109,13 +109,13 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testCreateDictData_success() {
+    public void createDictionaryData_success() {
         // prepare parameters
         DictionaryDataSaveRequest request = randomPojo(DictionaryDataSaveRequest.class,
                 o -> o.setStatus(randomCommonStatus()))
                 .setId(null); // prevent id from being assigned
         // mock the method
-        when(dictionaryTypeService.getDictionaryType(eq(request.getDictType()))).thenReturn(randomDictTypeEntity(request.getDictType()));
+        when(dictionaryTypeService.getDictionaryType(eq(request.getDictType()))).thenReturn(randomDictionaryTypeEntity(request.getDictType()));
 
         // invoke
         Long dictionaryDataId = dictionaryDataService.createDictionaryData(request);
@@ -127,9 +127,9 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateDictData_success() {
+    public void updateDictionaryData_success() {
         // mock data
-        DictionaryDataEntity dbDictionaryData = randomDictDataEntity();
+        DictionaryDataEntity dbDictionaryData = randomDictionaryDataEntity();
         dictionaryDataMapper.insert(dbDictionaryData);// @Sql: first insert an existing record
         // prepare parameters
         DictionaryDataSaveRequest request = randomPojo(DictionaryDataSaveRequest.class, o -> {
@@ -137,7 +137,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
             o.setStatus(randomCommonStatus());
         });
         // mock the method, dictionary type
-        when(dictionaryTypeService.getDictionaryType(eq(request.getDictType()))).thenReturn(randomDictTypeEntity(request.getDictType()));
+        when(dictionaryTypeService.getDictionaryType(eq(request.getDictType()))).thenReturn(randomDictionaryTypeEntity(request.getDictType()));
 
         // invoke
         dictionaryDataService.updateDictionaryData(request);
@@ -147,9 +147,9 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteDictData_success() {
+    public void deleteDictionaryData_success() {
         // mock data
-        DictionaryDataEntity dbDictionaryData = randomDictDataEntity();
+        DictionaryDataEntity dbDictionaryData = randomDictionaryDataEntity();
         dictionaryDataMapper.insert(dbDictionaryData);// @Sql: first insert an existing record
         // prepare parameters
         Long id = dbDictionaryData.getId();
@@ -161,9 +161,9 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateDictDataExists_success() {
+    public void validateDictionaryDataExists_success() {
         // mock data
-        DictionaryDataEntity dbDictionaryData = randomDictDataEntity();
+        DictionaryDataEntity dbDictionaryData = randomDictionaryDataEntity();
         dictionaryDataMapper.insert(dbDictionaryData);// @Sql: first insert an existing record
 
         // invoke succeeded
@@ -171,27 +171,27 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateDictDataExists_notExists() {
+    public void validateDictionaryDataExists_missing() {
         assertServiceException(() -> dictionaryDataService.validateDictDataExists(randomLongId()), DICTIONARY_DATA_NOT_FOUND);
     }
 
     @Test
-    public void testValidateDictTypeExists_success() {
+    public void validateDictionaryTypeExists_success() {
         // mock the method, data type is disabled
         String type = randomString();
-        when(dictionaryTypeService.getDictionaryType(eq(type))).thenReturn(randomDictTypeEntity(type));
+        when(dictionaryTypeService.getDictionaryType(eq(type))).thenReturn(randomDictionaryTypeEntity(type));
 
         // invoke, succeeded
         dictionaryDataService.validateDictTypeExists(type);
     }
 
     @Test
-    public void testValidateDictTypeExists_notExists() {
+    public void validateDictionaryTypeExists_missing() {
         assertServiceException(() -> dictionaryDataService.validateDictTypeExists(randomString()), DICTIONARY_TYPE_NOT_FOUND);
     }
 
     @Test
-    public void testValidateDictTypeExists_notEnable() {
+    public void validateDictionaryTypeExists_disabled() {
         // mock the method, data type is disabled
         String dictionaryType = randomString();
         when(dictionaryTypeService.getDictionaryType(eq(dictionaryType))).thenReturn(
@@ -202,18 +202,18 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateDictDataValueUnique_success() {
+    public void validateDictionaryDataValueUnique_success() {
         // invoke, succeeded
         dictionaryDataService.validateDictDataValueUnique(randomLongId(), randomString(), randomString());
     }
 
     @Test
-    public void testValidateDictDataValueUnique_valueDuplicateForCreate() {
+    public void validateDictionaryDataValueUnique_valueDuplicateForCreate() {
         // prepare parameters
         String dictionaryType = randomString();
         String value = randomString();
         // mock data
-        dictionaryDataMapper.insert(randomDictDataEntity(o -> {
+        dictionaryDataMapper.insert(randomDictionaryDataEntity(o -> {
             o.setDictType(dictionaryType);
             o.setValue(value);
         }));
@@ -224,13 +224,13 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateDictDataValueUnique_valueDuplicateForUpdate() {
+    public void validateDictionaryDataValueUnique_valueDuplicateForUpdate() {
         // prepare parameters
         Long id = randomLongId();
         String dictionaryType = randomString();
         String value = randomString();
         // mock data
-        dictionaryDataMapper.insert(randomDictDataEntity(o -> {
+        dictionaryDataMapper.insert(randomDictionaryDataEntity(o -> {
             o.setDictType(dictionaryType);
             o.setValue(value);
         }));
@@ -241,11 +241,11 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetDictDataCountByDictType() {
+    public void getDictionaryDataCountByDictionaryType() {
         // mock data
-        dictionaryDataMapper.insert(randomDictDataEntity(o -> o.setDictType("focela_sample")));
-        dictionaryDataMapper.insert(randomDictDataEntity(o -> o.setDictType("focela_alternate")));
-        dictionaryDataMapper.insert(randomDictDataEntity(o -> o.setDictType("focela_sample")));
+        dictionaryDataMapper.insert(randomDictionaryDataEntity(o -> o.setDictType("focela_sample")));
+        dictionaryDataMapper.insert(randomDictionaryDataEntity(o -> o.setDictType("focela_alternate")));
+        dictionaryDataMapper.insert(randomDictionaryDataEntity(o -> o.setDictType("focela_sample")));
         // prepare parameters
         String dictionaryType = "focela_sample";
 
@@ -256,20 +256,20 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateDictDataList_success() {
+    public void validateDictionaryDataList_success() {
         // mock data
-        DictionaryDataEntity dictDataEntity = randomDictDataEntity().setStatus(CommonStatusEnum.ENABLE.getStatus());
-        dictionaryDataMapper.insert(dictDataEntity);
+        DictionaryDataEntity dictionaryDataEntity = randomDictionaryDataEntity().setStatus(CommonStatusEnum.ENABLE.getStatus());
+        dictionaryDataMapper.insert(dictionaryDataEntity);
         // prepare parameters
-        String dictionaryType = dictDataEntity.getDictType();
-        List<String> values = singletonList(dictDataEntity.getValue());
+        String dictionaryType = dictionaryDataEntity.getDictType();
+        List<String> values = singletonList(dictionaryDataEntity.getValue());
 
         // invoke, no assertion needed
         dictionaryDataService.validateDictionaryDataList(dictionaryType, values);
     }
 
     @Test
-    public void testValidateDictDataList_notFound() {
+    public void validateDictionaryDataList_missing() {
         // prepare parameters
         String dictionaryType = randomString();
         List<String> values = singletonList(randomString());
@@ -279,26 +279,26 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateDictDataList_notEnable() {
+    public void validateDictionaryDataList_disabled() {
         // mock data
-        DictionaryDataEntity dictDataEntity = randomDictDataEntity().setStatus(CommonStatusEnum.DISABLE.getStatus());
-        dictionaryDataMapper.insert(dictDataEntity);
+        DictionaryDataEntity dictionaryDataEntity = randomDictionaryDataEntity().setStatus(CommonStatusEnum.DISABLE.getStatus());
+        dictionaryDataMapper.insert(dictionaryDataEntity);
         // prepare parameters
-        String dictionaryType = dictDataEntity.getDictType();
-        List<String> values = singletonList(dictDataEntity.getValue());
+        String dictionaryType = dictionaryDataEntity.getDictType();
+        List<String> values = singletonList(dictionaryDataEntity.getValue());
 
         // invoke and assert exception
         assertServiceException(() -> dictionaryDataService.validateDictionaryDataList(dictionaryType, values),
-                DICTIONARY_DATA_NOT_ENABLED, dictDataEntity.getLabel());
+                DICTIONARY_DATA_NOT_ENABLED, dictionaryDataEntity.getLabel());
     }
 
     @Test
-    public void testGetDictData_dictType() {
+    public void getDictionaryData_dictType() {
         // mock data
-        DictionaryDataEntity dictDataEntity = randomDictDataEntity().setDictType("focela_sample").setValue("1");
-        dictionaryDataMapper.insert(dictDataEntity);
-        DictionaryDataEntity dictDataEntity02 = randomDictDataEntity().setDictType("focela_sample").setValue("2");
-        dictionaryDataMapper.insert(dictDataEntity02);
+        DictionaryDataEntity dictionaryDataEntity = randomDictionaryDataEntity().setDictType("focela_sample").setValue("1");
+        dictionaryDataMapper.insert(dictionaryDataEntity);
+        DictionaryDataEntity dictionaryDataEntity02 = randomDictionaryDataEntity().setDictType("focela_sample").setValue("2");
+        dictionaryDataMapper.insert(dictionaryDataEntity02);
         // prepare parameters
         String dictionaryType = "focela_sample";
         String value = "1";
@@ -306,16 +306,16 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
         // invoke
         DictionaryDataEntity dbDictionaryData = dictionaryDataService.getDictionaryData(dictionaryType, value);
         // assert
-        assertEquals(dictDataEntity, dbDictionaryData);
+        assertEquals(dictionaryDataEntity, dbDictionaryData);
     }
 
     @Test
-    public void testParseDictData() {
+    public void parseDictionaryData() {
         // mock data
-        DictionaryDataEntity dictDataEntity = randomDictDataEntity().setDictType("focela_sample").setLabel("1");
-        dictionaryDataMapper.insert(dictDataEntity);
-        DictionaryDataEntity dictDataEntity02 = randomDictDataEntity().setDictType("focela_sample").setLabel("2");
-        dictionaryDataMapper.insert(dictDataEntity02);
+        DictionaryDataEntity dictionaryDataEntity = randomDictionaryDataEntity().setDictType("focela_sample").setLabel("1");
+        dictionaryDataMapper.insert(dictionaryDataEntity);
+        DictionaryDataEntity dictionaryDataEntity02 = randomDictionaryDataEntity().setDictType("focela_sample").setLabel("2");
+        dictionaryDataMapper.insert(dictionaryDataEntity02);
         // prepare parameters
         String dictionaryType = "focela_sample";
         String label = "1";
@@ -323,13 +323,13 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
         // invoke
         DictionaryDataEntity dbDictionaryData = dictionaryDataService.parseDictionaryData(dictionaryType, label);
         // assert
-        assertEquals(dictDataEntity, dbDictionaryData);
+        assertEquals(dictionaryDataEntity, dbDictionaryData);
     }
 
     // ========== random object ==========
 
     @SafeVarargs
-    private static DictionaryDataEntity randomDictDataEntity(Consumer<DictionaryDataEntity>... consumers) {
+    private static DictionaryDataEntity randomDictionaryDataEntity(Consumer<DictionaryDataEntity>... consumers) {
         Consumer<DictionaryDataEntity> consumer = (o) -> {
             o.setStatus(randomCommonStatus()); // ensure status range
         };
@@ -342,7 +342,7 @@ public class DefaultDictionaryDataServiceTest extends BaseDbUnitTest {
      * @param type dictionary type
      * @return DictionaryTypeEntity object
      */
-    private static DictionaryTypeEntity randomDictTypeEntity(String type) {
+    private static DictionaryTypeEntity randomDictionaryTypeEntity(String type) {
         return randomPojo(DictionaryTypeEntity.class, o -> {
             o.setType(type);
             o.setStatus(CommonStatusEnum.ENABLE.getStatus()); // ensure status is enabled

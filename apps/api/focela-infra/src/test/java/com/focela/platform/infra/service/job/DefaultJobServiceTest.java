@@ -42,7 +42,7 @@ public class DefaultJobServiceTest extends BaseDbUnitTest {
     private JobLogCleanJob jobLogCleanJob;
 
     @Test
-    public void testCreateJob_cronExpressionValid() {
+    public void createJob_cronExpressionValid() {
         // Prepare parameters. Cron expression is a String; default is a random string.
         JobSaveRequest request = randomPojo(JobSaveRequest.class);
 
@@ -51,7 +51,7 @@ public class DefaultJobServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testCreateJob_jobHandlerExists() throws SchedulerException {
+    public void createJob_jobHandlerExists() throws SchedulerException {
         // Prepare parameters with the Cron expression set
         JobSaveRequest request = randomPojo(JobSaveRequest.class, o -> o.setCronExpression("0 0/1 * * * ? *"));
         try (MockedStatic<SpringUtil> springUtilMockedStatic = mockStatic(SpringUtil.class)) {
@@ -66,7 +66,7 @@ public class DefaultJobServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testCreateJob_success() throws SchedulerException {
+    public void createJob_success() throws SchedulerException {
         // Prepare parameters with the Cron expression set
         JobSaveRequest request = randomPojo(JobSaveRequest.class, o -> o.setCronExpression("0 0/1 * * * ? *"))
                 .setId(null);
@@ -89,7 +89,7 @@ public class DefaultJobServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateJob_jobNotExists(){
+    public void updateJob_jobNotExists(){
         // Prepare parameters
         JobSaveRequest request = randomPojo(JobSaveRequest.class, o -> o.setCronExpression("0 0/1 * * * ? *"));
 
@@ -98,7 +98,7 @@ public class DefaultJobServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateJob_onlyNormalStatus(){
+    public void updateJob_onlyNormalStatus(){
         // mock data
         JobEntity job = randomPojo(JobEntity.class, o -> o.setStatus(JobStatusEnum.INIT.getStatus()));
         jobMapper.insert(job);
@@ -114,7 +114,7 @@ public class DefaultJobServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateJob_success() throws SchedulerException {
+    public void updateJob_success() throws SchedulerException {
         // mock data
         JobEntity job = randomPojo(JobEntity.class, o -> o.setStatus(JobStatusEnum.NORMAL.getStatus()));
         jobMapper.insert(job);
@@ -139,14 +139,14 @@ public class DefaultJobServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateJobStatus_changeStatusInvalid() {
+    public void updateJobStatus_changeStatusInvalid() {
         // Invoke and verify exception
         assertServiceException(() -> jobService.updateJobStatus(1L, JobStatusEnum.INIT.getStatus()),
                 JOB_CHANGE_STATUS_INVALID);
     }
 
     @Test
-    public void testUpdateJobStatus_changeStatusEquals() {
+    public void updateJobStatus_changeStatusEquals() {
         // mock data
         JobEntity job = randomPojo(JobEntity.class, o -> o.setStatus(JobStatusEnum.NORMAL.getStatus()));
         jobMapper.insert(job);
@@ -157,7 +157,7 @@ public class DefaultJobServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateJobStatus_stopSuccess() throws SchedulerException {
+    public void updateJobStatus_stopSuccess() throws SchedulerException {
         // mock data
         JobEntity job = randomPojo(JobEntity.class, o -> o.setStatus(JobStatusEnum.NORMAL.getStatus()));
         jobMapper.insert(job);
@@ -172,7 +172,7 @@ public class DefaultJobServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateJobStatus_normalSuccess() throws SchedulerException {
+    public void updateJobStatus_normalSuccess() throws SchedulerException {
         // mock data
         JobEntity job = randomPojo(JobEntity.class, o -> o.setStatus(JobStatusEnum.STOP.getStatus()));
         jobMapper.insert(job);
@@ -187,7 +187,7 @@ public class DefaultJobServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testTriggerJob_success() throws SchedulerException {
+    public void triggerJob_success() throws SchedulerException {
         // mock data
         JobEntity job = randomPojo(JobEntity.class);
         jobMapper.insert(job);
@@ -200,7 +200,7 @@ public class DefaultJobServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteJob_success() throws SchedulerException {
+    public void deleteJob_success() throws SchedulerException {
         // mock data
         JobEntity job = randomPojo(JobEntity.class);
         jobMapper.insert(job);
@@ -214,7 +214,7 @@ public class DefaultJobServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetJobPage() {
+    public void getJobPage() {
         // mock data
         JobEntity dbJob = randomPojo(JobEntity.class, o -> {
             o.setName("scheduled job test");
@@ -243,7 +243,7 @@ public class DefaultJobServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetJob() {
+    public void getJob() {
         // mock data
         JobEntity dbJob = randomPojo(JobEntity.class);
         jobMapper.insert(dbJob);

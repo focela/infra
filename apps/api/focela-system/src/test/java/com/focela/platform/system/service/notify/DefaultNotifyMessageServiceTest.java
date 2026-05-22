@@ -39,7 +39,7 @@ public class DefaultNotifyMessageServiceTest extends BaseDbUnitTest {
     private NotifyMessageMapper notifyMessageMapper;
 
     @Test
-    public void testCreateNotifyMessage_success() {
+    public void createNotifyMessage_success() {
         // prepare parameters
         Long userId = randomLongId();
         Integer userType = randomEle(UserTypeEnum.values()).getValue();
@@ -67,7 +67,7 @@ public class DefaultNotifyMessageServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetNotifyMessagePage() {
+    public void getNotifyMessagePage() {
        // mock data
        NotifyMessageEntity dbNotifyMessage = randomPojo(NotifyMessageEntity.class, o -> { // will be queried later
            o.setUserId(1L);
@@ -105,7 +105,7 @@ public class DefaultNotifyMessageServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetNotifyMessage() {
+    public void getNotifyMessage() {
         // mock data
         NotifyMessageEntity dbNotifyMessage = randomPojo(NotifyMessageEntity.class,
                 o -> o.setTemplateParams(randomTemplateParams()));
@@ -119,7 +119,7 @@ public class DefaultNotifyMessageServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetMyNotifyMessagePage() {
+    public void getMyNotifyMessagePage() {
         // mock data
         NotifyMessageEntity dbNotifyMessage = randomPojo(NotifyMessageEntity.class, o -> { // will be queried later
             o.setUserId(1L);
@@ -153,7 +153,7 @@ public class DefaultNotifyMessageServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetUnreadNotifyMessageList() {
+    public void getUnreadNotifyMessageList() {
         // mock data
         NotifyMessageEntity dbNotifyMessage = randomPojo(NotifyMessageEntity.class, o -> { // will be queried later
             o.setUserId(1L);
@@ -181,7 +181,7 @@ public class DefaultNotifyMessageServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetUnreadNotifyMessageCount() {
+    public void getUnreadNotifyMessageCount() {
         // mock data
         NotifyMessageEntity dbNotifyMessage = randomPojo(NotifyMessageEntity.class, o -> { // will be queried later
             o.setUserId(1L);
@@ -205,7 +205,7 @@ public class DefaultNotifyMessageServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateNotifyMessageRead() {
+    public void updateNotifyMessageRead() {
         // mock data
         NotifyMessageEntity dbNotifyMessage = randomPojo(NotifyMessageEntity.class, o -> { // will be queried later
             o.setUserId(1L);
@@ -237,7 +237,7 @@ public class DefaultNotifyMessageServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateAllNotifyMessageRead() {
+    public void updateAllNotifyMessageRead() {
         // mock data
         NotifyMessageEntity dbNotifyMessage = randomPojo(NotifyMessageEntity.class, o -> { // will be queried later
             o.setUserId(1L);

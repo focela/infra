@@ -46,7 +46,7 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
     private SmsTemplateService smsTemplateService;
 
     @Test
-    public void testCreateSmsChannel_success() {
+    public void createSmsChannel_success() {
         // prepare parameters
         SmsChannelSaveRequest request = randomPojo(SmsChannelSaveRequest.class, o -> o.setStatus(randomCommonStatus()))
                 .setId(null); // prevent id from being assigned
@@ -61,7 +61,7 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateSmsChannel_success() {
+    public void updateSmsChannel_success() {
         // mock data
         SmsChannelEntity dbSmsChannel = randomPojo(SmsChannelEntity.class);
         smsChannelMapper.insert(dbSmsChannel);// @Sql: first insert an existing record
@@ -80,7 +80,7 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateSmsChannel_notExists() {
+    public void updateSmsChannel_missing() {
         // prepare parameters
         SmsChannelSaveRequest request = randomPojo(SmsChannelSaveRequest.class);
 
@@ -89,7 +89,7 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteSmsChannel_success() {
+    public void deleteSmsChannel_success() {
         // mock data
         SmsChannelEntity dbSmsChannel = randomPojo(SmsChannelEntity.class);
         smsChannelMapper.insert(dbSmsChannel);// @Sql: first insert an existing record
@@ -103,7 +103,7 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteSmsChannel_notExists() {
+    public void deleteSmsChannel_missing() {
         // prepare parameters
         Long id = randomLongId();
 
@@ -112,7 +112,7 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteSmsChannel_hasChildren() {
+    public void deleteSmsChannel_hasChildren() {
         // mock data
         SmsChannelEntity dbSmsChannel = randomPojo(SmsChannelEntity.class);
         smsChannelMapper.insert(dbSmsChannel);// @Sql: first insert an existing record
@@ -126,7 +126,7 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetSmsChannel() {
+    public void getSmsChannel() {
         // mock data
         SmsChannelEntity dbSmsChannel = randomPojo(SmsChannelEntity.class);
         smsChannelMapper.insert(dbSmsChannel); // @Sql: first insert an existing record
@@ -138,7 +138,7 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetSmsChannelList() {
+    public void getSmsChannelList() {
         // mock data
         SmsChannelEntity dbSmsChannel01 = randomPojo(SmsChannelEntity.class);
         smsChannelMapper.insert(dbSmsChannel01);
@@ -155,7 +155,7 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetSmsChannelPage() {
+    public void getSmsChannelPage() {
        // mock data
        SmsChannelEntity dbSmsChannel = randomPojo(SmsChannelEntity.class, o -> { // will be queried later
            o.setSignature("Focela");
@@ -184,7 +184,7 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetSmsClient_id() {
+    public void getSmsClientById() {
         // mock data
         SmsChannelEntity channel = randomPojo(SmsChannelEntity.class);
         smsChannelMapper.insert(channel);
@@ -202,7 +202,7 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetSmsClient_code() {
+    public void getSmsClient_code() {
         // prepare parameters
         String code = randomString();
         // mock the method

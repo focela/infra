@@ -67,7 +67,7 @@ public class DefaultDataSourceConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testCreateDataSourceConfig_success() {
+    public void createDataSourceConfig_success() {
         try (MockedStatic<JdbcUtils> databaseUtilsMock = mockStatic(JdbcUtils.class)) {
             // Prepare parameters
             DataSourceConfigSaveRequest request = randomPojo(DataSourceConfigSaveRequest.class)
@@ -87,7 +87,7 @@ public class DefaultDataSourceConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateDataSourceConfig_success() {
+    public void updateDataSourceConfig_success() {
         try (MockedStatic<JdbcUtils> databaseUtilsMock = mockStatic(JdbcUtils.class)) {
             // mock data
             DataSourceConfigEntity dbDataSourceConfig = randomPojo(DataSourceConfigEntity.class);
@@ -109,7 +109,7 @@ public class DefaultDataSourceConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateDataSourceConfig_notExists() {
+    public void updateDataSourceConfig_missing() {
         // Prepare parameters
         DataSourceConfigSaveRequest request = randomPojo(DataSourceConfigSaveRequest.class);
 
@@ -118,7 +118,7 @@ public class DefaultDataSourceConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteDataSourceConfig_success() {
+    public void deleteDataSourceConfig_success() {
         // mock data
         DataSourceConfigEntity dbDataSourceConfig = randomPojo(DataSourceConfigEntity.class);
         dataSourceConfigMapper.insert(dbDataSourceConfig);// @Sql: first insert an existing record
@@ -132,7 +132,7 @@ public class DefaultDataSourceConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteDataSourceConfig_notExists() {
+    public void deleteDataSourceConfig_missing() {
         // Prepare parameters
         Long id = randomLongId();
 
@@ -141,7 +141,7 @@ public class DefaultDataSourceConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test // Test querying by password — record can be queried
-    public void testSelectPassword() {
+    public void selectPassword() {
         // mock data
         DataSourceConfigEntity dbDataSourceConfig = randomPojo(DataSourceConfigEntity.class);
         dataSourceConfigMapper.insert(dbDataSourceConfig);// @Sql: first insert an existing record
@@ -153,7 +153,7 @@ public class DefaultDataSourceConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetDataSourceConfig_master() {
+    public void getDataSourceConfig_master() {
         // Prepare parameters
         Long id = 0L;
         // mock the method
@@ -169,7 +169,7 @@ public class DefaultDataSourceConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetDataSourceConfig_normal() {
+    public void getDataSourceConfig_normal() {
         // mock data
         DataSourceConfigEntity dbDataSourceConfig = randomPojo(DataSourceConfigEntity.class);
         dataSourceConfigMapper.insert(dbDataSourceConfig);// @Sql: first insert an existing record
@@ -183,7 +183,7 @@ public class DefaultDataSourceConfigServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetDataSourceConfigList() {
+    public void getDataSourceConfigList() {
         // mock data
         DataSourceConfigEntity dbDataSourceConfig = randomPojo(DataSourceConfigEntity.class);
         dataSourceConfigMapper.insert(dbDataSourceConfig);// @Sql: first insert an existing record

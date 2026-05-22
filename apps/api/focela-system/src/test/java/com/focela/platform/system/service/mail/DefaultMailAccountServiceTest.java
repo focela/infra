@@ -38,7 +38,7 @@ public class DefaultMailAccountServiceTest extends BaseDbUnitTest {
     private MailTemplateService mailTemplateService;
 
     @Test
-    public void testCreateMailAccount_success() {
+    public void createMailAccount_success() {
         // prepare parameters
         MailAccountSaveRequest request = randomPojo(MailAccountSaveRequest.class, o -> o.setMail(randomEmail()))
                 .setId(null); // prevent id from being assigned
@@ -53,7 +53,7 @@ public class DefaultMailAccountServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateMailAccount_success() {
+    public void updateMailAccount_success() {
         // mock data
         MailAccountEntity dbMailAccount = randomPojo(MailAccountEntity.class);
         mailAccountMapper.insert(dbMailAccount);// @Sql: first insert an existing record
@@ -71,7 +71,7 @@ public class DefaultMailAccountServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateMailAccount_notExists() {
+    public void updateMailAccount_missing() {
         // prepare parameters
         MailAccountSaveRequest request = randomPojo(MailAccountSaveRequest.class);
 
@@ -80,7 +80,7 @@ public class DefaultMailAccountServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteMailAccount_success() {
+    public void deleteMailAccount_success() {
         // mock data
         MailAccountEntity dbMailAccount = randomPojo(MailAccountEntity.class);
         mailAccountMapper.insert(dbMailAccount);// @Sql: first insert an existing record
@@ -96,7 +96,7 @@ public class DefaultMailAccountServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetMailAccountFromCache() {
+    public void getMailAccountFromCache() {
         // mock data
         MailAccountEntity dbMailAccount = randomPojo(MailAccountEntity.class);
         mailAccountMapper.insert(dbMailAccount);// @Sql: first insert an existing record
@@ -110,7 +110,7 @@ public class DefaultMailAccountServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteMailAccount_notExists() {
+    public void deleteMailAccount_missing() {
         // prepare parameters
         Long id = randomLongId();
 
@@ -119,7 +119,7 @@ public class DefaultMailAccountServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetMailAccountPage() {
+    public void getMailAccountPage() {
         // mock data
         MailAccountEntity dbMailAccount = randomPojo(MailAccountEntity.class, o -> { // will be queried later
             o.setMail("768@qq.com");
@@ -144,7 +144,7 @@ public class DefaultMailAccountServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetMailAccount() {
+    public void getMailAccount() {
         // mock data
         MailAccountEntity dbMailAccount = randomPojo(MailAccountEntity.class);
         mailAccountMapper.insert(dbMailAccount);// @Sql: first insert an existing record
@@ -158,7 +158,7 @@ public class DefaultMailAccountServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetMailAccountList() {
+    public void getMailAccountList() {
         // mock data
         MailAccountEntity dbMailAccount01 = randomPojo(MailAccountEntity.class);
         mailAccountMapper.insert(dbMailAccount01);

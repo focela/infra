@@ -18,7 +18,7 @@ import java.util.Objects;
 public class ApiEncryptTest {
 
     @Test
-    public void testGenerateAsymmetric() {
+    public void generateAsymmetric() {
         String asymmetricAlgorithm = AsymmetricAlgorithm.RSA.getValue();
 //        String asymmetricAlgorithm = "SM2";
 //        String asymmetricAlgorithm = SM4.ALGORITHM_NAME;
@@ -54,7 +54,7 @@ public class ApiEncryptTest {
     }
 
     @Test
-    public void testEncrypt_aes() {
+    public void encryptAes() {
         String key = "52549111389893486934626385991395";
         String body = "{\n" +
                 "  \"username\": \"admin\",\n" +
@@ -68,7 +68,7 @@ public class ApiEncryptTest {
     }
 
     @Test
-    public void testEncrypt_rsa() {
+    public void encryptRsa() {
         String key = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCls2rIpnGdYnLFgz1XU13GbNQ5DloyPpvW00FPGjqn5Z6JpK+kDtVlnkhwR87iRrE5Vf2WNqRX6vzbLSgveIQY8e8oqGCb829myjf1MuI+ZzN4ghf/7tEYhZJGPI9AbfxFqBUzm+kR3/HByAI22GLT96WM26QiMK8n3tIP/yiLswIDAQAB";
         String body = "{\n" +
                 "  \"username\": \"admin\",\n" +

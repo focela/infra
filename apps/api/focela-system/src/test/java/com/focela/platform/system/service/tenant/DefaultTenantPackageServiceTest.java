@@ -44,7 +44,7 @@ public class DefaultTenantPackageServiceTest extends BaseDbUnitTest {
     private TenantService tenantService;
 
     @Test
-    public void testCreateTenantPackage_success() {
+    public void createTenantPackage_success() {
         // prepare parameters
         TenantPackageSaveRequest request = randomPojo(TenantPackageSaveRequest.class,
                 o -> o.setStatus(randomCommonStatus()))
@@ -60,7 +60,7 @@ public class DefaultTenantPackageServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateTenantPackage_success() {
+    public void updateTenantPackage_success() {
         // mock data
         TenantPackageEntity dbTenantPackage = randomPojo(TenantPackageEntity.class,
                 o -> o.setStatus(randomCommonStatus()));
@@ -88,7 +88,7 @@ public class DefaultTenantPackageServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateTenantPackage_notExists() {
+    public void updateTenantPackage_missing() {
         // prepare parameters
         TenantPackageSaveRequest request = randomPojo(TenantPackageSaveRequest.class);
 
@@ -97,7 +97,7 @@ public class DefaultTenantPackageServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteTenantPackage_success() {
+    public void deleteTenantPackage_success() {
         // mock data
         TenantPackageEntity dbTenantPackage = randomPojo(TenantPackageEntity.class);
         tenantPackageMapper.insert(dbTenantPackage);// @Sql: first insert an existing record
@@ -113,7 +113,7 @@ public class DefaultTenantPackageServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteTenantPackage_notExists() {
+    public void deleteTenantPackage_missing() {
         // prepare parameters
         Long id = randomLongId();
 
@@ -122,7 +122,7 @@ public class DefaultTenantPackageServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteTenantPackage_used() {
+    public void deleteTenantPackage_used() {
         // mock data
         TenantPackageEntity dbTenantPackage = randomPojo(TenantPackageEntity.class);
         tenantPackageMapper.insert(dbTenantPackage);// @Sql: first insert an existing record
@@ -136,7 +136,7 @@ public class DefaultTenantPackageServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetTenantPackagePage() {
+    public void getTenantPackagePage() {
        // mock data
        TenantPackageEntity dbTenantPackage = randomPojo(TenantPackageEntity.class, o -> { // will be queried later
            o.setName("Focelasource");
@@ -169,7 +169,7 @@ public class DefaultTenantPackageServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidTenantPackage_success() {
+    public void validTenantPackage_success() {
         // mock data
         TenantPackageEntity dbTenantPackage = randomPojo(TenantPackageEntity.class,
                 o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
@@ -182,7 +182,7 @@ public class DefaultTenantPackageServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidTenantPackage_notExists() {
+    public void validTenantPackage_missing() {
         // prepare parameters
         Long id = randomLongId();
 
@@ -191,7 +191,7 @@ public class DefaultTenantPackageServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidTenantPackage_disable() {
+    public void validTenantPackage_disable() {
         // mock data
         TenantPackageEntity dbTenantPackage = randomPojo(TenantPackageEntity.class,
                 o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus()));
@@ -203,7 +203,7 @@ public class DefaultTenantPackageServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetTenantPackage() {
+    public void getTenantPackage() {
         // mock data
         TenantPackageEntity dbTenantPackage = randomPojo(TenantPackageEntity.class);
         tenantPackageMapper.insert(dbTenantPackage);// @Sql: first insert an existing record
@@ -215,7 +215,7 @@ public class DefaultTenantPackageServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetTenantPackageListByStatus() {
+    public void getTenantPackageListByStatus() {
         // mock data
         TenantPackageEntity dbTenantPackage = randomPojo(TenantPackageEntity.class,
                 o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));

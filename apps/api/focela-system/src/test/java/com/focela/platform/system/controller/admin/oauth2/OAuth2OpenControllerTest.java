@@ -66,7 +66,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
     private OAuth2TokenService oauth2TokenService;
 
     @Test
-    public void testPostAccessToken_authorizationCode() {
+    public void postAccessToken_authorizationCode() {
         // prepare parameters
         String granType = OAuth2GrantTypeEnum.AUTHORIZATION_CODE.getGrantType();
         String code = randomString();
@@ -93,7 +93,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testPostAccessToken_password() {
+    public void postAccessToken_password() {
         // prepare parameters
         String granType = OAuth2GrantTypeEnum.PASSWORD.getGrantType();
         String username = randomString();
@@ -121,7 +121,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testPostAccessToken_refreshToken() {
+    public void postAccessToken_refreshToken() {
         // prepare parameters
         String granType = OAuth2GrantTypeEnum.REFRESH_TOKEN.getGrantType();
         String refreshToken = randomString();
@@ -147,7 +147,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testPostAccessToken_implicit() {
+    public void postAccessToken_implicit() {
         // invoke, and assert
         assertServiceException(() -> oauth2OpenController.postAccessToken(null,
                         OAuth2GrantTypeEnum.IMPLICIT.getGrantType(), null, null, null,
@@ -156,7 +156,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testRevokeToken() {
+    public void revokeToken() {
         // prepare parameters
         HttpServletRequest request = mockRequest("demo_client_id", "demo_client_secret");
         String token = randomString();
@@ -175,7 +175,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testCheckToken() {
+    public void checkToken() {
         // prepare parameters
         HttpServletRequest request = mockRequest("demo_client_id", "demo_client_secret");
         String token = randomString();
@@ -192,7 +192,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testAuthorize() {
+    public void authorize() {
         // prepare parameters
         String clientId = randomString();
         // mock the method（client）
@@ -215,7 +215,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testApproveOrDeny_grantTypeError() {
+    public void approveOrDeny_grantTypeError() {
         // invoke, and assert
         assertServiceException(() -> oauth2OpenController.approveOrDeny(randomString(), null,
                         null, null, null, null),
@@ -223,7 +223,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
     }
 
     @Test // autoApprove = true, but does not pass
-    public void testApproveOrDeny_autoApproveNo() {
+    public void approveOrDeny_autoApproveNo() {
         // prepare parameters
         String responseType = "code";
         String clientId = randomString();
@@ -244,7 +244,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
     }
 
     @Test // autoApprove = false, but does not pass
-    public void testApproveOrDeny_ApproveNo() {
+    public void approveOrDeny_ApproveNo() {
         // prepare parameters
         String responseType = "token";
         String clientId = randomString();
@@ -265,7 +265,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
     }
 
     @Test // autoApprove = true, pass + token
-    public void testApproveOrDeny_autoApproveWithToken() {
+    public void approveOrDeny_autoApproveWithToken() {
         // prepare parameters
         String responseType = "token";
         String clientId = randomString();
@@ -297,7 +297,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
     }
 
     @Test // autoApprove = false, pass + code
-    public void testApproveOrDeny_approveWithCode() {
+    public void approveOrDeny_approveWithCode() {
         // prepare parameters
         String responseType = "code";
         String clientId = randomString();

@@ -379,12 +379,12 @@ public class PermissionServiceTest extends BaseDbUnitTest {
         // prepare parameters
         Long roleId = 1L;
         Integer dataScope = 2;
-        Set<Long> dataScopeDeptIds = asSet(10L, 20L);
+        Set<Long> dataScopeDepartmentIds = asSet(10L, 20L);
 
         // invoke
-        permissionService.assignRoleDataScope(roleId, dataScope, dataScopeDeptIds);
+        permissionService.assignRoleDataScope(roleId, dataScope, dataScopeDepartmentIds);
         // assert
-        verify(roleService).updateRoleDataScope(eq(roleId), eq(dataScope), eq(dataScopeDeptIds));
+        verify(roleService).updateRoleDataScope(eq(roleId), eq(dataScope), eq(dataScopeDepartmentIds));
     }
 
     @Test

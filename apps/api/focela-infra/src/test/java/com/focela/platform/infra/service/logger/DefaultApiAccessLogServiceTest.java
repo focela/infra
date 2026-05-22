@@ -31,7 +31,7 @@ public class DefaultApiAccessLogServiceTest extends BaseDbUnitTest {
     private ApiAccessLogMapper apiAccessLogMapper;
 
     @Test
-    public void testGetApiAccessLogPage() {
+    public void getApiAccessLogPage() {
         ApiAccessLogEntity apiAccessLogEntity = randomPojo(ApiAccessLogEntity.class, o -> {
             o.setUserId(2233L);
             o.setUserType(UserTypeEnum.ADMIN.getValue());
@@ -75,7 +75,7 @@ public class DefaultApiAccessLogServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testCleanJobLog() {
+    public void cleanJobLog() {
         // mock data
         ApiAccessLogEntity log01 = randomPojo(ApiAccessLogEntity.class, o -> o.setCreateTime(addTime(Duration.ofDays(-3))));
         apiAccessLogMapper.insert(log01);
@@ -96,7 +96,7 @@ public class DefaultApiAccessLogServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testCreateApiAccessLog() {
+    public void createApiAccessLog() {
         // Prepare parameters
         ApiAccessLogCreateRpcRequest createRequest = randomPojo(ApiAccessLogCreateRpcRequest.class);
 

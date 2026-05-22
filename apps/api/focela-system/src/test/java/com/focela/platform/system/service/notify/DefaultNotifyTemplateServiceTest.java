@@ -36,7 +36,7 @@ public class DefaultNotifyTemplateServiceTest extends BaseDbUnitTest {
     private NotifyTemplateMapper notifyTemplateMapper;
 
     @Test
-    public void testCreateNotifyTemplate_success() {
+    public void createNotifyTemplate_success() {
         // prepare parameters
         NotifyTemplateSaveRequest request = randomPojo(NotifyTemplateSaveRequest.class,
                 o -> o.setStatus(randomCommonStatus()))
@@ -52,7 +52,7 @@ public class DefaultNotifyTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateNotifyTemplate_success() {
+    public void updateNotifyTemplate_success() {
         // mock data
         NotifyTemplateEntity dbNotifyTemplate = randomPojo(NotifyTemplateEntity.class);
         notifyTemplateMapper.insert(dbNotifyTemplate);// @Sql: first insert an existing record
@@ -70,7 +70,7 @@ public class DefaultNotifyTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateNotifyTemplate_notExists() {
+    public void updateNotifyTemplate_missing() {
         // prepare parameters
         NotifyTemplateSaveRequest request = randomPojo(NotifyTemplateSaveRequest.class);
 
@@ -79,7 +79,7 @@ public class DefaultNotifyTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteNotifyTemplate_success() {
+    public void deleteNotifyTemplate_success() {
         // mock data
         NotifyTemplateEntity dbNotifyTemplate = randomPojo(NotifyTemplateEntity.class);
         notifyTemplateMapper.insert(dbNotifyTemplate);// @Sql: first insert an existing record
@@ -93,7 +93,7 @@ public class DefaultNotifyTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteNotifyTemplate_notExists() {
+    public void deleteNotifyTemplate_missing() {
         // prepare parameters
         Long id = randomLongId();
 
@@ -102,7 +102,7 @@ public class DefaultNotifyTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetNotifyTemplatePage() {
+    public void getNotifyTemplatePage() {
         // mock data
         NotifyTemplateEntity dbNotifyTemplate = randomPojo(NotifyTemplateEntity.class, o -> { // will be queried later
             o.setName("Focela");
@@ -135,7 +135,7 @@ public class DefaultNotifyTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetNotifyTemplate() {
+    public void getNotifyTemplate() {
         // mock data
         NotifyTemplateEntity dbNotifyTemplate = randomPojo(NotifyTemplateEntity.class);
         notifyTemplateMapper.insert(dbNotifyTemplate);
@@ -149,7 +149,7 @@ public class DefaultNotifyTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetNotifyTemplateByCodeFromCache() {
+    public void getNotifyTemplateByCodeFromCache() {
         // mock data
         NotifyTemplateEntity dbNotifyTemplate = randomPojo(NotifyTemplateEntity.class);
         notifyTemplateMapper.insert(dbNotifyTemplate);
@@ -163,7 +163,7 @@ public class DefaultNotifyTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testFormatNotifyTemplateContent() {
+    public void formatNotifyTemplateContent() {
         // prepare parameters
         Map<String, Object> params = new HashMap<>();
         params.put("name", "Xiaohong");

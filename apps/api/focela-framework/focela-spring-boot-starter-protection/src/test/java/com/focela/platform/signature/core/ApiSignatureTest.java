@@ -35,7 +35,7 @@ public class ApiSignatureTest {
     private ApiSignatureRedisRepository signatureRedisRepository;
 
     @Test
-    public void testSignatureGet() throws IOException {
+    public void signatureGet() throws IOException {
         // Build a signature
         Long timestamp = System.currentTimeMillis();
         String nonce = IdUtil.randomUUID();

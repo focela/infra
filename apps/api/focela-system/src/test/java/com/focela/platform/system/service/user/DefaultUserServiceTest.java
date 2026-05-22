@@ -392,7 +392,7 @@ public class DefaultUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void getUserListByDepartmentIds_matchingDepartment_returnsUsers() {
+    public void getUserListByDeptIds_matchingDepartment_returnsUsers() {
         // mock data
         UserEntity dbUser = randomAdminUserEntity(o -> o.setDeptId(1L));
         userMapper.insert(dbUser);

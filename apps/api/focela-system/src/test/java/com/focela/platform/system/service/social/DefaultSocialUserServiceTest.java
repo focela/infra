@@ -52,7 +52,7 @@ public class DefaultSocialUserServiceTest extends BaseDbUnitTest {
     private SocialClientService socialClientService;
 
     @Test
-    public void testGetSocialUserList() {
+    public void getSocialUserList() {
         Long userId = 1L;
         Integer userType = UserTypeEnum.ADMIN.getValue();
         // mock get social user
@@ -74,7 +74,7 @@ public class DefaultSocialUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testBindSocialUser() {
+    public void bindSocialUser() {
         // prepare parameters
         SocialUserBindRpcRequest request = new SocialUserBindRpcRequest()
                 .setUserId(1L).setUserType(UserTypeEnum.ADMIN.getValue())
@@ -99,7 +99,7 @@ public class DefaultSocialUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUnbindSocialUser_success() {
+    public void unbindSocialUser_success() {
         // prepare parameters
         Long userId = 1L;
         Integer userType = UserTypeEnum.ADMIN.getValue();
@@ -120,7 +120,7 @@ public class DefaultSocialUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUnbindSocialUser_notFound() {
+    public void unbindSocialUser_missing() {
         // invoke, and assert
         assertServiceException(
                 () -> socialUserService.unbindSocialUser(randomLong(), UserTypeEnum.ADMIN.getValue(),
@@ -129,7 +129,7 @@ public class DefaultSocialUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetSocialUser() {
+    public void getSocialUser() {
         // prepare parameters
         Integer userType = UserTypeEnum.ADMIN.getValue();
         Integer type = SocialTypeEnum.GITEE.getType();
@@ -152,7 +152,7 @@ public class DefaultSocialUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testAuthSocialUser_exists() {
+    public void authSocialUser_exists() {
         // prepare parameters
         Integer socialType = SocialTypeEnum.GITEE.getType();
         Integer userType = randomEle(SocialTypeEnum.values()).getType();
@@ -169,7 +169,7 @@ public class DefaultSocialUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testAuthSocialUser_notNull() {
+    public void authSocialUser_notNull() {
         // mock data
         SocialUserEntity socialUser = randomPojo(SocialUserEntity.class,
                 o -> o.setType(SocialTypeEnum.GITEE.getType()).setCode("focela_alternate").setState("focela_secret"));
@@ -187,7 +187,7 @@ public class DefaultSocialUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testAuthSocialUser_insert() {
+    public void authSocialUser_insert() {
         // prepare parameters
         Integer socialType = SocialTypeEnum.GITEE.getType();
         Integer userType = randomEle(SocialTypeEnum.values()).getType();
@@ -206,7 +206,7 @@ public class DefaultSocialUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testAuthSocialUser_update() {
+    public void authSocialUser_update() {
         // prepare parameters
         Integer socialType = SocialTypeEnum.GITEE.getType();
         Integer userType = randomEle(SocialTypeEnum.values()).getType();
@@ -237,7 +237,7 @@ public class DefaultSocialUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetSocialUser_id() {
+    public void getSocialUserById() {
         // mock data
         SocialUserEntity socialUserEntity = randomPojo(SocialUserEntity.class);
         socialUserMapper.insert(socialUserEntity);
@@ -251,7 +251,7 @@ public class DefaultSocialUserServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetSocialUserPage() {
+    public void getSocialUserPage() {
         // mock data
         SocialUserEntity dbSocialUser = randomPojo(SocialUserEntity.class, o -> { // will be queried later
             o.setType(SocialTypeEnum.GITEE.getType());

@@ -38,7 +38,7 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
     private MailTemplateMapper mailTemplateMapper;
 
     @Test
-    public void testCreateMailTemplate_success() {
+    public void createMailTemplate_success() {
         // prepare parameters
         MailTemplateSaveRequest request = randomPojo(MailTemplateSaveRequest.class)
                 .setId(null); // prevent id from being assigned
@@ -53,7 +53,7 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateMailTemplate_success() {
+    public void updateMailTemplate_success() {
         // mock data
         MailTemplateEntity dbMailTemplate = randomPojo(MailTemplateEntity.class);
         mailTemplateMapper.insert(dbMailTemplate);// @Sql: first insert an existing record
@@ -70,7 +70,7 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateMailTemplate_notExists() {
+    public void updateMailTemplate_missing() {
         // prepare parameters
         MailTemplateSaveRequest request = randomPojo(MailTemplateSaveRequest.class);
 
@@ -79,7 +79,7 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteMailTemplate_success() {
+    public void deleteMailTemplate_success() {
         // mock data
         MailTemplateEntity dbMailTemplate = randomPojo(MailTemplateEntity.class);
         mailTemplateMapper.insert(dbMailTemplate);// @Sql: first insert an existing record
@@ -93,7 +93,7 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteMailTemplate_notExists() {
+    public void deleteMailTemplate_missing() {
         // prepare parameters
         Long id = randomLongId();
 
@@ -102,7 +102,7 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetMailTemplatePage() {
+    public void getMailTemplatePage() {
         // mock data
         MailTemplateEntity dbMailTemplate = randomPojo(MailTemplateEntity.class, o -> { // will be queried later
             o.setName("source");
@@ -139,7 +139,7 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetMailTemplateList() {
+    public void getMailTemplateList() {
         // mock data
         MailTemplateEntity dbMailTemplate01 = randomPojo(MailTemplateEntity.class);
         mailTemplateMapper.insert(dbMailTemplate01);
@@ -155,7 +155,7 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetMailTemplate() {
+    public void getMailTemplate() {
         // mock data
         MailTemplateEntity dbMailTemplate = randomPojo(MailTemplateEntity.class);
         mailTemplateMapper.insert(dbMailTemplate);
@@ -169,7 +169,7 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetMailTemplateByCodeFromCache() {
+    public void getMailTemplateByCodeFromCache() {
         // mock data
         MailTemplateEntity dbMailTemplate = randomPojo(MailTemplateEntity.class);
         mailTemplateMapper.insert(dbMailTemplate);
@@ -183,7 +183,7 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testFormatMailTemplateContent() {
+    public void formatMailTemplateContent() {
         // prepare parameters
         Map<String, Object> params = new HashMap<>();
         params.put("name", "Xiaohong");
@@ -195,7 +195,7 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testFormatMailTemplateContent_htmlUnescape() {
+    public void formatMailTemplateContent_htmlUnescape() {
         // prepare parameters
         Map<String, Object> params = new HashMap<>();
         params.put("title", "test title");
@@ -209,7 +209,7 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testFormatMailTemplateContent_codeBlockFormatting() {
+    public void formatMailTemplateContent_codeBlockFormatting() {
         // prepare parameters
         Map<String, Object> params = new HashMap<>();
         params.put("name", "test");
@@ -226,7 +226,7 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testFormatMailTemplateContent_preToDiv() {
+    public void formatMailTemplateContent_preToDiv() {
         // prepare parameters
         Map<String, Object> params = new HashMap<>();
         params.put("content", "test content");
@@ -239,7 +239,7 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testFormatMailTemplateContent_completeHtml() {
+    public void formatMailTemplateContent_completeHtml() {
         // prepare parameters
         Map<String, Object> params = new HashMap<>();
         params.put("username", "testuser");
@@ -258,7 +258,7 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testFormatMailTemplateContent_emptyContent() {
+    public void formatMailTemplateContent_emptyContent() {
         // prepare parameters
         Map<String, Object> params = new HashMap<>();
 
@@ -268,7 +268,7 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testFormatMailTemplateContent_noParams() {
+    public void formatMailTemplateContent_noParams() {
         // prepare parameters
         Map<String, Object> params = new HashMap<>();
 
@@ -279,7 +279,7 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testFormatMailTemplateContent_multiplePreTags() {
+    public void formatMailTemplateContent_multiplePreTags() {
         // prepare parameters
         Map<String, Object> params = new HashMap<>();
         params.put("param1", "value1");
@@ -296,7 +296,7 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testFormatMailTemplateContent_specialCharacters() {
+    public void formatMailTemplateContent_specialCharacters() {
         // prepare parameters
         Map<String, Object> params = new HashMap<>();
 
@@ -308,7 +308,7 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testCountByAccountId() {
+    public void countByAccountId() {
         // mock data
         MailTemplateEntity dbMailTemplate = randomPojo(MailTemplateEntity.class);
         mailTemplateMapper.insert(dbMailTemplate);
@@ -324,7 +324,7 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDifferenceWithHtmlContent() {
+    public void differenceWithHtmlContent() {
         // prepare template content containing HTML format
         String content = "<div style='font-family: Arial, sans-serif; color: #333;'>" +
                 "<h1>Welcome, {username}!</h1>" +

@@ -31,7 +31,7 @@ public class DefaultJobLogServiceTest extends BaseDbUnitTest {
     private JobLogMapper jobLogMapper;
 
     @Test
-    public void testCreateJobLog() {
+    public void createJobLog() {
         // Prepare parameters
         JobLogEntity request = randomPojo(JobLogEntity.class, o -> o.setExecuteIndex(1));
 
@@ -46,7 +46,7 @@ public class DefaultJobLogServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateJobLogResultAsync_success() {
+    public void updateJobLogResultAsync_success() {
         // mock data
         JobLogEntity log = randomPojo(JobLogEntity.class, o -> {
             o.setExecuteIndex(1);
@@ -71,7 +71,7 @@ public class DefaultJobLogServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateJobLogResultAsync_failure() {
+    public void updateJobLogResultAsync_failure() {
         // mock data
         JobLogEntity log = randomPojo(JobLogEntity.class, o -> {
             o.setExecuteIndex(1);
@@ -96,7 +96,7 @@ public class DefaultJobLogServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testCleanJobLog() {
+    public void cleanJobLog() {
         // mock data
         JobLogEntity log01 = randomPojo(JobLogEntity.class, o -> o.setCreateTime(addTime(Duration.ofDays(-3))))
                 .setExecuteIndex(1);
@@ -119,7 +119,7 @@ public class DefaultJobLogServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetJobLog() {
+    public void getJobLog() {
         // mock data
         JobLogEntity dbJobLog = randomPojo(JobLogEntity.class, o -> o.setExecuteIndex(1));
         jobLogMapper.insert(dbJobLog);
@@ -133,7 +133,7 @@ public class DefaultJobLogServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetJobPage() {
+    public void getJobPage() {
         // mock data
         JobLogEntity dbJobLog = randomPojo(JobLogEntity.class, o -> {
             o.setExecuteIndex(1);

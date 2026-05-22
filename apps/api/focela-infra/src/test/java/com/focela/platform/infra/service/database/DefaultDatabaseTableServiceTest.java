@@ -28,7 +28,7 @@ public class DefaultDatabaseTableServiceTest extends BaseDbUnitTest {
     private DataSourceConfigService dataSourceConfigService;
 
     @Test
-    public void testGetTableList() {
+    public void getTableList() {
         // prepare parameters
         Long dataSourceConfigId = randomLongId();
         // mock the method
@@ -46,7 +46,7 @@ public class DefaultDatabaseTableServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetTable() {
+    public void getTable() {
         // prepare parameters
         Long dataSourceConfigId = randomLongId();
         // mock the method

@@ -34,7 +34,7 @@ class DefaultOAuth2CodeServiceTest extends BaseDbUnitTest {
     private OAuth2CodeMapper oauth2CodeMapper;
 
     @Test
-    public void testCreateAuthorizationCode() {
+    public void createAuthorizationCode() {
         // prepare parameters
         Long userId = randomLongId();
         Integer userType = RandomUtil.randomEle(UserTypeEnum.values()).getValue();
@@ -60,14 +60,14 @@ class DefaultOAuth2CodeServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testConsumeAuthorizationCode_null() {
+    public void consumeAuthorizationCode_null() {
         // invoke, and assert
         assertServiceException(() -> oauth2CodeService.consumeAuthorizationCode(randomString()),
                 OAUTH2_CODE_NOT_FOUND);
     }
 
     @Test
-    public void testConsumeAuthorizationCode_expired() {
+    public void consumeAuthorizationCode_expired() {
         // prepare parameters
         String code = "test_code";
         // mock data
@@ -81,7 +81,7 @@ class DefaultOAuth2CodeServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testConsumeAuthorizationCode_success() {
+    public void consumeAuthorizationCode_success() {
         // prepare parameters
         String code = "test_code";
         // mock data

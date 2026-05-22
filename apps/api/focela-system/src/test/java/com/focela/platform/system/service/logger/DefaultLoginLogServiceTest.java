@@ -30,7 +30,7 @@ public class DefaultLoginLogServiceTest extends BaseDbUnitTest {
     private LoginLogMapper loginLogMapper;
 
     @Test
-    public void testGetLoginLogPage() {
+    public void getLoginLogPage() {
         // mock data
         LoginLogEntity loginLogEntity = randomPojo(LoginLogEntity.class, o -> {
             o.setUserIp("192.168.199.16");
@@ -63,7 +63,7 @@ public class DefaultLoginLogServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testCreateLoginLog() {
+    public void createLoginLog() {
         LoginLogCreateRpcRequest request = randomPojo(LoginLogCreateRpcRequest.class);
 
         // invoke

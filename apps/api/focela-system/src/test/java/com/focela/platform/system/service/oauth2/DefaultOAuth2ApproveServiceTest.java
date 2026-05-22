@@ -117,7 +117,7 @@ public class DefaultOAuth2ApproveServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateAfterApproval_none() {
+    public void updateAfterApproval_none() {
         // prepare parameters
         Long userId = randomLongId();
         Integer userType = randomEle(UserTypeEnum.values()).getValue();
@@ -133,7 +133,7 @@ public class DefaultOAuth2ApproveServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateAfterApproval_approved() {
+    public void updateAfterApproval_approved() {
         // prepare parameters
         Long userId = randomLongId();
         Integer userType = randomEle(UserTypeEnum.values()).getValue();
@@ -167,7 +167,7 @@ public class DefaultOAuth2ApproveServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateAfterApproval_reject() {
+    public void updateAfterApproval_reject() {
         // prepare parameters
         Long userId = randomLongId();
         Integer userType = randomEle(UserTypeEnum.values()).getValue();
@@ -193,7 +193,7 @@ public class DefaultOAuth2ApproveServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetApproveList() {
+    public void getApproveList() {
         // prepare parameters
         Long userId = 10L;
         Integer userType = UserTypeEnum.ADMIN.getValue();
@@ -214,7 +214,7 @@ public class DefaultOAuth2ApproveServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testSaveApprove_insert() {
+    public void saveApprove_insert() {
         // prepare parameters
         Long userId = randomLongId();
         Integer userType = randomEle(UserTypeEnum.values()).getValue();
@@ -239,7 +239,7 @@ public class DefaultOAuth2ApproveServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testSaveApprove_update() {
+    public void saveApprove_update() {
         // mock data
         OAuth2ApproveEntity approve = randomPojo(OAuth2ApproveEntity.class);
         oauth2ApproveMapper.insert(approve);

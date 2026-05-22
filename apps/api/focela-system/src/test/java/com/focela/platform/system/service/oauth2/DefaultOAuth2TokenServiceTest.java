@@ -56,7 +56,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
     private UserService adminUserService;
 
     @Test
-    public void testCreateAccessToken() {
+    public void createAccessToken() {
         TenantContextHolder.setTenantId(0L);
         // prepare parameters
         Long userId = randomLongId();
@@ -96,7 +96,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
     }
 
     @Test
-    public void testRefreshAccessToken_null() {
+    public void refreshAccessToken_null() {
         // prepare parameters
         String refreshToken = randomString();
         String clientId = randomString();
@@ -108,7 +108,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
     }
 
     @Test
-    public void testRefreshAccessToken_clientIdError() {
+    public void refreshAccessToken_clientIdError() {
         // prepare parameters
         String refreshToken = randomString();
         String clientId = randomString();
@@ -126,7 +126,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
     }
 
     @Test
-    public void testRefreshAccessToken_expired() {
+    public void refreshAccessToken_expired() {
         // prepare parameters
         String refreshToken = randomString();
         String clientId = randomString();
@@ -146,7 +146,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
     }
 
     @Test
-    public void testRefreshAccessToken_success() {
+    public void refreshAccessToken_success() {
         TenantContextHolder.setTenantId(0L);
         // prepare parameters
         String refreshToken = randomString();
@@ -190,7 +190,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
     }
 
     @Test
-    public void testGetAccessToken() {
+    public void getAccessToken() {
         // mock data（access token）
         OAuth2AccessTokenEntity accessTokenEntity = randomPojo(OAuth2AccessTokenEntity.class)
                 .setExpiresTime(LocalDateTime.now().plusDays(1));
@@ -210,14 +210,14 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
     }
 
     @Test
-    public void testCheckAccessToken_null() {
+    public void checkAccessToken_null() {
         // invoke, and assert
         assertServiceException(() -> oauth2TokenService.checkAccessToken(randomString()),
                 new ErrorCode(401, "Access token does not exist"));
     }
 
     @Test
-    public void testCheckAccessToken_expired() {
+    public void checkAccessToken_expired() {
         // mock data（access token）
         OAuth2AccessTokenEntity accessTokenEntity = randomPojo(OAuth2AccessTokenEntity.class)
                 .setExpiresTime(LocalDateTime.now().minusDays(1));
@@ -231,7 +231,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
     }
 
     @Test
-    public void testCheckAccessToken_refreshToken() {
+    public void checkAccessToken_refreshToken() {
         // mock data（access token）
         OAuth2RefreshTokenEntity refreshTokenEntity = randomPojo(OAuth2RefreshTokenEntity.class)
                 .setUserId(0L)
@@ -248,7 +248,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
     }
 
     @Test
-    public void testCheckAccessToken_success() {
+    public void checkAccessToken_success() {
         // mock data（access token）
         OAuth2AccessTokenEntity accessTokenEntity = randomPojo(OAuth2AccessTokenEntity.class)
                 .setExpiresTime(LocalDateTime.now().plusDays(1));
@@ -265,13 +265,13 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
     }
 
     @Test
-    public void testRemoveAccessToken_null() {
+    public void removeAccessToken_null() {
         // invoke, and assert
         assertNull(oauth2TokenService.removeAccessToken(randomString()));
     }
 
     @Test
-    public void testRemoveAccessToken_success() {
+    public void removeAccessToken_success() {
         // mock data（access token）
         OAuth2AccessTokenEntity accessTokenEntity = randomPojo(OAuth2AccessTokenEntity.class)
                 .setExpiresTime(LocalDateTime.now().plusDays(1));
@@ -293,7 +293,7 @@ public class DefaultOAuth2TokenServiceTest extends BaseDbAndRedisUnitTest {
 
 
     @Test
-    public void testGetAccessTokenPage() {
+    public void getAccessTokenPage() {
         // mock data
         OAuth2AccessTokenEntity dbAccessToken = randomPojo(OAuth2AccessTokenEntity.class, o -> { // will be queried later
             o.setUserId(10L);

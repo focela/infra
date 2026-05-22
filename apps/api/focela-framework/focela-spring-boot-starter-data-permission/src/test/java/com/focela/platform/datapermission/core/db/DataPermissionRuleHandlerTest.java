@@ -456,7 +456,7 @@ public class DataPermissionRuleHandlerTest extends BaseMockitoUnitTest {
     // ========== Extra tests ==========
 
     @Test
-    public void testSelectSingle() {
+    public void selectSingleWithDepartmentRule() {
         // Single table
         assertSql("select * from t_user where id = ?",
                 "SELECT * FROM t_user WHERE id = ? AND t_user.tenant_id = 1 AND t_user.dept_id IN (10, 20)");
@@ -473,7 +473,7 @@ public class DataPermissionRuleHandlerTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testSelectLeftJoin() {
+    public void selectLeftJoinWithDepartmentRule() {
         // left join
         assertSql("SELECT * FROM t_user e " +
                         "left join t_role e1 on e1.id = e.id " +
@@ -492,7 +492,7 @@ public class DataPermissionRuleHandlerTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testSelectRightJoin() {
+    public void selectRightJoinWithDepartmentRule() {
         // right join
         assertSql("SELECT * FROM t_user e " +
                         "right join t_role e1 on e1.id = e.id " +
@@ -511,7 +511,7 @@ public class DataPermissionRuleHandlerTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testSelectInnerJoin() {
+    public void selectInnerJoinWithDepartmentRule() {
         // inner join
         assertSql("SELECT * FROM t_user e " +
                         "inner join entity1 e1 on e1.id = e.id " +

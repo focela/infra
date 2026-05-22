@@ -52,7 +52,7 @@ public class DefaultSmsSendServiceTest extends BaseMockitoUnitTest {
     private SmsProducer smsProducer;
 
     @Test
-    public void testSendSingleSmsToAdmin() {
+    public void sendSingleSmsToAdmin() {
         // prepare parameters
         Long userId = randomLongId();
         String templateCode = randomString();
@@ -91,7 +91,7 @@ public class DefaultSmsSendServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testSendSingleSmsToUser() {
+    public void sendSingleSmsToUser() {
         // prepare parameters
         Long userId = randomLongId();
         String templateCode = randomString();
@@ -133,7 +133,7 @@ public class DefaultSmsSendServiceTest extends BaseMockitoUnitTest {
      * send succeeds when SMS template is enabled
      */
     @Test
-    public void testSendSingleSms_successWhenSmsTemplateEnable() {
+    public void sendSingleSms_successWhenSmsTemplateEnable() {
         // prepare parameters
         String mobile = randomString();
         Long userId = randomLongId();
@@ -173,7 +173,7 @@ public class DefaultSmsSendServiceTest extends BaseMockitoUnitTest {
      * send succeeds when SMS template is disabled
      */
     @Test
-    public void testSendSingleSms_successWhenSmsTemplateDisable() {
+    public void sendSingleSms_successWhenSmsTemplateDisable() {
         // prepare parameters
         String mobile = randomString();
         Long userId = randomLongId();
@@ -209,7 +209,7 @@ public class DefaultSmsSendServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testCheckSmsTemplateValid_notExists() {
+    public void checkSmsTemplateValid_missing() {
         // prepare parameters
         String templateCode = randomString();
         // mock the method
@@ -220,7 +220,7 @@ public class DefaultSmsSendServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testBuildTemplateParams_paramMiss() {
+    public void buildTemplateParams_missingParam() {
         // prepare parameters
         SmsTemplateEntity template = randomPojo(SmsTemplateEntity.class,
                 o -> o.setParams(Lists.newArrayList("code")));
@@ -233,7 +233,7 @@ public class DefaultSmsSendServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testCheckMobile_notExists() {
+    public void checkMobile_missing() {
         // prepare parameters
         // mock the method
 
@@ -243,7 +243,7 @@ public class DefaultSmsSendServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testSendBatchNotify() {
+    public void sendBatchNotify() {
         // prepare parameters
         // mock the method
 
@@ -258,7 +258,7 @@ public class DefaultSmsSendServiceTest extends BaseMockitoUnitTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testDoSendSms() throws Throwable {
+    public void doSendSms() throws Throwable {
         // prepare parameters
         SmsSendMessage message = randomPojo(SmsSendMessage.class);
         // mock SmsClientFactory  method
@@ -278,7 +278,7 @@ public class DefaultSmsSendServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testReceiveSmsStatus() throws Throwable {
+    public void receiveSmsStatus() throws Throwable {
         // prepare parameters
         String channelCode = randomString();
         String text = randomString();

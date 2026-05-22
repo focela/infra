@@ -51,7 +51,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
     private SmsClient smsClient;
 
     @Test
-    public void testFormatSmsTemplateContent() {
+    public void formatSmsTemplateContent() {
         // prepare parameters
         String content = "You are performing the {operation} operation, your verification code is {code}";
         Map<String, Object> params = MapUtil.<String, Object>builder("operation", "login")
@@ -64,7 +64,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testParseTemplateContentParams() {
+    public void parseTemplateContentParams() {
         // prepare parameters
         String content = "You are performing the {operation} operation, your verification code is {code}";
         // mock the method
@@ -77,7 +77,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testCreateSmsTemplate_success() throws Throwable {
+    public void createSmsTemplate_success() throws Throwable {
         // prepare parameters
         SmsTemplateSaveRequest request = randomPojo(SmsTemplateSaveRequest.class, o -> {
             o.setContent("You are performing the {operation} operation, your verification code is {code}");
@@ -108,7 +108,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testUpdateSmsTemplate_success() throws Throwable {
+    public void updateSmsTemplate_success() throws Throwable {
         // mock data
         SmsTemplateEntity dbSmsTemplate = randomSmsTemplateEntity();
         smsTemplateMapper.insert(dbSmsTemplate);// @Sql: first insert an existing record
@@ -140,7 +140,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateSmsTemplate_notExists() {
+    public void updateSmsTemplate_missing() {
         // prepare parameters
         SmsTemplateSaveRequest request = randomPojo(SmsTemplateSaveRequest.class);
 
@@ -149,7 +149,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteSmsTemplate_success() {
+    public void deleteSmsTemplate_success() {
         // mock data
         SmsTemplateEntity dbSmsTemplate = randomSmsTemplateEntity();
         smsTemplateMapper.insert(dbSmsTemplate);// @Sql: first insert an existing record
@@ -163,7 +163,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteSmsTemplate_notExists() {
+    public void deleteSmsTemplate_missing() {
         // prepare parameters
         Long id = randomLongId();
 
@@ -172,7 +172,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetSmsTemplate() {
+    public void getSmsTemplate() {
         // mock data
         SmsTemplateEntity dbSmsTemplate = randomSmsTemplateEntity();
         smsTemplateMapper.insert(dbSmsTemplate);// @Sql: first insert an existing record
@@ -186,7 +186,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetSmsTemplateByCodeFromCache() {
+    public void getSmsTemplateByCodeFromCache() {
         // mock data
         SmsTemplateEntity dbSmsTemplate = randomSmsTemplateEntity();
         smsTemplateMapper.insert(dbSmsTemplate);// @Sql: first insert an existing record
@@ -200,7 +200,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetSmsTemplatePage() {
+    public void getSmsTemplatePage() {
         // mock data
         SmsTemplateEntity dbSmsTemplate = randomPojo(SmsTemplateEntity.class, o -> { // will be queried later
             o.setType(SmsTemplateTypeEnum.PROMOTION.getType());
@@ -245,7 +245,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetSmsTemplateCountByChannelId() {
+    public void getSmsTemplateCountByChannelId() {
         // mock data
         SmsTemplateEntity dbSmsTemplate = randomPojo(SmsTemplateEntity.class, o -> o.setChannelId(1L));
         smsTemplateMapper.insert(dbSmsTemplate);
@@ -261,7 +261,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateSmsChannel_success() {
+    public void validateSmsChannel_success() {
         // prepare parameters
         Long channelId = randomLongId();
         // mock the method
@@ -278,7 +278,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateSmsChannel_notExists() {
+    public void validateSmsChannel_missing() {
         // prepare parameters
         Long channelId = randomLongId();
 
@@ -288,7 +288,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateSmsChannel_disable() {
+    public void validateSmsChannel_disable() {
         // prepare parameters
         Long channelId = randomLongId();
         // mock the method
@@ -304,13 +304,13 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateDictDataValueUnique_success() {
+    public void validateDictionaryDataValueUnique_success() {
         // invoke, succeeded
         smsTemplateService.validateSmsTemplateCodeDuplicate(randomLongId(), randomString());
     }
 
     @Test
-    public void testValidateSmsTemplateCodeDuplicate_valueDuplicateForCreate() {
+    public void validateSmsTemplateCodeDuplicate_valueDuplicateForCreate() {
         // prepare parameters
         String code = randomString();
         // mock data
@@ -322,7 +322,7 @@ public class DefaultSmsTemplateServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateDictDataValueUnique_valueDuplicateForUpdate() {
+    public void validateDictionaryDataValueUnique_valueDuplicateForUpdate() {
         // prepare parameters
         Long id = randomLongId();
         String code = randomString();

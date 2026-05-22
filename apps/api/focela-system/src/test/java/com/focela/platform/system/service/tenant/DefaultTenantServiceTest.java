@@ -80,7 +80,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetTenantIdList() {
+    public void getTenantIdList() {
         // mock data
         TenantEntity tenant = randomPojo(TenantEntity.class, o -> o.setId(1L));
         tenantMapper.insert(tenant);
@@ -91,12 +91,12 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidTenant_notExists() {
+    public void validTenant_missing() {
         assertServiceException(() -> tenantService.validateTenant(randomLongId()), TENANT_NOT_FOUND);
     }
 
     @Test
-    public void testValidTenant_disable() {
+    public void validTenant_disable() {
         // mock data
         TenantEntity tenant = randomPojo(TenantEntity.class, o -> o.setId(1L).setStatus(CommonStatusEnum.DISABLE.getStatus()));
         tenantMapper.insert(tenant);
@@ -106,7 +106,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidTenant_expired() {
+    public void validTenant_expired() {
         // mock data
         TenantEntity tenant = randomPojo(TenantEntity.class, o -> o.setId(1L).setStatus(CommonStatusEnum.ENABLE.getStatus())
                 .setExpireTime(buildTime(2020, 2, 2)));
@@ -117,7 +117,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidTenant_success() {
+    public void validTenant_success() {
         // mock data
         TenantEntity tenant = randomPojo(TenantEntity.class, o -> o.setId(1L).setStatus(CommonStatusEnum.ENABLE.getStatus())
                 .setExpireTime(LocalDateTime.now().plusDays(1)));
@@ -128,7 +128,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testCreateTenant() {
+    public void createTenant() {
         // mock package 100L
         TenantPackageEntity tenantPackage = randomPojo(TenantPackageEntity.class, o -> o.setId(100L));
         when(tenantPackageService.validateTenantPackage(eq(100L))).thenReturn(tenantPackage);
@@ -175,7 +175,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateTenant_success() {
+    public void updateTenant_success() {
         // mock data
         TenantEntity dbTenant = randomPojo(TenantEntity.class, o -> o.setStatus(randomCommonStatus()));
         tenantMapper.insert(dbTenant);// @Sql: first insert an existing record
@@ -210,7 +210,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateTenant_notExists() {
+    public void updateTenant_missing() {
         // prepare parameters
         TenantSaveRequest request = randomPojo(TenantSaveRequest.class);
 
@@ -219,7 +219,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateTenant_system() {
+    public void updateTenant_system() {
         // mock data
         TenantEntity dbTenant = randomPojo(TenantEntity.class, o -> o.setPackageId(PACKAGE_ID_SYSTEM));
         tenantMapper.insert(dbTenant);// @Sql: first insert an existing record
@@ -233,7 +233,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteTenant_success() {
+    public void deleteTenant_success() {
         // mock data
         TenantEntity dbTenant = randomPojo(TenantEntity.class,
                 o -> o.setStatus(randomCommonStatus()));
@@ -248,7 +248,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteTenant_notExists() {
+    public void deleteTenant_missing() {
         // prepare parameters
         Long id = randomLongId();
 
@@ -257,7 +257,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteTenant_system() {
+    public void deleteTenant_system() {
         // mock data
         TenantEntity dbTenant = randomPojo(TenantEntity.class, o -> o.setPackageId(PACKAGE_ID_SYSTEM));
         tenantMapper.insert(dbTenant);// @Sql: first insert an existing record
@@ -269,7 +269,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetTenant() {
+    public void getTenant() {
         // mock data
         TenantEntity dbTenant = randomPojo(TenantEntity.class);
         tenantMapper.insert(dbTenant);// @Sql: first insert an existing record
@@ -283,7 +283,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetTenantPage() {
+    public void getTenantPage() {
         // mock data
         TenantEntity dbTenant = randomPojo(TenantEntity.class, o -> { // will be queried later
             o.setName("Focelasource");
@@ -320,7 +320,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetTenantByName() {
+    public void getTenantByName() {
         // mock data
         TenantEntity dbTenant = randomPojo(TenantEntity.class, o -> o.setName("Focela"));
         tenantMapper.insert(dbTenant);// @Sql: first insert an existing record
@@ -333,7 +333,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
 
     @Test
     @Disabled // H2 find_in_set function is not supported
-    public void testGetTenantByWebsite() {
+    public void getTenantByWebsite() {
         // mock data
         TenantEntity dbTenant = randomPojo(TenantEntity.class, o -> o.setWebsites(singletonList("https://www.example.com")));
         tenantMapper.insert(dbTenant);// @Sql: first insert an existing record
@@ -345,7 +345,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetTenantListByPackageId() {
+    public void getTenantListByPackageId() {
         // mock data
         TenantEntity dbTenant1 = randomPojo(TenantEntity.class, o -> o.setPackageId(1L));
         tenantMapper.insert(dbTenant1);// @Sql: first insert an existing record
@@ -359,7 +359,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetTenantCountByPackageId() {
+    public void getTenantCountByPackageId() {
         // mock data
         TenantEntity dbTenant1 = randomPojo(TenantEntity.class, o -> o.setPackageId(1L));
         tenantMapper.insert(dbTenant1);// @Sql: first insert an existing record
@@ -372,7 +372,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testHandleTenantInfo_disable() {
+    public void handleTenantInfo_disable() {
         // prepare parameters
         TenantInfoHandler handler = mock(TenantInfoHandler.class);
         // mock disabled
@@ -385,7 +385,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testHandleTenantInfo_success() {
+    public void handleTenantInfo_success() {
         // prepare parameters
         TenantInfoHandler handler = mock(TenantInfoHandler.class);
         // mock not disabled
@@ -405,7 +405,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testHandleTenantMenu_disable() {
+    public void handleTenantMenu_disable() {
         // prepare parameters
         TenantMenuHandler handler = mock(TenantMenuHandler.class);
         // mock disabled
@@ -418,7 +418,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
     }
 
     @Test // system tenant case
-    public void testHandleTenantMenu_system() {
+    public void handleTenantMenu_system() {
         // prepare parameters
         TenantMenuHandler handler = mock(TenantMenuHandler.class);
         // mock not disabled
@@ -438,7 +438,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
     }
 
     @Test // regular tenant case
-    public void testHandleTenantMenu_normal() {
+    public void handleTenantMenu_normal() {
         // prepare parameters
         TenantMenuHandler handler = mock(TenantMenuHandler.class);
         // mock not disabled

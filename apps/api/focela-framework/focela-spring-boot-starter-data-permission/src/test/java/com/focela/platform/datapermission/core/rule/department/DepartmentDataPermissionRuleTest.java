@@ -48,7 +48,7 @@ class DepartmentDataPermissionRuleTest extends BaseMockitoUnitTest {
     }
 
     @Test // No LoginUser
-    public void testGetExpression_noLoginUser() {
+    public void getExpression_noLoginUser() {
         // prepare parameters
         String tableName = randomString();
         Alias tableAlias = new Alias(randomString());
@@ -61,7 +61,7 @@ class DepartmentDataPermissionRuleTest extends BaseMockitoUnitTest {
     }
 
     @Test // No data permission
-    public void testGetExpression_noDeptDataPermission() {
+    public void getExpression_noDepartmentDataPermission() {
         try (MockedStatic<SecurityFrameworkUtils> securityFrameworkUtilsMock
                      = mockStatic(SecurityFrameworkUtils.class)) {
             // prepare parameters
@@ -83,7 +83,7 @@ class DepartmentDataPermissionRuleTest extends BaseMockitoUnitTest {
     }
 
     @Test // Full data permission
-    public void testGetExpression_allDeptDataPermission() {
+    public void getExpression_allDepartmentDataPermission() {
         try (MockedStatic<SecurityFrameworkUtils> securityFrameworkUtilsMock
                      = mockStatic(SecurityFrameworkUtils.class)) {
             // prepare parameters
@@ -106,7 +106,7 @@ class DepartmentDataPermissionRuleTest extends BaseMockitoUnitTest {
     }
 
     @Test // Cannot view department nor self - i.e. 100% no permission
-    public void testGetExpression_noDept_noSelf() {
+    public void getExpression_noDepartment_noSelf() {
         try (MockedStatic<SecurityFrameworkUtils> securityFrameworkUtilsMock
                      = mockStatic(SecurityFrameworkUtils.class)) {
             // prepare parameters
@@ -129,7 +129,7 @@ class DepartmentDataPermissionRuleTest extends BaseMockitoUnitTest {
     }
 
     @Test // Combine Department and User conditions (neither column matches)
-    public void testGetExpression_noDeptColumn_noSelfColumn() {
+    public void getExpression_noDepartmentColumn_noSelfColumn() {
         try (MockedStatic<SecurityFrameworkUtils> securityFrameworkUtilsMock
                      = mockStatic(SecurityFrameworkUtils.class)) {
             // prepare parameters
@@ -153,7 +153,7 @@ class DepartmentDataPermissionRuleTest extends BaseMockitoUnitTest {
     }
 
     @Test // Combine Department and User conditions (self column matches)
-    public void testGetExpression_noDeptColumn_yesSelfColumn() {
+    public void getExpression_noDepartmentColumn_yesSelfColumn() {
         try (MockedStatic<SecurityFrameworkUtils> securityFrameworkUtilsMock
                      = mockStatic(SecurityFrameworkUtils.class)) {
             // prepare parameters
@@ -179,7 +179,7 @@ class DepartmentDataPermissionRuleTest extends BaseMockitoUnitTest {
     }
 
     @Test // Combine Department and User conditions (dept column matches)
-    public void testGetExpression_yesDeptColumn_noSelfColumn() {
+    public void getExpression_yesDepartmentColumn_noSelfColumn() {
         try (MockedStatic<SecurityFrameworkUtils> securityFrameworkUtilsMock
                      = mockStatic(SecurityFrameworkUtils.class)) {
             // prepare parameters
@@ -205,7 +205,7 @@ class DepartmentDataPermissionRuleTest extends BaseMockitoUnitTest {
     }
 
     @Test // Combine Department and User conditions (both dept and self match)
-    public void testGetExpression_yesDeptColumn_yesSelfColumn() {
+    public void getExpression_yesDepartmentColumn_yesSelfColumn() {
         try (MockedStatic<SecurityFrameworkUtils> securityFrameworkUtilsMock
                      = mockStatic(SecurityFrameworkUtils.class)) {
             // prepare parameters

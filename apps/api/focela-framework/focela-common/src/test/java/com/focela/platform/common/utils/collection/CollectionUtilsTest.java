@@ -27,7 +27,7 @@ public class CollectionUtilsTest {
     }
 
     @Test
-    public void testDiffList() {
+    public void diffList() {
         // prepare parameters
         Collection<Dog> oldList = Arrays.asList(
                 new Dog(1, "Huahua", "hh"),

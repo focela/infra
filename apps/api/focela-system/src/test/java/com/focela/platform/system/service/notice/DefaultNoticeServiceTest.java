@@ -30,7 +30,7 @@ class DefaultNoticeServiceTest extends BaseDbUnitTest {
     private NoticeMapper noticeMapper;
 
     @Test
-    public void testGetNoticePage_success() {
+    public void getNoticePage_success() {
         // insert prerequisite data
         NoticeEntity dbNotice = randomPojo(NoticeEntity.class, o -> {
             o.setTitle("Nicolas Zhao Si is here!");
@@ -55,7 +55,7 @@ class DefaultNoticeServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetNotice_success() {
+    public void getNotice_success() {
         // insert prerequisite data
         NoticeEntity dbNotice = randomPojo(NoticeEntity.class);
         noticeMapper.insert(dbNotice);
@@ -69,7 +69,7 @@ class DefaultNoticeServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testCreateNotice_success() {
+    public void createNotice_success() {
         // prepare parameters
         NoticeSaveRequest request = randomPojo(NoticeSaveRequest.class)
                 .setId(null); // avoid id being assigned
@@ -83,7 +83,7 @@ class DefaultNoticeServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testUpdateNotice_success() {
+    public void updateNotice_success() {
         // insert prerequisite data
         NoticeEntity dbNoticeEntity = randomPojo(NoticeEntity.class);
         noticeMapper.insert(dbNoticeEntity);
@@ -99,7 +99,7 @@ class DefaultNoticeServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testDeleteNotice_success() {
+    public void deleteNotice_success() {
         // insert prerequisite data
         NoticeEntity dbNotice = randomPojo(NoticeEntity.class);
         noticeMapper.insert(dbNotice);
@@ -112,7 +112,7 @@ class DefaultNoticeServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateNoticeExists_success() {
+    public void validateNoticeExists_success() {
         // insert prerequisite data
         NoticeEntity dbNotice = randomPojo(NoticeEntity.class);
         noticeMapper.insert(dbNotice);
@@ -122,7 +122,7 @@ class DefaultNoticeServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateNoticeExists_noExists() {
+    public void validateNoticeExists_missing() {
         assertServiceException(() ->
                 noticeService.validateNoticeExists(randomLongId()), NOTICE_NOT_FOUND);
     }
