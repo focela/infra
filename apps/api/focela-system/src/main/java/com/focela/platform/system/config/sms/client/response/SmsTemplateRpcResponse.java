@@ -1,4 +1,4 @@
-package com.focela.platform.system.config.sms.client.dto;
+package com.focela.platform.system.config.sms.client.response;
 
 import com.focela.platform.system.config.sms.enums.SmsTemplateAuditStatusEnum;
 import lombok.Data;

@@ -21,12 +21,12 @@ import java.util.Set;
 @MappedTypes(List.class)
 public class LongSetTypeHandler implements TypeHandler<Set<Long>> {
 
-    private static final String COMMA = ",";
+    private static final String SET_VALUE_SEPARATOR = ",";
 
     @Override
     public void setParameter(PreparedStatement ps, int i, Set<Long> strings, JdbcType jdbcType) throws SQLException {
         // Set the placeholder
-        ps.setString(i, CollUtil.join(strings, COMMA));
+        ps.setString(i, CollUtil.join(strings, SET_VALUE_SEPARATOR));
     }
 
     @Override
@@ -51,6 +51,6 @@ public class LongSetTypeHandler implements TypeHandler<Set<Long>> {
         if (value == null) {
             return null;
         }
-        return StrUtils.splitToLongSet(value, COMMA);
+        return StrUtils.splitToLongSet(value, SET_VALUE_SEPARATOR);
     }
 }

@@ -20,17 +20,17 @@ public class ErrorLogCleanJob implements JobHandler {
     /**
      * Clean logs older than (14) days.
      */
-    private static final Integer JOB_CLEAN_RETAIN_DAY = 14;
+    private static final Integer ERROR_LOG_RETENTION_DAYS = 14;
 
     /**
      * Number of records deleted per batch. Setting this too high may overload the database.
      */
-    private static final Integer DELETE_LIMIT = 100;
+    private static final Integer DELETE_BATCH_SIZE = 100;
 
     @Override
     @TenantIgnore
     public String execute(String param) {
-        Integer count = apiErrorLogService.cleanErrorLog(JOB_CLEAN_RETAIN_DAY,DELETE_LIMIT);
+        Integer count = apiErrorLogService.cleanErrorLog(ERROR_LOG_RETENTION_DAYS, DELETE_BATCH_SIZE);
         log.info("[execute][scheduled clean of error log count ({})]", count);
         return String.format("scheduled clean of error log count %s", count);
     }

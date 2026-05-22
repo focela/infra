@@ -10,9 +10,9 @@ import cn.hutool.http.HttpUtil;
 import com.focela.platform.common.core.KeyValue;
 import com.focela.platform.common.utils.collection.MapUtils;
 import com.focela.platform.common.utils.json.JsonUtils;
-import com.focela.platform.system.config.sms.client.dto.SmsReceiveRpcResponse;
-import com.focela.platform.system.config.sms.client.dto.SmsSendRpcResponse;
-import com.focela.platform.system.config.sms.client.dto.SmsTemplateRpcResponse;
+import com.focela.platform.system.config.sms.client.response.SmsReceiveRpcResponse;
+import com.focela.platform.system.config.sms.client.response.SmsSendRpcResponse;
+import com.focela.platform.system.config.sms.client.response.SmsTemplateRpcResponse;
 import com.focela.platform.system.config.sms.enums.SmsTemplateAuditStatusEnum;
 import com.focela.platform.system.config.sms.property.SmsChannelProperties;
 

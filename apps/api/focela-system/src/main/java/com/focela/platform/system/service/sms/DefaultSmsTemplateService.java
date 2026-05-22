@@ -14,7 +14,7 @@ import com.focela.platform.system.domain.entity.sms.SmsTemplateEntity;
 import com.focela.platform.system.repository.mapper.sms.SmsTemplateMapper;
 import com.focela.platform.system.constants.RedisKeyConstants;
 import com.focela.platform.system.config.sms.client.SmsClient;
-import com.focela.platform.system.config.sms.client.dto.SmsTemplateRpcResponse;
+import com.focela.platform.system.config.sms.client.response.SmsTemplateRpcResponse;
 import com.focela.platform.system.config.sms.enums.SmsTemplateAuditStatusEnum;
 import com.google.common.annotations.VisibleForTesting;
 import lombok.RequiredArgsConstructor;

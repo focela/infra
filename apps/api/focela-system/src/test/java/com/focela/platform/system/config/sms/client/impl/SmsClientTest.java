@@ -3,8 +3,8 @@ package com.focela.platform.system.config.sms.client.impl;
 import cn.hutool.core.collection.ListUtil;
 import com.focela.platform.common.core.KeyValue;
 import com.focela.platform.system.config.sms.client.SmsClient;
-import com.focela.platform.system.config.sms.client.dto.SmsSendRpcResponse;
-import com.focela.platform.system.config.sms.client.dto.SmsTemplateRpcResponse;
+import com.focela.platform.system.config.sms.client.response.SmsSendRpcResponse;
+import com.focela.platform.system.config.sms.client.response.SmsTemplateRpcResponse;
 import com.focela.platform.system.config.sms.property.SmsChannelProperties;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -16,17 +16,21 @@ import java.util.List;
  */
 public class SmsClientTest {
 
+    private static String env(String key, String defaultValue) {
+        return System.getenv().getOrDefault(key, defaultValue);
+    }
+
     // ========== Aliyun ==========
 
     @Test
     @Disabled
-    public void testAliyunSmsClient_getSmsTemplate() throws Throwable {
+    public void aliyunSmsClient_getSmsTemplate_returnsTemplate() throws Throwable {
         SmsChannelProperties properties = new SmsChannelProperties()
                 .setApiKey(System.getenv("SMS_ALIYUN_ACCESS_KEY"))
                 .setApiSecret(System.getenv("SMS_ALIYUN_SECRET_KEY"));
         AliyunSmsClient client = new AliyunSmsClient(properties);
         // prepare parameters
-        String apiTemplateId = "SMS_207945135";
+        String apiTemplateId = env("SMS_ALIYUN_TEMPLATE_ID", "SMS_TEMPLATE_ID");
         // invoke
         SmsTemplateRpcResponse template = client.getSmsTemplate(apiTemplateId);
         // print result
@@ -35,16 +39,16 @@ public class SmsClientTest {
 
     @Test
     @Disabled
-    public void testAliyunSmsClient_sendSms() throws Throwable {
+    public void aliyunSmsClient_sendSms_returnsResponse() throws Throwable {
         SmsChannelProperties properties = new SmsChannelProperties()
                 .setApiKey(System.getenv("SMS_ALIYUN_ACCESS_KEY"))
                 .setApiSecret(System.getenv("SMS_ALIYUN_SECRET_KEY"))
-                .setSignature("Ballcat");
+                .setSignature(env("SMS_ALIYUN_SIGNATURE", "SMS_SIGNATURE"));
         AliyunSmsClient client = new AliyunSmsClient(properties);
         // prepare parameters
         Long sendLogId = System.currentTimeMillis();
-        String mobile = "15601691323";
-        String apiTemplateId = "SMS_207945135";
+        String mobile = env("SMS_TEST_MOBILE", "13800000000");
+        String apiTemplateId = env("SMS_ALIYUN_TEMPLATE_ID", "SMS_TEMPLATE_ID");
         // invoke
         SmsSendRpcResponse sendResponse = client.sendSms(sendLogId, mobile, apiTemplateId, ListUtil.of(new KeyValue<>("code", "1024")));
         // print result
@@ -55,17 +59,17 @@ public class SmsClientTest {
 
     @Test
     @Disabled
-    public void testTencentSmsClient_sendSms() throws Throwable {
-        String sdkAppId = "1400500458";
+    public void tencentSmsClient_sendSms_returnsResponse() throws Throwable {
+        String sdkAppId = env("SMS_TENCENT_SDK_APP_ID", "SMS_SDK_APP_ID");
         SmsChannelProperties properties = new SmsChannelProperties()
                 .setApiKey(System.getenv("SMS_TENCENT_ACCESS_KEY") + " " + sdkAppId)
                 .setApiSecret(System.getenv("SMS_TENCENT_SECRET_KEY"))
-                .setSignature("Focelasource");
+                .setSignature(env("SMS_TENCENT_SIGNATURE", "SMS_SIGNATURE"));
         TencentSmsClient client = new TencentSmsClient(properties);
         // prepare parameters
         Long sendLogId = System.currentTimeMillis();
-        String mobile = "15601691323";
-        String apiTemplateId = "358212";
+        String mobile = env("SMS_TEST_MOBILE", "13800000000");
+        String apiTemplateId = env("SMS_TENCENT_TEMPLATE_ID", "SMS_TEMPLATE_ID");
         // invoke
         SmsSendRpcResponse sendResponse = client.sendSms(sendLogId, mobile, apiTemplateId, ListUtil.of(new KeyValue<>("code", "1024")));
         // print result
@@ -74,15 +78,15 @@ public class SmsClientTest {
 
     @Test
     @Disabled
-    public void testTencentSmsClient_getSmsTemplate() throws Throwable {
-        String sdkAppId = "1400500458";
+    public void tencentSmsClient_getSmsTemplate_returnsTemplate() throws Throwable {
+        String sdkAppId = env("SMS_TENCENT_SDK_APP_ID", "SMS_SDK_APP_ID");
         SmsChannelProperties properties = new SmsChannelProperties()
                 .setApiKey(System.getenv("SMS_TENCENT_ACCESS_KEY") + " " + sdkAppId)
                 .setApiSecret(System.getenv("SMS_TENCENT_SECRET_KEY"))
-                .setSignature("Focelasource");
+                .setSignature(env("SMS_TENCENT_SIGNATURE", "SMS_SIGNATURE"));
         TencentSmsClient client = new TencentSmsClient(properties);
         // prepare parameters
-        String apiTemplateId = "358212";
+        String apiTemplateId = env("SMS_TENCENT_TEMPLATE_ID", "SMS_TEMPLATE_ID");
         // invoke
         SmsTemplateRpcResponse template = client.getSmsTemplate(apiTemplateId);
         // print result
@@ -93,17 +97,17 @@ public class SmsClientTest {
 
     @Test
     @Disabled
-    public void testHuaweiSmsClient_sendSms() throws Throwable {
-        String sender = "x8824060312575";
+    public void huaweiSmsClient_sendSms_returnsResponse() throws Throwable {
+        String sender = env("SMS_HUAWEI_SENDER", "SMS_SENDER");
         SmsChannelProperties properties = new SmsChannelProperties()
                 .setApiKey(System.getenv("SMS_HUAWEI_ACCESS_KEY") + " " + sender)
                 .setApiSecret(System.getenv("SMS_HUAWEI_SECRET_KEY"))
-                .setSignature("runpu");
+                .setSignature(env("SMS_HUAWEI_SIGNATURE", "SMS_SIGNATURE"));
         HuaweiSmsClient client = new HuaweiSmsClient(properties);
         // prepare parameters
         Long sendLogId = System.currentTimeMillis();
-        String mobile = "17321315478";
-        String apiTemplateId = "3644cdab863546a3b718d488659a99ef";
+        String mobile = env("SMS_TEST_MOBILE", "13800000000");
+        String apiTemplateId = env("SMS_HUAWEI_TEMPLATE_ID", "SMS_TEMPLATE_ID");
         List<KeyValue<String, Object>> templateParams = ListUtil.of(new KeyValue<>("code", "1024"));
         // invoke
         SmsSendRpcResponse smsSendResponse = client.sendSms(sendLogId, mobile, apiTemplateId, templateParams);
@@ -115,15 +119,15 @@ public class SmsClientTest {
 
     @Test
     @Disabled
-    public void testQiniuSmsClient_sendSms() throws Throwable {
+    public void qiniuSmsClient_sendSms_returnsResponse() throws Throwable {
         SmsChannelProperties properties = new SmsChannelProperties()
-                .setApiKey("SMS_QINIU_ACCESS_KEY")
-                .setApiSecret("SMS_QINIU_SECRET_KEY");
+                .setApiKey(System.getenv("SMS_QINIU_ACCESS_KEY"))
+                .setApiSecret(System.getenv("SMS_QINIU_SECRET_KEY"));
         QiniuSmsClient client = new QiniuSmsClient(properties);
         // prepare parameters
         Long sendLogId = System.currentTimeMillis();
-        String mobile = "17321315478";
-        String apiTemplateId = "3644cdab863546a3b718d488659a99ef";
+        String mobile = env("SMS_TEST_MOBILE", "13800000000");
+        String apiTemplateId = env("SMS_QINIU_TEMPLATE_ID", "SMS_TEMPLATE_ID");
         List<KeyValue<String, Object>> templateParams = ListUtil.of(new KeyValue<>("code", "1122"));
         // invoke
         SmsSendRpcResponse smsSendResponse = client.sendSms(sendLogId, mobile, apiTemplateId, templateParams);
@@ -133,17 +137,16 @@ public class SmsClientTest {
 
     @Test
     @Disabled
-    public void testQiniuSmsClient_getSmsTemplate() throws Throwable {
+    public void qiniuSmsClient_getSmsTemplate_returnsTemplate() throws Throwable {
         SmsChannelProperties properties = new SmsChannelProperties()
-                .setApiKey("SMS_QINIU_ACCESS_KEY")
-                .setApiSecret("SMS_QINIU_SECRET_KEY");
+                .setApiKey(System.getenv("SMS_QINIU_ACCESS_KEY"))
+                .setApiSecret(System.getenv("SMS_QINIU_SECRET_KEY"));
         QiniuSmsClient client = new QiniuSmsClient(properties);
         // prepare parameters
-        String apiTemplateId = "3644cdab863546a3b718d488659a99ef";
+        String apiTemplateId = env("SMS_QINIU_TEMPLATE_ID", "SMS_TEMPLATE_ID");
         // invoke
         SmsTemplateRpcResponse template = client.getSmsTemplate(apiTemplateId);
         // print result
         System.out.println(template);
     }
 }
-

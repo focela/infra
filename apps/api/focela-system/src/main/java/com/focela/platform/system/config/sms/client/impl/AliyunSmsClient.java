@@ -13,9 +13,9 @@ import com.focela.platform.common.core.KeyValue;
 import com.focela.platform.common.utils.collection.MapUtils;
 import com.focela.platform.common.utils.http.HttpUtils;
 import com.focela.platform.common.utils.json.JsonUtils;
-import com.focela.platform.system.config.sms.client.dto.SmsReceiveRpcResponse;
-import com.focela.platform.system.config.sms.client.dto.SmsSendRpcResponse;
-import com.focela.platform.system.config.sms.client.dto.SmsTemplateRpcResponse;
+import com.focela.platform.system.config.sms.client.response.SmsReceiveRpcResponse;
+import com.focela.platform.system.config.sms.client.response.SmsSendRpcResponse;
+import com.focela.platform.system.config.sms.client.response.SmsTemplateRpcResponse;
 import com.focela.platform.system.config.sms.enums.SmsTemplateAuditStatusEnum;
 import com.focela.platform.system.config.sms.property.SmsChannelProperties;
 import com.google.common.annotations.VisibleForTesting;
@@ -42,7 +42,7 @@ public class AliyunSmsClient extends AbstractSmsClient {
 
     private static final String SMS_API_URL = "https://dysmsapi.aliyuncs.com";
     private static final String SMS_API_HOST = "dysmsapi.aliyuncs.com";
-    private static final String VERSION = "2017-05-25";
+    private static final String SMS_API_VERSION = "2017-05-25";
 
     private static final String RESPONSE_CODE_SUCCESS = "OK";
 
@@ -146,7 +146,7 @@ public class AliyunSmsClient extends AbstractSmsClient {
         // 3.1 request headers
         TreeMap<String, String> headers = new TreeMap<>();
         headers.put("host", SMS_API_HOST);
-        headers.put("x-acs-version", VERSION);
+        headers.put("x-acs-version", SMS_API_VERSION);
         headers.put("x-acs-action", apiName);
         headers.put("x-acs-date", FastDateFormat.getInstance("yyyy-MM-dd'T'HH:mm:ss'Z'", TimeZone.getTimeZone("GMT")).format(new Date()));
         headers.put("x-acs-signature-nonce", IdUtil.randomUUID());

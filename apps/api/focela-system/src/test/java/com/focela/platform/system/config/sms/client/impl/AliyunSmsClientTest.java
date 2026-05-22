@@ -3,9 +3,9 @@ package com.focela.platform.system.config.sms.client.impl;
 import com.focela.platform.common.core.KeyValue;
 import com.focela.platform.common.utils.http.HttpUtils;
 import com.focela.platform.test.core.support.BaseMockitoUnitTest;
-import com.focela.platform.system.config.sms.client.dto.SmsReceiveRpcResponse;
-import com.focela.platform.system.config.sms.client.dto.SmsSendRpcResponse;
-import com.focela.platform.system.config.sms.client.dto.SmsTemplateRpcResponse;
+import com.focela.platform.system.config.sms.client.response.SmsReceiveRpcResponse;
+import com.focela.platform.system.config.sms.client.response.SmsSendRpcResponse;
+import com.focela.platform.system.config.sms.client.response.SmsTemplateRpcResponse;
 import com.focela.platform.system.config.sms.enums.SmsTemplateAuditStatusEnum;
 import com.focela.platform.system.config.sms.property.SmsChannelProperties;
 import com.google.common.collect.Lists;
@@ -38,7 +38,7 @@ public class AliyunSmsClientTest extends BaseMockitoUnitTest {
     private final AliyunSmsClient smsClient = new AliyunSmsClient(properties);
 
     @Test
-    public void tesSendSms_success() throws Throwable {
+    public void sendSms_success_returnsProviderResponse() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
             // prepare parameters
             Long sendLogId = randomLongId();
@@ -65,7 +65,7 @@ public class AliyunSmsClientTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void tesSendSms_fail() throws Throwable {
+    public void sendSms_providerError_returnsFailure() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
             // prepare parameters
             Long sendLogId = randomLongId();
@@ -91,7 +91,7 @@ public class AliyunSmsClientTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testParseSmsReceiveStatus() {
+    public void parseSmsReceiveStatus_validPayload_returnsStatus() {
         // prepare parameters
         String text = "[\n" +
                 "  {\n" +
@@ -123,7 +123,7 @@ public class AliyunSmsClientTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testGetSmsTemplate() throws Throwable {
+    public void getSmsTemplate_success_returnsTemplate() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
             // prepare parameters
             String apiTemplateId = randomString();
@@ -144,7 +144,7 @@ public class AliyunSmsClientTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testConvertSmsTemplateAuditStatus() {
+    public void convertSmsTemplateAuditStatus_knownProviderStatuses_returnsInternalStatuses() {
         assertEquals(SmsTemplateAuditStatusEnum.CHECKING.getStatus(),
                 smsClient.convertSmsTemplateAuditStatus(0));
         assertEquals(SmsTemplateAuditStatusEnum.SUCCESS.getStatus(),

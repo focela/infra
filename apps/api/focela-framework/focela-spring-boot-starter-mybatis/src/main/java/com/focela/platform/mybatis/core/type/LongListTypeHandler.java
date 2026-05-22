@@ -20,12 +20,12 @@ import java.util.List;
 @MappedTypes(List.class)
 public class LongListTypeHandler implements TypeHandler<List<Long>> {
 
-    private static final String COMMA = ",";
+    private static final String LIST_VALUE_SEPARATOR = ",";
 
     @Override
     public void setParameter(PreparedStatement ps, int i, List<Long> strings, JdbcType jdbcType) throws SQLException {
         // Set the placeholder
-        ps.setString(i, CollUtil.join(strings, COMMA));
+        ps.setString(i, CollUtil.join(strings, LIST_VALUE_SEPARATOR));
     }
 
     @Override
@@ -50,6 +50,6 @@ public class LongListTypeHandler implements TypeHandler<List<Long>> {
         if (value == null) {
             return null;
         }
-        return StrUtils.splitToLong(value, COMMA);
+        return StrUtils.splitToLong(value, LIST_VALUE_SEPARATOR);
     }
 }

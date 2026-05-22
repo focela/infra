@@ -3,9 +3,9 @@ package com.focela.platform.system.config.sms.client.impl;
 import com.focela.platform.common.core.KeyValue;
 import com.focela.platform.common.utils.http.HttpUtils;
 import com.focela.platform.test.core.support.BaseMockitoUnitTest;
-import com.focela.platform.system.config.sms.client.dto.SmsReceiveRpcResponse;
-import com.focela.platform.system.config.sms.client.dto.SmsSendRpcResponse;
-import com.focela.platform.system.config.sms.client.dto.SmsTemplateRpcResponse;
+import com.focela.platform.system.config.sms.client.response.SmsReceiveRpcResponse;
+import com.focela.platform.system.config.sms.client.response.SmsSendRpcResponse;
+import com.focela.platform.system.config.sms.client.response.SmsTemplateRpcResponse;
 import com.focela.platform.system.config.sms.enums.SmsTemplateAuditStatusEnum;
 import com.focela.platform.system.config.sms.property.SmsChannelProperties;
 import com.google.common.collect.Lists;
@@ -37,7 +37,7 @@ public class TencentSmsClientTest extends BaseMockitoUnitTest {
     private TencentSmsClient smsClient = new TencentSmsClient(properties);
 
     @Test
-    public void testDoSendSms_success() throws Throwable {
+    public void sendSms_success_returnsProviderResponse() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
             // prepare parameters
             Long sendLogId = randomLongId();
@@ -76,7 +76,7 @@ public class TencentSmsClientTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testDoSendSms_failWhenSendStatusError() throws Throwable {
+    public void sendSms_providerStatusError_returnsFailure() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
             // prepare parameters
             Long sendLogId = randomLongId();
@@ -116,7 +116,7 @@ public class TencentSmsClientTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testDoSendSms_failWhenAuthFailure() throws Throwable {
+    public void sendSms_authFailure_returnsFailure() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
             // prepare parameters
             Long sendLogId = randomLongId();
@@ -141,7 +141,7 @@ public class TencentSmsClientTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testParseSmsReceiveStatus() {
+    public void parseSmsReceiveStatus_validPayload_returnsStatus() {
         // prepare parameters
         String text = "[\n" +
                 "    {\n" +
@@ -168,7 +168,7 @@ public class TencentSmsClientTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testGetSmsTemplate() throws Throwable {
+    public void getSmsTemplate_success_returnsTemplate() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
             // prepare parameters
             String apiTemplateId = "1122";
@@ -202,7 +202,7 @@ public class TencentSmsClientTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testConvertSmsTemplateAuditStatus() {
+    public void convertSmsTemplateAuditStatus_knownProviderStatuses_returnsInternalStatuses() {
         assertEquals(SmsTemplateAuditStatusEnum.SUCCESS.getStatus(),
                 smsClient.convertSmsTemplateAuditStatus(0));
         assertEquals(SmsTemplateAuditStatusEnum.CHECKING.getStatus(),

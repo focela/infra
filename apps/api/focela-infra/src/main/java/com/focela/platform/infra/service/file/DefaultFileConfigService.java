@@ -43,7 +43,7 @@ import static com.focela.platform.infra.constants.InfraErrorCodeConstants.FILE_C
 @RequiredArgsConstructor
 public class DefaultFileConfigService implements FileConfigService {
 
-    private static final Long CACHE_MASTER_ID = 0L;
+    private static final Long MASTER_FILE_CONFIG_CACHE_ID = 0L;
 
     /**
      * {@link FileClient} cache. Used to asynchronously refresh fileClientFactory.
@@ -54,7 +54,7 @@ public class DefaultFileConfigService implements FileConfigService {
 
                 @Override
                 public FileClient load(Long id) {
-                    FileConfigEntity config = Objects.equals(CACHE_MASTER_ID, id) ?
+                    FileConfigEntity config = Objects.equals(MASTER_FILE_CONFIG_CACHE_ID, id) ?
                             fileConfigMapper.selectByMaster() : fileConfigMapper.selectById(id);
                     if (config != null) {
                         fileClientFactory.createOrUpdateFileClient(config.getId(), config.getStorage(), config.getConfig());
@@ -159,7 +159,7 @@ public class DefaultFileConfigService implements FileConfigService {
             clientCache.invalidate(id);
         }
         if (Boolean.TRUE.equals(master)) {
-            clientCache.invalidate(CACHE_MASTER_ID);
+            clientCache.invalidate(MASTER_FILE_CONFIG_CACHE_ID);
         }
     }
 
@@ -197,7 +197,7 @@ public class DefaultFileConfigService implements FileConfigService {
 
     @Override
     public FileClient getMasterFileClient() {
-        return clientCache.getUnchecked(CACHE_MASTER_ID);
+        return clientCache.getUnchecked(MASTER_FILE_CONFIG_CACHE_ID);
     }
 
 }

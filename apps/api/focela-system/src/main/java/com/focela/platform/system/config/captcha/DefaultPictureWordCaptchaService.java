@@ -28,15 +28,15 @@ public class DefaultPictureWordCaptchaService extends AbstractCaptchaService {
     /**
      * Base characters for the captcha
      */
-    private static final String CHARACTERS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    private static final String CAPTCHA_CHARACTERS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
     /**
      * Captcha length
      */
-    private static final Integer LENGTH = 4;
+    private static final Integer CAPTCHA_CODE_LENGTH = 4;
 
-    private static final int WIDTH = 120;
-    private static final int HEIGHT = 40;
-    private static final int LINES = 10;
+    private static final int CAPTCHA_IMAGE_WIDTH = 120;
+    private static final int CAPTCHA_IMAGE_HEIGHT = 40;
+    private static final int CAPTCHA_NOISE_LINE_COUNT = 10;
 
     @Override
     public void init(Properties config) {
@@ -55,7 +55,7 @@ public class DefaultPictureWordCaptchaService extends AbstractCaptchaService {
 
     @Override
     public ResponseModel get(CaptchaVO captcha) {
-        String text = generateRandomText(LENGTH);
+        String text = generateRandomText(CAPTCHA_CODE_LENGTH);
         CaptchaVO imageData = getImageData(text);
         // pointJson is not sent to the frontend; backend validation only, enable during testing
 //        imageData.setPointJson(text);
@@ -127,19 +127,19 @@ public class DefaultPictureWordCaptchaService extends AbstractCaptchaService {
 
     private CaptchaVO getImageData(String text) {
         CaptchaVO captchaData = new CaptchaVO();
-        BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = new BufferedImage(CAPTCHA_IMAGE_WIDTH, CAPTCHA_IMAGE_HEIGHT, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = image.createGraphics();
 
         // Set background color
         g.setColor(getRandomColor(200, 250));
-        g.fillRect(0, 0, WIDTH, HEIGHT);
+        g.fillRect(0, 0, CAPTCHA_IMAGE_WIDTH, CAPTCHA_IMAGE_HEIGHT);
         // Draw noise lines
-        for (int i = 0; i < LINES; i++) {
+        for (int i = 0; i < CAPTCHA_NOISE_LINE_COUNT; i++) {
             g.setColor(getRandomColor(100, 200));
-            int x1 = RandomUtil.randomInt(WIDTH);
-            int y1 = RandomUtil.randomInt(HEIGHT);
-            int x2 = RandomUtil.randomInt(WIDTH);
-            int y2 = RandomUtil.randomInt(HEIGHT);
+            int x1 = RandomUtil.randomInt(CAPTCHA_IMAGE_WIDTH);
+            int y1 = RandomUtil.randomInt(CAPTCHA_IMAGE_HEIGHT);
+            int x2 = RandomUtil.randomInt(CAPTCHA_IMAGE_WIDTH);
+            int y2 = RandomUtil.randomInt(CAPTCHA_IMAGE_HEIGHT);
             g.drawLine(x1, y1, x2, y2);
         }
         // Set font
@@ -158,8 +158,8 @@ public class DefaultPictureWordCaptchaService extends AbstractCaptchaService {
         }
         // Add noise dots
         for (int i = 0; i < 100; i++) {
-            int x = RandomUtil.randomInt(WIDTH);
-            int y = RandomUtil.randomInt(HEIGHT);
+            int x = RandomUtil.randomInt(CAPTCHA_IMAGE_WIDTH);
+            int y = RandomUtil.randomInt(CAPTCHA_IMAGE_HEIGHT);
             image.setRGB(x, y, getRandomColor(0, 255).getRGB());
         }
         g.dispose();
@@ -207,7 +207,7 @@ public class DefaultPictureWordCaptchaService extends AbstractCaptchaService {
      * @return {@link String}
      */
     public static String generateRandomText(int length) {
-        return RandomUtil.randomString(CHARACTERS, length);
+        return RandomUtil.randomString(CAPTCHA_CHARACTERS, length);
     }
 
 }

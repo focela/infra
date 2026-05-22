@@ -22,12 +22,12 @@ import java.util.List;
 @MappedTypes(List.class)
 public class StringListTypeHandler implements TypeHandler<List<String>> {
 
-    private static final String COMMA = ",";
+    private static final String LIST_VALUE_SEPARATOR = ",";
 
     @Override
     public void setParameter(PreparedStatement ps, int i, List<String> strings, JdbcType jdbcType) throws SQLException {
         // Set the placeholder
-        ps.setString(i, CollUtil.join(strings, COMMA));
+        ps.setString(i, CollUtil.join(strings, LIST_VALUE_SEPARATOR));
     }
 
     @Override
@@ -52,6 +52,6 @@ public class StringListTypeHandler implements TypeHandler<List<String>> {
         if (value == null) {
             return null;
         }
-        return StrUtil.splitTrim(value, COMMA);
+        return StrUtil.splitTrim(value, LIST_VALUE_SEPARATOR);
     }
 }

@@ -12,8 +12,8 @@ import java.io.Serializable;
 @Data
 public class PageParam implements Serializable {
 
-    private static final Integer PAGE_NO = 1;
-    private static final Integer PAGE_SIZE = 10;
+    private static final Integer DEFAULT_PAGE_NO = 1;
+    private static final Integer DEFAULT_PAGE_SIZE = 10;
 
     /**
      * Page size for "no pagination".
@@ -25,12 +25,12 @@ public class PageParam implements Serializable {
     @Schema(description = "page number, starting from 1", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @NotNull(message = "page number must not be blank")
     @Min(value = 1, message = "page number min value is 1")
-    private Integer pageNo = PAGE_NO;
+    private Integer pageNo = DEFAULT_PAGE_NO;
 
     @Schema(description = "page size, max value 200", requiredMode = Schema.RequiredMode.REQUIRED, example = "10")
     @NotNull(message = "page size must not be blank")
     @Min(value = 1, message = "page size min value is 1")
     @Max(value = 200, message = "page size max value is 200")
-    private Integer pageSize = PAGE_SIZE;
+    private Integer pageSize = DEFAULT_PAGE_SIZE;
 
 }

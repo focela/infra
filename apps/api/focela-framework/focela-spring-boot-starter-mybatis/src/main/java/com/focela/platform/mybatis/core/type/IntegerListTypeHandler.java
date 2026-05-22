@@ -20,11 +20,11 @@ import java.util.List;
 @MappedTypes(List.class)
 public class IntegerListTypeHandler implements TypeHandler<List<Integer>> {
 
-    private static final String COMMA = ",";
+    private static final String LIST_VALUE_SEPARATOR = ",";
 
     @Override
     public void setParameter(PreparedStatement ps, int i, List<Integer> strings, JdbcType jdbcType) throws SQLException {
-        ps.setString(i, CollUtil.join(strings, COMMA));
+        ps.setString(i, CollUtil.join(strings, LIST_VALUE_SEPARATOR));
     }
 
     @Override
@@ -49,6 +49,6 @@ public class IntegerListTypeHandler implements TypeHandler<List<Integer>> {
         if (value == null) {
             return null;
         }
-        return StrUtils.splitToInteger(value, COMMA);
+        return StrUtils.splitToInteger(value, LIST_VALUE_SEPARATOR);
     }
 }

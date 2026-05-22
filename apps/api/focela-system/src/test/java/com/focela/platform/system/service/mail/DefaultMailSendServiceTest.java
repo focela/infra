@@ -57,13 +57,18 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
      */
     @Test
     @Disabled
-    public void testDemo() {
+    public void sendMail_manualSmtpSmokeTest() {
         MailAccount mailAccount = new MailAccount()
-//                .setFrom("Ultraman <ydym_test@163.com>")
-                .setFrom("ydym_test@163.com") // email address
-                .setHost("smtp.163.com").setPort(465).setSslEnable(true) // SMTP server
-                .setAuth(true).setUser("ydym_test@163.com").setPass("WBZTEINMIFVRYSOE".toCharArray()); // login account/password
-        String messageId = MailUtil.send(mailAccount, "7685413@qq.com", "subject", "content", false);
+                .setFrom(System.getProperty("focela.test.mail.from", "sender@example.com"))
+                .setHost(System.getProperty("focela.test.mail.host", "smtp.example.com"))
+                .setPort(Integer.getInteger("focela.test.mail.port", 465))
+                .setSslEnable(Boolean.parseBoolean(System.getProperty("focela.test.mail.ssl", "true")))
+                .setAuth(true)
+                .setUser(System.getProperty("focela.test.mail.user", "sender@example.com"))
+                .setPass(System.getProperty("focela.test.mail.password", "change-me").toCharArray());
+        String messageId = MailUtil.send(mailAccount,
+                System.getProperty("focela.test.mail.to", "recipient@example.com"),
+                "subject", "content", false);
         System.out.println("send result: " + messageId);
     }
 

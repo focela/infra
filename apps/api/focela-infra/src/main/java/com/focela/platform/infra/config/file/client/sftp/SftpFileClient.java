@@ -20,11 +20,11 @@ public class SftpFileClient extends AbstractFileClient<SftpFileClientConfig> {
     /**
      * Connection timeout, unit: milliseconds
      */
-    private static final Long CONNECTION_TIMEOUT = 3000L;
+    private static final Long CONNECTION_TIMEOUT_MILLIS = 3000L;
     /**
      * Read/write timeout, unit: milliseconds
      */
-    private static final Long SO_TIMEOUT = 10000L;
+    private static final Long SOCKET_TIMEOUT_MILLIS = 10000L;
 
     static {
         // Some old sftp servers only support the ssh-dss protocol, which is not secure and is not supported by default — add it on demand
@@ -42,8 +42,8 @@ public class SftpFileClient extends AbstractFileClient<SftpFileClientConfig> {
         // Initialize Sftp object
         FtpConfig ftpConfig = new FtpConfig(config.getHost(), config.getPort(), config.getUsername(), config.getPassword(),
                 CharsetUtil.CHARSET_UTF_8, null, null);
-        ftpConfig.setConnectionTimeout(CONNECTION_TIMEOUT);
-        ftpConfig.setSoTimeout(SO_TIMEOUT);
+        ftpConfig.setConnectionTimeout(CONNECTION_TIMEOUT_MILLIS);
+        ftpConfig.setSoTimeout(SOCKET_TIMEOUT_MILLIS);
         this.sftp = new Sftp(ftpConfig);
     }
 

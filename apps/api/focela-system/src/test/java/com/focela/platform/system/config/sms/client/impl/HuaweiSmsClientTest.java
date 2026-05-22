@@ -3,8 +3,8 @@ package com.focela.platform.system.config.sms.client.impl;
 import com.focela.platform.common.core.KeyValue;
 import com.focela.platform.common.utils.http.HttpUtils;
 import com.focela.platform.test.core.support.BaseMockitoUnitTest;
-import com.focela.platform.system.config.sms.client.dto.SmsReceiveRpcResponse;
-import com.focela.platform.system.config.sms.client.dto.SmsSendRpcResponse;
+import com.focela.platform.system.config.sms.client.response.SmsReceiveRpcResponse;
+import com.focela.platform.system.config.sms.client.response.SmsSendRpcResponse;
 import com.focela.platform.system.config.sms.property.SmsChannelProperties;
 import com.google.common.collect.Lists;
 
@@ -35,7 +35,7 @@ public class HuaweiSmsClientTest extends BaseMockitoUnitTest {
     private HuaweiSmsClient smsClient = new HuaweiSmsClient(properties);
 
     @Test
-    public void testDoSendSms_success() throws Throwable {
+    public void sendSms_success_returnsProviderResponse() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
             // prepare parameters
             Long sendLogId = randomLongId();
@@ -59,7 +59,7 @@ public class HuaweiSmsClientTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testDoSendSms_failWhenSendStatusError() throws Throwable {
+    public void sendSms_providerStatusError_returnsFailure() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
             // prepare parameters
             Long sendLogId = randomLongId();
@@ -83,7 +83,7 @@ public class HuaweiSmsClientTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testDoSendSms_failWhenInvalidAppKey() throws Throwable {
+    public void sendSms_invalidAppKey_returnsFailure() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
             // prepare parameters
             Long sendLogId = randomLongId();
@@ -107,7 +107,7 @@ public class HuaweiSmsClientTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testParseSmsReceiveStatus() {
+    public void parseSmsReceiveStatus_validPayload_returnsStatus() {
         // prepare parameters
         String text = "sequence=1&total=1&statusDesc=%E7%94%A8%E6%88%B7%E5%B7%B2%E6%88%90%E5%8A%9F%E6%94%B6%E5%88%B0%E7%9F%AD%E4%BF%A1&updateTime=2024-08-15T03%3A00%3A34Z&source=2&smsMsgId=70207ed7-1d02-41b0-8537-bb25fd1c2364_143684459&status=DELIVRD&extend=176";
 

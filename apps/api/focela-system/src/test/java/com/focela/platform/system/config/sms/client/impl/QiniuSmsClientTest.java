@@ -3,9 +3,9 @@ package com.focela.platform.system.config.sms.client.impl;
 import com.focela.platform.common.core.KeyValue;
 import com.focela.platform.common.utils.http.HttpUtils;
 import com.focela.platform.test.core.support.BaseMockitoUnitTest;
-import com.focela.platform.system.config.sms.client.dto.SmsReceiveRpcResponse;
-import com.focela.platform.system.config.sms.client.dto.SmsSendRpcResponse;
-import com.focela.platform.system.config.sms.client.dto.SmsTemplateRpcResponse;
+import com.focela.platform.system.config.sms.client.response.SmsReceiveRpcResponse;
+import com.focela.platform.system.config.sms.client.response.SmsSendRpcResponse;
+import com.focela.platform.system.config.sms.client.response.SmsTemplateRpcResponse;
 import com.focela.platform.system.config.sms.enums.SmsTemplateAuditStatusEnum;
 import com.focela.platform.system.config.sms.property.SmsChannelProperties;
 import com.google.common.collect.Lists;
@@ -39,7 +39,7 @@ public class QiniuSmsClientTest extends BaseMockitoUnitTest {
     private QiniuSmsClient smsClient = new QiniuSmsClient(properties);
 
     @Test
-    public void testDoSendSms_success() throws Throwable {
+    public void sendSms_success_returnsProviderResponse() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
             // prepare parameters
             Long sendLogId = randomLongId();
@@ -60,7 +60,7 @@ public class QiniuSmsClientTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testDoSendSms_fail() throws Throwable {
+    public void sendSms_providerError_returnsFailure() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
             // prepare parameters
             Long sendLogId = randomLongId();
@@ -83,7 +83,7 @@ public class QiniuSmsClientTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testGetSmsTemplate() throws Throwable {
+    public void getSmsTemplate_success_returnsTemplate() throws Throwable {
         try (MockedStatic<HttpUtils> httpUtilsMockedStatic = mockStatic(HttpUtils.class)) {
             // prepare parameters
             String apiTemplateId = randomString();
@@ -101,7 +101,7 @@ public class QiniuSmsClientTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testParseSmsReceiveStatus() {
+    public void parseSmsReceiveStatus_validPayload_returnsStatus() {
         // prepare parameters
         long deliveredAt = 1724591666L;
         String text = "{\"items\":[{\"mobile\":\"18881234567\",\"message_id\":\"10135515063508004167\",\"status\":\"DELIVRD\",\"delivrd_at\":" + deliveredAt + ",\"error\":\"DELIVRD\",\"seq\":\"123\"}]}";
@@ -121,7 +121,7 @@ public class QiniuSmsClientTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testConvertSmsTemplateAuditStatus() {
+    public void convertSmsTemplateAuditStatus_knownProviderStatuses_returnsInternalStatuses() {
         assertEquals(SmsTemplateAuditStatusEnum.SUCCESS.getStatus(),
                 smsClient.convertSmsTemplateAuditStatus("passed"));
         assertEquals(SmsTemplateAuditStatusEnum.CHECKING.getStatus(),

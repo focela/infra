@@ -12,9 +12,9 @@ import cn.hutool.json.JSONUtil;
 import com.focela.platform.common.core.KeyValue;
 import com.focela.platform.common.utils.collection.ArrayUtils;
 import com.focela.platform.common.utils.http.HttpUtils;
-import com.focela.platform.system.config.sms.client.dto.SmsReceiveRpcResponse;
-import com.focela.platform.system.config.sms.client.dto.SmsSendRpcResponse;
-import com.focela.platform.system.config.sms.client.dto.SmsTemplateRpcResponse;
+import com.focela.platform.system.config.sms.client.response.SmsReceiveRpcResponse;
+import com.focela.platform.system.config.sms.client.response.SmsSendRpcResponse;
+import com.focela.platform.system.config.sms.client.response.SmsTemplateRpcResponse;
 import com.focela.platform.system.config.sms.enums.SmsTemplateAuditStatusEnum;
 import com.focela.platform.system.config.sms.property.SmsChannelProperties;
 import com.google.common.annotations.VisibleForTesting;
@@ -39,8 +39,8 @@ import static com.focela.platform.common.utils.collection.CollectionUtils.conver
 public class TencentSmsClient extends AbstractSmsClient {
 
     private static final String SMS_API_HOST = "sms.tencentcloudapi.com";
-    private static final String VERSION = "2021-01-11";
-    private static final String REGION = "ap-guangzhou";
+    private static final String SMS_API_VERSION = "2021-01-11";
+    private static final String SMS_API_REGION = "ap-guangzhou";
 
     /**
      * Code indicating a successful call
@@ -176,8 +176,8 @@ public class TencentSmsClient extends AbstractSmsClient {
         Date now = new Date();
         String nowStr = FastDateFormat.getInstance("yyyy-MM-dd", TimeZone.getTimeZone("UTC")).format(now);
         headers.put("X-TC-Timestamp", String.valueOf(now.getTime() / 1000));
-        headers.put("X-TC-Version", VERSION);
-        headers.put("X-TC-Region", REGION);
+        headers.put("X-TC-Version", SMS_API_VERSION);
+        headers.put("X-TC-Region", SMS_API_REGION);
 
         // 1.2 build the signed headers
         String canonicalQueryString = "";

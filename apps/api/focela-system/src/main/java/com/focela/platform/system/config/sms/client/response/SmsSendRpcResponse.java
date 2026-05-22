@@ -1,4 +1,4 @@
-package com.focela.platform.system.config.sms.client.dto;
+package com.focela.platform.system.config.sms.client.response;
 
 import lombok.Data;
 

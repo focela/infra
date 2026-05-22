@@ -202,7 +202,7 @@ feature name alone.
 | End-user REST API request/response | `controller/app/<feature>/{request,response}/` |
 | Cross-module RPC contract DTO | `focela-common/.../common/api/<module>/<feature>/dto/` |
 | Internal entity (DB row) | `domain/entity/<feature>/` |
-| Third-party client DTO (e.g., SMS provider request body) | `config/<feature>/client/dto/` |
+| Third-party client response model (e.g., SMS provider response body) | `config/<feature>/client/response/` |
 
 ---
 

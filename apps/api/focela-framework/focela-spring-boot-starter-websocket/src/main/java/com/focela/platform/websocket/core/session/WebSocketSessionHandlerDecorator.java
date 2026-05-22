@@ -17,11 +17,11 @@ public class WebSocketSessionHandlerDecorator extends WebSocketHandlerDecorator 
     /**
      * Send timeout, in milliseconds.
      */
-    private static final Integer SEND_TIME_LIMIT = 1000 * 5;
+    private static final Integer SEND_TIME_LIMIT_MILLIS = 1000 * 5;
     /**
      * Outgoing message buffer cap, in bytes.
      */
-    private static final Integer BUFFER_SIZE_LIMIT = 1024 * 100;
+    private static final Integer BUFFER_SIZE_LIMIT_BYTES = 1024 * 100;
 
     private final WebSocketSessionManager sessionManager;
 
@@ -34,7 +34,7 @@ public class WebSocketSessionHandlerDecorator extends WebSocketHandlerDecorator 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
         // Make the session support concurrent writes — see https://blog.csdn.net/abu935009066/article/details/131218149
-        session = new ConcurrentWebSocketSessionDecorator(session, SEND_TIME_LIMIT, BUFFER_SIZE_LIMIT);
+        session = new ConcurrentWebSocketSessionDecorator(session, SEND_TIME_LIMIT_MILLIS, BUFFER_SIZE_LIMIT_BYTES);
         // Register with WebSocketSessionManager
         sessionManager.addSession(session);
     }
