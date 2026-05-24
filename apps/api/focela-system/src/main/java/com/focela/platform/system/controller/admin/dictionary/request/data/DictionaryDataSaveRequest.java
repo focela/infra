@@ -1,5 +1,6 @@
 package com.focela.platform.system.controller.admin.dictionary.request.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.focela.platform.common.enums.CommonStatusEnum;
 import com.focela.platform.common.validation.InEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -48,5 +49,18 @@ public class DictionaryDataSaveRequest {
 
     @Schema(description = "Remarks", example = "I am a role")
     private String remark;
+
+    @JsonIgnore
+    @Schema(hidden = true)
+    public String getDictionaryType() {
+        return dictType;
+    }
+
+    @JsonIgnore
+    @Schema(hidden = true)
+    public DictionaryDataSaveRequest setDictionaryType(String dictionaryType) {
+        this.dictType = dictionaryType;
+        return this;
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.focela.platform.common.api.system.dictionary.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.focela.platform.common.enums.CommonStatusEnum;
 import lombok.Data;
 
@@ -27,5 +28,16 @@ public class DictionaryDataRpcResponse {
      * See {@link CommonStatusEnum}.
      */
     private Integer status;
+
+    @JsonIgnore
+    public String getDictionaryType() {
+        return dictType;
+    }
+
+    @JsonIgnore
+    public DictionaryDataRpcResponse setDictionaryType(String dictionaryType) {
+        this.dictType = dictionaryType;
+        return this;
+    }
 
 }

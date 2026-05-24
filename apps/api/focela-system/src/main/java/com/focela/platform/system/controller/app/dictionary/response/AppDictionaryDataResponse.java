@@ -1,5 +1,6 @@
 package com.focela.platform.system.controller.app.dictionary.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,5 +23,18 @@ public class AppDictionaryDataResponse {
 
     @Schema(description = "Dictionary type", requiredMode = Schema.RequiredMode.REQUIRED, example = "sys_common_sex")
     private String dictType;
+
+    @JsonIgnore
+    @Schema(hidden = true)
+    public String getDictionaryType() {
+        return dictType;
+    }
+
+    @JsonIgnore
+    @Schema(hidden = true)
+    public AppDictionaryDataResponse setDictionaryType(String dictionaryType) {
+        this.dictType = dictionaryType;
+        return this;
+    }
 
 }

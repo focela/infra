@@ -1,5 +1,6 @@
 package com.focela.platform.system.controller.admin.dictionary.response.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.focela.platform.excel.core.annotations.DictionaryFormat;
 import com.focela.platform.excel.core.converter.DictionaryConverter;
 import com.focela.platform.system.constants.DictionaryTypeConstants;
@@ -51,5 +52,18 @@ public class DictionaryDataResponse {
 
     @Schema(description = "Created time", requiredMode = Schema.RequiredMode.REQUIRED, example = "timestamp format")
     private LocalDateTime createTime;
+
+    @JsonIgnore
+    @Schema(hidden = true)
+    public String getDictionaryType() {
+        return dictType;
+    }
+
+    @JsonIgnore
+    @Schema(hidden = true)
+    public DictionaryDataResponse setDictionaryType(String dictionaryType) {
+        this.dictType = dictionaryType;
+        return this;
+    }
 
 }

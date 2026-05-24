@@ -1,5 +1,6 @@
 package com.focela.platform.system.controller.admin.auth.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -52,6 +53,19 @@ public class AuthPermissionInfoResponse {
 
         @Schema(description = "Email", example = "user@example.com")
         private String email;
+
+        @JsonIgnore
+        @Schema(hidden = true)
+        public Long getDepartmentId() {
+            return deptId;
+        }
+
+        @JsonIgnore
+        @Schema(hidden = true)
+        public UserInfo setDepartmentId(Long departmentId) {
+            this.deptId = departmentId;
+            return this;
+        }
 
     }
 

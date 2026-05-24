@@ -35,6 +35,10 @@ public final class ArchitectureRules {
 
     private static final Pattern LEGACY_TEST_METHOD_PATTERN =
             Pattern.compile("\\b(?:public\\s+)?void\\s+test[A-Z_][A-Za-z0-9_]*\\s*\\(");
+    private static final Pattern LEGACY_ABBREVIATION_PATTERN =
+            Pattern.compile("\\b(?:dictType|deptId|deptIds|dataScopeDeptIds"
+                    + "|getDict[A-Za-z0-9_]*|setDict[A-Za-z0-9_]*"
+                    + "|getDept[A-Za-z0-9_]*|setDept[A-Za-z0-9_]*)\\b");
 
     private ArchitectureRules() {
     }
@@ -105,6 +109,53 @@ public final class ArchitectureRules {
             throw new AssertionError("Failed to scan test source root: "
                     + testSourceRoot.toAbsolutePath().normalize(), e);
         }
+    }
+
+    /**
+     * Prevents new source files from adopting legacy local abbreviations such as
+     * {@code dictType} and {@code deptId}. Existing files stay allowlisted until
+     * their public contracts and persistence mappings can be migrated safely.
+     */
+    public static void assertMainJavaLegacyAbbreviationsStayInAllowedFiles(
+            String moduleDirectoryName, List<String> allowedRelativePaths) {
+        Path moduleRoot = resolveModuleRoot(moduleDirectoryName);
+        Path sourceRoot = moduleRoot.resolve("src/main/java");
+        if (!Files.exists(sourceRoot)) {
+            throw new AssertionError("Cannot find source root: " + sourceRoot.toAbsolutePath().normalize());
+        }
+        List<String> normalizedAllowedPaths = allowedRelativePaths.stream()
+                .map(ArchitectureRules::normalizeRelativePath)
+                .toList();
+        try (Stream<Path> paths = Files.walk(sourceRoot)) {
+            List<Path> sourceFiles = paths
+                    .filter(Files::isRegularFile)
+                    .filter(path -> path.getFileName().toString().endsWith(".java"))
+                    .sorted()
+                    .toList();
+            List<String> violations = new ArrayList<>();
+            for (Path sourceFile : sourceFiles) {
+                String relativePath = normalizeRelativePath(moduleRoot.relativize(sourceFile).toString());
+                if (normalizedAllowedPaths.contains(relativePath)) {
+                    continue;
+                }
+                List<String> lines = Files.readAllLines(sourceFile);
+                for (int i = 0; i < lines.size(); i++) {
+                    if (LEGACY_ABBREVIATION_PATTERN.matcher(lines.get(i)).find()) {
+                        violations.add(relativePath + ":" + (i + 1));
+                    }
+                }
+            }
+            if (!violations.isEmpty()) {
+                throw new AssertionError("Use full English names instead of legacy abbreviations: " + violations);
+            }
+        } catch (IOException e) {
+            throw new AssertionError("Failed to scan source root: "
+                    + sourceRoot.toAbsolutePath().normalize(), e);
+        }
+    }
+
+    private static String normalizeRelativePath(String path) {
+        return Path.of(path).normalize().toString().replace('\\', '/');
     }
 
     private static Path resolveModuleRoot(String moduleDirectoryName) {

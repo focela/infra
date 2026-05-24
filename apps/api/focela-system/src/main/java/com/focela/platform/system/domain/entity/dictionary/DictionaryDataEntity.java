@@ -1,5 +1,6 @@
 package com.focela.platform.system.domain.entity.dictionary;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.focela.platform.common.enums.CommonStatusEnum;
 import com.focela.platform.mybatis.core.entity.BaseEntity;
 import com.focela.platform.tenant.core.aop.TenantIgnore;
@@ -65,5 +66,16 @@ public class DictionaryDataEntity extends BaseEntity {
      * Remarks
      */
     private String remark;
+
+    @JsonIgnore
+    public String getDictionaryType() {
+        return dictType;
+    }
+
+    @JsonIgnore
+    public DictionaryDataEntity setDictionaryType(String dictionaryType) {
+        this.dictType = dictionaryType;
+        return this;
+    }
 
 }

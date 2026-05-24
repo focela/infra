@@ -1,5 +1,6 @@
 package com.focela.platform.system.controller.admin.dictionary.response.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -21,5 +22,18 @@ public class DictionaryDataSimpleResponse {
 
     @Schema(description = "CSS style", example = "btn-visible")
     private String cssClass;
+
+    @JsonIgnore
+    @Schema(hidden = true)
+    public String getDictionaryType() {
+        return dictType;
+    }
+
+    @JsonIgnore
+    @Schema(hidden = true)
+    public DictionaryDataSimpleResponse setDictionaryType(String dictionaryType) {
+        this.dictType = dictionaryType;
+        return this;
+    }
 
 }

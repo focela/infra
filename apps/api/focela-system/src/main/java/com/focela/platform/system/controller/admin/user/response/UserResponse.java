@@ -1,5 +1,6 @@
 package com.focela.platform.system.controller.admin.user.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.focela.platform.excel.core.annotations.DictionaryFormat;
 import com.focela.platform.excel.core.converter.DictionaryConverter;
 import com.focela.platform.system.constants.DictionaryTypeConstants;
@@ -14,7 +15,7 @@ import java.util.Set;
 @Schema(description = "Admin - user info Response")
 @Data
 @ExcelIgnoreUnannotated
-public class UserResponse{
+public class UserResponse {
 
     @Schema(description = "User ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @ExcelProperty("User ID")
@@ -71,5 +72,18 @@ public class UserResponse{
 
     @Schema(description = "Created time", requiredMode = Schema.RequiredMode.REQUIRED, example = "timestamp format")
     private LocalDateTime createTime;
+
+    @JsonIgnore
+    @Schema(hidden = true)
+    public Long getDepartmentId() {
+        return deptId;
+    }
+
+    @JsonIgnore
+    @Schema(hidden = true)
+    public UserResponse setDepartmentId(Long departmentId) {
+        this.deptId = departmentId;
+        return this;
+    }
 
 }

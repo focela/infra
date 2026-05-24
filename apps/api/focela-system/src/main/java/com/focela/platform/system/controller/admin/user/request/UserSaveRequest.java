@@ -74,6 +74,19 @@ public class UserSaveRequest {
     @Length(min = 4, max = 16, message = "password length must be 4-16 characters")
     private String password;
 
+    @JsonIgnore
+    @Schema(hidden = true)
+    public Long getDepartmentId() {
+        return deptId;
+    }
+
+    @JsonIgnore
+    @Schema(hidden = true)
+    public UserSaveRequest setDepartmentId(Long departmentId) {
+        this.deptId = departmentId;
+        return this;
+    }
+
     @AssertTrue(message = "password must not be blank")
     @JsonIgnore
     public boolean isPasswordValid() {

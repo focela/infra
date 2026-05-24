@@ -1,5 +1,6 @@
 package com.focela.platform.system.controller.admin.user.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.focela.platform.common.model.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -37,5 +38,18 @@ public class UserPageRequest extends PageParam {
 
     @Schema(description = "Role ID", example = "1024")
     private Long roleId;
+
+    @JsonIgnore
+    @Schema(hidden = true)
+    public Long getDepartmentId() {
+        return deptId;
+    }
+
+    @JsonIgnore
+    @Schema(hidden = true)
+    public UserPageRequest setDepartmentId(Long departmentId) {
+        this.deptId = departmentId;
+        return this;
+    }
 
 }

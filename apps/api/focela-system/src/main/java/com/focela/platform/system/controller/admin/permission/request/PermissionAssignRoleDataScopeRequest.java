@@ -1,5 +1,6 @@
 package com.focela.platform.system.controller.admin.permission.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.focela.platform.common.validation.InEnum;
 import com.focela.platform.system.enums.permission.DataScopeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -24,5 +25,18 @@ public class PermissionAssignRoleDataScopeRequest {
 
     @Schema(description = "department ID list, only has scope type as DEPARTMENT_CUSTOM when, this field is required", example = "1,3,5")
     private Set<Long> dataScopeDeptIds = Collections.emptySet(); // fallback
+
+    @JsonIgnore
+    @Schema(hidden = true)
+    public Set<Long> getDataScopeDepartmentIds() {
+        return dataScopeDeptIds;
+    }
+
+    @JsonIgnore
+    @Schema(hidden = true)
+    public PermissionAssignRoleDataScopeRequest setDataScopeDepartmentIds(Set<Long> dataScopeDepartmentIds) {
+        this.dataScopeDeptIds = dataScopeDepartmentIds;
+        return this;
+    }
 
 }

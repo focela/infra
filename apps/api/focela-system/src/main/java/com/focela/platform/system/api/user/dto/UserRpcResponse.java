@@ -1,5 +1,6 @@
 package com.focela.platform.system.api.user.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.focela.platform.common.enums.CommonStatusEnum;
 import lombok.Data;
 
@@ -42,5 +43,16 @@ public class UserRpcResponse {
      * User avatar
      */
     private String avatar;
+
+    @JsonIgnore
+    public Long getDepartmentId() {
+        return deptId;
+    }
+
+    @JsonIgnore
+    public UserRpcResponse setDepartmentId(Long departmentId) {
+        this.deptId = departmentId;
+        return this;
+    }
 
 }

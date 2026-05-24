@@ -1,5 +1,6 @@
 package com.focela.platform.system.controller.admin.permission.response.role;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.focela.platform.excel.core.annotations.DictionaryFormat;
 import com.focela.platform.excel.core.converter.DictionaryConverter;
 import com.focela.platform.system.constants.DictionaryTypeConstants;
@@ -55,5 +56,18 @@ public class RoleResponse {
 
     @Schema(description = "Created time", requiredMode = Schema.RequiredMode.REQUIRED, example = "timestamp format")
     private LocalDateTime createTime;
+
+    @JsonIgnore
+    @Schema(hidden = true)
+    public Set<Long> getDataScopeDepartmentIds() {
+        return dataScopeDeptIds;
+    }
+
+    @JsonIgnore
+    @Schema(hidden = true)
+    public RoleResponse setDataScopeDepartmentIds(Set<Long> dataScopeDepartmentIds) {
+        this.dataScopeDeptIds = dataScopeDepartmentIds;
+        return this;
+    }
 
 }

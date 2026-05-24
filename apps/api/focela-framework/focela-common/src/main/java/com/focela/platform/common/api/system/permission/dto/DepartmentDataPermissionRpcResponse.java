@@ -1,5 +1,6 @@
 package com.focela.platform.common.api.system.permission.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.util.HashSet;
@@ -28,6 +29,17 @@ public class DepartmentDataPermissionRpcResponse {
         this.all = false;
         this.self = false;
         this.deptIds = new HashSet<>();
+    }
+
+    @JsonIgnore
+    public Set<Long> getDepartmentIds() {
+        return deptIds;
+    }
+
+    @JsonIgnore
+    public DepartmentDataPermissionRpcResponse setDepartmentIds(Set<Long> departmentIds) {
+        this.deptIds = departmentIds;
+        return this;
     }
 
 }

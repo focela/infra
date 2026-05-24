@@ -1,5 +1,6 @@
 package com.focela.platform.system.domain.entity.permission;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.focela.platform.common.enums.CommonStatusEnum;
 import com.focela.platform.tenant.core.db.TenantBaseEntity;
 import com.focela.platform.system.enums.permission.DataScopeEnum;
@@ -72,5 +73,16 @@ public class RoleEntity extends TenantBaseEntity {
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
     private Set<Long> dataScopeDeptIds;
+
+    @JsonIgnore
+    public Set<Long> getDataScopeDepartmentIds() {
+        return dataScopeDeptIds;
+    }
+
+    @JsonIgnore
+    public RoleEntity setDataScopeDepartmentIds(Set<Long> dataScopeDepartmentIds) {
+        this.dataScopeDeptIds = dataScopeDepartmentIds;
+        return this;
+    }
 
 }

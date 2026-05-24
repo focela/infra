@@ -1,5 +1,6 @@
 package com.focela.platform.system.domain.entity.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.focela.platform.common.enums.CommonStatusEnum;
 import com.focela.platform.tenant.core.db.TenantBaseEntity;
 import com.focela.platform.system.enums.common.SexEnum;
@@ -94,5 +95,16 @@ public class UserEntity extends TenantBaseEntity {
      * Last login time
      */
     private LocalDateTime loginDate;
+
+    @JsonIgnore
+    public Long getDepartmentId() {
+        return deptId;
+    }
+
+    @JsonIgnore
+    public UserEntity setDepartmentId(Long departmentId) {
+        this.deptId = departmentId;
+        return this;
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.focela.platform.system.controller.admin.user.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,5 +22,18 @@ public class UserSimpleResponse {
     private Long deptId;
     @Schema(description = "Department name", example = "IT dept")
     private String deptName;
+
+    @JsonIgnore
+    @Schema(hidden = true)
+    public Long getDepartmentId() {
+        return deptId;
+    }
+
+    @JsonIgnore
+    @Schema(hidden = true)
+    public UserSimpleResponse setDepartmentId(Long departmentId) {
+        this.deptId = departmentId;
+        return this;
+    }
 
 }

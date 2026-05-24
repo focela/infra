@@ -1,5 +1,6 @@
 package com.focela.platform.system.controller.admin.dictionary.request.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.focela.platform.common.enums.CommonStatusEnum;
 import com.focela.platform.common.model.PageParam;
 import com.focela.platform.common.validation.InEnum;
@@ -25,5 +26,18 @@ public class DictionaryDataPageRequest extends PageParam {
     @Schema(description = "Display status, see CommonStatusEnum", example = "1")
     @InEnum(value = CommonStatusEnum.class, message = "update status must be {value}")
     private Integer status;
+
+    @JsonIgnore
+    @Schema(hidden = true)
+    public String getDictionaryType() {
+        return dictType;
+    }
+
+    @JsonIgnore
+    @Schema(hidden = true)
+    public DictionaryDataPageRequest setDictionaryType(String dictionaryType) {
+        this.dictType = dictionaryType;
+        return this;
+    }
 
 }
