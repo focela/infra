@@ -82,7 +82,7 @@ Chuẩn hoá naming convention nội bộ từ **kiểu legacy upstream** sang *
 | Hiện tại | Đề xuất | Note |
 |---|---|---|
 | `BaseDO` (framework base) | `BaseEntity` | Đồng bộ với `*Entity` |
-| MyBatis config `type-aliases-package: *.dal.dataobject` | `*.repository.entity` | Phải sync với path mới |
+| MyBatis config `type-aliases-package: *.dal.dataobject` | `*.domain.entity` | Phải sync với path mới |
 | `enums/` | Giữ nguyên | Spring convention OK |
 | `service/`, `controller/`, `api/` | Giữ nguyên | Spring convention OK |
 

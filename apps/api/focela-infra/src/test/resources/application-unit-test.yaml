@@ -30,7 +30,7 @@ spring:
 
 mybatis-plus:
   lazy-initialization: true # Unit test: enable MyBatis Mapper lazy loading to speed up each unit test
-  type-aliases-package: ${focela.info.base-package}.*.repository.entity
+  type-aliases-package: ${focela.info.base-package}.*.domain.entity
 
 --- #################### Scheduled task configuration ####################
 

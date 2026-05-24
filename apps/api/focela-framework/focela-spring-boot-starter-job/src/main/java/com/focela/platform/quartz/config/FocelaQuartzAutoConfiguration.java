@@ -20,7 +20,7 @@ public class FocelaQuartzAutoConfiguration {
     @Bean
     public SchedulerManager schedulerManager(Optional<Scheduler> scheduler) {
         if (!scheduler.isPresent()) {
-            log.info("[scheduled task - disabled][see https://www.example.com/job/ to enable]");
+            log.info("[scheduled task - disabled][see https://platform.focela.com/job/ to enable]");
             return new SchedulerManager(null);
         }
         return new SchedulerManager(scheduler.get());

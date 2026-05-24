@@ -150,7 +150,7 @@ public class SchedulerManager {
     private void validateScheduler() {
         if (scheduler == null) {
             throw exception0(NOT_IMPLEMENTED.getCode(),
-                    "[scheduled task - disabled][see https://www.example.com/job/ to enable]");
+                    "[scheduled task - disabled][see https://platform.focela.com/job/ to enable]");
         }
     }
 

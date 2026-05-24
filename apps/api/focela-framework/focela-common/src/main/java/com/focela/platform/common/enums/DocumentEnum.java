@@ -11,7 +11,7 @@ import lombok.Getter;
 public enum DocumentEnum {
 
     REDIS_INSTALL("https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/", "Redis installation docs"),
-    TENANT("https://www.example.com", "SaaS multi-tenancy docs");
+    TENANT("https://platform.focela.com", "SaaS multi-tenancy docs");
 
     private final String url;
     private final String memo;

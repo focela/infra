@@ -80,7 +80,7 @@ mybatis-plus:
       logic-delete-value: 1 # Logical-deleted value (default 1)
       logic-not-delete-value: 0 # Logical-not-deleted value (default 0)
     banner: false # Disable banner on console
-  type-aliases-package: ${focela.info.base-package}.*.repository.entity
+  type-aliases-package: ${focela.info.base-package}.*.domain.entity
   encryptor:
     password: ${MYBATIS_PLUS_ENCRYPTOR_PASSWORD:XDV71a+xqStEA3WH} # Encryption secret. Override via env var in prod; see docs/TECHNICAL_DEBT.md.
 
