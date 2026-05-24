@@ -142,6 +142,16 @@ class InfraArchitectureTest {
     }
 
     @Test
+    void noLegacyNamingSuffixes() {
+        ArchitectureRules.NO_LEGACY_NAMING_SUFFIXES.check(classes);
+    }
+
+    @Test
+    void noLegacyPackageDependencies() {
+        ArchitectureRules.NO_LEGACY_PACKAGE_DEPENDENCIES.check(classes);
+    }
+
+    @Test
     void infraDoesNotReachSystem() {
         ArchitectureRules.moduleDoesNotReachOtherModuleInternals(
                 "com.focela.platform.infra",

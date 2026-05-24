@@ -350,7 +350,8 @@ public final class ArchitectureRules {
                     .and().haveSimpleNameNotEndingWith("AutoConfiguration")
                     .should().resideInAPackage("..config..")
                     .as("*Configuration classes must live under the config/ package "
-                            + "(Focela*AutoConfiguration is the starter-SPI variant and is exempt)");
+                            + "(Focela*AutoConfiguration is the starter-SPI variant and is exempt)")
+                    .allowEmptyShould(true);
 
     public static final ArchRule AUTO_CONFIGURATION_RESIDES_IN_CONFIG_PACKAGE =
             classes().that().haveSimpleNameEndingWith("AutoConfiguration")
@@ -366,6 +367,34 @@ public final class ArchitectureRules {
             classes().that().haveSimpleNameEndingWith("Enum")
                     .should().resideInAPackage("..enums..")
                     .as("Enum classes (*Enum) must live under an enums/ package");
+
+    // ---- Forbidden legacy naming suffixes ----
+    // The codebase deliberately uses *Entity (not *DO/*PO), *Request/*Response (not *VO/*DTO/
+    // *ReqVO/*RespVO), *Mapper (not *Dao/*DAO), Default*Service (not *ServiceImpl), and *Utils
+    // (not *Util/*Helper). See MODULE_TEMPLATE.md §Naming.
+    public static final ArchRule NO_LEGACY_NAMING_SUFFIXES =
+            noClasses().that().areTopLevelClasses()
+                    .should().haveSimpleNameEndingWith("DO")
+                    .orShould().haveSimpleNameEndingWith("DTO")
+                    .orShould().haveSimpleNameEndingWith("VO")
+                    .orShould().haveSimpleNameEndingWith("Dao")
+                    .orShould().haveSimpleNameEndingWith("DAO")
+                    .orShould().haveSimpleNameEndingWith("ServiceImpl")
+                    .orShould().haveSimpleNameEndingWith("Util")
+                    .orShould().haveSimpleNameEndingWith("Helper")
+                    .as("Legacy naming suffixes are forbidden: use *Entity (not *DO), "
+                            + "*Request/*Response (not *VO/*DTO/*ReqVO/*RespVO), "
+                            + "*Mapper (not *Dao/*DAO), Default*Service (not *ServiceImpl), "
+                            + "*Utils (not *Util/*Helper)")
+                    .allowEmptyShould(true);
+
+    // ---- Forbidden legacy package dependencies ----
+    // The project was migrated off cn.iocoder/yudao. Re-introducing those packages is a regression.
+    public static final ArchRule NO_LEGACY_PACKAGE_DEPENDENCIES =
+            noClasses().should().dependOnClassesThat()
+                    .resideInAnyPackage("cn.iocoder..", "com.iocoder..", "..yudao..")
+                    .as("Legacy packages (cn.iocoder, com.iocoder, *yudao*) must not be referenced")
+                    .allowEmptyShould(true);
 
     // ---- Spring DI style ----
     // Field injection (@Resource / @Autowired on a field) is discouraged by the Spring team's
