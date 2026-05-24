@@ -7,6 +7,8 @@ import com.tngtech.archunit.core.importer.ImportOption;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 /**
  * Enforces architecture conventions for the service-protection starter.
  */
@@ -43,5 +45,16 @@ class ProtectionArchitectureTest {
     @Test
     void legacyTestPrefixShouldNotBeUsed() {
         ArchitectureRules.assertTestMethodNamesDoNotUseLegacyPrefix("focela-spring-boot-starter-protection");
+    }
+
+    @Test
+    void autoConfigurationImportsUseApprovedNames() {
+        ArchitectureRules.assertAutoConfigurationImportsUseAutoConfigurationSuffix(
+                "focela-spring-boot-starter-protection",
+                List.of(
+                        "com.focela.platform.idempotent.config.FocelaIdempotentConfiguration",
+                        "com.focela.platform.lock4j.config.FocelaLock4jConfiguration",
+                        "com.focela.platform.ratelimiter.config.FocelaRateLimiterConfiguration"
+                ));
     }
 }

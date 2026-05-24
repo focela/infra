@@ -160,4 +160,13 @@ class SystemArchitectureTest {
                 "com.focela.platform.system",
                 "com.focela.platform.infra").check(classes);
     }
+
+    @Test
+    void systemSourceDoesNotImportInfraInternals() {
+        ArchitectureRules.assertMainJavaDoesNotImportForbiddenPackages(
+                "focela-system",
+                List.of("com.focela.platform.infra."),
+                List.of("com.focela.platform.infra.api."),
+                List.of());
+    }
 }

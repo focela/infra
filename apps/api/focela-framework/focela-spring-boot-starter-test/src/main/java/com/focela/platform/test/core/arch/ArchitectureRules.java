@@ -154,8 +154,108 @@ public final class ArchitectureRules {
         }
     }
 
+    /**
+     * Verifies that source files do not import implementation packages from another module.
+     * Contract packages can be allowlisted, for example {@code com.focela.platform.infra.api.}.
+     */
+    public static void assertMainJavaDoesNotImportForbiddenPackages(
+            String moduleDirectoryName,
+            List<String> forbiddenImportPrefixes,
+            List<String> allowedImportPrefixes,
+            List<String> allowedRelativePaths) {
+        Path moduleRoot = resolveModuleRoot(moduleDirectoryName);
+        Path sourceRoot = moduleRoot.resolve("src/main/java");
+        if (!Files.exists(sourceRoot)) {
+            throw new AssertionError("Cannot find source root: " + sourceRoot.toAbsolutePath().normalize());
+        }
+        List<String> normalizedAllowedPaths = allowedRelativePaths.stream()
+                .map(ArchitectureRules::normalizeRelativePath)
+                .toList();
+        try (Stream<Path> paths = Files.walk(sourceRoot)) {
+            List<Path> sourceFiles = paths
+                    .filter(Files::isRegularFile)
+                    .filter(path -> path.getFileName().toString().endsWith(".java"))
+                    .sorted()
+                    .toList();
+            List<String> violations = new ArrayList<>();
+            for (Path sourceFile : sourceFiles) {
+                String relativePath = normalizeRelativePath(moduleRoot.relativize(sourceFile).toString());
+                if (normalizedAllowedPaths.contains(relativePath)) {
+                    continue;
+                }
+                List<String> lines = Files.readAllLines(sourceFile);
+                for (int i = 0; i < lines.size(); i++) {
+                    String importedClass = extractImportedClass(lines.get(i));
+                    if (importedClass == null || isAllowedImport(importedClass, allowedImportPrefixes)) {
+                        continue;
+                    }
+                    if (startsWithAny(importedClass, forbiddenImportPrefixes)) {
+                        violations.add(relativePath + ":" + (i + 1) + " -> " + importedClass);
+                    }
+                }
+            }
+            if (!violations.isEmpty()) {
+                throw new AssertionError("Module source imports forbidden implementation packages: " + violations);
+            }
+        } catch (IOException e) {
+            throw new AssertionError("Failed to scan source root: "
+                    + sourceRoot.toAbsolutePath().normalize(), e);
+        }
+    }
+
+    /**
+     * Spring Boot auto-configuration imports should point to classes named
+     * {@code *AutoConfiguration}. Existing legacy names can be allowlisted until
+     * they are renamed together with their metadata entries.
+     */
+    public static void assertAutoConfigurationImportsUseAutoConfigurationSuffix(
+            String moduleDirectoryName, List<String> allowedClassNames) {
+        Path moduleRoot = resolveModuleRoot(moduleDirectoryName);
+        Path importsFile = moduleRoot.resolve(
+                "src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports");
+        if (!Files.exists(importsFile)) {
+            return;
+        }
+        try {
+            List<String> violations = Files.readAllLines(importsFile).stream()
+                    .map(String::trim)
+                    .filter(line -> !line.isEmpty())
+                    .filter(line -> !line.startsWith("#"))
+                    .filter(line -> !line.endsWith("AutoConfiguration"))
+                    .filter(line -> !allowedClassNames.contains(line))
+                    .sorted()
+                    .toList();
+            if (!violations.isEmpty()) {
+                throw new AssertionError("Auto-configuration imports must use *AutoConfiguration names: "
+                        + violations);
+            }
+        } catch (IOException e) {
+            throw new AssertionError("Failed to read auto-configuration imports: "
+                    + importsFile.toAbsolutePath().normalize(), e);
+        }
+    }
+
     private static String normalizeRelativePath(String path) {
         return Path.of(path).normalize().toString().replace('\\', '/');
+    }
+
+    private static String extractImportedClass(String line) {
+        String trimmed = line.trim();
+        if (trimmed.startsWith("import static ")) {
+            return trimmed.substring("import static ".length(), trimmed.length() - 1);
+        }
+        if (trimmed.startsWith("import ")) {
+            return trimmed.substring("import ".length(), trimmed.length() - 1);
+        }
+        return null;
+    }
+
+    private static boolean isAllowedImport(String importedClass, List<String> allowedImportPrefixes) {
+        return startsWithAny(importedClass, allowedImportPrefixes);
+    }
+
+    private static boolean startsWithAny(String value, List<String> prefixes) {
+        return prefixes.stream().anyMatch(value::startsWith);
     }
 
     private static Path resolveModuleRoot(String moduleDirectoryName) {

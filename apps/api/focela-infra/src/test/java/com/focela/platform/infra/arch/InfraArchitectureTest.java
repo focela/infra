@@ -5,6 +5,8 @@ import com.tngtech.archunit.core.domain.JavaClasses;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 /**
  * Enforces the focela-infra module's architectural conventions. See
  * {@code docs/MODULE_TEMPLATE.md} for the rationale.
@@ -108,5 +110,14 @@ class InfraArchitectureTest {
         ArchitectureRules.moduleDoesNotReachOtherModuleInternals(
                 "com.focela.platform.infra",
                 "com.focela.platform.system").check(classes);
+    }
+
+    @Test
+    void infraSourceDoesNotImportSystemInternals() {
+        ArchitectureRules.assertMainJavaDoesNotImportForbiddenPackages(
+                "focela-infra",
+                List.of("com.focela.platform.system."),
+                List.of("com.focela.platform.system.api."),
+                List.of());
     }
 }

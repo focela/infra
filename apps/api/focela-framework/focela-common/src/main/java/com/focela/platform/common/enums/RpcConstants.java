@@ -3,13 +3,11 @@ package com.focela.platform.common.enums;
 /**
  * RPC-related constants.
  *
- * Although it would fit better in the rpc starter, every API module needs it, so it lives here for now.
+ * @deprecated use {@link com.focela.platform.common.constants.RpcConstants}.
  */
-public class RpcConstants {
+@Deprecated(since = "1.0.0", forRemoval = false)
+public class RpcConstants extends com.focela.platform.common.constants.RpcConstants {
 
-    /**
-     * RPC API prefix.
-     */
-    public static final String RPC_API_PREFIX = "/rpc-api";
-
+    private RpcConstants() {
+    }
 }
