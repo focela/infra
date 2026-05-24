@@ -13,6 +13,87 @@ import java.util.List;
  */
 class SystemArchitectureTest {
 
+    private static final List<String> LEGACY_CONTROLLER_PAYLOAD_IMPORTERS = List.of(
+            "src/main/java/com/focela/platform/system/converter/auth/AuthConverter.java",
+            "src/main/java/com/focela/platform/system/converter/oauth2/OAuth2OpenConverter.java",
+            "src/main/java/com/focela/platform/system/converter/tenant/TenantConverter.java",
+            "src/main/java/com/focela/platform/system/converter/user/UserConverter.java",
+            "src/main/java/com/focela/platform/system/repository/mapper/department/DepartmentMapper.java",
+            "src/main/java/com/focela/platform/system/repository/mapper/department/PostMapper.java",
+            "src/main/java/com/focela/platform/system/repository/mapper/dictionary/DictionaryDataMapper.java",
+            "src/main/java/com/focela/platform/system/repository/mapper/dictionary/DictionaryTypeMapper.java",
+            "src/main/java/com/focela/platform/system/repository/mapper/logger/LoginLogMapper.java",
+            "src/main/java/com/focela/platform/system/repository/mapper/logger/OperateLogMapper.java",
+            "src/main/java/com/focela/platform/system/repository/mapper/mail/MailAccountMapper.java",
+            "src/main/java/com/focela/platform/system/repository/mapper/mail/MailLogMapper.java",
+            "src/main/java/com/focela/platform/system/repository/mapper/mail/MailTemplateMapper.java",
+            "src/main/java/com/focela/platform/system/repository/mapper/notice/NoticeMapper.java",
+            "src/main/java/com/focela/platform/system/repository/mapper/notify/NotifyMessageMapper.java",
+            "src/main/java/com/focela/platform/system/repository/mapper/notify/NotifyTemplateMapper.java",
+            "src/main/java/com/focela/platform/system/repository/mapper/oauth2/OAuth2AccessTokenMapper.java",
+            "src/main/java/com/focela/platform/system/repository/mapper/oauth2/OAuth2ClientMapper.java",
+            "src/main/java/com/focela/platform/system/repository/mapper/permission/MenuMapper.java",
+            "src/main/java/com/focela/platform/system/repository/mapper/permission/RoleMapper.java",
+            "src/main/java/com/focela/platform/system/repository/mapper/sms/SmsChannelMapper.java",
+            "src/main/java/com/focela/platform/system/repository/mapper/sms/SmsLogMapper.java",
+            "src/main/java/com/focela/platform/system/repository/mapper/sms/SmsTemplateMapper.java",
+            "src/main/java/com/focela/platform/system/repository/mapper/social/SocialClientMapper.java",
+            "src/main/java/com/focela/platform/system/repository/mapper/social/SocialUserMapper.java",
+            "src/main/java/com/focela/platform/system/repository/mapper/tenant/TenantMapper.java",
+            "src/main/java/com/focela/platform/system/repository/mapper/tenant/TenantPackageMapper.java",
+            "src/main/java/com/focela/platform/system/repository/mapper/user/UserMapper.java",
+            "src/main/java/com/focela/platform/system/service/auth/AuthService.java",
+            "src/main/java/com/focela/platform/system/service/auth/DefaultAuthService.java",
+            "src/main/java/com/focela/platform/system/service/department/DefaultDepartmentService.java",
+            "src/main/java/com/focela/platform/system/service/department/DefaultPostService.java",
+            "src/main/java/com/focela/platform/system/service/department/DepartmentService.java",
+            "src/main/java/com/focela/platform/system/service/department/PostService.java",
+            "src/main/java/com/focela/platform/system/service/dictionary/DefaultDictionaryDataService.java",
+            "src/main/java/com/focela/platform/system/service/dictionary/DefaultDictionaryTypeService.java",
+            "src/main/java/com/focela/platform/system/service/dictionary/DictionaryDataService.java",
+            "src/main/java/com/focela/platform/system/service/dictionary/DictionaryTypeService.java",
+            "src/main/java/com/focela/platform/system/service/logger/DefaultLoginLogService.java",
+            "src/main/java/com/focela/platform/system/service/logger/DefaultOperateLogService.java",
+            "src/main/java/com/focela/platform/system/service/logger/LoginLogService.java",
+            "src/main/java/com/focela/platform/system/service/logger/OperateLogService.java",
+            "src/main/java/com/focela/platform/system/service/mail/DefaultMailAccountService.java",
+            "src/main/java/com/focela/platform/system/service/mail/DefaultMailLogService.java",
+            "src/main/java/com/focela/platform/system/service/mail/DefaultMailTemplateService.java",
+            "src/main/java/com/focela/platform/system/service/mail/MailAccountService.java",
+            "src/main/java/com/focela/platform/system/service/mail/MailLogService.java",
+            "src/main/java/com/focela/platform/system/service/mail/MailTemplateService.java",
+            "src/main/java/com/focela/platform/system/service/notice/DefaultNoticeService.java",
+            "src/main/java/com/focela/platform/system/service/notice/NoticeService.java",
+            "src/main/java/com/focela/platform/system/service/notify/DefaultNotifyMessageService.java",
+            "src/main/java/com/focela/platform/system/service/notify/DefaultNotifyTemplateService.java",
+            "src/main/java/com/focela/platform/system/service/notify/NotifyMessageService.java",
+            "src/main/java/com/focela/platform/system/service/notify/NotifyTemplateService.java",
+            "src/main/java/com/focela/platform/system/service/oauth2/DefaultOAuth2ClientService.java",
+            "src/main/java/com/focela/platform/system/service/oauth2/DefaultOAuth2TokenService.java",
+            "src/main/java/com/focela/platform/system/service/oauth2/OAuth2ClientService.java",
+            "src/main/java/com/focela/platform/system/service/oauth2/OAuth2TokenService.java",
+            "src/main/java/com/focela/platform/system/service/permission/DefaultMenuService.java",
+            "src/main/java/com/focela/platform/system/service/permission/DefaultRoleService.java",
+            "src/main/java/com/focela/platform/system/service/permission/MenuService.java",
+            "src/main/java/com/focela/platform/system/service/permission/RoleService.java",
+            "src/main/java/com/focela/platform/system/service/sms/DefaultSmsChannelService.java",
+            "src/main/java/com/focela/platform/system/service/sms/DefaultSmsLogService.java",
+            "src/main/java/com/focela/platform/system/service/sms/DefaultSmsTemplateService.java",
+            "src/main/java/com/focela/platform/system/service/sms/SmsChannelService.java",
+            "src/main/java/com/focela/platform/system/service/sms/SmsLogService.java",
+            "src/main/java/com/focela/platform/system/service/sms/SmsTemplateService.java",
+            "src/main/java/com/focela/platform/system/service/social/DefaultSocialClientService.java",
+            "src/main/java/com/focela/platform/system/service/social/DefaultSocialUserService.java",
+            "src/main/java/com/focela/platform/system/service/social/SocialClientService.java",
+            "src/main/java/com/focela/platform/system/service/social/SocialUserService.java",
+            "src/main/java/com/focela/platform/system/service/tenant/DefaultTenantPackageService.java",
+            "src/main/java/com/focela/platform/system/service/tenant/DefaultTenantService.java",
+            "src/main/java/com/focela/platform/system/service/tenant/TenantPackageService.java",
+            "src/main/java/com/focela/platform/system/service/tenant/TenantService.java",
+            "src/main/java/com/focela/platform/system/service/user/DefaultUserService.java",
+            "src/main/java/com/focela/platform/system/service/user/UserService.java"
+    );
+
     private static JavaClasses classes;
 
     @BeforeAll
@@ -93,6 +174,13 @@ class SystemArchitectureTest {
     @Test
     void controllerDoesNotUseDtoPackage() {
         ArchitectureRules.CONTROLLER_DOES_NOT_USE_DTO_PACKAGE.check(classes);
+    }
+
+    @Test
+    void controllerPayloadImportsAreNotExpandedOutsideControllerLayer() {
+        ArchitectureRules.assertControllerPayloadImportsStayInAllowedFiles(
+                "focela-system",
+                LEGACY_CONTROLLER_PAYLOAD_IMPORTERS);
     }
 
     @Test

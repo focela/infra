@@ -13,6 +13,35 @@ import java.util.List;
  */
 class InfraArchitectureTest {
 
+    private static final List<String> LEGACY_CONTROLLER_PAYLOAD_IMPORTERS = List.of(
+            "src/main/java/com/focela/platform/infra/converter/config/ConfigConverter.java",
+            "src/main/java/com/focela/platform/infra/converter/file/FileConfigConverter.java",
+            "src/main/java/com/focela/platform/infra/converter/redis/RedisConverter.java",
+            "src/main/java/com/focela/platform/infra/repository/mapper/config/ConfigMapper.java",
+            "src/main/java/com/focela/platform/infra/repository/mapper/file/FileConfigMapper.java",
+            "src/main/java/com/focela/platform/infra/repository/mapper/file/FileMapper.java",
+            "src/main/java/com/focela/platform/infra/repository/mapper/job/JobLogMapper.java",
+            "src/main/java/com/focela/platform/infra/repository/mapper/job/JobMapper.java",
+            "src/main/java/com/focela/platform/infra/repository/mapper/logger/ApiAccessLogMapper.java",
+            "src/main/java/com/focela/platform/infra/repository/mapper/logger/ApiErrorLogMapper.java",
+            "src/main/java/com/focela/platform/infra/service/config/ConfigService.java",
+            "src/main/java/com/focela/platform/infra/service/config/DefaultConfigService.java",
+            "src/main/java/com/focela/platform/infra/service/database/DataSourceConfigService.java",
+            "src/main/java/com/focela/platform/infra/service/database/DefaultDataSourceConfigService.java",
+            "src/main/java/com/focela/platform/infra/service/file/DefaultFileConfigService.java",
+            "src/main/java/com/focela/platform/infra/service/file/DefaultFileService.java",
+            "src/main/java/com/focela/platform/infra/service/file/FileConfigService.java",
+            "src/main/java/com/focela/platform/infra/service/file/FileService.java",
+            "src/main/java/com/focela/platform/infra/service/job/DefaultJobLogService.java",
+            "src/main/java/com/focela/platform/infra/service/job/DefaultJobService.java",
+            "src/main/java/com/focela/platform/infra/service/job/JobLogService.java",
+            "src/main/java/com/focela/platform/infra/service/job/JobService.java",
+            "src/main/java/com/focela/platform/infra/service/logger/ApiAccessLogService.java",
+            "src/main/java/com/focela/platform/infra/service/logger/ApiErrorLogService.java",
+            "src/main/java/com/focela/platform/infra/service/logger/DefaultApiAccessLogService.java",
+            "src/main/java/com/focela/platform/infra/service/logger/DefaultApiErrorLogService.java"
+    );
+
     private static JavaClasses classes;
 
     @BeforeAll
@@ -93,6 +122,13 @@ class InfraArchitectureTest {
     @Test
     void controllerDoesNotUseDtoPackage() {
         ArchitectureRules.CONTROLLER_DOES_NOT_USE_DTO_PACKAGE.check(classes);
+    }
+
+    @Test
+    void controllerPayloadImportsAreNotExpandedOutsideControllerLayer() {
+        ArchitectureRules.assertControllerPayloadImportsStayInAllowedFiles(
+                "focela-infra",
+                LEGACY_CONTROLLER_PAYLOAD_IMPORTERS);
     }
 
     @Test

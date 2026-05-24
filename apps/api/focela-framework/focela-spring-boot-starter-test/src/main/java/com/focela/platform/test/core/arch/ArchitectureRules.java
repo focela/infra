@@ -204,6 +204,51 @@ public final class ArchitectureRules {
     }
 
     /**
+     * Prevents new non-controller classes from depending on REST request/response payloads.
+     * Existing legacy files can stay allowlisted while the module migrates toward service-level
+     * command/query objects.
+     */
+    public static void assertControllerPayloadImportsStayInAllowedFiles(
+            String moduleDirectoryName, List<String> allowedRelativePaths) {
+        Path moduleRoot = resolveModuleRoot(moduleDirectoryName);
+        Path sourceRoot = moduleRoot.resolve("src/main/java");
+        if (!Files.exists(sourceRoot)) {
+            throw new AssertionError("Cannot find source root: " + sourceRoot.toAbsolutePath().normalize());
+        }
+        List<String> normalizedAllowedPaths = allowedRelativePaths.stream()
+                .map(ArchitectureRules::normalizeRelativePath)
+                .toList();
+        try (Stream<Path> paths = Files.walk(sourceRoot)) {
+            List<Path> sourceFiles = paths
+                    .filter(Files::isRegularFile)
+                    .filter(path -> path.getFileName().toString().endsWith(".java"))
+                    .sorted()
+                    .toList();
+            List<String> violations = new ArrayList<>();
+            for (Path sourceFile : sourceFiles) {
+                String relativePath = normalizeRelativePath(moduleRoot.relativize(sourceFile).toString());
+                if (relativePath.contains("/controller/") || normalizedAllowedPaths.contains(relativePath)) {
+                    continue;
+                }
+                List<String> lines = Files.readAllLines(sourceFile);
+                for (int i = 0; i < lines.size(); i++) {
+                    String importedClass = extractImportedClass(lines.get(i));
+                    if (importedClass != null && isControllerPayloadImport(importedClass)) {
+                        violations.add(relativePath + ":" + (i + 1) + " -> " + importedClass);
+                    }
+                }
+            }
+            if (!violations.isEmpty()) {
+                throw new AssertionError("Non-controller classes must not add new controller payload imports: "
+                        + violations);
+            }
+        } catch (IOException e) {
+            throw new AssertionError("Failed to scan source root: "
+                    + sourceRoot.toAbsolutePath().normalize(), e);
+        }
+    }
+
+    /**
      * Spring Boot auto-configuration imports should point to classes named
      * {@code *AutoConfiguration}. Existing legacy names can be allowlisted until
      * they are renamed together with their metadata entries.
@@ -252,6 +297,11 @@ public final class ArchitectureRules {
 
     private static boolean isAllowedImport(String importedClass, List<String> allowedImportPrefixes) {
         return startsWithAny(importedClass, allowedImportPrefixes);
+    }
+
+    private static boolean isControllerPayloadImport(String importedClass) {
+        return importedClass.contains(".controller.")
+                && (importedClass.contains(".request.") || importedClass.contains(".response."));
     }
 
     private static boolean startsWithAny(String value, List<String> prefixes) {

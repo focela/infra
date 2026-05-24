@@ -43,9 +43,9 @@ com.focela.platform.<bounded-context>/
 ├── controller/
 │   ├── admin/            # Admin Web API (/admin-api/...)
 │   └── app/              # Mobile/App API (/app-api/...)
-│       └── <feature>/dto/  # Request/Response DTOs (one folder per feature, no extra nesting)
+│       └── <feature>/    # Request/Response payloads split into request/ and response/
 ├── converter/            # MapStruct converters (XxxConverter)
-├── entity/               # MyBatis entities (XxxEntity extends BaseEntity)
+├── domain/entity/        # MyBatis entities (XxxEntity extends BaseEntity)
 ├── enums/                # Enum types only (constants live in constants/)
 ├── job/                  # Scheduled jobs
 ├── mq/                   # Message queue producers/consumers
@@ -63,7 +63,7 @@ com.focela.platform.<bounded-context>/
 | Mapper (MyBatis) | `UserMapper extends BaseMapperX<UserEntity>` |
 | Service interface | `UserService` |
 | Service impl | `DefaultUserService implements UserService` |
-| Cross-module contract (framework/common/contract/) | `OperateLogContractApi`, `PermissionContractApi` |
+| Cross-module contract (framework/common/api/) | `OperateLogContractApi`, `PermissionContractApi` |
 | Module-side API (module/api/) | `UserApi`, `OperateLogApi extends OperateLogContractApi` |
 | API impl (same JVM) | `LocalUserApi implements UserApi` |
 | HTTP Request DTO (controller) | `UserSaveRequest`, `UserPageRequest`, `UserListRequest` |
@@ -71,7 +71,7 @@ com.focela.platform.<bounded-context>/
 | Cross-module RPC Request DTO | `OperateLogCreateRpcRequest`, `MailSendSingleToUserRpcRequest` |
 | Cross-module RPC Response DTO | `UserRpcResponse`, `OperateLogRpcResponse` |
 | Converter | `UserConverter` (MapStruct) |
-| Excel row | `UserImportExcelDto` |
+| Excel row | `UserImportExcelRow` |
 | Configuration class | `FocelaXxxAutoConfiguration` |
 | Spring contract impl | Behavior-based name — e.g. `JsonAccessDeniedHandler` |
 
@@ -140,7 +140,7 @@ Current test baseline: **580 run, 0 failures, 0 errors, 19 skipped** — full su
 |---|---|
 | Monorepo `apps/api/` | Future-proof for additional apps (`apps/web/`, `apps/worker/`) |
 | Layered (controller → service → repository) | Inherited from the legacy upstream baseline; pragmatic, not feature-first |
-| `*ContractApi` (in framework/common/contract/) + `*Api` (module-side) + `Local*Api` impl | Three-tier cross-module API: `*ContractApi` defines the shared contract, the module-side `*Api` extends it to add module-internal methods, and `Local*` signals same-JVM implementation. A future `Remote*Api` can sit alongside when modules move to RPC. DTO suffix `*RpcRequest`/`*RpcResponse` for cross-module payloads to keep them separate from HTTP `*Request`/`*Response`. |
+| `*ContractApi` (in framework/common/api/) + `*Api` (module-side) + `Local*Api` impl | Three-tier cross-module API: `*ContractApi` defines the shared contract, the module-side `*Api` extends it to add module-internal methods, and `Local*` signals same-JVM implementation. A future `Remote*Api` can sit alongside when modules move to RPC. DTO suffix `*RpcRequest`/`*RpcResponse` for cross-module payloads to keep them separate from HTTP `*Request`/`*Response`. |
 | `*Service` + `Default*Service` | Spring convention (`DefaultListableBeanFactory`); avoids `*Impl` smell while keeping interface for AOP/mocking |
 | MyBatis-Plus over JPA | Legacy upstream baseline; better fit for legacy PostgreSQL schema |
 | `focela.*` config prefix | Single namespace for application properties |
@@ -152,6 +152,10 @@ Current test baseline: **580 run, 0 failures, 0 errors, 19 skipped** — full su
 | No Flyway/Liquibase schema migration | Schema drift between H2 (test) and PostgreSQL (prod); manual provisioning | `docs/REFACTOR_PLAN_LEVEL_B.md` (Mức C+) |
 | Chinese comments throughout | Onboarding friction for non-CN devs | — |
 | No CI/CD | Manual gate only | Postponed |
+
+Optional modules that are not part of the active Maven reactor are tracked in
+[MODULE_BOUNDARIES.md](docs/MODULE_BOUNDARIES.md) instead of being kept as
+commented-out POM entries.
 
 ## Useful URLs
 
@@ -165,7 +169,7 @@ Current test baseline: **580 run, 0 failures, 0 errors, 19 skipped** — full su
 The codebase was rebranded from its legacy upstream baseline to Focela in a series of refactor phases on `feature/SKF-1`:
 
 - **Phase A** — Rebrand Maven coordinates, Java base package, class names, config prefix (`legacy.*` → `focela.*`)
-- **Phase B** — Standardize naming: `dal/dataobject/` → `repository/entity/`, `vo/` → `dto/`, `*DO` → `*Entity`, `*ReqVO/*RespVO` → `*Request/*Response`
+- **Phase B** — Standardize naming: `dal/dataobject/` → `domain/entity/`, `vo/` → `dto/`, `*DO` → `*Entity`, `*ReqVO/*RespVO` → `*Request/*Response`
 - **Phase C** — International naming: `dept` → `department`, `dict` → `dictionary`, `*ServiceImpl` → `Default*Service`, etc.
 - Codegen module removed (FE migrating to React)
 

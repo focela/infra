@@ -15,17 +15,7 @@
         <!-- Module extensions -->
         <module>focela-system</module>
         <module>focela-infra</module>
-<!--        <module>focela-member</module>-->
-<!--        <module>focela-bpm</module>-->
-<!--        <module>focela-report</module>-->
-<!--        <module>focela-mp</module>-->
-<!--        <module>focela-pay</module>-->
-<!--        <module>focela-mall</module>-->
-<!--        <module>focela-crm</module>-->
-<!--        <module>focela-erp</module>-->
-<!--        <module>focela-iot</module>-->
-<!--        <module>focela-mes</module>-->
-<!--        <module>focela-ai</module>-->
+        <!-- Deferred modules are documented in docs/MODULE_BOUNDARIES.md. -->
     </modules>
 
     <name>${project.artifactId}</name>
