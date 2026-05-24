@@ -130,7 +130,31 @@ migration**. The team can revisit when the file count drops below ~10.
 
 ---
 
-## 5. Items deliberately deferred
+## 5. Secrets externalization status
+
+`application.yaml` now uses the `${ENV_VAR:fallback}` pattern for every
+hardcoded credential (22 entries across the MyBatis encryptor, Spring AI
+clients, focela AI clients, API encryption keys, and express-delivery
+clients). Runtime behavior is unchanged because the existing value is the
+fallback default — operations can override per environment without touching
+the file.
+
+**Follow-up still owed:**
+
+- `application-dev.yaml` and `application-local.yaml` contain dev/local
+  credentials that are NOT yet externalized:
+  - DB / Redis / RabbitMQ passwords (`123456`, `rabbit`, `admin`, `guest`)
+  - WeChat MP / Mini Program `app-id` + `secret` pairs
+  - OAuth2 `client-secret` values in justauth config
+  - The values are dev-only and clearly marked, but still belong in env
+    vars before any prod deployment uses these profiles.
+- Once the team confirms which fallback defaults are stale or revoked
+  template values, strip the defaults so the application fails fast on
+  missing env vars instead of running with a known-bad credential.
+- Add `application-prod.yaml.example` as a committed template (mirroring
+  the env vars introduced above) so ops have a starting point.
+
+## 6. Items deliberately deferred
 
 The following are known but explicitly **not** in this backlog because doing
 them would introduce risk disproportionate to the benefit. They are recorded

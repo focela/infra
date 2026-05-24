@@ -6,6 +6,8 @@ import com.focela.platform.common.enums.CommonStatusEnum;
 import com.focela.platform.common.enums.UserTypeEnum;
 import com.focela.platform.common.model.CommonResult;
 import com.focela.platform.datapermission.core.annotation.DataPermission;
+import com.focela.platform.ratelimiter.core.annotation.RateLimiter;
+import com.focela.platform.ratelimiter.core.keyresolver.impl.ExpressionRateLimiterKeyResolver;
 import com.focela.platform.security.config.SecurityProperties;
 import com.focela.platform.security.core.utils.SecurityFrameworkUtils;
 import com.focela.platform.system.controller.admin.auth.request.AuthLoginRequest;
@@ -135,8 +137,7 @@ public class AuthController {
     @PostMapping("/sms-login")
     @PermitAll
     @Operation(summary = "use SMS CAPTCHA login")
-    // Optional: enable rate limiting for SMS login by mobile number.
-    // @RateLimiter(time = 60, count = 6, keyResolver = ExpressionRateLimiterKeyResolver.class, keyArg = "#request.mobile")
+    @RateLimiter(time = 60, count = 6, keyResolver = ExpressionRateLimiterKeyResolver.class, keyArg = "#request.mobile")
     public CommonResult<AuthLoginResponse> smsLogin(@RequestBody @Valid AuthSmsLoginRequest request) {
         return success(authService.smsLogin(request));
     }

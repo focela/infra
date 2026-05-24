@@ -37,6 +37,11 @@
             <groupId>com.focela.platform</groupId>
             <artifactId>focela-spring-boot-starter-ip</artifactId>
         </dependency>
+        <!-- Provides @RateLimiter / @Idempotent annotations used in auth and SMS endpoints. -->
+        <dependency>
+            <groupId>com.focela.platform</groupId>
+            <artifactId>focela-spring-boot-starter-protection</artifactId>
+        </dependency>
 
         <!-- Web -->
         <dependency>
