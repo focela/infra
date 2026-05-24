@@ -115,8 +115,8 @@ public class DefaultDictionaryDataService implements DictionaryDataService {
         validateDictDataValueUnique(updateRequest.getId(), updateRequest.getDictType(), updateRequest.getValue());
 
         // Update dictionary data
-        DictionaryDataEntity updateObj = BeanUtils.toBean(updateRequest, DictionaryDataEntity.class);
-        dictionaryDataMapper.updateById(updateObj);
+        DictionaryDataEntity updateEntity = BeanUtils.toBean(updateRequest, DictionaryDataEntity.class);
+        dictionaryDataMapper.updateById(updateEntity);
     }
 
     @Override

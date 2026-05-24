@@ -150,8 +150,8 @@ public class DefaultTenantService implements TenantService {
         TenantPackageEntity tenantPackage = tenantPackageService.validateTenantPackage(updateRequest.getPackageId());
 
         // update tenant
-        TenantEntity updateObj = BeanUtils.toBean(updateRequest, TenantEntity.class);
-        tenantMapper.updateById(updateObj);
+        TenantEntity updateEntity = BeanUtils.toBean(updateRequest, TenantEntity.class);
+        tenantMapper.updateById(updateEntity);
         // if the package changed, update its role's permissions
         if (ObjectUtil.notEqual(tenant.getPackageId(), updateRequest.getPackageId())) {
             updateTenantRoleMenu(tenant.getId(), tenantPackage.getMenuIds());

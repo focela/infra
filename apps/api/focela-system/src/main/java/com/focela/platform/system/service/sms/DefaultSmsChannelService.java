@@ -54,8 +54,8 @@ public class DefaultSmsChannelService implements SmsChannelService {
         // Validate existence
         validateSmsChannelExists(updateRequest.getId());
         // Update
-        SmsChannelEntity updateObj = BeanUtils.toBean(updateRequest, SmsChannelEntity.class);
-        smsChannelMapper.updateById(updateObj);
+        SmsChannelEntity updateEntity = BeanUtils.toBean(updateRequest, SmsChannelEntity.class);
+        smsChannelMapper.updateById(updateEntity);
     }
 
     @Override

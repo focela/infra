@@ -36,8 +36,8 @@ public class DefaultNoticeService implements NoticeService {
         // Validate existence
         validateNoticeExists(updateRequest.getId());
         // Update notice
-        NoticeEntity updateObj = BeanUtils.toBean(updateRequest, NoticeEntity.class);
-        noticeMapper.updateById(updateObj);
+        NoticeEntity updateEntity = BeanUtils.toBean(updateRequest, NoticeEntity.class);
+        noticeMapper.updateById(updateEntity);
     }
 
     @Override

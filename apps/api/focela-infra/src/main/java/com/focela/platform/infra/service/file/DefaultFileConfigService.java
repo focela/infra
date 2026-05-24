@@ -84,9 +84,9 @@ public class DefaultFileConfigService implements FileConfigService {
         // Verify it exists
         FileConfigEntity config = validateFileConfigExists(updateRequest.getId());
         // Update
-        FileConfigEntity updateObj = FileConfigConverter.INSTANCE.convert(updateRequest)
+        FileConfigEntity updateEntity = FileConfigConverter.INSTANCE.convert(updateRequest)
                 .setConfig(parseClientConfig(config.getStorage(), updateRequest.getConfig()));
-        fileConfigMapper.updateById(updateObj);
+        fileConfigMapper.updateById(updateEntity);
 
         // Clear cache
         clearCache(config.getId(), null);

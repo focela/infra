@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 /**
  * Spring Security auto-configuration class, mainly used to configure related components.
  *
- * Note: this must not be combined with {@link FocelaWebSecurityConfigurerAdapter}; doing so causes initialization errors.
+ * Note: this must not be combined with {@link FocelaSecurityFilterChainAutoConfiguration}; doing so causes initialization errors.
  * See https://stackoverflow.com/questions/53847050/spring-boot-delegatebuilder-cannot-be-null-on-autowiring-authenticationmanager
  */
 @AutoConfiguration

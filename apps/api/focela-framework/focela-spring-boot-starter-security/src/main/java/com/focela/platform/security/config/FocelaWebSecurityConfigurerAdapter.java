@@ -40,7 +40,11 @@ import static com.focela.platform.common.utils.collection.CollectionUtils.conver
 
 /**
  * Custom Spring Security configuration adapter implementation.
+ *
+ * @deprecated use {@link FocelaSecurityFilterChainAutoConfiguration}. This class remains the
+ * active auto-configuration import for backward compatibility.
  */
+@Deprecated(since = "1.0.0", forRemoval = false)
 @AutoConfiguration
 @AutoConfigureOrder(-1) // Purpose: run before Spring Security auto-configuration so that, after a one-click package rename, the org.* base packages still take effect
 @EnableMethodSecurity(securedEnabled = true)

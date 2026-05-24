@@ -12,9 +12,9 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 /**
- * various {@link SmsClient}  integration test
+ * Various {@link SmsClient} integration tests.
  */
-public class SmsClientTest {
+public class SmsClientIntegrationTest {
 
     private static String env(String key, String defaultValue) {
         return System.getenv().getOrDefault(key, defaultValue);

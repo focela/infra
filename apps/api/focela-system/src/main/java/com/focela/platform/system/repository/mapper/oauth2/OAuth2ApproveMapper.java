@@ -10,12 +10,12 @@ import java.util.List;
 @Mapper
 public interface OAuth2ApproveMapper extends BaseMapperX<OAuth2ApproveEntity> {
 
-    default int update(OAuth2ApproveEntity updateObj) {
-        return update(updateObj, new LambdaQueryWrapperX<OAuth2ApproveEntity>()
-                .eq(OAuth2ApproveEntity::getUserId, updateObj.getUserId())
-                .eq(OAuth2ApproveEntity::getUserType, updateObj.getUserType())
-                .eq(OAuth2ApproveEntity::getClientId, updateObj.getClientId())
-                .eq(OAuth2ApproveEntity::getScope, updateObj.getScope()));
+    default int update(OAuth2ApproveEntity updateEntity) {
+        return update(updateEntity, new LambdaQueryWrapperX<OAuth2ApproveEntity>()
+                .eq(OAuth2ApproveEntity::getUserId, updateEntity.getUserId())
+                .eq(OAuth2ApproveEntity::getUserType, updateEntity.getUserType())
+                .eq(OAuth2ApproveEntity::getClientId, updateEntity.getClientId())
+                .eq(OAuth2ApproveEntity::getScope, updateEntity.getScope()));
     }
 
     default List<OAuth2ApproveEntity> selectListByUserIdAndUserTypeAndClientId(Long userId, Integer userType, String clientId) {

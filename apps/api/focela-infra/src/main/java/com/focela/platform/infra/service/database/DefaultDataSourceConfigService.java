@@ -45,11 +45,11 @@ public class DefaultDataSourceConfigService implements DataSourceConfigService {
     public void updateDataSourceConfig(DataSourceConfigSaveRequest updateRequest) {
         // Verify it exists
         validateDataSourceConfigExists(updateRequest.getId());
-        DataSourceConfigEntity updateObj = BeanUtils.toBean(updateRequest, DataSourceConfigEntity.class);
-        validateConnectionOK(updateObj);
+        DataSourceConfigEntity updateEntity = BeanUtils.toBean(updateRequest, DataSourceConfigEntity.class);
+        validateConnectionOK(updateEntity);
 
         // Update
-        dataSourceConfigMapper.updateById(updateObj);
+        dataSourceConfigMapper.updateById(updateEntity);
     }
 
     @Override

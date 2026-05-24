@@ -154,21 +154,21 @@ public class DefaultUserService implements UserService {
                 updateRequest.getMobile(), updateRequest.getEmail(), updateRequest.getDeptId(), updateRequest.getPostIds());
 
         // 2.1 Update user
-        UserEntity updateObj = BeanUtils.toBean(updateRequest, UserEntity.class);
-        userMapper.updateById(updateObj);
+        UserEntity updateEntity = BeanUtils.toBean(updateRequest, UserEntity.class);
+        userMapper.updateById(updateEntity);
         // 2.2 Update posts
-        updateUserPost(updateRequest, updateObj);
+        updateUserPost(updateRequest, updateEntity);
 
         // 3. Record operation log context
         LogRecordContext.putVariable(DiffParseFunction.OLD_OBJECT, BeanUtils.toBean(oldUser, UserSaveRequest.class));
         LogRecordContext.putVariable("user", oldUser);
     }
 
-    private void updateUserPost(UserSaveRequest request, UserEntity updateObj) {
+    private void updateUserPost(UserSaveRequest request, UserEntity updateEntity) {
         Long userId = request.getId();
         Set<Long> dbPostIds = convertSet(userPostMapper.selectListByUserId(userId), UserPostEntity::getPostId);
         // Compute the post IDs to add and delete
-        Set<Long> postIds = CollUtil.emptyIfNull(updateObj.getPostIds());
+        Set<Long> postIds = CollUtil.emptyIfNull(updateEntity.getPostIds());
         Collection<Long> createPostIds = CollUtil.subtract(postIds, dbPostIds);
         Collection<Long> deletePostIds = CollUtil.subtract(dbPostIds, postIds);
         // Execute insertion and deletion. For already authorized posts, no action needed
@@ -201,9 +201,9 @@ public class DefaultUserService implements UserService {
         // Validate the old password
         validateOldPassword(id, request.getOldPassword());
         // Execute update
-        UserEntity updateObj = new UserEntity().setId(id);
-        updateObj.setPassword(encodePassword(request.getNewPassword())); // encode password
-        userMapper.updateById(updateObj);
+        UserEntity updateEntity = new UserEntity().setId(id);
+        updateEntity.setPassword(encodePassword(request.getNewPassword())); // encode password
+        userMapper.updateById(updateEntity);
     }
 
     @Override
@@ -214,14 +214,14 @@ public class DefaultUserService implements UserService {
         UserEntity user = validateUserExists(id);
 
         // 2. Update password
-        UserEntity updateObj = new UserEntity();
-        updateObj.setId(id);
-        updateObj.setPassword(encodePassword(password)); // encode password
-        userMapper.updateById(updateObj);
+        UserEntity updateEntity = new UserEntity();
+        updateEntity.setId(id);
+        updateEntity.setPassword(encodePassword(password)); // encode password
+        userMapper.updateById(updateEntity);
 
         // 3. Record operate log context
         LogRecordContext.putVariable("user", user);
-        LogRecordContext.putVariable("newPassword", updateObj.getPassword());
+        LogRecordContext.putVariable("newPassword", updateEntity.getPassword());
     }
 
     @Override
@@ -229,10 +229,10 @@ public class DefaultUserService implements UserService {
         // Validate that the user exists
         validateUserExists(id);
         // Update status
-        UserEntity updateObj = new UserEntity();
-        updateObj.setId(id);
-        updateObj.setStatus(status);
-        userMapper.updateById(updateObj);
+        UserEntity updateEntity = new UserEntity();
+        updateEntity.setId(id);
+        updateEntity.setStatus(status);
+        userMapper.updateById(updateEntity);
 
         // If disabling the user, also remove their Token
         if (CommonStatusEnum.isDisable(status)) {

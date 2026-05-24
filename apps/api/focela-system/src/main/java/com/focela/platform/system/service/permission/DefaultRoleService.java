@@ -92,8 +92,8 @@ public class DefaultRoleService implements RoleService {
         validateRoleDuplicate(updateRequest.getName(), updateRequest.getCode(), updateRequest.getId());
 
         // 2. Update in the database
-        RoleEntity updateObj = BeanUtils.toBean(updateRequest, RoleEntity.class);
-        roleMapper.updateById(updateObj);
+        RoleEntity updateEntity = BeanUtils.toBean(updateRequest, RoleEntity.class);
+        roleMapper.updateById(updateEntity);
 
         // 3. Record operate log context
         LogRecordContext.putVariable(DiffParseFunction.OLD_OBJECT, BeanUtils.toBean(role, RoleSaveRequest.class));

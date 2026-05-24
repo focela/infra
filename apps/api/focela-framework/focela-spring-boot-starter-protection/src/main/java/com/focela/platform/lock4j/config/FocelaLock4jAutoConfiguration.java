@@ -1,19 +1,14 @@
 package com.focela.platform.lock4j.config;
 
-import com.focela.platform.lock4j.core.DefaultLockFailureStrategy;
 import com.baomidou.lock.spring.boot.autoconfigure.LockAutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.context.annotation.Bean;
 
+/**
+ * Lock4j auto-configuration.
+ */
 @AutoConfiguration(before = LockAutoConfiguration.class)
 @ConditionalOnClass(name = "com.baomidou.lock.annotation.Lock4j")
-@Deprecated(since = "1.0.0", forRemoval = false)
-public class FocelaLock4jConfiguration {
-
-    @Bean
-    public DefaultLockFailureStrategy lockFailureStrategy() {
-        return new DefaultLockFailureStrategy();
-    }
-
+@SuppressWarnings("deprecation")
+public class FocelaLock4jAutoConfiguration extends FocelaLock4jConfiguration {
 }

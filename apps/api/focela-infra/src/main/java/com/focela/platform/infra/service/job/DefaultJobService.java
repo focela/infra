@@ -60,8 +60,8 @@ public class DefaultJobService implements JobService {
         schedulerManager.addJob(job.getId(), job.getHandlerName(), job.getHandlerParam(), job.getCronExpression(),
                 createRequest.getRetryCount(), createRequest.getRetryInterval());
         // 3.2 Update JobEntity
-        JobEntity updateObj = JobEntity.builder().id(job.getId()).status(JobStatusEnum.NORMAL.getStatus()).build();
-        jobMapper.updateById(updateObj);
+        JobEntity updateEntity = JobEntity.builder().id(job.getId()).status(JobStatusEnum.NORMAL.getStatus()).build();
+        jobMapper.updateById(updateEntity);
         return job.getId();
     }
 
@@ -79,9 +79,9 @@ public class DefaultJobService implements JobService {
         validateJobHandlerExists(updateRequest.getHandlerName());
 
         // 2. Update JobEntity
-        JobEntity updateObj = BeanUtils.toBean(updateRequest, JobEntity.class);
-        fillJobMonitorTimeoutEmpty(updateObj);
-        jobMapper.updateById(updateObj);
+        JobEntity updateEntity = BeanUtils.toBean(updateRequest, JobEntity.class);
+        fillJobMonitorTimeoutEmpty(updateEntity);
+        jobMapper.updateById(updateEntity);
 
         // 3. Update the Job in Quartz
         schedulerManager.updateJob(job.getHandlerName(), updateRequest.getHandlerParam(), updateRequest.getCronExpression(),
@@ -114,8 +114,8 @@ public class DefaultJobService implements JobService {
             throw exception(JOB_CHANGE_STATUS_EQUALS);
         }
         // Update Job status
-        JobEntity updateObj = JobEntity.builder().id(id).status(status).build();
-        jobMapper.updateById(updateObj);
+        JobEntity updateEntity = JobEntity.builder().id(id).status(status).build();
+        jobMapper.updateById(updateEntity);
 
         // Update the Job status in Quartz
         if (JobStatusEnum.NORMAL.getStatus().equals(status)) { // Resume

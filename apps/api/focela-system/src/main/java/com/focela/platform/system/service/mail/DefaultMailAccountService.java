@@ -49,8 +49,8 @@ public class DefaultMailAccountService implements MailAccountService {
         validateMailAccountExists(updateRequest.getId());
 
         // Update
-        MailAccountEntity updateObj = BeanUtils.toBean(updateRequest, MailAccountEntity.class);
-        mailAccountMapper.updateById(updateObj);
+        MailAccountEntity updateEntity = BeanUtils.toBean(updateRequest, MailAccountEntity.class);
+        mailAccountMapper.updateById(updateEntity);
     }
 
     @Override

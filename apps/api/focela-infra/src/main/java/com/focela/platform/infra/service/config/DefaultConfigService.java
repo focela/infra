@@ -49,8 +49,8 @@ public class DefaultConfigService implements ConfigService {
         validateConfigKeyUnique(updateRequest.getId(), updateRequest.getKey());
 
         // Update param config
-        ConfigEntity updateObj = ConfigConverter.INSTANCE.convert(updateRequest);
-        configMapper.updateById(updateObj);
+        ConfigEntity updateEntity = ConfigConverter.INSTANCE.convert(updateRequest);
+        configMapper.updateById(updateEntity);
     }
 
     @Override

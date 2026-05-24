@@ -32,9 +32,9 @@ public class LocalDateTimeUtils {
     /**
      * Empty LocalDateTime, mainly used as the default value for DB unique indexes
      */
-    public static LocalDateTime EMPTY = buildTime(1970, 1, 1);
+    public static final LocalDateTime EMPTY = buildTime(1970, 1, 1);
 
-    public static DateTimeFormatter UTC_MS_WITH_XXX_OFFSET_FORMATTER = createFormatter(UTC_MS_WITH_XXX_OFFSET_PATTERN);
+    public static final DateTimeFormatter UTC_MS_WITH_XXX_OFFSET_FORMATTER = createFormatter(UTC_MS_WITH_XXX_OFFSET_PATTERN);
 
     /**
      * Parse a time string

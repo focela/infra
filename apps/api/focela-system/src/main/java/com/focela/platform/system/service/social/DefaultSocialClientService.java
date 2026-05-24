@@ -100,8 +100,8 @@ public class DefaultSocialClientService implements SocialClientService {
     public void updateSocialClient(SocialClientSaveRequest updateRequest) {
         validateSocialClientExists(updateRequest.getId());
         validateSocialClientUnique(updateRequest.getId(), updateRequest.getUserType(), updateRequest.getSocialType());
-        SocialClientEntity updateObj = BeanUtils.toBean(updateRequest, SocialClientEntity.class);
-        socialClientMapper.updateById(updateObj);
+        SocialClientEntity updateEntity = BeanUtils.toBean(updateRequest, SocialClientEntity.class);
+        socialClientMapper.updateById(updateEntity);
     }
 
     @Override

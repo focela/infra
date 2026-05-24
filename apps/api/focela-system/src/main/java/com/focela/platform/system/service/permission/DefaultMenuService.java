@@ -93,9 +93,9 @@ public class DefaultMenuService implements MenuService {
         validateMenuComponentName(updateRequest.getComponentName(), updateRequest.getId());
 
         // Update in the database
-        MenuEntity updateObj = BeanUtils.toBean(updateRequest, MenuEntity.class);
-        initMenuProperty(updateObj);
-        menuMapper.updateById(updateObj);
+        MenuEntity updateEntity = BeanUtils.toBean(updateRequest, MenuEntity.class);
+        initMenuProperty(updateEntity);
+        menuMapper.updateById(updateEntity);
     }
 
     @Override

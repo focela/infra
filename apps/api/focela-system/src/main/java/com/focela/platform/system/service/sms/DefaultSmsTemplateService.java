@@ -82,10 +82,10 @@ public class DefaultSmsTemplateService implements SmsTemplateService {
         validateApiTemplate(updateRequest.getChannelId(), updateRequest.getApiTemplateId());
 
         // update
-        SmsTemplateEntity updateObj = BeanUtils.toBean(updateRequest, SmsTemplateEntity.class);
-        updateObj.setParams(parseTemplateContentParams(updateObj.getContent()));
-        updateObj.setChannelCode(channel.getCode());
-        smsTemplateMapper.updateById(updateObj);
+        SmsTemplateEntity updateEntity = BeanUtils.toBean(updateRequest, SmsTemplateEntity.class);
+        updateEntity.setParams(parseTemplateContentParams(updateEntity.getContent()));
+        updateEntity.setChannelCode(channel.getCode());
+        smsTemplateMapper.updateById(updateEntity);
     }
 
     @Override

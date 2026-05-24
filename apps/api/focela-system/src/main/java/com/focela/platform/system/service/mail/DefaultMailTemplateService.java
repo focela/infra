@@ -69,9 +69,9 @@ public class DefaultMailTemplateService implements MailTemplateService {
         validateCodeUnique(updateRequest.getId(),updateRequest.getCode());
 
         // Update
-        MailTemplateEntity updateObj = BeanUtils.toBean(updateRequest, MailTemplateEntity.class)
+        MailTemplateEntity updateEntity = BeanUtils.toBean(updateRequest, MailTemplateEntity.class)
                 .setParams(parseTemplateTitleAndContentParams(updateRequest.getTitle(), updateRequest.getContent()));
-        mailTemplateMapper.updateById(updateObj);
+        mailTemplateMapper.updateById(updateEntity);
     }
 
     @VisibleForTesting

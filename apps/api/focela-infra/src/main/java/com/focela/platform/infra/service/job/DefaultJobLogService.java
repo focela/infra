@@ -38,10 +38,10 @@ public class DefaultJobLogService implements JobLogService {
     @Async
     public void updateJobLogResultAsync(Long logId, LocalDateTime endTime, Integer duration, boolean success, String result) {
         try {
-            JobLogEntity updateObj = JobLogEntity.builder().id(logId).endTime(endTime).duration(duration)
+            JobLogEntity updateEntity = JobLogEntity.builder().id(logId).endTime(endTime).duration(duration)
                     .status(success ? JobLogStatusEnum.SUCCESS.getStatus() : JobLogStatusEnum.FAILURE.getStatus())
                     .result(result).build();
-            jobLogMapper.updateById(updateObj);
+            jobLogMapper.updateById(updateEntity);
         } catch (Exception ex) {
             log.error("[updateJobLogResultAsync][logId({}) endTime({}) duration({}) success({}) result({})]",
                     logId, endTime, duration, success, result);

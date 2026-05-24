@@ -63,9 +63,9 @@ public class DefaultNotifyTemplateService implements NotifyTemplateService {
         validateNotifyTemplateCodeDuplicate(updateRequest.getId(), updateRequest.getCode());
 
         // update
-        NotifyTemplateEntity updateObj = BeanUtils.toBean(updateRequest, NotifyTemplateEntity.class);
-        updateObj.setParams(parseTemplateContentParams(updateObj.getContent()));
-        notifyTemplateMapper.updateById(updateObj);
+        NotifyTemplateEntity updateEntity = BeanUtils.toBean(updateRequest, NotifyTemplateEntity.class);
+        updateEntity.setParams(parseTemplateContentParams(updateEntity.getContent()));
+        notifyTemplateMapper.updateById(updateEntity);
     }
 
     @VisibleForTesting

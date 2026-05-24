@@ -56,8 +56,8 @@ public class DefaultTenantPackageService implements TenantPackageService {
         // validate package name is not duplicated
         validateTenantPackageNameUnique(updateRequest.getId(), updateRequest.getName());
         // update
-        TenantPackageEntity updateObj = BeanUtils.toBean(updateRequest, TenantPackageEntity.class);
-        tenantPackageMapper.updateById(updateObj);
+        TenantPackageEntity updateEntity = BeanUtils.toBean(updateRequest, TenantPackageEntity.class);
+        tenantPackageMapper.updateById(updateEntity);
         // if the menus changed, update each tenant's menus
         if (!CollUtil.isEqualList(tenantPackage.getMenuIds(), updateRequest.getMenuIds())) {
             List<TenantEntity> tenants = tenantService.getTenantListByPackageId(tenantPackage.getId());

@@ -14,6 +14,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import java.util.List;
 
 @AutoConfiguration(after = FocelaRedisAutoConfiguration.class)
+@Deprecated(since = "1.0.0", forRemoval = false)
 public class FocelaIdempotentConfiguration {
 
     @Bean

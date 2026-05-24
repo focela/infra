@@ -11,7 +11,11 @@ import org.springframework.context.annotation.Primary;
 
 /**
  * Operate log configuration class.
+ *
+ * @deprecated use {@link FocelaOperateLogAutoConfiguration}. This class remains the active
+ * auto-configuration import for backward compatibility.
  */
+@Deprecated(since = "1.0.0", forRemoval = false)
 @EnableLogRecord(tenant = "") // tenant attribute is not used, leave it empty
 @AutoConfiguration
 @Slf4j

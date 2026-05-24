@@ -92,8 +92,8 @@ public class DefaultDictionaryTypeService implements DictionaryTypeService {
         validateDictTypeUnique(updateRequest.getId(), updateRequest.getType());
 
         // Update dictionary type
-        DictionaryTypeEntity updateObj = BeanUtils.toBean(updateRequest, DictionaryTypeEntity.class);
-        dictionaryTypeMapper.updateById(updateObj);
+        DictionaryTypeEntity updateEntity = BeanUtils.toBean(updateRequest, DictionaryTypeEntity.class);
+        dictionaryTypeMapper.updateById(updateEntity);
     }
 
     @Override

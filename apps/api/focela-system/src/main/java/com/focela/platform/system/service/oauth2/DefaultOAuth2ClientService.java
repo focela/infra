@@ -57,8 +57,8 @@ public class DefaultOAuth2ClientService implements OAuth2ClientService {
         validateClientIdExists(updateRequest.getId(), updateRequest.getClientId());
 
         // Update
-        OAuth2ClientEntity updateObj = BeanUtils.toBean(updateRequest, OAuth2ClientEntity.class);
-        oauth2ClientMapper.updateById(updateObj);
+        OAuth2ClientEntity updateEntity = BeanUtils.toBean(updateRequest, OAuth2ClientEntity.class);
+        oauth2ClientMapper.updateById(updateEntity);
     }
 
     @Override

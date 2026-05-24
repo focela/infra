@@ -48,8 +48,8 @@ public class DefaultPostService implements PostService {
         validatePostForCreateOrUpdate(updateRequest.getId(), updateRequest.getName(), updateRequest.getCode());
 
         // Update post
-        PostEntity updateObj = BeanUtils.toBean(updateRequest, PostEntity.class);
-        postMapper.updateById(updateObj);
+        PostEntity updateEntity = BeanUtils.toBean(updateRequest, PostEntity.class);
+        postMapper.updateById(updateEntity);
     }
 
     @Override

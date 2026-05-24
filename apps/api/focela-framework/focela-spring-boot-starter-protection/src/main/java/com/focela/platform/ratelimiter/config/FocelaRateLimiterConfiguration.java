@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 import java.util.List;
 
 @AutoConfiguration(after = FocelaRedisAutoConfiguration.class)
+@Deprecated(since = "1.0.0", forRemoval = false)
 public class FocelaRateLimiterConfiguration {
 
     @Bean

@@ -75,8 +75,8 @@ public class DefaultDepartmentService implements DepartmentService {
         validateDepartmentNameUnique(updateRequest.getId(), updateRequest.getParentId(), updateRequest.getName());
 
         // Update department
-        DepartmentEntity updateObj = BeanUtils.toBean(updateRequest, DepartmentEntity.class);
-        departmentMapper.updateById(updateObj);
+        DepartmentEntity updateEntity = BeanUtils.toBean(updateRequest, DepartmentEntity.class);
+        departmentMapper.updateById(updateEntity);
     }
 
     @Override
