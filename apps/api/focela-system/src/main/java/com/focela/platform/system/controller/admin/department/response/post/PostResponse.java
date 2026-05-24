@@ -2,7 +2,7 @@ package com.focela.platform.system.controller.admin.department.response.post;
 
 import com.focela.platform.excel.core.annotations.DictionaryFormat;
 import com.focela.platform.excel.core.converter.DictionaryConverter;
-import com.focela.platform.system.constants.DictionaryTypeConstants;
+import com.focela.platform.system.constants.SystemDictionaryTypeConstants;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -33,7 +33,7 @@ public class PostResponse {
 
     @Schema(description = "Status, see CommonStatusEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @ExcelProperty(value = "Status", converter = DictionaryConverter.class)
-    @DictionaryFormat(DictionaryTypeConstants.COMMON_STATUS)
+    @DictionaryFormat(SystemDictionaryTypeConstants.COMMON_STATUS)
     private Integer status;
 
     @Schema(description = "Remarks", example = "happy remarks")

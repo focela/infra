@@ -4,7 +4,7 @@ import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
 import com.focela.platform.excel.core.annotations.DictionaryFormat;
 import com.focela.platform.excel.core.converter.DictionaryConverter;
-import com.focela.platform.system.constants.DictionaryTypeConstants;
+import com.focela.platform.system.constants.SystemDictionaryTypeConstants;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -34,7 +34,7 @@ public class TenantResponse {
 
     @Schema(description = "Tenant status", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @ExcelProperty(value = "Status", converter = DictionaryConverter.class)
-    @DictionaryFormat(DictionaryTypeConstants.COMMON_STATUS)
+    @DictionaryFormat(SystemDictionaryTypeConstants.COMMON_STATUS)
     private Integer status;
 
     @Schema(description = "Bound domains", example = "https://www.example.com")

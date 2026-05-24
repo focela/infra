@@ -3,7 +3,7 @@ package com.focela.platform.system.controller.admin.user.request;
 import cn.idev.excel.annotation.ExcelProperty;
 import com.focela.platform.excel.core.annotations.DictionaryFormat;
 import com.focela.platform.excel.core.converter.DictionaryConverter;
-import com.focela.platform.system.constants.DictionaryTypeConstants;
+import com.focela.platform.system.constants.SystemDictionaryTypeConstants;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,11 +34,11 @@ public class UserImportExcelRow {
     private String mobile;
 
     @ExcelProperty(value = "Gender", converter = DictionaryConverter.class)
-    @DictionaryFormat(DictionaryTypeConstants.USER_SEX)
+    @DictionaryFormat(SystemDictionaryTypeConstants.USER_SEX)
     private Integer sex;
 
     @ExcelProperty(value = "Account status", converter = DictionaryConverter.class)
-    @DictionaryFormat(DictionaryTypeConstants.COMMON_STATUS)
+    @DictionaryFormat(SystemDictionaryTypeConstants.COMMON_STATUS)
     private Integer status;
 
 }

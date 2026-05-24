@@ -4,7 +4,7 @@ import com.focela.platform.excel.core.annotations.DictionaryFormat;
 import com.focela.platform.system.domain.entity.user.UserEntity;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
-import com.focela.platform.system.constants.DictionaryTypeConstants;
+import com.focela.platform.system.constants.SystemDictionaryTypeConstants;
 import com.fhs.core.trans.anno.Trans;
 import com.fhs.core.trans.constant.TransType;
 import com.fhs.core.trans.vo.VO;
@@ -35,7 +35,7 @@ public class OperateLogResponse implements VO {
 
     @Schema(description = "User type", requiredMode = Schema.RequiredMode.REQUIRED, example = "1", implementation = Integer.class)
     @ExcelProperty("User Type")
-    @DictionaryFormat(DictionaryTypeConstants.USER_TYPE)
+    @DictionaryFormat(SystemDictionaryTypeConstants.USER_TYPE)
     private Integer userType;
 
     @Schema(description = "operation module type", requiredMode = Schema.RequiredMode.REQUIRED, example = "order")

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
+import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
 /**
  * Enforces the cross-module DTO suffix convention inside focela-common.
@@ -25,7 +26,6 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 class CommonArchitectureTest {
 
     private static final List<String> LEGACY_CONSTANT_LOCATIONS = List.of(
-            "com/focela/platform/common/enums/RpcConstants.java",
             "com/focela/platform/common/exception/enums/GlobalErrorCodeConstants.java"
     );
 
@@ -36,6 +36,35 @@ class CommonArchitectureTest {
         apiClasses = new ClassFileImporter()
                 .withImportOption(new ImportOption.DoNotIncludeTests())
                 .importPackages("com.focela.platform.common.api");
+    }
+
+    // The two rules below are duplicated from
+     // com.focela.platform.test.core.arch.ArchitectureRules to avoid the circular
+     // dependency that would otherwise be introduced by depending on starter-test.
+
+    @Test
+    void noLegacyNamingSuffixes() {
+        noClasses().that().areTopLevelClasses()
+                .should().haveSimpleNameEndingWith("DO")
+                .orShould().haveSimpleNameEndingWith("DTO")
+                .orShould().haveSimpleNameEndingWith("VO")
+                .orShould().haveSimpleNameEndingWith("Dao")
+                .orShould().haveSimpleNameEndingWith("DAO")
+                .orShould().haveSimpleNameEndingWith("ServiceImpl")
+                .orShould().haveSimpleNameEndingWith("Util")
+                .orShould().haveSimpleNameEndingWith("Helper")
+                .as("Legacy naming suffixes are forbidden in focela-common.api")
+                .allowEmptyShould(true)
+                .check(apiClasses);
+    }
+
+    @Test
+    void noLegacyPackageDependencies() {
+        noClasses().should().dependOnClassesThat()
+                .resideInAnyPackage("cn.iocoder..", "com.iocoder..", "..yudao..")
+                .as("Legacy packages (cn.iocoder, com.iocoder, *yudao*) must not be referenced")
+                .allowEmptyShould(true)
+                .check(apiClasses);
     }
 
     @Test

@@ -2,7 +2,7 @@ package com.focela.platform.system.controller.admin.sms.response.template;
 
 import com.focela.platform.excel.core.annotations.DictionaryFormat;
 import com.focela.platform.excel.core.converter.DictionaryConverter;
-import com.focela.platform.system.constants.DictionaryTypeConstants;
+import com.focela.platform.system.constants.SystemDictionaryTypeConstants;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,12 +22,12 @@ public class SmsTemplateResponse {
 
     @Schema(description = "SMS template type, see SmsTemplateTypeEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @ExcelProperty(value = "SMS signature", converter = DictionaryConverter.class)
-    @DictionaryFormat(DictionaryTypeConstants.SMS_TEMPLATE_TYPE)
+    @DictionaryFormat(SystemDictionaryTypeConstants.SMS_TEMPLATE_TYPE)
     private Integer type;
 
     @Schema(description = "Enable status, see CommonStatusEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @ExcelProperty(value = "Enable status", converter = DictionaryConverter.class)
-    @DictionaryFormat(DictionaryTypeConstants.COMMON_STATUS)
+    @DictionaryFormat(SystemDictionaryTypeConstants.COMMON_STATUS)
     private Integer status;
 
     @Schema(description = "Template code", requiredMode = Schema.RequiredMode.REQUIRED, example = "test_01")
@@ -59,7 +59,7 @@ public class SmsTemplateResponse {
 
     @Schema(description = "SMS channel code", requiredMode = Schema.RequiredMode.REQUIRED, example = "ALIYUN")
     @ExcelProperty(value = "SMS channel code", converter = DictionaryConverter.class)
-    @DictionaryFormat(DictionaryTypeConstants.SMS_CHANNEL_CODE)
+    @DictionaryFormat(SystemDictionaryTypeConstants.SMS_CHANNEL_CODE)
     private String channelCode;
 
     @Schema(description = "Created time", requiredMode = Schema.RequiredMode.REQUIRED)

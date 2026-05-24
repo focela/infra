@@ -2,7 +2,7 @@ package com.focela.platform.system.controller.admin.logger.response.login;
 
 import com.focela.platform.excel.core.annotations.DictionaryFormat;
 import com.focela.platform.excel.core.converter.DictionaryConverter;
-import com.focela.platform.system.constants.DictionaryTypeConstants;
+import com.focela.platform.system.constants.SystemDictionaryTypeConstants;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -21,7 +21,7 @@ public class LoginLogResponse {
 
     @Schema(description = "log type, see LoginLogTypeEnum enum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @ExcelProperty(value = "Log Type", converter = DictionaryConverter.class)
-    @DictionaryFormat(DictionaryTypeConstants.LOGIN_TYPE)
+    @DictionaryFormat(SystemDictionaryTypeConstants.LOGIN_TYPE)
     private Integer logType;
 
     @Schema(description = "User ID", example = "666")
@@ -39,7 +39,7 @@ public class LoginLogResponse {
 
     @Schema(description = "login result, see LoginResultEnum enum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @ExcelProperty(value = "Login Result", converter = DictionaryConverter.class)
-    @DictionaryFormat(DictionaryTypeConstants.LOGIN_RESULT)
+    @DictionaryFormat(SystemDictionaryTypeConstants.LOGIN_RESULT)
     private Integer result;
 
     @Schema(description = "User IP", requiredMode = Schema.RequiredMode.REQUIRED, example = "127.0.0.1")

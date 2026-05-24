@@ -2,7 +2,7 @@ package com.focela.platform.infra.controller.admin.config.response;
 
 import com.focela.platform.excel.core.annotations.DictionaryFormat;
 import com.focela.platform.excel.core.converter.DictionaryConverter;
-import com.focela.platform.infra.constants.DictionaryTypeConstants;
+import com.focela.platform.infra.constants.InfraDictionaryTypeConstants;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -37,12 +37,12 @@ public class ConfigResponse {
 
     @Schema(description = "Param type, see ConfigTypeEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @ExcelProperty(value = "Param type", converter = DictionaryConverter.class)
-    @DictionaryFormat(DictionaryTypeConstants.CONFIG_TYPE)
+    @DictionaryFormat(InfraDictionaryTypeConstants.CONFIG_TYPE)
     private Integer type;
 
     @Schema(description = "Visible", requiredMode = Schema.RequiredMode.REQUIRED, example = "true")
     @ExcelProperty(value = "Visible", converter = DictionaryConverter.class)
-    @DictionaryFormat(DictionaryTypeConstants.BOOLEAN_STRING)
+    @DictionaryFormat(InfraDictionaryTypeConstants.BOOLEAN_STRING)
     private Boolean visible;
 
     @Schema(description = "Remarks", example = "remarks one next very cool!")

@@ -3,7 +3,7 @@ package com.focela.platform.system.constants;
 /**
  * System dictionary type enumeration
  */
-public interface DictionaryTypeConstants extends com.focela.platform.common.constants.DictionaryTypeConstants {
+public interface SystemDictionaryTypeConstants extends com.focela.platform.common.constants.DictionaryTypeConstants {
 
     String USER_TYPE = "user_type"; // user type
     String COMMON_STATUS = "common_status"; // system status

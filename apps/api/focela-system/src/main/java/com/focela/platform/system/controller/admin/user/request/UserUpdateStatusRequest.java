@@ -3,7 +3,7 @@ package com.focela.platform.system.controller.admin.user.request;
 import com.focela.platform.common.enums.CommonStatusEnum;
 import com.focela.platform.common.validation.InEnum;
 import com.focela.platform.dictionary.validation.InDictionary;
-import com.focela.platform.system.constants.DictionaryTypeConstants;
+import com.focela.platform.system.constants.SystemDictionaryTypeConstants;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -19,7 +19,7 @@ public class UserUpdateStatusRequest {
     @Schema(description = "Status, see CommonStatusEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @NotNull(message = "status must not be blank")
     @InEnum(value = CommonStatusEnum.class, message = "update status must be {value}")
-    @InDictionary(type = DictionaryTypeConstants.COMMON_STATUS)
+    @InDictionary(type = SystemDictionaryTypeConstants.COMMON_STATUS)
     private Integer status;
 
 }

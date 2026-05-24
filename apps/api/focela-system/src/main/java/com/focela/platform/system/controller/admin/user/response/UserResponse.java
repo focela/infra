@@ -3,7 +3,7 @@ package com.focela.platform.system.controller.admin.user.response;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.focela.platform.excel.core.annotations.DictionaryFormat;
 import com.focela.platform.excel.core.converter.DictionaryConverter;
-import com.focela.platform.system.constants.DictionaryTypeConstants;
+import com.focela.platform.system.constants.SystemDictionaryTypeConstants;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -51,7 +51,7 @@ public class UserResponse {
 
     @Schema(description = "Gender, see SexEnum", example = "1")
     @ExcelProperty(value = "Gender", converter = DictionaryConverter.class)
-    @DictionaryFormat(DictionaryTypeConstants.USER_SEX)
+    @DictionaryFormat(SystemDictionaryTypeConstants.USER_SEX)
     private Integer sex;
 
     @Schema(description = "Avatar", example = "https://www.example.com/xxx.png")
@@ -59,7 +59,7 @@ public class UserResponse {
 
     @Schema(description = "Status, see CommonStatusEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @ExcelProperty(value = "Account status", converter = DictionaryConverter.class)
-    @DictionaryFormat(DictionaryTypeConstants.COMMON_STATUS)
+    @DictionaryFormat(SystemDictionaryTypeConstants.COMMON_STATUS)
     private Integer status;
 
     @Schema(description = "Last login IP", requiredMode = Schema.RequiredMode.REQUIRED, example = "192.168.1.1")

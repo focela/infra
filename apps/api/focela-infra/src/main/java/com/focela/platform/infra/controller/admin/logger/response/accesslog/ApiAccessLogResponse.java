@@ -2,7 +2,7 @@ package com.focela.platform.infra.controller.admin.logger.response.accesslog;
 
 import com.focela.platform.excel.core.annotations.DictionaryFormat;
 import com.focela.platform.excel.core.converter.DictionaryConverter;
-import com.focela.platform.infra.constants.DictionaryTypeConstants;
+import com.focela.platform.infra.constants.InfraDictionaryTypeConstants;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -29,7 +29,7 @@ public class ApiAccessLogResponse {
 
     @Schema(description = "User type, see UserTypeEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "2")
     @ExcelProperty(value = "User type", converter = DictionaryConverter.class)
-    @DictionaryFormat(DictionaryTypeConstants.USER_TYPE)
+    @DictionaryFormat(InfraDictionaryTypeConstants.USER_TYPE)
     private Integer userType;
 
     @Schema(description = "Application name", requiredMode = Schema.RequiredMode.REQUIRED, example = "dashboard")
@@ -70,7 +70,7 @@ public class ApiAccessLogResponse {
 
     @Schema(description = "operation category", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @ExcelProperty(value = "Operation category", converter = DictionaryConverter.class)
-    @DictionaryFormat(DictionaryTypeConstants.OPERATE_TYPE)
+    @DictionaryFormat(InfraDictionaryTypeConstants.OPERATE_TYPE)
     private Integer operateType;
 
     @Schema(description = "request start time", requiredMode = Schema.RequiredMode.REQUIRED)

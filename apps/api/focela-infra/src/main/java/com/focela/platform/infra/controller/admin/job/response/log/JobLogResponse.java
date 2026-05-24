@@ -2,7 +2,7 @@ package com.focela.platform.infra.controller.admin.job.response.log;
 
 import com.focela.platform.excel.core.annotations.DictionaryFormat;
 import com.focela.platform.excel.core.converter.DictionaryConverter;
-import com.focela.platform.infra.constants.DictionaryTypeConstants;
+import com.focela.platform.infra.constants.InfraDictionaryTypeConstants;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -49,7 +49,7 @@ public class JobLogResponse {
 
     @Schema(description = "Job status, see JobLogStatusEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @ExcelProperty(value = "Job status", converter = DictionaryConverter.class)
-    @DictionaryFormat(DictionaryTypeConstants.JOB_LOG_STATUS)
+    @DictionaryFormat(InfraDictionaryTypeConstants.JOB_LOG_STATUS)
     private Integer status;
 
     @Schema(description = "result data", example = "execute success")

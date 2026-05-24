@@ -3,7 +3,7 @@ package com.focela.platform.infra.constants;
 /**
  * Infra dictionary type enum class
  */
-public interface DictionaryTypeConstants extends com.focela.platform.common.constants.DictionaryTypeConstants {
+public interface InfraDictionaryTypeConstants extends com.focela.platform.common.constants.DictionaryTypeConstants {
 
     String USER_TYPE = "user_type"; // User type
 

@@ -3,7 +3,7 @@ package com.focela.platform.system.controller.admin.sms.response.log;
 import com.focela.platform.excel.core.annotations.DictionaryFormat;
 import com.focela.platform.excel.core.converter.DictionaryConverter;
 import com.focela.platform.excel.core.converter.JsonConverter;
-import com.focela.platform.system.constants.DictionaryTypeConstants;
+import com.focela.platform.system.constants.SystemDictionaryTypeConstants;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -39,7 +39,7 @@ public class SmsLogResponse {
 
     @Schema(description = "SMS type", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @ExcelProperty(value = "SMS type", converter = DictionaryConverter.class)
-    @DictionaryFormat(DictionaryTypeConstants.SMS_TEMPLATE_TYPE)
+    @DictionaryFormat(SystemDictionaryTypeConstants.SMS_TEMPLATE_TYPE)
     private Integer templateType;
 
     @Schema(description = "SMS content", requiredMode = Schema.RequiredMode.REQUIRED, example = "hello, you CAPTCHA is 1024")
@@ -64,12 +64,12 @@ public class SmsLogResponse {
 
     @Schema(description = "User type", example = "1")
     @ExcelProperty(value = "User type", converter = DictionaryConverter.class)
-    @DictionaryFormat(DictionaryTypeConstants.USER_TYPE)
+    @DictionaryFormat(SystemDictionaryTypeConstants.USER_TYPE)
     private Integer userType;
 
     @Schema(description = "send status", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @ExcelProperty(value = "Send status", converter = DictionaryConverter.class)
-    @DictionaryFormat(DictionaryTypeConstants.SMS_SEND_STATUS)
+    @DictionaryFormat(SystemDictionaryTypeConstants.SMS_SEND_STATUS)
     private Integer sendStatus;
 
     @Schema(description = "Sent time")
@@ -94,7 +94,7 @@ public class SmsLogResponse {
 
     @Schema(description = "receive status", requiredMode = Schema.RequiredMode.REQUIRED, example = "0")
     @ExcelProperty(value = "Receive status", converter = DictionaryConverter.class)
-    @DictionaryFormat(DictionaryTypeConstants.SMS_RECEIVE_STATUS)
+    @DictionaryFormat(SystemDictionaryTypeConstants.SMS_RECEIVE_STATUS)
     private Integer receiveStatus;
 
     @Schema(description = "Received time")

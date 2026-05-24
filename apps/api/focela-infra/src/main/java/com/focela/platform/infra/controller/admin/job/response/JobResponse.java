@@ -2,7 +2,7 @@ package com.focela.platform.infra.controller.admin.job.response;
 
 import com.focela.platform.excel.core.annotations.DictionaryFormat;
 import com.focela.platform.excel.core.converter.DictionaryConverter;
-import com.focela.platform.infra.constants.DictionaryTypeConstants;
+import com.focela.platform.infra.constants.InfraDictionaryTypeConstants;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -26,7 +26,7 @@ public class JobResponse {
 
     @Schema(description = "Job status", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @ExcelProperty(value = "Job status", converter = DictionaryConverter.class)
-    @DictionaryFormat(DictionaryTypeConstants.JOB_STATUS)
+    @DictionaryFormat(InfraDictionaryTypeConstants.JOB_STATUS)
     private Integer status;
 
     @Schema(description = "Handler name", requiredMode = Schema.RequiredMode.REQUIRED, example = "sysUserSessionTimeoutJob")

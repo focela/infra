@@ -48,13 +48,19 @@ class ProtectionArchitectureTest {
     }
 
     @Test
+    void noLegacyNamingSuffixes() {
+        ArchitectureRules.NO_LEGACY_NAMING_SUFFIXES.check(classes);
+    }
+
+    @Test
+    void noLegacyPackageDependencies() {
+        ArchitectureRules.NO_LEGACY_PACKAGE_DEPENDENCIES.check(classes);
+    }
+
+    @Test
     void autoConfigurationImportsUseApprovedNames() {
         ArchitectureRules.assertAutoConfigurationImportsUseAutoConfigurationSuffix(
                 "focela-spring-boot-starter-protection",
-                List.of(
-                        "com.focela.platform.idempotent.config.FocelaIdempotentConfiguration",
-                        "com.focela.platform.lock4j.config.FocelaLock4jConfiguration",
-                        "com.focela.platform.ratelimiter.config.FocelaRateLimiterConfiguration"
-                ));
+                List.of());
     }
 }

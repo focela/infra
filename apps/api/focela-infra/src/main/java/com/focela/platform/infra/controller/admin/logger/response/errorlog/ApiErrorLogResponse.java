@@ -2,7 +2,7 @@ package com.focela.platform.infra.controller.admin.logger.response.errorlog;
 
 import com.focela.platform.excel.core.annotations.DictionaryFormat;
 import com.focela.platform.excel.core.converter.DictionaryConverter;
-import com.focela.platform.infra.constants.DictionaryTypeConstants;
+import com.focela.platform.infra.constants.InfraDictionaryTypeConstants;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -29,7 +29,7 @@ public class ApiErrorLogResponse {
 
     @Schema(description = "User type", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @ExcelProperty(value = "User type", converter = DictionaryConverter.class)
-    @DictionaryFormat(DictionaryTypeConstants.USER_TYPE)
+    @DictionaryFormat(InfraDictionaryTypeConstants.USER_TYPE)
     private Integer userType;
 
     @Schema(description = "Application name", requiredMode = Schema.RequiredMode.REQUIRED, example = "dashboard")
@@ -94,7 +94,7 @@ public class ApiErrorLogResponse {
 
     @Schema(description = "Process status", requiredMode = Schema.RequiredMode.REQUIRED, example = "0")
     @ExcelProperty(value = "Process status", converter = DictionaryConverter.class)
-    @DictionaryFormat(DictionaryTypeConstants.API_ERROR_LOG_PROCESS_STATUS)
+    @DictionaryFormat(InfraDictionaryTypeConstants.API_ERROR_LOG_PROCESS_STATUS)
     private Integer processStatus;
 
     @Schema(description = "process time", requiredMode = Schema.RequiredMode.REQUIRED)

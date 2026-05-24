@@ -1,12 +1,59 @@
 package com.focela.platform.ratelimiter.config;
 
+import com.focela.platform.ratelimiter.core.aop.RateLimiterAspect;
+import com.focela.platform.ratelimiter.core.keyresolver.RateLimiterKeyResolver;
+import com.focela.platform.ratelimiter.core.keyresolver.impl.ClientIpRateLimiterKeyResolver;
+import com.focela.platform.ratelimiter.core.keyresolver.impl.DefaultRateLimiterKeyResolver;
+import com.focela.platform.ratelimiter.core.keyresolver.impl.ExpressionRateLimiterKeyResolver;
+import com.focela.platform.ratelimiter.core.keyresolver.impl.ServerNodeRateLimiterKeyResolver;
+import com.focela.platform.ratelimiter.core.keyresolver.impl.UserRateLimiterKeyResolver;
+import com.focela.platform.ratelimiter.core.redis.RateLimiterRedisRepository;
 import com.focela.platform.redis.config.FocelaRedisAutoConfiguration;
+import org.redisson.api.RedissonClient;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.Bean;
 
-/**
- * Rate limiter auto-configuration.
- */
+import java.util.List;
+
 @AutoConfiguration(after = FocelaRedisAutoConfiguration.class)
-@SuppressWarnings("deprecation")
-public class FocelaRateLimiterAutoConfiguration extends FocelaRateLimiterConfiguration {
+public class FocelaRateLimiterAutoConfiguration {
+
+    @Bean
+    public RateLimiterAspect rateLimiterAspect(List<RateLimiterKeyResolver> keyResolvers, RateLimiterRedisRepository rateLimiterRedisRepository) {
+        return new RateLimiterAspect(keyResolvers, rateLimiterRedisRepository);
+    }
+
+    @Bean
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    public RateLimiterRedisRepository rateLimiterRedisRepository(RedissonClient redissonClient) {
+        return new RateLimiterRedisRepository(redissonClient);
+    }
+
+    // ========== RateLimiterKeyResolver Beans ==========
+
+    @Bean
+    public DefaultRateLimiterKeyResolver defaultRateLimiterKeyResolver() {
+        return new DefaultRateLimiterKeyResolver();
+    }
+
+    @Bean
+    public UserRateLimiterKeyResolver userRateLimiterKeyResolver() {
+        return new UserRateLimiterKeyResolver();
+    }
+
+    @Bean
+    public ClientIpRateLimiterKeyResolver clientIpRateLimiterKeyResolver() {
+        return new ClientIpRateLimiterKeyResolver();
+    }
+
+    @Bean
+    public ServerNodeRateLimiterKeyResolver serverNodeRateLimiterKeyResolver() {
+        return new ServerNodeRateLimiterKeyResolver();
+    }
+
+    @Bean
+    public ExpressionRateLimiterKeyResolver expressionRateLimiterKeyResolver() {
+        return new ExpressionRateLimiterKeyResolver();
+    }
+
 }

@@ -3,7 +3,7 @@ package com.focela.platform.system.controller.admin.permission.response.role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.focela.platform.excel.core.annotations.DictionaryFormat;
 import com.focela.platform.excel.core.converter.DictionaryConverter;
-import com.focela.platform.system.constants.DictionaryTypeConstants;
+import com.focela.platform.system.constants.SystemDictionaryTypeConstants;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -37,7 +37,7 @@ public class RoleResponse {
 
     @Schema(description = "Status, see CommonStatusEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @ExcelProperty(value = "Role status", converter = DictionaryConverter.class)
-    @DictionaryFormat(DictionaryTypeConstants.COMMON_STATUS)
+    @DictionaryFormat(SystemDictionaryTypeConstants.COMMON_STATUS)
     private Integer status;
 
     @Schema(description = "role type, see RoleTypeEnum enum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
@@ -48,7 +48,7 @@ public class RoleResponse {
 
     @Schema(description = "Data scope, see DataScopeEnum", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @ExcelProperty(value = "Data scope", converter = DictionaryConverter.class)
-    @DictionaryFormat(DictionaryTypeConstants.DATA_SCOPE)
+    @DictionaryFormat(SystemDictionaryTypeConstants.DATA_SCOPE)
     private Integer dataScope;
 
     @Schema(description = "data scope (specific department array)", example = "1")
