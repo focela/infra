@@ -5,12 +5,14 @@ import cn.hutool.core.util.IdUtil;
 import com.focela.platform.infra.config.file.client.sftp.SftpFileClient;
 import com.focela.platform.infra.config.file.client.sftp.SftpFileClientConfig;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 /**
- * {@link SftpFileClient} integration test
+ * {@link SftpFileClient} manual integration test.
  */
-public class SftpFileClientTest {
+@Tag("manual")
+public class SftpFileClientManualIntegrationTest {
 
 //    docker run -p 2222:22 -d \
 //            -v $(pwd)/sftp-data:/home/foo/upload \
@@ -18,8 +20,8 @@ public class SftpFileClientTest {
 //    foo:pass:1001
 
     @Test
-    @Disabled
-    public void test() {
+    @Disabled("Requires a local SFTP server")
+    public void sftpFileClient_uploadsFileWhenServerAvailable() {
         // Create client
         SftpFileClientConfig config = new SftpFileClientConfig();
         config.setDomain("http://127.0.0.1:48080");

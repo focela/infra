@@ -6,12 +6,14 @@ import cn.hutool.extra.ftp.FtpMode;
 import com.focela.platform.infra.config.file.client.ftp.FtpFileClient;
 import com.focela.platform.infra.config.file.client.ftp.FtpFileClientConfig;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 /**
- * {@link FtpFileClient} integration test
+ * {@link FtpFileClient} manual integration test.
  */
-public class FtpFileClientTest {
+@Tag("manual")
+public class FtpFileClientManualIntegrationTest {
 
 //    docker run -d \
 //            -p 2121:21 -p 30000-30009:30000-30009 \
@@ -24,8 +26,8 @@ public class FtpFileClientTest {
 //    fauria/vsftpd
 
     @Test
-    @Disabled
-    public void test() {
+    @Disabled("Requires a local FTP server")
+    public void ftpFileClient_uploadsFileWhenServerAvailable() {
         // Create client
         FtpFileClientConfig config = new FtpFileClientConfig();
         config.setDomain("http://127.0.0.1:48080");

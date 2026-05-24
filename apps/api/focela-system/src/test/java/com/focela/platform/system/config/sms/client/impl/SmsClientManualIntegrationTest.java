@@ -7,14 +7,16 @@ import com.focela.platform.system.config.sms.client.response.SmsSendRpcResponse;
 import com.focela.platform.system.config.sms.client.response.SmsTemplateRpcResponse;
 import com.focela.platform.system.config.sms.property.SmsChannelProperties;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 /**
- * Various {@link SmsClient} integration tests.
+ * Various {@link SmsClient} manual integration tests.
  */
-public class SmsClientIntegrationTest {
+@Tag("manual")
+public class SmsClientManualIntegrationTest {
 
     private static String env(String key, String defaultValue) {
         return System.getenv().getOrDefault(key, defaultValue);
@@ -23,7 +25,7 @@ public class SmsClientIntegrationTest {
     // ========== Aliyun ==========
 
     @Test
-    @Disabled
+    @Disabled("Requires provider credentials and sends a real SMS message")
     public void aliyunSmsClient_getSmsTemplate_returnsTemplate() throws Throwable {
         SmsChannelProperties properties = new SmsChannelProperties()
                 .setApiKey(System.getenv("SMS_ALIYUN_ACCESS_KEY"))
@@ -38,7 +40,7 @@ public class SmsClientIntegrationTest {
     }
 
     @Test
-    @Disabled
+    @Disabled("Requires provider credentials and sends a real SMS message")
     public void aliyunSmsClient_sendSms_returnsResponse() throws Throwable {
         SmsChannelProperties properties = new SmsChannelProperties()
                 .setApiKey(System.getenv("SMS_ALIYUN_ACCESS_KEY"))
@@ -58,7 +60,7 @@ public class SmsClientIntegrationTest {
     // ========== Tencent Cloud ==========
 
     @Test
-    @Disabled
+    @Disabled("Requires provider credentials and sends a real SMS message")
     public void tencentSmsClient_sendSms_returnsResponse() throws Throwable {
         String sdkAppId = env("SMS_TENCENT_SDK_APP_ID", "SMS_SDK_APP_ID");
         SmsChannelProperties properties = new SmsChannelProperties()
@@ -77,7 +79,7 @@ public class SmsClientIntegrationTest {
     }
 
     @Test
-    @Disabled
+    @Disabled("Requires provider credentials and sends a real SMS message")
     public void tencentSmsClient_getSmsTemplate_returnsTemplate() throws Throwable {
         String sdkAppId = env("SMS_TENCENT_SDK_APP_ID", "SMS_SDK_APP_ID");
         SmsChannelProperties properties = new SmsChannelProperties()
@@ -96,7 +98,7 @@ public class SmsClientIntegrationTest {
     // ========== Huawei Cloud ==========
 
     @Test
-    @Disabled
+    @Disabled("Requires provider credentials and sends a real SMS message")
     public void huaweiSmsClient_sendSms_returnsResponse() throws Throwable {
         String sender = env("SMS_HUAWEI_SENDER", "SMS_SENDER");
         SmsChannelProperties properties = new SmsChannelProperties()
@@ -118,7 +120,7 @@ public class SmsClientIntegrationTest {
     // ========== Qiniu Cloud ==========
 
     @Test
-    @Disabled
+    @Disabled("Requires provider credentials and sends a real SMS message")
     public void qiniuSmsClient_sendSms_returnsResponse() throws Throwable {
         SmsChannelProperties properties = new SmsChannelProperties()
                 .setApiKey(System.getenv("SMS_QINIU_ACCESS_KEY"))
@@ -136,7 +138,7 @@ public class SmsClientIntegrationTest {
     }
 
     @Test
-    @Disabled
+    @Disabled("Requires provider credentials and sends a real SMS message")
     public void qiniuSmsClient_getSmsTemplate_returnsTemplate() throws Throwable {
         SmsChannelProperties properties = new SmsChannelProperties()
                 .setApiKey(System.getenv("SMS_QINIU_ACCESS_KEY"))

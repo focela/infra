@@ -5,15 +5,17 @@ import cn.hutool.core.util.IdUtil;
 import com.focela.platform.infra.config.file.client.local.LocalFileClient;
 import com.focela.platform.infra.config.file.client.local.LocalFileClientConfig;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static com.focela.platform.test.core.utils.RandomUtils.randomString;
 
-public class LocalFileClientTest {
+@Tag("manual")
+public class LocalFileClientManualIntegrationTest {
 
     @Test
-    @Disabled
-    public void test() {
+    @Disabled("Requires a writable local file storage directory")
+    public void localFileClient_uploadAndDelete_succeedsWhenLocalStorageAvailable() {
         // Create client
         LocalFileClientConfig config = new LocalFileClientConfig();
         config.setDomain("http://127.0.0.1:48080");
@@ -29,8 +31,8 @@ public class LocalFileClientTest {
     }
 
     @Test
-    @Disabled
-    public void getContent_missing() {
+    @Disabled("Requires a writable local file storage directory")
+    public void localFileClient_getContent_handlesMissingObjectManually() {
         // Create client
         LocalFileClientConfig config = new LocalFileClientConfig();
         config.setDomain("http://127.0.0.1:48080");
@@ -38,8 +40,7 @@ public class LocalFileClientTest {
         LocalFileClient client = new LocalFileClient(0L, config);
         client.init();
         // Upload file
-        byte[] content = client.getContent(randomString());
-        System.out.println();
+        client.getContent(randomString());
     }
 
 }

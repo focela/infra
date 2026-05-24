@@ -222,6 +222,16 @@ class SystemArchitectureTest {
     }
 
     @Test
+    void manualIntegrationTestsAreExplicitlyNamedAndTagged() {
+        ArchitectureRules.assertManualIntegrationTestsAreExplicitlyNamedAndTagged("focela-system");
+    }
+
+    @Test
+    void disabledTestsDeclareReason() {
+        ArchitectureRules.assertDisabledTestsDeclareReason("focela-system");
+    }
+
+    @Test
     void legacyAbbreviationLocationsAreAllowlisted() {
         ArchitectureRules.assertMainJavaLegacyAbbreviationsStayInAllowedFiles("focela-system", List.of(
                 "src/main/java/com/focela/platform/system/api/department/DepartmentApi.java",

@@ -39,7 +39,7 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 public final class ArchitectureRules {
 
     private static final Pattern LEGACY_TEST_METHOD_PATTERN =
-            Pattern.compile("\\b(?:public\\s+)?void\\s+test[A-Z_][A-Za-z0-9_]*\\s*\\(");
+            Pattern.compile("\\b(?:public\\s+)?void\\s+test(?:[A-Z_][A-Za-z0-9_]*)?\\s*\\(");
     private static final Pattern LEGACY_ABBREVIATION_PATTERN =
             Pattern.compile("\\b(?:dictType|deptId|deptIds|dataScopeDeptIds"
                     + "|getDict[A-Za-z0-9_]*|setDict[A-Za-z0-9_]*"
@@ -109,6 +109,88 @@ public final class ArchitectureRules {
             }
             if (!violations.isEmpty()) {
                 throw new AssertionError("Test method names must not use the legacy testXxx prefix: " + violations);
+            }
+        } catch (IOException e) {
+            throw new AssertionError("Failed to scan test source root: "
+                    + testSourceRoot.toAbsolutePath().normalize(), e);
+        }
+    }
+
+    /**
+     * Ensures manually executed integration tests are easy to identify during onboarding.
+     * A test file named {@code *IntegrationTest} must be explicitly marked as
+     * {@code *ManualIntegrationTest}, and manual integration test classes must carry
+     * {@code @Tag("manual")} so build profiles can include or exclude them deliberately.
+     */
+    public static void assertManualIntegrationTestsAreExplicitlyNamedAndTagged(String moduleDirectoryName) {
+        Path moduleRoot = resolveModuleRoot(moduleDirectoryName);
+        Path testSourceRoot = moduleRoot.resolve("src/test/java");
+        if (!Files.exists(testSourceRoot)) {
+            return;
+        }
+        try (Stream<Path> paths = Files.walk(testSourceRoot)) {
+            List<Path> testFiles = paths
+                    .filter(Files::isRegularFile)
+                    .filter(path -> path.getFileName().toString().endsWith(".java"))
+                    .sorted()
+                    .toList();
+            List<String> violations = new ArrayList<>();
+            for (Path testFile : testFiles) {
+                String fileName = testFile.getFileName().toString();
+                String relativePath = normalizeRelativePath(testSourceRoot.relativize(testFile).toString());
+                String source = Files.readString(testFile);
+                boolean manualName = fileName.endsWith("ManualIntegrationTest.java");
+                boolean integrationName = fileName.endsWith("IntegrationTest.java");
+                boolean manualTag = source.contains("@Tag(\"manual\")")
+                        || source.contains("@Tag(value = \"manual\")");
+                if (integrationName && !manualName) {
+                    violations.add(relativePath + " must use *ManualIntegrationTest for manually run tests");
+                }
+                if (manualName && !manualTag) {
+                    violations.add(relativePath + " must be tagged with @Tag(\"manual\")");
+                }
+                if (manualTag && !manualName) {
+                    violations.add(relativePath + " uses @Tag(\"manual\") but is not named *ManualIntegrationTest");
+                }
+            }
+            if (!violations.isEmpty()) {
+                throw new AssertionError("Manual integration tests must be explicitly named and tagged: "
+                        + violations);
+            }
+        } catch (IOException e) {
+            throw new AssertionError("Failed to scan test source root: "
+                    + testSourceRoot.toAbsolutePath().normalize(), e);
+        }
+    }
+
+    /**
+     * Requires every {@code @Disabled} test to explain why it is disabled.
+     * This prevents permanently skipped tests from losing their operational context.
+     */
+    public static void assertDisabledTestsDeclareReason(String moduleDirectoryName) {
+        Path moduleRoot = resolveModuleRoot(moduleDirectoryName);
+        Path testSourceRoot = moduleRoot.resolve("src/test/java");
+        if (!Files.exists(testSourceRoot)) {
+            return;
+        }
+        try (Stream<Path> paths = Files.walk(testSourceRoot)) {
+            List<Path> testFiles = paths
+                    .filter(Files::isRegularFile)
+                    .filter(path -> path.getFileName().toString().endsWith(".java"))
+                    .sorted()
+                    .toList();
+            List<String> violations = new ArrayList<>();
+            for (Path testFile : testFiles) {
+                List<String> lines = Files.readAllLines(testFile);
+                for (int i = 0; i < lines.size(); i++) {
+                    String trimmed = lines.get(i).trim();
+                    if (trimmed.startsWith("@Disabled") && !trimmed.startsWith("@Disabled(")) {
+                        violations.add(testSourceRoot.relativize(testFile) + ":" + (i + 1));
+                    }
+                }
+            }
+            if (!violations.isEmpty()) {
+                throw new AssertionError("@Disabled tests must declare an explicit reason: " + violations);
             }
         } catch (IOException e) {
             throw new AssertionError("Failed to scan test source root: "

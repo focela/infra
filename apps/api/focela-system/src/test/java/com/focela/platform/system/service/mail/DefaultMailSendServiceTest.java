@@ -56,7 +56,7 @@ public class DefaultMailSendServiceTest extends BaseMockitoUnitTest {
      * Used to quickly test whether your mail account works
      */
     @Test
-    @Disabled
+    @Disabled("Requires SMTP credentials and sends a real email")
     public void sendMail_manualSmtpSmokeTest() {
         MailAccount mailAccount = new MailAccount()
                 .setFrom(System.getProperty("focela.test.mail.from", "sender@example.com"))

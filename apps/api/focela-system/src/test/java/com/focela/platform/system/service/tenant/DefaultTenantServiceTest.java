@@ -332,7 +332,7 @@ public class DefaultTenantServiceTest extends BaseDbUnitTest {
     }
 
     @Test
-    @Disabled // H2 find_in_set function is not supported
+    @Disabled("H2 find_in_set function is not supported")
     public void getTenantByWebsite() {
         // mock data
         TenantEntity dbTenant = randomPojo(TenantEntity.class, o -> o.setWebsites(singletonList("https://www.example.com")));

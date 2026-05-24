@@ -347,7 +347,6 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
 
         // 1. Use parseTemplateContentParams: extract only parameter names, ignoring HTML format
         List<String> parsedParams = mailTemplateService.parseTemplateContentParams(content);
-        System.out.println("parseTemplateContentParamsresult: " + parsedParams);
 
         // assert: only plain parameter names are extracted, no HTML
         assertEquals(6, parsedParams.size());
@@ -364,7 +363,6 @@ public class DefaultMailTemplateServiceTest extends BaseDbUnitTest {
 
         // 2. Use formatMailTemplateContent: handle HTML format and generate final content
         String formattedContent = mailTemplateService.formatMailTemplateContent(content, params);
-        System.out.println("formatMailTemplateContentresult: " + formattedContent);
 
         // assert: HTML format is preserved and processed
         assertTrue(formattedContent.contains("<div style='font-family: Arial, sans-serif; color: #333;'>"));

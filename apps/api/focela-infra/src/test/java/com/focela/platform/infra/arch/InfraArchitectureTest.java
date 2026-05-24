@@ -160,6 +160,16 @@ class InfraArchitectureTest {
     }
 
     @Test
+    void manualIntegrationTestsAreExplicitlyNamedAndTagged() {
+        ArchitectureRules.assertManualIntegrationTestsAreExplicitlyNamedAndTagged("focela-infra");
+    }
+
+    @Test
+    void disabledTestsDeclareReason() {
+        ArchitectureRules.assertDisabledTestsDeclareReason("focela-infra");
+    }
+
+    @Test
     void noLegacyNamingSuffixes() {
         ArchitectureRules.NO_LEGACY_NAMING_SUFFIXES.check(classes);
     }

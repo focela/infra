@@ -11,8 +11,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Objects;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 /**
- * Test class for various API encryption/decryption: not a unit test, but a helper for generating keys, encrypting, decrypting, etc.
+ * Tests API encryption/decryption helper flows.
  */
 @SuppressWarnings("ConstantValue")
 public class ApiEncryptTest {
@@ -46,11 +49,10 @@ public class ApiEncryptTest {
             responseServerKey = responseClientKey;
         }
 
-        // print result
-        System.out.println("requestClientKey = " + requestClientKey);
-        System.out.println("requestServerKey = " + requestServerKey);
-        System.out.println("responseClientKey = " + responseClientKey);
-        System.out.println("responseServerKey = " + responseServerKey);
+        assertNotNull(requestClientKey);
+        assertNotNull(requestServerKey);
+        assertNotNull(responseClientKey);
+        assertNotNull(responseServerKey);
     }
 
     @Test
@@ -64,7 +66,7 @@ public class ApiEncryptTest {
                 "}";
         String encrypt = SecureUtil.aes(StrUtil.utf8Bytes(key))
                 .encryptBase64(body);
-        System.out.println("encrypt = " + encrypt);
+        assertFalse(encrypt.isBlank());
     }
 
     @Test
@@ -78,7 +80,7 @@ public class ApiEncryptTest {
                 "}";
         String encrypt = SecureUtil.rsa(null, key)
                 .encryptBase64(body, KeyType.PublicKey);
-        System.out.println("encrypt = " + encrypt);
+        assertFalse(encrypt.isBlank());
     }
 
 }

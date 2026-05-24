@@ -21,13 +21,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
- * Unit test for {@link DesensitizeTest}
+ * Unit test for JSON desensitization rules.
  */
 @ExtendWith(MockitoExtension.class)
 public class DesensitizeTest {
 
     @Test
-    public void test() {
+    public void jsonSerialization_appliesConfiguredDesensitizationRules() {
         // prepare parameters
         DesensitizeDemo desensitizeDemo = new DesensitizeDemo();
         desensitizeDemo.setNickname("张三丰");

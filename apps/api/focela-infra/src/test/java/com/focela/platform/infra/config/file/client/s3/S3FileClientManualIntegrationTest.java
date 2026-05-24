@@ -7,14 +7,16 @@ import com.focela.platform.infra.config.file.client.s3.S3FileClient;
 import com.focela.platform.infra.config.file.client.s3.S3FileClientConfig;
 import jakarta.validation.Validation;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("resource")
-public class S3FileClientTest {
+@Tag("manual")
+public class S3FileClientManualIntegrationTest {
 
     @Test
-    @Disabled // MinIO; comment out this line to run as an integration test
-    public void minio() throws Exception {
+    @Disabled("Requires MinIO credentials and endpoint")
+    public void minio_uploadsFileWhenStorageAvailable() throws Exception {
         S3FileClientConfig config = new S3FileClientConfig();
         // Configure with your own values
         config.setAccessKey("admin");
@@ -29,8 +31,8 @@ public class S3FileClientTest {
     }
 
     @Test
-    @Disabled // Aliyun OSS; comment out this line to run as an integration test
-    public void aliyun() throws Exception {
+    @Disabled("Requires Aliyun OSS credentials and endpoint")
+    public void aliyunOss_uploadsFileWhenStorageAvailable() throws Exception {
         S3FileClientConfig config = new S3FileClientConfig();
         // Configure with your own values
         config.setAccessKey(System.getenv("ALIYUN_ACCESS_KEY"));
@@ -45,8 +47,8 @@ public class S3FileClientTest {
     }
 
     @Test
-    @Disabled // Tencent Cloud COS; comment out this line to run as an integration test
-    public void tencentCloud() throws Exception {
+    @Disabled("Requires Tencent Cloud COS credentials and endpoint")
+    public void tencentCos_uploadsFileWhenStorageAvailable() throws Exception {
         S3FileClientConfig config = new S3FileClientConfig();
         // Configure with your own values
         config.setAccessKey(System.getenv("QCLOUD_ACCESS_KEY"));
@@ -61,8 +63,8 @@ public class S3FileClientTest {
     }
 
     @Test
-    @Disabled // Qiniu Cloud Storage; comment out this line to run as an integration test
-    public void qiniu() throws Exception {
+    @Disabled("Requires Qiniu Cloud Storage credentials and endpoint")
+    public void qiniuCloudStorage_uploadsFileWhenStorageAvailable() throws Exception {
         S3FileClientConfig config = new S3FileClientConfig();
         // Configure with your own values
 //        config.setAccessKey(System.getenv("QINIU_ACCESS_KEY"));
@@ -80,8 +82,8 @@ public class S3FileClientTest {
     }
 
     @Test
-    @Disabled // Qiniu Cloud Storage (read private bucket); comment out this line to run as an integration test
-    public void qiniuPrivateGet() {
+    @Disabled("Requires Qiniu Cloud Storage private bucket credentials and endpoint")
+    public void qiniuPrivateBucket_presignsGetUrlWhenStorageAvailable() {
         S3FileClientConfig config = new S3FileClientConfig();
         // Configure with your own values
 //        config.setAccessKey(System.getenv("QINIU_ACCESS_KEY"));
@@ -106,8 +108,8 @@ public class S3FileClientTest {
     }
 
     @Test
-    @Disabled // Huawei Cloud Storage; comment out this line to run as an integration test
-    public void huaweiCloud() throws Exception {
+    @Disabled("Requires Huawei Cloud Storage credentials and endpoint")
+    public void huaweiCloudStorage_uploadsFileWhenStorageAvailable() throws Exception {
         S3FileClientConfig config = new S3FileClientConfig();
         // Configure with your own values
 //        config.setAccessKey(System.getenv("HUAWEI_CLOUD_ACCESS_KEY"));
