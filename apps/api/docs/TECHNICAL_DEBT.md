@@ -148,6 +148,9 @@ the file.
   - OAuth2 `client-secret` values in justauth config
   - The values are dev-only and clearly marked, but still belong in env
     vars before any prod deployment uses these profiles.
+- `focela-server/src/main/resources/application-local.example.yaml` now provides
+  a tracked local template with Focela database names and environment-variable
+  overrides. Keep real `application-local.yaml` files ignored and local-only.
 - Once the team confirms which fallback defaults are stale or revoked
   template values, strip the defaults so the application fails fast on
   missing env vars instead of running with a known-bad credential.

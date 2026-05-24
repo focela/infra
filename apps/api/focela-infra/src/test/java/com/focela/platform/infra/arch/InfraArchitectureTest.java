@@ -42,6 +42,11 @@ class InfraArchitectureTest {
             "src/main/java/com/focela/platform/infra/service/logger/DefaultApiErrorLogService.java"
     );
 
+    private static final List<String> LEGACY_ADMIN_APP_CONTROLLER_IMPORTERS = List.of(
+            "src/main/java/com/focela/platform/infra/controller/app/file/AppFileController.java",
+            "src/main/java/com/focela/platform/infra/controller/app/file/request/AppFileUploadRequest.java"
+    );
+
     private static JavaClasses classes;
 
     @BeforeAll
@@ -134,6 +139,14 @@ class InfraArchitectureTest {
         ArchitectureRules.assertControllerPayloadImportsStayInAllowedFiles(
                 "focela-infra",
                 LEGACY_CONTROLLER_PAYLOAD_IMPORTERS);
+    }
+
+    @Test
+    void adminAndAppControllerImportsAreNotExpanded() {
+        ArchitectureRules.assertAdminAppControllerImportsStayInAllowedFiles(
+                "focela-infra",
+                "com.focela.platform.infra",
+                LEGACY_ADMIN_APP_CONTROLLER_IMPORTERS);
     }
 
     @Test

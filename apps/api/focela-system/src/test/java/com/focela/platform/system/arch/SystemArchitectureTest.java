@@ -189,6 +189,14 @@ class SystemArchitectureTest {
     }
 
     @Test
+    void adminAndAppControllerImportsAreNotExpanded() {
+        ArchitectureRules.assertAdminAppControllerImportsStayInAllowedFiles(
+                "focela-system",
+                "com.focela.platform.system",
+                List.of());
+    }
+
+    @Test
     void mainJavaContainsOnlyJavaFiles() {
         ArchitectureRules.assertMainJavaContainsOnlyJavaFiles("focela-system");
     }

@@ -99,7 +99,8 @@ com/focela/platform/<X>/
 | MapStruct converter | `*Converter` | `UserConverter` |
 | MyBatis-Plus entity | `*Entity` | `UserEntity` |
 | Module-internal enum | none | `CommonStatusEnum` |
-| Spring auto-configuration | `*Configuration` or `*AutoConfiguration` | `SecurityConfiguration`, `FocelaFileAutoConfiguration` |
+| Spring configuration | `*Configuration` | `SecurityConfiguration`, `FileClientConfiguration` |
+| Spring Boot starter auto-configuration | `Focela*AutoConfiguration` | `FocelaWebAutoConfiguration` |
 | `@ConfigurationProperties` POJO | `*Properties` | `SmsCodeProperties` |
 | Quartz job | `*Job` | `JobLogCleanJob` |
 | Cross-module API interface (in `focela-common/api/`) | `*ContractApi` | `ApiErrorLogContractApi` |

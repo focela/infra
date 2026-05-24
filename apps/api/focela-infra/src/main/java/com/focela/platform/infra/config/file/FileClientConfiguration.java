@@ -5,11 +5,8 @@ import com.focela.platform.infra.config.file.client.DefaultFileClientFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * File config class
- */
-@Configuration(proxyBeanMethods = false)
-public class FocelaFileAutoConfiguration {
+@Configuration(value = "focelaFileAutoConfiguration", proxyBeanMethods = false)
+public class FileClientConfiguration {
 
     @Bean
     public FileClientFactory fileClientFactory() {

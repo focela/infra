@@ -122,7 +122,9 @@ API serves on `http://127.0.0.1:48080`. Admin endpoints under `/admin-api/...`, 
 | `dev` | Shared dev environment |
 | `unit-test` | Auto-applied during `./mvnw test` — uses H2 in-memory |
 
-`application-local.yaml` is gitignored — keep your local secrets out of the repo.
+`application-local.yaml` is gitignored — copy
+`focela-server/src/main/resources/application-local.example.yaml` to
+`application-local.yaml` and keep local secrets out of the repo.
 
 ## Build & test
 

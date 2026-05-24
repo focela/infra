@@ -249,6 +249,61 @@ public final class ArchitectureRules {
     }
 
     /**
+     * Prevents REST controllers for one surface (admin or app) from reusing payloads or
+     * controllers from the other surface. Existing bridge files can stay allowlisted until
+     * their API contracts are split safely.
+     */
+    public static void assertAdminAppControllerImportsStayInAllowedFiles(
+            String moduleDirectoryName,
+            String moduleBasePackage,
+            List<String> allowedRelativePaths) {
+        Path moduleRoot = resolveModuleRoot(moduleDirectoryName);
+        Path sourceRoot = moduleRoot.resolve("src/main/java");
+        if (!Files.exists(sourceRoot)) {
+            throw new AssertionError("Cannot find source root: " + sourceRoot.toAbsolutePath().normalize());
+        }
+        List<String> normalizedAllowedPaths = allowedRelativePaths.stream()
+                .map(ArchitectureRules::normalizeRelativePath)
+                .toList();
+        String adminControllerPrefix = moduleBasePackage + ".controller.admin.";
+        String appControllerPrefix = moduleBasePackage + ".controller.app.";
+        try (Stream<Path> paths = Files.walk(sourceRoot)) {
+            List<Path> sourceFiles = paths
+                    .filter(Files::isRegularFile)
+                    .filter(path -> path.getFileName().toString().endsWith(".java"))
+                    .sorted()
+                    .toList();
+            List<String> violations = new ArrayList<>();
+            for (Path sourceFile : sourceFiles) {
+                String relativePath = normalizeRelativePath(moduleRoot.relativize(sourceFile).toString());
+                boolean adminController = relativePath.contains("/controller/admin/");
+                boolean appController = relativePath.contains("/controller/app/");
+                if ((!adminController && !appController) || normalizedAllowedPaths.contains(relativePath)) {
+                    continue;
+                }
+                List<String> lines = Files.readAllLines(sourceFile);
+                for (int i = 0; i < lines.size(); i++) {
+                    String importedClass = extractImportedClass(lines.get(i));
+                    if (importedClass == null) {
+                        continue;
+                    }
+                    if ((adminController && importedClass.startsWith(appControllerPrefix))
+                            || (appController && importedClass.startsWith(adminControllerPrefix))) {
+                        violations.add(relativePath + ":" + (i + 1) + " -> " + importedClass);
+                    }
+                }
+            }
+            if (!violations.isEmpty()) {
+                throw new AssertionError("Admin and app controllers must not import each other's API surface: "
+                        + violations);
+            }
+        } catch (IOException e) {
+            throw new AssertionError("Failed to scan source root: "
+                    + sourceRoot.toAbsolutePath().normalize(), e);
+        }
+    }
+
+    /**
      * Spring Boot auto-configuration imports should point to classes named
      * {@code *AutoConfiguration}. Existing legacy names can be allowlisted until
      * they are renamed together with their metadata entries.

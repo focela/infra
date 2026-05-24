@@ -47,3 +47,5 @@ points, but they are not part of the active Maven reactor in this repository:
 - REST request/response payloads are controller-layer contracts. Existing legacy
   service/mapper use is allowlisted by architecture tests and should not be
   expanded.
+- Admin and app controllers are separate API surfaces. Existing app-to-admin
+  reuse is allowlisted by architecture tests and should not be expanded.
