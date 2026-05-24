@@ -381,6 +381,62 @@ Rationale:
 If you need either exception, document the reason inline (a one-line
 comment is sufficient).
 
+### 12.6 `*X` mapper / wrapper family (extended MyBatis-Plus)
+
+Four classes carry an `X` suffix that means *eXtended*, not *experimental*:
+
+| Class | Location | Purpose |
+|---|---|---|
+| `BaseMapperX<T>` | `focela-spring-boot-starter-mybatis/.../core/mapper/` | Extends MyBatis-Plus `BaseMapper<T>` with project-wide query helpers (pagination, selectOne by wrapper, etc.). Every `*Mapper` interface in the codebase extends this. |
+| `QueryWrapperX<T>` | same | Extends MyBatis-Plus `QueryWrapper<T>` with conditional `eqIfPresent`, `inIfPresent`, `likeIfPresent`, …  |
+| `LambdaQueryWrapperX<T>` | same | Lambda-style variant of `QueryWrapperX`. |
+| `MPJLambdaWrapperX<T>` | same | Multi-table JOIN wrapper (mybatis-plus-join library), with the same conditional helpers. |
+
+These names are deliberately preserved — they are referenced by ~50
+production mappers and renaming them would touch every data access class
+for purely cosmetic gain. New extensions should follow the same
+`<MyBatisPlusClass>X` convention for symmetry. Do **not** introduce
+`FocelaBaseMapper`, `EnhancedBaseMapper`, etc. as parallel names.
+
+### 12.7 `focela-common` is a shared kernel, not a Spring Boot starter
+
+`focela-common` lives under `focela-framework/` alongside the
+`focela-spring-boot-starter-*` modules but **is not itself a starter**:
+
+- It exposes no `*AutoConfiguration` class and has no
+  `META-INF/spring/...AutoConfiguration.imports` file.
+- It depends only on Spring, Jackson, MapStruct, Lombok, Hutool, SLF4J,
+  SkyWalking, and ArchUnit — never on a focela starter.
+- Every starter and every business module depends on it; nothing depends
+  the other way.
+
+Renaming to `focela-spring-boot-starter-common` would mis-describe the
+artifact and break the `focela-dependencies` BOM. Treat it as the
+shared-kernel artifact in the dependency graph: it sits one layer below
+the starters.
+
+### 12.8 Nullness annotations — use Jakarta
+
+When marking a method parameter, return value, or field as nullable or
+non-null, prefer the **Jakarta** annotations (Spring Boot 3 default):
+
+```java
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+```
+
+Avoid mixing other dialects in the same file:
+
+- `org.springframework.lang.@Nullable` — only in code that already uses it;
+  do not introduce new occurrences.
+- `javax.annotation.@Nullable` (JSR-305) — legacy, dependency now optional
+  on the classpath; do not introduce new occurrences.
+- `org.jetbrains.annotations.@Nullable` — IDEA-specific, not portable; do
+  not use.
+
+There is no big-bang migration of existing files; convert when you are
+already editing a file for another reason.
+
 ## 13. Checklist when adding a new module
 
 (Section number changed from 9 — the new sections 9–12 above must be read first.)

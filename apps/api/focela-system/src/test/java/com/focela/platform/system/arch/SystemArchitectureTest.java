@@ -117,6 +117,11 @@ class SystemArchitectureTest {
     }
 
     @Test
+    void redisRepositoryLocation() {
+        ArchitectureRules.REDIS_REPOSITORY_RESIDES_IN_REDIS_PACKAGE.check(classes);
+    }
+
+    @Test
     void configurationLocation() {
         ArchitectureRules.CONFIGURATION_RESIDES_IN_CONFIG_PACKAGE.check(classes);
     }

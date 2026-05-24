@@ -343,6 +343,15 @@ public final class ArchitectureRules {
                     .should().resideInAPackage("..repository.mapper..")
                     .as("MyBatis mappers (*Mapper) must live under the repository/mapper/ package");
 
+    // *RedisRepository covers two layouts: ..repository.redis.. inside business modules and
+    // ..core.redis.. inside framework starters (which have no repository layer of their own).
+    // Allow-empty so starters without a Redis repo don't fail the rule.
+    public static final ArchRule REDIS_REPOSITORY_RESIDES_IN_REDIS_PACKAGE =
+            classes().that().haveSimpleNameEndingWith("RedisRepository")
+                    .should().resideInAPackage("..redis..")
+                    .as("*RedisRepository classes must live under a redis/ sub-package")
+                    .allowEmptyShould(true);
+
     // Spring @Configuration classes (excluding *AutoConfiguration — those are framework-starter
     // SPI and live under <starter>/config) must live in the module's config/ package.
     public static final ArchRule CONFIGURATION_RESIDES_IN_CONFIG_PACKAGE =

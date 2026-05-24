@@ -43,6 +43,17 @@ class CommonArchitectureTest {
      // dependency that would otherwise be introduced by depending on starter-test.
 
     @Test
+    void redisRepositoryLocation() {
+        // Duplicated from ArchitectureRules.REDIS_REPOSITORY_RESIDES_IN_REDIS_PACKAGE
+        // (starter-test depends on focela-common, so we cannot import it here).
+        classes().that().haveSimpleNameEndingWith("RedisRepository")
+                .should().resideInAPackage("..redis..")
+                .as("*RedisRepository classes must live under a redis/ sub-package")
+                .allowEmptyShould(true)
+                .check(apiClasses);
+    }
+
+    @Test
     void noLegacyNamingSuffixes() {
         noClasses().that().areTopLevelClasses()
                 .should().haveSimpleNameEndingWith("DO")

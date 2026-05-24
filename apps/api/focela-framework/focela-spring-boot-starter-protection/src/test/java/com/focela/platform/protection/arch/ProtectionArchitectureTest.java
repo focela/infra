@@ -48,6 +48,11 @@ class ProtectionArchitectureTest {
     }
 
     @Test
+    void redisRepositoryLocation() {
+        ArchitectureRules.REDIS_REPOSITORY_RESIDES_IN_REDIS_PACKAGE.check(classes);
+    }
+
+    @Test
     void noLegacyNamingSuffixes() {
         ArchitectureRules.NO_LEGACY_NAMING_SUFFIXES.check(classes);
     }
