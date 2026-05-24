@@ -41,8 +41,8 @@ import static com.focela.platform.common.utils.collection.CollectionUtils.conver
 /**
  * Custom Spring Security configuration adapter implementation.
  *
- * @deprecated use {@link FocelaSecurityFilterChainAutoConfiguration}. This class remains the
- * active auto-configuration import for backward compatibility.
+ * @deprecated use {@link FocelaSecurityFilterChainAutoConfiguration}. This class remains as the
+ * compatibility superclass for the auto-configuration entry point.
  */
 @Deprecated(since = "1.0.0", forRemoval = false)
 @AutoConfiguration

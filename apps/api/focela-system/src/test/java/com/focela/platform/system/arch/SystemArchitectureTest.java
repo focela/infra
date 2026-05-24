@@ -94,6 +94,21 @@ class SystemArchitectureTest {
             "src/main/java/com/focela/platform/system/service/user/UserService.java"
     );
 
+    private static final List<String> APPROVED_FOCELA_PROJECT_DEPENDENCIES = List.of(
+            "focela-infra",
+            "focela-spring-boot-starter-data-permission",
+            "focela-spring-boot-starter-tenant",
+            "focela-spring-boot-starter-ip",
+            "focela-spring-boot-starter-protection",
+            "focela-spring-boot-starter-security",
+            "focela-spring-boot-starter-mybatis",
+            "focela-spring-boot-starter-redis",
+            "focela-spring-boot-starter-job",
+            "focela-spring-boot-starter-mq",
+            "focela-spring-boot-starter-test",
+            "focela-spring-boot-starter-excel"
+    );
+
     private static JavaClasses classes;
 
     @BeforeAll
@@ -279,5 +294,12 @@ class SystemArchitectureTest {
                 List.of("com.focela.platform.infra."),
                 List.of("com.focela.platform.infra.api."),
                 List.of());
+    }
+
+    @Test
+    void projectDependenciesAreExplicitlyApproved() {
+        ArchitectureRules.assertProjectDependenciesStayWithinAllowedArtifacts(
+                "focela-system",
+                APPROVED_FOCELA_PROJECT_DEPENDENCIES);
     }
 }

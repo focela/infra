@@ -5,7 +5,12 @@ import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.lang.ArchRule;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -335,8 +340,51 @@ public final class ArchitectureRules {
         }
     }
 
+    /**
+     * Prevents modules from silently adding direct dependencies on other Focela artifacts.
+     * This keeps Maven-level dependency direction explicit while larger module splits are deferred.
+     */
+    public static void assertProjectDependenciesStayWithinAllowedArtifacts(
+            String moduleDirectoryName, List<String> allowedArtifactIds) {
+        Path pomFile = resolveModuleRoot(moduleDirectoryName).resolve("pom.xml");
+        if (!Files.exists(pomFile)) {
+            throw new AssertionError("Cannot find pom.xml: " + pomFile.toAbsolutePath().normalize());
+        }
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            factory.setNamespaceAware(true);
+            Document document = factory.newDocumentBuilder().parse(pomFile.toFile());
+            NodeList dependencies = document.getElementsByTagNameNS("*", "dependency");
+            List<String> violations = new ArrayList<>();
+            for (int i = 0; i < dependencies.getLength(); i++) {
+                Element dependency = (Element) dependencies.item(i);
+                String groupId = childText(dependency, "groupId");
+                String artifactId = childText(dependency, "artifactId");
+                if ("com.focela.platform".equals(groupId) && !allowedArtifactIds.contains(artifactId)) {
+                    violations.add(artifactId);
+                }
+            }
+            if (!violations.isEmpty()) {
+                throw new AssertionError("Direct Focela project dependencies must be explicitly approved: "
+                        + violations);
+            }
+        } catch (Exception e) {
+            throw new AssertionError("Failed to inspect pom.xml dependencies: "
+                    + pomFile.toAbsolutePath().normalize(), e);
+        }
+    }
+
     private static String normalizeRelativePath(String path) {
         return Path.of(path).normalize().toString().replace('\\', '/');
+    }
+
+    private static String childText(Element element, String localName) {
+        NodeList children = element.getElementsByTagNameNS("*", localName);
+        if (children.getLength() == 0) {
+            return "";
+        }
+        return children.item(0).getTextContent().trim();
     }
 
     private static String extractImportedClass(String line) {
