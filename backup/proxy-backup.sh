@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# npm-backup.sh — offline backup for the NPM stack (SQLite + certs + nginx config).
+# proxy-backup.sh — offline backup for the proxy stack (SQLite + certs + nginx config).
 #
 # Strategy: stop container → tar ./data → upload to S3 → restart → prune old backups.
 # Downtime is ~5-10 s. For zero-downtime, use the SQLite .backup API instead
