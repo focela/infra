@@ -4,7 +4,7 @@ EDGE_NET := edge
 # Usage: make up s=proxy   |   make logs s=proxy
 COMPOSE = docker compose -f stacks/$(s)/compose.yaml
 
-.PHONY: help network up down restart logs ps pull
+.PHONY: help network up down restart logs ps pull backup
 
 help: ## List available targets
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "}{printf "  \033[36m%-10s\033[0m %s\n", $$1, $$2}'
@@ -29,3 +29,6 @@ ps: ## List a stack's containers:  make ps s=proxy
 
 pull: ## Pull latest images:  make pull s=proxy
 	$(COMPOSE) pull
+
+backup: ## Backup a stack's data:  make backup s=proxy
+	@bash backup/$(s)-backup.sh
