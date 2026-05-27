@@ -38,7 +38,10 @@ COMPOSE_FILE="${BACKUP_STACK_DIR}/compose.yaml"
 DATA_DIR="${BACKUP_STACK_DIR}/data"
 TIMESTAMP="$(date -u +%Y%m%d-%H%M%SZ)"
 ARCHIVE_NAME="npm-backup-${TIMESTAMP}.tar.gz"
-TMP_ARCHIVE="/tmp/${ARCHIVE_NAME}"
+# mktemp -d creates a private directory (700); avoids world-readable
+# archive in shared /tmp on multi-user hosts.
+TMP_DIR="$(mktemp -d)"
+TMP_ARCHIVE="${TMP_DIR}/${ARCHIVE_NAME}"
 
 log() { echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] $*"; }
 run()  { if $DRY_RUN; then log "[dry-run] $*"; else "$@"; fi; }
@@ -63,7 +66,7 @@ run docker compose -f "${COMPOSE_FILE}" down
 
 # Restart the stack on any exit after this point so a backup failure
 # does not leave NPM stopped until manual intervention.
-trap 'run docker compose -f "${COMPOSE_FILE}" up -d' EXIT
+trap 'run docker compose -f "${COMPOSE_FILE}" up -d; rm -rf "${TMP_DIR}"' EXIT
 
 # Archive the entire data directory (SQLite DB + letsencrypt certs + nginx configs).
 log "Creating archive: ${TMP_ARCHIVE}"
@@ -72,12 +75,13 @@ run tar -czf "${TMP_ARCHIVE}" -C "${BACKUP_STACK_DIR}" data/
 # Restart before the upload so downtime is limited to archive creation.
 log "Restarting npm stack"
 run docker compose -f "${COMPOSE_FILE}" up -d
-trap - EXIT  # clear — stack is already up
+trap 'rm -rf "${TMP_DIR}"' EXIT  # stack is up; keep cleanup only
 
 log "Uploading ${ARCHIVE_NAME} to ${BACKUP_S3_BUCKET}"
 run aws s3 cp "${TMP_ARCHIVE}" "${BACKUP_S3_BUCKET}/${ARCHIVE_NAME}"
 
-run rm -f "${TMP_ARCHIVE}"
+run rm -rf "${TMP_DIR}"
+trap - EXIT
 
 log "Pruning backups older than ${BACKUP_RETENTION} days"
 CUTOFF="$(date -u -d "-${BACKUP_RETENTION} days" +%Y-%m-%dT%H:%M:%SZ 2>/dev/null \
