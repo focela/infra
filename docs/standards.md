@@ -40,6 +40,8 @@ directory name, not the tool's product name (e.g. `proxy`, not `npm`).
   (`BACKUP_RETENTION`, default 14 days).
 - Run daily via cron and once manually before any image bump.
 - Test restore periodically to confirm the archive is recoverable.
+- Backups contain secrets (TLS private keys, databases). The S3 bucket
+  must have server-side encryption (SSE) enabled.
 
 ## Language
 
@@ -125,3 +127,21 @@ Labels (apply the full set):
 - Reply to each thread with: root cause, fix applied, scope impact,
   validation. Resolve the thread, then comment `@codex review` to
   re-trigger review on the new commit.
+
+## Changelog
+
+`CHANGELOG.md` follows a version heading with `### Features`,
+`### Enhancements`, and `### Bug Fixes` subsections (only those with
+content are shown). Entries are conventional-commit bullets with a PR
+link: `- feat(scope): description ([#N](url))`.
+
+Scope:
+- Track substantive changes: new stacks, capability or runtime-behavior
+  changes, and bug fixes.
+- Omit `docs`, `ci`, `build`, and `chore` changes; these are visible in
+  git history and add noise to the changelog.
+
+Process:
+- After opening a PR (the PR number is then known), add the entry to
+  `CHANGELOG.md` referencing that number and push it to the same branch
+  before merge. Do not defer the entry to a later PR.
