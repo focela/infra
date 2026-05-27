@@ -6,7 +6,7 @@
 # if zero-downtime is required and sqlite3 is available on the host.
 #
 # Usage:
-#   ./backup/npm-backup.sh [--dry-run]
+#   ./backup/proxy-backup.sh [--dry-run]
 #
 # Environment (set in .env or export before running):
 #   BACKUP_S3_BUCKET   required  s3://your-bucket/path
