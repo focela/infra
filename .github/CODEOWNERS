@@ -1,0 +1,15 @@
+# Code owners for the infra repository.
+# These users are requested for review on matching paths.
+# See: https://docs.github.com/en/repositories/managing-your-repositories-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owner for everything in the repo.
+*               @trants @pszyn
+
+# Stack definitions.
+/stacks/        @trants @pszyn
+
+# Backup scripts.
+/backup/        @trants @pszyn
+
+# Documentation.
+/docs/          @trants @pszyn
