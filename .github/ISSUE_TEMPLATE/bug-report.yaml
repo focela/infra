@@ -1,0 +1,57 @@
+name: Bug Report
+description: Report a problem with a stack, script, or the Makefile
+title: "[Bug] "
+labels: ["bug", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Provide enough detail to reproduce the problem. Redact any
+        secrets before submitting.
+  - type: input
+    id: component
+    attributes:
+      label: Affected component
+      description: Stack name (e.g. proxy), script, or Makefile target.
+      placeholder: proxy
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. make up s=proxy
+        2. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Include error output.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      value: |
+        - Host OS:
+        - Docker Engine version:
+        - Docker Compose version:
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Logs, config, or anything else relevant. Redact secrets.
+    validations:
+      required: false

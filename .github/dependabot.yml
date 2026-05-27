@@ -1,0 +1,23 @@
+version: 2
+updates:
+  # Docker image tags referenced in compose files.
+  - package-ecosystem: "docker-compose"
+    directory: "/stacks/proxy"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "type: dependencies"
+      - "area: proxy"
+    commit-message:
+      prefix: "chore"
+
+  # GitHub Actions used in workflows.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "type: dependencies"
+      - "type: ci"
+    commit-message:
+      prefix: "ci"
