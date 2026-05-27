@@ -88,7 +88,9 @@ else
     | grep '^npm-backup-' \
     | while read -r obj; do
         # Extract timestamp from filename: npm-backup-YYYYMMDD-HHMMSSz.tar.gz
-        obj_ts="$(echo "${obj}" | grep -oP '\d{8}-\d{6}Z')" || continue
+        # grep -oP is GNU-only; use Bash regex for BSD/macOS compat.
+        [[ "${obj}" =~ ([0-9]{8}-[0-9]{6}Z) ]] || continue
+        obj_ts="${BASH_REMATCH[1]}"
         obj_dt="$(date -u -d "${obj_ts:0:8} ${obj_ts:9:2}:${obj_ts:11:2}:${obj_ts:13:2}" +%s 2>/dev/null \
           || date -u -j -f "%Y%m%d%H%M%S" "${obj_ts:0:8}${obj_ts:9:6}" +%s)"
         cutoff_ts="$(date -u -d "${CUTOFF}" +%s 2>/dev/null || date -u -j -f "%Y-%m-%dT%H:%M:%SZ" "${CUTOFF}" +%s)"
