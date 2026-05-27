@@ -1,0 +1,26 @@
+services:
+  npm:
+    image: jc21/nginx-proxy-manager:2.12.6
+    container_name: npm
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "80:80"
+      - "443:443"
+      - "81:81"     # Admin UI; restrict via firewall/security group, do not expose publicly
+    volumes:
+      - ./data:/data
+      - ./data/letsencrypt:/etc/letsencrypt
+    networks:
+      - edge
+    healthcheck:
+      test: ["CMD", "/usr/bin/check-health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+# Shared external network; create once with `make network` before starting any stack.
+networks:
+  edge:
+    external: true
+    name: edge
