@@ -19,8 +19,11 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
 if [[ -f "${SCRIPT_DIR}/.env" ]]; then
+  # set -a exports all variables so child processes (aws cli) inherit them.
+  set -a
   # shellcheck source=/dev/null
   source "${SCRIPT_DIR}/.env"
+  set +a
 fi
 
 DRY_RUN=false
