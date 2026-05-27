@@ -1,7 +1,7 @@
 version: 2
 updates:
   # Docker image tags referenced in compose files.
-  - package-ecosystem: "docker"
+  - package-ecosystem: "docker-compose"
     directory: "/stacks/proxy"
     schedule:
       interval: "weekly"
