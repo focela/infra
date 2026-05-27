@@ -58,13 +58,18 @@ log "Starting NPM backup → ${BACKUP_S3_BUCKET}/${ARCHIVE_NAME}"
 log "Stopping npm stack"
 run docker compose -f "${COMPOSE_FILE}" down
 
+# Restart the stack on any exit after this point so a backup failure
+# does not leave NPM stopped until manual intervention.
+trap 'run docker compose -f "${COMPOSE_FILE}" up -d' EXIT
+
 # Archive the entire data directory (SQLite DB + letsencrypt certs + nginx configs).
 log "Creating archive: ${TMP_ARCHIVE}"
 run tar -czf "${TMP_ARCHIVE}" -C "${BACKUP_STACK_DIR}" data/
 
-# Restart before the upload so downtime is minimal.
+# Restart before the upload so downtime is limited to archive creation.
 log "Restarting npm stack"
 run docker compose -f "${COMPOSE_FILE}" up -d
+trap - EXIT  # clear — stack is already up
 
 log "Uploading ${ARCHIVE_NAME} to ${BACKUP_S3_BUCKET}"
 run aws s3 cp "${TMP_ARCHIVE}" "${BACKUP_S3_BUCKET}/${ARCHIVE_NAME}"
