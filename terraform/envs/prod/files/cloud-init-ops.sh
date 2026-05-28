@@ -59,7 +59,9 @@ sysctl -p /etc/sysctl.d/99-wireguard.conf
 # Port 22 remains closed on the security group.
 %{ if ssh_public_key != "" ~}
 mkdir -p /home/ubuntu/.ssh
-echo "${ssh_public_key}" >> /home/ubuntu/.ssh/authorized_keys
+cat >> /home/ubuntu/.ssh/authorized_keys << 'SSHKEY'
+${ssh_public_key}
+SSHKEY
 chmod 700 /home/ubuntu/.ssh
 chmod 600 /home/ubuntu/.ssh/authorized_keys
 chown -R ubuntu:ubuntu /home/ubuntu/.ssh
