@@ -3,16 +3,16 @@ name: proxy
 services:
   npm:
     image: jc21/nginx-proxy-manager:2.12.6
-    container_name: npm
+    container_name: proxy
     restart: unless-stopped
     env_file: .env
     ports:
       - "80:80"
       - "443:443"
-      - "81:81"     # Admin UI; restrict via firewall/security group, do not expose publicly
+      - "81:81"     # Admin UI; restrict via firewall/security group.
     volumes:
-      - ./data:/data
-      - ./data/letsencrypt:/etc/letsencrypt
+      - ${PROXY_DATA_DIR:-./data}:/data
+      - ${PROXY_DATA_DIR:-./data}/letsencrypt:/etc/letsencrypt
     networks:
       - edge
     healthcheck:
@@ -27,7 +27,7 @@ services:
         max-size: "10m"
         max-file: "3"
 
-# Shared external network; create once with `make network` before starting any stack.
+# Shared external network; create once with `make network`.
 networks:
   edge:
     external: true

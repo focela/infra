@@ -1,4 +1,4 @@
-# Infra ChangeLog
+# Infra Changelog
 
 ## v0.1.0
 
