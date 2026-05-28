@@ -45,3 +45,9 @@ variable "ssh_public_key" {
   type        = string
   default     = ""
 }
+
+variable "backup_retention_days" {
+  description = "Days before noncurrent S3 object versions are permanently deleted"
+  type        = number
+  default     = 14
+}
