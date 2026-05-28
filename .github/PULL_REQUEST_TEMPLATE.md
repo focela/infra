@@ -1,11 +1,10 @@
 ## Description
 
-<!-- What this PR does and why. Focus on purpose and context, not the
-     step-by-step implementation (that goes in Changes). -->
+<!-- Purpose and context. Put implementation details in Changes. -->
 
 ## Changes
 
-<!-- Per-file bullets of what changed.
+<!-- Per-file change summary.
 
 **`path/to/file`:**
 - Change 1
@@ -14,17 +13,16 @@
 
 ## Testing
 
-<!-- Checklist of validation performed. Mark [x] for done, [ ] for pending.
+<!-- Check only completed validation.
 
-- [ ] `docker compose -f stacks/<tool>/compose.yaml config` passes
+- [ ] `docker compose --env-file stacks/<tool>/.env -f stacks/<tool>/compose.yaml config` passes
 - [ ] `bash -n backup/<tool>-backup.sh` passes
 - [ ] Manual validation against the target stack
 -->
 
 ## Notes
 
-<!-- Operational caveats, follow-ups, or context for the reviewer.
-     Remove this section if not applicable. -->
+<!-- Operational caveats or follow-ups. Remove if not applicable. -->
 
 ## Related PRs
 

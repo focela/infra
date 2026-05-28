@@ -1,0 +1,11 @@
+# Copy this file to backend.hcl and set environment values.
+# backend.hcl is gitignored. Do not commit environment-specific backend config.
+#
+# Get your account ID:
+#   aws sts get-caller-identity --query Account --output text
+
+bucket         = "infra-tfstate-YOUR_ACCOUNT_ID"
+key            = "prod/terraform.tfstate"
+region         = "ap-southeast-1"
+dynamodb_table = "infra-tfstate-lock"
+encrypt        = true
