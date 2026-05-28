@@ -25,7 +25,7 @@ git checkout -b feature/INF-<n> origin/main
 3. Commit using the [commit convention](docs/standards.md#commit-convention).
 4. Open a PR into `main` following the
    [PR convention](docs/standards.md#pull-request-convention).
-5. Address Codex review feedback until no issues remain.
+5. Address review feedback until no blocking issues remain.
 6. After merge to `main`, cherry-pick to `develop` via a
    `feature/INF-<n>_1` branch and open a second PR into `develop`.
 
@@ -42,8 +42,8 @@ git checkout -b feature/INF-<n> origin/main
 Before opening a PR:
 
 ```bash
-# Validate compose syntax
-docker compose -f stacks/<tool>/compose.yaml config
+# Validate compose config
+docker compose --env-file stacks/<tool>/.env -f stacks/<tool>/compose.yaml config
 
 # Validate shell scripts
 bash -n backup/<tool>-backup.sh
