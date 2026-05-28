@@ -125,11 +125,14 @@ writable/*
 # Infrastructure
 .kube/
 .terraform/
-.terraform.lock.hcl
 .terraformrc
 *.tfstate
 *.tfstate.*
+*.auto.tfvars
+*.auto.tfvars.json
 terraform.rc
+backend.hcl
+terraform.tfvars
 
 # Build outputs and archives
 *.backup
@@ -151,7 +154,7 @@ replay_pid*
 *.sqlite3
 data/mysql/
 
-# Bind-mount data directory (created by docker/compose.yaml)
+# Stack bind-mount data directories
 data/
 
 # Dependencies and environments
@@ -171,7 +174,7 @@ venv/
 coverage/
 test-results/
 
-# Personal LLM and IDE tooling (not part of product)
+# Local assistant and IDE tooling
 .claude-plugin/
 .cursor/
 /CLAUDE.md

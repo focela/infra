@@ -1,0 +1,82 @@
+name: lint
+
+on:
+  pull_request:
+    paths:
+      - "backup/**"
+      - "stacks/**"
+      - "terraform/**"
+      - "Makefile"
+      - ".github/workflows/lint.yml"
+  push:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+
+jobs:
+  shellcheck:
+    name: shellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run shellcheck
+        run: shellcheck -x -S warning backup/*.sh backup/lib/*.sh
+
+  compose-config:
+    name: docker compose config
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate compose files
+        run: |
+          set -euo pipefail
+          temp_envs=()
+          cleanup() {
+            if ((${#temp_envs[@]})); then
+              rm -f "${temp_envs[@]}"
+            fi
+          }
+          trap cleanup EXIT
+
+          for f in stacks/*/compose.yaml; do
+            stack_dir="$(dirname "$f")"
+            env_file="$stack_dir/.env"
+            # Compose requires env_file targets to exist during validation.
+            if [[ -f "$stack_dir/.env.example" && ! -f "$env_file" ]]; then
+              cp "$stack_dir/.env.example" "$env_file"
+              temp_envs+=("$env_file")
+            fi
+            compose_args=()
+            if [[ -f "$env_file" ]]; then
+              compose_args=(--env-file "$env_file")
+            fi
+            echo "Validating $f"
+            docker compose "${compose_args[@]}" -f "$f" config --quiet
+          done
+
+  terraform-fmt:
+    name: terraform fmt
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.6.6"
+      - name: Check formatting
+        run: terraform fmt -check -recursive terraform/
+
+  terraform-validate:
+    name: terraform validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.6.6"
+      - name: Init without backend
+        working-directory: terraform/envs/prod
+        run: terraform init -backend=false
+      - name: Validate
+        working-directory: terraform/envs/prod
+        run: terraform validate
