@@ -13,7 +13,7 @@ set -euo pipefail
 
 # Docker CE
 apt-get update -y
-apt-get install -y ca-certificates curl
+apt-get install -y ca-certificates curl make
 
 install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
