@@ -6,6 +6,7 @@
 
 - feat(proxy): add nginx proxy manager stack ([#2](https://github.com/focela/infra/pull/2))
 - feat(backup): add offline backup script for npm stack ([#4](https://github.com/focela/infra/pull/4))
+- feat(terraform): add prod iac and wireguard stack ([#11](https://github.com/focela/infra/pull/11))
 
 ### Enhancements
 
